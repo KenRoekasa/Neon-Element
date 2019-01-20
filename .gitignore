@@ -13,14 +13,16 @@
 
 alien8\.iml
 
-out/production/alien8/Grid/Board\.class
+out/production/alien8/Graphics/Board\.class
 
-out/production/alien8/Grid/Board\$1\.class
+out/production/alien8/Graphics/Board\$1\.class
 
-out/production/alien8/Grid/Board\$2\.class
+out/production/alien8/Graphics/Board\$2\.class
 
-out/production/alien8/Grid/Board\$3\.class
+out/production/alien8/Graphics/Board\$3\.class
 
-out/production/alien8/Grid/Main\.class
+out/production/alien8/Graphics/Main\.class
 
 *.class
+
+out/production/alien8/Grid/

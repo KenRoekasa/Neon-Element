@@ -1,4 +1,4 @@
-package Grid;
+package Graphics;
 
 
 import javafx.geometry.Point2D;
