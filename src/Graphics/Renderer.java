@@ -2,7 +2,6 @@ package Graphics;
 
 import Debugger.Debugger;
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -10,17 +9,22 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 
 import static javafx.scene.transform.Rotate.X_AXIS;
-import static javafx.scene.transform.Rotate.Y_AXIS;
-import static javafx.scene.transform.Rotate.Z_AXIS;
 
 
 class Renderer {
     private GraphicsContext gc;
     private Debugger debugger;
+    private Double scaleConstant;
 
     Renderer(GraphicsContext gc, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
+        // magic number 10/7 * 990/1000
+        scaleConstant = (double)99/70;  
+
+
+
+
     }
 
 
@@ -28,6 +32,8 @@ class Renderer {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D isoPlayerLocation = ISOConverter.twoDToIso(playerLocation);
+        isoPlayerLocation = isoPlayerLocation.add(10, 0);
+
 
         Point2D boardPosition = new Point2D(stageCenter.getX() - isoPlayerLocation.getX() + playerWidth/2, stageCenter.getY() - isoPlayerLocation.getY() + playerWidth/2);
 
@@ -35,7 +41,7 @@ class Renderer {
         Rotate rotateX= new Rotate(45, boardPosition.getX(), boardPosition.getY());
 
 
-
+        debugger.add("player location: " + playerLocation.toString(), 1);
         debugger.add("Player isometric position: " + isoPlayerLocation.toString(), 1);
         debugger.add("Board position: " + boardPosition.toString(), 1);
 
@@ -48,7 +54,7 @@ class Renderer {
         gc.transform(affine);
         // draw map
 
-        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), board.getWidth() * (10 / 7f), board.getHeight() * (10 / 7f));
+        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), board.getWidth() * scaleConstant, board.getHeight() * scaleConstant);
 
         // restore previous state
         gc.restore();
@@ -71,7 +77,7 @@ class Renderer {
         gc.transform(affine);
 
         gc.setFill(Color.GREEN);
-        gc.fillRect(playerXCenter, playerYCenter, playerWidth * (10 / 7f), playerWidth * (10 / 7f));
+        gc.fillRect(playerXCenter, playerYCenter, playerWidth * scaleConstant, playerWidth * scaleConstant);
         gc.restore();
 
     }
