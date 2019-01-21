@@ -5,11 +5,11 @@ import javafx.geometry.Point2D;
 
 
 public class Player {
-    private Point2D location = new Point2D(0,0);
+    private Point2D location = new Point2D(0, 0);
     private final int WIDTH = 20;
     private int movementSpeed = 10;
     //Can be a float
-    private float health =100;
+    private float health = 100;
     private final float MAX_HEALTH = 100;
     private PlayerStates state;
 
@@ -19,9 +19,8 @@ public class Player {
     private final float CHANGESTATECD = 1.2f;
 
 
-
-    private void lightAttack(){
-        switch (state){
+    private void lightAttack() {
+        switch (state) {
             case AIR:
                 //attack using air
                 break;
@@ -41,8 +40,8 @@ public class Player {
 
     }
 
-    private void heavyAttack(){
-        switch (state){
+    private void heavyAttack() {
+        switch (state) {
             case AIR:
                 //attack using air
                 break;
@@ -62,8 +61,8 @@ public class Player {
 
     }
 
-    private void shield(){
-        switch (state){
+    private void shield() {
+        switch (state) {
             case AIR:
                 //attack using air
                 break;
@@ -83,53 +82,68 @@ public class Player {
 
     }
 
-    public void changeToFire(){
+    public void changeToFire() {
         state = PlayerStates.FIRE;
         changeStateCurrentCD = CHANGESTATECD;
     }
 
-    public void changeToWater(){
+    public void changeToWater() {
         state = PlayerStates.WATER;
         changeStateCurrentCD = CHANGESTATECD;
     }
 
-    public void changeToEarth(){
+    public void changeToEarth() {
         state = PlayerStates.EARTH;
         changeStateCurrentCD = CHANGESTATECD;
     }
 
 
     //teleport a certain amount in front the character or we could have a speed boost
-    private void dash(){
+    private void dash() {
 
 
     }
 
 
-    public void moveUp(){
-        location.add(0,-movementSpeed);
+    public void moveUp() {
+        if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
+            location = location.add(0, -movementSpeed);
+        } else {
+            location = new Point2D(location.getX(), 0 + WIDTH / 2f);
+        }
     }
 
-    public void moveDown(){
+    public void moveDown(double boardHeight) {
 
-        location.add(0,movementSpeed);
+        if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
+            location = location.add(0, movementSpeed);
+        } else {
+            location = new Point2D(location.getX(), boardHeight - WIDTH / 2f);
+        }
 
     }
 
-    public void moveLeft(){
-        location.add(-movementSpeed,0);
+    public void moveLeft() {
+        //check within bounds
+        if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
+            location = location.add(-movementSpeed, 0);
+        } else {
+            location = new Point2D(0 + WIDTH / 2f, location.getY());
+        }
+
     }
 
-    public void moveRight(){
-        location.add(0, movementSpeed);
+    public void moveRight(double boardWidth) {
+        //check within bounds
+        if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
+            location = location.add(movementSpeed, 0);
+        } else {
+            location = new Point2D(boardWidth - WIDTH / 2f, location.getY());
+        }
     }
 
 
-
-
-
-
-    public Point2D getLocation(){
+    public Point2D getLocation() {
         return location;
     }
 
@@ -141,13 +155,16 @@ public class Player {
         return movementSpeed;
     }
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
-    public int getMAX_HEALTH() {
+    public float getMAX_HEALTH() {
         return MAX_HEALTH;
     }
 
+    public void setLocation(Point2D location) {
+        this.location = location.add(WIDTH / 2f, WIDTH / 2f);
+    }
 
 }
