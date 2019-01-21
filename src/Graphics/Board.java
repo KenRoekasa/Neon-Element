@@ -1,6 +1,7 @@
 package Graphics;
 
 import Debugger.Debugger;
+import Entities.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -29,9 +30,7 @@ public class Board extends Application {
     private Rectangle board;
     private Rectangle stageSize;
 
-    private Point2D playerLocation;
-    private int playerWidth;
-    private int playerSpeed;
+    private Player player;
 
     public static void main(String[] args) {
         launch(args);
@@ -91,7 +90,7 @@ public class Board extends Application {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // clear screen
-                gc.clearRect(0,0,primaryStage.getWidth(),primaryStage.getHeight());
+                gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
                 // update screen size
                 // todo check whether this is needed
@@ -100,11 +99,11 @@ public class Board extends Application {
                 handleInput(input);
 
                 // draw to screen
-                renderer.drawMap(stageSize, board, playerLocation, playerWidth);
-                renderer.drawPlayer(stageSize, playerLocation, playerWidth);
+                renderer.drawMap(stageSize, board, player);
+                renderer.drawPlayer(stageSize, player);
 
                 // debug info
-                String debug = "Player location: " + playerLocation.toString();
+                String debug = "Player location: " + player.getLocation().toString();
                 debugger.add(debug, 1);
                 debugger.print();
             }
@@ -114,54 +113,35 @@ public class Board extends Application {
 
     }
 
-    private void initialise(){
+    private void initialise() {
         debugger = new Debugger(gc);
         renderer = new Renderer(gc, debugger);
 
         //initialise map location
-        board = new Rectangle(1000,1000);
+        board = new Rectangle(1000, 1000);
+
+        player = new Player();
 
         // set player location to the top left of the map
-        playerWidth = 20;
-        playerSpeed = 10;
 
-        Point2D playerStartLocation = new Point2D(0,0);
+        Point2D playerStartLocation = new Point2D(0, 0);
 
-        playerLocation = playerStartLocation.add(playerWidth/2, playerWidth/2);
+        player.setLocation(playerStartLocation);
     }
 
 
-    private void handleInput(ArrayList<String> input){
-        if (input.contains("LEFT")){
-            //check within bounds
-            if((playerLocation.getX() - playerSpeed - playerWidth/2) >= 0){
-                playerLocation = playerLocation.add(- playerSpeed,0);
-            } else {
-                playerLocation = new Point2D(0 + playerWidth/2, playerLocation.getY());
-            }
+    private void handleInput(ArrayList<String> input) {
+        if (input.contains("LEFT")) {
+            player.moveLeft();
         }
-        if (input.contains("RIGHT")){
-            //check within bounds
-            if((playerLocation.getX() + playerSpeed + playerWidth/2) <= board.getWidth()){
-                playerLocation = playerLocation.add(playerSpeed,0);
-            } else {
-                playerLocation = new Point2D(board.getWidth() - playerWidth/2, playerLocation.getY());
-            }
-
+        if (input.contains("RIGHT")) {
+            player.moveRight(board.getWidth());
         }
-        if (input.contains("UP")){
-            if((playerLocation.getY() - playerSpeed - playerWidth/2) >= 0){
-                playerLocation = playerLocation.add(0,-playerSpeed);
-            }  else {
-                playerLocation = new Point2D(playerLocation.getX(),0 + playerWidth/2);
-            }
+        if (input.contains("UP")) {
+            player.moveUp();
         }
-        if (input.contains("DOWN")){
-            if((playerLocation.getY() + playerSpeed + playerWidth/2) <= board.getHeight()){
-                playerLocation = playerLocation.add(0,playerSpeed);
-            } else {
-                playerLocation = new Point2D(playerLocation.getX(),board.getHeight() - playerWidth/2);
-            }
+        if (input.contains("DOWN")) {
+            player.moveDown(board.getHeight());
         }
     }
 

@@ -1,6 +1,7 @@
 package Graphics;
 
 import Debugger.Debugger;
+import Entities.Player;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -28,20 +29,20 @@ class Renderer {
     }
 
 
-    void drawMap(Rectangle stage, Rectangle board, Point2D playerLocation, int playerWidth) {
+    void drawMap(Rectangle stage, Rectangle board, Player player) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
-        Point2D isoPlayerLocation = ISOConverter.twoDToIso(playerLocation);
+        Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
         isoPlayerLocation = isoPlayerLocation.add(10, 0);
 
 
-        Point2D boardPosition = new Point2D(stageCenter.getX() - isoPlayerLocation.getX() + playerWidth/2, stageCenter.getY() - isoPlayerLocation.getY() + playerWidth/2);
+        Point2D boardPosition = new Point2D(stageCenter.getX() - isoPlayerLocation.getX() + player.getWIDTH()/2, stageCenter.getY() - isoPlayerLocation.getY() + player.getWIDTH()/2);
 
         Rotate rotateZ = new Rotate(60.0, boardPosition.getX(), boardPosition.getY(), 0, X_AXIS);
         Rotate rotateX= new Rotate(45, boardPosition.getX(), boardPosition.getY());
 
 
-        debugger.add("player location: " + playerLocation.toString(), 1);
+        debugger.add("player location: " + player.getLocation().toString(), 1);
         debugger.add("Player isometric position: " + isoPlayerLocation.toString(), 1);
         debugger.add("Board position: " + boardPosition.toString(), 1);
 
@@ -61,7 +62,7 @@ class Renderer {
 
     }
 
-    void drawPlayer(Rectangle stage, Point2D playerLocation, int playerWidth) {
+    void drawPlayer(Rectangle stage, Player player) {
 
         // Point2D isoLocation = ISOConverter.twoDToIso(playerLocation);
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
@@ -77,7 +78,7 @@ class Renderer {
         gc.transform(affine);
 
         gc.setFill(Color.GREEN);
-        gc.fillRect(playerXCenter, playerYCenter, playerWidth * scaleConstant, playerWidth * scaleConstant);
+        gc.fillRect(playerXCenter, playerYCenter, player.getWIDTH() * scaleConstant, player.getWIDTH()* scaleConstant);
         gc.restore();
 
     }
