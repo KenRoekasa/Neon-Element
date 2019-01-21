@@ -33,7 +33,7 @@ class Renderer {
 
         Rotate rotateZ = new Rotate(60.0, boardPosition.getX(), boardPosition.getY(), 0, X_AXIS);
         Rotate rotateX= new Rotate(45, boardPosition.getX(), boardPosition.getY());
-        ;
+
 
 
         debugger.add("Player isometric position: " + isoPlayerLocation.toString(), 1);
@@ -48,7 +48,7 @@ class Renderer {
         gc.transform(affine);
         // draw map
 
-        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), board.getWidth(), board.getHeight());
+        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), board.getWidth() * (10 / 7f), board.getHeight() * (10 / 7f));
 
         // restore previous state
         gc.restore();
@@ -71,7 +71,7 @@ class Renderer {
         gc.transform(affine);
 
         gc.setFill(Color.GREEN);
-        gc.fillRect(playerXCenter, playerYCenter, playerWidth, playerWidth);
+        gc.fillRect(playerXCenter, playerYCenter, playerWidth * (10 / 7f), playerWidth * (10 / 7f));
         gc.restore();
 
     }
