@@ -9,9 +9,14 @@ public class Player {
     private final int WIDTH = 20;
     private int movementSpeed = 10;
     //Can be a float
-    private int health =100;
-    private final int MAX_HEALTH = 100;
+    private float health =100;
+    private final float MAX_HEALTH = 100;
     private PlayerStates state;
+
+    //The countdown of the changestate cooldown
+    private float changeStateCurrentCD;
+    //The number of seconds for change state to go off cooldown
+    private final float CHANGESTATECD = 1.2f;
 
 
 
@@ -77,6 +82,22 @@ public class Player {
         }
 
     }
+
+    public void changeToFire(){
+        state = PlayerStates.FIRE;
+        changeStateCurrentCD = CHANGESTATECD;
+    }
+
+    public void changeToWater(){
+        state = PlayerStates.WATER;
+        changeStateCurrentCD = CHANGESTATECD;
+    }
+
+    public void changeToEarth(){
+        state = PlayerStates.EARTH;
+        changeStateCurrentCD = CHANGESTATECD;
+    }
+
 
     //teleport a certain amount in front the character or we could have a speed boost
     private void dash(){
