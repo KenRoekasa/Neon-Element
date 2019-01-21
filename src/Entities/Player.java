@@ -107,7 +107,7 @@ public class Player {
 
     public void moveUp() {
         if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
-            location = location.add(0, -movementSpeed);
+            location = location.add(-movementSpeed, -movementSpeed);
         } else {
             location = new Point2D(location.getX(), 0 + WIDTH / 2f);
         }
@@ -116,7 +116,7 @@ public class Player {
     public void moveDown(double boardHeight) {
 
         if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
-            location = location.add(0, movementSpeed);
+            location = location.add(movementSpeed, movementSpeed);
         } else {
             location = new Point2D(location.getX(), boardHeight - WIDTH / 2f);
         }
@@ -126,7 +126,7 @@ public class Player {
     public void moveLeft() {
         //check within bounds
         if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
-            location = location.add(-movementSpeed, 0);
+            location = location.add(-movementSpeed, movementSpeed);
         } else {
             location = new Point2D(0 + WIDTH / 2f, location.getY());
         }
@@ -136,7 +136,7 @@ public class Player {
     public void moveRight(double boardWidth) {
         //check within bounds
         if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
-            location = location.add(movementSpeed, 0);
+            location = location.add(movementSpeed, -movementSpeed);
         } else {
             location = new Point2D(boardWidth - WIDTH / 2f, location.getY());
         }
