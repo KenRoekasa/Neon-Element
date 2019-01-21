@@ -26,13 +26,11 @@ public class Board extends Application {
     private GraphicsContext gc;
     private Stage primaryStage;
 
-    private Point2D mapPosition;
-    private Point2D playerLocation;
     private Rectangle board;
+    private Rectangle stageSize;
 
+    private Point2D playerLocation;
     private int playerWidth;
-    private double playerX;
-    private double playerY;
     private int playerSpeed;
 
     public static void main(String[] args) {
@@ -63,6 +61,8 @@ public class Board extends Application {
         primaryStage.setWidth(primaryScreenBounds.getWidth());
         primaryStage.setHeight(primaryScreenBounds.getHeight());
 
+        stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
+
         Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
         root.getChildren().add(canvas);
@@ -90,16 +90,25 @@ public class Board extends Application {
         // tic 60 per sec
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
+                // clear screen
                 gc.clearRect(0,0,primaryStage.getWidth(),primaryStage.getHeight());
+
+                // update screen size
+                // todo check whether this is needed
+                stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
                 handleInput(input);
 
                 // update player location
-                playerLocation = new Point2D(playerX - mapPosition.getX(), playerY - mapPosition.getY());
+                //playerLocation = new Point2D(playerX - mapPosition.getX(), playerY - mapPosition.getY());
 
-                renderer.drawMap(mapPosition, playerLocation, board);
-                renderer.drawPlayer(playerX, playerY, playerWidth);
+                // draw to screen
+                renderer.drawMap(stageSize, board, playerLocation, playerWidth);
+                renderer.drawPlayer(stageSize, playerLocation, playerWidth);
 
+                // debug info
+                String debug = "Player location: " + playerLocation.toString();
+                debugger.add(debug, 1);
                 debugger.print();
             }
         }.start();
@@ -113,17 +122,15 @@ public class Board extends Application {
         renderer = new Renderer(gc, debugger);
 
         //initialise map location
-        board = new Rectangle(2000,2000);
+        board = new Rectangle(1000,1000);
 
-        mapPosition = new Point2D(0,0);
-
-        // set player location to the center of the screen
-        playerX =  primaryStage.getWidth() / 2;
-        playerY =  primaryStage.getHeight() / 2;
+        // set player location to the top left of the map
         playerWidth = 20;
         playerSpeed = 10;
 
-        playerLocation = new Point2D(playerX - mapPosition.getX(), playerY - mapPosition.getY());
+        Point2D playerStartLocation = new Point2D(0,0);
+
+        playerLocation = playerStartLocation.add(playerWidth/2, playerWidth/2);
     }
 
 
@@ -131,24 +138,24 @@ public class Board extends Application {
         if (input.contains("LEFT")){
             //check within bounds
             if((playerLocation.getX() - playerSpeed - playerWidth/2) >= 0){
-                mapPosition = mapPosition.add(playerSpeed,0);
+                playerLocation = playerLocation.add(- playerSpeed,0);
             }
         }
         if (input.contains("RIGHT")){
             //check within bounds
             if((playerLocation.getX() + playerSpeed) < board.getWidth()){
-                mapPosition = mapPosition.add(- playerSpeed,0);
+                playerLocation = playerLocation.add(playerSpeed,0);
 
             }
         }
         if (input.contains("UP")){
             if((playerLocation.getY() - playerSpeed) > 0){
-                mapPosition = mapPosition.add(0,playerSpeed);
+                playerLocation = playerLocation.add(0,-playerSpeed);
             }
         }
         if (input.contains("DOWN")){
             if((playerLocation.getY() + playerSpeed) < board.getHeight()){
-                mapPosition = mapPosition.add(0,-playerSpeed);
+                playerLocation = playerLocation.add(0,playerSpeed);
             }
         }
     }
