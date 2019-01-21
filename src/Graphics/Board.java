@@ -99,9 +99,6 @@ public class Board extends Application {
 
                 handleInput(input);
 
-                // update player location
-                //playerLocation = new Point2D(playerX - mapPosition.getX(), playerY - mapPosition.getY());
-
                 // draw to screen
                 renderer.drawMap(stageSize, board, playerLocation, playerWidth);
                 renderer.drawPlayer(stageSize, playerLocation, playerWidth);
@@ -139,23 +136,31 @@ public class Board extends Application {
             //check within bounds
             if((playerLocation.getX() - playerSpeed - playerWidth/2) >= 0){
                 playerLocation = playerLocation.add(- playerSpeed,0);
+            } else {
+                playerLocation = new Point2D(0 + playerWidth/2, playerLocation.getY());
             }
         }
         if (input.contains("RIGHT")){
             //check within bounds
-            if((playerLocation.getX() + playerSpeed) < board.getWidth()){
+            if((playerLocation.getX() + playerSpeed + playerWidth/2) <= board.getWidth()){
                 playerLocation = playerLocation.add(playerSpeed,0);
-
+            } else {
+                playerLocation = new Point2D(board.getWidth() - playerWidth/2, playerLocation.getY());
             }
+
         }
         if (input.contains("UP")){
-            if((playerLocation.getY() - playerSpeed) > 0){
+            if((playerLocation.getY() - playerSpeed - playerWidth/2) >= 0){
                 playerLocation = playerLocation.add(0,-playerSpeed);
+            }  else {
+                playerLocation = new Point2D(playerLocation.getX(),0 + playerWidth/2);
             }
         }
         if (input.contains("DOWN")){
-            if((playerLocation.getY() + playerSpeed) < board.getHeight()){
+            if((playerLocation.getY() + playerSpeed + playerWidth/2) <= board.getHeight()){
                 playerLocation = playerLocation.add(0,playerSpeed);
+            } else {
+                playerLocation = new Point2D(playerLocation.getX(),board.getHeight() - playerWidth/2);
             }
         }
     }
