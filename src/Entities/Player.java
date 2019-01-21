@@ -2,6 +2,8 @@ package Entities;
 
 import Enums.PlayerStates;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 
 public class Player {
@@ -12,11 +14,18 @@ public class Player {
     private float health = 100;
     private final float MAX_HEALTH = 100;
     private PlayerStates state;
+    private Rotate rotation = new Rotate(0);
+
+
+    private Rectangle hitBox = new Rectangle(WIDTH,WIDTH);
+
 
     //The countdown of the changestate cooldown
     private float changeStateCurrentCD;
     //The number of seconds for change state to go off cooldown
     private final float CHANGESTATECD = 1.2f;
+
+
 
 
     private void lightAttack() {
@@ -96,6 +105,18 @@ public class Player {
         state = PlayerStates.EARTH;
         changeStateCurrentCD = CHANGESTATECD;
     }
+    private void updateHitbox(){
+        hitBox.setX(location.getX());
+        hitBox.setY(location.getY());
+    }
+
+    public void addPowerup(){
+
+
+    }
+
+
+
 
 
     //teleport a certain amount in front the character or we could have a speed boost
