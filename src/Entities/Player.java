@@ -1,5 +1,6 @@
 package Entities;
 
+import Calculations.DamageCalculation;
 import Enums.PlayerStates;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
@@ -8,86 +9,71 @@ import javafx.scene.transform.Rotate;
 
 public class Player {
     private Point2D location = new Point2D(0, 0);
+    private Rotate rotation = new Rotate(0);
     private final int WIDTH = 20;
-    private int movementSpeed = 10;
-    //Can be a float
+
+
     private float health = 100;
     private final float MAX_HEALTH = 100;
-    private PlayerStates state;
-    private Rotate rotation = new Rotate(0);
+    private int movementSpeed = 10;
+    private boolean isShielded = false;
 
 
-    private Rectangle hitBox = new Rectangle(WIDTH,WIDTH);
+    //Default Fire
+    private PlayerStates state = PlayerStates.FIRE;
 
+    private Rectangle hitBox = new Rectangle(WIDTH, WIDTH);
+    private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
 
-    //The countdown of the changestate cooldown
-    private float changeStateCurrentCD;
+    //COOLDOWNS
     //The number of seconds for change state to go off cooldown
     private final float CHANGESTATECD = 1.2f;
+    // The countdown of the changestate cooldown
+    private float changeStateCurrentCD;
 
-
-
+    private DamageCalculation dmgCal = new DamageCalculation();
 
     private void lightAttack() {
-        switch (state) {
-            case AIR:
-                //attack using air
-                break;
-            case FIRE:
-                //attack using fire
-                break;
-            case EARTH:
-                //attack using earth
-                break;
-            case WATER:
-                //attack using water
-                break;
-            default:
-                //What should happen?
-                break;
+        int damage = 3;
+
+        //set attack hit box in front of the user
+        //TODO: Change hitbox location based on rotation too
+        attackHitbox.setX(location.getX() + WIDTH);
+        attackHitbox.setY(location.getX() + WIDTH);
+
+
+
+        Player otherPlayer[] = new Player[4];
+
+
+
+        //If another player is in the hitbox calculate the damage they take
+        for (Player p : otherPlayer) {
+            if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
+                p.removeHealth(dmgCal.calculateDamage(damage,this, p));
+            }
         }
+
+
+
+
 
     }
 
+    private void removeHealth(float damage) {
+        this.health -= damage;
+    }
+
     private void heavyAttack() {
-        switch (state) {
-            case AIR:
-                //attack using air
-                break;
-            case FIRE:
-                //attack using fire
-                break;
-            case EARTH:
-                //attack using earth
-                break;
-            case WATER:
-                //attack using water
-                break;
-            default:
-                //What should happen?
-                break;
-        }
+
 
     }
 
     private void shield() {
-        switch (state) {
-            case AIR:
-                //attack using air
-                break;
-            case FIRE:
-                //attack using fire
-                break;
-            case EARTH:
-                //attack using earth
-                break;
-            case WATER:
-                //attack using water
-                break;
-            default:
-                //What should happen?
-                break;
-        }
+
+        //need code to unshield after a certain duration
+        isShielded = true;
+
 
     }
 
@@ -105,18 +91,18 @@ public class Player {
         state = PlayerStates.EARTH;
         changeStateCurrentCD = CHANGESTATECD;
     }
-    private void updateHitbox(){
+
+
+    public void updateHitbox() {
         hitBox.setX(location.getX());
         hitBox.setY(location.getY());
     }
 
-    public void addPowerup(){
+
+    public void addPowerup() {
 
 
     }
-
-
-
 
 
     //teleport a certain amount in front the character or we could have a speed boost
@@ -124,7 +110,6 @@ public class Player {
 
 
     }
-
 
     public void moveUp() {
         if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
@@ -168,6 +153,10 @@ public class Player {
         return location;
     }
 
+    public void setLocation(Point2D location) {
+        this.location = location.add(WIDTH / 2f, WIDTH / 2f);
+    }
+
     public int getWIDTH() {
         return WIDTH;
     }
@@ -184,8 +173,16 @@ public class Player {
         return MAX_HEALTH;
     }
 
-    public void setLocation(Point2D location) {
-        this.location = location.add(WIDTH / 2f, WIDTH / 2f);
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
+    public PlayerStates getState() {
+        return state;
+    }
+
+    public boolean getIsShielded(){
+        return isShielded;
     }
 
 }

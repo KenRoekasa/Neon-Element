@@ -17,8 +17,10 @@ public class CollisionDetection implements Runnable{
     @Override
     public void run() {
         while(true){
+            player.updateHitbox();
+            // Check hitbox against all other players
             for(Player p : otherPlayers){
-                if(player.){
+                if(player.getHitBox().intersects(p.getHitBox().getBoundsInParent())){
 
                 }
             }
