@@ -18,19 +18,14 @@ public class CollisionDetection extends Thread{
     @Override
     public void run() {
         while(true){
-
             // Check hitbox against all other players
             for(Player p : enemies){
                 if(player.getHitBox().intersects(p.getHitBox().getBoundsInParent())){
-                        //Todo: What happens when the two players collide
+                    //Todo: What happens when the two players collide
                     System.out.println("Collsion");
 
                 }
             }
-            // Check if you are picking up power ups
-//            for (PowerUp pickedUp : powerUps){
-            ////                player.addPowerup(pickedUp);
-            ////            }
         }
     }
 }

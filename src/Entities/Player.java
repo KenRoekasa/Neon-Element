@@ -11,6 +11,7 @@ import java.util.concurrent.BlockingQueue;
 
 
 public class Player {
+
     private final int MAX_NUM_BUFFS = 4;
     private Point2D location = new Point2D(0, 0);
     private Rotate playerAngle = new Rotate(0);
@@ -38,6 +39,8 @@ public class Player {
     // The countdown of the changestate cooldown
     private float changeStateCurrentCD;
 
+
+    //TODO: this should moved to the server
     private DamageCalculation dmgCal = new DamageCalculation();
 
     public Player(){
@@ -76,6 +79,7 @@ public class Player {
             if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
                 //The damage with damage multiplier based on state and calculate mitigation based on if the victim has a shield or not
                 float damageToBeTaken = dmgCal.calculateDamage(damage, this, p) * dmgCal.calculateMitgation(this, p);
+                //set request to server
                 p.removeHealth(damageToBeTaken);
             }
         }
@@ -120,7 +124,7 @@ public class Player {
 
 
   // Todo: Rework how powerUps interact with the player
-    public void addPowerup(PowerUp powerUp) {
+    public void addBuff(PowerUp powerUp) {
         buffs.add(powerUp);
     }
 

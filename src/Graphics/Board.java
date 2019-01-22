@@ -3,6 +3,7 @@ package Graphics;
 import Debugger.Debugger;
 import Entities.CollisionDetection;
 import Entities.Player;
+import Entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -162,6 +163,10 @@ public class Board extends Application {
 
         //Collsion Detection loop
         player = new Player();
+
+        //TODO: Remove
+        //add a powerup
+        (new PowerUp(player)).start();
 
 
         // set player location to the top left of the map
