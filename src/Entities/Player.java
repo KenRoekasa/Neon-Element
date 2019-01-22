@@ -26,7 +26,6 @@ public class Player {
     //Default Fire
     private PlayerStates state = PlayerStates.FIRE;
 
-    private Rectangle hitBox = new Rectangle(WIDTH, WIDTH);
     private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
 
 
