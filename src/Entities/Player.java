@@ -2,22 +2,26 @@ package Entities;
 
 import Enums.PlayerStates;
 import javafx.geometry.Point2D;
+import javafx.scene.transform.Rotate;
 
 
 public class Player {
     private Point2D location = new Point2D(0, 0);
+
+    private Rotate playerAngle = new Rotate(0);
+
     private final int WIDTH = 20;
+
     private int movementSpeed = 10;
     //Can be a float
     private float health = 100;
     private final float MAX_HEALTH = 100;
     private PlayerStates state;
-
     //The countdown of the changestate cooldown
+
     private float changeStateCurrentCD;
     //The number of seconds for change state to go off cooldown
     private final float CHANGESTATECD = 1.2f;
-
 
     private void lightAttack() {
         switch (state) {
@@ -37,7 +41,6 @@ public class Player {
                 //What should happen?
                 break;
         }
-
     }
 
     private void heavyAttack() {
@@ -99,11 +102,11 @@ public class Player {
 
 
     //teleport a certain amount in front the character or we could have a speed boost
+
     private void dash() {
 
 
     }
-
 
     public void moveUp() {
         if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
@@ -140,6 +143,15 @@ public class Player {
         } else {
             location = new Point2D(boardWidth - WIDTH / 2f, location.getY());
         }
+    }
+
+
+    public Rotate getPlayerAngle() {
+        return playerAngle;
+    }
+
+    public void setPlayerAngle(Rotate playerAngle) {
+        this.playerAngle = playerAngle;
     }
 
 
