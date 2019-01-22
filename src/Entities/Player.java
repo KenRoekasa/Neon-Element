@@ -6,8 +6,15 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
+
 
 public class Player {
+    private final int MAX_NUM_BUFFS = 4;
     private Point2D location = new Point2D(0, 0);
     private Rotate rotation = new Rotate(0);
     private final int WIDTH = 20;
@@ -25,6 +32,10 @@ public class Player {
     private Rectangle hitBox = new Rectangle(WIDTH, WIDTH);
     private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
 
+
+    // An array of the power up that the player has picked up
+    private BlockingQueue<PowerUp> buffs = new ArrayBlockingQueue<PowerUp>(MAX_NUM_BUFFS);
+
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
     private final float CHANGESTATECD = 1.2f;
@@ -33,24 +44,44 @@ public class Player {
 
     private DamageCalculation dmgCal = new DamageCalculation();
 
+    public Player(){
+        //Collsion Detection loop
+        CollisionDetection colDetection = new CollisionDetection(this);
+        colDetection.start();
+
+
+        // activate the powerUps that the players have picked up
+        Thread powerUpLoop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Todo: Take the powerup from the queue and activate the powerup to become a buff
+                buffs.take();
+            }
+        });
+
+    }
+
+
     private void lightAttack() {
         int damage = 3;
 
         //set attack hit box in front of the user
-        //TODO: Change hitbox location based on rotation too
+        //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
         attackHitbox.setX(location.getX() + WIDTH);
         attackHitbox.setY(location.getX() + WIDTH);
 
 
-
+        //temp array for the other players
         Player otherPlayer[] = new Player[4];
 
 
-
-        //If another player is in the hitbox calculate the damage they take
+        //If another player is in the Hitbox calculate the damage they take
+        // How is damaged dealt throught the victim or the attacker or server
         for (Player p : otherPlayer) {
             if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
-                p.removeHealth(dmgCal.calculateDamage(damage,this, p));
+                //The damage with damage multiplier based on state and calculate mitigation based on if the victim has a shield or not
+                float damageToBeTaken = dmgCal.calculateDamage(damage, this, p) * dmgCal.calculateMitgation(this, p);
+                p.removeHealth(damageToBeTaken);
             }
         }
 
@@ -98,10 +129,9 @@ public class Player {
         hitBox.setY(location.getY());
     }
 
-
-    public void addPowerup() {
-
-
+  // Todo: Rework how powerUps interact with the player
+    public void addPowerup(PowerUp powerUp) {
+        buffs.add(powerUp);
     }
 
 
