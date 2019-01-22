@@ -1,34 +1,36 @@
 package Entities;
 
-import java.awt.*;
+import java.util.ArrayList;
 
 public class CollisionDetection extends Thread{
 
     // The rectangles of the objects that can be collided with
-    private Player[] otherPlayers;
-    private PowerUp[] powerUps;
+    private ArrayList<Player> enemies;
+    private PowerUp[] powerUps = new PowerUp[5];
     private Player player;
 
 
-    public CollisionDetection(Player player){
+    public CollisionDetection(Player player, ArrayList<Player> enemies){
         this.player = player;
+        this.enemies = enemies;
     }
 
     @Override
     public void run() {
         while(true){
-            //keep changing the position of the hitbox
-            player.updateHitbox();
+
             // Check hitbox against all other players
-            for(Player p : otherPlayers){
+            for(Player p : enemies){
                 if(player.getHitBox().intersects(p.getHitBox().getBoundsInParent())){
                         //Todo: What happens when the two players collide
+                    System.out.println("Collsion");
+
                 }
             }
             // Check if you are picking up power ups
-            for (PowerUp pickedUp : powerUps){
-                player.addPowerup(pickedUp);
-            }
+//            for (PowerUp pickedUp : powerUps){
+            ////                player.addPowerup(pickedUp);
+            ////            }
         }
     }
 }

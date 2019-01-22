@@ -6,17 +6,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 
 
 public class Player {
     private final int MAX_NUM_BUFFS = 4;
     private Point2D location = new Point2D(0, 0);
-    private Rotate rotation = new Rotate(0);
+    private Rotate playerAngle = new Rotate(0);
     private final int WIDTH = 20;
 
 
@@ -38,24 +35,23 @@ public class Player {
 
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
-    private final float CHANGESTATECD = 1.2f;
+    private final float CHANGE_STATE_CD = 1.2f;
     // The countdown of the changestate cooldown
     private float changeStateCurrentCD;
 
     private DamageCalculation dmgCal = new DamageCalculation();
 
     public Player(){
-        //Collsion Detection loop
-        CollisionDetection colDetection = new CollisionDetection(this);
-        colDetection.start();
+
+
 
 
         // activate the powerUps that the players have picked up
         Thread powerUpLoop = new Thread(new Runnable() {
             @Override
             public void run() {
+
                 //Todo: Take the powerup from the queue and activate the powerup to become a buff
-                buffs.take();
             }
         });
 
@@ -110,24 +106,19 @@ public class Player {
 
     public void changeToFire() {
         state = PlayerStates.FIRE;
-        changeStateCurrentCD = CHANGESTATECD;
+        changeStateCurrentCD = CHANGE_STATE_CD;
     }
 
     public void changeToWater() {
         state = PlayerStates.WATER;
-        changeStateCurrentCD = CHANGESTATECD;
+        changeStateCurrentCD = CHANGE_STATE_CD;
     }
 
     public void changeToEarth() {
         state = PlayerStates.EARTH;
-        changeStateCurrentCD = CHANGESTATECD;
+        changeStateCurrentCD = CHANGE_STATE_CD;
     }
 
-
-    public void updateHitbox() {
-        hitBox.setX(location.getX());
-        hitBox.setY(location.getY());
-    }
 
   // Todo: Rework how powerUps interact with the player
     public void addPowerup(PowerUp powerUp) {
@@ -179,6 +170,15 @@ public class Player {
     }
 
 
+    public Rotate getPlayerAngle() {
+        return playerAngle;
+    }
+
+    public void setPlayerAngle(Rotate playerAngle) {
+        this.playerAngle = playerAngle;
+    }
+
+
     public Point2D getLocation() {
         return location;
     }
@@ -187,7 +187,7 @@ public class Player {
         this.location = location.add(WIDTH / 2f, WIDTH / 2f);
     }
 
-    public int getWIDTH() {
+    public int getWidth() {
         return WIDTH;
     }
 
@@ -204,7 +204,7 @@ public class Player {
     }
 
     public Rectangle getHitBox() {
-        return hitBox;
+        return new Rectangle(location.getX(),location.getY(),WIDTH,WIDTH);
     }
 
     public PlayerStates getState() {
@@ -214,5 +214,7 @@ public class Player {
     public boolean getIsShielded(){
         return isShielded;
     }
+
+
 
 }
