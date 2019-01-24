@@ -32,7 +32,7 @@ class Renderer {
         Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
         isoPlayerLocation = isoPlayerLocation.add(10, 0);
 
-        double relativeX = stageCenter.getX() - isoPlayerLocation.getX() + player.getWIDTH()/2f;
+        double relativeX = stageCenter.getX() - isoPlayerLocation.getX() + player.getWidth()/2f;
         double relativeY = stageCenter.getY() - isoPlayerLocation.getY();
         Point2D boardPosition = new Point2D(relativeX, relativeY);
 
@@ -54,7 +54,7 @@ class Renderer {
             Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
 
             double relativeX = stage.getWidth()/2f - isoPlayerLocation.getX() + enemyLocation.getX();
-            double relativeY = stage.getHeight()/2f - isoPlayerLocation.getY() + enemyLocation.getY() - enemy.getWIDTH()/2f;
+            double relativeY = stage.getHeight()/2f - isoPlayerLocation.getY() + enemyLocation.getY() - enemy.getWidth()/2f;
             Point2D relativeLocation = new Point2D(relativeX, relativeY);
 
             applyIsoTransform(relativeLocation.getX(), relativeLocation.getY());
@@ -80,9 +80,9 @@ class Renderer {
 
         gc.setFill(Color.GREEN);
 
-        double centerAdjust = player.getWIDTH()/2f * scaleConstant;
+        double centerAdjust = player.getWidth()/2f * scaleConstant;
 
-        gc.fillRect(playerXCenter - centerAdjust, playerYCenter - centerAdjust, player.getWIDTH() * scaleConstant, player.getWIDTH()* scaleConstant);
+        gc.fillRect(playerXCenter - centerAdjust, playerYCenter - centerAdjust, player.getWidth() * scaleConstant, player.getWidth()* scaleConstant);
 
         // has to be called after applying transform
         gc.restore();

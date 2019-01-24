@@ -1,7 +1,9 @@
 package Graphics;
 
 import Debugger.Debugger;
+import Entities.CollisionDetection;
 import Entities.Player;
+import Entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -159,7 +161,13 @@ public class Board extends Application {
         //initialise map location
         board = new Rectangle(1000, 1000);
 
+        //Collsion Detection loop
         player = new Player();
+
+        //TODO: Remove
+        //add a powerup
+        (new PowerUp(player)).start();
+
 
         // set player location to the top left of the map
 
@@ -169,7 +177,11 @@ public class Board extends Application {
 
         enemies = new ArrayList<>();
         enemies.add(new Player());
-        enemies.get(0).setLocation(new Point2D(100,100));
+        enemies.get(0).setLocation(new Point2D(140,100));
+
+        //detect collisions
+        CollisionDetection colDetection = new CollisionDetection(player, enemies);
+        colDetection.start();
 
     }
 

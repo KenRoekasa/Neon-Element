@@ -1,108 +1,135 @@
 package Entities;
 
+import Calculations.DamageCalculation;
 import Enums.PlayerStates;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 
 public class Player {
+
+    private final int MAX_NUM_BUFFS = 4;
     private Point2D location = new Point2D(0, 0);
-
     private Rotate playerAngle = new Rotate(0);
-
     private final int WIDTH = 20;
 
-    private int movementSpeed = 10;
-    //Can be a float
+
     private float health = 100;
     private final float MAX_HEALTH = 100;
-    private PlayerStates state;
-    //The countdown of the changestate cooldown
+    private int movementSpeed = 10;
+    private boolean isShielded = false;
 
-    private float changeStateCurrentCD;
+
+    //Default Fire
+    private PlayerStates state = PlayerStates.FIRE;
+
+    private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
+
+
+    // An array of the power up that the player has picked up
+    private BlockingQueue<PowerUp> buffs = new ArrayBlockingQueue<PowerUp>(MAX_NUM_BUFFS);
+
+    //COOLDOWNS
     //The number of seconds for change state to go off cooldown
-    private final float CHANGESTATECD = 1.2f;
+    private final float CHANGE_STATE_CD = 1.2f;
+    // The countdown of the changestate cooldown
+    private float changeStateCurrentCD;
+
+
+    //TODO: this should moved to the server
+    private DamageCalculation dmgCal = new DamageCalculation();
+
+    public Player(){
+
+
+
+
+        // activate the powerUps that the players have picked up
+        Thread powerUpLoop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //Todo: Take the powerup from the queue and activate the powerup to become a buff
+            }
+        });
+
+    }
+
 
     private void lightAttack() {
-        switch (state) {
-            case AIR:
-                //attack using air
-                break;
-            case FIRE:
-                //attack using fire
-                break;
-            case EARTH:
-                //attack using earth
-                break;
-            case WATER:
-                //attack using water
-                break;
-            default:
-                //What should happen?
-                break;
+        int damage = 3;
+
+        //set attack hit box in front of the user
+        //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
+        attackHitbox.setX(location.getX() + WIDTH);
+        attackHitbox.setY(location.getX() + WIDTH);
+
+
+        //temp array for the other players
+        Player otherPlayer[] = new Player[4];
+
+
+        //If another player is in the Hitbox calculate the damage they take
+        // How is damaged dealt throught the victim or the attacker or server
+        for (Player p : otherPlayer) {
+            if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
+                //The damage with damage multiplier based on state and calculate mitigation based on if the victim has a shield or not
+                float damageToBeTaken = dmgCal.calculateDamage(damage, this, p) * dmgCal.calculateMitgation(this, p);
+                //set request to server
+                p.removeHealth(damageToBeTaken);
+            }
         }
+
+
+
+
+
+    }
+
+    private void removeHealth(float damage) {
+        this.health -= damage;
     }
 
     private void heavyAttack() {
-        switch (state) {
-            case AIR:
-                //attack using air
-                break;
-            case FIRE:
-                //attack using fire
-                break;
-            case EARTH:
-                //attack using earth
-                break;
-            case WATER:
-                //attack using water
-                break;
-            default:
-                //What should happen?
-                break;
-        }
+
 
     }
 
     private void shield() {
-        switch (state) {
-            case AIR:
-                //attack using air
-                break;
-            case FIRE:
-                //attack using fire
-                break;
-            case EARTH:
-                //attack using earth
-                break;
-            case WATER:
-                //attack using water
-                break;
-            default:
-                //What should happen?
-                break;
-        }
+
+        //need code to unshield after a certain duration
+        isShielded = true;
+
 
     }
 
     public void changeToFire() {
         state = PlayerStates.FIRE;
-        changeStateCurrentCD = CHANGESTATECD;
+        changeStateCurrentCD = CHANGE_STATE_CD;
     }
 
     public void changeToWater() {
         state = PlayerStates.WATER;
-        changeStateCurrentCD = CHANGESTATECD;
+        changeStateCurrentCD = CHANGE_STATE_CD;
     }
 
     public void changeToEarth() {
         state = PlayerStates.EARTH;
-        changeStateCurrentCD = CHANGESTATECD;
+        changeStateCurrentCD = CHANGE_STATE_CD;
+    }
+
+
+  // Todo: Rework how powerUps interact with the player
+    public void addBuff(PowerUp powerUp) {
+        buffs.add(powerUp);
     }
 
 
     //teleport a certain amount in front the character or we could have a speed boost
-
     private void dash() {
 
 
@@ -110,7 +137,7 @@ public class Player {
 
     public void moveUp() {
         if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
-            location = location.add(0, -movementSpeed);
+            location = location.add(-movementSpeed, -movementSpeed);
         } else {
             location = new Point2D(location.getX(), 0 + WIDTH / 2f);
         }
@@ -119,7 +146,7 @@ public class Player {
     public void moveDown(double boardHeight) {
 
         if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
-            location = location.add(0, movementSpeed);
+            location = location.add(movementSpeed, movementSpeed);
         } else {
             location = new Point2D(location.getX(), boardHeight - WIDTH / 2f);
         }
@@ -129,7 +156,7 @@ public class Player {
     public void moveLeft() {
         //check within bounds
         if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
-            location = location.add(-movementSpeed, 0);
+            location = location.add(-movementSpeed, movementSpeed);
         } else {
             location = new Point2D(0 + WIDTH / 2f, location.getY());
         }
@@ -139,7 +166,7 @@ public class Player {
     public void moveRight(double boardWidth) {
         //check within bounds
         if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
-            location = location.add(movementSpeed, 0);
+            location = location.add(movementSpeed, -movementSpeed);
         } else {
             location = new Point2D(boardWidth - WIDTH / 2f, location.getY());
         }
@@ -159,7 +186,11 @@ public class Player {
         return location;
     }
 
-    public int getWIDTH() {
+    public void setLocation(Point2D location) {
+        this.location = location.add(WIDTH / 2f, WIDTH / 2f);
+    }
+
+    public int getWidth() {
         return WIDTH;
     }
 
@@ -175,8 +206,18 @@ public class Player {
         return MAX_HEALTH;
     }
 
-    public void setLocation(Point2D location) {
-        this.location = location.add(WIDTH / 2f, WIDTH / 2f);
+    public Rectangle getHitBox() {
+        return new Rectangle(location.getX(),location.getY(),WIDTH,WIDTH);
     }
+
+    public PlayerStates getState() {
+        return state;
+    }
+
+    public boolean getIsShielded(){
+        return isShielded;
+    }
+
+
 
 }
