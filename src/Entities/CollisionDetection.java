@@ -22,7 +22,7 @@ public class CollisionDetection extends Thread{
             for(Player p : enemies){
                 if(player.getHitBox().intersects(p.getHitBox().getBoundsInParent())){
                     //Todo: What happens when the two players collide
-                    System.out.println("Collsion");
+                    System.out.println("Collision");
 
                 }
             }

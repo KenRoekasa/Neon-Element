@@ -6,6 +6,7 @@ import Entities.Player;
 import Entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -21,6 +22,7 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 
@@ -48,7 +50,6 @@ public class Board extends Application {
         // initial setup
         primaryStage = stage;
 
-
         primaryStage.setTitle("Game");
 
         Group root = new Group();
@@ -71,6 +72,14 @@ public class Board extends Application {
         Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
         root.getChildren().add(canvas);
+
+
+        // stop collision detector when leaving the game - otherwise it never gets stopped
+        // todo show this to kenny
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         // set input controls
         ArrayList<String> input = new ArrayList<>();
@@ -107,10 +116,10 @@ public class Board extends Application {
 
                 // draw to screen
                 renderer.drawMap(stageSize, board, player);
-                renderer.drawerCursor(stageSize, player);
+                //renderer.drawerCursor(stageSize, player);
                 //renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
-                renderer.drawEnemies(stageSize, enemies, player);
+                //renderer.drawEnemies(stageSize, enemies, player);
 
                 debugger.print();
                 try {
@@ -159,7 +168,7 @@ public class Board extends Application {
         renderer = new Renderer(gc, debugger);
 
         //initialise map location
-        board = new Rectangle(1000, 1000);
+        board = new Rectangle(1500, 1500);
 
         //Collsion Detection loop
         player = new Player();
@@ -185,19 +194,48 @@ public class Board extends Application {
 
     }
 
-
     private void handleInput(ArrayList<String> input) {
-        if (input.contains("LEFT") || input.contains("A")) {
-            player.moveLeft();
+        boolean left = input.contains("LEFT") || input.contains("A");
+        boolean right = input.contains("RIGHT") || input.contains("D");
+        boolean up = input.contains("UP") || input.contains("W");
+        boolean down = input.contains("DOWN") || input.contains("S");
+
+
+        if (left && up || left & down || right && up || right & down) {
+            if (left & up) {
+                player.moveLeftCartesian();
+            }
+            if (left && down) {
+                player.moveDownCartestian(board.getHeight());
+            }
+
+            if (right && up) {
+                player.moveUpCartesian();
+            }
+
+            if (right && down){
+                player.moveRightCartesian(board.getWidth());
+            }
+        } else {
+            moveIsometric(left, right, up, down);
         }
-        if (input.contains("RIGHT") || input.contains("D")) {
-            player.moveRight(board.getWidth());
+
+    }
+
+    private void moveIsometric(boolean left, boolean right, boolean up, boolean down) {
+        if (left) {
+            player.moveLeft(board.getWidth());
         }
-        if (input.contains("UP") || input.contains("W")) {
+
+        if (up) {
             player.moveUp();
         }
-        if (input.contains("DOWN") || input.contains("S")) {
-            player.moveDown(board.getHeight());
+
+        if (right) {
+            player.moveRight(board.getWidth(), board.getHeight());
+        }
+        if (down) {
+            player.moveDown(board.getWidth(), board.getHeight());
         }
     }
 

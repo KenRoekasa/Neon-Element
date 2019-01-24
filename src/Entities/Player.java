@@ -132,41 +132,82 @@ public class Player {
     //teleport a certain amount in front the character or we could have a speed boost
     private void dash() {
 
-
     }
 
     public void moveUp() {
-        if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
+
+        double yCheck = location.getY() - movementSpeed - WIDTH / 2f;
+        double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
+
+        if (yCheck >= 0 && xCheck >= 0) {
             location = location.add(-movementSpeed, -movementSpeed);
+        }
+    }
+
+    public void moveDown(double boardWidth, double boardHeight) {
+
+        double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
+        double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
+
+        if (yCheck <= boardHeight && xCheck <= boardWidth) {
+            location = location.add(movementSpeed, movementSpeed);
+        }
+    }
+
+    public void moveLeft(double boardWidth) {
+        double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
+        double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
+
+        if (xCheck >= 0 && yCheck <= boardWidth) {
+            location = location.add(-movementSpeed, movementSpeed);
+        }
+    }
+
+    public void moveRight(double boardWidth, double boardHeight) {
+        //check within bounds
+
+        double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
+        double yCheck = location.getY() - movementSpeed - WIDTH / 2f;
+
+
+        if (xCheck <= boardWidth && yCheck >= 0) {
+            location = location.add(movementSpeed, -movementSpeed);
+        }
+    }
+
+
+    public void moveUpCartesian() {
+        if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
+            location = location.add(0, -(movementSpeed * 2));
         } else {
             location = new Point2D(location.getX(), 0 + WIDTH / 2f);
         }
     }
 
-    public void moveDown(double boardHeight) {
+    public void moveDownCartestian(double boardHeight) {
 
         if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
-            location = location.add(movementSpeed, movementSpeed);
+            location = location.add(0, (movementSpeed * 2));
         } else {
             location = new Point2D(location.getX(), boardHeight - WIDTH / 2f);
         }
 
     }
 
-    public void moveLeft() {
+    public void moveLeftCartesian() {
         //check within bounds
         if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
-            location = location.add(-movementSpeed, movementSpeed);
+            location = location.add(-(movementSpeed * 2), 0);
         } else {
             location = new Point2D(0 + WIDTH / 2f, location.getY());
         }
 
     }
 
-    public void moveRight(double boardWidth) {
+    public void moveRightCartesian(double boardWidth) {
         //check within bounds
         if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
-            location = location.add(movementSpeed, -movementSpeed);
+            location = location.add((movementSpeed * 2), 0);
         } else {
             location = new Point2D(boardWidth - WIDTH / 2f, location.getY());
         }

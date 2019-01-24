@@ -2,13 +2,16 @@ package Graphics;
 
 import Debugger.Debugger;
 import Entities.Player;
+import Entities.PowerUp;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import org.w3c.dom.css.Rect;
 
+import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 
 import static javafx.scene.transform.Rotate.X_AXIS;
@@ -46,6 +49,25 @@ class Renderer {
 
     }
 
+    void drawPowerUps(Rectangle stage, ArrayList<PowerUp> powerUps, Player player){
+        for(PowerUp powerUp: powerUps){
+
+            Point2D powerUpLocation = ISOConverter.twoDToIso(powerUp.getLocation());
+            Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
+
+            double relativeX = stage.getWidth()/2f - isoPlayerLocation.getX() + powerUpLocation.getX();
+            double relativeY = stage.getHeight()/2f - isoPlayerLocation.getY() + powerUpLocation.getY();
+
+            Point2D relativeLocation = new Point2D(relativeX, relativeY);
+
+            applyIsoTransform(relativeLocation.getX(), relativeLocation.getY());
+
+            gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWIDTH() * scaleConstant, powerUp.getWIDTH() * scaleConstant);
+
+            gc.restore();
+        }
+    }
+
     void drawEnemies(Rectangle stage, ArrayList<Player> enemies, Player player){
         for(Player enemy: enemies) {
 
@@ -60,7 +82,7 @@ class Renderer {
             applyIsoTransform(relativeLocation.getX(), relativeLocation.getY());
 
             //draw enemy
-            gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), 20*scaleConstant, 20*scaleConstant);
+            gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), player.getWidth()*scaleConstant, player.getWidth()*scaleConstant);
 
             // restore prev state
             gc.restore();
@@ -87,6 +109,7 @@ class Renderer {
         // has to be called after applying transform
         gc.restore();
 
+        debugger.add("Player location: " + player.getLocation().toString(), 1);
     }
 
 

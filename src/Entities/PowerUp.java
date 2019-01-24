@@ -11,10 +11,10 @@ import java.util.Random;
 public class PowerUp extends Thread{
 
     private Point2D location;
+
     private final int WIDTH = 10;
 
     private PowerUpType type;
-
     private Player player;
 
 
@@ -47,7 +47,18 @@ public class PowerUp extends Thread{
     }
 
 
+    public Point2D getLocation() {
+        return location;
+    }
 
+    public void setLocation(Point2D location) {
+        this.location = location;
+    }
+
+
+    public int getWIDTH() {
+        return WIDTH;
+    }
 
 
     public PowerUpType getType() {
