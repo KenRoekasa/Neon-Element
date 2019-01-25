@@ -28,7 +28,7 @@ public class ClientNetwork {
 
     public void run() {
         while (true) {
-            byte[] data = new byte[1];
+            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
             DatagramPacket packet = new DatagramPacket(data, data.length);
 
             try {

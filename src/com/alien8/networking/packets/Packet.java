@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 public abstract class Packet {
 
     /** The number of bytes contained in a packet including the packet ID. */
-    protected static final int PACKET_BYTES_LENGTH = 16;
+    public static final int PACKET_BYTES_LENGTH = 16;
 
     public static enum PacketDirection { INCOMING, OUTGOING }
 
