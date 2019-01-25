@@ -75,6 +75,7 @@ public class PowerUp extends Thread{
         while(true){
             //checks if the player has picked it up or not
                 if(getHitbox().intersects(player.getHitBox().getBoundsInParent())){
+
                     System.out.println("Collided with pick up");
                     player.addBuff(this);
                     break;
