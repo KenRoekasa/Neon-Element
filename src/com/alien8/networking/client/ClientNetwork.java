@@ -7,7 +7,7 @@ import java.net.SocketException;
 
 import com.alien8.networking.packets.*;
 
-public class ClientNetwork {
+public class ClientNetwork extends Thread {
     
     private DatagramSocket socket;
     private ClientNetworkDispatcher dispatcher;
