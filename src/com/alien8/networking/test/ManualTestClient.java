@@ -22,6 +22,7 @@ public class ManualTestClient {
             
             DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("192.168.43.60"), Constants.SERVER_LISTENING_PORT);
             socket.send(packet);
+            socket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
