@@ -14,17 +14,23 @@ public class ManualTestServer {
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
    
-            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-            
-            socket.receive(packet);
-            
-            String str = new String(data);
-            System.out.println(str);
+            try {
+                while(true) {
+                    byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
+                    DatagramPacket packet = new DatagramPacket(data, data.length);
+                    
+                    socket.receive(packet);
+                    
+                    String str = new String(data);
+                    System.out.println(str);
+                }
+            } finally {
+                socket.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        while(true) {}
+        
     }
 }
