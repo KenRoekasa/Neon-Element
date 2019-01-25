@@ -4,25 +4,26 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public abstract class Packet {
-    
+
+    /** The number of bytes contained in a packet including the packet ID. */
     protected static final int PACKET_BYTES_LENGTH = 16;
-    
+
     public static enum PacketDirection { INCOMING, OUTGOING }
 
     public static enum PacketType {
-        HELLO(0), HELLO_ACK(1);
+        HELLO((byte) 0x00), HELLO_ACK((byte) 0x01);
 
-        private int id;
+        private byte id;
 
-        PacketType(int id) {
+        PacketType(byte id) {
             this.id = id;
         }
-        
-        int getId() {
+
+        byte getId() {
             return this.id;
         }
 
-        public static PacketType getTypeFromId(int id) {
+        public static PacketType getTypeFromId(byte id) {
             for (PacketType t : PacketType.values()) {
                 if (t.id == id) {
                     return t;
@@ -65,12 +66,12 @@ public abstract class Packet {
 
     ByteBuffer getByteBuffer() {
         ByteBuffer buffer = ByteBuffer.allocate(Packet.PACKET_BYTES_LENGTH);
-        buffer.putInt(this.type.getId());
+        buffer.put(this.type.getId());
         return buffer;
     }
 
     public static Packet createFromBytes(byte[] rawData, InetAddress ipAddress, int port) {
-        int id = rawData[0];
+        byte id = rawData[0];
         int dataLen = rawData.length - 1;
         byte[] data = new byte[dataLen];
         System.arraycopy(rawData, 1, data, 0, dataLen);
