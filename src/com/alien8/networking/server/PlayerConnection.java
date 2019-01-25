@@ -7,7 +7,6 @@ public class PlayerConnection {
     private int port;
 
     public PlayerConnection(InetAddress ipAddress, int port) {
-        super();
         this.ipAddress = ipAddress;
         this.port = port;
     }

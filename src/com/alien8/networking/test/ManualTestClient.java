@@ -20,7 +20,7 @@ public class ManualTestClient {
             String str = "hi";
             byte[] data = str.getBytes();
             
-            DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("192.168.43.147"), Constants.SERVER_LISTENING_PORT);
+            DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName("192.168.43.60"), Constants.SERVER_LISTENING_PORT);
             socket.send(packet);
         } catch (Exception e) {
             e.printStackTrace();

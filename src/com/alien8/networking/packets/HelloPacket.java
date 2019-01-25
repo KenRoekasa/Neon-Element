@@ -20,8 +20,9 @@ public class HelloPacket extends Packet {
     
     public byte[] getRawBytes() {
         byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
-        ByteBuffer buffer = this.getByteBuffer();
-        buffer.get(data);
+        //ByteBuffer buffer = this.getByteBuffer();
+        //buffer.put((byte) 0x00);
+        //buffer.get(data);
         return data;
     }
 }
