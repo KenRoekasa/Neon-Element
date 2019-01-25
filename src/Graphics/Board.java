@@ -6,18 +6,14 @@ import Entities.Player;
 import Entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -112,6 +108,8 @@ public class Board extends Application {
                 renderer.drawPlayer(stageSize, player);
                 renderer.drawEnemies(stageSize, enemies, player);
 
+                debugger.add((player.getLocation().toString()),1);
+
                 debugger.print();
                 try {
                     Thread.sleep(1);
@@ -188,7 +186,7 @@ public class Board extends Application {
 
     private void handleInput(ArrayList<String> input) {
         if (input.contains("LEFT") || input.contains("A")) {
-            player.moveLeft();
+            player.moveLeft(board.getHeight());
         }
         if (input.contains("RIGHT") || input.contains("D")) {
             player.moveRight(board.getWidth());
@@ -197,7 +195,7 @@ public class Board extends Application {
             player.moveUp();
         }
         if (input.contains("DOWN") || input.contains("S")) {
-            player.moveDown(board.getHeight());
+            player.moveDown(board.getHeight(),board.getWidth());
         }
     }
 
