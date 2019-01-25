@@ -4,7 +4,12 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class HelloAckPacket extends Packet {
-    
+
+    // Bytes required for packet data.
+    // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
+    // int + int
+    // 4   + 4   = 8 bytes
+
     private int players;
     private int maxPlayers;
 
