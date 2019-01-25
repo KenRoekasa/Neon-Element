@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
 /*Click play to jump to the game board*/
-public class PlayController {
+public class MenuController {
     private Scene board;
     public Scene getBoard() {
         return board;

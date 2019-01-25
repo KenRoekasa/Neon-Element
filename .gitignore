@@ -12,3 +12,7 @@
 \.idea/workspace\.xml
 
 alien8\.iml
+
+out/
+
+\.idea/
