@@ -14,11 +14,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -120,6 +117,8 @@ public class Board extends Application {
                 //renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
                 //renderer.drawEnemies(stageSize, enemies, player);
+
+                debugger.add((player.getLocation().toString()),1);
 
                 debugger.print();
                 try {
