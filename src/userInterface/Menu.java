@@ -1,4 +1,4 @@
-package UserInterface;
+package userInterface;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("userInterface/Menu.fxml"));
         primaryStage.setTitle("Game");
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
