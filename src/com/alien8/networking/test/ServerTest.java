@@ -20,8 +20,9 @@ public class ServerTest {
 				String str = new String(dp.getData());
 				int num = Integer.parseInt(str.trim());
 				int result = num*num;
-				InetAddress ia = InetAddress.getLocalHost();
+				InetAddress ia = dp.getAddress();
 				byte[] b2 = (result + "").getBytes();
+				//byte[] b2 = ("Victor your machine has been connected to the server").getBytes();
 
 				
 				DatagramPacket dp1 = new DatagramPacket(b2, b2.length,ia,dp.getPort());
