@@ -13,3 +13,6 @@
 
 alien8\.iml
 /bin/
+
+.project
+.classpath
