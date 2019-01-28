@@ -11,9 +11,10 @@ import com.alien8.networking.Constants;
 public class ServerTest {
 		public static void main(String[] args)  {
 			try {
-				
 			DatagramSocket ds = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
-			byte[] b1 = new byte[1024];
+			while(true) {	
+				byte[] b1 = new byte[1024];
+
 			DatagramPacket dp = new DatagramPacket(b1, b1.length);
 			
 				ds.receive(dp);
@@ -27,7 +28,7 @@ public class ServerTest {
 				
 				DatagramPacket dp1 = new DatagramPacket(b2, b2.length,ia,dp.getPort());
 				ds.send(dp1);
-				
+			}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
