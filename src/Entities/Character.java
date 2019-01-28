@@ -1,6 +1,7 @@
 package Entities;
 
 import Enums.Elements;
+import Enums.Directions;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -10,6 +11,7 @@ public abstract class Character {
     protected Point2D location;
     protected Elements currentElement;
     protected Rotate playerAngle;
+    protected Directions characterDirection;
     protected boolean isShielded;
     protected int movementSpeed;
     protected final int WIDTH = 10;
@@ -18,6 +20,7 @@ public abstract class Character {
     private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
 
     public void moveUp() {
+    	characterDirection = Directions.UP;
 
         double yCheck = location.getY() - movementSpeed - WIDTH / 2f;
         double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
@@ -28,7 +31,8 @@ public abstract class Character {
     }
 
     public void moveDown(double boardWidth, double boardHeight) {
-
+    	characterDirection = Directions.DOWN;
+    	
         double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
         double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
 
@@ -38,6 +42,8 @@ public abstract class Character {
     }
 
     public void moveLeft(double boardWidth) {
+    	characterDirection = Directions.LEFT;
+    	
         double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
         double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
 
@@ -47,6 +53,7 @@ public abstract class Character {
     }
 
     public void moveRight(double boardWidth, double boardHeight) {
+    	characterDirection = Directions.RIGHT;
         //check within bounds
 
         double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
@@ -59,6 +66,8 @@ public abstract class Character {
     }
 
     public void moveUpCartesian() {
+    	characterDirection = Directions.UP;
+    	
         if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
             location = location.add(0, -(movementSpeed * 2));
         } else {
@@ -67,6 +76,7 @@ public abstract class Character {
     }
 
     public void moveDownCartestian(double boardHeight) {
+    	characterDirection = Directions.DOWN;
 
         if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
             location = location.add(0, (movementSpeed * 2));
@@ -77,6 +87,8 @@ public abstract class Character {
     }
 
     public void moveLeftCartesian() {
+    	characterDirection = Directions.LEFT;
+    	
         //check within bounds
         if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
             location = location.add(-(movementSpeed * 2), 0);
@@ -87,6 +99,8 @@ public abstract class Character {
     }
 
     public void moveRightCartesian(double boardWidth) {
+    	characterDirection = Directions.RIGHT;
+    	
         //check within bounds
         if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
             location = location.add((movementSpeed * 2), 0);
@@ -101,7 +115,7 @@ public abstract class Character {
         //set attack hit box in front of the user
         //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
         attackHitbox.setX(location.getX() + WIDTH);
-        attackHitbox.setY(location.getX() + WIDTH);
+        attackHitbox.setY(location.getY() + WIDTH);
 
 
         //temp array for the other players
