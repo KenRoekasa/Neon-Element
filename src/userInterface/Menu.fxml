@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <children>
-      <Sphere radius="50" VBox.vgrow="NEVER">
+      <Sphere fx:id="logo" radius="50" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="30.0" />
          </VBox.margin>
