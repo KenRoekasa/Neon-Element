@@ -6,7 +6,6 @@ import entities.Player;
 import entities.PowerUp;
 import graphics.Renderer;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
@@ -25,9 +24,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-public class Board extends Application {
-
+public class GameBoard {
     private Debugger debugger;
     private Renderer renderer;
     private GraphicsContext gc;
@@ -39,15 +36,8 @@ public class Board extends Application {
     private Player player;
     private ArrayList<Player> enemies;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage stage) {
-        // initial setup
+    public GameBoard(Stage stage) {
         primaryStage = stage;
-
         primaryStage.setTitle("Game");
 
         try {
@@ -245,11 +235,4 @@ public class Board extends Application {
             player.moveDown(board.getWidth(), board.getHeight());
         }
     }
-
 }
-
-
-
-
-
-

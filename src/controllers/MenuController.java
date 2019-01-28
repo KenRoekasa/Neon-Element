@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
+import userInterface.GameBoard;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,16 +30,7 @@ public class MenuController implements Initializable{
 
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
-            Parent root = (Parent)fxmlLoader.load();
-            Scene scene = new Scene(root);
-            stage.setTitle("Board Screen");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            GameBoard gameBoard = new GameBoard(stage);
     }
 
     @FXML
