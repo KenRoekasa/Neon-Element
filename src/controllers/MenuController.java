@@ -1,12 +1,16 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,19 +22,24 @@ import java.util.ResourceBundle;
 */
 
 public class MenuController implements Initializable{
-    private Scene board;
-    public Scene getBoard() {
-        return board;
-    }
+    private Stage stage;
 
-    public void setBoard(Scene board) {
-        this.board = board;
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        primaryStage.setScene(board);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/board_new.fxml"));
+            Parent root = (Parent)fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setTitle("Board Screen");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -40,7 +49,7 @@ public class MenuController implements Initializable{
     public void handleBTNHelp(ActionEvent actionEvent){}
 
     @FXML
-    public void handleBTNExigt(ActionEvent actionEvent){
+    public void handleBTNExit(ActionEvent actionEvent){
 
     }
 

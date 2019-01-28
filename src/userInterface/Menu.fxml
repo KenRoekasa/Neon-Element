@@ -6,15 +6,14 @@
 <?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <children>
       <Sphere radius="50" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="30.0" />
          </VBox.margin>
       </Sphere>
-      <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="PLAY" textAlignment="CENTER" >
+      <Button fx:id="play_btn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNPlay" prefHeight="27.0" prefWidth="89.0" text="PLAY" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -22,7 +21,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="OPTIONS" textAlignment="CENTER">
+      <Button fx:id="options_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNOptions" prefHeight="27.0" prefWidth="89.0" text="OPTIONS" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -30,7 +29,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="HELP" textAlignment="CENTER">
+      <Button fx:id="help_btn" alignment="CENTER" mnemonicParsing="false" onAction="#handleBTNHelp" prefHeight="27.0" prefWidth="89.0" text="HELP" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -38,7 +37,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="EXIT" textAlignment="CENTER">
+      <Button fx:id="exit_btn" alignment="CENTER" mnemonicParsing="false" onAction="#handleBTNExit" prefHeight="27.0" prefWidth="89.0" text="EXIT" textAlignment="CENTER">
          <VBox.margin>
             <Insets />
          </VBox.margin>

@@ -1,5 +1,6 @@
 package userInterface;
 
+import controllers.MenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -9,9 +10,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Menu extends Application {
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        Parent root = (Parent)loader.load();
         primaryStage.setTitle("Game");
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -21,11 +25,13 @@ public class Menu extends Application {
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
         primaryStage.setScene(new Scene(root, width, height));
+
+        MenuController menuControllercontroller = (MenuController)loader.getController();
+        menuControllercontroller.setStage(primaryStage);
+
         primaryStage.show();
 
     }
-
-
 
     public static void main(String[] args) {
         launch(args);
