@@ -8,7 +8,7 @@ import javafx.scene.transform.Rotate;
 
 public abstract class Character {
     protected float health;
-    protected Point2D location;
+    protected java.awt.geom.Point2D location;
     protected Elements currentElement;
     protected Rotate playerAngle;
     protected Directions characterDirection;
@@ -114,19 +114,34 @@ public abstract class Character {
 
         //set attack hit box in front of the user
         //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
-        attackHitbox.setX(location.getX() + WIDTH);
-        attackHitbox.setY(location.getY() + WIDTH);
-
+        switch(characterDirection) {
+        case Directions.UP: 
+        	attackHitBox.setX(location.getX() - WIDTH);
+        	attackHitbox.setY(location.getY() - WIDTH);
+        	break;
+        case Directions.DOWN:
+        	attackHitBox.setX(location.getX() + WIDTH);
+        	attackHitbox.setY(location.getY() + WIDTH);
+        	break;
+        case Directions.LEFT:
+        	attackHitBox.setX(location.getX() - WIDTH);
+        	attackHitbox.setY(location.getY() + WIDTH);
+        	break;
+        case Directions.RIGHT:
+        	attackHitBox.setX(location.getX() + WIDTH);
+        	attackHitbox.setY(location.getY() - WIDTH);
+        	break;
+        }
 
         //temp array for the other players
-        Player otherPlayer[] = new Player[4];
+        Character otherCharacters[] = new Character[4];
 
 
-        //If another player is in the Hitbox calculate the damage they take
+        //If another Character is in the Hitbox calculate the damage they take
         // How is damaged dealt throught the victim or the attacker or server
-        for (Player p : otherPlayer) {
+        for (Character p : otherCharacters) {
             if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
-                //TODO: What happens when you hit another player
+                //TODO: What happens when you hit another Character
                 //sends to server
             }
         }
