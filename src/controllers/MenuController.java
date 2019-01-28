@@ -49,11 +49,13 @@ public class MenuController implements Initializable{
     }
 
     @FXML
-    public void handleBTNHelp(ActionEvent actionEvent){}
+    public void handleBTNHelp(ActionEvent actionEvent){
+
+    }
 
     @FXML
     public void handleBTNExit(ActionEvent actionEvent){
-
+        stage.close();
     }
 
     @Override
