@@ -5,6 +5,8 @@ import Enums.Directions;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class Character {
     protected float health;
@@ -16,7 +18,8 @@ public abstract class Character {
     protected int movementSpeed;
     protected final int WIDTH = 10;
     protected final float MAX_HEALTH = 100;
-
+    
+    private Timer timer = new Timer();
     private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
 
     public void moveUp() {
@@ -162,7 +165,19 @@ public abstract class Character {
 
         //need code to unshield after a certain duration
         isShielded = true;
+        
+        //counts for 10 seconds then unshield 
+        int timeCtr = 0;
+        timer.scheduleAtFixedRate(new TimerTask() {
 
+            public void run() {
+            	if(timeCtr==10) {
+            		isShielded = false;
+            		timer.cancel();
+            	}
+            	timeCtr++;
+            }
+        }, 0, 1000);
 
     }
 
