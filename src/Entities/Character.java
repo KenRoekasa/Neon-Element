@@ -1,23 +1,29 @@
 package Entities;
 
 import Enums.Elements;
+import Enums.Directions;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class Character {
     protected float health;
     protected Point2D location;
     protected Elements currentElement;
     protected Rotate playerAngle;
+    protected Directions characterDirection;
     protected boolean isShielded;
     protected int movementSpeed;
     protected final int WIDTH = 10;
     protected final float MAX_HEALTH = 100;
 
+    private Timer timer = new Timer();
     private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
 
     public void moveUp() {
+    	characterDirection = Directions.UP;
 
         double yCheck = location.getY() - movementSpeed - WIDTH / 2f;
         double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
@@ -28,6 +34,7 @@ public abstract class Character {
     }
 
     public void moveDown(double boardWidth, double boardHeight) {
+    	characterDirection = Directions.DOWN;
 
         double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
         double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
@@ -38,6 +45,8 @@ public abstract class Character {
     }
 
     public void moveLeft(double boardWidth) {
+    	characterDirection = Directions.LEFT;
+
         double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
         double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
 
@@ -47,6 +56,7 @@ public abstract class Character {
     }
 
     public void moveRight(double boardWidth, double boardHeight) {
+    	characterDirection = Directions.RIGHT;
         //check within bounds
 
         double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
@@ -59,6 +69,8 @@ public abstract class Character {
     }
 
     public void moveUpCartesian() {
+    	characterDirection = Directions.UP;
+
         if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
             location = location.add(0, -(movementSpeed * 2));
         } else {
@@ -67,6 +79,7 @@ public abstract class Character {
     }
 
     public void moveDownCartestian(double boardHeight) {
+    	characterDirection = Directions.DOWN;
 
         if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
             location = location.add(0, (movementSpeed * 2));
@@ -77,6 +90,8 @@ public abstract class Character {
     }
 
     public void moveLeftCartesian() {
+    	characterDirection = Directions.LEFT;
+
         //check within bounds
         if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
             location = location.add(-(movementSpeed * 2), 0);
@@ -87,6 +102,8 @@ public abstract class Character {
     }
 
     public void moveRightCartesian(double boardWidth) {
+    	characterDirection = Directions.RIGHT;
+
         //check within bounds
         if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
             location = location.add((movementSpeed * 2), 0);
@@ -100,19 +117,34 @@ public abstract class Character {
 
         //set attack hit box in front of the user
         //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
-        attackHitbox.setX(location.getX() + WIDTH);
-        attackHitbox.setY(location.getX() + WIDTH);
-
+        switch(characterDirection) {
+        case Directions.UP:
+        	attackHitBox.setX(location.getX() - WIDTH);
+        	attackHitbox.setY(location.getY() - WIDTH);
+        	break;
+        case Directions.DOWN:
+        	attackHitBox.setX(location.getX() + WIDTH);
+        	attackHitbox.setY(location.getY() + WIDTH);
+        	break;
+        case Directions.LEFT:
+        	attackHitBox.setX(location.getX() - WIDTH);
+        	attackHitbox.setY(location.getY() + WIDTH);
+        	break;
+        case Directions.RIGHT:
+        	attackHitBox.setX(location.getX() + WIDTH);
+        	attackHitbox.setY(location.getY() - WIDTH);
+        	break;
+        }
 
         //temp array for the other players
-        Player otherPlayer[] = new Player[4];
+        Character otherCharacters[] = new Character[4];
 
 
-        //If another player is in the Hitbox calculate the damage they take
+        //If another Character is in the Hitbox calculate the damage they take
         // How is damaged dealt throught the victim or the attacker or server
-        for (Player p : otherPlayer) {
+        for (Character p : otherCharacters) {
             if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
-                //TODO: What happens when you hit another player
+                //TODO: What happens when you hit another Character
                 //sends to server
             }
         }
@@ -130,8 +162,22 @@ public abstract class Character {
     }
 
     public void shield() {
+
         //need code to unshield after a certain duration
         isShielded = true;
+
+        //counts for 10 seconds then unshield
+        int timeCtr = 0;
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+            	if(timeCtr==10) {
+            		isShielded = false;
+            		timer.cancel();
+            	}
+            	timeCtr++;
+            }
+        }, 0, 1000);
 
     }
 
@@ -145,6 +191,10 @@ public abstract class Character {
 
     public void changeToEarth() {
         currentElement = Elements.EARTH;
+    }
+
+    public void changeToAir() {
+        currentElement = Elements.AIR;
     }
 
     public Rotate getPlayerAngle() {
