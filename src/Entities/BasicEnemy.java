@@ -1,15 +1,16 @@
 package Entities;
 
 
-import java.lang.Thread;
+import ai.BasicEnemyFSM;
+import ai.BasicEnemyStates;
+
 import java.util.Random;
-import Enums.*;;
+
 
 public class BasicEnemy extends Character {
 
 	BasicEnemyStates activeState;
 	Character[] players;
-	
 	public BasicEnemy(Character players[]) {
 		
 		activeState = BasicEnemyStates.IDLE;
@@ -30,7 +31,7 @@ public class BasicEnemy extends Character {
 				
 				while (bool) {
 					
-					BasicEnemyFSM.nextAction(this, players);
+					BasicEnemyFSM.nextAction(new ai.BasicEnemy(players), players[0]);
 					
 					if (health<=0)
 						bool=false;

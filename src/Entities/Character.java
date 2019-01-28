@@ -168,15 +168,15 @@ public abstract class Character {
         isShielded = true;
 
         //counts for 10 seconds then unshield
-        int timeCtr = 0;
+        final int[] timeCtr = {0};
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
-            	if(timeCtr==10) {
+            	if(timeCtr[0] ==10) {
             		isShielded = false;
             		timer.cancel();
             	}
-            	timeCtr++;
+            	timeCtr[0]++;
             }
         }, 0, 1000);
 
