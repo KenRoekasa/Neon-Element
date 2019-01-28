@@ -13,10 +13,10 @@ public class HelloAckPacket extends Packet {
     private int players;
     private int maxPlayers;
 
-    protected HelloAckPacket(String[] data, InetAddress ipAddress, int port) {
+    protected HelloAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.HELLO_ACK, ipAddress, port);
-        this.players = Integer.parseInt(data[1]);
-        this.maxPlayers = Integer.parseInt(data[2]);
+        this.players = buffer.getInt();
+        this.maxPlayers = buffer.getInt();
     }
 
     public HelloAckPacket(int players, int maxPlayers, InetAddress ipAddress, int port) {
@@ -35,12 +35,10 @@ public class HelloAckPacket extends Packet {
 
     @Override
     public byte[] getRawBytes() {
-        String str = ";" + this.players + ";" + this.maxPlayers;
-        byte[] strBytes = str.getBytes();
-        byte[] data = new byte[strBytes.length + 1];
-        data[0] = this.getType().getId();
-        System.arraycopy(strBytes, 0, data, 1, strBytes.length);
-        return data;
+        ByteBuffer buffer = this.getByteBuffer();
+        buffer.putInt(this.players);
+        buffer.putInt(this.maxPlayers);
+        return Packet.getBytesFromBuffer(buffer);
     }
 
 }

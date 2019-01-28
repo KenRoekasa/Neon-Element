@@ -11,6 +11,6 @@ public class ManualTestClient {
         ClientNetworkDispatcher dispatcher = net.getDispatcher();
         dispatcher.sendHello();
         
-        net.close();
+        while(true) {}
     }
 }

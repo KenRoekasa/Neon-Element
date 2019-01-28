@@ -12,7 +12,6 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     }
 
     protected void receiveHello(HelloPacket packet) {
-        System.out.println("Got hello packet");
         // TODO - integrate and get these values from somewhere
         int players = 0;
         int maxPlayers = 0;

@@ -10,7 +10,7 @@ public class HelloPacket extends Packet {
     // 
     // = 0 bytes
 
-    protected HelloPacket(String[] data, InetAddress ipAddress, int port) {
+    protected HelloPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.HELLO, ipAddress, port);
     }
 
@@ -19,10 +19,7 @@ public class HelloPacket extends Packet {
     }
     
     public byte[] getRawBytes() {
-        /*byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
         ByteBuffer buffer = this.getByteBuffer();
-        buffer.get(data);*/
-        String str = new String(new byte[] {this.getType().getId()}) + "";
-        return str.getBytes();
+        return Packet.getBytesFromBuffer(buffer);
     }
 }

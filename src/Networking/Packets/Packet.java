@@ -65,10 +65,14 @@ public abstract class Packet {
         return this.port;
     }
 
-    ByteBuffer getByteBuffer() {
+    protected ByteBuffer getByteBuffer() {
         ByteBuffer buffer = ByteBuffer.allocate(Packet.PACKET_BYTES_LENGTH);
         buffer.put(this.type.getId());
         return buffer;
+    }
+    
+    protected static byte[] getBytesFromBuffer(ByteBuffer buffer) {
+        return buffer.array();
     }
 
     public static Packet createFromBytes(byte[] rawData, InetAddress ipAddress, int port) {
@@ -77,20 +81,21 @@ public abstract class Packet {
         byte[] data = new byte[dataLen];
         System.arraycopy(rawData, 1, data, 0, dataLen);
 
-        String str = new String(data).trim();
-        String[] parts = str.split(";");
+        ByteBuffer buffer = ByteBuffer.allocate(Packet.PACKET_BYTES_LENGTH);
+        buffer.put(data);
+        buffer.flip();
 
         Packet packet;
         PacketType type = PacketType.getTypeFromId(id);
         
-        System.out.println("" + ipAddress + ":" + port + " --> " + type + " " + str);
+        System.out.println("" + ipAddress + ":" + port + " --> " + type);
 
         switch (type) {
             case HELLO:
-                packet = new HelloPacket(parts, ipAddress, port);
+                packet = new HelloPacket(buffer, ipAddress, port);
                 break;
             case HELLO_ACK:
-                packet = new HelloAckPacket(parts, ipAddress, port);
+                packet = new HelloAckPacket(buffer, ipAddress, port);
                 break;
             default:
                 packet = null;

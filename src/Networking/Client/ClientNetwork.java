@@ -56,7 +56,7 @@ public class ClientNetwork extends Thread {
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
                 break;
             default:
-                // TODO: log invalid packet
+                System.out.println("Invalid packet recieved");
         }
     }
 
