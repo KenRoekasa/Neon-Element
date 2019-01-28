@@ -10,6 +10,7 @@ import com.alien8.networking.Constants;
 import com.alien8.networking.packets.*;
 
 public class ServerNetwork extends Thread {
+    private boolean running;
     private DatagramSocket socket;
     private ArrayList<PlayerConnection> connections;
     private ServerNetworkDispatcher dispatcher;
@@ -22,7 +23,7 @@ public class ServerNetwork extends Thread {
         }
 
         this.connections = new ArrayList<>();
-
+        this.running = true;
         this.dispatcher = new ServerNetworkDispatcher(this.socket);
     }
 
@@ -30,8 +31,13 @@ public class ServerNetwork extends Thread {
         return this.dispatcher;
     }
 
+    public void close() {
+        this.running = false;
+        this.dispatcher.close();
+    }
+
     public void run() {
-        while (true) {
+        while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
             DatagramPacket packet = new DatagramPacket(data, data.length);
 
@@ -47,7 +53,7 @@ public class ServerNetwork extends Thread {
 
     private void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        
+
         switch(packet.getType()) {
             case HELLO:
                 this.dispatcher.receiveHello((HelloPacket) packet);

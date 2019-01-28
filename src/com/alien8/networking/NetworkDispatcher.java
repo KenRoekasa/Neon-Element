@@ -14,7 +14,11 @@ public abstract class NetworkDispatcher {
     protected NetworkDispatcher(DatagramSocket socket) {
         this.socket = socket;
     }
-    
+
+    public void close() {
+        this.socket.close();
+    }
+
     protected void send(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();

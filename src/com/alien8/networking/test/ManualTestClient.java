@@ -10,6 +10,7 @@ public class ManualTestClient {
 
         ClientNetworkDispatcher dispatcher = net.getDispatcher();
         dispatcher.sendHello();
-        while(true) {}
+        
+        net.close();
     }
 }

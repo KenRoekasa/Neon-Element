@@ -9,6 +9,7 @@ import com.alien8.networking.packets.*;
 
 public class ClientNetwork extends Thread {
     
+    private boolean running;
     private DatagramSocket socket;
     private ClientNetworkDispatcher dispatcher;
 
@@ -19,15 +20,21 @@ public class ClientNetwork extends Thread {
             e.printStackTrace();
         }
 
+        this.running = true;
         this.dispatcher = new ClientNetworkDispatcher(this.socket);
     }
-    
+
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
+    public void close() {
+        this.running = false;
+        this.dispatcher.close();
+    }
+
     public void run() {
-        while (true) {
+        while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
             DatagramPacket packet = new DatagramPacket(data, data.length);
 
