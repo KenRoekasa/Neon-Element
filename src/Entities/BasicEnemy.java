@@ -1,9 +1,9 @@
-package src.Entities;
+package Entities;
 
 
 import java.lang.Thread;
 import java.util.Random;
-import src.Enums.*;;
+import Enums.*;;
 
 public class BasicEnemy extends Character {
 
