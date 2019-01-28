@@ -130,10 +130,8 @@ public abstract class Character {
     }
 
     public void shield() {
-
         //need code to unshield after a certain duration
         isShielded = true;
-
 
     }
 

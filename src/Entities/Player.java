@@ -13,7 +13,6 @@ import java.util.concurrent.BlockingQueue;
 public class Player extends Character {
 
 
-
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
     private final float CHANGE_STATE_CD = 1.2f;

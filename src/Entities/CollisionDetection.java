@@ -5,15 +5,16 @@ import java.util.ArrayList;
 public class CollisionDetection extends Thread{
 
     // The rectangles of the objects that can be collided with
-    private ArrayList<Player> enemies;
+    private ArrayList<Player> players;
     private PowerUp[] powerUps = new PowerUp[5];
-    private Player player;
+    private ArrayList<Player> player;
 
 
-    public CollisionDetection(Player player, ArrayList<Player> enemies){
-        this.player = player;
-        this.enemies = enemies;
+    public CollisionDetection(Player player, ArrayList<Player> players){
+        this.player = players;
     }
+
+
 
     @Override
     public void run() {
