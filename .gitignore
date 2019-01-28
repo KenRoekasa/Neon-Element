@@ -1,3 +1,4 @@
+\.idea
 
 \.idea/\.name
 
@@ -12,7 +13,25 @@
 \.idea/workspace\.xml
 
 alien8\.iml
+
+out/production/alien8/Graphics/Board\.class
+
+out/production/alien8/Graphics/Board\$1\.class
+
+out/production/alien8/Graphics/Board\$2\.class
+
+out/production/alien8/Graphics/Board\$3\.class
+
+out/production/alien8/Graphics/Main\.class
+
+*.class
+
+out/production/alien8/Grid/
+
+out/production/alien8/META-INF/
 /bin/
 
+.idea
 .project
 .classpath
+
