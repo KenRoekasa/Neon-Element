@@ -149,6 +149,10 @@ public abstract class Character {
         currentElement = Elements.EARTH;
     }
 
+    public void changeToAir() {
+        currentElement = Elements.AIR;
+    }
+    
     public Rotate getPlayerAngle() {
         return playerAngle;
     }
