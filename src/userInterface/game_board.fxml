@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.paint.RadialGradient?>
@@ -16,8 +11,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Circle fill="#ff4e1f" layoutX="558.0" layoutY="321.0" radius="22.0" stroke="#c31111" strokeType="INSIDE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="13.0" />
-      <Circle fill="DODGERBLUE" layoutX="487.0" layoutY="334.0" radius="22.0" strokeType="INSIDE" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="84.0">
+      <Circle fx:id="fire" fill="#ff4e1f" layoutX="874.0" layoutY="629.0" radius="22.0" stroke="#c31111" strokeType="INSIDE" AnchorPane.bottomAnchor="28.0" AnchorPane.rightAnchor="27.0" />
+      <Circle fx:id="wind" fill="DODGERBLUE" layoutX="791.0" layoutY="645.0" radius="22.0" strokeType="INSIDE" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="110.0">
          <stroke>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -27,14 +22,14 @@
             </RadialGradient>
          </stroke>
       </Circle>
-      <Circle fill="#43a114" layoutX="517.0" layoutY="351.0" radius="22.0" stroke="#12a412" strokeType="INSIDE" AnchorPane.bottomAnchor="52.0" AnchorPane.rightAnchor="60.0" />
-      <Circle fill="WHITE" layoutX="565.0" layoutY="322.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="81.0" AnchorPane.rightAnchor="12.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#007bff" height="44.0" layoutX="-1.0" layoutY="-1.0" stroke="#007bff" strokeType="INSIDE" width="113.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blood:100/100" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.431640625" />
+      <Circle fx:id="earth" fill="#43a114" layoutX="824.0" layoutY="582.0" radius="22.0" stroke="#12a412" strokeType="INSIDE" AnchorPane.bottomAnchor="75.0" AnchorPane.rightAnchor="77.0" />
+      <Circle fx:id="snow" fill="WHITE" layoutX="884.0" layoutY="552.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="105.0" AnchorPane.rightAnchor="17.0" />
+      <Rectangle fx:id="info" arcHeight="5.0" arcWidth="5.0" fill="#007bff" height="44.0" layoutX="-1.0" layoutY="-1.0" stroke="#007bff" strokeType="INSIDE" width="113.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blood:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.431640625" />
       <Text fill="#f8f5f5" layoutX="9.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Speed:" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="24.431640625" />
       <HBox alignment="TOP_CENTER" layoutX="-3.0" layoutY="-2.0" prefHeight="69.0" prefWidth="606.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Polyline fill="#007bff" points="97.0, -73.99996948242188, 58.0, -17.0, -33.0, -17.0, -74.0, -73.99996948242188" stroke="#007bff" strokeType="INSIDE" HBox.hgrow="NEVER" />
+            <Polyline fx:id="timing_score" fill="#007bff" points="97.0, -73.99996948242188, 58.0, -17.0, -33.0, -17.0, -74.0, -73.99996948242188" stroke="#007bff" strokeType="INSIDE" HBox.hgrow="NEVER" />
          </children>
       </HBox>
    </children>

@@ -27,6 +27,11 @@ public class Renderer {
         scaleConstant = (double)99/70;
     }
 
+    public Renderer(GraphicsContext gc){
+        this.gc = gc;
+        scaleConstant = (double)99/70;
+    }
+
     public void drawMap(Rectangle stage, Rectangle board, Player player) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
