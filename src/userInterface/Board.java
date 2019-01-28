@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -52,7 +51,7 @@ public class Board extends Application {
         primaryStage.setTitle("Game");
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("board_new.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game_board.fxml"));
             Pane root = (Pane) loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
