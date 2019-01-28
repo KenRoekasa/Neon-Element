@@ -76,7 +76,7 @@ public abstract class Packet {
         byte[] data = new byte[dataLen];
         System.arraycopy(rawData, 1, data, 0, dataLen);
 
-        String str = new String(data);
+        String str = new String(data).trim();
         String[] parts = str.split(";");
 
         Packet packet;
@@ -90,6 +90,7 @@ public abstract class Packet {
                 break;
             case HELLO_ACK:
                 packet = new HelloAckPacket(parts, ipAddress, port);
+                break;
             default:
                 packet = null;
         }

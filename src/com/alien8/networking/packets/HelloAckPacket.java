@@ -15,8 +15,8 @@ public class HelloAckPacket extends Packet {
 
     protected HelloAckPacket(String[] data, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.HELLO_ACK, ipAddress, port);
-        this.players = Integer.parseInt(data[0]);
-        this.maxPlayers = Integer.parseInt(data[1]);
+        this.players = Integer.parseInt(data[1]);
+        this.maxPlayers = Integer.parseInt(data[2]);
     }
 
     public HelloAckPacket(int players, int maxPlayers, InetAddress ipAddress, int port) {
