@@ -14,7 +14,7 @@ public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
         Parent root = (Parent)loader.load();
         primaryStage.setTitle("Game");
 

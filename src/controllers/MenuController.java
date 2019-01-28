@@ -34,7 +34,19 @@ public class MenuController implements Initializable{
     }
 
     @FXML
-    public void handleBTNOptions(ActionEvent actionEvent){}
+    public void handleBTNOptions(ActionEvent actionEvent){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/Options.fxml"));
+            Parent root = (Parent)fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setTitle("Options");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @FXML
     public void handleBTNHelp(ActionEvent actionEvent){}

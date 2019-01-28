@@ -41,7 +41,7 @@ public class GameBoard {
         primaryStage.setTitle("Game");
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameBoard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game_board.fxml"));
             Pane root = (Pane) loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
