@@ -81,6 +81,8 @@ public abstract class Packet {
 
         Packet packet;
         PacketType type = PacketType.getTypeFromId(id);
+        
+        System.out.println("" + ipAddress + ":" + port + " --> " + type + " " + str);
 
         switch (type) {
             case HELLO:

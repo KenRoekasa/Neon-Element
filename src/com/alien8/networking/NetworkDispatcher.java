@@ -18,6 +18,7 @@ public abstract class NetworkDispatcher {
     protected void send(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
+            System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " <-- " + packet.getType() + " " + new String(data));
             DatagramPacket datagram = new DatagramPacket(data, data.length, packet.getIpAddress(), packet.getPort());
     
             try {
