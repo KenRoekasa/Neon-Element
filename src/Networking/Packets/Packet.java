@@ -18,7 +18,8 @@ public abstract class Packet {
         PacketType(byte id) {
             this.id = id;
         }
-
+        
+        
         byte getId() {
             return this.id;
         }
