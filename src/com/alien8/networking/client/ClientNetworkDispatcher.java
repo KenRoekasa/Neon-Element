@@ -15,7 +15,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     
     public void sendHello() {
         try {
-            Packet packet = new HelloPacket(InetAddress.getByName("192.168.43.147"), Constants.SERVER_LISTENING_PORT);
+            Packet packet = new HelloPacket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
