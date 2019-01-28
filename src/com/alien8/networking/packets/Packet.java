@@ -76,18 +76,18 @@ public abstract class Packet {
         byte[] data = new byte[dataLen];
         System.arraycopy(rawData, 1, data, 0, dataLen);
 
-        ByteBuffer buffer = ByteBuffer.allocate(Packet.PACKET_BYTES_LENGTH);
-        buffer.put(data);
+        String str = new String(data);
+        String[] parts = str.split(";");
 
         Packet packet;
         PacketType type = PacketType.getTypeFromId(id);
 
         switch (type) {
             case HELLO:
-                packet = new HelloPacket(buffer, ipAddress, port);
+                packet = new HelloPacket(parts, ipAddress, port);
                 break;
             case HELLO_ACK:
-                packet = new HelloAckPacket(buffer, ipAddress, port);
+                packet = new HelloAckPacket(parts, ipAddress, port);
             default:
                 packet = null;
         }

@@ -10,7 +10,7 @@ public class HelloPacket extends Packet {
     // 
     // = 0 bytes
 
-    protected HelloPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+    protected HelloPacket(String[] data, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.HELLO, ipAddress, port);
     }
 
