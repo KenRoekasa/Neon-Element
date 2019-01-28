@@ -1,10 +1,11 @@
 package Entities;
 
-import Enums.Elements;
 import Enums.Directions;
+import Enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -118,20 +119,20 @@ public abstract class Character {
         //set attack hit box in front of the user
         //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
         switch(characterDirection) {
-        case Directions.UP:
-        	attackHitBox.setX(location.getX() - WIDTH);
+        case UP:
+        	attackHitbox.setX(location.getX() - WIDTH);
         	attackHitbox.setY(location.getY() - WIDTH);
         	break;
-        case Directions.DOWN:
-        	attackHitBox.setX(location.getX() + WIDTH);
+        case DOWN:
+        	attackHitbox.setX(location.getX() + WIDTH);
         	attackHitbox.setY(location.getY() + WIDTH);
         	break;
-        case Directions.LEFT:
-        	attackHitBox.setX(location.getX() - WIDTH);
+        case LEFT:
+        	attackHitbox.setX(location.getX() - WIDTH);
         	attackHitbox.setY(location.getY() + WIDTH);
         	break;
-        case Directions.RIGHT:
-        	attackHitBox.setX(location.getX() + WIDTH);
+        case RIGHT:
+        	attackHitbox.setX(location.getX() + WIDTH);
         	attackHitbox.setY(location.getY() - WIDTH);
         	break;
         }
