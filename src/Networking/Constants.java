@@ -1,4 +1,4 @@
-package com.alien8.networking;
+package Networking;
 
 public class Constants {
     public static final String SERVER_ADDRESS = "";

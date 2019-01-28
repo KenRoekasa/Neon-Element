@@ -1,30 +1,33 @@
-package com.alien8.networking.client;
+package Networking.Server;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
-import com.alien8.networking.packets.*;
+import Networking.Constants;
+import Networking.Packets.*;
 
-public class ClientNetwork extends Thread {
-    
+public class ServerNetwork extends Thread {
     private boolean running;
     private DatagramSocket socket;
-    private ClientNetworkDispatcher dispatcher;
+    private ArrayList<PlayerConnection> connections;
+    private ServerNetworkDispatcher dispatcher;
 
-    public ClientNetwork() {
+    public ServerNetwork() {
         try {
-            this.socket = new DatagramSocket();
+            socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
         } catch (SocketException e) {
             e.printStackTrace();
         }
 
+        this.connections = new ArrayList<>();
         this.running = true;
-        this.dispatcher = new ClientNetworkDispatcher(this.socket);
+        this.dispatcher = new ServerNetworkDispatcher(this.socket);
     }
 
-    public ClientNetworkDispatcher getDispatcher() {
+    public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
@@ -50,14 +53,13 @@ public class ClientNetwork extends Thread {
 
     private void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        
+
         switch(packet.getType()) {
-            case HELLO_ACK:
-                this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
+            case HELLO:
+                this.dispatcher.receiveHello((HelloPacket) packet);
                 break;
             default:
                 // TODO: log invalid packet
         }
     }
-
 }

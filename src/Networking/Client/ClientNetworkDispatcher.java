@@ -1,11 +1,11 @@
-package com.alien8.networking.client;
+package Networking.Client;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import com.alien8.networking.Constants;
-import com.alien8.networking.NetworkDispatcher;
-import com.alien8.networking.packets.*;
+import Networking.Constants;
+import Networking.NetworkDispatcher;
+import Networking.Packets.*;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
 

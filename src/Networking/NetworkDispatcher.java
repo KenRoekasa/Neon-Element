@@ -1,11 +1,11 @@
-package com.alien8.networking;
+package Networking;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import com.alien8.networking.packets.Packet;
+import Networking.Packets.Packet;
 
 public abstract class NetworkDispatcher {
 

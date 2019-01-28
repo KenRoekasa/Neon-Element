@@ -1,4 +1,4 @@
-package com.alien8.networking.packets;
+package Networking.Packets;
 
 import java.net.InetAddress;
 import java.nio.ByteBuffer;

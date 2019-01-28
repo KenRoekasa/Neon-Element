@@ -1,4 +1,4 @@
-package com.alien8.networking.server;
+package Networking.Server;
 
 import java.net.InetAddress;
 

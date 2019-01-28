@@ -1,7 +1,7 @@
-package com.alien8.networking.test;
+package Networking.Test;
 
-import com.alien8.networking.client.ClientNetworkDispatcher;
-import com.alien8.networking.client.ClientNetwork;
+import Networking.Client.ClientNetwork;
+import Networking.Client.ClientNetworkDispatcher;
 
 public class ManualTestClient {
     public static void main(String[] args) {

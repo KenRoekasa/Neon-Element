@@ -1,9 +1,9 @@
-package com.alien8.networking.server;
+package Networking.Server;
 
 import java.net.DatagramSocket;
 
-import com.alien8.networking.NetworkDispatcher;
-import com.alien8.networking.packets.*;
+import Networking.NetworkDispatcher;
+import Networking.Packets.*;
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
 
