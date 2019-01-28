@@ -188,7 +188,7 @@ public class Board extends Application {
         enemies.get(0).setLocation(new Point2D(140,100));
 
         //detect collisions
-        CollisionDetection colDetection = new CollisionDetection(player, enemies);
+        Thread colDetection = new Thread(new CollisionDetection(player, enemies));
         colDetection.start();
 
     }

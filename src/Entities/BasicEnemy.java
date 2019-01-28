@@ -31,7 +31,7 @@ public class BasicEnemy extends Character {
 				
 				while (bool) {
 					
-					BasicEnemyFSM.nextAction(new ai.BasicEnemy(players), players[0]);
+					BasicEnemyFSM.nextAction(new ai.BasicEnemy(players[0]), players[0]);
 					
 					if (health<=0)
 						bool=false;
