@@ -1,7 +1,7 @@
-package Entities;
+package entities;
 
-import Calculations.DamageCalculation;
-import Enums.PlayerStates;
+import calculations.DamageCalculation;
+import enums.PlayerStates;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;

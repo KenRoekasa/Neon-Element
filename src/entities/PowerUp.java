@@ -1,11 +1,10 @@
-package Entities;
+package entities;
 
 
-import Enums.PowerUpType;
+import enums.PowerUpType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class PowerUp extends Thread{
