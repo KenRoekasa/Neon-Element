@@ -19,7 +19,7 @@ public class ClientTest {
 			int i = 8;
 			String data = String.valueOf(i);
 			InetAddress ip;
-			ip = InetAddress.getByName("192.168.43.199");
+			ip = InetAddress.getByName("147.188.195.100");
 			//ip = InetAddress.getLocalHost();
 
 			// byte data[] = new byte [Packet.PACKET_BYTES_LENGTH]; //create an empty packet
