@@ -1,13 +1,12 @@
-package Graphics;
+package graphics;
 
-import Debugger.Debugger;
-import Entities.CollisionDetection;
-import Entities.Player;
-import Entities.PowerUp;
+import debugger.Debugger;
+import entities.CollisionDetection;
+import entities.Player;
+import entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -19,7 +18,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 

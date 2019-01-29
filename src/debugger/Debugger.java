@@ -1,4 +1,4 @@
-package Debugger;
+package debugger;
 
 import javafx.scene.canvas.GraphicsContext;
 
