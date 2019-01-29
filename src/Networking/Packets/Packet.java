@@ -11,16 +11,30 @@ public abstract class Packet {
     public static enum PacketDirection { INCOMING, OUTGOING }
 
     public static enum PacketType {
-        HELLO((byte) 0x00), HELLO_ACK((byte) 0x01);
+        // Client -> Server                 // Server -> Client
+        HELLO                ((byte) 0x00), HELLO_ACK            ((byte) 0x01),
+        CONNECT              ((byte) 0x02), CONNECT_ACK          ((byte) 0x03),
+        DISCONNECT           ((byte) 0x04), DISCONNECT_ACK       ((byte) 0x05),
+        READY_STATE          ((byte) 0x06), HEALTH_STATE         ((byte) 0x07),
+        LOCATION_STATE       ((byte) 0x07), LOCATION_STATE_ACK   ((byte) 0x09),
+        ELEMENT_STATE        ((byte) 0x0A),
+        CAST_SPELL           ((byte) 0x0C),
+        POWERUP              ((byte) 0x0E),
+
+        // Broadcast from Server -> All Clients
+        CONNECT_BCAST        ((byte) 0xF0), DISCONNECT_BCAST     ((byte) 0xF1),
+        READY_STATE_BCAST    ((byte) 0xF2), LOCATION_STATE_BCAST ((byte) 0xF3),
+        ELEMENT_STATE_BCAST  ((byte) 0xF4), CAST_SPELL_BCAST     ((byte) 0xF5),
+        POWERUP_PICKUP_BCAST ((byte) 0xF6), POWERUP_STATE_BCAST  ((byte) 0xF7),
+        GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF);
 
         private byte id;
 
-        PacketType(byte id) {
+        private PacketType(byte id) {
             this.id = id;
         }
-        
-        
-        byte getId() {
+
+        protected byte getId() {
             return this.id;
         }
 
@@ -30,7 +44,6 @@ public abstract class Packet {
                     return t;
                 }
             }
-
             return null;
         }
     }
