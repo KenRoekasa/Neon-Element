@@ -9,25 +9,23 @@ import javafx.scene.transform.Rotate;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public abstract class Character {
+public abstract class Character extends PhysicsObject {
     protected float health;
-    protected Point2D location;
     protected Elements currentElement;
     protected Rotate playerAngle;
     protected Directions characterDirection;
     protected boolean isShielded;
     protected int movementSpeed;
-    protected final int WIDTH = 10;
     protected final float MAX_HEALTH = 100;
 
     private Timer timer = new Timer();
-    private Rectangle attackHitbox = new Rectangle(WIDTH, WIDTH);
+    private Rectangle attackHitbox = new Rectangle(width, width);
 
     public void moveUp() {
     	characterDirection = Directions.UP;
 
-        double yCheck = location.getY() - movementSpeed - WIDTH / 2f;
-        double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
+        double yCheck = location.getY() - movementSpeed - width / 2f;
+        double xCheck = location.getX() - movementSpeed - width / 2f;
 
         if (yCheck >= 0 && xCheck >= 0) {
             location = location.add(-movementSpeed, -movementSpeed);
@@ -37,8 +35,8 @@ public abstract class Character {
     public void moveDown(double boardWidth, double boardHeight) {
     	characterDirection = Directions.DOWN;
 
-        double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
-        double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
+        double yCheck = location.getY() + movementSpeed + width / 2f;
+        double xCheck = location.getX() + movementSpeed + width / 2f;
 
         if (yCheck <= boardHeight && xCheck <= boardWidth) {
             location = location.add(movementSpeed, movementSpeed);
@@ -48,8 +46,8 @@ public abstract class Character {
     public void moveLeft(double boardWidth) {
     	characterDirection = Directions.LEFT;
 
-        double xCheck = location.getX() - movementSpeed - WIDTH / 2f;
-        double yCheck = location.getY() + movementSpeed + WIDTH / 2f;
+        double xCheck = location.getX() - movementSpeed - width / 2f;
+        double yCheck = location.getY() + movementSpeed + width / 2f;
 
         if (xCheck >= 0 && yCheck <= boardWidth) {
             location = location.add(-movementSpeed, movementSpeed);
@@ -60,8 +58,8 @@ public abstract class Character {
     	characterDirection = Directions.RIGHT;
         //check within bounds
 
-        double xCheck = location.getX() + movementSpeed + WIDTH / 2f;
-        double yCheck = location.getY() - movementSpeed - WIDTH / 2f;
+        double xCheck = location.getX() + movementSpeed + width / 2f;
+        double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
         if (xCheck <= boardWidth && yCheck >= 0) {
@@ -72,20 +70,20 @@ public abstract class Character {
     public void moveUpCartesian() {
     	characterDirection = Directions.UP;
 
-        if ((location.getY() - movementSpeed - WIDTH / 2f) >= 0) {
+        if ((location.getY() - movementSpeed - width / 2f) >= 0) {
             location = location.add(0, -(movementSpeed * 2));
         } else {
-            location = new Point2D(location.getX(), 0 + WIDTH / 2f);
+            location = new Point2D(location.getX(), 0 + width / 2f);
         }
     }
 
     public void moveDownCartestian(double boardHeight) {
     	characterDirection = Directions.DOWN;
 
-        if ((location.getY() + movementSpeed + WIDTH / 2f) <= boardHeight) {
+        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
             location = location.add(0, (movementSpeed * 2));
         } else {
-            location = new Point2D(location.getX(), boardHeight - WIDTH / 2f);
+            location = new Point2D(location.getX(), boardHeight - width / 2f);
         }
 
     }
@@ -94,10 +92,10 @@ public abstract class Character {
     	characterDirection = Directions.LEFT;
 
         //check within bounds
-        if ((location.getX() - movementSpeed - WIDTH / 2f) >= 0) {
+        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
             location = location.add(-(movementSpeed * 2), 0);
         } else {
-            location = new Point2D(0 + WIDTH / 2f, location.getY());
+            location = new Point2D(0 + width / 2f, location.getY());
         }
 
     }
@@ -106,10 +104,10 @@ public abstract class Character {
     	characterDirection = Directions.RIGHT;
 
         //check within bounds
-        if ((location.getX() + movementSpeed + WIDTH / 2f) <= boardWidth) {
+        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
             location = location.add((movementSpeed * 2), 0);
         } else {
-            location = new Point2D(boardWidth - WIDTH / 2f, location.getY());
+            location = new Point2D(boardWidth - width / 2f, location.getY());
         }
     }
 
@@ -120,20 +118,20 @@ public abstract class Character {
         //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
         switch(characterDirection) {
         case UP:
-        	attackHitbox.setX(location.getX() - WIDTH);
-        	attackHitbox.setY(location.getY() - WIDTH);
+        	attackHitbox.setX(location.getX() - width);
+        	attackHitbox.setY(location.getY() - width);
         	break;
         case DOWN:
-        	attackHitbox.setX(location.getX() + WIDTH);
-        	attackHitbox.setY(location.getY() + WIDTH);
+        	attackHitbox.setX(location.getX() + width);
+        	attackHitbox.setY(location.getY() + width);
         	break;
         case LEFT:
-        	attackHitbox.setX(location.getX() - WIDTH);
-        	attackHitbox.setY(location.getY() + WIDTH);
+        	attackHitbox.setX(location.getX() - width);
+        	attackHitbox.setY(location.getY() + width);
         	break;
         case RIGHT:
-        	attackHitbox.setX(location.getX() + WIDTH);
-        	attackHitbox.setY(location.getY() - WIDTH);
+        	attackHitbox.setX(location.getX() + width);
+        	attackHitbox.setY(location.getY() - width);
         	break;
         }
 
@@ -144,7 +142,7 @@ public abstract class Character {
         //If another Character is in the Hitbox calculate the damage they take
         // How is damaged dealt throught the victim or the attacker or server
         for (Character p : otherCharacters) {
-            if (attackHitbox.intersects(p.getHitBox().getBoundsInParent())) {
+            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
                 //TODO: What happens when you hit another Character
                 //sends to server
             }
@@ -207,16 +205,8 @@ public abstract class Character {
     }
 
 
-    public Point2D getLocation() {
-        return location;
-    }
-
     public void setLocation(Point2D location) {
-        this.location = location.add(WIDTH / 2f, WIDTH / 2f);
-    }
-
-    public int getWidth() {
-        return WIDTH;
+        this.location = location.add(width / 2f, width / 2f);
     }
 
     public int getMovementSpeed() {
@@ -225,10 +215,6 @@ public abstract class Character {
 
     public float getHealth() {
         return health;
-    }
-
-    public Rectangle getHitBox() {
-        return new Rectangle(location.getX(), location.getY(), WIDTH, WIDTH);
     }
 
 

@@ -28,5 +28,16 @@ public class Player extends Character {
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
+        width = 20;
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void update() {
+
     }
 }

@@ -3,23 +3,18 @@ package Entities;
 
 import Enums.PowerUpType;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class PowerUp extends Thread{
-
-    private Point2D location;
-
-    private final int WIDTH = 10;
+public class PowerUp extends PhysicsObject {
 
     private PowerUpType type;
     private Player player;
 
 
-
     public PowerUp(Player player) {
+        width = 10;
+
         //Randomise the type of power up when it spawns
         Random rand = new Random();
         int typeInt = rand.nextInt(2);
@@ -40,24 +35,19 @@ public class PowerUp extends Thread{
         int randX = rand.nextInt(200);
         int randY = rand.nextInt(200);
 
+        //Todo: chage to randX randY
         location = new Point2D(0, 0);
 
 
         this.player = player;
     }
 
-
-    public Point2D getLocation() {
-        return location;
-    }
-
     public void setLocation(Point2D location) {
         this.location = location;
     }
 
-
-    public int getWIDTH() {
-        return WIDTH;
+    public void activatePowerUp(){
+        System.out.println("Power up is picked up");
     }
 
 
@@ -66,22 +56,15 @@ public class PowerUp extends Thread{
     }
 
 
-    public Rectangle getHitbox() {
-        return new Rectangle(location.getX(),location.getY(),WIDTH, WIDTH);
+
+    @Override
+    public void start() {
+
     }
 
     @Override
-    public void run() {
-        while(true){
-            //checks if the player has picked it up or not
-                if(getHitbox().intersects(player.getHitBox().getBoundsInParent())){
+    public void update() {
 
-                    System.out.println("Collided with pick up");
-                    break;
-                    //TODO: Code what to do when powerup is picked up
-
-
-            }
-        }
     }
 }
+

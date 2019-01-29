@@ -70,5 +70,15 @@ public class BasicEnemy extends Character implements Runnable {
     void setState(BasicEnemyStates s) {
         activeState = s;
     }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
     //basic enemy actions
 }
