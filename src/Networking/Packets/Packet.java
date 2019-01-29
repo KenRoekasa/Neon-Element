@@ -83,7 +83,7 @@ public abstract class Packet {
         buffer.put(this.type.getId());
         return buffer;
     }
-    
+
     protected static byte[] getBytesFromBuffer(ByteBuffer buffer) {
         return buffer.array();
     }
@@ -100,7 +100,7 @@ public abstract class Packet {
 
         Packet packet;
         PacketType type = PacketType.getTypeFromId(id);
-        
+
         System.out.println("" + ipAddress + ":" + port + " --> " + type);
 
         switch (type) {
@@ -115,6 +115,14 @@ public abstract class Packet {
         }
 
         return packet;
+    }
+
+    public static final byte getByteValue(boolean b) {
+        return (byte) (b ? 0x01 : 0x00);
+    }
+
+    public static final boolean getBooleanValue(byte b) {
+        return (b == (byte) 0x01);
     }
 
 }

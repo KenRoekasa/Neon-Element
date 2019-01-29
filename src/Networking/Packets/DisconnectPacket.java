@@ -3,21 +3,21 @@ package Networking.Packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-public class HelloPacket extends Packet {
+public class DisconnectPacket extends Packet {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // 
+    //
     // = 0 bytes
 
-    protected HelloPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.HELLO, ipAddress, port);
+    protected DisconnectPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+        super(PacketDirection.INCOMING, PacketType.DISCONNECT, ipAddress, port);
     }
 
-    public HelloPacket(InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.HELLO, ipAddress, port);
+    public DisconnectPacket(InetAddress ipAddress, int port) {
+        super(PacketDirection.OUTGOING, PacketType.DISCONNECT, ipAddress, port);
     }
-    
+
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         return Packet.getBytesFromBuffer(buffer);
