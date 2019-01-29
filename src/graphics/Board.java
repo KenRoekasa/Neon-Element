@@ -1,10 +1,9 @@
 package graphics;
 
-import Debugger.Debugger;
-import Entities.CollisionDetection;
-import Entities.PhysicsObject;
-import Entities.Player;
-import Entities.PowerUp;
+import debugger.Debugger;
+import entities.CollisionDetection;
+import entities.Player;
+import entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -21,7 +20,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class Board extends Application {
@@ -35,9 +33,7 @@ public class Board extends Application {
     private Rectangle stageSize;
 
     private Player player;
-    private ArrayList<PhysicsObject> objects;
     private ArrayList<Player> enemies;
-    private CollisionDetection colDec;
 
     public static void main(String[] args) {
         launch(args);
@@ -102,26 +98,7 @@ public class Board extends Application {
 
         gc = canvas.getGraphicsContext2D();
 
-
         initialise();
-
-        //All physics object start functions are called
-        player.start();
-        for (PhysicsObject o : objects) {
-            o.start();
-        }
-
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    gameLoop();
-                }
-            }
-        });
-        t.start();
-
 
         // tic 60 per sec
         new AnimationTimer() {
@@ -189,18 +166,12 @@ public class Board extends Application {
         //initialise map location
         board = new Rectangle(1500, 1500);
 
-        //Collision detection
-        colDec = new CollisionDetection();
-
-
-        objects = new ArrayList<PhysicsObject>();
-
-
+        //Collsion Detection loop
         player = new Player();
 
         //TODO: Remove
         //add a powerup
-        PowerUp pu = new PowerUp(player);
+        (new PowerUp(player)).start();
 
 
         // set player location to the top left of the map
@@ -211,35 +182,12 @@ public class Board extends Application {
 
         enemies = new ArrayList<>();
         enemies.add(new Player());
-        enemies.get(0).setLocation(new Point2D(140, 100));
-        //add the 1 power up to the objects list
-        objects.add(pu);
-        //Add the enemies to the objects list
-        objects.addAll(enemies);
+        enemies.get(0).setLocation(new Point2D(140,100));
 
+        //detect collisions
+        CollisionDetection colDetection = new CollisionDetection(player, enemies);
+        colDetection.start();
 
-    }
-
-    private void gameLoop() {
-        //Collision detection code
-        for (PhysicsObject e : objects) {
-            if (colDec.checkCollision(player, e)) {
-
-                //The player has collided with e do something
-
-                //If the object is a power up
-                if (Objects.equals(e.getClass(), PowerUp.class)) {
-                    PowerUp powerUp = (PowerUp) e;
-                    ((PowerUp) e).activatePowerUp();
-                }
-            }
-
-        }
-        //Call update function for all physics objects
-        player.update();
-        for (PhysicsObject o : objects) {
-            o.update();
-        }
     }
 
     private void handleInput(ArrayList<String> input) {

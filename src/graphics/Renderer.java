@@ -65,7 +65,7 @@ public class Renderer {
 
             applyIsoTransform(relativeLocation.getX(), relativeLocation.getY());
 
-            gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWidth() * scaleConstant, powerUp.getWidth() * scaleConstant);
+            gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWIDTH() * scaleConstant, powerUp.getWIDTH() * scaleConstant);
 
             gc.restore();
         }
