@@ -8,6 +8,7 @@ import Entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -19,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -45,7 +47,7 @@ public class Board extends Application {
 
 
     @Override
-    public void start(Stage stage) throws InterruptedException {
+    public void start(Stage stage) {
         // initial setup
         primaryStage = stage;
 
@@ -134,12 +136,12 @@ public class Board extends Application {
 
                 // draw to screen
                 renderer.drawMap(stageSize, board, player);
-                //renderer.drawerCursor(stageSize, player);
+                renderer.drawerCursor(stageSize, player);
                 //renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
-                //renderer.drawEnemies(stageSize, enemies, player);
+                renderer.drawEnemies(stageSize, enemies, player);
 
-                debugger.add((player.getLocation().toString()), 1);
+                debugger.add((player.getLocation().toString()),1);
 
                 debugger.print();
                 try {
@@ -159,14 +161,14 @@ public class Board extends Application {
     // possibilities are:
     // threading, faster angle calculation, both
     private void mouseAngleCalc(MouseEvent event) {
-        double opposite = primaryStage.getWidth() / 2 - event.getX();
+        double opposite = primaryStage.getWidth()/2 - event.getX();
 
-        double adjacent = primaryStage.getHeight() / 2 - event.getY();
+        double adjacent = primaryStage.getHeight()/2 - event.getY() - player.getWidth() * 99/70f;
 
-        double angle = Math.atan(Math.abs(opposite) / Math.abs(adjacent));
+        double angle = Math.atan(Math.abs(opposite)/Math.abs(adjacent));
         angle = Math.toDegrees(angle);
 
-        if (adjacent < 0 && opposite < 0) {
+        if(adjacent < 0 && opposite < 0) {
             angle = 180 - angle;
         } else if (adjacent < 0) {
             angle = angle + 180;
@@ -174,7 +176,7 @@ public class Board extends Application {
             angle = 360 - angle;
         }
 
-        if (angle - 45 >= 0) {
+        if(angle - 45 >= 0 ) {
             angle -= 45;
         } else {
             angle += 315;
@@ -262,7 +264,7 @@ public class Board extends Application {
                 player.moveUpCartesian();
             }
 
-            if (right && down) {
+            if (right && down){
                 player.moveRightCartesian(board.getWidth());
             }
         } else {
