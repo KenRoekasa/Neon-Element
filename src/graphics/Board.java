@@ -111,10 +111,10 @@ public class Board extends Application {
 
                 // draw to screen
                 renderer.drawMap(stageSize, board, player);
-                //renderer.drawerCursor(stageSize, player);
+                renderer.drawerCursor(stageSize, player);
                 //renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
-                //renderer.drawEnemies(stageSize, enemies, player);
+                renderer.drawEnemies(stageSize, enemies, player);
 
                 debugger.add((player.getLocation().toString()),1);
 
@@ -138,7 +138,7 @@ public class Board extends Application {
     private void mouseAngleCalc(MouseEvent event) {
         double opposite = primaryStage.getWidth()/2 - event.getX();
 
-        double adjacent = primaryStage.getHeight()/2 - event.getY();
+        double adjacent = primaryStage.getHeight()/2 - event.getY() - player.getWidth() * 99/70f;
 
         double angle = Math.atan(Math.abs(opposite)/Math.abs(adjacent));
         angle = Math.toDegrees(angle);
