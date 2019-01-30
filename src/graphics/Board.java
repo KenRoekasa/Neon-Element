@@ -7,6 +7,7 @@ import entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
@@ -22,7 +24,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 
-public class Board extends Application {
+public class Board {
 
     private Debugger debugger;
     private Renderer renderer;
@@ -35,24 +37,29 @@ public class Board extends Application {
     private Player player;
     private ArrayList<Player> enemies;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-    @Override
-    public void start(Stage stage) {
+    public Board(Stage stage) {
         // initial setup
         primaryStage = stage;
 
         primaryStage.setTitle("Game");
 
-        Group root = new Group();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
+
+        Pane root = new Pane();
+        try {
+            root = (Pane) loader.load();
+
+        } catch (Exception e){
+            // todo make this better
+            e.printStackTrace();
+            Platform.exit();
+            System.exit(0);
+        }
+
         Scene theScene = new Scene(root);
         primaryStage.setScene(theScene);
 
-        primaryStage.setFullScreen(true);
-        primaryStage.setResizable(false);
+        Group group = new Group();
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
@@ -66,8 +73,8 @@ public class Board extends Application {
 
         Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
-        root.getChildren().add(canvas);
-
+        group.getChildren().add(canvas);
+        root.getChildren().add(group);
 
         // stop collision detector when leaving the game - otherwise it never gets stopped
         // todo show this to kenny
@@ -112,7 +119,7 @@ public class Board extends Application {
                 // draw to screen
                 renderer.drawMap(stageSize, board, player);
                 renderer.drawerCursor(stageSize, player);
-                //renderer.drawCrosshair(stageSize);
+                renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
                 renderer.drawEnemies(stageSize, enemies, player);
 
@@ -131,6 +138,7 @@ public class Board extends Application {
         primaryStage.show();
 
     }
+
 
     // this needs to be made much more efficient !!!!
     // possibilities are:

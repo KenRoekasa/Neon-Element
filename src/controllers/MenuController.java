@@ -1,5 +1,6 @@
 package controllers;
 
+import graphics.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
-import userInterface.GameBoard;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +30,8 @@ public class MenuController implements Initializable{
 
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
-            GameBoard gameBoard = new GameBoard(stage);
+            Board gameBoard = new Board(stage);
+
     }
 
     @FXML

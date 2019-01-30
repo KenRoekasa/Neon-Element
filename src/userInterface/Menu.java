@@ -26,9 +26,12 @@ public class Menu extends Application {
         primaryStage.setHeight(height);
         primaryStage.setScene(new Scene(root, width, height));
 
+        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(false);
+
         /*pass current stage to following interactions*/
-        MenuController menuControllercontroller = (MenuController)loader.getController();
-        menuControllercontroller.setStage(primaryStage);
+        MenuController menuController = (MenuController)loader.getController();
+        menuController.setStage(primaryStage);
 
         primaryStage.show();
 
