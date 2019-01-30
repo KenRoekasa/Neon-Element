@@ -3,7 +3,7 @@ package Networking.Packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-public class PowerupPacket extends Packet {
+public class PowerUpPacket extends Packet {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -12,12 +12,12 @@ public class PowerupPacket extends Packet {
 
     private int powerupPickupId;
 
-    protected PowerupPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+    protected PowerUpPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.POWERUP, ipAddress, port);
         this.powerupPickupId = buffer.getInt();
     }
 
-    public PowerupPacket(InetAddress ipAddress, int port, int powerupPickupId) {
+    public PowerUpPacket(InetAddress ipAddress, int port, int powerupPickupId) {
         super(PacketDirection.OUTGOING, PacketType.POWERUP, ipAddress, port);
         this.powerupPickupId = powerupPickupId;
     }
