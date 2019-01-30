@@ -30,7 +30,8 @@ public class MenuController implements Initializable{
 
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
-            GameBoard gameBoard = new GameBoard(stage);
+            Board gameBoard = new Board(stage);
+
     }
 
     @FXML
