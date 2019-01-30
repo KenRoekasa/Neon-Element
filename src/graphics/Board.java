@@ -243,5 +243,4 @@ public class Board {
             player.moveDown(board.getWidth(), board.getHeight());
         }
     }
-
 }

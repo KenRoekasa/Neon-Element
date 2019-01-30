@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
-import userInterface.GameBoard;
 
 import java.io.IOException;
 import java.net.URL;
