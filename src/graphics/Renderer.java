@@ -1,35 +1,38 @@
-package Graphics;
+package graphics;
 
-import Debugger.Debugger;
-import Entities.Player;
-import Entities.PowerUp;
+import debugger.Debugger;
+import entities.Player;
+import entities.PowerUp;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
-import org.w3c.dom.css.Rect;
 
-import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 
 import static javafx.scene.transform.Rotate.X_AXIS;
 
 
-class Renderer {
+public class Renderer {
     private GraphicsContext gc;
     private Debugger debugger;
     private Double scaleConstant;
 
-    Renderer(GraphicsContext gc, Debugger debugger) {
+    public Renderer(GraphicsContext gc, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         // magic number 10/7 * 990/1000
         scaleConstant = (double)99/70;
     }
 
-    void drawMap(Rectangle stage, Rectangle board, Player player) {
+    public Renderer(GraphicsContext gc){
+        this.gc = gc;
+        scaleConstant = (double)99/70;
+    }
+
+    public void drawMap(Rectangle stage, Rectangle board, Player player) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
@@ -90,7 +93,7 @@ class Renderer {
         }
     }
 
-    void drawPlayer(Rectangle stage, Player player) {
+    public void drawPlayer(Rectangle stage, Player player) {
 
         // Point2D isoLocation = ISOConverter.twoDToIso(playerLocation);
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);

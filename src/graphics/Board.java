@@ -1,30 +1,31 @@
-package Graphics;
+package graphics;
 
-import Debugger.Debugger;
-import Entities.CollisionDetection;
-import Entities.Player;
-import Entities.PowerUp;
+import debugger.Debugger;
+import entities.CollisionDetection;
+import entities.Player;
+import entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 
 
-public class Board extends Application {
+public class Board {
 
     private Debugger debugger;
     private Renderer renderer;
@@ -37,39 +38,40 @@ public class Board extends Application {
     private Player player;
     private ArrayList<Player> enemies;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-    @Override
-    public void start(Stage stage) {
+    public Board(Stage stage) {
         // initial setup
         primaryStage = stage;
 
-        primaryStage.setTitle("Game");
+        // load hud
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
+        Pane hudPane = new Pane();
+        try {
+            hudPane = (Pane) loader.load();
+            //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
 
-        Group root = new Group();
-        Scene theScene = new Scene(root);
+
+
+        } catch (Exception e){
+            // todo make this better
+            System.out.println("Crash in loading hud in board");
+            e.printStackTrace();
+            Platform.exit();
+            System.exit(0);
+        }
+
+        Scene theScene = new Scene(hudPane);
+
+        //Scene theScene = primaryStage.getScene();
+
         primaryStage.setScene(theScene);
-
         primaryStage.setFullScreen(true);
-        primaryStage.setResizable(false);
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        // set Stage boundaries to visible bounds of the main screen
-        primaryStage.setX(primaryScreenBounds.getMinX());
-        primaryStage.setY(primaryScreenBounds.getMinY());
-        primaryStage.setWidth(primaryScreenBounds.getWidth());
-        primaryStage.setHeight(primaryScreenBounds.getHeight());
-
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
         Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
-        root.getChildren().add(canvas);
-
+        hudPane.getChildren().add(canvas);
 
         // stop collision detector when leaving the game - otherwise it never gets stopped
         // todo show this to kenny
@@ -113,10 +115,10 @@ public class Board extends Application {
 
                 // draw to screen
                 renderer.drawMap(stageSize, board, player);
-                //renderer.drawerCursor(stageSize, player);
+                renderer.drawerCursor(stageSize, player);
                 //renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
-                //renderer.drawEnemies(stageSize, enemies, player);
+                renderer.drawEnemies(stageSize, enemies, player);
 
                 debugger.add((player.getLocation().toString()),1);
 
@@ -130,9 +132,8 @@ public class Board extends Application {
             }
         }.start();
 
-        primaryStage.show();
-
     }
+
 
     // this needs to be made much more efficient !!!!
     // possibilities are:
@@ -140,7 +141,7 @@ public class Board extends Application {
     private void mouseAngleCalc(MouseEvent event) {
         double opposite = primaryStage.getWidth()/2 - event.getX();
 
-        double adjacent = primaryStage.getHeight()/2 - event.getY();
+        double adjacent = primaryStage.getHeight()/2 - event.getY() - player.getWidth() * 99/70f;
 
         double angle = Math.atan(Math.abs(opposite)/Math.abs(adjacent));
         angle = Math.toDegrees(angle);
@@ -237,5 +238,4 @@ public class Board extends Application {
             player.moveDown(board.getWidth(), board.getHeight());
         }
     }
-
 }

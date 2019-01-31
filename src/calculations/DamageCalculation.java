@@ -1,6 +1,6 @@
-package Calculations;
+package calculations;
 
-import Entities.Player;
+import entities.Player;
 
 public class DamageCalculation {
 
