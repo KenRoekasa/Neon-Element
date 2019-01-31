@@ -2,6 +2,7 @@ package graphics;
 
 import debugger.Debugger;
 import entities.CollisionDetection;
+import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
 import javafx.animation.AnimationTimer;
@@ -23,6 +24,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Board {
@@ -36,7 +38,11 @@ public class Board {
     private Rectangle stageSize;
 
     private Player player;
+    private ArrayList<PhysicsObject> objects;
     private ArrayList<Player> enemies;
+    private CollisionDetection colDec;
+
+
 
     public Board(Stage stage) {
         // initial setup
@@ -105,6 +111,19 @@ public class Board {
 
         initialise();
 
+
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    gameLoop();
+                }
+            }
+        });
+        t.start();
+
+
         // tic 60 per sec
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
@@ -170,12 +189,15 @@ public class Board {
         //initialise map location
         board = new Rectangle(1500, 1500);
 
-        //Collsion Detection loop
+
+        objects = new ArrayList<PhysicsObject>();
+
+
         player = new Player();
 
         //TODO: Remove
         //add a powerup
-        (new PowerUp(player)).start();
+        PowerUp pu = new PowerUp(player);
 
 
         // set player location to the top left of the map
@@ -186,12 +208,36 @@ public class Board {
 
         enemies = new ArrayList<>();
         enemies.add(new Player());
-        enemies.get(0).setLocation(new Point2D(140,100));
+        enemies.get(0).setLocation(new Point2D(140, 100));
+        //add the 1 power up to the objects list
+        objects.add(pu);
+        //Add the enemies to the objects list
+        objects.addAll(enemies);
 
-        //detect collisions
-        CollisionDetection colDetection = new CollisionDetection(player, enemies);
-        colDetection.start();
 
+    }
+
+    private void gameLoop() {
+        // Collision detection code
+        for (PhysicsObject e : objects) {
+            if (CollisionDetection.checkCollision(player, e)) {
+
+                //The player has collided with e do something
+                player.isColliding(player.getBounds().getX()-e.getBounds().getX(), player.getBounds().getY()-e.getBounds().getY());
+
+                //If the object is a power up
+                if (Objects.equals(e.getClass(), PowerUp.class)) {
+                    PowerUp powerUp = (PowerUp) e;
+                    ((PowerUp) e).activatePowerUp();
+                }
+            }
+
+        }
+        //Call update function for all physics objects
+        player.update();
+        for (PhysicsObject o : objects) {
+            o.update();
+        }
     }
 
     private void handleInput(ArrayList<String> input) {
