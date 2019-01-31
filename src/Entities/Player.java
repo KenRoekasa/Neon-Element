@@ -1,13 +1,8 @@
 package Entities;
 
-import Calculations.DamageCalculation;
 import Enums.Elements;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 
 public class Player extends Character {
@@ -31,13 +26,14 @@ public class Player extends Character {
         width = 20;
     }
 
-    @Override
-    public void start() {
-
-    }
 
     @Override
-    public void update() {
+    public void update() { // Called every game tick, put location updates server sending etc... here
+        if(health <0){
+            isAlive = false;
+        }else{
+            isAlive = true;
+        }
 
     }
 }

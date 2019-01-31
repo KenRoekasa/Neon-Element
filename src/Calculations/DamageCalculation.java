@@ -59,7 +59,7 @@ public class DamageCalculation {
 
     //The amount the damaged is reduced by, due to the shields in percentage
     public float calculateMitgation(Player attackingPlayer, Player victim) {
-        if (victim.getIsShielded()) {
+        if (victim.isShielded()) {
             switch (attackingPlayer.getCurrentElement()) {
                 case FIRE:
                     switch (victim.getCurrentElement()) {

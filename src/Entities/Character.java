@@ -17,12 +17,16 @@ public abstract class Character extends PhysicsObject {
     protected boolean isShielded;
     protected int movementSpeed;
     protected final float MAX_HEALTH = 100;
+    protected boolean isAlive = true;
+
+    //TODO: Change the access modifier
+    public boolean isColliding;
 
     private Timer timer = new Timer();
     private Rectangle attackHitbox = new Rectangle(width, width);
 
     public void moveUp() {
-    	characterDirection = Directions.UP;
+        characterDirection = Directions.UP;
 
         double yCheck = location.getY() - movementSpeed - width / 2f;
         double xCheck = location.getX() - movementSpeed - width / 2f;
@@ -30,10 +34,12 @@ public abstract class Character extends PhysicsObject {
         if (yCheck >= 0 && xCheck >= 0) {
             location = location.add(-movementSpeed, -movementSpeed);
         }
+
+
     }
 
     public void moveDown(double boardWidth, double boardHeight) {
-    	characterDirection = Directions.DOWN;
+        characterDirection = Directions.DOWN;
 
         double yCheck = location.getY() + movementSpeed + width / 2f;
         double xCheck = location.getX() + movementSpeed + width / 2f;
@@ -44,7 +50,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveLeft(double boardWidth) {
-    	characterDirection = Directions.LEFT;
+        characterDirection = Directions.LEFT;
 
         double xCheck = location.getX() - movementSpeed - width / 2f;
         double yCheck = location.getY() + movementSpeed + width / 2f;
@@ -55,7 +61,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveRight(double boardWidth, double boardHeight) {
-    	characterDirection = Directions.RIGHT;
+        characterDirection = Directions.RIGHT;
         //check within bounds
 
         double xCheck = location.getX() + movementSpeed + width / 2f;
@@ -68,7 +74,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveUpCartesian() {
-    	characterDirection = Directions.UP;
+        characterDirection = Directions.UP;
 
         if ((location.getY() - movementSpeed - width / 2f) >= 0) {
             location = location.add(0, -(movementSpeed * 2));
@@ -78,7 +84,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveDownCartestian(double boardHeight) {
-    	characterDirection = Directions.DOWN;
+        characterDirection = Directions.DOWN;
 
         if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
             location = location.add(0, (movementSpeed * 2));
@@ -89,7 +95,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveLeftCartesian() {
-    	characterDirection = Directions.LEFT;
+        characterDirection = Directions.LEFT;
 
         //check within bounds
         if ((location.getX() - movementSpeed - width / 2f) >= 0) {
@@ -101,7 +107,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveRightCartesian(double boardWidth) {
-    	characterDirection = Directions.RIGHT;
+        characterDirection = Directions.RIGHT;
 
         //check within bounds
         if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
@@ -113,26 +119,25 @@ public abstract class Character extends PhysicsObject {
 
     public void lightAttack() {
         int damage = 3;
-
         //set attack hit box in front of the user
         //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
-        switch(characterDirection) {
-        case UP:
-        	attackHitbox.setX(location.getX() - width);
-        	attackHitbox.setY(location.getY() - width);
-        	break;
-        case DOWN:
-        	attackHitbox.setX(location.getX() + width);
-        	attackHitbox.setY(location.getY() + width);
-        	break;
-        case LEFT:
-        	attackHitbox.setX(location.getX() - width);
-        	attackHitbox.setY(location.getY() + width);
-        	break;
-        case RIGHT:
-        	attackHitbox.setX(location.getX() + width);
-        	attackHitbox.setY(location.getY() - width);
-        	break;
+        switch (characterDirection) {
+            case UP:
+                attackHitbox.setX(location.getX() - width);
+                attackHitbox.setY(location.getY() - width);
+                break;
+            case DOWN:
+                attackHitbox.setX(location.getX() + width);
+                attackHitbox.setY(location.getY() + width);
+                break;
+            case LEFT:
+                attackHitbox.setX(location.getX() - width);
+                attackHitbox.setY(location.getY() + width);
+                break;
+            case RIGHT:
+                attackHitbox.setX(location.getX() + width);
+                attackHitbox.setY(location.getY() - width);
+                break;
         }
 
         //temp array for the other players
@@ -161,7 +166,6 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
-
         //need code to unshield after a certain duration
         isShielded = true;
 
@@ -170,11 +174,11 @@ public abstract class Character extends PhysicsObject {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
-            	if(timeCtr[0] ==10) {
-            		isShielded = false;
-            		timer.cancel();
-            	}
-            	timeCtr[0]++;
+                if (timeCtr[0] == 10) {
+                    isShielded = false;
+                    timer.cancel();
+                }
+                timeCtr[0]++;
             }
         }, 0, 1000);
 
@@ -217,12 +221,6 @@ public abstract class Character extends PhysicsObject {
         return health;
     }
 
-
-    public boolean getIsShielded() {
-        return isShielded;
-    }
-
-
     public Elements getCurrentElement() {
         return currentElement;
     }
@@ -236,4 +234,12 @@ public abstract class Character extends PhysicsObject {
         return MAX_HEALTH;
     }
 
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void isColliding(double xDiff, double yDiff) {
+        location = location.add(xDiff,yDiff);
+
+    }
 }

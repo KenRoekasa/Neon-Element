@@ -71,10 +71,6 @@ public class BasicEnemy extends Character implements Runnable {
         activeState = s;
     }
 
-    @Override
-    public void start() {
-
-    }
 
     @Override
     public void update() {

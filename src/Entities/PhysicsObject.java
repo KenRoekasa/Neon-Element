@@ -7,8 +7,6 @@ public abstract class PhysicsObject {
     protected int width;
     protected Point2D location;
 
-    public abstract void start();
-
     // Update function will run on all physics object in the game, will constantly be called.
     // Add like send to server / location update in here
     public abstract void update();

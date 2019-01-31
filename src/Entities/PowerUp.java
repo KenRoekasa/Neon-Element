@@ -10,6 +10,7 @@ public class PowerUp extends PhysicsObject {
 
     private PowerUpType type;
     private Player player;
+    private boolean isActive = true;
 
 
     public PowerUp(Player player) {
@@ -47,7 +48,10 @@ public class PowerUp extends PhysicsObject {
     }
 
     public void activatePowerUp(){
-        System.out.println("Power up is picked up");
+        if(isActive){
+            System.out.println("Power up is picked up");
+            isActive = false;
+        }
     }
 
 
@@ -55,12 +59,6 @@ public class PowerUp extends PhysicsObject {
         return type;
     }
 
-
-
-    @Override
-    public void start() {
-
-    }
 
     @Override
     public void update() {

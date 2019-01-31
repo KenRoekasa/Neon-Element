@@ -39,7 +39,6 @@ public class Board extends Application {
     private Player player;
     private ArrayList<PhysicsObject> objects;
     private ArrayList<Player> enemies;
-    private CollisionDetection colDec;
 
     public static void main(String[] args) {
         launch(args);
@@ -108,11 +107,6 @@ public class Board extends Application {
 
         initialise();
 
-        //All physics object start functions are called
-        player.start();
-        for (PhysicsObject o : objects) {
-            o.start();
-        }
 
 
         Thread t = new Thread(new Runnable() {
@@ -193,7 +187,7 @@ public class Board extends Application {
         board = new Rectangle(1500, 1500);
 
         //Collision detection
-        colDec = new CollisionDetection();
+
 
 
         objects = new ArrayList<PhysicsObject>();
@@ -224,11 +218,12 @@ public class Board extends Application {
     }
 
     private void gameLoop() {
-        //Collision detection code
+        // Collision detection code
         for (PhysicsObject e : objects) {
-            if (colDec.checkCollision(player, e)) {
+            if (CollisionDetection.checkCollision(player, e)) {
 
                 //The player has collided with e do something
+                player.isColliding(player.getBounds().getX()-e.getBounds().getX(), player.getBounds().getY()-e.getBounds().getY());
 
                 //If the object is a power up
                 if (Objects.equals(e.getClass(), PowerUp.class)) {
