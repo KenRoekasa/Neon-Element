@@ -1,17 +1,15 @@
-package Graphics;
+package graphics;
 
-import Debugger.Debugger;
-import Entities.Player;
-import Entities.PowerUp;
+import debugger.Debugger;
+import entities.Player;
+import entities.PowerUp;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
-import org.w3c.dom.css.Rect;
 
-import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 
 import static javafx.scene.transform.Rotate.X_AXIS;

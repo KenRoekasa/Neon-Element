@@ -1,6 +1,4 @@
-package Entities;
-
-import java.util.ArrayList;
+package entities;
 
 public class CollisionDetection {
 

@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;

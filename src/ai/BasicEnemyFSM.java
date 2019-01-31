@@ -1,11 +1,12 @@
 package ai;
-import Entities.Character;
+import entities.Character;
 import javafx.geometry.Point2D;
-import Enums.Elements;
+import enums.Elements;
+import entities.BasicEnemy;
 
 //finite state machine class which acts as a brain; switches between states and elements when appropriate
 public class BasicEnemyFSM {
-	
+	/*
 	
 	public static void nextAction(BasicEnemy enemy, Character player) {
 
@@ -30,5 +31,5 @@ public class BasicEnemyFSM {
 		
 		
 	}
-	
+	*/
 }

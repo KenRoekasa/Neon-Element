@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 
 import ai.BasicEnemyFSM;
@@ -8,11 +8,11 @@ import java.util.Random;
 
 
 public class BasicEnemy extends Character {
-
+/*
     BasicEnemyStates activeState;
     Character[] players;
 
-    public BasicEnemy(Character players[]) {
+    public BasicEnemy(Character players) {
 
         activeState = BasicEnemyStates.IDLE;
         assignRandomElement();
@@ -32,7 +32,7 @@ public class BasicEnemy extends Character {
 
                 while (bool) {
 
-                    BasicEnemyFSM.nextAction(new ai.BasicEnemy(players[0]), players[0]);
+                    BasicEnemyFSM.nextAction(new BasicEnemy(players[0]), players[0]);
 
                     if (health <= 0)
                         bool = false;
@@ -43,10 +43,6 @@ public class BasicEnemy extends Character {
 
     }
 
-    @Override
-    public void update() {
-
-    }
 
     void assignRandomElement() {
 
@@ -69,7 +65,7 @@ public class BasicEnemy extends Character {
     }
 
 
-    BasicEnemyStates getActiveState() {
+    public BasicEnemyStates getActiveState() {
         return activeState;
     }
 
@@ -77,4 +73,10 @@ public class BasicEnemy extends Character {
         activeState = s;
     }
     //basic enemy actions
+    */
+@Override
+public void update() {
+
+}
+
 }

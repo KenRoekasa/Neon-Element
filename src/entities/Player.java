@@ -1,6 +1,6 @@
-package Entities;
+package entities;
 
-import Enums.Elements;
+import enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 

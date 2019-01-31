@@ -1,7 +1,7 @@
-package Entities;
+package entities;
 
 
-import Enums.PowerUpType;
+import enums.PowerUpType;
 import javafx.geometry.Point2D;
 
 import java.util.Random;

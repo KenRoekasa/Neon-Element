@@ -1,7 +1,7 @@
-package Entities;
+package entities;
 
-import Enums.Directions;
-import Enums.Elements;
+import enums.Directions;
+import enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
