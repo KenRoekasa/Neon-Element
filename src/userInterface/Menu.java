@@ -30,8 +30,8 @@ public class Menu extends Application {
         primaryStage.setResizable(false);
 
         /*pass current stage to following interactions*/
-        MenuController menuControllercontroller = (MenuController)loader.getController();
-        menuControllercontroller.setStage(primaryStage);
+        MenuController menuController = (MenuController)loader.getController();
+        menuController.setStage(primaryStage);
 
         primaryStage.show();
 
