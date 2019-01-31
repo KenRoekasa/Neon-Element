@@ -15,23 +15,27 @@ public class Menu extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
-        Parent root = (Parent)loader.load();
+        Parent root = loader.load();
         primaryStage.setTitle("Game");
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
         Double width = primaryScreenBounds.getWidth();
         Double height = primaryScreenBounds.getHeight();
 
-        primaryStage.setWidth(width);
-        primaryStage.setHeight(height);
+        //force screen size
+        primaryStage.setMinWidth(width);
+        primaryStage.setMinHeight(height);
+        primaryStage.setMaxWidth(width);
+        primaryStage.setMaxHeight(height);
+
         primaryStage.setScene(new Scene(root, width, height));
 
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
 
         /*pass current stage to following interactions*/
-        MenuController menuControllercontroller = (MenuController)loader.getController();
-        menuControllercontroller.setStage(primaryStage);
+        MenuController menuController = loader.getController();
+        menuController.setStage(primaryStage);
 
         primaryStage.show();
 

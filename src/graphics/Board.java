@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -41,40 +42,36 @@ public class Board {
         // initial setup
         primaryStage = stage;
 
-        primaryStage.setTitle("Game");
-
+        // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
-
-        Pane root = new Pane();
+        Pane hudPane = new Pane();
         try {
-            root = (Pane) loader.load();
+            hudPane = (Pane) loader.load();
+            //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
+
+
 
         } catch (Exception e){
             // todo make this better
+            System.out.println("Crash in loading hud in board");
             e.printStackTrace();
             Platform.exit();
             System.exit(0);
         }
 
-        Scene theScene = new Scene(root);
-        primaryStage.setScene(theScene);
+        Scene theScene = new Scene(hudPane);
 
-        Group group = new Group();
+        //Scene theScene = primaryStage.getScene();
+
+        primaryStage.setScene(theScene);
+        primaryStage.setFullScreen(true);
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        // set Stage boundaries to visible bounds of the main screen
-        primaryStage.setX(primaryScreenBounds.getMinX());
-        primaryStage.setY(primaryScreenBounds.getMinY());
-        primaryStage.setWidth(primaryScreenBounds.getWidth());
-        primaryStage.setHeight(primaryScreenBounds.getHeight());
-
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
         Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
-        group.getChildren().add(canvas);
-        root.getChildren().add(group);
+        hudPane.getChildren().add(canvas);
 
         // stop collision detector when leaving the game - otherwise it never gets stopped
         // todo show this to kenny
@@ -119,7 +116,7 @@ public class Board {
                 // draw to screen
                 renderer.drawMap(stageSize, board, player);
                 renderer.drawerCursor(stageSize, player);
-                renderer.drawCrosshair(stageSize);
+                //renderer.drawCrosshair(stageSize);
                 renderer.drawPlayer(stageSize, player);
                 renderer.drawEnemies(stageSize, enemies, player);
 
@@ -134,8 +131,6 @@ public class Board {
 
             }
         }.start();
-
-        primaryStage.show();
 
     }
 
