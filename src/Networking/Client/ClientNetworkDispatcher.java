@@ -8,9 +8,15 @@ import Networking.NetworkDispatcher;
 import Networking.Packets.*;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
-
+	
+	protected String serverAddress; 
     protected ClientNetworkDispatcher(DatagramSocket socket) {
         super(socket);
+    }
+    
+    protected ClientNetworkDispatcher(DatagramSocket socket, String serverAddress) {
+        super(socket);
+        this.serverAddress = serverAddress;
     }
     
     public void sendHello() {
@@ -26,6 +32,10 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         int players = packet.getPlayers();
         int maxPlayers = packet.getMaxPlayers();
         System.out.println("Got players: " + players + " max: " + maxPlayers);
+    }
+    
+    protected String getServerAddress() {
+    	return serverAddress;
     }
 
 }

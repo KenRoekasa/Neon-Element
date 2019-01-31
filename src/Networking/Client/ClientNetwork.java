@@ -8,7 +8,7 @@ import java.net.SocketException;
 import Networking.Packets.*;
 
 public class ClientNetwork extends Thread {
-    
+    protected String name;
     protected boolean running;
     protected DatagramSocket socket;
     private ClientNetworkDispatcher dispatcher;
@@ -24,6 +24,19 @@ public class ClientNetwork extends Thread {
         this.dispatcher = new ClientNetworkDispatcher(this.socket);
     }
 
+    //This clinet cons takes in the serverAddresws and playerName in as an arg from the command line
+    public ClientNetwork(String name, String serverAddress) {
+        try {
+            this.socket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        this.running = true;
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddress);
+        this.name = name;
+    }
+    
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }

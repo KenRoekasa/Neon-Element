@@ -5,12 +5,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import Networking.Constants;
 import Networking.Packets.*;
 
 public class ServerNetwork extends Thread {
 	//changed it to protected
+	//private UUID severUID = UUID.randomUUID();
+
     protected boolean running;
     protected DatagramSocket socket;
     private ArrayList<PlayerConnection> connections;
