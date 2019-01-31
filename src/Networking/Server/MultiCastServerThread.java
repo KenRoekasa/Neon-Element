@@ -1,6 +1,7 @@
 package Networking.Server;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -15,9 +16,21 @@ public class MultiCastServerThread extends ServerNetwork{
     protected BufferedReader in = null;
     protected boolean moreQuotes = true;
 
+    
+    public MultiCastServerThread() {
+    	try {
+			in = new BufferedReader(new FileReader("/home/students/kxf672/work/2ndYear/TeamProject/alien8/src/Networking/Test/one-liners.txt"));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    }
 	public void run() {
+		
         while (this.running) {
         	try {
+        		
+        		
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
             
             String dString = null;
@@ -29,7 +42,7 @@ public class MultiCastServerThread extends ServerNetwork{
 			
 			
 			
-			in = new BufferedReader(new FileReader("one-liners.txt"));
+			
 			
 			
 			/*The hard-coded port number is SERVER_LISTENING_PORT (the client must have a MulticastSocket bound to this port). 
@@ -42,10 +55,15 @@ public class MultiCastServerThread extends ServerNetwork{
              * 
              * 
              * */
-			InetAddress group = InetAddress.getByName("172.20.10.3");
+			InetAddress group = InetAddress.getByName("224.0.0.8");
             DatagramPacket packet = new DatagramPacket(data, data.length, group, Constants.SERVER_LISTENING_PORT);
           
-
+            try {
+    			in = new BufferedReader(new FileReader("/home/students/kxf672/work/2ndYear/TeamProject/alien8/src/Networking/Test/one-liners.txt"));
+    		} catch (FileNotFoundException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
             this.socket.send(packet);
                // this.socket.receive(packet);
                 
@@ -66,12 +84,15 @@ public class MultiCastServerThread extends ServerNetwork{
 	protected String getNextQuote() {
         String returnValue = null;
         try {
-            if ((returnValue = in.readLine()) == null) {
+        	returnValue = in.readLine();
+            if ((returnValue) == null) {
                 in.close();
 		moreQuotes = false;
                 returnValue = "No more quotes. Goodbye.";
             }
         } catch (IOException e) {
+        	
+        	System.out.println(e.getLocalizedMessage());
             returnValue = "IOException occurred in server.";
         }
         return returnValue;

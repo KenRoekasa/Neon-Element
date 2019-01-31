@@ -5,9 +5,9 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-import Networking.Constants;
+//import Networking.Constants;
 
-import Networking.Packets.Packet;
+//import Networking.Packets.Packet;
 
 public class MultiCastClient  {
 	
@@ -21,14 +21,14 @@ public class MultiCastClient  {
 				 * the InetAddress that identifies the group. 
 				 * Now, the client is set up to receive DatagramPackets destined for the port and group specified. 
 				  */
-				MulticastSocket socket = new MulticastSocket(Constants.SERVER_LISTENING_PORT);
-				InetAddress group = InetAddress.getByName(Constants.SERVER_ADDRESS);
+				MulticastSocket socket = new MulticastSocket(8888);
+				InetAddress group = InetAddress.getByName("224.0.0.8");
 				socket.joinGroup(group);
 
-				byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
+				byte[] data = new byte[16];
 				DatagramPacket packet;
 				
-				for (int i = 0; i < 5; i++) {
+				 while(true) {
 
 				    byte[] buf = new byte[256];
 			            packet = new DatagramPacket(buf, buf.length);
@@ -39,8 +39,8 @@ public class MultiCastClient  {
 
 				}
 				
-				socket.leaveGroup(group);
-				socket.close();
+				/*socket.leaveGroup(group);
+				socket.close();*/
 	
 }
 	
