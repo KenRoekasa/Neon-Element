@@ -25,7 +25,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     protected void receiveHelloAck(HelloAckPacket packet) {
         int players = packet.getPlayers();
         int maxPlayers = packet.getMaxPlayers();
-        System.out.println("Got players" + players + " max:" + maxPlayers);
+        System.out.println("Got players: " + players + " max: " + maxPlayers);
     }
 
 }

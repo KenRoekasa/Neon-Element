@@ -9,8 +9,8 @@ import Networking.Packets.*;
 
 public class ClientNetwork extends Thread {
     
-    private boolean running;
-    private DatagramSocket socket;
+    protected boolean running;
+    protected DatagramSocket socket;
     private ClientNetworkDispatcher dispatcher;
 
     public ClientNetwork() {
@@ -48,7 +48,7 @@ public class ClientNetwork extends Thread {
         }
     }
 
-    private void parse(DatagramPacket datagram) {
+    protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
         
         switch(packet.getType()) {

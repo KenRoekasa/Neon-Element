@@ -28,6 +28,7 @@ public class ConnectAckPacket extends Packet {
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
+        	//this identifier has been placed twice
         buffer.put(getByteValue(this.allowed));
         return Packet.getBytesFromBuffer(buffer);
     }

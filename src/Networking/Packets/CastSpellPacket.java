@@ -30,7 +30,8 @@ public class CastSpellPacket extends Packet {
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
-        buffer.put(this.spell.getId());
+        //this method getByteBuffer() already places the id of the spell into the first position of the buffer array. 
+        //buffer.put(this.spell.getId());
         return Packet.getBytesFromBuffer(buffer);
     }
 

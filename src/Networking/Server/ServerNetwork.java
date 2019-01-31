@@ -10,8 +10,9 @@ import Networking.Constants;
 import Networking.Packets.*;
 
 public class ServerNetwork extends Thread {
-    private boolean running;
-    private DatagramSocket socket;
+	//changed it to protected
+    protected boolean running;
+    protected DatagramSocket socket;
     private ArrayList<PlayerConnection> connections;
     private ServerNetworkDispatcher dispatcher;
 
@@ -51,7 +52,7 @@ public class ServerNetwork extends Thread {
         }
     }
 
-    private void parse(DatagramPacket datagram) {
+    protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
 
         switch(packet.getType()) {
