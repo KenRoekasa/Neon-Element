@@ -2,6 +2,7 @@ package client;
 
 import client.GameState;
 import client.InputHandler;
+import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
@@ -97,6 +98,8 @@ public class ClientBoard {
 
             }
         }.start();
+
+//        gig
     }
 
 
@@ -149,7 +152,7 @@ public class ClientBoard {
             o.update();
         }
 
-        // Power up creation thread
+
 
 
 
