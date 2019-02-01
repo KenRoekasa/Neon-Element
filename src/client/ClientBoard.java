@@ -99,7 +99,10 @@ public class ClientBoard {
             }
         }.start();
 
-//        gig
+        (new Thread(new PowerUpController(gameState.getObjects()))).start();
+
+
+
     }
 
 
@@ -127,31 +130,31 @@ public class ClientBoard {
 
     private void clientLoop() {
         InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
-
-        // Collision detection code
-        for (PhysicsObject e : gameState.getObjects()) {
-            if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                //If the object is a power up
-                if (Objects.equals(e.getClass(), PowerUp.class)) {
-                    PowerUp powerUp = (PowerUp) e;
-                    ((PowerUp) e).activatePowerUp(gameState.getPlayer());
-                }else{
-                    //The player has collided with e do something
-                    gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-//                    System.out.println("x diff " + xDiff);
-//                    System.out.println("y diff " + yDiff);
-                    gameState.getPlayer().isColliding(e);
+        synchronized (gameState.getObjects()) {
+            // Collision detection code
+            for (PhysicsObject e : gameState.getObjects()) {
+                if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
+                    //If the object is a power up
+                    if (Objects.equals(e.getClass(), PowerUp.class)) {
+                        PowerUp powerUp = (PowerUp) e;
+                        ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+                    } else {
+                        //The player has collided with e do something
+                        gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+                        //                    System.out.println("x diff " + xDiff);
+                        //                    System.out.println("y diff " + yDiff);
+                        gameState.getPlayer().isColliding(e);
+                    }
+                } else {
+                    gameState.getPlayer().isColliding = false;
                 }
-            }else{
-                gameState.getPlayer().isColliding = false;
+            }
+            //Call update function for all physics objects
+            gameState.getPlayer().update();
+            for (PhysicsObject o : gameState.getObjects()) {
+                o.update();
             }
         }
-        //Call update function for all physics objects
-        gameState.getPlayer().update();
-        for (PhysicsObject o : gameState.getObjects()) {
-            o.update();
-        }
-
 
 
 

@@ -15,7 +15,9 @@ public class PowerUpController implements Runnable {
     public void run() {
         // creates a power up every 2 sec
         while(true){
-            objects.add(new PowerUp());
+            synchronized (objects) {
+                objects.add(new PowerUp());
+            }
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
