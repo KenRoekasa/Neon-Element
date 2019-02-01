@@ -24,6 +24,7 @@ public abstract class Character extends PhysicsObject {
 
     private Timer timer = new Timer();
     private Rectangle attackHitbox = new Rectangle(width, width);
+    private Point2D newLocation;
 
     public void moveUp() {
         characterDirection = Directions.UP;
@@ -31,8 +32,9 @@ public abstract class Character extends PhysicsObject {
         double yCheck = location.getY() - movementSpeed - width / 2f;
         double xCheck = location.getX() - movementSpeed - width / 2f;
 
-        if (yCheck >= 0 && xCheck >= 0) {
+        if (yCheck >= 0 && xCheck >= 0 && !isColliding) {
             location = location.add(-movementSpeed, -movementSpeed);
+
         }
 
 
@@ -44,7 +46,7 @@ public abstract class Character extends PhysicsObject {
         double yCheck = location.getY() + movementSpeed + width / 2f;
         double xCheck = location.getX() + movementSpeed + width / 2f;
 
-        if (yCheck <= boardHeight && xCheck <= boardWidth) {
+        if (yCheck <= boardHeight && xCheck <= boardWidth && !isColliding) {
             location = location.add(movementSpeed, movementSpeed);
         }
     }
@@ -55,7 +57,7 @@ public abstract class Character extends PhysicsObject {
         double xCheck = location.getX() - movementSpeed - width / 2f;
         double yCheck = location.getY() + movementSpeed + width / 2f;
 
-        if (xCheck >= 0 && yCheck <= boardWidth) {
+        if (xCheck >= 0 && yCheck <= boardWidth && !isColliding) {
             location = location.add(-movementSpeed, movementSpeed);
         }
     }
@@ -68,15 +70,15 @@ public abstract class Character extends PhysicsObject {
         double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-        if (xCheck <= boardWidth && yCheck >= 0) {
+        if (xCheck <= boardWidth && yCheck >= 0 && !isColliding) {
             location = location.add(movementSpeed, -movementSpeed);
         }
     }
 
     public void moveUpCartesian() {
-        characterDirection = Directions.UP;
+        characterDirection = Directions.UPCART;
 
-        if ((location.getY() - movementSpeed - width / 2f) >= 0) {
+        if ((location.getY() - movementSpeed - width / 2f) >= 0 && !isColliding) {
             location = location.add(0, -(movementSpeed * 2));
         } else {
             location = new Point2D(location.getX(), 0 + width / 2f);
@@ -84,9 +86,9 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveDownCartestian(double boardHeight) {
-        characterDirection = Directions.DOWN;
+        characterDirection = Directions.DOWNCART;
 
-        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
+        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight && !isColliding) {
             location = location.add(0, (movementSpeed * 2));
         } else {
             location = new Point2D(location.getX(), boardHeight - width / 2f);
@@ -95,10 +97,10 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveLeftCartesian() {
-        characterDirection = Directions.LEFT;
+        characterDirection = Directions.LEFTCART;
 
         //check within bounds
-        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
+        if ((location.getX() - movementSpeed - width / 2f) >= 0 && !isColliding) {
             location = location.add(-(movementSpeed * 2), 0);
         } else {
             location = new Point2D(0 + width / 2f, location.getY());
@@ -107,10 +109,10 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void moveRightCartesian(double boardWidth) {
-        characterDirection = Directions.RIGHT;
+        characterDirection = Directions.RIGHTCART;
 
         //check within bounds
-        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
+        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth && !isColliding) {
             location = location.add((movementSpeed * 2), 0);
         } else {
             location = new Point2D(boardWidth - width / 2f, location.getY());
@@ -238,8 +240,47 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
-    public void isColliding(double xDiff, double yDiff) {
-        location = location.add(xDiff,yDiff);
+    public void isColliding(PhysicsObject e) {
+        isColliding = true;
+        double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
+        double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
+        switch (characterDirection) {
+            case UP:
+                // if on the right side of the box
+                // if player min x > e player max x
+                if (getBounds().getBoundsInParent().getMinX() >= e.getBounds().getBoundsInParent().getMaxX()) {
+                    location = location.add((width - xDiff) + movementSpeed, (width - xDiff) + movementSpeed);
+                    break;
+                } else {
+                    location = location.add((width - yDiff) + movementSpeed, (width - yDiff) + movementSpeed);
+                    break;
+                }
+            case DOWN:
+                location = location.add(-movementSpeed, -movementSpeed);
+                break;
+            case LEFT:
+                location = location.add(movementSpeed, -movementSpeed);
+                break;
+
+            case RIGHT:
+                location = location.add(-movementSpeed, movementSpeed);
+                break;
+            case UPCART:
+                location = location.add(0, (movementSpeed * 2));
+                break;
+            case DOWNCART:
+                location = location.add(0, -(movementSpeed * 2));
+                break;
+            case LEFTCART:
+                location = location.add((movementSpeed * 2), 0);
+                break;
+            case RIGHTCART:
+                location = location.add(-(movementSpeed * 2), 0);
+                break;
+            default:
+                break;
+
+        }
 
     }
 }

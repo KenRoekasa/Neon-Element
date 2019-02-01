@@ -15,11 +15,11 @@ public class Player extends Character {
     private float changeStateCurrentCD;
 
 
-    public Player(){
+    public Player() {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = 100;
-        movementSpeed = 10;
+        movementSpeed = 2;
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
@@ -29,9 +29,9 @@ public class Player extends Character {
 
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here
-        if(health <0){
+        if (health < 0) {
             isAlive = false;
-        }else{
+        } else {
             isAlive = true;
         }
 
