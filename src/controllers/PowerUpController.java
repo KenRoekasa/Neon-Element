@@ -13,13 +13,13 @@ public class PowerUpController implements Runnable {
     }
     @Override
     public void run() {
-        // creates a power up every 2 sec
+        // creates a power up every 15 sec
         while(true){
             synchronized (objects) {
                 objects.add(new PowerUp());
             }
             try {
-                Thread.sleep(2000);
+                Thread.sleep(15000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
