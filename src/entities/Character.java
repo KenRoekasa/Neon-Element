@@ -170,12 +170,13 @@ public abstract class Character extends PhysicsObject {
     public void shield() {
         //need code to unshield after a certain duration
         isShielded = true;
-
-        //counts for 10 seconds then unshield
         final int[] timeCtr = {0};
+        //counts for 10 seconds then unshield
+
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
+
                 if (timeCtr[0] == 10) {
                     isShielded = false;
                     timer.cancel();
@@ -282,5 +283,35 @@ public abstract class Character extends PhysicsObject {
 
         }
 
+    }
+
+    // adds Health to the player
+    public void addHealth(int amount) {
+        health += amount;
+        if(health >100){
+            health =100;
+        }
+    }
+
+    // Increase movement speed
+    public void speedBoost() {
+        movementSpeed = 4;
+        final int[] timeCtr = {0};
+        //counts for 4 seconds then back to default movement speed
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                if (timeCtr[0] == 4) {
+                    movementSpeed = 2;
+                    timer.cancel();
+                }
+                timeCtr[0]++;
+            }
+        }, 0, 1000);
+    }
+
+
+    // Doubles the players damage
+    public void damageBoost() {
     }
 }

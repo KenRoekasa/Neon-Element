@@ -36,7 +36,7 @@ public class PowerUp extends PhysicsObject {
         int randX = rand.nextInt(200);
         int randY = rand.nextInt(200);
 
-        //Todo: chage to randX randY
+        //Todo: change to randX randY
         location = new Point2D(0, 0);
 
 
@@ -47,9 +47,22 @@ public class PowerUp extends PhysicsObject {
         this.location = location;
     }
 
-    public void activatePowerUp(){
-        if(isActive){
+    public void activatePowerUp() {
+        if (isActive) {
             System.out.println("Power up is picked up");
+            switch (type) {
+                case HEAL:
+                    player.addHealth(10);
+                    break;
+                case SPEED:
+                    player.speedBoost();
+                    break;
+                case DAMAGE:
+                    player.damageBoost();
+                    break;
+                default:
+                    break;
+            }
             isActive = false;
         }
     }
