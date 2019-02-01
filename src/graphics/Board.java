@@ -6,10 +6,13 @@ import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,6 +23,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -37,7 +41,6 @@ public class Board {
     private Player player;
     private ArrayList<PhysicsObject> objects;
     private ArrayList<Player> enemies;
-    private CollisionDetection colDec;
 
 
 
@@ -138,6 +141,7 @@ public class Board {
 
                 debugger.add((player.getLocation().toString()),1);
 
+
                 debugger.print();
                 try {
                     Thread.sleep(1);
@@ -218,16 +222,21 @@ public class Board {
         // Collision detection code
         for (PhysicsObject e : objects) {
             if (CollisionDetection.checkCollision(player, e)) {
-
-
                 //If the object is a power up
                 if (Objects.equals(e.getClass(), PowerUp.class)) {
                     PowerUp powerUp = (PowerUp) e;
                     ((PowerUp) e).activatePowerUp();
                 }else{
                     //The player has collided with e do something
-                    player.isColliding(player.getBounds().getX() - e.getBounds().getX(), player.getBounds().getY()-e.getBounds().getY());
+
+
+                    player.getBounds().getBoundsInParent().getMaxX();
+//                    System.out.println("x diff " + xDiff);
+//                    System.out.println("y diff " + yDiff);
+                    player.isColliding(e);
                 }
+            }else{
+                player.isColliding = false;
             }
 
         }

@@ -14,15 +14,15 @@
 
 alien8\.iml
 
-out/production/alien8/graphics/Board\.class
+out/
 
-out/production/alien8/graphics/Board\$1\.class
+\.idea/
 
-out/production/alien8/graphics/Board\$2\.class
+out/production/alien8/Graphics/Board\$2\.class
 
-out/production/alien8/graphics/Board\$3\.class
+out/production/alien8/Graphics/Board\$3\.class
 
-out/production/alien8/graphics/Main\.class
+out/production/alien8/Graphics/Main\.class
 
 *.class
 
@@ -30,5 +30,10 @@ out/production/alien8/Grid/
 
 out/production/alien8/META-INF/
 /bin/
+
+.idea
+.project
+.classpath
+
 
 out/
