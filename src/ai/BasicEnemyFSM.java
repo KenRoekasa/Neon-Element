@@ -10,7 +10,7 @@ import entities.PowerUp;
 //finite state machine class which acts as a brain; switches between states and elements when appropriate
 public class BasicEnemyFSM {
 	
-	
+	/*
 	public static void fetchAction(BasicEnemy basicEnemy, Character [] players, PowerUp[] powerups) {
 		
 		float maxHP = basicEnemy.getMAX_HEALTH();
@@ -81,5 +81,5 @@ public class BasicEnemyFSM {
 			
 		return index;
 	}
-	
+	*/
 }

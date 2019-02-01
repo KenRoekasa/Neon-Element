@@ -9,7 +9,7 @@ import java.util.Random;
 
 
 public class BasicEnemy extends Character {
-
+/*
     BasicEnemyStates activeState;
     Character [] players;
     PowerUp [] powerUps;
@@ -93,7 +93,7 @@ public class BasicEnemy extends Character {
     	}
     }
     //basic enemy actions
-    
+    */
 @Override
 public void update() {
 
