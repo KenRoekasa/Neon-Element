@@ -1,38 +1,71 @@
 package graphics;
 
+import client.GameState;
 import debugger.Debugger;
 import entities.Player;
 import entities.PowerUp;
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static javafx.scene.transform.Rotate.X_AXIS;
 
 
-public class Renderer {
+public class Renderer  {
     private GraphicsContext gc;
     private Debugger debugger;
     private Double scaleConstant;
 
-    public Renderer(GraphicsContext gc, Debugger debugger) {
+    private GameState gameState;
+    private Rectangle stageSize;
+
+
+    public Renderer(GraphicsContext gc, GameState gameState, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
+        this.gameState = gameState;
+        this.stageSize = stageSize;
+
+
         // magic number 10/7 * 990/1000
         scaleConstant = (double)99/70;
     }
 
-    public Renderer(GraphicsContext gc){
+    public Renderer(GraphicsContext gc, GameState gameState, Rectangle stageSize){
         this.gc = gc;
+        this.gameState = gameState;
+        this.stageSize = stageSize;
+
         scaleConstant = (double)99/70;
     }
 
-    public void drawMap(Rectangle stage, Rectangle board, Player player) {
+    public void render(Stage primaryStage) {
+        // clear screen
+        gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
+
+        // draw to screen
+        drawMap(stageSize, gameState.getMap(), gameState.getPlayer());
+        drawerCursor(stageSize, gameState.getPlayer());
+        //renderer.drawCrosshair(stageSize);
+        drawPlayer(stageSize, gameState.getPlayer());
+        drawEnemies(stageSize, gameState.getEnemies(), gameState.getPlayer());
+
+        debugger.add((gameState.getPlayer().getLocation().toString()),1);
+        debugger.print();
+    }
+
+
+
+    public void drawMap(Rectangle stage, Rectangle map, Player player) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
@@ -45,13 +78,14 @@ public class Renderer {
         applyIsoTransform(boardPosition.getX(), boardPosition.getY());
 
         // draw map
-        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), board.getWidth() * scaleConstant, board.getHeight() * scaleConstant);
+        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), map.getWidth() * scaleConstant, map.getHeight() * scaleConstant);
 
         // restore previous state
         gc.restore();
 
     }
 
+    @SuppressWarnings("Duplicates")
     void drawPowerUps(Rectangle stage, ArrayList<PowerUp> powerUps, Player player){
         for(PowerUp powerUp: powerUps){
 
@@ -71,6 +105,7 @@ public class Renderer {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     void drawEnemies(Rectangle stage, ArrayList<Player> enemies, Player player){
         for(Player enemy: enemies) {
 

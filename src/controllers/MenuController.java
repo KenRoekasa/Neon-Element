@@ -1,6 +1,8 @@
 package controllers;
 
-import graphics.Board;
+import client.GameState;
+import client.GameStateGenerator;
+import client.ClientBoard;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /* Menu buttons:
-1. Play -> Board
+1. Play -> ClientBoard
 2. Options
 3. Help
 4. Exit
@@ -30,7 +32,16 @@ public class MenuController implements Initializable{
 
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
-            Board gameBoard = new Board(stage);
+
+        // create game rules
+        // todo make this configurable
+        GameState g = GameStateGenerator.createDemoGamestate();
+
+        try {
+            ClientBoard gameBoard = new ClientBoard(stage, g);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
