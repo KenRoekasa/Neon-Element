@@ -70,7 +70,7 @@ public abstract class Character extends PhysicsObject {
         double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-        if (xCheck <= boardWidth && yCheck >= 0 && !isColliding) {
+        if (xCheck <= boardWidth && yCheck >= 0 ) {
             location = location.add(movementSpeed, -movementSpeed);
         }
     }
@@ -78,7 +78,7 @@ public abstract class Character extends PhysicsObject {
     public void moveUpCartesian() {
         characterDirection = Directions.UPCART;
 
-        if ((location.getY() - movementSpeed - width / 2f) >= 0 && !isColliding) {
+        if ((location.getY() - movementSpeed - width / 2f) >= 0) {
             location = location.add(0, -(movementSpeed * 2));
         } else {
             location = new Point2D(location.getX(), 0 + width / 2f);
@@ -88,7 +88,7 @@ public abstract class Character extends PhysicsObject {
     public void moveDownCartestian(double boardHeight) {
         characterDirection = Directions.DOWNCART;
 
-        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight && !isColliding) {
+        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
             location = location.add(0, (movementSpeed * 2));
         } else {
             location = new Point2D(location.getX(), boardHeight - width / 2f);
@@ -100,7 +100,7 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.LEFTCART;
 
         //check within bounds
-        if ((location.getX() - movementSpeed - width / 2f) >= 0 && !isColliding) {
+        if ((location.getX() - movementSpeed - width / 2f) >= 0 ) {
             location = location.add(-(movementSpeed * 2), 0);
         } else {
             location = new Point2D(0 + width / 2f, location.getY());
@@ -112,7 +112,7 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.RIGHTCART;
 
         //check within bounds
-        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth && !isColliding) {
+        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth ) {
             location = location.add((movementSpeed * 2), 0);
         } else {
             location = new Point2D(boardWidth - width / 2f, location.getY());
