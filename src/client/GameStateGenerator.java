@@ -30,7 +30,7 @@ public class GameStateGenerator {
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         //TODO: Remove
         //add a powerup
-        PowerUp pu = new PowerUp(player);
+        PowerUp pu = new PowerUp(git );
 
         objects.add(pu);
         //Add the enemies to the objects list
