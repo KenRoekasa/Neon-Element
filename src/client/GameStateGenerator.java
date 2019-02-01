@@ -1,5 +1,6 @@
 package client;
 
+import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
@@ -21,8 +22,8 @@ public class GameStateGenerator {
         player.setLocation(playerStartLocation);
 
         // initialise enemies
-        ArrayList<Player> enemies = new ArrayList<>();
-        enemies.add(new Player());
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new Enemy());
         enemies.get(0).setLocation(new Point2D(140, 100));
 
 

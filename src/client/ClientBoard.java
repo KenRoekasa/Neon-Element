@@ -19,6 +19,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -82,7 +83,7 @@ public class ClientBoard {
         initialiseInput(theScene);
 
 
-        Renderer renderer = new Renderer(gc, gameState, stageSize, debugger);
+        Renderer renderer = new Renderer(gc, stageSize, debugger);
 
 
         beginClientLoop(renderer);
@@ -94,7 +95,7 @@ public class ClientBoard {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 clientLoop();
-                renderer.render(primaryStage);
+                renderer.render(primaryStage, gameState);
 
             }
         }.start();
