@@ -1,4 +1,4 @@
-package Networking.Server;
+package networking.server;
 
 import java.net.InetAddress;
 

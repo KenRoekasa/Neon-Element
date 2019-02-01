@@ -1,7 +1,7 @@
-package Networking.Test;
+package networking.test;
 
-import Networking.Client.ClientNetwork;
-import Networking.Client.ClientNetworkDispatcher;
+import networking.client.ClientNetwork;
+import networking.client.ClientNetworkDispatcher;
 
 public class ManualTestClient {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package Networking.Server;
+package networking.server;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,8 +9,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
-import Networking.Constants;
-import Networking.Packets.Packet;
+import networking.packets.Packet;
+import networking.Constants;
 
 public class MultiCastServerThread extends ServerNetwork{
     protected BufferedReader in = null;

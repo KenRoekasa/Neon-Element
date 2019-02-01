@@ -1,6 +1,6 @@
-package Networking.Test;
+package networking.test;
 
-import Networking.Server.MultiCastServerThread;
+import networking.server.MultiCastServerThread;
 
 public class BroadCastServer {
 	public static void main(String[] args) {

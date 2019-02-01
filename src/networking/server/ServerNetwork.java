@@ -1,43 +1,37 @@
-package Networking.Client;
+package networking.server;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.UUID;
 
-import Networking.Packets.*;
+import networking.packets.*;
+import networking.Constants;
 
-public class ClientNetwork extends Thread {
-    protected String name;
+public class ServerNetwork extends Thread {
+	//changed it to protected
+	//private UUID severUID = UUID.randomUUID();
+
     protected boolean running;
     protected DatagramSocket socket;
-    private ClientNetworkDispatcher dispatcher;
+    private ArrayList<PlayerConnection> connections;
+    private ServerNetworkDispatcher dispatcher;
 
-    public ClientNetwork() {
+    public ServerNetwork() {
         try {
-            this.socket = new DatagramSocket();
+            socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
         } catch (SocketException e) {
             e.printStackTrace();
         }
 
+        this.connections = new ArrayList<>();
         this.running = true;
-        this.dispatcher = new ClientNetworkDispatcher(this.socket);
+        this.dispatcher = new ServerNetworkDispatcher(this.socket);
     }
 
-    //This clinet cons takes in the serverAddresws and playerName in as an arg from the command line
-    public ClientNetwork(String name, String serverAddress) {
-        try {
-            this.socket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-        this.running = true;
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddress);
-        this.name = name;
-    }
-    
-    public ClientNetworkDispatcher getDispatcher() {
+    public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
@@ -63,14 +57,13 @@ public class ClientNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        
+
         switch(packet.getType()) {
-            case HELLO_ACK:
-                this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
+            case HELLO:
+                this.dispatcher.receiveHello((HelloPacket) packet);
                 break;
             default:
-                System.out.println("Invalid packet recieved");
+                // TODO: log invalid packet
         }
     }
-
 }

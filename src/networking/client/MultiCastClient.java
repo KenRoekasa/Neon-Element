@@ -1,13 +1,13 @@
-package Networking.Client;
+package networking.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-//import Networking.Constants;
+//import networking.Constants;
 
-//import Networking.Packets.Packet;
+//import networking.Packets.Packet;
 
 public class MultiCastClient  {
 	

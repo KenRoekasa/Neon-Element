@@ -1,6 +1,6 @@
-package Networking.Test;
+package networking.test;
 
-import Networking.Server.ServerNetwork;
+import networking.server.ServerNetwork;
 
 public class ManualTestServer {
     public static void main(String[] args) {

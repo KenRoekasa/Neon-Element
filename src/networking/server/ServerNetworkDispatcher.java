@@ -1,9 +1,9 @@
-package Networking.Server;
+package networking.server;
 
 import java.net.DatagramSocket;
 
-import Networking.NetworkDispatcher;
-import Networking.Packets.*;
+import networking.packets.*;
+import networking.NetworkDispatcher;
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
 

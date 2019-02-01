@@ -1,11 +1,11 @@
-package Networking.Client;
+package networking.client;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import Networking.Constants;
-import Networking.NetworkDispatcher;
-import Networking.Packets.*;
+import networking.packets.*;
+import networking.Constants;
+import networking.NetworkDispatcher;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
 	

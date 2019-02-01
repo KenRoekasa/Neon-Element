@@ -1,4 +1,4 @@
-package Networking.Packets;
+package networking.packets;
 
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
