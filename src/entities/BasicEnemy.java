@@ -3,20 +3,25 @@ package entities;
 
 import ai.BasicEnemyFSM;
 import ai.BasicEnemyStates;
-
+import entities.Character;
+import entities.PowerUp;
 import java.util.Random;
 
 
 public class BasicEnemy extends Character {
-/*
-    BasicEnemyStates activeState;
-    Character[] players;
 
-    public BasicEnemy(Character players) {
+    BasicEnemyStates activeState;
+    Character [] players;
+    PowerUp [] powerUps;
+    BasicEnemy enemy  = this;
+    int powerupIndex = -1;
+    
+    public BasicEnemy(Character [] players, PowerUp [] powerUps) {
 
         activeState = BasicEnemyStates.IDLE;
         assignRandomElement();
         this.players = players;
+        this.powerUps = powerUps;
 
     }
 
@@ -31,9 +36,10 @@ public class BasicEnemy extends Character {
                 boolean bool = true;
 
                 while (bool) {
-
-                    BasicEnemyFSM.nextAction(new BasicEnemy(players[0]), players[0]);
-
+                	
+                	BasicEnemyFSM.fetchAction(enemy, players, powerUps);
+                	
+                	executeAction();
                     if (health <= 0)
                         bool = false;
                 }
@@ -69,14 +75,29 @@ public class BasicEnemy extends Character {
         return activeState;
     }
 
-    void setState(BasicEnemyStates s) {
+    public void setState(BasicEnemyStates s) {
         activeState = s;
     }
+    public void setPowerUpIndex(int i) {
+    	powerupIndex = i;
+    }
+    public void executeAction() {
+    	//TODO: implement this and then functions for each case
+    	BasicEnemyStates newState = null;
+    	switch(activeState) {
+    	case ATTACK : break;
+    	case AGGRESSIVE_ATTACK: break;
+    	case FIND_HEALTH: break;
+    	case FIND_DAMAGE: break;
+    	case FIND_SPEED: break;
+    	}
+    }
     //basic enemy actions
-    */
+    
 @Override
 public void update() {
 
 }
+
 
 }
