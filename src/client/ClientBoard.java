@@ -2,6 +2,7 @@ package client;
 
 import client.GameState;
 import client.InputHandler;
+import controllers.ValueController;
 import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
@@ -30,13 +31,14 @@ public class ClientBoard {
     private Debugger debugger;
     private GraphicsContext gc;
     private Stage primaryStage;
-
-
+    private Scene scene;
     private Rectangle stageSize;
     private ArrayList<String> input;
-
     private GameState gameState;
 
+    public Scene getScene() {
+        return scene;
+    }
 
     public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
         // initial setup
@@ -48,8 +50,8 @@ public class ClientBoard {
         Pane hudPane = new Pane();
         try {
             hudPane = (Pane) loader.load();
+            ValueController valueController = (ValueController)loader.getController();
             //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
-
         } catch (Exception e){
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -58,11 +60,11 @@ public class ClientBoard {
             System.exit(0);
         }
 
-        Scene theScene = new Scene(hudPane);
+        scene = new Scene(hudPane);
 
-        //Scene theScene = primaryStage.getScene();
+        //Scene scene = primaryStage.getScene();
 
-        primaryStage.setScene(theScene);
+        primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -76,7 +78,7 @@ public class ClientBoard {
         debugger = new Debugger(gc);
 
         // initialise input controls
-        initialiseInput(theScene);
+        initialiseInput(scene);
 
 
         Renderer renderer = new Renderer(gc, gameState, stageSize, debugger);
@@ -96,7 +98,6 @@ public class ClientBoard {
             }
         }.start();
     }
-
 
     private void initialiseInput(Scene theScene) {
         // set input controls

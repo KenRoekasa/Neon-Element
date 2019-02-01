@@ -1,6 +1,7 @@
 package userInterface;
 
 import controllers.MenuController;
+import controllers.ValueController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;

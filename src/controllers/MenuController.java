@@ -15,9 +15,10 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 /* Menu buttons:
-1. Play -> ClientBoard
+1. Play
 2. Options
 3. Help
 4. Exit
@@ -25,7 +26,8 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
-
+    private GameState gameState;
+    private double health;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -35,11 +37,15 @@ public class MenuController implements Initializable{
 
         // create game rules
         // todo make this configurable
-        GameState g = GameStateGenerator.createDemoGamestate();
+            gameState = GameStateGenerator.createDemoGamestate();
 
+        //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, g);
+            ClientBoard gameBoard = new ClientBoard(stage, gameState);
+            Scene scene = gameBoard.getScene();
+
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 
@@ -74,5 +80,6 @@ public class MenuController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
 
 }
