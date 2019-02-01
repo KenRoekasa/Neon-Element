@@ -6,15 +6,15 @@ import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class Board extends Application {
+public class Board {
 
     private Debugger debugger;
     private Renderer renderer;
@@ -37,40 +37,44 @@ public class Board extends Application {
     private Player player;
     private ArrayList<PhysicsObject> objects;
     private ArrayList<Player> enemies;
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private CollisionDetection colDec;
 
 
-    @Override
-    public void start(Stage stage) {
+
+    public Board(Stage stage) {
         // initial setup
         primaryStage = stage;
 
-        primaryStage.setTitle("Game");
+        // load hud
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
+        Pane hudPane = new Pane();
+        try {
+            hudPane = (Pane) loader.load();
+            //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
 
-        Group root = new Group();
-        Scene theScene = new Scene(root);
+
+
+        } catch (Exception e){
+            // todo make this better
+            System.out.println("Crash in loading hud in board");
+            e.printStackTrace();
+            Platform.exit();
+            System.exit(0);
+        }
+
+        Scene theScene = new Scene(hudPane);
+
+        //Scene theScene = primaryStage.getScene();
+
         primaryStage.setScene(theScene);
-
         primaryStage.setFullScreen(true);
-        primaryStage.setResizable(false);
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        // set Stage boundaries to visible bounds of the main screen
-        primaryStage.setX(primaryScreenBounds.getMinX());
-        primaryStage.setY(primaryScreenBounds.getMinY());
-        primaryStage.setWidth(primaryScreenBounds.getWidth());
-        primaryStage.setHeight(primaryScreenBounds.getHeight());
-
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
         Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
 
-        root.getChildren().add(canvas);
-
+        hudPane.getChildren().add(canvas);
 
         // stop collision detector when leaving the game - otherwise it never gets stopped
         // todo show this to kenny
@@ -101,7 +105,6 @@ public class Board extends Application {
         theScene.setOnMouseDragged(this::mouseAngleCalc);
 
         gc = canvas.getGraphicsContext2D();
-
 
         initialise();
 
@@ -145,9 +148,8 @@ public class Board extends Application {
             }
         }.start();
 
-        primaryStage.show();
-
     }
+
 
     // this needs to be made much more efficient !!!!
     // possibilities are:
@@ -184,9 +186,6 @@ public class Board extends Application {
         //initialise map location
         board = new Rectangle(1500, 1500);
 
-        //Collision detection
-
-
 
         objects = new ArrayList<PhysicsObject>();
 
@@ -220,13 +219,14 @@ public class Board extends Application {
         for (PhysicsObject e : objects) {
             if (CollisionDetection.checkCollision(player, e)) {
 
-                //The player has collided with e do something
-                player.isColliding(player.getBounds().getX()-e.getBounds().getX(), player.getBounds().getY()-e.getBounds().getY());
 
                 //If the object is a power up
                 if (Objects.equals(e.getClass(), PowerUp.class)) {
                     PowerUp powerUp = (PowerUp) e;
                     ((PowerUp) e).activatePowerUp();
+                }else{
+                    //The player has collided with e do something
+                    player.isColliding(player.getBounds().getX() - e.getBounds().getX(), player.getBounds().getY()-e.getBounds().getY());
                 }
             }
 
@@ -282,5 +282,4 @@ public class Board extends Application {
             player.moveDown(board.getWidth(), board.getHeight());
         }
     }
-
 }
