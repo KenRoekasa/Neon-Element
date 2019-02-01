@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ClientBoard {
@@ -129,11 +131,9 @@ public class ClientBoard {
                 //If the object is a power up
                 if (Objects.equals(e.getClass(), PowerUp.class)) {
                     PowerUp powerUp = (PowerUp) e;
-                    ((PowerUp) e).activatePowerUp();
+                    ((PowerUp) e).activatePowerUp(gameState.getPlayer());
                 }else{
                     //The player has collided with e do something
-
-
                     gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
 //                    System.out.println("x diff " + xDiff);
 //                    System.out.println("y diff " + yDiff);
@@ -142,13 +142,18 @@ public class ClientBoard {
             }else{
                 gameState.getPlayer().isColliding = false;
             }
-
         }
         //Call update function for all physics objects
         gameState.getPlayer().update();
         for (PhysicsObject o : gameState.getObjects()) {
             o.update();
         }
+
+        // Power up creation thread
+
+
+
+
     }
 
 

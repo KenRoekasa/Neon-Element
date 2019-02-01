@@ -9,11 +9,10 @@ import java.util.Random;
 public class PowerUp extends PhysicsObject {
 
     private PowerUpType type;
-    private Player player;
     private boolean isActive = true;
 
 
-    public PowerUp(Player player) {
+    public PowerUp() {
         width = 10;
 
         //Randomise the type of power up when it spawns
@@ -40,14 +39,13 @@ public class PowerUp extends PhysicsObject {
         location = new Point2D(0, 0);
 
 
-        this.player = player;
     }
 
     public void setLocation(Point2D location) {
         this.location = location;
     }
 
-    public void activatePowerUp() {
+    public void activatePowerUp(Player player) {
         if (isActive) {
             System.out.println("Power up is picked up");
             switch (type) {
