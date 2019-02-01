@@ -3,7 +3,7 @@ package Networking.Packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import Enums.PlayerStates;
+import enums.Elements;
 
 public class ElementStatePacket extends Packet {
 
@@ -12,25 +12,25 @@ public class ElementStatePacket extends Packet {
     // byte
     // 1 = 1 bytes
 
-    private PlayerStates playerState;
+    private Elements playerElementState;
 
     protected ElementStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.ELEMENT_STATE, ipAddress, port);
-        this.playerState = PlayerStates.getById(buffer.get());
+        this.playerElementState = Elements.getById(buffer.get());
     }
 
-    public ElementStatePacket(InetAddress ipAddress, int port, PlayerStates playerState) {
+    public ElementStatePacket(InetAddress ipAddress, int port, Elements playerElementState) {
         super(PacketDirection.OUTGOING, PacketType.ELEMENT_STATE, ipAddress, port);
-        this.playerState = playerState;
+        this.playerElementState = playerElementState;
     }
 
-    public PlayerStates getPlayerState() {
-        return this.playerState;
+    public Elements getPlayerElementState() {
+        return this.playerElementState;
     }
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
-        buffer.put(this.playerState.getId());
+        buffer.put(this.playerElementState.getId());
         return Packet.getBytesFromBuffer(buffer);
     }
 

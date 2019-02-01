@@ -3,7 +3,7 @@ package Networking.Packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import Enums.Spell;
+import enums.Spell;
 
 public class CastSpellPacket extends Packet {
 

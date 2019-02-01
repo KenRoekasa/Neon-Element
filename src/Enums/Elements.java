@@ -1,12 +1,12 @@
-package Enums;
+package enums;
 
-public enum PlayerStates {
+public enum Elements {
     //subject to change
     FIRE(0), WATER(1), EARTH(2), AIR(3);
 
     private byte id;
 
-    private PlayerStates(int id) {
+    private Elements(int id) {
         this.id = (byte) id;
     }
 
@@ -14,8 +14,8 @@ public enum PlayerStates {
         return this.id;
     }
 
-    public static PlayerStates getById(byte id) {
-        for (PlayerStates t : PlayerStates.values()) {
+    public static Elements getById(byte id) {
+        for (Elements t : Elements.values()) {
             if (t.id == id) {
                 return t;
             }

@@ -14,9 +14,9 @@
 
 alien8\.iml
 
-out/production/alien8/Graphics/Board\.class
+out/
 
-out/production/alien8/Graphics/Board\$1\.class
+\.idea/
 
 out/production/alien8/Graphics/Board\$2\.class
 
@@ -35,3 +35,5 @@ out/production/alien8/META-INF/
 .project
 .classpath
 
+
+out/
