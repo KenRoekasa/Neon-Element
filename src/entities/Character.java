@@ -298,7 +298,7 @@ public abstract class Character extends PhysicsObject {
         movementSpeed = 4;
         final int[] timeCtr = {0};
         //counts for 4 seconds then back to default movement speed
-        timer.scheduleAtFixedRate(new TimerTask() {
+        (new Timer()).scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
                 if (timeCtr[0] == 4) {

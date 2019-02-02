@@ -32,11 +32,11 @@ public class PowerUp extends PhysicsObject {
                 break;
         }
 
-        int randX = rand.nextInt(200);
-        int randY = rand.nextInt(200);
+        int randX = rand.nextInt(1500);
+        int randY = rand.nextInt(1500);
 
         //Todo: change to randX randY
-        location = new Point2D(0, 0);
+        location = new Point2D(randX, randY);
 
 
     }
