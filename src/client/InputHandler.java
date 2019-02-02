@@ -1,6 +1,7 @@
 package client;
 
 import entities.Player;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -14,7 +15,7 @@ public class InputHandler {
     // this needs to be made much more efficient !!!!
     // possibilities are:
     // threading, faster angle calculation, both
-    public static void mouseAngleCalc(Player player, Stage primaryStage, MouseEvent event) {
+    static void mouseAngleCalc(Player player, Stage primaryStage, MouseEvent event) {
         double opposite = primaryStage.getWidth()/2 - event.getX();
 
         double adjacent = primaryStage.getHeight()/2 - event.getY();
@@ -39,12 +40,11 @@ public class InputHandler {
         player.setPlayerAngle(new Rotate(angle));
     }
 
-    public static void handleInput(Player player, ArrayList<String> input, Rectangle board) {
+    static void handleKeyboardInput(Player player, ArrayList<String> input, Rectangle board) {
         boolean left = input.contains("LEFT") || input.contains("A");
         boolean right = input.contains("RIGHT") || input.contains("D");
         boolean up = input.contains("UP") || input.contains("W");
         boolean down = input.contains("DOWN") || input.contains("S");
-
 
         if (left && up || left & down || right && up || right & down) {
             if (left & up) {
@@ -65,6 +65,17 @@ public class InputHandler {
             moveIsometric(player, board, left, right, up, down);
         }
 
+        if(input.contains("DIGIT1")){
+            player.changeToAir();
+        } else if(input.contains("DIGIT2")){
+            player.changeToEarth();
+        } else if(input.contains("DIGIT3")){
+            player.changeToWater();
+        } else if(input.contains("DIGIT4")){
+            player.changeToFire();
+        }
+
+
     }
 
     private static void moveIsometric(Player player, Rectangle board, boolean left, boolean right, boolean up, boolean down) {
@@ -84,4 +95,10 @@ public class InputHandler {
         }
     }
 
+    static void handleLeftClick(Player player, Stage primaryStage, MouseEvent e) {
+
+        //player.lightAttack();
+        System.out.println("Light attack");
+
+    }
 }

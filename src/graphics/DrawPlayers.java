@@ -21,7 +21,8 @@ public class DrawPlayers {
 
         ISOConverter.applyIsoTransform(gc, playerXCenter, playerYCenter);
 
-        gc.setFill(Color.GREEN);
+        Color c = ElementColourSwitch.getColour(player.getCurrentElement());
+        gc.setFill(c);
 
         double centerAdjust = player.getWidth()/2f * scaleConstant;
 

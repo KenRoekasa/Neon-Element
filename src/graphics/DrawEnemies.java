@@ -25,6 +25,9 @@ public class DrawEnemies {
 
         ISOConverter.applyIsoTransform(gc, relativeLocation.getX(), relativeLocation.getY());
 
+        Color c = ElementColourSwitch.getColour(enemy.getCurrentElement());
+        gc.setFill(c);
+
         //draw enemy
         gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), player.getWidth() * scaleConstant, player.getWidth() * scaleConstant);
 
