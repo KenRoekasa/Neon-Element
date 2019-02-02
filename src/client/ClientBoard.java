@@ -127,7 +127,7 @@ public class ClientBoard {
     }
 
     private void clientLoop() {
-        InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
+        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
         synchronized (gameState.getObjects()) {
             // Collision detection code
             for (PhysicsObject e : gameState.getObjects()) {

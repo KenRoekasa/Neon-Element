@@ -4,6 +4,7 @@ import entities.Player;
 import entities.PowerUp;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class DrawObjects {
@@ -40,6 +41,9 @@ public class DrawObjects {
         Point2D relativeLocation = new Point2D(relativeX, relativeY);
 
         ISOConverter.applyIsoTransform(gc, relativeLocation.getX(), relativeLocation.getY());
+
+        Color c = EnumColourSwitch.getPowerUpColour(powerUp.getType());
+        gc.setFill(c);
 
         gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWidth() * scaleConstant, powerUp.getWidth() * scaleConstant);
 
