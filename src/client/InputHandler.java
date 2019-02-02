@@ -1,6 +1,7 @@
 package client;
 
 import entities.Player;
+import graphics.Renderer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -99,6 +100,7 @@ public class InputHandler {
 
         //player.lightAttack();
         System.out.println("Light attack");
+
 
     }
 }

@@ -13,7 +13,7 @@ public class PowerUp extends PhysicsObject {
 
 
     public PowerUp() {
-        width = 10;
+        width = 15;
 
         //Randomise the type of power up when it spawns
         Random rand = new Random();

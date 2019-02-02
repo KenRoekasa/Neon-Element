@@ -74,11 +74,13 @@ public class ClientBoard {
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
-        // initialise input controls
-        initialiseInput(theScene);
-
-
         Renderer renderer = new Renderer(gc, stageSize, debugger);
+
+
+        // initialise input controls
+        initialiseInput(theScene, renderer);
+
+
 
 
         beginClientLoop(renderer);
@@ -102,7 +104,7 @@ public class ClientBoard {
     }
 
 
-    private void initialiseInput(Scene theScene) {
+    private void initialiseInput(Scene theScene, Renderer renderer) {
         // set input controls
         input = new ArrayList<>();
         theScene.setOnKeyPressed(e -> {
@@ -119,7 +121,11 @@ public class ClientBoard {
                     input.remove(code);
                 });
 
-        theScene.setOnMouseClicked(e -> InputHandler.handleLeftClick(gameState.getPlayer(), primaryStage, e));
+        theScene.setOnMouseClicked(e -> {
+            InputHandler.handleLeftClick(gameState.getPlayer(), primaryStage, e);
+            renderer.addPlayerAttack(gameState.getPlayer(), 1);
+
+        });
 
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
