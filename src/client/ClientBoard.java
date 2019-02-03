@@ -100,7 +100,9 @@ public class ClientBoard {
             }
         }.start();
 
-        (new Thread(new PowerUpController(gameState.getObjects()))).start();
+        Thread powerUpController  = new Thread(new PowerUpController(gameState.getObjects()));
+        powerUpController.start();
+        powerUpController.yield();
 
 
 
@@ -139,6 +141,8 @@ public class ClientBoard {
                     if (Objects.equals(e.getClass(), PowerUp.class)) {
                         PowerUp powerUp = (PowerUp) e;
                         ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+                        // remove power up from objects array list
+                        gameState.getObjects().remove(powerUp);
                     } else {
                         //The player has collided with e do something
                         gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
