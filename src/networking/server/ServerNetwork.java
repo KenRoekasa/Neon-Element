@@ -17,7 +17,7 @@ public class ServerNetwork extends Thread {
     protected boolean running;
     protected DatagramSocket socket;
     private ArrayList<PlayerConnection> connections;
-    private ServerNetworkDispatcher dispatcher;
+    protected ServerNetworkDispatcher dispatcher;
 
     public ServerNetwork() {
         try {

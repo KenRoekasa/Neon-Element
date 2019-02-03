@@ -110,6 +110,30 @@ public abstract class Packet {
             case HELLO_ACK:
                 packet = new HelloAckPacket(buffer, ipAddress, port);
                 break;
+            case CONNECT_BCAST:
+            		packet = new ConnectPacket(buffer, ipAddress, port);
+            		break;
+            case DISCONNECT_BCAST:
+            		packet = new DisconnectPacket(buffer, ipAddress, port);
+            		break;
+            case READY_STATE_BCAST:
+            		packet = new ReadyStatePacket(buffer, ipAddress, port);
+            		break;
+            case LOCATION_STATE_BCAST:
+            		packet = new LocationStatePacket(buffer, ipAddress, port);
+            		break;
+            case ELEMENT_STATE_BCAST:
+            		packet = new ElementStatePacket(buffer, ipAddress, port);
+            		break;
+            case CAST_SPELL_BCAST:
+            		packet = new CastSpellPacket(buffer, ipAddress, port);
+            		break;
+            case POWERUP_PICKUP_BCAST:
+            		packet = new PowerUpPacket(buffer, ipAddress, port);
+            case POWERUP_STATE_BCAST:
+            		packet = new PowerUpPacket(buffer, ipAddress, port);
+            		break;
+            		
             default:
                 packet = null;
         }

@@ -27,6 +27,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             e.printStackTrace();
         }
     }
+    
 
     protected void receiveHelloAck(HelloAckPacket packet) {
         int players = packet.getPlayers();
