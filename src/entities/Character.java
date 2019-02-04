@@ -22,7 +22,7 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
 
     // The time the ability was last used System.time
-    protected long[] timerArray = new long[];
+    protected long[] timerArray = new long[10];
 
 
     //TODO: Change the access modifier
@@ -125,7 +125,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        long nextAvailableTime = (long) (timerArray[lightAttackID] + (2.5 * 1000));
+        long nextAvailableTime = (long) (timerArray[lightAttackID] + (lightAttackCD * 1000));
 
         //Cooldown System
         if (System.currentTimeMillis() > nextAvailableTime) {
@@ -151,6 +151,7 @@ public abstract class Character extends PhysicsObject {
                     attackHitbox.setY(location.getY() - width);
                     break;
             }
+            timerArray[lightAttackID] = System.currentTimeMillis();
 
 
             //If another Character is in the Hitbox calculate the damage they take
@@ -171,27 +172,42 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void heavyAttack() {
+        long nextAvailableTime = (long) (timerArray[heavyAttackID] + (heavyAttackCD * 1000));
+        if (System.currentTimeMillis() > nextAvailableTime) {
+            //TODO: DO SOMETHING
+
+
+            // set last time spell was used
+            timerArray[heavyAttackID] = System.currentTimeMillis();
+        }
 
 
     }
 
     public void shield() {
-        //need code to unshield after a certain duration
-        isShielded = true;
-        final int[] timeCtr = {0};
-        //counts for 10 seconds then unshield
+        long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
+        if (System.currentTimeMillis() > nextAvailableTime) {
+            //need code to unshield after a certain duration
+            isShielded = true;
+            timerArray[shieldDurID] = 0;
+            //counts for 10 seconds then unshield
 
-        timer.scheduleAtFixedRate(new TimerTask() {
+            timer.scheduleAtFixedRate(new TimerTask() {
 
-            public void run() {
+                public void run() {
 
-                if (timeCtr[0] == 10) {
-                    isShielded = false;
-                    timer.cancel();
+                    if (timerArray[shieldDurID] == shieldDuration) {
+                        isShielded = false;
+                        timer.cancel();
+                    }
+                    timerArray[shieldDurID]++;
                 }
-                timeCtr[0]++;
-            }
-        }, 0, 1000);
+            }, 0, 1000);
+            // set last time spell was used
+            timerArray[shieldID] = System.currentTimeMillis();
+
+        }
+
 
     }
 
@@ -304,11 +320,6 @@ public abstract class Character extends PhysicsObject {
     // Increase movement speed
     public void speedBoost() {
         movementSpeed = 4;
-        long lastAvailableTime = System.currentTimeMillis() + 4*1000;
-
-
-
-
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
@@ -331,5 +342,7 @@ public abstract class Character extends PhysicsObject {
 
     // Doubles the players damage
     public void damageBoost() {
+
+
     }
 }
