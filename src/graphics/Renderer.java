@@ -1,6 +1,6 @@
 package graphics;
 
-import client.GameState;
+import client.ClientGameState;
 import debugger.Debugger;
 import entities.Player;
 import entities.PowerUp;
@@ -25,11 +25,11 @@ public class Renderer  {
     private Debugger debugger;
     private Double scaleConstant;
 
-    private GameState gameState;
+    private ClientGameState gameState;
     private Rectangle stageSize;
 
 
-    public Renderer(GraphicsContext gc, GameState gameState, Rectangle stageSize, Debugger debugger) {
+    public Renderer(GraphicsContext gc, ClientGameState gameState, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         this.gameState = gameState;
@@ -40,7 +40,7 @@ public class Renderer  {
         scaleConstant = (double)99/70;
     }
 
-    public Renderer(GraphicsContext gc, GameState gameState, Rectangle stageSize){
+    public Renderer(GraphicsContext gc, ClientGameState gameState, Rectangle stageSize){
         this.gc = gc;
         this.gameState = gameState;
         this.stageSize = stageSize;

@@ -3,15 +3,20 @@ package networking.client;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import client.ClientGameState;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
-	
-	protected String serverAddress; 
-    protected ClientNetworkDispatcher(DatagramSocket socket) {
+
+    private ClientGameState gameState;
+    
+	protected String serverAddress;
+
+    protected ClientNetworkDispatcher(DatagramSocket socket, ClientGameState gameState) {
         super(socket);
+        this.gameState = gameState;
     }
     
     protected ClientNetworkDispatcher(DatagramSocket socket, String serverAddress) {

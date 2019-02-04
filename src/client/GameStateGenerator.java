@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class GameStateGenerator {
 
-    public static GameState createDemoGamestate() {
+    public static ClientGameState createDemoGamestate() {
 
         //initialise map location
         Rectangle map = new Rectangle(1500, 1500);
@@ -37,7 +37,7 @@ public class GameStateGenerator {
         objects.addAll(enemies);
 
 
-        GameState gameState = new GameState(player, enemies, map, objects);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
 
         return gameState;
     }

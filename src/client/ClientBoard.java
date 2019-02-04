@@ -1,6 +1,6 @@
 package client;
 
-import client.GameState;
+import client.ClientGameState;
 import client.InputHandler;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -35,10 +35,10 @@ public class ClientBoard {
     private Rectangle stageSize;
     private ArrayList<String> input;
 
-    private GameState gameState;
+    private ClientGameState gameState;
 
 
-    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
