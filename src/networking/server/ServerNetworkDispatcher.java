@@ -32,20 +32,30 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	protected void receiveConnect(ConnectPacket packet) {
 	    boolean isStarted = this.gameState.isStarted();
 	    boolean hasSpace = this.gameState.getPlayers().size() < this.gameState.getMaxPlayers();
-	    // Allow connection if the game has not started yet and we have space for more players
-	    boolean allowed = !isStarted && hasSpace;
 
-	    if (allowed) {
-	        PlayerConnection playerConn = new PlayerConnection(this.nextPlayerId, packet.getIpAddress(), packet.getPort());
-	        Player player = new Player(this.nextPlayerId);
-	        this.nextPlayerId++;
+	    // Allow connection if the game has not started yet and we have space for more players    
+	    ConnectAckPacket.Status status;
+	    if (isStarted) {
+	        status = ConnectAckPacket.Status.ERR_GAME_STARTED;
+	    } else if(!hasSpace) {
+            status = ConnectAckPacket.Status.ERR_MAX_PLAYERS;
+	    } else {
+	        status = ConnectAckPacket.Status.SUC_CONNECTED;
 
-	        this.connections.add(playerConn);
-	        this.gameState.getPlayers().add(player);
+            PlayerConnection playerConn = new PlayerConnection(this.nextPlayerId, packet.getIpAddress(), packet.getPort());
+            Player player = new Player(this.nextPlayerId);
+            this.nextPlayerId++;
+
+            this.connections.add(playerConn);
+            this.gameState.getPlayers().add(player);
 	    }
 
-        Packet response = new ConnectAckPacket(allowed, packet.getIpAddress(), packet.getPort());
+        Packet response = new ConnectAckPacket(status, packet.getIpAddress(), packet.getPort());
         this.send(response);
+        
+        if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
+            // TODO - broadcast new connection to other clients if allowed
+        }
 	}
 
 	protected void broadCastNewConnectedUser(ConnectAckPacket packet) {
