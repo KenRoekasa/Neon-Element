@@ -8,7 +8,8 @@ import graphics.DrawPlayers;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 
 import java.util.Objects;
 import java.util.Timer;
@@ -147,6 +148,13 @@ public abstract class Character extends PhysicsObject {
             int damage = 3;
             //set attack hit box in front of the user
             //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
+
+
+            attackHitbox.setY(location.getY()+width);
+            Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
+            attackHitbox.getTransforms().addAll(playerAngle);
+
+            timerArray[lightAttackID] = System.currentTimeMillis();
 
             //If another Character is in the Hitbox calculate the damage they take
             // How is damaged dealt throught the victim or the attacker or server
