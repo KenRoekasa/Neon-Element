@@ -36,6 +36,7 @@ public class ClientBoard {
     private ArrayList<String> input;
 
     private ClientGameState gameState;
+    private GameClient gameClient;
 
 
     public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
@@ -83,8 +84,9 @@ public class ClientBoard {
 
 
         beginClientLoop(renderer);
-
-
+        
+        this.gameClient = new GameClient(gameState);
+        gameClient.run();
     }
 
     private void beginClientLoop(Renderer renderer) {

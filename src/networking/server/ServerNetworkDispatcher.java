@@ -32,7 +32,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	protected void receiveConnect(ConnectPacket packet) {
 	    // Allow connection if the game has not started yet
 	    boolean allowed = !this.gameState.isStarted();
-	    
+
 	    if (allowed) {
 	        PlayerConnection playerConn = new PlayerConnection(this.nextPlayerId, packet.getIpAddress(), packet.getPort());
 	        Player player = new Player(this.nextPlayerId);
