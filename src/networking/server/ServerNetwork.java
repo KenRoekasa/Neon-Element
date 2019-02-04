@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import networking.packets.*;
+import server.ServerGameState;
 import networking.Constants;
 
 public class ServerNetwork extends Thread {
@@ -19,7 +20,7 @@ public class ServerNetwork extends Thread {
     private ArrayList<PlayerConnection> connections;
     protected ServerNetworkDispatcher dispatcher;
 
-    public ServerNetwork() {
+    public ServerNetwork(ServerGameState gameState) {
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
         } catch (SocketException e) {
@@ -28,7 +29,7 @@ public class ServerNetwork extends Thread {
 
         this.connections = new ArrayList<>();
         this.running = true;
-        this.dispatcher = new ServerNetworkDispatcher(this.socket);
+        this.dispatcher = new ServerNetworkDispatcher(this.socket, gameState);
     }
 
     public ServerNetworkDispatcher getDispatcher() {

@@ -3,12 +3,16 @@ package networking.server;
 import java.net.DatagramSocket;
 
 import networking.packets.*;
+import server.ServerGameState;
 import networking.NetworkDispatcher;
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
+    
+    private ServerGameState gameState;
 
-	protected ServerNetworkDispatcher(DatagramSocket socket) {
+	protected ServerNetworkDispatcher(DatagramSocket socket, ServerGameState gameState) {
 		super(socket);
+		this.gameState = gameState;
 	}
 
 	protected void receiveHello(HelloPacket packet) {
