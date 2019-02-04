@@ -5,6 +5,8 @@ import enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -127,30 +129,18 @@ public abstract class Character extends PhysicsObject {
     public void lightAttack() {
         long nextAvailableTime = (long) (timerArray[lightAttackID] + (lightAttackCD * 1000));
 
-        //Cooldown System
+        // Cooldown System
         if (System.currentTimeMillis() > nextAvailableTime) {
             int damage = 3;
             System.out.println("ATTACK");
             //set attack hit box in front of the user
             //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
-            switch (characterDirection) {
-                case UP:
-                    attackHitbox.setX(location.getX() - width);
-                    attackHitbox.setY(location.getY() - width);
-                    break;
-                case DOWN:
-                    attackHitbox.setX(location.getX() + width);
-                    attackHitbox.setY(location.getY() + width);
-                    break;
-                case LEFT:
-                    attackHitbox.setX(location.getX() - width);
-                    attackHitbox.setY(location.getY() + width);
-                    break;
-                case RIGHT:
-                    attackHitbox.setX(location.getX() + width);
-                    attackHitbox.setY(location.getY() - width);
-                    break;
-            }
+
+
+            attackHitbox.setY(location.getY()+width);
+            Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
+            attackHitbox.getTransforms().addAll(playerAngle);
+
             timerArray[lightAttackID] = System.currentTimeMillis();
 
 
