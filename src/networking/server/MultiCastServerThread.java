@@ -59,33 +59,20 @@ public class MultiCastServerThread extends ServerNetwork {
 		}
 	}
 
-	public void run() {
-		/*
-		 * do some broadcasting and then it sleeps or can wait for the next processing
-		 */
 
-		try {
-			sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	 protected void broadcast(DatagramPacket datagram) {
-	        Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-
-	        switch(packet.getType()) {
-	            case CONNECT_BCAST:
-	                this.dispatcher.broadCastNewConnectedUser((ConnectAckPacket) packet);
-	                break;
-	            case DISCONNECT_BCAST:
-	            		this.dispatcher.broadCastDisconnectedUser((DisconnectAckPacket) packet);
-	            		break;
-	            default:
-	                // TODO: log invalid packet
-	        }
-	        }
+	 protected void broadcast(Packet packet) {
+		 
+		        if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
+		            byte[] data = packet.getRawBytes();
+		            DatagramPacket datagram = new DatagramPacket(data, data.length, groupAddress, Constants.SERVER_LISTENING_PORT);
+		            try {
+		                this.socket.send(datagram);
+		            } catch (IOException e) {
+		                e.printStackTrace();
+		            }
+		        } else {
+		            System.out.println("Attempted to send a recived packet.");
+		        }
+		    }
 	}
 

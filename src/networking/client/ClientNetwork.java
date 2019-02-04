@@ -67,7 +67,28 @@ public class ClientNetwork extends Thread {
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
+            case GAME_START_BCAST:
+            		
                 break;
+            case LOCATION_STATE_BCAST:
+            		break;
+            case DISCONNECT_BCAST:
+            		break;
+            case ELEMENT_STATE_BCAST:
+            		break;
+            case GAME_OVER_BCAST:
+            		break;
+            case POWERUP_PICKUP_BCAST:
+            		break;
+            case POWERUP_STATE_BCAST:
+            		break;
+            case READY_STATE_BCAST:
+            		break;
+            case CONNECT_BCAST:
+            		break;
+            case CAST_SPELL_BCAST:
+            		break;
+     
             default:
                 System.out.println("Invalid packet recieved");
         }

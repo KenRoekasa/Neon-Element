@@ -59,6 +59,12 @@ public abstract class Packet {
         this.ipAddress = ipAddress;
         this.port = port;
     }
+    
+    protected Packet(PacketDirection direction, PacketType type) {
+    	this.direction = direction;
+        this.type = type;
+       
+    }
 
     public abstract byte[] getRawBytes();
 
@@ -111,29 +117,32 @@ public abstract class Packet {
                 packet = new HelloAckPacket(buffer, ipAddress, port);
                 break;
             case CONNECT_BCAST:
-            		packet = new ConnectPacket(buffer, ipAddress, port);
+            		packet = new BroadCastConnectedUserPacket(buffer);
             		break;
             case DISCONNECT_BCAST:
-            		packet = new DisconnectPacket(buffer, ipAddress, port);
+            		packet = new BroadCastDisconnectedUserPacket(buffer);
             		break;
             case READY_STATE_BCAST:
-            		packet = new ReadyStatePacket(buffer, ipAddress, port);
+            		packet = new BroadCastReadyStatePacket(buffer);
             		break;
             case LOCATION_STATE_BCAST:
-            		packet = new LocationStatePacket(buffer, ipAddress, port);
+            		packet = new BroadCastLocationStatePacket(buffer);
             		break;
             case ELEMENT_STATE_BCAST:
-            		packet = new ElementStatePacket(buffer, ipAddress, port);
+            		packet = new BroadCastElementStatePacket(buffer);
             		break;
             case CAST_SPELL_BCAST:
-            		packet = new CastSpellPacket(buffer, ipAddress, port);
+            		packet = new BroadCastCastSpellPacket(buffer);
             		break;
             case POWERUP_PICKUP_BCAST:
-            		packet = new PowerUpPacket(buffer, ipAddress, port);
+            		packet = new BroadCastPowerUpPickUpPacket(buffer);
             case POWERUP_STATE_BCAST:
-            		packet = new PowerUpPacket(buffer, ipAddress, port);
+            		packet = new BroadCastPowerUpPacket(buffer);
             		break;
-            		
+            case GAME_START_BCAST:
+            		packet = new BroadCastGameStartPacket(buffer);
+            case GAME_OVER_BCAST:
+            		packet = new BroadCastGameOverPacket(buffer);
             default:
                 packet = null;
         }

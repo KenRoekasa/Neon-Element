@@ -12,10 +12,10 @@ import networking.Constants;
 
 //import networking.Packets.Packet;
 
-public class MultiCastClient extends ClientNetwork{
+public class MultiCastClient extends ClientNetwork {
 
 	private InetAddress groupAddress;
-	private MulticastSocket socket;
+	private MulticastSocket mSocket;
 
 	public MultiCastClient() {
 
@@ -29,7 +29,7 @@ public class MultiCastClient extends ClientNetwork{
 		try {
 			group = InetAddress.getByName(Constants.SERVER_ADDRESS);
 			socket = new MulticastSocket(Constants.SERVER_LISTENING_PORT);
-			this.socket.joinGroup(group);
+			this.mSocket.joinGroup(group);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,13 +37,23 @@ public class MultiCastClient extends ClientNetwork{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 	
+	 public void close() {
+	        this.socket.close();
+	        try {
+				this.mSocket.leaveGroup(groupAddress);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        mSocket.close();
+	        
+	    }
+
 	public void run() {
-		
-		
+
 		byte[] data = new byte[16];
 		DatagramPacket packet;
 
@@ -57,10 +67,13 @@ public class MultiCastClient extends ClientNetwork{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+			
+			this.parse(packet);
 
+		}
 		
 
 	}
+	
 
 }
