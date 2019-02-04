@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 public class ServerGameState {
+    
+    private final int MAX_PLAYERS = 10;
 
     private boolean isStarted;
     private ArrayList<Player> players;
@@ -40,6 +42,11 @@ public class ServerGameState {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public int getMaxPlayers() {
+        // TODO - use a variable from game setup to choose number
+        return MAX_PLAYERS;
     }
 
     public void setPlayers(ArrayList<Player> players) {

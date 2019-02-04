@@ -24,14 +24,16 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
 		int players = this.gameState.getPlayers().size();
-		int maxPlayers = 0;
+		int maxPlayers = this.gameState.getMaxPlayers();
 		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
 		this.send(response);
 	}
 
 	protected void receiveConnect(ConnectPacket packet) {
-	    // Allow connection if the game has not started yet
-	    boolean allowed = !this.gameState.isStarted();
+	    boolean isStarted = this.gameState.isStarted();
+	    boolean hasSpace = this.gameState.getPlayers().size() < this.gameState.getMaxPlayers();
+	    // Allow connection if the game has not started yet and we have space for more players
+	    boolean allowed = !isStarted && hasSpace;
 
 	    if (allowed) {
 	        PlayerConnection playerConn = new PlayerConnection(this.nextPlayerId, packet.getIpAddress(), packet.getPort());
@@ -47,7 +49,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 
 	protected void broadCastNewConnectedUser(ConnectAckPacket packet) {
-		Packet response = new ConnectAckPacket(packet.getIpAddress(), packet.getPort(), true);
+		Packet response = new ConnectAckPacket(true, packet.getIpAddress(), packet.getPort());
 		this.send(response);
 	}
 
