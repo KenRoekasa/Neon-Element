@@ -58,6 +58,29 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         }
 	}
 
+	protected void receiveLocationState(LocationStatePacket packet) {
+	    PlayerConnection playerConn = getPlayerConnection(packet);
+
+	    if (playerConn != null) {
+	        int id = playerConn.getId();
+
+	        Player player = this.gameState.getPlayers().stream()
+	            .filter(p -> p.getId() == id)
+	            .findFirst()
+	            .orElse(null);
+
+	        if (player != null) {
+	            // Just update the location for now
+	            // TODO - validate if the location
+	            player.setLocation(packet.getX(), packet.getY());
+	        } else {
+	            // Player id not found
+	        }
+	    } else {
+	        // Player connection not found
+	    }
+	}
+
 	protected void broadCastNewConnectedUser(ConnectAckPacket packet) {
 		Packet response = new ConnectAckPacket(true, packet.getIpAddress(), packet.getPort());
 		this.send(response);
@@ -73,4 +96,11 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.send(response);
 	}
 	
+	private PlayerConnection getPlayerConnection(Packet packet) {
+        return this.connections.stream()
+            .filter(c -> c.is(packet.getIpAddress(), packet.getPort()))
+            .findFirst()
+            .orElse(null);
+	}
+
 }

@@ -18,4 +18,8 @@ public class PlayerConnection {
         return this.id;
     }
 
+    public boolean is(InetAddress ipAddress, int port) {
+        return this.ipAddress.equals(ipAddress) && this.port == port;
+    }
+
 }

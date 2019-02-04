@@ -45,4 +45,11 @@ public class Player extends Character {
         }
 
     }
+
+    public void setLocation(double x, double y) {
+        double X = this.location.getX();
+        double Y = this.location.getY();
+
+        this.location.add(x-X, y-Y);
+    }
 }
