@@ -81,5 +81,5 @@ public class BasicEnemyFSM {
 
 		return index;
 	}
-	
+
 }

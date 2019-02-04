@@ -23,10 +23,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
 public class ClientBoard {
@@ -40,6 +37,7 @@ public class ClientBoard {
     private ArrayList<String> input;
 
     private GameState gameState;
+
 
 
     public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
@@ -100,9 +98,9 @@ public class ClientBoard {
             }
         }.start();
 
-        Thread powerUpController  = new Thread(new PowerUpController(gameState.getObjects()));
+        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects()));
         powerUpController.start();
-        powerUpController.yield();
+
 
 
 
@@ -135,25 +133,51 @@ public class ClientBoard {
         InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
         synchronized (gameState.getObjects()) {
             // Collision detection code
-            for (PhysicsObject e : gameState.getObjects()) {
-                if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                    //If the object is a power up
-                    if (Objects.equals(e.getClass(), PowerUp.class)) {
-                        PowerUp powerUp = (PowerUp) e;
-                        ((PowerUp) e).activatePowerUp(gameState.getPlayer());
-                        // remove power up from objects array list
-                        gameState.getObjects().remove(powerUp);
+            synchronized (gameState.getObjects()){
+                for (Iterator<PhysicsObject> itr = gameState.getObjects().iterator(); itr.hasNext();) {
+                    PhysicsObject e = itr.next();
+                    if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
+                        //If the object is a power up
+                        if (Objects.equals(e.getClass(), PowerUp.class)) {
+                            PowerUp powerUp = (PowerUp) e;
+                            ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+                            // remove power up from objects array list
+                            itr.remove();
+                        } else {
+                            //The player has collided with e do something
+                            gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+                            //                    System.out.println("x diff " + xDiff);
+                            //                    System.out.println("y diff " + yDiff);
+                            gameState.getPlayer().isColliding(e);
+                        }
                     } else {
-                        //The player has collided with e do something
-                        gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-                        //                    System.out.println("x diff " + xDiff);
-                        //                    System.out.println("y diff " + yDiff);
-                        gameState.getPlayer().isColliding(e);
+                        gameState.getPlayer().isColliding = false;
                     }
-                } else {
-                    gameState.getPlayer().isColliding = false;
                 }
             }
+//            for (PhysicsObject e : gameState.getObjects()) {
+//                if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
+//                    //If the object is a power up
+//                    if (Objects.equals(e.getClass(), PowerUp.class)) {
+//                        PowerUp powerUp = (PowerUp) e;
+//                        ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+//                        // remove power up from objects array list
+//                        gameState.getObjects().remove(powerUp);
+//                    } else {
+//                        //The player has collided with e do something
+//                        gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+//                        //                    System.out.println("x diff " + xDiff);
+//                        //                    System.out.println("y diff " + yDiff);
+//                        gameState.getPlayer().isColliding(e);
+//                    }
+//                } else {
+//                    gameState.getPlayer().isColliding = false;
+//                }
+//            }
+
+
+
+
             //Call update function for all physics objects
             gameState.getPlayer().update();
             for (PhysicsObject o : gameState.getObjects()) {
