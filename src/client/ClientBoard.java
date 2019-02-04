@@ -1,30 +1,26 @@
 package client;
 
-import client.GameState;
-import client.InputHandler;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
-import entities.Player;
 import entities.PowerUp;
 import enums.ObjectType;
 import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class ClientBoard {
@@ -77,11 +73,13 @@ public class ClientBoard {
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
-        // initialise input controls
-        initialiseInput(theScene);
-
-
         Renderer renderer = new Renderer(gc, stageSize, debugger);
+
+
+        // initialise input controls
+        initialiseInput(theScene, renderer);
+
+
 
 
         beginClientLoop(renderer);
@@ -105,7 +103,7 @@ public class ClientBoard {
     }
 
 
-    private void initialiseInput(Scene theScene) {
+    private void initialiseInput(Scene theScene, Renderer renderer) {
         // set input controls
         input = new ArrayList<>();
         theScene.setOnKeyPressed(e -> {
@@ -122,13 +120,21 @@ public class ClientBoard {
                     input.remove(code);
                 });
 
+        theScene.setOnMouseClicked(e -> {
+            InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
+
+
+        });
+
+
+
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
     }
 
     private void clientLoop() {
-        InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
+        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
         synchronized (gameState.getObjects()) {
             // Collision detection code
             synchronized (gameState.getObjects()) {
@@ -174,9 +180,6 @@ public class ClientBoard {
                 o.update();
             }
         }
-
-
     }
-
 
 }
