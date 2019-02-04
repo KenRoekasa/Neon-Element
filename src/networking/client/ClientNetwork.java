@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import client.ClientGameState;
 import networking.packets.*;
 
 public class ClientNetwork extends Thread {
@@ -13,7 +14,7 @@ public class ClientNetwork extends Thread {
     protected DatagramSocket socket;
     private ClientNetworkDispatcher dispatcher;
 
-    public ClientNetwork() {
+    public ClientNetwork(ClientGameState gameState) {
         try {
             this.socket = new DatagramSocket();
         } catch (SocketException e) {
@@ -21,7 +22,7 @@ public class ClientNetwork extends Thread {
         }
 
         this.running = true;
-        this.dispatcher = new ClientNetworkDispatcher(this.socket);
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, gameState);
     }
 
     //This clinet cons takes in the serverAddresws and playerName in as an arg from the command line

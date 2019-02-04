@@ -1,6 +1,6 @@
 package controllers;
 
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 import client.ClientBoard;
 import javafx.fxml.FXML;
@@ -35,7 +35,7 @@ public class MenuController implements Initializable{
 
         // create game rules
         // todo make this configurable
-        GameState g = GameStateGenerator.createDemoGamestate();
+        ClientGameState g = GameStateGenerator.createDemoGamestate();
 
         try {
             ClientBoard gameBoard = new ClientBoard(stage, g);

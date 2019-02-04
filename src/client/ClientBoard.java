@@ -1,6 +1,6 @@
 package client;
 
-import client.GameState;
+import client.ClientGameState;
 import client.InputHandler;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -35,10 +35,11 @@ public class ClientBoard {
     private Rectangle stageSize;
     private ArrayList<String> input;
 
-    private GameState gameState;
+    private ClientGameState gameState;
+    private GameClient gameClient;
 
 
-    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
@@ -83,14 +84,15 @@ public class ClientBoard {
 
 
         beginClientLoop(renderer);
-
-
+        
+        this.gameClient = new GameClient(gameState);
+        gameClient.run();
     }
 
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                clientLoop();
+                InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
                 renderer.render(primaryStage);
 
             }
@@ -119,37 +121,5 @@ public class ClientBoard {
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
     }
-
-    private void clientLoop() {
-        InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
-
-        // Collision detection code
-        for (PhysicsObject e : gameState.getObjects()) {
-            if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                //If the object is a power up
-                if (Objects.equals(e.getClass(), PowerUp.class)) {
-                    PowerUp powerUp = (PowerUp) e;
-                    ((PowerUp) e).activatePowerUp();
-                }else{
-                    //The player has collided with e do something
-
-
-                    gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-//                    System.out.println("x diff " + xDiff);
-//                    System.out.println("y diff " + yDiff);
-                    gameState.getPlayer().isColliding(e);
-                }
-            }else{
-                gameState.getPlayer().isColliding = false;
-            }
-
-        }
-        //Call update function for all physics objects
-        gameState.getPlayer().update();
-        for (PhysicsObject o : gameState.getObjects()) {
-            o.update();
-        }
-    }
-
 
 }

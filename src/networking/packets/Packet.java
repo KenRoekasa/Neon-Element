@@ -46,6 +46,7 @@ public abstract class Packet {
             }
             return null;
         }
+
     }
 
     private PacketDirection direction;
@@ -115,6 +116,12 @@ public abstract class Packet {
                 break;
             case HELLO_ACK:
                 packet = new HelloAckPacket(buffer, ipAddress, port);
+                break;
+            case CONNECT:
+                packet = new ConnectPacket(buffer, ipAddress, port);
+                break;
+            case CONNECT_ACK:
+                packet = new ConnectAckPacket(buffer, ipAddress, port);
                 break;
             case CONNECT_BCAST:
             		packet = new BroadCastConnectedUserPacket(buffer);
