@@ -12,7 +12,7 @@ public abstract class Enemy extends Character {
 
 	EnemyStates activeState;
     Character [] players;
-    PowerUp [] powerUps;
+    PowerUp [] powerups;
     Enemy enemy  = this;
     int powerupIndex = -1;
 
@@ -20,24 +20,22 @@ public abstract class Enemy extends Character {
     public Enemy(Character [] players, PowerUp [] powerUps) {
 
         activeState = EnemyStates.IDLE;
+        //default random
         assignRandomElement();
         this.players = players;
-        this.powerUps = powerUps;
+        this.powerups = powerUps;
         location = new Point2D(10, 100);
         playerAngle = new Rotate(0);
         health = 100;
         movementSpeed = 2;
         isShielded = false;
-        //Default Fire
-        currentElement = Elements.FIRE;
         width = 20;
     }
     
-    
-    public abstract void executeAction();
     public abstract void start() ;
+    public abstract void executeAction();
     
-    public void assignRandomElement() {
+    private void assignRandomElement() {
 
         Random r = new Random();
         int rand = r.nextInt(4);
@@ -104,9 +102,9 @@ public abstract class Enemy extends Character {
     	Character player = findNearestPlayer();
 		int index=-1;
 		double distance = Double.MAX_VALUE;
-		for (int i = 0; i < powerUps.length; i++) {
-			if(powerUps[i].getType().equals(pu)) {
-				double disToPU = calcDistance(powerUps[i].getLocation(),getLocation());
+		for (int i = 0; i < powerups.length; i++) {
+			if(powerups[i].getType().equals(pu)) {
+				double disToPU = calcDistance(powerups[i].getLocation(),getLocation());
 				if( disToPU < calcDistance(getLocation(),player.getLocation()) ) {
 					if(disToPU < distance) {
 						distance = disToPU;
@@ -116,7 +114,7 @@ public abstract class Enemy extends Character {
 			}
 		}
 
-		return (index == -1)?null:powerUps[index];
+		return (index == -1)?null:powerups[index];
 	}
 
     public Character findNearestPlayer() {

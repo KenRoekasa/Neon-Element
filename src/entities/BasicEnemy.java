@@ -23,7 +23,7 @@ public class BasicEnemy extends Enemy {
 
                 while (bool) {
 
-                	EnemyFSM.basicEnemyFetchAction(enemy, players, powerUps);
+                	EnemyFSM.basicEnemyFetchAction(enemy, players, powerups);
 
                 	executeAction();
                 	
