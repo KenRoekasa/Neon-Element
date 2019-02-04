@@ -149,8 +149,24 @@ public class ClientBoard {
                     } else {
                         gameState.getPlayer().isColliding = false;
                     }
+                    //Attack Collision
+                    //if player is attacking check
+                    Rectangle attackHitbox = new Rectangle(gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY()+gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth());
+                    Rotate rotate = (Rotate) Rotate.rotate(gameState.getPlayer().getPlayerAngle().getAngle(), gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY());
+                    attackHitbox.getTransforms().addAll(rotate);
+                    if(CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(),e.getBounds().getBoundsInParent())){
+                        // e takes damage
+                    }
+
                 }
             }
+
+
+
+
+
+
+
 
             //Call update function for all physics objects
             gameState.getPlayer().update();
