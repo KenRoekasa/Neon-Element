@@ -2,10 +2,10 @@ package graphics;
 
 import client.ClientGameState;
 import debugger.Debugger;
+import entities.Enemy;
+import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
-import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -14,8 +14,9 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Objects;
 
 import static javafx.scene.transform.Rotate.X_AXIS;
 
@@ -25,14 +26,12 @@ public class Renderer  {
     private Debugger debugger;
     private Double scaleConstant;
 
-    private ClientGameState gameState;
     private Rectangle stageSize;
 
 
-    public Renderer(GraphicsContext gc, ClientGameState gameState, Rectangle stageSize, Debugger debugger) {
+    public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
-        this.gameState = gameState;
         this.stageSize = stageSize;
 
 
@@ -40,27 +39,56 @@ public class Renderer  {
         scaleConstant = (double)99/70;
     }
 
-    public Renderer(GraphicsContext gc, ClientGameState gameState, Rectangle stageSize){
+    public Renderer(GraphicsContext gc, Rectangle stageSize){
         this.gc = gc;
-        this.gameState = gameState;
         this.stageSize = stageSize;
 
         scaleConstant = (double)99/70;
     }
 
-    public void render(Stage primaryStage) {
+    public void render(Stage primaryStage, ClientGameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
         // draw to screen
         drawMap(stageSize, gameState.getMap(), gameState.getPlayer());
+
+        //sort based on proximity to the view (greater y is later)
+        ArrayList<PhysicsObject> objects = sortDistance(gameState.getEntities());
+
+        // render all objects
+        for (PhysicsObject o: objects) {
+            renderObject(o, gameState);
+        }
+
+        // render cursors to ensure on top
+        for(Enemy e : gameState.getEnemies()){
+            drawerEnemyCursor(stageSize, e, gameState.getPlayer());
+        }
         drawerCursor(stageSize, gameState.getPlayer());
-        //renderer.drawCrosshair(stageSize);
-        drawPlayer(stageSize, gameState.getPlayer());
-        drawEnemies(stageSize, gameState.getEnemies(), gameState.getPlayer());
 
         debugger.add((gameState.getPlayer().getLocation().toString()),1);
         debugger.print();
+    }
+
+    private void renderObject(PhysicsObject o, ClientGameState gameState) {
+
+        if(Objects.equals(o.getClass(),  Player.class)) {
+            drawPlayer(stageSize, gameState.getPlayer());
+        } else if (Objects.equals(o.getClass(),  Enemy.class)){
+            drawEnemy(stageSize, (Enemy)o, gameState.getPlayer());
+
+        } else if(Objects.equals(o.getClass(), PowerUp.class)){
+            drawPowerUp(stageSize, (PowerUp)o, gameState.getPlayer());
+        }
+
+
+    }
+
+    private ArrayList<PhysicsObject> sortDistance(ArrayList<PhysicsObject> a) {
+        a.sort(Comparator.comparingDouble(o -> o.getLocation().getY()));
+
+        return a;
     }
 
 
@@ -86,8 +114,8 @@ public class Renderer  {
     }
 
     @SuppressWarnings("Duplicates")
-    void drawPowerUps(Rectangle stage, ArrayList<PowerUp> powerUps, Player player){
-        for(PowerUp powerUp: powerUps){
+    void drawPowerUp(Rectangle stage, PowerUp powerUp, Player player){
+
 
             Point2D powerUpLocation = ISOConverter.twoDToIso(powerUp.getLocation());
             Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
@@ -102,12 +130,11 @@ public class Renderer  {
             gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWidth() * scaleConstant, powerUp.getWidth() * scaleConstant);
 
             gc.restore();
-        }
+
     }
 
     @SuppressWarnings("Duplicates")
-    void drawEnemies(Rectangle stage, ArrayList<Player> enemies, Player player){
-        for(Player enemy: enemies) {
+    void drawEnemy(Rectangle stage, Enemy enemy, Player player){
 
             // calculates graphical location of object based on its location on board and players location on board
             Point2D enemyLocation = ISOConverter.twoDToIso(enemy.getLocation());
@@ -124,8 +151,6 @@ public class Renderer  {
 
             // restore prev state
             gc.restore();
-
-        }
     }
 
     public void drawPlayer(Rectangle stage, Player player) {
@@ -192,6 +217,37 @@ public class Renderer  {
         gc.setFill(Color.RED);
 
         gc.fillOval(playerXCenter - cursorRadius/2f, playerYCenter - cursorRadius/2f - 30, cursorRadius, cursorRadius);
+
+        gc.restore();
+    }
+
+    @SuppressWarnings("Duplicates")
+    void drawerEnemyCursor(Rectangle stage, Enemy enemy, Player player) {
+
+        int cursorRadius = 10;
+
+        Point2D enemyLocation = ISOConverter.twoDToIso(enemy.getLocation());
+        Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
+
+        double relativeX = stage.getWidth()/2f - isoPlayerLocation.getX() + enemyLocation.getX();
+        double relativeY = stage.getHeight()/2f - isoPlayerLocation.getY() + enemyLocation.getY();
+        Point2D relativeLocation = new Point2D(relativeX, relativeY);
+
+
+
+        gc.save();
+        Affine affine = new Affine();
+
+        affine.prependRotation(enemy.getPlayerAngle().getAngle(), relativeLocation.getX(), relativeLocation.getY());
+
+        Rotate rotateX = new Rotate(45, relativeLocation.getX(), relativeLocation.getY());
+        Rotate rotateZ = new Rotate(60.0, relativeLocation.getX(), relativeLocation.getY(), 0, X_AXIS);
+        affine.prepend(rotateX);
+        affine.prepend(rotateZ);
+        gc.transform(affine);
+        gc.setFill(Color.RED);
+
+        gc.fillOval(relativeLocation.getX() - cursorRadius/2f, relativeLocation.getY() - cursorRadius/2f - 30, cursorRadius, cursorRadius);
 
         gc.restore();
     }

@@ -18,11 +18,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ClientBoard {
@@ -80,7 +83,7 @@ public class ClientBoard {
         initialiseInput(theScene);
 
 
-        Renderer renderer = new Renderer(gc, gameState, stageSize, debugger);
+        Renderer renderer = new Renderer(gc, stageSize, debugger);
 
 
         beginClientLoop(renderer);
@@ -93,8 +96,7 @@ public class ClientBoard {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
-                renderer.render(primaryStage);
-
+                renderer.render(primaryStage, gameState);
             }
         }.start();
     }

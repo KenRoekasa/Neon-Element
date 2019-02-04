@@ -37,17 +37,15 @@ public class GameClient extends Thread {
     }
     
     private void doCollisionDetection() {
-     // Collision detection code
+        // Collision detection code
         for (PhysicsObject e : gameState.getObjects()) {
             if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
                 //If the object is a power up
                 if (Objects.equals(e.getClass(), PowerUp.class)) {
                     PowerUp powerUp = (PowerUp) e;
-                    ((PowerUp) e).activatePowerUp();
+                    ((PowerUp) e).activatePowerUp(gameState.getPlayer());
                 }else{
                     //The player has collided with e do something
-
-
                     gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
 //                    System.out.println("x diff " + xDiff);
 //                    System.out.println("y diff " + yDiff);
@@ -56,13 +54,14 @@ public class GameClient extends Thread {
             }else{
                 gameState.getPlayer().isColliding = false;
             }
-
         }
         //Call update function for all physics objects
         gameState.getPlayer().update();
         for (PhysicsObject o : gameState.getObjects()) {
             o.update();
         }
+
+        // Power up creation thread
     }
     
     private void doLocationState() {
