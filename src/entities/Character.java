@@ -9,6 +9,8 @@ import javafx.scene.transform.Rotate;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static entities.CooldownValues.*;
+
 public abstract class Character extends PhysicsObject {
     protected float health;
     protected Elements currentElement;
@@ -19,12 +21,15 @@ public abstract class Character extends PhysicsObject {
     protected final float MAX_HEALTH = 100;
     protected boolean isAlive = true;
 
+    // The time the ability was last used System.time
+    protected long[] timerArray = new long[];
+
+
     //TODO: Change the access modifier
     public boolean isColliding;
 
     private Timer timer = new Timer();
     private Rectangle attackHitbox = new Rectangle(width, width);
-    private Point2D newLocation;
 
     public void moveUp() {
         characterDirection = Directions.UP;
@@ -70,7 +75,7 @@ public abstract class Character extends PhysicsObject {
         double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-        if (xCheck <= boardWidth && yCheck >= 0 ) {
+        if (xCheck <= boardWidth && yCheck >= 0) {
             location = location.add(movementSpeed, -movementSpeed);
         }
     }
@@ -100,7 +105,7 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.LEFTCART;
 
         //check within bounds
-        if ((location.getX() - movementSpeed - width / 2f) >= 0 ) {
+        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
             location = location.add(-(movementSpeed * 2), 0);
         } else {
             location = new Point2D(0 + width / 2f, location.getY());
@@ -112,7 +117,7 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.RIGHTCART;
 
         //check within bounds
-        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth ) {
+        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
             location = location.add((movementSpeed * 2), 0);
         } else {
             location = new Point2D(boardWidth - width / 2f, location.getY());
@@ -120,39 +125,42 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        int damage = 3;
-        //set attack hit box in front of the user
-        //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
-        switch (characterDirection) {
-            case UP:
-                attackHitbox.setX(location.getX() - width);
-                attackHitbox.setY(location.getY() - width);
-                break;
-            case DOWN:
-                attackHitbox.setX(location.getX() + width);
-                attackHitbox.setY(location.getY() + width);
-                break;
-            case LEFT:
-                attackHitbox.setX(location.getX() - width);
-                attackHitbox.setY(location.getY() + width);
-                break;
-            case RIGHT:
-                attackHitbox.setX(location.getX() + width);
-                attackHitbox.setY(location.getY() - width);
-                break;
-        }
+        long nextAvailableTime = (long) (timerArray[lightAttackID] + (2.5 * 1000));
 
-        //temp array for the other players
-        Character otherCharacters[] = new Character[4];
-
-
-        //If another Character is in the Hitbox calculate the damage they take
-        // How is damaged dealt throught the victim or the attacker or server
-        for (Character p : otherCharacters) {
-            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
-                //TODO: What happens when you hit another Character
-                //sends to server
+        //Cooldown System
+        if (System.currentTimeMillis() > nextAvailableTime) {
+            int damage = 3;
+            System.out.println("ATTACK");
+            //set attack hit box in front of the user
+            //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
+            switch (characterDirection) {
+                case UP:
+                    attackHitbox.setX(location.getX() - width);
+                    attackHitbox.setY(location.getY() - width);
+                    break;
+                case DOWN:
+                    attackHitbox.setX(location.getX() + width);
+                    attackHitbox.setY(location.getY() + width);
+                    break;
+                case LEFT:
+                    attackHitbox.setX(location.getX() - width);
+                    attackHitbox.setY(location.getY() + width);
+                    break;
+                case RIGHT:
+                    attackHitbox.setX(location.getX() + width);
+                    attackHitbox.setY(location.getY() - width);
+                    break;
             }
+
+
+            //If another Character is in the Hitbox calculate the damage they take
+            // How is damaged dealt throught the victim or the attacker or server
+//        for (Character p : otherCharacters) {
+//            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
+//                //TODO: What happens when you hit another Character
+//                //sends to server
+//            }
+//        }
         }
 
 
@@ -288,26 +296,36 @@ public abstract class Character extends PhysicsObject {
     // adds Health to the player
     public void addHealth(int amount) {
         health += amount;
-        if(health >100){
-            health =100;
+        if (health > 100) {
+            health = 100;
         }
     }
 
     // Increase movement speed
     public void speedBoost() {
         movementSpeed = 4;
-        final int[] timeCtr = {0};
-        //counts for 4 seconds then back to default movement speed
-        (new Timer()).scheduleAtFixedRate(new TimerTask() {
+        long lastAvailableTime = System.currentTimeMillis() + 4*1000;
 
-            public void run() {
-                if (timeCtr[0] == 4) {
-                    movementSpeed = 2;
-                    timer.cancel();
+
+
+
+        // if timer is not already running, run it
+        if (timerArray[speedBoostID] > 0) {
+            timerArray[speedBoostID] = 0;
+            //counts for 4 seconds then back to default movement speed
+            (new Timer()).scheduleAtFixedRate(new TimerTask() {
+
+                public void run() {
+                    if (timerArray[speedBoostID] == speedBoostDuration) {
+                        movementSpeed = 2;
+                        timer.cancel();
+                    }
+                    timerArray[speedBoostDuration]++;
                 }
-                timeCtr[0]++;
-            }
-        }, 0, 1000);
+            }, 0, 1000);
+        } else {
+            timerArray[speedBoostID] = 0;
+        }
     }
 
 

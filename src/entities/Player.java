@@ -5,6 +5,8 @@ import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
+import static entities.CooldownValues.*;
+
 
 public class Player extends Character {
 
@@ -26,6 +28,9 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         width = 20;
         tag = type;
+        for(int i = 0; i < timerArray.length; i++){
+            timerArray[i] = System.currentTimeMillis() - 10*1000;
+        }
     }
 
 

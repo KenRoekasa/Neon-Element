@@ -3,6 +3,7 @@ package entities;
 import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public abstract class PhysicsObject {
     protected int width;
@@ -21,7 +22,7 @@ public abstract class PhysicsObject {
         return width;
     }
 
-    public Rectangle getBounds() {
+    public Shape getBounds() {
         return new Rectangle(location.getX(), location.getY(), width, width);
     }
 
