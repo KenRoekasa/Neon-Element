@@ -1,4 +1,4 @@
-package Debugger;
+package debugger;
 
 // following code adapted from https://stackoverflow.com/a/521235
 
