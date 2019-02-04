@@ -5,6 +5,7 @@ import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
 import entities.PowerUp;
+import enums.ObjectType;
 import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -47,7 +48,7 @@ public class ClientBoard {
             hudPane = (Pane) loader.load();
             //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
 
-        } catch (Exception e){
+        } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
             e.printStackTrace();
@@ -95,8 +96,8 @@ public class ClientBoard {
             }
         }.start();
 
-        (new Thread(new PowerUpController(gameState.getObjects()))).start();
-
+        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects()));
+        powerUpController.start();
 
 
     }
@@ -136,23 +137,27 @@ public class ClientBoard {
         InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
         synchronized (gameState.getObjects()) {
             // Collision detection code
-            for (PhysicsObject e : gameState.getObjects()) {
-                if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                    //If the object is a power up
-                    if (Objects.equals(e.getClass(), PowerUp.class)) {
-                        PowerUp powerUp = (PowerUp) e;
-                        ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+            synchronized (gameState.getObjects()) {
+                for (Iterator<PhysicsObject> itr = gameState.getObjects().iterator(); itr.hasNext(); ) {
+                    PhysicsObject e = itr.next();
+                    if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
+                        //If the object is a power up
+                        if (e.getTag() == ObjectType.POWERUP) {
+                            PowerUp powerUp = (PowerUp) e;
+                            ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+                            // remove power up from objects array list
+                            itr.remove();
+                        } else {
+                            //The player has collided with e do something
+                            gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+                            gameState.getPlayer().isColliding(e);
+                        }
                     } else {
-                        //The player has collided with e do something
-                        gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-                        //                    System.out.println("x diff " + xDiff);
-                        //                    System.out.println("y diff " + yDiff);
-                        gameState.getPlayer().isColliding(e);
+                        gameState.getPlayer().isColliding = false;
                     }
-                } else {
-                    gameState.getPlayer().isColliding = false;
                 }
             }
+
             //Call update function for all physics objects
             gameState.getPlayer().update();
             for (PhysicsObject o : gameState.getObjects()) {

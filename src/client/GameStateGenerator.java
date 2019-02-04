@@ -4,6 +4,7 @@ import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
+import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
@@ -17,7 +18,7 @@ public class GameStateGenerator {
         Rectangle map = new Rectangle(1500, 1500);
 
         // create player
-        Player player = new Player();
+        Player player = new Player(ObjectType.PLAYER);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
 
