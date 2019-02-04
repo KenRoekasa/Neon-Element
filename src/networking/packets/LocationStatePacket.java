@@ -19,7 +19,7 @@ public class LocationStatePacket extends Packet {
         this.y = buffer.getDouble();
     }
 
-    public LocationStatePacket(InetAddress ipAddress, int port, double x, double y) {
+    public LocationStatePacket(double x, double y, InetAddress ipAddress, int port) {
         super(PacketDirection.OUTGOING, PacketType.LOCATION_STATE, ipAddress, port);
         this.x = x;
         this.y = y;

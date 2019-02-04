@@ -1,6 +1,7 @@
 package client;
 
 import networking.client.ClientNetwork;
+import networking.client.ClientNetworkDispatcher;
 
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ import client.ClientGameState;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
 import entities.PowerUp;
+import javafx.geometry.Point2D;
 
 public class GameClient extends Thread {
 
@@ -26,6 +28,7 @@ public class GameClient extends Thread {
 
         while(this.running) {
             this.doCollisionDetection();
+            this.doLocationState();
             
             Thread.yield();
         }
@@ -60,6 +63,18 @@ public class GameClient extends Thread {
         for (PhysicsObject o : gameState.getObjects()) {
             o.update();
         }
+    }
+    
+    private void doLocationState() {
+        Point2D location = this.gameState.getPlayer().getLocation();
+        double x = location.getX();
+        double y = location.getY();
+
+        this.getDispatcher().sendLocationState(x, y);
+    }
+    
+    private ClientNetworkDispatcher getDispatcher() {
+        return this.network.getDispatcher();
     }
 
 

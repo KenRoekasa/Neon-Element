@@ -38,6 +38,15 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         int maxPlayers = packet.getMaxPlayers();
         System.out.println("Got players: " + players + " max: " + maxPlayers);
     }
+
+    public void sendLocationState(double x, double y) {
+        try {
+            Packet packet = new LocationStatePacket(x, y, InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
+            this.send(packet);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     protected String getServerAddress() {
     	return serverAddress;
