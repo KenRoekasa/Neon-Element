@@ -154,7 +154,6 @@ public abstract class Character extends PhysicsObject {
             Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
             attackHitbox.getTransforms().addAll(playerAngle);
 
-            timerArray[lightAttackID] = System.currentTimeMillis();
 
             //If another Character is in the Hitbox calculate the damage they take
             // How is damaged dealt throught the victim or the attacker or server
