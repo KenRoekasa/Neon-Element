@@ -1,7 +1,5 @@
 package client;
 
-import client.GameState;
-import client.InputHandler;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -122,10 +120,12 @@ public class ClientBoard {
                 });
 
         theScene.setOnMouseClicked(e -> {
-            InputHandler.handleLeftClick(gameState.getPlayer(), primaryStage, e);
-            renderer.addPlayerAttack(gameState.getPlayer(), 1);
+            InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
+
 
         });
+
+
 
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
@@ -159,12 +159,6 @@ public class ClientBoard {
                 o.update();
             }
         }
-
-
-
-
-
     }
-
 
 }

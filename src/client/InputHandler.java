@@ -3,11 +3,13 @@ package client;
 import entities.Player;
 import graphics.Renderer;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class InputHandler {
@@ -96,11 +98,21 @@ public class InputHandler {
         }
     }
 
-    static void handleLeftClick(Player player, Stage primaryStage, MouseEvent e) {
+    static void handleClick(Player player, Stage primaryStage, MouseEvent e, Renderer r) {
 
-        //player.lightAttack();
-        System.out.println("Light attack");
+        if(e.getButton() == MouseButton.PRIMARY) {
+            //System.out.println("Light attack");
+            //player.lightAttack();
+            r.addPlayerAttack(player, 1);
 
+        } else if (e.getButton() == MouseButton.SECONDARY) {
+            r.addPlayerAttack(player, 2);
 
+            //player.heavyAttack();
+            //System.out.println("Light attack");
+        }
     }
+
+
+
 }

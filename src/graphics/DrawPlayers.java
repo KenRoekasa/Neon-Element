@@ -56,7 +56,7 @@ public class DrawPlayers {
     }
 
 
-    public static void drawLightAttack(GraphicsContext gc, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
+    static void drawLightAttack(GraphicsContext gc, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
 
         Point2D stageCenter = getStageCenter(stage);
         long startAngle = 0;
@@ -77,19 +77,47 @@ public class DrawPlayers {
         gc.transform(affine);
         gc.setFill(Color.BLUE);
 
-
-
         //gc.strokeLine(stageCenter.getX() - 20, stageCenter.getY() - 20, stageCenter.getX() - 100, stageCenter.getY() - 100);
-
+        //todo make better
         gc.fillOval(stageCenter.getX() - 10/2f, stageCenter.getY() - 10/2f - 30, 10, 10);
 
-
-
         gc.restore();
-
-
-
     }
+
+    static void drawHeavyAttackCharge(GraphicsContext gc, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
+
+        Point2D stageCenter = getStageCenter(stage);
+
+        long startAlphaValue = 0;
+        long finishAlphaValue = 100;
+        float percentCharged = (Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, finishAlphaValue, startAlphaValue)) / 100f;
+        double attackRadius = 200 * Renderer.getScaleConstant();
+
+        gc.save();
+        Affine affine = new Affine();
+
+        Rotate rotateX = new Rotate(45, stageCenter.getX(), stageCenter.getY());
+        Rotate rotateZ = new Rotate(60.0, stageCenter.getX(), stageCenter.getY(), 0, X_AXIS);
+        affine.prepend(rotateX);
+        affine.prepend(rotateZ);
+        gc.transform(affine);
+        gc.setFill(EnumColourSwitch.getElementColour(player.getCurrentElement()));
+
+        //gc.strokeLine(stageCenter.getX() - 20, stageCenter.getY() - 20, stageCenter.getX() - 100, stageCenter.getY() - 100);
+        //todo make better
+
+        //inner
+        gc.setGlobalAlpha(percentCharged);
+        gc.fillOval(stageCenter.getX() - attackRadius/2f, stageCenter.getY() - attackRadius/2f, attackRadius, attackRadius);
+
+        //border
+        gc.setGlobalAlpha(100);
+        gc.strokeOval(stageCenter.getX() - attackRadius/2f, stageCenter.getY() - attackRadius/2f, attackRadius, attackRadius);
+
+        //affine.prependRotation(angle, stageCenter.getX(), stageCenter.getY());
+        gc.restore();
+    }
+
 
     private static Point2D getStageCenter(Rectangle stageSize) {
         Point2D stageCenter = new Point2D(stageSize.getWidth() / 2, stageSize.getHeight() / 2);
