@@ -17,7 +17,7 @@ public class ConnectAckPacket extends Packet {
         this.allowed = getBooleanValue(buffer.get());
     }
 
-    public ConnectAckPacket(InetAddress ipAddress, int port, boolean allowed) {
+    public ConnectAckPacket(boolean allowed, InetAddress ipAddress, int port) {
         super(PacketDirection.OUTGOING, PacketType.CONNECT_ACK, ipAddress, port);
         this.allowed = allowed;
     }

@@ -7,6 +7,7 @@ import javafx.scene.transform.Rotate;
 
 public class Player extends Character {
 
+    private int id;
 
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
@@ -26,6 +27,14 @@ public class Player extends Character {
         width = 20;
     }
 
+    public Player(int id) {
+        super();
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here

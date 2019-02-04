@@ -17,7 +17,6 @@ public class ServerNetwork extends Thread {
 
     protected boolean running;
     protected DatagramSocket socket;
-    private ArrayList<PlayerConnection> connections;
     protected ServerNetworkDispatcher dispatcher;
 
     public ServerNetwork(ServerGameState gameState) {
@@ -27,7 +26,6 @@ public class ServerNetwork extends Thread {
             e.printStackTrace();
         }
 
-        this.connections = new ArrayList<>();
         this.running = true;
         this.dispatcher = new ServerNetworkDispatcher(this.socket, gameState);
     }
@@ -62,6 +60,9 @@ public class ServerNetwork extends Thread {
         switch(packet.getType()) {
             case HELLO:
                 this.dispatcher.receiveHello((HelloPacket) packet);
+                break;
+            case CONNECT:
+                this.dispatcher.receiveConnect((ConnectPacket) packet);
                 break;
             default:
                 // TODO: log invalid packet

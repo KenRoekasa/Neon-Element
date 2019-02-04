@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 public class ServerGameState {
+
+    private boolean isStarted;
     private ArrayList<Player> players;
     private ArrayList<BasicEnemy> ais;
     private Rectangle map;
@@ -50,5 +52,13 @@ public class ServerGameState {
 
     public void setObjects(ArrayList<PhysicsObject> objects) {
         this.objects = objects;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean isStarted) {
+        this.isStarted = isStarted;
     }
 }

@@ -110,6 +110,12 @@ public abstract class Packet {
             case HELLO_ACK:
                 packet = new HelloAckPacket(buffer, ipAddress, port);
                 break;
+            case CONNECT:
+                packet = new ConnectPacket(buffer, ipAddress, port);
+                break;
+            case CONNECT_ACK:
+                packet = new ConnectAckPacket(buffer, ipAddress, port);
+                break;
             case CONNECT_BCAST:
             		packet = new ConnectPacket(buffer, ipAddress, port);
             		break;

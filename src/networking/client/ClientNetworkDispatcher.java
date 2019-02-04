@@ -23,7 +23,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         super(socket);
         this.serverAddress = serverAddress;
     }
-    
+
     public void sendHello() {
         try {
             Packet packet = new HelloPacket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
@@ -32,7 +32,6 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             e.printStackTrace();
         }
     }
-    
 
     protected void receiveHelloAck(HelloAckPacket packet) {
         int players = packet.getPlayers();
