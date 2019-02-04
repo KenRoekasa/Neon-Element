@@ -17,7 +17,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
-		int players = 0;
+		int players = this.gameState.getPlayers().size();
 		int maxPlayers = 0;
 		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
 		this.send(response);
