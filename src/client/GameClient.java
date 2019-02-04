@@ -3,7 +3,7 @@ package client;
 import networking.client.ClientNetwork;
 import client.ClientGameState;
 
-public class GameClient {
+public class GameClient extends Thread {
 
     private ClientGameState gameState;
     private ClientNetwork network;
