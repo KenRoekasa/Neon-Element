@@ -23,6 +23,9 @@ public class Menu extends Application {
         Double width = primaryScreenBounds.getWidth();
         Double height = primaryScreenBounds.getHeight();
 
+        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(false);
+
         //force screen size
         primaryStage.setMinWidth(width);
         primaryStage.setMinHeight(height);
@@ -30,9 +33,8 @@ public class Menu extends Application {
         primaryStage.setMaxHeight(height);
 
         primaryStage.setScene(new Scene(root, width, height));
+        
 
-        primaryStage.setFullScreen(true);
-        primaryStage.setResizable(false);
 
         // stops all game threads on close
         primaryStage.setOnCloseRequest(e -> {

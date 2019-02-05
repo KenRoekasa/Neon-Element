@@ -189,7 +189,7 @@ public abstract class Character extends PhysicsObject {
         if(currentAction == Action.IDLE) {
 
 
-            currentAction = Action.HEAVY;
+            currentAction = Action.CHARGE;
             currentActionStart = System.currentTimeMillis();
             long attackDuration = AttackTimes.getActionTime(currentAction);
             final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};

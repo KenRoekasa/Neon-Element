@@ -65,6 +65,7 @@ public class DrawPlayers {
         long angle = (long) (player.getPlayerAngle().getAngle() - finishAngle/2 + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
 
 
+
         gc.save();
         Affine affine = new Affine();
 
@@ -89,7 +90,7 @@ public class DrawPlayers {
         Point2D stageCenter = getStageCenter(stage);
 
         long startAlphaValue = 0;
-        long finishAlphaValue = 100;
+        long finishAlphaValue = 80;
         float percentCharged = (Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, finishAlphaValue, startAlphaValue)) / 100f;
         double attackRadius = 200 * Renderer.getScaleConstant();
 
@@ -117,6 +118,35 @@ public class DrawPlayers {
         //affine.prependRotation(angle, stageCenter.getX(), stageCenter.getY());
         gc.restore();
     }
+
+
+    static void drawHeavyAttack(GraphicsContext gc, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
+
+        Point2D stageCenter = getStageCenter(stage);
+
+        long startAngle = 0;
+        long finishAngle = 360;
+        long angle = Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle);
+
+        System.out.println(angle);
+
+        gc.save();
+        Affine affine = new Affine();
+
+        Rotate rotateX = new Rotate(45, stageCenter.getX(), stageCenter.getY());
+        Rotate rotateZ = new Rotate(60.0, stageCenter.getX(), stageCenter.getY(), 0, X_AXIS);
+        affine.prependRotation(angle, stageCenter.getX(), stageCenter.getY());
+        affine.prepend(rotateX);
+        affine.prepend(rotateZ);
+        gc.transform(affine);
+        gc.setFill(EnumColourSwitch.getElementColour(player.getCurrentElement()));
+
+        gc.strokeLine(stageCenter.getX() - 20, stageCenter.getY() - 20, stageCenter.getX() - 100, stageCenter.getY() - 100);
+        //todo make better
+
+        gc.restore();
+    }
+
 
 
     private static Point2D getStageCenter(Rectangle stageSize) {

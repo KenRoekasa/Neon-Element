@@ -70,9 +70,6 @@ public class Renderer {
             DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
         }
 
-
-
-
         DrawPlayers.drawerCursor(gc, stageSize, gameState.getPlayer());
 
         debugger.print();
@@ -96,11 +93,17 @@ public class Renderer {
                     remainingAnimDuration = gameState.getPlayer().getCurrentActionStart() + animationDuration - System.currentTimeMillis();
                     DrawPlayers.drawLightAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                     break;
+                case CHARGE:
+                    animationDuration = AttackTimes.getActionTime(Action.CHARGE);
+                    remainingAnimDuration = gameState.getPlayer().getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+                    DrawPlayers.drawHeavyAttackCharge(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    break;
                 case HEAVY:
                     animationDuration = AttackTimes.getActionTime(Action.HEAVY);
                     remainingAnimDuration = gameState.getPlayer().getCurrentActionStart() + animationDuration - System.currentTimeMillis();
-                    DrawPlayers.drawHeavyAttackCharge(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
-                case BLOCK:
+                    DrawPlayers.drawHeavyAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    break;
+                    case BLOCK:
             }
 
             DrawPlayers.drawPlayer(gc, stageSize, gameState.getPlayer(), scaleConstant);

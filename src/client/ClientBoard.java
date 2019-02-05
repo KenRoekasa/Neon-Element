@@ -22,7 +22,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 
 
 public class ClientBoard {
@@ -38,7 +37,7 @@ public class ClientBoard {
     private GameState gameState;
 
 
-    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, GameState gameState) {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
@@ -80,7 +79,6 @@ public class ClientBoard {
 
         // initialise input controls
         initialiseInput(theScene, renderer);
-
 
 
 
@@ -168,10 +166,6 @@ public class ClientBoard {
 
                 }
             }
-
-
-
-
 
 
 
