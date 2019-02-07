@@ -33,7 +33,7 @@ public class Menu extends Application {
         primaryStage.setMaxHeight(height);
 
         primaryStage.setScene(new Scene(root, width, height));
-        
+
 
 
         // stops all game threads on close

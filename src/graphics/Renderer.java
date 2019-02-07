@@ -3,12 +3,13 @@ package graphics;
 import calculations.AttackTimes;
 import client.GameState;
 import debugger.Debugger;
+import entities.Character;
 import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
 import enums.Action;
-import enums.ObjectType;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -16,26 +17,22 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Objects;
 
 
 public class Renderer {
     private GraphicsContext gc;
+
     private Debugger debugger;
+
     private static Double scaleConstant;
-
     private Rectangle stageSize;
-
-    private ArrayList<Pair<PhysicsObject, Long>> currentHeavyAttacks;
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         this.stageSize = stageSize;
-
-        currentHeavyAttacks = new ArrayList<>();
 
         // magic number 10/7 * 990/1000
         scaleConstant = (double) 99 / 70;
@@ -45,8 +42,6 @@ public class Renderer {
         this.gc = gc;
         this.stageSize = stageSize;
 
-        currentHeavyAttacks = new ArrayList<>();
-
         scaleConstant = (double) 99 / 70;
     }
 
@@ -55,7 +50,7 @@ public class Renderer {
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
         // draw map to screen
-        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), scaleConstant);
+        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
 
         //sort based on proximity to the view (greater y is later)
         ArrayList<PhysicsObject> objects = sortDistance(gameState.getEntities());
@@ -70,7 +65,7 @@ public class Renderer {
             DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
         }
 
-        DrawPlayers.drawerCursor(gc, stageSize, gameState.getPlayer());
+        DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
 
         debugger.print();
     }
@@ -80,41 +75,65 @@ public class Renderer {
 
         if (Objects.equals(o.getClass(), Player.class)) {
             Action status = gameState.getPlayer().getCurrentAction();
+            Class charClass = Player.class;
 
-
-            debugger.add(status.toString(), 1);
-
-            long animationDuration;
-            long remainingAnimDuration;
-
-            switch(status){
-                case LIGHT:
-                    animationDuration = AttackTimes.getActionTime(Action.LIGHT);
-                    remainingAnimDuration = gameState.getPlayer().getCurrentActionStart() + animationDuration - System.currentTimeMillis();
-                    DrawPlayers.drawLightAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
-                    break;
-                case CHARGE:
-                    animationDuration = AttackTimes.getActionTime(Action.CHARGE);
-                    remainingAnimDuration = gameState.getPlayer().getCurrentActionStart() + animationDuration - System.currentTimeMillis();
-                    DrawPlayers.drawHeavyAttackCharge(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
-                    break;
-                case HEAVY:
-                    animationDuration = AttackTimes.getActionTime(Action.HEAVY);
-                    remainingAnimDuration = gameState.getPlayer().getCurrentActionStart() + animationDuration - System.currentTimeMillis();
-                    DrawPlayers.drawHeavyAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
-                    break;
-                    case BLOCK:
-            }
-
-            DrawPlayers.drawPlayer(gc, stageSize, gameState.getPlayer(), scaleConstant);
+            ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
+            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
 
         } else if (Objects.equals(o.getClass(), Enemy.class)) {
-            DrawEnemies.drawEnemy(gc, stageSize, (Enemy) o, gameState.getPlayer(), scaleConstant);
+            Enemy enemy = (Enemy)o;
+            Action status = enemy.getCurrentAction();
+            Class charClass = Enemy.class;
+
+            ActionSwitch(status, enemy, charClass, gameState);
+            DrawEnemies.drawEnemy(gc, stageSize, (Enemy) o, gameState.getPlayer());
 
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
-            DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer(), scaleConstant);
+            DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
         }
 
+    }
+
+    private void ActionSwitch(Action status, Character character, Class charClass, GameState gameState){
+
+        long animationDuration;
+        long remainingAnimDuration;
+
+        switch(status){
+            case LIGHT:
+                animationDuration = AttackTimes.getActionTime(Action.LIGHT);
+                remainingAnimDuration = character.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+
+                if(Objects.equals(charClass, Player.class)) {
+                    DrawClientPlayer.drawLightAttack(gc, (Player)character, remainingAnimDuration, animationDuration, stageSize);
+                } else {
+                    DrawEnemies.drawLightAttack(gc, (Enemy)character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                }
+                break;
+            case CHARGE:
+                animationDuration = AttackTimes.getActionTime(Action.CHARGE);
+                remainingAnimDuration = character.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+
+                if(Objects.equals(charClass, Player.class)) {
+
+                    DrawClientPlayer.drawHeavyAttackCharge(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                } else {
+                    DrawEnemies.drawHeavyAttackCharge(gc, (Enemy) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                }
+                break;
+            case HEAVY:
+                animationDuration = AttackTimes.getActionTime(Action.HEAVY);
+                remainingAnimDuration = character.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+
+                if(Objects.equals(charClass, Player.class)) {
+                    DrawClientPlayer.drawHeavyAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                } else {
+                    DrawEnemies.drawHeavyAttack(gc, (Enemy) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                }
+
+                break;
+            case BLOCK:
+        }
     }
 
     private ArrayList<PhysicsObject> sortDistance(ArrayList<PhysicsObject> a) {
@@ -125,11 +144,21 @@ public class Renderer {
 
     // this function takes a value and the range that value could be in, and maps it to its relevant position between two other values
     // see this https://www.arduino.cc/reference/en/language/functions/math/map/
+
     static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
-
     static Double getScaleConstant() {
         return scaleConstant;
     }
+
+    static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Player player, Double yOffset) {
+        Point2D enemyLocation = ISOConverter.twoDToIso(obj.getLocation());
+        Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
+
+        double relativeX = stage.getWidth() / 2f - isoPlayerLocation.getX() + enemyLocation.getX();
+        double relativeY = stage.getHeight() / 2f - isoPlayerLocation.getY() + enemyLocation.getY() + yOffset;
+        return new Point2D(relativeX, relativeY);
+    }
+
 }

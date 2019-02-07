@@ -43,7 +43,6 @@ public class PowerUp extends PhysicsObject {
 
         location = new Point2D(randX, randY);
 
-
     }
 
     public void setLocation(Point2D location) {

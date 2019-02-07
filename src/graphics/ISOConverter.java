@@ -1,6 +1,7 @@
 package graphics;
 
 
+import entities.Player;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Affine;
@@ -17,22 +18,22 @@ public class ISOConverter {
         return new Point2D(x, y);
     }
 
-    public static Point2D twoDToIso(Point2D point) {
+    static Point2D twoDToIso(Point2D point) {
         double x = point.getX()- point.getY();
         double y = (point.getX() + point.getY()) / 2;
         return new Point2D(x,y);
     }
 
-    @SuppressWarnings("Duplicates")
-    static void applyIsoTransform(GraphicsContext gc, double xRotationCenter, double yRotationCenter) {
+
+    static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter, long angle) {
         gc.save();
         Affine affine = new Affine();
 
-        Rotate rotateX= new Rotate(45, xRotationCenter, yRotationCenter);
-        Rotate rotateZ = new Rotate(60.0, xRotationCenter, yRotationCenter, 0, X_AXIS);
+        Rotate rotateX = new Rotate(45, playerCenter.getX(), playerCenter.getY());
+        Rotate rotateZ = new Rotate(60.0, playerCenter.getX(), playerCenter.getY(), 0, X_AXIS);
+        affine.prependRotation(angle, playerCenter.getX(), playerCenter.getY());
         affine.prepend(rotateX);
         affine.prepend(rotateZ);
-
         gc.transform(affine);
     }
 

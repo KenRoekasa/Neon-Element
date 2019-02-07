@@ -104,7 +104,7 @@ public class InputHandler {
             player.lightAttack();
 
         } else if (e.getButton() == MouseButton.SECONDARY) {
-            player.heavyAttack();
+            player.chargeHeavyAttack();
 
         }
     }

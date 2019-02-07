@@ -137,7 +137,7 @@ public abstract class Character extends PhysicsObject {
 
     public void lightAttack() {
 
-        if(currentAction == Action.IDLE) {
+        if (currentAction == Action.IDLE) {
 
             currentAction = Action.LIGHT;
             currentActionStart = System.currentTimeMillis();
@@ -150,7 +150,7 @@ public abstract class Character extends PhysicsObject {
             //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
 
 
-            attackHitbox.setY(location.getY()+width);
+            attackHitbox.setY(location.getY() + width);
             Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
             attackHitbox.getTransforms().addAll(playerAngle);
 
@@ -171,7 +171,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     private void resetActionTimer(long attackDuration, long[] remainingAttackDuration) {
-        (new Thread(()-> {
+        (new Thread(() -> {
             while (remainingAttackDuration[0] > 0) {
                 remainingAttackDuration[0] = currentActionStart + attackDuration - System.currentTimeMillis();
             }
@@ -185,19 +185,37 @@ public abstract class Character extends PhysicsObject {
         this.health -= damage;
     }
 
-    public void heavyAttack() {
-        if(currentAction == Action.IDLE) {
+    public void chargeHeavyAttack() {
+        // TODO handle charging
 
+        if (currentAction == Action.IDLE ){
 
             currentAction = Action.CHARGE;
             currentActionStart = System.currentTimeMillis();
-            long attackDuration = AttackTimes.getActionTime(currentAction);
-            final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-            //TODO: DO SOMETHING
 
-            resetActionTimer(attackDuration, remainingAttackDuration);
+            (new Thread(() -> {
 
+                try {
+                    Thread.sleep(AttackTimes.getActionTime(currentAction));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                heavyAttack();
+            })).start();
         }
+    }
+
+    public void heavyAttack() {
+
+        currentAction = Action.HEAVY;
+        currentActionStart = System.currentTimeMillis();
+        long attackDuration = AttackTimes.getActionTime(currentAction);
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+        //TODO: DO SOMETHING
+
+        resetActionTimer(attackDuration, remainingAttackDuration);
+
+
     }
 
     public void shield() {
