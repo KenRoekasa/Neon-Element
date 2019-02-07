@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -27,7 +28,12 @@ import java.util.Timer;
 public class MenuController implements Initializable{
     private Stage stage;
     private GameState gameState;
-    private double health;
+    private PlayerModel playerModel;
+    @FXML
+    private Text health;
+    @FXML
+    private Text speed;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -38,17 +44,16 @@ public class MenuController implements Initializable{
         // create game rules
         // todo make this configurable
             gameState = GameStateGenerator.createDemoGamestate();
-
+            playerModel = new PlayerModel();
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState);
+            ClientBoard gameBoard = new ClientBoard(stage, gameState,playerModel);
             Scene scene = gameBoard.getScene();
 
         } catch (Exception e) {
 
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -78,8 +83,9 @@ public class MenuController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //bind model value to javafx text property
+        health.textProperty().bind(playerModel.healthProperty());
+        speed.textProperty().bind(playerModel.speedProperty());
     }
-
 
 }

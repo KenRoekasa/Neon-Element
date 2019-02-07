@@ -2,6 +2,7 @@ package client;
 
 import client.GameState;
 import client.InputHandler;
+import controllers.PlayerModel;
 import controllers.ValueController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -38,15 +39,20 @@ public class ClientBoard {
     private Rectangle stageSize;
     private ArrayList<String> input;
     private GameState gameState;
+    private PlayerModel playerModel;
 
     public Scene getScene() {
         return scene;
     }
 
-    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, GameState gameState, PlayerModel playerModel) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
+        this.playerModel = playerModel;
+
+        playerModel.setHealth(gameState.getPlayer().getHealth());
+        playerModel.setSpeed(gameState.getPlayer().getMovementSpeed());
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
@@ -156,6 +162,14 @@ public class ClientBoard {
 
 
 
+    }
+
+    public PlayerModel getPlayerModel() {
+        return playerModel;
+    }
+
+    public void setPlayerModel(PlayerModel playerModel) {
+        this.playerModel = playerModel;
     }
 
 
