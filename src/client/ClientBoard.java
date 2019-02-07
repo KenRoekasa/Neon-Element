@@ -90,8 +90,10 @@ public class ClientBoard {
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
+
                 clientLoop();
                 renderer.render(primaryStage, gameState);
+
 
             }
         }.start();

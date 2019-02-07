@@ -354,7 +354,7 @@ public abstract class Character extends PhysicsObject {
 
     // Increase movement speed
     public void speedBoost() {
-        movementSpeed = 4;
+        movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
@@ -363,7 +363,7 @@ public abstract class Character extends PhysicsObject {
 
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = 2;
+                        movementSpeed = 5;
                         timer.cancel();
                     }
                     timerArray[speedBoostDuration]++;

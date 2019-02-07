@@ -15,7 +15,7 @@ public class GameStateGenerator {
     public static GameState createDemoGamestate() {
 
         //initialise map location
-        Rectangle map = new Rectangle(1500, 1500);
+        Rectangle map = new Rectangle(2000, 2000);
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
@@ -25,7 +25,8 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new Enemy());
-        enemies.get(0).setLocation(new Point2D(140, 100));
+        enemies.get(0).setLocation(new Point2D(200, 200));
+
 
 
         //add the 1 power up to the objects list
@@ -33,6 +34,7 @@ public class GameStateGenerator {
         //TODO: Remove
         //add a powerup
         PowerUp pu = new PowerUp();
+        pu.setLocation(new Point2D(pu.getWidth()/2f,pu.getWidth()/2f));
 
         objects.add(pu);
         //Add the enemies to the objects list

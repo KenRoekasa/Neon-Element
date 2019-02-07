@@ -13,7 +13,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,8 +24,9 @@ public class Renderer {
 
     private Debugger debugger;
 
-    private static Double scaleConstant;
     private Rectangle stageSize;
+
+    private static Point2D rotationCenter;
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
@@ -34,20 +34,21 @@ public class Renderer {
         this.debugger = debugger;
         this.stageSize = stageSize;
 
-        // magic number 10/7 * 990/1000
-        scaleConstant = (double) 99 / 70;
+
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
         this.gc = gc;
         this.stageSize = stageSize;
-
-        scaleConstant = (double) 99 / 70;
+        
     }
 
     public void render(Stage primaryStage, GameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
+
+        rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
+        ISOConverter.applyRotationTransform(gc, rotationCenter);
 
         // draw map to screen
         DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
@@ -67,7 +68,7 @@ public class Renderer {
 
         DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
 
-        debugger.print();
+        gc.restore();
     }
 
 
@@ -138,27 +139,27 @@ public class Renderer {
 
     private ArrayList<PhysicsObject> sortDistance(ArrayList<PhysicsObject> a) {
         a.sort(Comparator.comparingDouble(o -> o.getLocation().getY()));
-
         return a;
     }
 
+
     // this function takes a value and the range that value could be in, and maps it to its relevant position between two other values
     // see this https://www.arduino.cc/reference/en/language/functions/math/map/
-
     static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
-    static Double getScaleConstant() {
-        return scaleConstant;
+
+    static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Player player) {
+        Point2D enemyLocation = obj.getLocation();
+        Point2D playerLocation = player.getLocation();
+
+        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX() - obj.getWidth()/2f;
+        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY() - obj.getWidth()/2f;
+        return new Point2D(relativeX, relativeY);
     }
 
-    static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Player player, Double yOffset) {
-        Point2D enemyLocation = ISOConverter.twoDToIso(obj.getLocation());
-        Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
-
-        double relativeX = stage.getWidth() / 2f - isoPlayerLocation.getX() + enemyLocation.getX();
-        double relativeY = stage.getHeight() / 2f - isoPlayerLocation.getY() + enemyLocation.getY() + yOffset;
-        return new Point2D(relativeX, relativeY);
+    static Point2D getRotationCenter() {
+        return rotationCenter;
     }
 
 }

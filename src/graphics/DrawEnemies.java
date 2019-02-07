@@ -14,7 +14,7 @@ class DrawEnemies {
     static void drawEnemy(GraphicsContext gc, Rectangle stage, Enemy enemy, Player player) {
         double yOffset = - enemy.getWidth() / 2f;
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player, yOffset);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
 
         DrawPlayers.drawPlayer(gc, relativeLocation, enemy );
 
@@ -22,8 +22,7 @@ class DrawEnemies {
 
     static void drawerEnemyCursor(GraphicsContext gc, Rectangle stage, Enemy enemy, Player player) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player,0.0);
-
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
 
         DrawPlayers.drawCursor(gc, relativeLocation, enemy);
     }
@@ -31,7 +30,7 @@ class DrawEnemies {
 
     static void drawLightAttack(GraphicsContext gc, Enemy enemy ,Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player,0.0);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
 
         DrawAttacks.drawLightAttack(gc, enemy, remainingAnimDuration, animationDuration, relativeLocation);
     }
@@ -39,14 +38,14 @@ class DrawEnemies {
 
     static void drawHeavyAttackCharge(GraphicsContext gc, Enemy enemy, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player,0.0);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
 
         DrawAttacks.drawHeavyAttackCharge(gc, enemy, remainingAnimDuration, animationDuration, relativeLocation);
     }
 
 
     static void drawHeavyAttack(GraphicsContext gc, Enemy enemy, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player,0.0);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
 
         DrawAttacks.drawHeavyAttack(gc, player, remainingAnimDuration, animationDuration, relativeLocation);
     }
