@@ -1,5 +1,6 @@
 package client;
 
+import controllers.PlayerModel;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -16,11 +17,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Iterator;
 
 
@@ -29,24 +30,31 @@ public class ClientBoard {
     private Debugger debugger;
     private GraphicsContext gc;
     private Stage primaryStage;
-
-
+    private Scene scene;
     private Rectangle stageSize;
     private ArrayList<String> input;
-
     private GameState gameState;
+    private PlayerModel playerModel;
 
+    public Scene getScene() {
+        return scene;
+    }
 
-    public ClientBoard(Stage primaryStage, GameState gameState) {
+    public ClientBoard(Stage primaryStage, GameState gameState, PlayerModel playerModel) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
+        this.playerModel = playerModel;
+
+        playerModel.setHealth(gameState.getPlayer().getHealth());
+        playerModel.setSpeed(gameState.getPlayer().getMovementSpeed());
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
         try {
             hudPane = (Pane) loader.load();
+            ValueController valueController = (ValueController)loader.getController();
             //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
 
         } catch (Exception e) {
@@ -57,11 +65,11 @@ public class ClientBoard {
             System.exit(0);
         }
 
-        Scene theScene = new Scene(hudPane);
+        scene = new Scene(hudPane);
 
-        //Scene theScene = primaryStage.getScene();
+        //Scene scene = primaryStage.getScene();
 
-        primaryStage.setScene(theScene);
+        primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -177,5 +185,14 @@ public class ClientBoard {
             }
         }
     }
+
+    public PlayerModel getPlayerModel() {
+        return playerModel;
+    }
+
+    public void setPlayerModel(PlayerModel playerModel) {
+        this.playerModel = playerModel;
+    }
+
 
 }
