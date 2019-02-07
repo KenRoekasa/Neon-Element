@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -15,9 +16,10 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 /* Menu buttons:
-1. Play -> ClientBoard
+1. Play
 2. Options
 3. Help
 4. Exit
@@ -25,6 +27,12 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
+    private GameState gameState;
+    private PlayerModel playerModel;
+    @FXML
+    private Text health;
+    @FXML
+    private Text speed;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -35,14 +43,17 @@ public class MenuController implements Initializable{
 
         // create game rules
         // todo make this configurable
-        GameState g = GameStateGenerator.createDemoGamestate();
-
+            gameState = GameStateGenerator.createDemoGamestate();
+            playerModel = new PlayerModel();
+        //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, g);
+            ClientBoard gameBoard = new ClientBoard(stage, gameState,playerModel);
+            Scene scene = gameBoard.getScene();
+
         } catch (Exception e) {
+
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -72,7 +83,9 @@ public class MenuController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //bind model value to javafx text property
+        health.textProperty().bind(playerModel.healthProperty());
+        speed.textProperty().bind(playerModel.speedProperty());
     }
 
 }
