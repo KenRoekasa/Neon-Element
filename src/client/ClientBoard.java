@@ -17,6 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -54,7 +55,7 @@ public class ClientBoard {
         Pane hudPane = new Pane();
         try {
             hudPane = (Pane) loader.load();
-            ValueController valueController = (ValueController)loader.getController();
+            PlayerModel playerModel1 = (PlayerModel)loader.getController();
             //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
 
         } catch (Exception e) {
@@ -86,7 +87,7 @@ public class ClientBoard {
 
 
         // initialise input controls
-        initialiseInput(theScene, renderer);
+        initialiseInput(scene, renderer);
 
 
 

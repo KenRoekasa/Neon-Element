@@ -27,8 +27,6 @@ public class GameStateGenerator {
         enemies.add(new Enemy());
         enemies.get(0).setLocation(new Point2D(200, 200));
 
-
-
         //add the 1 power up to the objects list
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         //TODO: Remove

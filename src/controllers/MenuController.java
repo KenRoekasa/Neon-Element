@@ -47,7 +47,7 @@ public class MenuController implements Initializable{
             playerModel = new PlayerModel();
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState,playerModel);
+            ClientBoard gameBoard = new ClientBoard(stage, gameState, playerModel);
             Scene scene = gameBoard.getScene();
 
         } catch (Exception e) {
@@ -84,8 +84,8 @@ public class MenuController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //bind model value to javafx text property
-        health.textProperty().bind(playerModel.healthProperty());
-        speed.textProperty().bind(playerModel.speedProperty());
+        //health.textProperty().bind(playerModel.healthProperty());
+        //speed.textProperty().bind(playerModel.speedProperty());
     }
 
 }

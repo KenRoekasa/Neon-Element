@@ -16,7 +16,7 @@ public class Menu extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
-        Parent root = loader.load();
+        Parent root = (Parent)loader.load();
         primaryStage.setTitle("Game");
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
