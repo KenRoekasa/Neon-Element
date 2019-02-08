@@ -8,9 +8,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static graphics.Renderer.getRelativeLocation;
 
 class DrawObjects {
+
     static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player) {
 
 
@@ -46,8 +51,32 @@ class DrawObjects {
         gc.strokeLine(0, stage.getHeight() / 2, stage.getWidth(), stage.getHeight() / 2);
     }
 
-    public static void drawBackground(GraphicsContext gc, Rectangle stageSize) {
+    static void drawBackground(GraphicsContext gc, Rectangle stageSize, ArrayList<Point2D> stars) {
+        gc.save();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, stageSize.getWidth(), stageSize.getHeight());
+
+
+        gc.setFill(Color.WHITE);
+        for(Point2D star: stars){
+
+            gc.fillOval(star.getX(), star.getY(), 5, 5);
+        }
+
+
+
+        gc.restore();
+    }
+
+    public static ArrayList<Point2D> loadStars(Rectangle stageSize) {
+        ArrayList<Point2D> stars = new ArrayList<>();
+        for (int i = 0; i <= 40; i++) {
+            int x = ThreadLocalRandom.current().nextInt(0, (int) (stageSize.getWidth() + 1));
+            int y = ThreadLocalRandom.current().nextInt(0, (int) (stageSize.getHeight() + 1));
+
+            stars.add(new Point2D(x, y));
+
+        }
+        return stars;
     }
 }
