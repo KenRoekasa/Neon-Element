@@ -167,7 +167,6 @@ public class ClientBoard {
                         itr.remove();
                     } else {
                         //The player has collided with e do something
-                        gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
                         gameState.getPlayer().isColliding(e);
                     }
                 } else {
@@ -179,6 +178,7 @@ public class ClientBoard {
                     if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                         // e takes damage
                         System.out.println("hit");
+                        // Sends to server
                     }
 
                 }

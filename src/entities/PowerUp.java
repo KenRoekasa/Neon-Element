@@ -84,9 +84,9 @@ public class PowerUp extends PhysicsObject {
 //
 
 // TODO: FIX; CIRCLE BOUNDS ARE BROKEN AND DOESN'T WORK
-//    @Override
-//    public Shape getBounds(){
-//        return new Circle(location.getX(), location.getY(), width / 2f);
-//    }
+    @Override
+    public Shape getBounds(){
+        return new Circle(location.getX()+width, location.getY()+width, width / 2f);
+    }
 }
 

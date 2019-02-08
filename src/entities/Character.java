@@ -142,7 +142,6 @@ public abstract class Character extends PhysicsObject {
             int damage = 3;
 
 
-
             resetActionTimer(attackDuration, remainingAttackDuration);
         }
 
@@ -167,7 +166,7 @@ public abstract class Character extends PhysicsObject {
     public void chargeHeavyAttack() {
         // TODO handle charging
 
-        if (currentAction == Action.IDLE ){
+        if (currentAction == Action.IDLE) {
 
             currentAction = Action.CHARGE;
             currentActionStart = System.currentTimeMillis();
@@ -198,7 +197,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
-        if(currentAction == Action.IDLE) {
+        if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
             if (System.currentTimeMillis() > nextAvailableTime) {
@@ -224,8 +223,8 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-    public void unShield(){
-        if(currentAction == Action.BLOCK) {
+    public void unShield() {
+        if (currentAction == Action.BLOCK) {
             currentAction = Action.IDLE;
         }
     }
@@ -286,8 +285,10 @@ public abstract class Character extends PhysicsObject {
 
     public void isColliding(PhysicsObject e) {
         isColliding = true;
-        double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
-        double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
+//                double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
+//                double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
+        double xDiff = location.getX() - e.getLocation().getX();
+        double yDiff = location.getY() - e.getLocation().getY();
         switch (characterDirection) {
             case UP:
                 // if on the right side of the box
@@ -299,6 +300,8 @@ public abstract class Character extends PhysicsObject {
                     location = location.add((width - yDiff) + movementSpeed, (width - yDiff) + movementSpeed);
                     break;
                 }
+//                location = location.add((width - yDiff) + movementSpeed, (width - xDiff)+movementSpeed);
+
             case DOWN:
                 location = location.add(-movementSpeed, -movementSpeed);
                 break;
@@ -310,6 +313,7 @@ public abstract class Character extends PhysicsObject {
                 location = location.add(-movementSpeed, movementSpeed);
                 break;
             case UPCART:
+//                location = new Point2D(location.getX(),location.getY()+yDiff);
                 location = location.add(0, (movementSpeed * 2));
                 break;
             case DOWNCART:
@@ -378,9 +382,9 @@ public abstract class Character extends PhysicsObject {
         return currentActionStart;
     }
 
-    public Rectangle getAttackHitbox(){
-        Rectangle hitbox = new Rectangle(location.getX(),location.getY()-width);
-        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX()+(width/2), location.getY()+(width/2));
+    public Rectangle getAttackHitbox() {
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width);
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
         hitbox.getTransforms().add(rotate);
         return hitbox;
     }
