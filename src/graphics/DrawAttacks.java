@@ -54,14 +54,15 @@ class DrawAttacks {
         long startAngle = 0;
         long finishAngle = 90;
 
-        long angle = (long) (player.getPlayerAngle().getAngle() - finishAngle/2 + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
+        long angle = (long) (player.getPlayerAngle().getAngle() + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
 
         ISOConverter.applyAngleRotation(gc, angle);
         gc.setFill(Color.BLUE);
 
-        //gc.strokeLine(stageCenter.getX() - 20, stageCenter.getY() - 20, stageCenter.getX() - 100, stageCenter.getY() - 100);
         //todo make better
-        gc.fillOval(playerCenter.getX() - 10/2f, playerCenter.getY() - 10/2f - player.getWidth()/2f - 30, 10, 10);
+        //gc.fillOval(playerCenter.getX() - 10/2f, playerCenter.getY() - 10/2f - player.getWidth()/2f - 30, 10, 10);
+        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+
 
         gc.restore();
     }

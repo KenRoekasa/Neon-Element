@@ -12,6 +12,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -56,8 +57,6 @@ public class ClientBoard {
         try {
             hudPane = (Pane) loader.load();
             PlayerModel playerModel1 = (PlayerModel)loader.getController();
-            //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
-
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -68,28 +67,26 @@ public class ClientBoard {
 
         scene = new Scene(hudPane);
 
-        //Scene scene = primaryStage.getScene();
 
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
-        Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-
+        Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
         hudPane.getChildren().add(canvas);
+
+        //forces the game to be rendered behind the gui
+        int index = hudPane.getChildren().indexOf(canvas);
+        hudPane.getChildren().get(index).toBack();
 
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
         Renderer renderer = new Renderer(gc, stageSize, debugger);
 
-
         // initialise input controls
         initialiseInput(scene, renderer);
-
-
 
         beginClientLoop(renderer);
 

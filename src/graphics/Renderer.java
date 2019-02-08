@@ -46,6 +46,10 @@ public class Renderer {
     public void render(Stage primaryStage, GameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
+        
+
+
+        //DrawObjects.drawBackground(gc, stageSize);
 
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
@@ -69,6 +73,8 @@ public class Renderer {
         DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
 
         gc.restore();
+
+        debugger.print();
     }
 
 

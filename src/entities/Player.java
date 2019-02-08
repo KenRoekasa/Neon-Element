@@ -23,6 +23,7 @@ public class Player extends Character {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
+
         movementSpeed = 5;
         isShielded = false;
         //Default Fire
