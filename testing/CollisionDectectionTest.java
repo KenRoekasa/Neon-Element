@@ -4,7 +4,6 @@ import entities.PowerUp;
 import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import org.junit.Test;
 

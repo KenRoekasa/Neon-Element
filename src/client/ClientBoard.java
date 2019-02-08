@@ -5,6 +5,7 @@ import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
+import entities.Player;
 import entities.PowerUp;
 import enums.Action;
 import enums.ObjectType;
@@ -177,6 +178,10 @@ public class ClientBoard {
                 if (gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
                     if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                         // e takes damage
+                        Player enemy = (Player) e;
+                        // TODO: For now its takes 3 damage, change later
+                        enemy.removeHealth(3);
+
                         System.out.println("hit");
                         // Sends to server
                     }
@@ -185,6 +190,9 @@ public class ClientBoard {
                 if(gameState.getPlayer().getCurrentAction() == Action.HEAVY){
                     if(CollisionDetection.checkCollision(gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(),e.getBounds().getBoundsInParent())){
                         // e takes damage
+                        Player enemy = (Player) e;
+                        // TODO: For now its takes 10 damage, change later
+                        enemy.removeHealth(10);
                         System.out.println("heavy hit");
                         // Sends to server
                     }
