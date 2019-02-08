@@ -1,64 +1,42 @@
 package graphics;
 
-import entities.Player;
+import entities.Character;
+
+import enumSwitches.colourSwitch;
+import enums.Action;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Affine;
-import javafx.scene.transform.Rotate;
-
-import static javafx.scene.transform.Rotate.X_AXIS;
 
 public class DrawPlayers {
-    static void drawPlayer(GraphicsContext gc, Rectangle stage, Player player, double scaleConstant) {
 
-        // Point2D isoLocation = ISOConverter.twoDToIso(playerLocation);
-        Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
+    static void drawPlayer(GraphicsContext gc, Point2D playerCenter, Character player) {
 
-        double playerXCenter = stageCenter.getX();
-        double playerYCenter = stageCenter.getY();
 
-        ISOConverter.applyIsoTransform(gc, playerXCenter, playerYCenter);
+        Color c = colourSwitch.getElementColour(player.getCurrentElement());
+        gc.setFill(c);
 
-        gc.setFill(Color.GREEN);
-
-        double centerAdjust = player.getWidth()/2f * scaleConstant;
-
-        gc.fillRect(playerXCenter - centerAdjust, playerYCenter - centerAdjust, player.getWidth() * scaleConstant, player.getWidth()* scaleConstant);
-
-        // has to be called after applying transform
-        gc.restore();
-
+        gc.fillRect(playerCenter.getX(), playerCenter.getY(), player.getWidth(), player.getWidth());
 
     }
 
-    @SuppressWarnings("Duplicates")
-    static void drawerCursor(GraphicsContext gc, Rectangle stage, Player player) {
+    static void drawCursor(GraphicsContext gc, Point2D playerCenter, Character player) {
 
-        int cursorRadius = 10;
+        if (player.getCurrentAction() == Action.IDLE) {
 
-        Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
-        double playerXCenter = stageCenter.getX();
-        double playerYCenter = stageCenter.getY();
+            // transform
+            long angle = (long)player.getPlayerAngle().getAngle();
+            ISOConverter.applyAngleRotation(gc, angle);
 
-        gc.save();
-        Affine affine = new Affine();
+            // draw
+            gc.setFill(Color.RED);
+            int cursorRadius = 10;
+            gc.fillOval(playerCenter.getX() - cursorRadius/2f, playerCenter.getY() - cursorRadius/2f - player.getWidth()/2f - 30, cursorRadius, cursorRadius);
 
-        affine.prependRotation(player.getPlayerAngle().getAngle(), playerXCenter, playerYCenter);
+            gc.restore();
+        }
 
-        Rotate rotateX = new Rotate(45, playerXCenter, playerYCenter);
-        Rotate rotateZ = new Rotate(60.0, playerXCenter, playerYCenter, 0, X_AXIS);
-        affine.prepend(rotateX);
-        affine.prepend(rotateZ);
-        gc.transform(affine);
-        gc.setFill(Color.RED);
-
-        gc.fillOval(playerXCenter - cursorRadius/2f, playerYCenter - cursorRadius/2f - 30, cursorRadius, cursorRadius);
-
-        gc.restore();
     }
-
 
 
 }

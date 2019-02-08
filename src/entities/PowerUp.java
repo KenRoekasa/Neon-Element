@@ -1,19 +1,25 @@
 package entities;
 
 
+import enumSwitches.objectSize;
+import enums.ObjectType;
 import enums.PowerUpType;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 
 import java.util.Random;
 
 public class PowerUp extends PhysicsObject {
 
     private PowerUpType type;
+
     private boolean isActive = true;
 
 
     public PowerUp() {
-        width = 10;
+        tag = ObjectType.POWERUP;
+        width = objectSize.getObjectSize(tag);
 
         //Randomise the type of power up when it spawns
         Random rand = new Random();
@@ -32,12 +38,12 @@ public class PowerUp extends PhysicsObject {
                 break;
         }
 
+
+        //TODO: Change Values to be based on the map
         int randX = rand.nextInt(1500);
         int randY = rand.nextInt(1500);
 
-        //Todo: change to randX randY
         location = new Point2D(randX, randY);
-
 
     }
 
@@ -74,6 +80,11 @@ public class PowerUp extends PhysicsObject {
     @Override
     public void update() {
 
+    }
+
+    @Override
+    public Shape getBounds(){
+        return new Circle(location.getX(), location.getY(), width / 2f);
     }
 }
 

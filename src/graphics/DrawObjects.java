@@ -2,54 +2,52 @@ package graphics;
 
 import entities.Player;
 import entities.PowerUp;
+import enumSwitches.colourSwitch;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class DrawObjects {
-    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player, double scaleConstant) {
+import static graphics.Renderer.getRelativeLocation;
+
+class DrawObjects {
+    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player) {
+
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
-        Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
-        isoPlayerLocation = isoPlayerLocation.add(10, 0);
+        Point2D playerLocation = player.getLocation();
 
-        double relativeX = stageCenter.getX() - isoPlayerLocation.getX() + player.getWidth() / 2f;
-        double relativeY = stageCenter.getY() - isoPlayerLocation.getY();
+        double relativeX = stageCenter.getX() - playerLocation.getX() ;
+        double relativeY = stageCenter.getY() - playerLocation.getY();
         Point2D boardPosition = new Point2D(relativeX, relativeY);
 
-        ISOConverter.applyIsoTransform(gc, boardPosition.getX(), boardPosition.getY());
-
         // draw map
-        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), map.getWidth() * scaleConstant, map.getHeight() * scaleConstant);
+        gc.setFill(Color.rgb(214, 214,214));
+        gc.fillRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
+        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
 
         // restore previous state
-        gc.restore();
 
     }
 
-    @SuppressWarnings("Duplicates")
-    static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player, double scaleConstant) {
+    static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player) {
 
+        Point2D relativeLocation = getRelativeLocation(stage, powerUp, player);
 
-        Point2D powerUpLocation = ISOConverter.twoDToIso(powerUp.getLocation());
-        Point2D isoPlayerLocation = ISOConverter.twoDToIso(player.getLocation());
+        Color c = colourSwitch.getPowerUpColour(powerUp.getType());
+        gc.setFill(c);
 
-        double relativeX = stage.getWidth() / 2f - isoPlayerLocation.getX() + powerUpLocation.getX();
-        double relativeY = stage.getHeight() / 2f - isoPlayerLocation.getY() + powerUpLocation.getY();
-
-        Point2D relativeLocation = new Point2D(relativeX, relativeY);
-
-        ISOConverter.applyIsoTransform(gc, relativeLocation.getX(), relativeLocation.getY());
-
-        gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWidth() * scaleConstant, powerUp.getWidth() * scaleConstant);
-
-        gc.restore();
+        gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWidth(), powerUp.getWidth());
 
     }
-
 
     static void drawCrosshair(GraphicsContext gc, Rectangle stage) {
         gc.strokeLine(stage.getWidth() / 2, 0, stage.getWidth() / 2, stage.getHeight());
         gc.strokeLine(0, stage.getHeight() / 2, stage.getWidth(), stage.getHeight() / 2);
+    }
+
+    public static void drawBackground(GraphicsContext gc, Rectangle stageSize) {
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, stageSize.getWidth(), stageSize.getHeight());
     }
 }

@@ -1,8 +1,12 @@
 package entities;
 
+import enumSwitches.objectSize;
 import enums.Elements;
+import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
+
+import static entities.CooldownValues.*;
 
 
 public class Player extends Character {
@@ -15,15 +19,20 @@ public class Player extends Character {
     private float changeStateCurrentCD;
 
 
-    public Player() {
+    public Player(ObjectType type) {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
-        health = 100;
-        movementSpeed = 2;
+        health = getMAX_HEALTH();
+
+        movementSpeed = 5;
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
-        width = 20;
+        width = objectSize.getObjectSize(type);
+        tag = type;
+        for(int i = 0; i < timerArray.length; i++){
+            timerArray[i] = System.currentTimeMillis() - 10*1000;
+        }
     }
 
 
