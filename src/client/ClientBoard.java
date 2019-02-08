@@ -127,7 +127,6 @@ public class ClientBoard {
         });
 
 
-
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
@@ -135,43 +134,12 @@ public class ClientBoard {
 
     private void clientLoop() {
         InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
+        doCollisionDetection();
+        doUpdates();
+    }
+
+    private void doUpdates() {
         synchronized (gameState.getObjects()) {
-            // Collision detection code
-            synchronized (gameState.getObjects()) {
-                for (Iterator<PhysicsObject> itr = gameState.getObjects().iterator(); itr.hasNext(); ) {
-                    PhysicsObject e = itr.next();
-                    if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                        //If the object is a power up
-                        if (e.getTag() == ObjectType.POWERUP) {
-                            PowerUp powerUp = (PowerUp) e;
-                            ((PowerUp) e).activatePowerUp(gameState.getPlayer());
-                            // remove power up from objects array list
-                            itr.remove();
-                        } else {
-                            //The player has collided with e do something
-                            gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-                            gameState.getPlayer().isColliding(e);
-                        }
-                    } else {
-                        gameState.getPlayer().isColliding = false;
-                    }
-                    //Attack Collision
-                    //if player is attacking check
-                    // Translate up
-                    Rectangle attackHitbox = new Rectangle(gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY()+gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth());
-                    // Rotation with axis on centre of Player
-                    Rotate rotate = (Rotate) Rotate.rotate(gameState.getPlayer().getPlayerAngle().getAngle(), gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY());
-                    attackHitbox.getTransforms().addAll(rotate);
-                    if(CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(),e.getBounds().getBoundsInParent())){
-                        // e takes damage
-                    }
-
-                }
-            }
-
-
-
-
             //Call update function for all physics objects
             gameState.getPlayer().update();
             for (PhysicsObject o : gameState.getObjects()) {
@@ -180,5 +148,39 @@ public class ClientBoard {
         }
     }
 
-
+    private void doCollisionDetection() {
+        synchronized (gameState.getObjects()) {
+            // Collision detection code
+            for (Iterator<PhysicsObject> itr = gameState.getObjects().iterator(); itr.hasNext(); ) {
+                PhysicsObject e = itr.next();
+                if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
+                    //If the object is a power up
+                    if (e.getTag() == ObjectType.POWERUP) {
+                        PowerUp powerUp = (PowerUp) e;
+                        ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+                        // remove power up from objects array list
+                        itr.remove();
+                    } else {
+                        //The player has collided with e do something
+                        gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+                        gameState.getPlayer().isColliding(e);
+                    }
+                } else {
+                    gameState.getPlayer().isColliding = false;
+                }
+                //Attack Collision
+                //if player is attacking check
+                // Translate up
+                Rectangle attackHitbox = new Rectangle(gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY() + gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth());
+                // Rotation with axis on centre of Player
+                Rotate rotate = (Rotate) Rotate.rotate(gameState.getPlayer().getPlayerAngle().getAngle(), gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY());
+                attackHitbox.getTransforms().addAll(rotate);
+                if (CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                    // e takes damage
+                }
+            }
+        }
+    }
 }
+
+

@@ -4,14 +4,10 @@ import calculations.AttackTimes;
 import enums.Action;
 import enums.Directions;
 import enums.Elements;
-import graphics.DrawPlayers;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,7 +30,6 @@ public abstract class Character extends PhysicsObject {
     protected long[] timerArray = new long[10];
 
     //TODO: Change the access modifier
-
     public boolean isColliding;
     private Timer timer = new Timer();
 
