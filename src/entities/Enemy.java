@@ -4,8 +4,11 @@ import java.util.Random;
 
 import ai.EnemyFSM;
 import ai.EnemyStates;
+import enumSwitches.objectSize;
+import enums.ObjectType;
 import enums.PowerUpType;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 public class Enemy extends Character {
@@ -15,21 +18,22 @@ public class Enemy extends Character {
     PowerUp [] powerups;
     Enemy enemy  = this;
     int powerupIndex = -1;
-
+    Rectangle map;
 	
-    public Enemy(Character [] players, PowerUp [] powerUps) {
+    public Enemy(Character [] players, PowerUp [] powerUps, Rectangle map) {
 
         activeState = EnemyStates.IDLE;
         //default random
         assignRandomElement();
         this.players = players;
         this.powerups = powerUps;
+        this.map = map;
         location = new Point2D(10, 100);
         playerAngle = new Rotate(0);
         health = 100;
         movementSpeed = 2;
         isShielded = false;
-        width = 20;
+        width = objectSize.getObjectSize(ObjectType.ENEMY);
     }
     
     public void startBasicAI() {
@@ -244,30 +248,18 @@ public class Enemy extends Character {
     	Point2D playerLoc = player.getLocation();
     	double distance = calcDistance(getLocation(),playerLoc );
 
-    	while( (int) distance + 1 > getWidth() ) {
+    	while( (int) distance - getWidth() > getWidth() ) {
 
     		if(isAbove(player))
     			moveUp();
     		else if(isUnder(player))
-    			moveDown(2000,2000);
+    			moveDown(map.getWidth(),map.getHeight());
     		if(isLeftOf(player))
-    			moveLeft(2000);
+    			moveLeft(map.getWidth());
     		else if (isRightOf(player))
-    			moveRight(2000,2000);
+    			moveRight(map.getWidth(),map.getHeight());
     		
-    		/*if( (getLocation().getX() - playerLoc.getX()) > 0 )
-    			setLocation(new Point2D( getLocation().getX()-getMovementSpeed(), getLocation().getY()) );
-    		else if( (getLocation().getX() - playerLoc.getX()) < 0 )
-    			setLocation(new Point2D( getLocation().getX()+getMovementSpeed(), getLocation().getY()) );
-
-    		if( (getLocation().getY() - playerLoc.getY()) > 0 )
-    			setLocation(new Point2D( getLocation().getX(), getLocation().getY()-getMovementSpeed()) );
-
-    		else if( (getLocation().getY() - playerLoc.getY()) < 0 )
-        			setLocation(new Point2D( getLocation().getX(), getLocation().getY()+getMovementSpeed()) );
-
     		distance = calcDistance(getLocation(), playerLoc);
-    		*/
     	}
     }
     private boolean isRightOf(Character player) {
