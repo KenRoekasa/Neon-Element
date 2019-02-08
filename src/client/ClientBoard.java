@@ -1,6 +1,6 @@
 package client;
 
-import controllers.PlayerModel;
+import controllers.AttributeController;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -11,19 +11,15 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Iterator;
 
 
@@ -36,27 +32,24 @@ public class ClientBoard {
     private Rectangle stageSize;
     private ArrayList<String> input;
     private GameState gameState;
-    private PlayerModel playerModel;
 
     public Scene getScene() {
         return scene;
     }
 
-    public ClientBoard(Stage primaryStage, GameState gameState, PlayerModel playerModel) throws Exception {
+    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.playerModel = playerModel;
-
-        playerModel.setHealth(gameState.getPlayer().getHealth());
-        playerModel.setSpeed(gameState.getPlayer().getMovementSpeed());
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
+
         try {
             hudPane = (Pane) loader.load();
-            PlayerModel playerModel1 = (PlayerModel)loader.getController();
+            AttributeController attributeController = loader.getController();
+            attributeController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -66,7 +59,6 @@ public class ClientBoard {
         }
 
         scene = new Scene(hudPane);
-
 
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
@@ -89,8 +81,6 @@ public class ClientBoard {
         initialiseInput(scene, renderer);
 
         beginClientLoop(renderer);
-
-
     }
 
     private void beginClientLoop(Renderer renderer) {
@@ -184,14 +174,6 @@ public class ClientBoard {
                 o.update();
             }
         }
-    }
-
-    public PlayerModel getPlayerModel() {
-        return playerModel;
-    }
-
-    public void setPlayerModel(PlayerModel playerModel) {
-        this.playerModel = playerModel;
     }
 
 
