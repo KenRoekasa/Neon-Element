@@ -37,17 +37,14 @@ public class Enemy extends Character {
     }
     
     public void startBasicAI() {
-		System.out.println("enemy started");
         Thread t = new Thread(new Runnable() {
 
             @Override
             public void run() {
-            	System.out.println("in thread");
                 boolean bool = true;
-                int ctr=0;
                 while (bool) {
-                	
-                	System.out.print("while: "+(ctr++) + "\n");
+
+
                 	EnemyFSM.basicEnemyFetchAction(enemy, players, powerups);
 
                 	basicAIExecuteAction();
@@ -83,6 +80,8 @@ public class Enemy extends Character {
             }
 
         });
+        
+        t.start();
 		
 	}
     
@@ -168,7 +167,7 @@ public class Enemy extends Character {
 	
 
     public boolean inAttackDistance(Character player) {
-    	if(this.getLocation().distance(player.getLocation())<getWidth())
+    	if ( (int) calcDistance(getLocation(), player.getLocation()) -getWidth() <getWidth())
     		return true;
     	return false;
     }
@@ -208,16 +207,30 @@ public class Enemy extends Character {
 
 
     public void attack() {
+    	System.out.println("attack");
     	Character player = findNearestPlayer();
+    	System.out.println("move to");
     	moveTo(player);
+    	
     	if(inAttackDistance(player)) {
+    		double angle = calcAngle(getLocation(),player.getLocation());
+    		System.out.println(angle);
+    		setPlayerAngle(  new Rotate(angle) );
+    		System.out.println("in attack distance");
     		lightAttack();
     	}
     }
     
+    private double calcAngle(Point2D loc1, Point2D loc2) {
+    	
+    	double x = Math.abs(loc1.getX()-loc2.getX());
+    	double y = Math.abs(loc1.getY()-loc2.getY());
+       	
+    	return Math.atan2(y, x)*1000;
+    }
 
-    public double calcDistance(Point2D x, Point2D y) {
-    	return x.distance(y);
+    private double calcDistance(Point2D a, Point2D b) {
+    	return a.distance(b);
     }
 
     
@@ -226,70 +239,59 @@ public class Enemy extends Character {
     	Point2D powerupLoc = powerup.getLocation();
     	double distance = calcDistance(getLocation(),powerupLoc );
 
-    	while( (int) distance - 1 > getWidth() ) {
+    	while( (int) distance - getWidth() > getWidth() ) {
 
-    		if( (getLocation().getX() - powerupLoc.getX()) > 0 )
-    			setLocation(new Point2D( getLocation().getX()-getMovementSpeed(), getLocation().getY()) );
-    		else if( (getLocation().getX() - powerupLoc.getX()) < 0 )
-    			setLocation(new Point2D( getLocation().getX()+getMovementSpeed(), getLocation().getY()) );
-
-    		if( (getLocation().getY() - powerupLoc.getY()) > 0 )
-    			setLocation(new Point2D( getLocation().getX(), getLocation().getY()-getMovementSpeed()) );
-
-    		else if( (getLocation().getY() - powerupLoc.getY()) < 0 )
-        			setLocation(new Point2D( getLocation().getX(), getLocation().getY()+getMovementSpeed()) );
-
+    		if(isAbove(powerup.getLocation()))
+    			moveUp();
+    		else if(isUnder(powerup.getLocation()))
+    			moveDown(map.getWidth(),map.getHeight());
+    		if(isLeftOf(powerup.getLocation()))
+    			moveLeft(map.getWidth());
+    		else if (isRightOf(powerup.getLocation()))
+    			moveRight(map.getWidth(),map.getHeight());
+    		
     		distance = calcDistance(getLocation(), powerupLoc);
     	}
     }
     
     public void moveTo(Character player) {
-    	System.out.println("enemy moving to player");
     	Point2D playerLoc = player.getLocation();
     	double distance = calcDistance(getLocation(),playerLoc );
 
     	while( (int) distance - getWidth() > getWidth() ) {
 
-    		if(isAbove(player))
+    		if(isAbove(player.getLocation()))
     			moveUp();
-    		else if(isUnder(player))
+    		else if(isUnder(player.getLocation()))
     			moveDown(map.getWidth(),map.getHeight());
-    		if(isLeftOf(player))
+    		if(isLeftOf(player.getLocation()))
     			moveLeft(map.getWidth());
-    		else if (isRightOf(player))
+    		else if (isRightOf(player.getLocation()))
     			moveRight(map.getWidth(),map.getHeight());
     		
     		distance = calcDistance(getLocation(), playerLoc);
     	}
     }
-    private boolean isRightOf(Character player) {
-    	Point2D playerLoc = player.getLocation();
-    	double distance = calcDistance(getLocation(),playerLoc );
-    	if(player.getLocation().getX()>getLocation().getX() && player.getLocation().getY()<getLocation().getY())
+    private boolean isRightOf(Point2D loc) {
+    	if(loc.getX()>getLocation().getX() && loc.getY()<getLocation().getY())
     		return true;
     	return false;
     }
 
-    private boolean isLeftOf(Character player) {
-    	Point2D playerLoc = player.getLocation();
-    	double distance = calcDistance(getLocation(),playerLoc );
-    	if(player.getLocation().getX()<getLocation().getX() && player.getLocation().getY()>getLocation().getY())
+    private boolean isLeftOf(Point2D loc) {
+    	if(loc.getX()<getLocation().getX() && loc.getY()>getLocation().getY())
     		return true;
     	return false;
     }
     
-    private boolean isUnder(Character player) {
-    	Point2D playerLoc = player.getLocation();
-    	double distance = calcDistance(getLocation(),playerLoc );
-    	if(player.getLocation().getX()>getLocation().getX() && player.getLocation().getY()>getLocation().getY())
+    private boolean isUnder(Point2D loc) {
+    	if(loc.getX()>getLocation().getX() && loc.getY()>getLocation().getY())
     		return true;
     	return false;
     }
     
-    private boolean isAbove(Character player) {
-    	Point2D playerLoc = player.getLocation();
-    	double distance = calcDistance(getLocation(),playerLoc );
-    	if(player.getLocation().getX()<getLocation().getX() && player.getLocation().getY()<getLocation().getY())
+    private boolean isAbove(Point2D loc) {
+    	if(loc.getX()<getLocation().getX() && loc.getY()<getLocation().getY())
     		return true;
     	return false;
     }
