@@ -35,7 +35,8 @@ public abstract class Enemy extends Character {
     public abstract void start() ;
     public abstract void executeAction();
     
-    private void assignRandomElement() {
+
+	private void assignRandomElement() {
 
         Random r = new Random();
         int rand = r.nextInt(4);

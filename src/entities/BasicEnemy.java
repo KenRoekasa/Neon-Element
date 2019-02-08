@@ -8,7 +8,7 @@ import entities.PowerUp;
 
 public class BasicEnemy extends Enemy {
 
-    public BasicEnemy(Character[] players, PowerUp[] powerUps) {
+    public BasicEnemy(Player[] players, PowerUp[] powerUps) {
 		super(players, powerUps);
 	}
 
