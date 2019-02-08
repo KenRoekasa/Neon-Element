@@ -28,7 +28,6 @@ import java.util.Timer;
 public class MenuController implements Initializable{
     private Stage stage;
     private GameState gameState;
-    private PlayerModel playerModel;
     @FXML
     private Text health;
     @FXML
@@ -44,10 +43,9 @@ public class MenuController implements Initializable{
         // create game rules
         // todo make this configurable
             gameState = GameStateGenerator.createDemoGamestate();
-            playerModel = new PlayerModel();
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState, playerModel);
+            ClientBoard gameBoard = new ClientBoard(stage, gameState);
             Scene scene = gameBoard.getScene();
 
         } catch (Exception e) {
