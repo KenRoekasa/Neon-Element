@@ -173,7 +173,7 @@ public class ClientBoard {
                     gameState.getPlayer().isColliding = false;
                 }
                 //Attack Collision
-                //if player is attacking check
+                //if player is light attacking
                 if (gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
                     if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                         // e takes damage
@@ -181,6 +181,13 @@ public class ClientBoard {
                         // Sends to server
                     }
 
+                }
+                if(gameState.getPlayer().getCurrentAction() == Action.HEAVY){
+                    if(CollisionDetection.checkCollision(gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(),e.getBounds().getBoundsInParent())){
+                        // e takes damage
+                        System.out.println("heavy hit");
+                        // Sends to server
+                    }
                 }
             }
         }

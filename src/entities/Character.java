@@ -5,6 +5,7 @@ import enums.Action;
 import enums.Directions;
 import enums.Elements;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
@@ -184,7 +185,6 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void heavyAttack() {
-
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
@@ -285,8 +285,8 @@ public abstract class Character extends PhysicsObject {
 
     public void isColliding(PhysicsObject e) {
         isColliding = true;
-//                double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
-//                double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
+        //                double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
+        //                double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
         double xDiff = location.getX() - e.getLocation().getX();
         double yDiff = location.getY() - e.getLocation().getY();
         switch (characterDirection) {
@@ -300,7 +300,7 @@ public abstract class Character extends PhysicsObject {
                     location = location.add((width - yDiff) + movementSpeed, (width - yDiff) + movementSpeed);
                     break;
                 }
-//                location = location.add((width - yDiff) + movementSpeed, (width - xDiff)+movementSpeed);
+                //                location = location.add((width - yDiff) + movementSpeed, (width - xDiff)+movementSpeed);
 
             case DOWN:
                 location = location.add(-movementSpeed, -movementSpeed);
@@ -313,7 +313,7 @@ public abstract class Character extends PhysicsObject {
                 location = location.add(-movementSpeed, movementSpeed);
                 break;
             case UPCART:
-//                location = new Point2D(location.getX(),location.getY()+yDiff);
+                //                location = new Point2D(location.getX(),location.getY()+yDiff);
                 location = location.add(0, (movementSpeed * 2));
                 break;
             case DOWNCART:
@@ -387,6 +387,10 @@ public abstract class Character extends PhysicsObject {
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
         hitbox.getTransforms().add(rotate);
         return hitbox;
+    }
+
+    public Circle getHeavyAttackHitbox() {
+        return new Circle(location.getX() + width, location.getY() + width, 200);
     }
 
 }
