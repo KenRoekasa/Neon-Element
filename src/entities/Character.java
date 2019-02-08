@@ -227,7 +227,7 @@ public abstract class Character extends PhysicsObject {
 
 
     public void setLocation(Point2D location) {
-        this.location = location.add(width / 2f, width / 2f);
+        this.location = location;
     }
 
     public int getMovementSpeed() {
