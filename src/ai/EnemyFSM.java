@@ -31,6 +31,9 @@ public class EnemyFSM {
 		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) !=null ) {
 			enemy.setState(EnemyStates.FIND_SPEED);
 		}
+		else {
+			enemy.setState(EnemyStates.ATTACK);
+		}
 
 	}
 	
@@ -57,6 +60,9 @@ public class EnemyFSM {
 		}
 		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) !=null ) {
 			enemy.setState(EnemyStates.FIND_SPEED);
+		}
+		else {
+			enemy.setState(EnemyStates.ATTACK);
 		}
 
 	}

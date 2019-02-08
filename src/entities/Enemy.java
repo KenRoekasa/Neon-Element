@@ -2,13 +2,13 @@ package entities;
 
 import java.util.Random;
 
+import ai.EnemyFSM;
 import ai.EnemyStates;
-import enums.Elements;
 import enums.PowerUpType;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
-public abstract class Enemy extends Character {
+public class Enemy extends Character {
 
 	EnemyStates activeState;
     Character [] players;
@@ -32,8 +32,78 @@ public abstract class Enemy extends Character {
         width = 20;
     }
     
-    public abstract void start() ;
-    public abstract void executeAction();
+    public void startBasicAI() {
+		System.out.println("enemy started");
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+            	System.out.println("in thread");
+                boolean bool = true;
+                int ctr=0;
+                while (bool) {
+                	
+                	System.out.print("while: "+(ctr++) + "\n");
+                	EnemyFSM.basicEnemyFetchAction(enemy, players, powerups);
+
+                	basicAIExecuteAction();
+                	
+                    if (health <= 0)
+                        bool = false;
+                }
+            }
+           
+        });
+        
+        t.start();
+    }
+    
+    public void startAdvancedAI() {
+
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                boolean bool = true;
+
+                while (bool) {
+
+                	EnemyFSM.advancedEnemyFetchAction(enemy, players, powerups);
+
+                	advancedAIExecuteAction();
+                	
+                    if (health <= 0)
+                        bool = false;
+                }
+            }
+
+        });
+		
+	}
+    
+    private void basicAIExecuteAction() {
+    	switch(activeState) {
+    	case ATTACK :attack(); break;
+    	case AGGRESSIVE_ATTACK: aggressiveAttack(); break;
+    	case FIND_HEALTH: findHealth(); break;
+    	case FIND_DAMAGE: findDamage(); break;
+    	case FIND_SPEED: findSpeed(); break;
+		case ESCAPE:break;
+		case IDLE:break;
+		default:break;
+    	}
+    }
+    
+	private void advancedAIExecuteAction() {
+		switch(activeState) {
+    	case ATTACK :attack(); break;
+    	case AGGRESSIVE_ATTACK: aggressiveAttack(); break;
+    	case FIND_HEALTH: findHealth(); break;
+    	case FIND_DAMAGE: findDamage(); break;
+    	case FIND_SPEED: findSpeed(); break;
+    	}
+	}
     
 
 	private void assignRandomElement() {
@@ -148,7 +218,7 @@ public abstract class Enemy extends Character {
 
     
     public void moveTo(PowerUp powerup) {
-
+    	System.out.println("enemy moving to powerup");
     	Point2D powerupLoc = powerup.getLocation();
     	double distance = calcDistance(getLocation(),powerupLoc );
 
@@ -170,13 +240,22 @@ public abstract class Enemy extends Character {
     }
     
     public void moveTo(Character player) {
-
+    	System.out.println("enemy moving to player");
     	Point2D playerLoc = player.getLocation();
     	double distance = calcDistance(getLocation(),playerLoc );
 
-    	while( (int) distance - 1 > getWidth() ) {
+    	while( (int) distance + 1 > getWidth() ) {
 
-    		if( (getLocation().getX() - playerLoc.getX()) > 0 )
+    		if(isAbove(player))
+    			moveUp();
+    		else if(isUnder(player))
+    			moveDown(2000,2000);
+    		if(isLeftOf(player))
+    			moveLeft(2000);
+    		else if (isRightOf(player))
+    			moveRight(2000,2000);
+    		
+    		/*if( (getLocation().getX() - playerLoc.getX()) > 0 )
     			setLocation(new Point2D( getLocation().getX()-getMovementSpeed(), getLocation().getY()) );
     		else if( (getLocation().getX() - playerLoc.getX()) < 0 )
     			setLocation(new Point2D( getLocation().getX()+getMovementSpeed(), getLocation().getY()) );
@@ -188,9 +267,41 @@ public abstract class Enemy extends Character {
         			setLocation(new Point2D( getLocation().getX(), getLocation().getY()+getMovementSpeed()) );
 
     		distance = calcDistance(getLocation(), playerLoc);
+    		*/
     	}
     }
+    private boolean isRightOf(Character player) {
+    	Point2D playerLoc = player.getLocation();
+    	double distance = calcDistance(getLocation(),playerLoc );
+    	if(player.getLocation().getX()>getLocation().getX() && player.getLocation().getY()<getLocation().getY())
+    		return true;
+    	return false;
+    }
 
+    private boolean isLeftOf(Character player) {
+    	Point2D playerLoc = player.getLocation();
+    	double distance = calcDistance(getLocation(),playerLoc );
+    	if(player.getLocation().getX()<getLocation().getX() && player.getLocation().getY()>getLocation().getY())
+    		return true;
+    	return false;
+    }
+    
+    private boolean isUnder(Character player) {
+    	Point2D playerLoc = player.getLocation();
+    	double distance = calcDistance(getLocation(),playerLoc );
+    	if(player.getLocation().getX()>getLocation().getX() && player.getLocation().getY()>getLocation().getY())
+    		return true;
+    	return false;
+    }
+    
+    private boolean isAbove(Character player) {
+    	Point2D playerLoc = player.getLocation();
+    	double distance = calcDistance(getLocation(),playerLoc );
+    	if(player.getLocation().getX()<getLocation().getX() && player.getLocation().getY()<getLocation().getY())
+    		return true;
+    	return false;
+    }
+    
     @Override
     public void update() {
 

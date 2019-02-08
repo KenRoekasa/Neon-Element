@@ -19,6 +19,9 @@ public class GameState {
         this.enemies = enemies;
         this.map = map;
         this.objects = objects;
+        for (Enemy enemy : enemies) {
+        	enemy.startBasicAI();
+		}
     }
 
     public ArrayList<PhysicsObject> getEntities(){
