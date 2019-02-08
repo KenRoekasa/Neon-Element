@@ -23,33 +23,32 @@ public class Renderer {
     private GraphicsContext gc;
 
     private Debugger debugger;
-
     private Rectangle stageSize;
-
     private static Point2D rotationCenter;
-
+    private ArrayList<Point2D> stars;
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         this.stageSize = stageSize;
 
+        stars = DrawObjects.loadStars(stageSize);
 
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
         this.gc = gc;
         this.stageSize = stageSize;
-        
+
+
+        stars = DrawObjects.loadStars(stageSize);
     }
 
     public void render(Stage primaryStage, GameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
-        
 
-
-        //DrawObjects.drawBackground(gc, stageSize);
+        DrawObjects.drawBackground(gc, stageSize, stars);
 
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
