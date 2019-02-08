@@ -150,9 +150,13 @@ public class ClientBoard {
     }
 
     private void doCollisionDetection() {
-        synchronized (gameState.getObjects()) {
+
+        ArrayList<PhysicsObject> objects = gameState.getObjects();
+        //remove player from the objects list
+        objects.remove(gameState.getPlayer());
+        synchronized (objects) {
             // Collision detection code
-            for (Iterator<PhysicsObject> itr = gameState.getObjects().iterator(); itr.hasNext(); ) {
+            for (Iterator<PhysicsObject> itr = objects.iterator(); itr.hasNext(); ) {
                 PhysicsObject e = itr.next();
                 if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
                     //If the object is a power up
