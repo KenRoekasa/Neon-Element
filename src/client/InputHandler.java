@@ -101,18 +101,11 @@ public class InputHandler {
     static void handleClick(Player player, Stage primaryStage, MouseEvent e, Renderer r) {
 
         if(e.getButton() == MouseButton.PRIMARY) {
-            //System.out.println("Light attack");
-            //player.lightAttack();
-            r.addPlayerAttack(player, 1);
+            player.lightAttack();
 
         } else if (e.getButton() == MouseButton.SECONDARY) {
-            r.addPlayerAttack(player, 2);
+            player.chargeHeavyAttack();
 
-            //player.heavyAttack();
-            //System.out.println("Light attack");
         }
     }
-
-
-
 }

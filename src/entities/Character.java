@@ -1,13 +1,17 @@
 package entities;
 
+import calculations.AttackTimes;
+import enums.Action;
 import enums.Directions;
 import enums.Elements;
+import graphics.DrawPlayers;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,16 +26,21 @@ public abstract class Character extends PhysicsObject {
     protected int movementSpeed;
     protected final float MAX_HEALTH = 100;
     protected boolean isAlive = true;
+    protected Action currentAction = Action.IDLE;
+
 
     // The time the ability was last used System.time
+
     protected long[] timerArray = new long[10];
 
-
     //TODO: Change the access modifier
-    public boolean isColliding;
 
+    public boolean isColliding;
     private Timer timer = new Timer();
+
     private Rectangle attackHitbox = new Rectangle(width, width);
+
+    private long currentActionStart;
 
     public void moveUp() {
         characterDirection = Directions.UP;
@@ -127,21 +136,23 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        long nextAvailableTime = (long) (timerArray[lightAttackID] + (lightAttackCD * 1000));
 
-        // Cooldown System
-        if (System.currentTimeMillis() > nextAvailableTime) {
+        if (currentAction == Action.IDLE) {
+
+            currentAction = Action.LIGHT;
+            currentActionStart = System.currentTimeMillis();
+            long attackDuration = AttackTimes.getActionTime(currentAction);
+            final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+
+
             int damage = 3;
-            System.out.println("ATTACK");
             //set attack hit box in front of the user
             //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
 
 
-            attackHitbox.setY(location.getY()+width);
+            attackHitbox.setY(location.getY() + width);
             Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
             attackHitbox.getTransforms().addAll(playerAngle);
-
-            timerArray[lightAttackID] = System.currentTimeMillis();
 
 
             //If another Character is in the Hitbox calculate the damage they take
@@ -152,24 +163,57 @@ public abstract class Character extends PhysicsObject {
 //                //sends to server
 //            }
 //        }
+
+            resetActionTimer(attackDuration, remainingAttackDuration);
         }
 
 
     }
+
+    private void resetActionTimer(long attackDuration, long[] remainingAttackDuration) {
+        (new Thread(() -> {
+            while (remainingAttackDuration[0] > 0) {
+                remainingAttackDuration[0] = currentActionStart + attackDuration - System.currentTimeMillis();
+            }
+            currentAction = Action.IDLE;
+        })).start();
+
+    }
+
 
     public void removeHealth(float damage) {
         this.health -= damage;
     }
 
-    public void heavyAttack() {
-        long nextAvailableTime = (long) (timerArray[heavyAttackID] + (heavyAttackCD * 1000));
-        if (System.currentTimeMillis() > nextAvailableTime) {
-            //TODO: DO SOMETHING
+    public void chargeHeavyAttack() {
+        // TODO handle charging
 
+        if (currentAction == Action.IDLE ){
 
-            // set last time spell was used
-            timerArray[heavyAttackID] = System.currentTimeMillis();
+            currentAction = Action.CHARGE;
+            currentActionStart = System.currentTimeMillis();
+
+            (new Thread(() -> {
+
+                try {
+                    Thread.sleep(AttackTimes.getActionTime(currentAction));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                heavyAttack();
+            })).start();
         }
+    }
+
+    public void heavyAttack() {
+
+        currentAction = Action.HEAVY;
+        currentActionStart = System.currentTimeMillis();
+        long attackDuration = AttackTimes.getActionTime(currentAction);
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+        //TODO: DO SOMETHING
+
+        resetActionTimer(attackDuration, remainingAttackDuration);
 
 
     }
@@ -299,6 +343,7 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+
     // adds Health to the player
     public void addHealth(int amount) {
         health += amount;
@@ -309,7 +354,7 @@ public abstract class Character extends PhysicsObject {
 
     // Increase movement speed
     public void speedBoost() {
-        movementSpeed = 4;
+        movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
@@ -318,7 +363,7 @@ public abstract class Character extends PhysicsObject {
 
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = 2;
+                        movementSpeed = 5;
                         timer.cancel();
                     }
                     timerArray[speedBoostDuration]++;
@@ -335,4 +380,17 @@ public abstract class Character extends PhysicsObject {
 
 
     }
+
+    public Action getCurrentAction() {
+        return currentAction;
+    }
+
+    public void setCurrentAction(Action currentAction) {
+        this.currentAction = currentAction;
+    }
+
+    public long getCurrentActionStart() {
+        return currentActionStart;
+    }
+
 }

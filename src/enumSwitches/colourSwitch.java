@@ -1,10 +1,10 @@
-package graphics;
+package enumSwitches;
 
 import enums.Elements;
 import enums.PowerUpType;
 import javafx.scene.paint.Color;
 
-public class EnumColourSwitch {
+public class colourSwitch {
 
     public static Color getElementColour(Elements currentElement){
         switch(currentElement){

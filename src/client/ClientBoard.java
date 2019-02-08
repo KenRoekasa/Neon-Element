@@ -1,5 +1,6 @@
 package client;
 
+import controllers.AttributeController;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -10,19 +11,16 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 
 
 public class ClientBoard {
@@ -30,13 +28,14 @@ public class ClientBoard {
     private Debugger debugger;
     private GraphicsContext gc;
     private Stage primaryStage;
-
-
+    private Scene scene;
     private Rectangle stageSize;
     private ArrayList<String> input;
-
     private GameState gameState;
 
+    public Scene getScene() {
+        return scene;
+    }
 
     public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
         // initial setup
@@ -46,10 +45,11 @@ public class ClientBoard {
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
+
         try {
             hudPane = (Pane) loader.load();
-            //primaryStage.getScene().getRoot().getChildrenUnmodifiable().setAll((Node) loader.load());
-
+            AttributeController attributeController = loader.getController();
+            attributeController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -58,31 +58,27 @@ public class ClientBoard {
             System.exit(0);
         }
 
-        Scene theScene = new Scene(hudPane);
+        scene = new Scene(hudPane);
 
-        //Scene theScene = primaryStage.getScene();
-
-        primaryStage.setScene(theScene);
+        primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
-        Canvas canvas = new Canvas(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-
+        Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
         hudPane.getChildren().add(canvas);
+
+        //forces the game to be rendered behind the gui
+        int index = hudPane.getChildren().indexOf(canvas);
+        hudPane.getChildren().get(index).toBack();
 
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
         Renderer renderer = new Renderer(gc, stageSize, debugger);
 
-
         // initialise input controls
-        initialiseInput(theScene, renderer);
-
-
-
+        initialiseInput(scene, renderer);
 
         beginClientLoop(renderer);
 
@@ -92,8 +88,10 @@ public class ClientBoard {
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
+
                 clientLoop();
                 renderer.render(primaryStage, gameState);
+
 
             }
         }.start();
@@ -174,10 +172,6 @@ public class ClientBoard {
 
 
 
-
-
-
-
             //Call update function for all physics objects
             gameState.getPlayer().update();
             for (PhysicsObject o : gameState.getObjects()) {
@@ -185,5 +179,6 @@ public class ClientBoard {
             }
         }
     }
+
 
 }
