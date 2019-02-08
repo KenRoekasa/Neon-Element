@@ -33,7 +33,6 @@ public abstract class Character extends PhysicsObject {
     public boolean isColliding;
     private Timer timer = new Timer();
 
-    private Rectangle attackHitbox = new Rectangle(width, width);
 
     private long currentActionStart;
 
@@ -141,23 +140,8 @@ public abstract class Character extends PhysicsObject {
 
 
             int damage = 3;
-            //set attack hit box in front of the user
-            //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
 
 
-            attackHitbox.setY(location.getY() + width);
-            Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
-            attackHitbox.getTransforms().addAll(playerAngle);
-
-
-            //If another Character is in the Hitbox calculate the damage they take
-            // How is damaged dealt throught the victim or the attacker or server
-//        for (Character p : otherCharacters) {
-//            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
-//                //TODO: What happens when you hit another Character
-//                //sends to server
-//            }
-//        }
 
             resetActionTimer(attackDuration, remainingAttackDuration);
         }
@@ -392,6 +376,13 @@ public abstract class Character extends PhysicsObject {
 
     public long getCurrentActionStart() {
         return currentActionStart;
+    }
+
+    public Rectangle getAttackHitbox(){
+        Rectangle hitbox = new Rectangle(location.getX(),location.getY()-width);
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX()+(width/2), location.getY()+(width/2));
+        hitbox.getTransforms().add(rotate);
+        return hitbox;
     }
 
 }

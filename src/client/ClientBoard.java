@@ -6,6 +6,7 @@ import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
 import entities.PowerUp;
+import enums.Action;
 import enums.ObjectType;
 import graphics.Renderer;
 import javafx.animation.AnimationTimer;
@@ -170,13 +171,12 @@ public class ClientBoard {
                 }
                 //Attack Collision
                 //if player is attacking check
-                // Translate up
-                Rectangle attackHitbox = new Rectangle(gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY() + gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth());
-                // Rotation with axis on centre of Player
-                Rotate rotate = (Rotate) Rotate.rotate(gameState.getPlayer().getPlayerAngle().getAngle(), gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY());
-                attackHitbox.getTransforms().addAll(rotate);
-                if (CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(), e.getBounds().getBoundsInParent())) {
-                    // e takes damage
+                if (gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
+                    if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                        // e takes damage
+                        System.out.println("hit");
+                    }
+
                 }
             }
         }
