@@ -84,16 +84,16 @@ public class Renderer {
             Action status = gameState.getPlayer().getCurrentAction();
             Class charClass = Player.class;
 
-            ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
             DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
+            ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
 
         } else if (Objects.equals(o.getClass(), Enemy.class)) {
             Enemy enemy = (Enemy)o;
             Action status = enemy.getCurrentAction();
             Class charClass = Enemy.class;
 
-            ActionSwitch(status, enemy, charClass, gameState);
             DrawEnemies.drawEnemy(gc, stageSize, (Enemy) o, gameState.getPlayer());
+            ActionSwitch(status, enemy, charClass, gameState);
 
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
@@ -140,6 +140,11 @@ public class Renderer {
 
                 break;
             case BLOCK:
+                if(Objects.equals(charClass, Player.class)) {
+                    DrawClientPlayer.drawShield(gc, gameState.getPlayer(), stageSize);
+                } else {
+                    DrawEnemies.drawShield(gc, (Enemy) character, gameState.getPlayer(), stageSize);
+                }
         }
     }
 

@@ -27,7 +27,7 @@ class DrawClientPlayer {
     static void drawLightAttack(GraphicsContext gc, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
 
         Point2D stageCenter = getStageCenter(stage);
-        DrawAttacks.drawLightAttack(gc, player, remainingAnimDuration, animationDuration, stageCenter);
+        DrawStates.drawLightAttack(gc, player, remainingAnimDuration, animationDuration, stageCenter);
     }
 
 
@@ -35,20 +35,25 @@ class DrawClientPlayer {
 
         Point2D stageCenter = getStageCenter(stage);
 
-        DrawAttacks.drawHeavyAttackCharge(gc, player, remainingAnimDuration, animationDuration, stageCenter);
+        DrawStates.drawHeavyAttackCharge(gc, player, remainingAnimDuration, animationDuration, stageCenter);
     }
 
 
     static void drawHeavyAttack(GraphicsContext gc, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
         Point2D playerCenter = getStageCenter(stage);
 
-        DrawAttacks.drawHeavyAttack(gc, player, remainingAnimDuration, animationDuration, playerCenter);
+        DrawStates.drawHeavyAttack(gc, player, remainingAnimDuration, animationDuration, playerCenter);
     }
 
+
+    public static void drawShield(GraphicsContext gc, Player player, Rectangle stageSize) {
+        Point2D playerCenter = getStageCenter(stageSize);
+        DrawStates.drawShield(gc, player, playerCenter);
+
+    }
 
 
     private static Point2D getStageCenter(Rectangle stageSize) {
         return new Point2D(stageSize.getWidth() / 2, stageSize.getHeight() / 2);
     }
-
 }
