@@ -78,6 +78,11 @@ public class InputHandler {
             player.changeToFire();
         }
 
+        if(input.contains("SPACE")){
+            player.shield();
+        } else {
+            player.unShield();
+        }
 
     }
 

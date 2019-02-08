@@ -219,30 +219,36 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
-        long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
-        if (System.currentTimeMillis() > nextAvailableTime) {
-            //need code to unshield after a certain duration
-            isShielded = true;
-            timerArray[shieldDurID] = 0;
-            //counts for 10 seconds then unshield
+        if(currentAction == Action.IDLE) {
+            currentAction = Action.BLOCK;
+            long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
+            if (System.currentTimeMillis() > nextAvailableTime) {
+                //need code to unshield after a certain duration
+                isShielded = true;
+                timerArray[shieldDurID] = 0;
+                //counts for 10 seconds then unshield
 
-            timer.scheduleAtFixedRate(new TimerTask() {
+                timer.scheduleAtFixedRate(new TimerTask() {
 
-                public void run() {
+                    public void run() {
 
-                    if (timerArray[shieldDurID] == shieldDuration) {
-                        isShielded = false;
-                        timer.cancel();
+                        if (timerArray[shieldDurID] == shieldDuration) {
+                            isShielded = false;
+                            timer.cancel();
+                        }
+                        timerArray[shieldDurID]++;
                     }
-                    timerArray[shieldDurID]++;
-                }
-            }, 0, 1000);
-            // set last time spell was used
-            timerArray[shieldID] = System.currentTimeMillis();
-
+                }, 0, 1000);
+                // set last time spell was used
+                timerArray[shieldID] = System.currentTimeMillis();
+            }
         }
+    }
 
-
+    public void unShield(){
+        if(currentAction == Action.BLOCK) {
+            currentAction = Action.IDLE;
+        }
     }
 
     public void changeToFire() {
