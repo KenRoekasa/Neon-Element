@@ -6,16 +6,14 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane layoutX="71.0" layoutY="66.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="3.0" prefWidth="189.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="131.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="179.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="3.0" prefWidth="124.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.0" minWidth="10.0" prefWidth="198.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="178.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
@@ -26,18 +24,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="local" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="LOCAL" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="online" mnemonicParsing="false" text="ONLINE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button fx:id="local" mnemonicParsing="false" prefHeight="27.0" prefWidth="158.0" text="HOST A GAME" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="online" mnemonicParsing="false" prefHeight="27.0" prefWidth="158.0" text="JOIN A GAME" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <BorderPane prefHeight="295.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please choose a mode:" wrappingWidth="218.39404296875" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-         </center>
-      </BorderPane>
+      <BorderPane prefHeight="295.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
