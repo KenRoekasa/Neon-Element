@@ -17,6 +17,7 @@ public class Menu extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Game");
+       // System.out.println("helo");
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
         Double width = primaryScreenBounds.getWidth();

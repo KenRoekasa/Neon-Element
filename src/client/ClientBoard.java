@@ -88,8 +88,8 @@ public class ClientBoard {
 
         beginClientLoop(renderer);
         
-        this.gameClient = new GameClient(gameState);
-        gameClient.run();
+        //this.gameClient = new GameClient(gameState);
+        //gameClient.run();
     }
 
     private void beginClientLoop(Renderer renderer) {

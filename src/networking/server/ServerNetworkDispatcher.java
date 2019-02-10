@@ -81,9 +81,9 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	    }
 	}
 
-	protected void broadCastNewConnectedUser(ConnectAckPacket packet) {
-		Packet response = new ConnectAckPacket(true, packet.getIpAddress(), packet.getPort());
-		this.send(response);
+	protected void broadCastNewConnectedUser() {
+		//Packet response = new BroadCastConnectedUserPacket(new Buffer());
+	//	this.send(response);
 	}
 
 	protected void receiveSpellCast(CastSpellPacket packet) {

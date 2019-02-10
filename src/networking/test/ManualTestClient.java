@@ -5,6 +5,7 @@ import networking.client.ClientNetworkDispatcher;
 
 public class ManualTestClient {
     public static void main(String[] args) {
+    		//GameState gs = new GameState()
         ClientNetwork net = new ClientNetwork();
         net.start();
 

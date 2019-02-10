@@ -64,7 +64,7 @@ public class MultiCastServerThread extends ServerNetwork {
 		 
 		        if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
 		            byte[] data = packet.getRawBytes();
-		            DatagramPacket datagram = new DatagramPacket(data, data.length, groupAddress, Constants.SERVER_LISTENING_PORT);
+		            DatagramPacket datagram = new DatagramPacket(data, data.length, groupAddress, Constants.BROADCASTING_PORT);
 		            try {
 		                this.socket.send(datagram);
 		            } catch (IOException e) {

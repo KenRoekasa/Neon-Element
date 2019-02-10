@@ -38,6 +38,9 @@ public class ClientNetwork extends Thread {
         this.name = name;
     }
     
+    public ClientNetwork() {
+    }
+    
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }

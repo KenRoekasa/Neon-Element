@@ -29,6 +29,9 @@ public class ServerNetwork extends Thread {
         this.running = true;
         this.dispatcher = new ServerNetworkDispatcher(this.socket, gameState);
     }
+    
+    
+    
 
     public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
