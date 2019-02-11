@@ -3,6 +3,7 @@ package networking.client;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 
 import client.ClientGameState;
@@ -10,22 +11,25 @@ import networking.packets.*;
 
 public class ClientNetwork extends Thread {
     protected String name;
-    protected boolean running;
+    
     protected DatagramSocket socket;
+    protected MulticastSocket multicastSocket;
+    
+    private ClientNetworkConnection conn;
+    private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
 
     public ClientNetwork(ClientGameState gameState) {
-        try {
-            this.socket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-        this.running = true;
         this.dispatcher = new ClientNetworkDispatcher(this.socket, gameState);
+
+        this.conn = new ClientNetworkConnection(this);
+        this.socket = conn.getSocket();
+
+        this.multiConn = new ClientNetworkMulticastConnection(this);
+        this.multicastSocket = multiConn.getSocket();
     }
 
-    //This clinet cons takes in the serverAddresws and playerName in as an arg from the command line
+    //This client cons takes in the serverAddresws and playerName in as an arg from the command line
     public ClientNetwork(String name, String serverAddress) {
         try {
             this.socket = new DatagramSocket();
@@ -33,12 +37,8 @@ public class ClientNetwork extends Thread {
             e.printStackTrace();
         }
 
-        this.running = true;
         this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddress);
         this.name = name;
-    }
-    
-    public ClientNetwork() {
     }
     
     public ClientNetworkDispatcher getDispatcher() {
@@ -46,23 +46,9 @@ public class ClientNetwork extends Thread {
     }
 
     public void close() {
-        this.running = false;
+        this.conn.close();
+        this.multiConn.close();
         this.dispatcher.close();
-    }
-
-    public void run() {
-        while (this.running) {
-            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-
-            try {
-                this.socket.receive(packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            this.parse(packet);
-        }
     }
 
     protected void parse(DatagramPacket datagram) {
