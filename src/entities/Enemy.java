@@ -215,7 +215,7 @@ public class Enemy extends Character {
     public void attack() {
     	System.out.println("attack");
     	Character player = findNearestPlayer();
-    	moveTo(player);
+    	//moveTo(player);
     	
     	if(inAttackDistance(player)) {
     		System.out.println("in attack distance");
@@ -225,15 +225,9 @@ public class Enemy extends Character {
     
     private double calcAngle(Point2D loc1, Point2D loc2) {
     	
-    	double x = Math.abs(loc1.getX()-loc2.getX());
-    	double y = Math.abs(loc1.getY()-loc2.getY());
-    	
-       	x = Math.toDegrees(x);
-       	y = Math.toDegrees(y);
-    	
-       	double angle = Math.toDegrees(Math.atan2(y, x)); 
-    	
-       	//System.out.println("x: "+x+"\ny: "+y+"\nangle: "+angle);
+    	double x = loc1.getX()-loc2.getX();
+    	double y = loc1.getY()-loc2.getY();
+       	double angle = Math.toDegrees(Math.atan2(y, x))-90.0; 
        	return angle;
     }
 
