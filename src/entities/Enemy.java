@@ -23,7 +23,7 @@ public class Enemy extends Character {
     Rectangle map;
 	
     public Enemy(Character [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
-    	
+		canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= true;
     	powerups = new ArrayList<PowerUp>();
         activeState = EnemyStates.IDLE;
         //default random

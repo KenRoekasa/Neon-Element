@@ -191,8 +191,6 @@ public class ClientBoard {
                     Point2D checkRightCart = new Point2D(x + movementSpeed, y);
                     Point2D[] projectedLocations = {checkUp, checkDown, checkLeft, checkRight, checkUpCart, checkDownCart, checkLeftCart, checkRightCart};
 
-                    System.out.println(gameState.getPlayer().getCharacterDirection());
-
                     switch (gameState.getPlayer().getCharacterDirection()) {
                         case UP:
                             projectedPlayer.setLocation(checkUp);
