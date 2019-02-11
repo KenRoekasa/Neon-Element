@@ -23,6 +23,9 @@ class DrawEnemies {
     static void drawerEnemyCursor(GraphicsContext gc, Rectangle stage, Enemy enemy, Player player) {
 
         Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        // todo improve
+        relativeLocation = relativeLocation.add(player.getWidth()/2f, player.getWidth()/2f);
+
 
         DrawPlayers.drawCursor(gc, relativeLocation, enemy);
     }

@@ -163,8 +163,11 @@ public class Renderer {
         Point2D enemyLocation = obj.getLocation();
         Point2D playerLocation = player.getLocation();
 
-        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX() - obj.getWidth()/2f;
-        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY() - obj.getWidth()/2f;
+        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();
+        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY();
+
+        //- obj.getWidth()/2f
+
         return new Point2D(relativeX, relativeY);
     }
 
