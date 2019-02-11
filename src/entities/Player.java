@@ -12,6 +12,7 @@ import static entities.CooldownValues.*;
 
 public class Player extends Character {
 
+    private int id;
 
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
@@ -38,6 +39,14 @@ public class Player extends Character {
         }
     }
 
+    public Player(int id) {
+        super();
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here
@@ -47,5 +56,12 @@ public class Player extends Character {
             isAlive = true;
         }
 
+    }
+
+    public void setLocation(double x, double y) {
+        double X = this.location.getX();
+        double Y = this.location.getY();
+
+        this.location.add(x-X, y-Y);
     }
 }

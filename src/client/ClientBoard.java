@@ -1,7 +1,8 @@
 package client;
 
+import client.ClientGameState;
+import client.InputHandler;
 import controllers.AttributeController;
-import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.*;
 import enums.Action;
@@ -17,6 +18,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import server.controllers.PowerUpController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,13 +34,15 @@ public class ClientBoard {
     private Scene scene;
     private Rectangle stageSize;
     private ArrayList<String> input;
-    private GameState gameState;
+
+    private ClientGameState gameState;
+    private GameClient gameClient;
 
     public Scene getScene() {
         return scene;
     }
 
-    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
@@ -85,23 +89,19 @@ public class ClientBoard {
 
         beginClientLoop(renderer);
 
-
+        //this.gameClient = new GameClient(gameState);
+        //gameClient.run();
     }
 
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
-
-                clientLoop();
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
                 renderer.render(primaryStage, gameState);
 
 
             }
         }.start();
-
-        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects()));
-        powerUpController.start();
-
 
     }
 

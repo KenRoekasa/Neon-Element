@@ -1,7 +1,7 @@
 package graphics;
 
 import calculations.AttackTimes;
-import client.GameState;
+import client.ClientGameState;
 import debugger.Debugger;
 import entities.Character;
 import entities.Enemy;
@@ -44,7 +44,7 @@ public class Renderer {
         stars = DrawObjects.loadStars(stageSize);
     }
 
-    public void render(Stage primaryStage, GameState gameState) {
+    public void render(Stage primaryStage, ClientGameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
@@ -77,7 +77,7 @@ public class Renderer {
     }
 
 
-    private void renderObject(PhysicsObject o, GameState gameState) {
+    private void renderObject(PhysicsObject o, ClientGameState gameState) {
 
         if (Objects.equals(o.getClass(), Player.class)) {
             Action status = gameState.getPlayer().getCurrentAction();
@@ -100,7 +100,7 @@ public class Renderer {
 
     }
 
-    private void ActionSwitch(Action status, Character character, Class charClass, GameState gameState){
+    private void ActionSwitch(Action status, Character character, Class charClass, ClientGameState gameState){
 
         long animationDuration;
         long remainingAnimDuration;

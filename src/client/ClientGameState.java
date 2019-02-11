@@ -8,13 +8,13 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-public class GameState {
+public class ClientGameState {
     private Player player;
     private ArrayList<Enemy> enemies;
     private Rectangle map;
     private ArrayList<PhysicsObject> objects;
 
-    public GameState(Player player, ArrayList<Enemy> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ClientGameState(Player player, ArrayList<Enemy> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
         this.player = player;
         this.enemies = enemies;
         this.map = map;
