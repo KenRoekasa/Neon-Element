@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import ai.EnemyFSM;
@@ -15,18 +16,21 @@ public class Enemy extends Character {
 
 	EnemyStates activeState;
     Character [] players;
-    PowerUp [] powerups;
+    ArrayList<PhysicsObject> objects;
+    ArrayList<PowerUp> powerups;
     Enemy enemy  = this;
     int powerupIndex = -1;
     Rectangle map;
 	
-    public Enemy(Character [] players, PowerUp [] powerUps, Rectangle map) {
-
+    public Enemy(Character [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
+    	
+    	powerups = new ArrayList<PowerUp>();
         activeState = EnemyStates.IDLE;
         //default random
         assignRandomElement();
         this.players = players;
-        this.powerups = powerUps;
+        this.objects = objects;
+        updatePowerups();
         this.map = map;
         location = new Point2D(10, 100);
         playerAngle = new Rotate(0);
@@ -34,6 +38,13 @@ public class Enemy extends Character {
         movementSpeed = 2;
         isShielded = false;
         width = objectSize.getObjectSize(ObjectType.ENEMY);
+    }
+    
+    private void updatePowerups() {
+    	for (int i = 0; i <objects.size(); i++) {
+			if(objects.get(i).equals(ObjectType.POWERUP))
+				powerups.add( (PowerUp)objects.get(i) );
+		}
     }
     
     public void startBasicAI() {
@@ -173,12 +184,14 @@ public class Enemy extends Character {
     }
 
     public PowerUp findNearestPowerUp(PowerUpType pu) {
+    	updatePowerups();
     	Character player = findNearestPlayer();
 		int index=-1;
 		double distance = Double.MAX_VALUE;
-		for (int i = 0; i < powerups.length; i++) {
-			if(powerups[i].getType().equals(pu)) {
-				double disToPU = calcDistance(powerups[i].getLocation(),getLocation());
+		for (int i = 0; i < powerups.size(); i++) {
+			System.out.println("powerup arraylist size"+powerups.size());
+			if(powerups.get(i).equals(pu)) {
+				double disToPU = calcDistance(powerups.get(i).getLocation(),getLocation());
 				if( disToPU < calcDistance(getLocation(),player.getLocation()) ) {
 					if(disToPU < distance) {
 						distance = disToPU;
@@ -188,7 +201,7 @@ public class Enemy extends Character {
 			}
 		}
 
-		return (index == -1)?null:powerups[index];
+		return (index == -1)?null:powerups.get(index);
 	}
 
     public Character findNearestPlayer() {
@@ -213,13 +226,11 @@ public class Enemy extends Character {
 
 
     public void attack() {
-    	System.out.println("attack");
     	Character player = findNearestPlayer();
-    	//moveTo(player);
+    	moveTo(player);
     	
     	if(inAttackDistance(player)) {
-    		System.out.println("in attack distance");
-    		//lightAttack();
+    		lightAttack();
     	}
     }
     
@@ -251,7 +262,8 @@ public class Enemy extends Character {
     			moveLeft(map.getWidth());
     		else if (isRightOf(powerupLoc))
     			moveRight(map.getWidth(),map.getHeight());
-    		
+    	
+    		powerupLoc = powerup.getLocation();
     		distance = calcDistance(getLocation(), powerupLoc);
     	}
     }
@@ -265,12 +277,13 @@ public class Enemy extends Character {
     		if(isAbove(playerLoc))
     			moveUp();
     		else if(isUnder(playerLoc))
-    			moveDown(map.getWidth(),map.getHeight());
+    			moveDown(map.getWidth(), map.getHeight());
     		if(isLeftOf(playerLoc))
     			moveLeft(map.getWidth());
     		else if (isRightOf(playerLoc))
     			moveRight(map.getWidth(),map.getHeight());
     		
+    		playerLoc = player.getLocation();
     		distance = calcDistance(getLocation(), playerLoc);
     	}
     }
