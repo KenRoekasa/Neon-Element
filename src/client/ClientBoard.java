@@ -297,7 +297,7 @@ public class ClientBoard {
                         }
 
                     }
-                    if (gameState.getPlayer().getCurrentAction() == Action.HEAVY) {
+                     if (gameState.getPlayer().getCurrentAction() == Action.HEAVY) {
                         if (CollisionDetection.checkCollision(gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                             // e takes damage
                             Enemy enemy = (Enemy) e;
