@@ -2,6 +2,7 @@ package server;
 
 import networking.server.ServerNetwork;
 import server.ServerGameState;
+import server.controllers.PowerUpController;
 
 public class GameServer extends Thread {
 
@@ -17,6 +18,9 @@ public class GameServer extends Thread {
 
     public void run() {
         this.running = true;
+
+        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects()));
+        powerUpController.start();
 
         while(this.running) {
             // Server logic

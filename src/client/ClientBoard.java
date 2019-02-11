@@ -3,11 +3,9 @@ package client;
 import client.ClientGameState;
 import client.InputHandler;
 import controllers.AttributeController;
-import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
-import entities.PowerUp;
 import enums.ObjectType;
 import graphics.Renderer;
 import javafx.animation.AnimationTimer;
@@ -99,11 +97,6 @@ public class ClientBoard {
                 renderer.render(primaryStage, gameState);
             }
         }.start();
-
-        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects()));
-        powerUpController.start();
-
-
     }
 
 
