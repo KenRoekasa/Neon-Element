@@ -19,8 +19,15 @@ public class ClientGameState {
         this.enemies = enemies;
         this.map = map;
         this.objects = objects;
+        
     }
 
+    public void start() {
+    	for (Enemy enemy : enemies) {
+        	enemy.startBasicAI();
+		}
+    }
+    
     public ArrayList<PhysicsObject> getEntities(){
 
         ArrayList<PhysicsObject> ents = new ArrayList<>(objects);

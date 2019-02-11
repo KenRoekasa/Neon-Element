@@ -1,6 +1,7 @@
 package entities;
 
 import enumSwitches.objectSize;
+import enums.Directions;
 import enums.Elements;
 import enums.ObjectType;
 import javafx.geometry.Point2D;
@@ -24,7 +25,9 @@ public class Player extends Character {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
+        characterDirection = Directions.UP;
 
+        canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= true;
         movementSpeed = 5;
         isShielded = false;
         //Default Fire

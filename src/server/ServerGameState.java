@@ -1,8 +1,6 @@
 package server;
 
-import entities.BasicEnemy;
-import entities.PhysicsObject;
-import entities.Player;
+import entities.*;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -13,11 +11,11 @@ public class ServerGameState {
 
     private boolean isStarted;
     private ArrayList<Player> players;
-    private ArrayList<BasicEnemy> ais;
+    private ArrayList<Enemy> ais;
     private Rectangle map;
     private ArrayList<PhysicsObject> objects;
 
-    public ServerGameState(ArrayList<Player> players, ArrayList<BasicEnemy> ais, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ServerGameState(ArrayList<Player> players, ArrayList<Enemy> ais, Rectangle map, ArrayList<PhysicsObject> objects){
         this.players = players;
         this.ais = ais;
         this.map = map;
@@ -32,11 +30,11 @@ public class ServerGameState {
         this.map = map;
     }
 
-    public ArrayList<BasicEnemy> getAis() {
+    public ArrayList<Enemy> getAis() {
         return ais;
     }
 
-    public void setAis(ArrayList<BasicEnemy> ais) {
+    public void setAis(ArrayList<Enemy> ais) {
         this.ais = ais;
     }
 

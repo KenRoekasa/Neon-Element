@@ -4,8 +4,8 @@ import client.ClientGameState;
 import client.InputHandler;
 import controllers.AttributeController;
 import debugger.Debugger;
-import entities.CollisionDetection;
-import entities.PhysicsObject;
+import entities.*;
+import enums.Action;
 import enums.ObjectType;
 import graphics.Renderer;
 import javafx.animation.AnimationTimer;
@@ -17,11 +17,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import static enums.Directions.LEFTCART;
 
 
 public class ClientBoard {
@@ -125,10 +126,12 @@ public class ClientBoard {
         });
 
 
-
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
     }
 
+    private void clientLoop() {
+        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
+    }
 }
