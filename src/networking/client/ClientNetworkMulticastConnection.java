@@ -9,10 +9,6 @@ import java.net.UnknownHostException;
 import networking.Constants;
 import networking.packets.Packet;
 
-//import networking.Constants;
-
-//import networking.Packets.Packet;
-
 public class ClientNetworkMulticastConnection extends Thread {
 
     private ClientNetwork net;

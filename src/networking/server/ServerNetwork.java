@@ -19,18 +19,18 @@ public class ServerNetwork extends Thread {
 	//private UUID severUID = UUID.randomUUID();
 
     protected boolean running;
-    
+
     protected DatagramSocket socket;
 
     protected MulticastSocket multicastSocket;
-    
+
     protected ServerNetworkDispatcher dispatcher;
 
     public ServerNetwork(ServerGameState gameState) {
         InetAddress groupAddress = null;
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
-            
+
             // Multicast socket
             groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
             socket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
@@ -48,9 +48,6 @@ public class ServerNetwork extends Thread {
         this.running = true;
         this.dispatcher = new ServerNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
-    
-    
-    
 
     public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
@@ -66,10 +63,8 @@ public class ServerNetwork extends Thread {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
 
             DatagramPacket packet = new DatagramPacket(data, data.length);
-            
 
             try {
-
                 this.socket.receive(packet);
                 System.out.println("recieved pac");
             } catch (IOException e) {
@@ -83,7 +78,6 @@ public class ServerNetwork extends Thread {
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
         System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
-
 
         switch(packet.getType()) {
             case HELLO:

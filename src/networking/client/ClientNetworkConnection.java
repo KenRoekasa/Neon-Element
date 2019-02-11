@@ -26,11 +26,11 @@ public class ClientNetworkConnection extends Thread {
 
         this.running = true;
     }
-    
+
     protected DatagramSocket getSocket() {
         return this.socket;
     }
-    
+
     public void close() {
         this.running = false;
         this.socket.close();
