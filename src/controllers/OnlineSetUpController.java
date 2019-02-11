@@ -30,20 +30,18 @@ public class OnlineSetUpController implements Initializable{
 
     @FXML
     public void handleCreateBtn(){
-        // create game rules
-        // todo make this configurable
-        gameState = GameStateGenerator.createDemoGamestate();
-        //g.getPlayer().getHealth();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/ip_host.fxml"));
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState);
-            Scene scene = gameBoard.getScene();
+            Pane root = loader.load();
+            stage.getScene().setRoot(root);
+            LoadingController controller = new LoadingController();
+            controller.setStage(stage);
+            stage.setTitle("Game IP");
 
-        } catch (Exception e) {
-
+        } catch (IOException e) {
+            System.out.println("crush in loading host ip board ");
             e.printStackTrace();
         }
-
-
     }
 
     @FXML
@@ -52,19 +50,15 @@ public class OnlineSetUpController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
             ModeController modeController = loader.getController();
             modeController.setStage(stage);
             modeController.setStageSize(stageSize);
             stage.setTitle("Mode");
-            stage.setScene(scene);
-            stage.setFullScreen(true); //setFullScreen must set after setting scene
-            stage.show();
         } catch (IOException e) {
             System.out.println("crush in loading mode board ");
             e.printStackTrace();
         }
-
     }
 
     @Override

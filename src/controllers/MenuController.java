@@ -54,12 +54,10 @@ public class MenuController implements Initializable{
 
         try {
             Pane root = loader.load();
-
             stage.getScene().setRoot(root);
-
-            ModeController modeController = loader.getController();
-            modeController.setStage(stage);
-            modeController.setStageSize(stageSize);
+            ModeController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setStageSize(stageSize);
 
             stage.setTitle("Mode");
 
@@ -69,14 +67,12 @@ public class MenuController implements Initializable{
         }
     }
 
-
     @FXML
     public void handleBTNOptions(ActionEvent actionEvent){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/option_board.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
             stage.getScene().setRoot(root);
-
             stage.setTitle("Options");
             stage.show();
         } catch (IOException e) {

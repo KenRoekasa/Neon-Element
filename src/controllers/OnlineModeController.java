@@ -29,14 +29,12 @@ public class OnlineModeController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_setup.fxml"));
         try {
             Pane root = loader.load();
-            Scene scene = new Scene(root,stageSize.getWidth(),stageSize.getHeight());
             OnlineSetUpController onlineSetUpController = loader.getController();
             onlineSetUpController.setStage(stage);
             onlineSetUpController.setStageSize(stageSize);
+            stage.getScene().setRoot(root);
             stage.setTitle("Online Mode Configuration");
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
+
         } catch (IOException e) {
             System.out.println("crush in loading online setup board ");
             e.printStackTrace();
@@ -46,21 +44,18 @@ public class OnlineModeController implements Initializable{
 
     @FXML
     public void handleJoinGame(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/join_ip.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/ip_join.fxml"));
 
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
             stage.setTitle("Join a Game");
-            stage.setScene(scene);
             stage.setFullScreen(true);
-            stage.show();
         } catch (IOException e) {
             System.out.println("crush in loading join board ");
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

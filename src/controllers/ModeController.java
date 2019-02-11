@@ -35,9 +35,10 @@ public class ModeController implements Initializable{
             Pane root = loader.load();
             stage.getScene().setRoot(root);
 
-            LocalController localController = loader.getController();
-            localController.setStage(stage);
-            localController.setStageSize(stageSize);
+            LocalController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setStageSize(stageSize);
+
             stage.setTitle("Local Mode Configuration");
 
         } catch (IOException e) {
@@ -50,14 +51,14 @@ public class ModeController implements Initializable{
     //online->choose host/ join
     @FXML
     public void handleOnlineBtn(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_option.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_mode.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-            OnlineModeController onlineModeController = loader.getController();
+            OnlineModeController controller = loader.getController();
 
-            onlineModeController.setStage(stage);
-            onlineModeController.setStageSize(stageSize);
+            controller.setStage(stage);
+            controller.setStageSize(stageSize);
             stage.setTitle("Online Mode");
 
 
