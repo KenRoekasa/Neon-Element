@@ -47,8 +47,10 @@ public class ClientBoard {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
 
+
         try {
             hudPane = (Pane) loader.load();
+            //get player attribute
             AttributeController attributeController = loader.getController();
             attributeController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
@@ -71,7 +73,7 @@ public class ClientBoard {
 
         //forces the game to be rendered behind the gui
         int index = hudPane.getChildren().indexOf(canvas);
-        hudPane.getChildren().get(index).toBack();
+        //hudPane.getChildren().get(index).toBack();
 
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
@@ -92,6 +94,7 @@ public class ClientBoard {
 
                 clientLoop();
                 renderer.render(primaryStage, gameState);
+
 
 
             }

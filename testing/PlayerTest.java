@@ -19,6 +19,9 @@ public class PlayerTest {
         assertTrue(player.isAlive());
     }
 
+    private void assertTrue(boolean alive) {
+    }
+
     @Test
     public void playerMaxHealthIs100() {
         Player player = new Player(ObjectType.PLAYER);

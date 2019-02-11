@@ -17,7 +17,7 @@ class DrawStates {
         long finishAngle = 360;
         long angle = Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle);
 
-        ISOConverter.applyAngleRotation(gc, angle);
+        ISOConverter.applyAngleRotation(gc, angle, playerCenter);
 
 
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
@@ -57,7 +57,7 @@ class DrawStates {
 
         long angle = (long) (player.getPlayerAngle().getAngle() + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
 
-        ISOConverter.applyAngleRotation(gc, angle);
+        ISOConverter.applyAngleRotation(gc, angle, playerCenter);
         gc.setFill(Color.BLUE);
 
         //todo make better

@@ -25,10 +25,10 @@ public class EnemyFSM {
 		else if(playerHP< (maxHP/4) ) {
 			enemy.setState(EnemyStates.AGGRESSIVE_ATTACK);
 		}
-		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=null ) {
+		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) != null ) {
 			enemy.setState(EnemyStates.FIND_DAMAGE);
 		}
-		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) !=null ) {
+		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) != null ) {
 			enemy.setState(EnemyStates.FIND_SPEED);
 		}
 		else {

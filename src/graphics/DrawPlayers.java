@@ -12,12 +12,10 @@ public class DrawPlayers {
 
     static void drawPlayer(GraphicsContext gc, Point2D playerCenter, Character player) {
 
-
         Color c = colourSwitch.getElementColour(player.getCurrentElement());
         gc.setFill(c);
 
         gc.fillRect(playerCenter.getX(), playerCenter.getY(), player.getWidth(), player.getWidth());
-
     }
 
     static void drawCursor(GraphicsContext gc, Point2D playerCenter, Character player) {
@@ -26,7 +24,7 @@ public class DrawPlayers {
 
             // transform
             long angle = (long)player.getPlayerAngle().getAngle();
-            ISOConverter.applyAngleRotation(gc, angle);
+            ISOConverter.applyAngleRotation(gc, angle, playerCenter);
 
             // draw
             gc.setFill(Color.RED);
