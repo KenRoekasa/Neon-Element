@@ -17,7 +17,7 @@ public class EnemyFSM {
 		Character nearestPlayer = enemy.findNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 
-		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=null && enemyHP<maxHP) ) {
+		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=-1 && enemyHP<maxHP) ) {
 			if(!enemy.isShielded())
 				enemy.shield();
 			enemy.setState(EnemyStates.FIND_HEALTH);
@@ -28,10 +28,10 @@ public class EnemyFSM {
 		else if(playerHP< (maxHP/4) ) {
 			enemy.setState(EnemyStates.AGGRESSIVE_ATTACK);
 		}
-		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) != null ) {
+		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 			enemy.setState(EnemyStates.FIND_DAMAGE);
 		}
-		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) != null ) {
+		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 			enemy.setState(EnemyStates.FIND_SPEED);
 		}
 		else {
@@ -47,7 +47,7 @@ public class EnemyFSM {
 		Character nearestPlayer = enemy.findNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 
-		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=null && enemyHP<maxHP) ) {
+		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=-1 && enemyHP<maxHP) ) {
 			if(!enemy.isShielded())
 				enemy.shield();
 			enemy.setState(EnemyStates.FIND_HEALTH);
@@ -58,10 +58,10 @@ public class EnemyFSM {
 		else if(playerHP< (maxHP/4) ) {
 			enemy.setState(EnemyStates.AGGRESSIVE_ATTACK);
 		}
-		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=null ) {
+		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=-1 ) {
 			enemy.setState(EnemyStates.FIND_DAMAGE);
 		}
-		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) !=null ) {
+		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) !=-1 ) {
 			enemy.setState(EnemyStates.FIND_SPEED);
 		}
 		else {

@@ -156,18 +156,21 @@ public class Enemy extends Character {
     }
     
     public void findSpeed() {
-    	PowerUp powerup = findNearestPowerUp( PowerUpType.SPEED);
-		moveTo(powerup);
+    	int index = findNearestPowerUp( PowerUpType.SPEED ); 
+    	if(index != -1)
+    		moveTo(index, objects.get(index).getLocation());
 	}
 
 	public void findDamage() {
-		PowerUp powerup = findNearestPowerUp( PowerUpType.DAMAGE);
-		moveTo(powerup);
+		int index = findNearestPowerUp( PowerUpType.DAMAGE);
+		if(index != -1)
+			moveTo(index, objects.get(index).getLocation() );
 	}
 
 	public void findHealth() {
-		PowerUp powerup = findNearestPowerUp( PowerUpType.HEAL);
-		moveTo(powerup);
+		int index = findNearestPowerUp( PowerUpType.HEAL);
+		if(index != -1)
+			moveTo(index, objects.get(index).getLocation());
 	}
 
 	public void aggressiveAttack() {
@@ -187,7 +190,7 @@ public class Enemy extends Character {
     	return false;
     }
 
-    public PowerUp findNearestPowerUp(PowerUpType pu) {
+    public int findNearestPowerUp(PowerUpType pu) {
     	ArrayList<PowerUp> powerups = getPowerups();
 		int index=-1;
 		double distance = Double.MAX_VALUE;
@@ -201,7 +204,7 @@ public class Enemy extends Character {
 			}
 		}
 
-		return (index == -1)?null:powerups.get(index);
+		return index;
 	}
 
     public Character findNearestPlayer() {
@@ -247,26 +250,37 @@ public class Enemy extends Character {
     }
 
     
-    public void moveTo(PowerUp powerup) {
+    public void moveTo(int powerupIndex, Point2D loc) {
     	System.out.println("enemy moving to powerup");
-    	Point2D powerupLoc = powerup.getLocation();
-    	double distance = calcDistance(getLocation(),powerupLoc );
+    	double distance = calcDistance(getLocation(),loc );
+    	System.out.println("distance: "+distance);
+    	while( (int) distance > 10) {
+    		if(powerupIndex==-1)
+    			break;
 
-    	while( (int) distance > 0) {
-
-    		if(isAbove(powerupLoc))
+    		if(isAbove(loc))
     			moveUp();
-    		else if(isUnder(powerupLoc))
+    		else if(isUnder(loc))
     			moveDown(map.getWidth(),map.getHeight());
-    		if(isLeftOf(powerupLoc))
+    		if(isLeftOf(loc))
     			moveLeft(map.getWidth());
-    		else if (isRightOf(powerupLoc))
+    		else if (isRightOf(loc))
     			moveRight(map.getWidth(),map.getHeight());
-    	
-    		//powerupLoc = powerup.getLocation();
+    		else if(higherY(loc))
+    			moveDownCartestian(map.getWidth());
+    		else if(!higherY(loc))
+    			moveUpCartesian();
+    		else if(higherX(loc))
+    			moveLeftCartesian();
+    		else if(!higherX(loc))
+    			moveRightCartesian(map.getWidth());
+    		
+    		if(!objects.get(powerupIndex).getLocation().equals(loc))
+    			break;
+    		
     		System.out.println("stuck in move to pu loop");
-    		System.out.println("distance: "+distance+"\nlocation: "+getLocation()+"\npu loc: "+powerupLoc);
-    		distance = calcDistance(getLocation(), powerupLoc);
+    		System.out.println("distance: "+distance+"\nlocation: "+getLocation()+"\npu loc: "+loc);
+    		distance = calcDistance(getLocation(), loc);
     	}
     }
     
@@ -289,9 +303,9 @@ public class Enemy extends Character {
     		else if(!higherY(playerLoc))
     			moveDownCartestian(map.getWidth());
     		else if(higherX(playerLoc))
-    			moveRightCartesian(map.getWidth());
-    		else if(!higherX(playerLoc))
     			moveLeftCartesian();
+    		else if(!higherX(playerLoc))
+    			moveRightCartesian(map.getWidth());
     		
     		playerLoc = player.getLocation();
     		distance = calcDistance(getLocation(), playerLoc);
