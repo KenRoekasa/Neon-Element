@@ -19,7 +19,7 @@ public class GameServer extends Thread {
     public void run() {
         this.running = true;
 
-        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects()));
+        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects(), this.network.getDispatcher()));
         powerUpController.start();
 
         while(this.running) {

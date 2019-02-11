@@ -4,6 +4,7 @@ import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 import entities.Player;
+import entities.PowerUp;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.NetworkDispatcher;
@@ -84,6 +85,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	protected void broadCastNewConnectedUser() {
 		//Packet response = new BroadCastConnectedUserPacket(new Buffer());
 	//	this.send(response);
+	}
+	
+	public void broadcastNewPowerUp(PowerUp powerUp) {
+	    // TODO broadcast powerup
 	}
 
 	protected void receiveSpellCast(CastSpellPacket packet) {
