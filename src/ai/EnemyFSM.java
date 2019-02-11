@@ -1,13 +1,16 @@
 package ai;
 
+import java.util.ArrayList;
+
 import entities.Character;
 import entities.Enemy;
+import entities.PhysicsObject;
 import entities.PowerUp;
 import enums.PowerUpType;
 
 public class EnemyFSM {
 
-	public static void basicEnemyFetchAction(Enemy enemy, Character [] players, PowerUp[] powerups) {
+	public static void basicEnemyFetchAction(Enemy enemy, Character [] players, ArrayList<PowerUp> powerups) {
 
 		float maxHP = enemy.getMAX_HEALTH();
 		float enemyHP = enemy.getHealth();
@@ -37,7 +40,7 @@ public class EnemyFSM {
 
 	}
 	
-	public static void advancedEnemyFetchAction(Enemy enemy, Character [] players, PowerUp[] powerups) {
+	public static void advancedEnemyFetchAction(Enemy enemy, Character [] players, ArrayList<PowerUp> powerups) {
 
 		float maxHP = enemy.getMAX_HEALTH();
 		float enemyHP = enemy.getHealth();
