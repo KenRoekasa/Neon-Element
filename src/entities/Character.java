@@ -1,13 +1,21 @@
 package entities;
 
+import calculations.AttackTimes;
+import enums.Action;
 import enums.Directions;
 import enums.Elements;
+import graphics.DrawPlayers;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
     protected float health;
@@ -18,13 +26,21 @@ public abstract class Character extends PhysicsObject {
     protected int movementSpeed;
     protected final float MAX_HEALTH = 100;
     protected boolean isAlive = true;
+    protected Action currentAction = Action.IDLE;
+
+
+    // The time the ability was last used System.time
+
+    protected long[] timerArray = new long[10];
 
     //TODO: Change the access modifier
-    public boolean isColliding;
 
+    public boolean isColliding;
     private Timer timer = new Timer();
+
     private Rectangle attackHitbox = new Rectangle(width, width);
-    private Point2D newLocation;
+
+    private long currentActionStart;
 
     public void moveUp() {
         characterDirection = Directions.UP;
@@ -70,7 +86,7 @@ public abstract class Character extends PhysicsObject {
         double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-        if (xCheck <= boardWidth && yCheck >= 0 ) {
+        if (xCheck <= boardWidth && yCheck >= 0) {
             location = location.add(movementSpeed, -movementSpeed);
         }
     }
@@ -100,7 +116,7 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.LEFTCART;
 
         //check within bounds
-        if ((location.getX() - movementSpeed - width / 2f) >= 0 ) {
+        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
             location = location.add(-(movementSpeed * 2), 0);
         } else {
             location = new Point2D(0 + width / 2f, location.getY());
@@ -112,7 +128,7 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.RIGHTCART;
 
         //check within bounds
-        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth ) {
+        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
             location = location.add((movementSpeed * 2), 0);
         } else {
             location = new Point2D(boardWidth - width / 2f, location.getY());
@@ -120,71 +136,119 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        int damage = 3;
-        //set attack hit box in front of the user
-        //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
-        switch (characterDirection) {
-            case UP:
-                attackHitbox.setX(location.getX() - width);
-                attackHitbox.setY(location.getY() - width);
-                break;
-            case DOWN:
-                attackHitbox.setX(location.getX() + width);
-                attackHitbox.setY(location.getY() + width);
-                break;
-            case LEFT:
-                attackHitbox.setX(location.getX() - width);
-                attackHitbox.setY(location.getY() + width);
-                break;
-            case RIGHT:
-                attackHitbox.setX(location.getX() + width);
-                attackHitbox.setY(location.getY() - width);
-                break;
-        }
 
-        //temp array for the other players
-        Character otherCharacters[] = new Character[4];
+        if (currentAction == Action.IDLE) {
+
+            currentAction = Action.LIGHT;
+            currentActionStart = System.currentTimeMillis();
+            long attackDuration = AttackTimes.getActionTime(currentAction);
+            final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
 
 
-        //If another Character is in the Hitbox calculate the damage they take
-        // How is damaged dealt throught the victim or the attacker or server
-        for (Character p : otherCharacters) {
-            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
-                //TODO: What happens when you hit another Character
-                //sends to server
-            }
+            int damage = 3;
+            //set attack hit box in front of the user
+            //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
+
+
+            attackHitbox.setY(location.getY() + width);
+            Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
+            attackHitbox.getTransforms().addAll(playerAngle);
+
+
+            //If another Character is in the Hitbox calculate the damage they take
+            // How is damaged dealt throught the victim or the attacker or server
+//        for (Character p : otherCharacters) {
+//            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
+//                //TODO: What happens when you hit another Character
+//                //sends to server
+//            }
+//        }
+
+            resetActionTimer(attackDuration, remainingAttackDuration);
         }
 
 
     }
+
+    private void resetActionTimer(long attackDuration, long[] remainingAttackDuration) {
+        (new Thread(() -> {
+            while (remainingAttackDuration[0] > 0) {
+                remainingAttackDuration[0] = currentActionStart + attackDuration - System.currentTimeMillis();
+            }
+            currentAction = Action.IDLE;
+        })).start();
+
+    }
+
 
     public void removeHealth(float damage) {
         this.health -= damage;
     }
 
+    public void chargeHeavyAttack() {
+        // TODO handle charging
+
+        if (currentAction == Action.IDLE ){
+
+            currentAction = Action.CHARGE;
+            currentActionStart = System.currentTimeMillis();
+
+            (new Thread(() -> {
+
+                try {
+                    Thread.sleep(AttackTimes.getActionTime(currentAction));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                heavyAttack();
+            })).start();
+        }
+    }
+
     public void heavyAttack() {
+
+        currentAction = Action.HEAVY;
+        currentActionStart = System.currentTimeMillis();
+        long attackDuration = AttackTimes.getActionTime(currentAction);
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+        //TODO: DO SOMETHING
+
+        resetActionTimer(attackDuration, remainingAttackDuration);
 
 
     }
 
     public void shield() {
-        //need code to unshield after a certain duration
-        isShielded = true;
-        final int[] timeCtr = {0};
-        //counts for 10 seconds then unshield
+        if(currentAction == Action.IDLE) {
+            currentAction = Action.BLOCK;
+            long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
+            if (System.currentTimeMillis() > nextAvailableTime) {
+                //need code to unshield after a certain duration
+                isShielded = true;
+                timerArray[shieldDurID] = 0;
+                //counts for 10 seconds then unshield
 
-        timer.scheduleAtFixedRate(new TimerTask() {
+                timer.scheduleAtFixedRate(new TimerTask() {
 
-            public void run() {
+                    public void run() {
 
-                if (timeCtr[0] == 10) {
-                    isShielded = false;
-                    timer.cancel();
-                }
-                timeCtr[0]++;
+                        if (timerArray[shieldDurID] == shieldDuration) {
+                            isShielded = false;
+                            timer.cancel();
+                        }
+                        timerArray[shieldDurID]++;
+                    }
+                }, 0, 1000);
+                // set last time spell was used
+                timerArray[shieldID] = System.currentTimeMillis();
             }
-        }, 0, 1000);
+        }
+    }
 
+    public void unShield(){
+        if(currentAction == Action.BLOCK) {
+            currentAction = Action.IDLE;
+        }
     }
 
     public void changeToFire() {
@@ -285,33 +349,54 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+
     // adds Health to the player
     public void addHealth(int amount) {
         health += amount;
-        if(health >100){
-            health =100;
+        if (health > 100) {
+            health = 100;
         }
     }
 
     // Increase movement speed
     public void speedBoost() {
-        movementSpeed = 4;
-        final int[] timeCtr = {0};
-        //counts for 4 seconds then back to default movement speed
-        timer.scheduleAtFixedRate(new TimerTask() {
+        movementSpeed = 8;
+        // if timer is not already running, run it
+        if (timerArray[speedBoostID] > 0) {
+            timerArray[speedBoostID] = 0;
+            //counts for 4 seconds then back to default movement speed
+            (new Timer()).scheduleAtFixedRate(new TimerTask() {
 
-            public void run() {
-                if (timeCtr[0] == 4) {
-                    movementSpeed = 2;
-                    timer.cancel();
+                public void run() {
+                    if (timerArray[speedBoostID] == speedBoostDuration) {
+                        movementSpeed = 5;
+                        timer.cancel();
+                    }
+                    timerArray[speedBoostDuration]++;
                 }
-                timeCtr[0]++;
-            }
-        }, 0, 1000);
+            }, 0, 1000);
+        } else {
+            timerArray[speedBoostID] = 0;
+        }
     }
 
 
     // Doubles the players damage
     public void damageBoost() {
+
+
     }
+
+    public Action getCurrentAction() {
+        return currentAction;
+    }
+
+    public void setCurrentAction(Action currentAction) {
+        this.currentAction = currentAction;
+    }
+
+    public long getCurrentActionStart() {
+        return currentActionStart;
+    }
+
 }

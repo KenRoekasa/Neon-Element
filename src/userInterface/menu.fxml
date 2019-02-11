@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuController">
    <children>
       <Sphere fx:id="logo" radius="50" VBox.vgrow="NEVER">
          <VBox.margin>
@@ -21,7 +21,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="options_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNOptions" prefHeight="27.0" prefWidth="89.0" text="OPTIONS" textAlignment="CENTER">
+      <Button fx:id="options_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNOptions" prefHeight="27.0" prefWidth="89.0" text="OPTION" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
