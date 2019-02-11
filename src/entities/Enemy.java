@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import ai.EnemyFSM;
@@ -17,20 +18,17 @@ public class Enemy extends Character {
 	EnemyStates activeState;
     Character [] players;
     ArrayList<PhysicsObject> objects;
-    ArrayList<PowerUp> powerups;
     Enemy enemy  = this;
     int powerupIndex = -1;
     Rectangle map;
 	
     public Enemy(Character [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
     	
-    	powerups = new ArrayList<PowerUp>();
         activeState = EnemyStates.IDLE;
         //default random
         assignRandomElement();
         this.players = players;
         this.objects = objects;
-        updatePowerups();
         this.map = map;
         location = new Point2D(10, 100);
         playerAngle = new Rotate(0);
@@ -40,11 +38,17 @@ public class Enemy extends Character {
         width = objectSize.getObjectSize(ObjectType.ENEMY);
     }
     
-    private void updatePowerups() {
+    private ArrayList<PowerUp> getPowerups() {
+    	
+    	ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
     	for (int i = 0; i <objects.size(); i++) {
-			if(objects.get(i).equals(ObjectType.POWERUP))
-				powerups.add( (PowerUp)objects.get(i) );
+			if(!objects.get(i).equals(null) ) {
+				if(ObjectType.POWERUP.equals(objects.get(i).getTag()) )
+					if(!powerups.contains(objects.get(i)))
+						powerups.add( (PowerUp)objects.get(i) );
+			}
 		}
+    	return powerups;
     }
     
     public void startBasicAI() {
@@ -56,7 +60,7 @@ public class Enemy extends Character {
                 while (bool) {
 
 
-                	EnemyFSM.basicEnemyFetchAction(enemy, players, powerups);
+                	EnemyFSM.basicEnemyFetchAction(enemy, players, getPowerups());
 
                 	basicAIExecuteAction();
                 	
@@ -81,7 +85,7 @@ public class Enemy extends Character {
 
                 while (bool) {
 
-                	EnemyFSM.advancedEnemyFetchAction(enemy, players, powerups);
+                	EnemyFSM.advancedEnemyFetchAction(enemy, players, getPowerups());
 
                 	advancedAIExecuteAction();
                 	
@@ -184,19 +188,15 @@ public class Enemy extends Character {
     }
 
     public PowerUp findNearestPowerUp(PowerUpType pu) {
-    	updatePowerups();
-    	Character player = findNearestPlayer();
+    	ArrayList<PowerUp> powerups = getPowerups();
 		int index=-1;
 		double distance = Double.MAX_VALUE;
 		for (int i = 0; i < powerups.size(); i++) {
-			System.out.println("powerup arraylist size"+powerups.size());
-			if(powerups.get(i).equals(pu)) {
+			if(powerups.get(i).getType().equals(pu)) {
 				double disToPU = calcDistance(powerups.get(i).getLocation(),getLocation());
-				if( disToPU < calcDistance(getLocation(),player.getLocation()) ) {
-					if(disToPU < distance) {
-						distance = disToPU;
-						index = i;
-					}
+				if(disToPU < distance) {
+					distance = disToPU;
+					index = i;
 				}
 			}
 		}
@@ -252,7 +252,7 @@ public class Enemy extends Character {
     	Point2D powerupLoc = powerup.getLocation();
     	double distance = calcDistance(getLocation(),powerupLoc );
 
-    	while( (int) distance - getWidth() > getWidth() ) {
+    	while( (int) distance > 0) {
 
     		if(isAbove(powerupLoc))
     			moveUp();
@@ -263,7 +263,9 @@ public class Enemy extends Character {
     		else if (isRightOf(powerupLoc))
     			moveRight(map.getWidth(),map.getHeight());
     	
-    		powerupLoc = powerup.getLocation();
+    		//powerupLoc = powerup.getLocation();
+    		System.out.println("stuck in move to pu loop");
+    		System.out.println("distance: "+distance+"\nlocation: "+getLocation()+"\npu loc: "+powerupLoc);
     		distance = calcDistance(getLocation(), powerupLoc);
     	}
     }
@@ -282,11 +284,29 @@ public class Enemy extends Character {
     			moveLeft(map.getWidth());
     		else if (isRightOf(playerLoc))
     			moveRight(map.getWidth(),map.getHeight());
+    		else if(higherY(playerLoc))
+    			moveUpCartesian();
+    		else if(!higherY(playerLoc))
+    			moveDownCartestian(map.getWidth());
+    		else if(higherX(playerLoc))
+    			moveRightCartesian(map.getWidth());
+    		else if(!higherX(playerLoc))
+    			moveLeftCartesian();
     		
     		playerLoc = player.getLocation();
     		distance = calcDistance(getLocation(), playerLoc);
     	}
     }
+    private boolean higherY( Point2D loc) {
+    	
+    	return ( getLocation().getY()-loc.getY() < 0)?true:false;
+    }
+    
+    private boolean higherX( Point2D loc) {
+    	
+    	return (getLocation().getX()-loc.getX() < 0)?true:false;
+    }
+    
     private boolean isRightOf(Point2D loc) {
     	if(loc.getX()>getLocation().getX() && loc.getY()<getLocation().getY())
     		return true;
