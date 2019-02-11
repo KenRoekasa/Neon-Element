@@ -45,7 +45,6 @@ public class ServerNetwork extends Thread {
             e.printStackTrace();
         }
 
-        this.running = true;
         this.dispatcher = new ServerNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
 
@@ -59,6 +58,7 @@ public class ServerNetwork extends Thread {
     }
 
     public void run() {
+        this.running = true;
         while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
 

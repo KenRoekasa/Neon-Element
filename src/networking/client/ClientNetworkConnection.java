@@ -8,7 +8,7 @@ import java.net.SocketException;
 import networking.packets.Packet;
 
 public class ClientNetworkConnection extends Thread {
-
+    
     private ClientNetwork net;
     private boolean running;
 
@@ -23,8 +23,6 @@ public class ClientNetworkConnection extends Thread {
         } catch (SocketException e) {
             e.printStackTrace();
         }
-
-        this.running = true;
     }
 
     protected DatagramSocket getSocket() {
@@ -37,6 +35,7 @@ public class ClientNetworkConnection extends Thread {
     }
 
     public void run() {
+        this.running = true;
         while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
             DatagramPacket packet = new DatagramPacket(data, data.length);

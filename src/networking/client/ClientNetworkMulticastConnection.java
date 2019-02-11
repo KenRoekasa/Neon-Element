@@ -39,8 +39,6 @@ public class ClientNetworkMulticastConnection extends Thread {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        this.running = true;
     }
     
     protected MulticastSocket getSocket() {
@@ -62,6 +60,7 @@ public class ClientNetworkMulticastConnection extends Thread {
 	    }
 
 	public void run() {
+        this.running = true;
         while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
             DatagramPacket packet = new DatagramPacket(data, data.length);
