@@ -34,7 +34,7 @@ public class ClientNetworkMulticastConnection extends Thread {
         InetAddress group;
         try {
             group = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
-            socket = new MulticastSocket(Constants.SERVER_LISTENING_PORT);
+            socket = new MulticastSocket(Constants.BROADCASTING_PORT);
             this.socket.joinGroup(group);
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block

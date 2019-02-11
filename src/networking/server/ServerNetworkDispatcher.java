@@ -32,6 +32,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		int players = this.gameState.getPlayers().size();
 		int maxPlayers = this.gameState.getMaxPlayers();
 		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
+		System.out.println("respond");
 		this.send(response);
 	}
 

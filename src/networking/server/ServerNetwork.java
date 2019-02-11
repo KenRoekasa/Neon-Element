@@ -33,7 +33,7 @@ public class ServerNetwork extends Thread {
             
             // Multicast socket
             groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
-            socket = new MulticastSocket(Constants.SERVER_LISTENING_PORT); // TODO does this need to be a different port?
+            socket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -64,10 +64,14 @@ public class ServerNetwork extends Thread {
     public void run() {
         while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
+
             DatagramPacket packet = new DatagramPacket(data, data.length);
+            
 
             try {
+
                 this.socket.receive(packet);
+                System.out.println("recieved pac");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -78,9 +82,12 @@ public class ServerNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
+        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+
 
         switch(packet.getType()) {
             case HELLO:
+            		System.out.println("recieved ");
                 this.dispatcher.receiveHello((HelloPacket) packet);
                 break;
             case CONNECT:
