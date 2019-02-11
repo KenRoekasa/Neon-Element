@@ -39,4 +39,11 @@ public class PlayerTest {
         player.moveDown(1500,1500);
         assertEquals(newLocation,player.getLocation() );
     }
+
+    @Test
+    public void takeDamage(){
+        Player player = new Player(ObjectType.PLAYER);
+        player.removeHealth(10);
+        assertEquals(90,player.getHealth(),0);
+    }
 }

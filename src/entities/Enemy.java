@@ -207,16 +207,16 @@ public class Enemy extends Character {
 
 
     public void attack() {
-    	System.out.println("attack");
+//    	System.out.println("attack");
     	Character player = findNearestPlayer();
-    	System.out.println("move to");
+//    	System.out.println("move to");
     	moveTo(player);
     	
     	if(inAttackDistance(player)) {
     		double angle = calcAngle(getLocation(),player.getLocation());
-    		System.out.println(angle);
+//    		System.out.println(angle);
     		setPlayerAngle(  new Rotate(angle) );
-    		System.out.println("in attack distance");
+//    		System.out.println("in attack distance");
     		lightAttack();
     	}
     }
@@ -235,7 +235,7 @@ public class Enemy extends Character {
 
     
     public void moveTo(PowerUp powerup) {
-    	System.out.println("enemy moving to powerup");
+//    	System.out.println("enemy moving to powerup");
     	Point2D powerupLoc = powerup.getLocation();
     	double distance = calcDistance(getLocation(),powerupLoc );
 
