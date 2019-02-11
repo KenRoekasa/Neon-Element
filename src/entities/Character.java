@@ -4,14 +4,11 @@ import calculations.AttackTimes;
 import enums.Action;
 import enums.Directions;
 import enums.Elements;
-import graphics.DrawPlayers;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,6 +18,8 @@ public abstract class Character extends PhysicsObject {
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
+
+
     protected Directions characterDirection;
     protected boolean isShielded;
     protected int movementSpeed;
@@ -28,29 +27,29 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
 
+    public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
+
 
     // The time the ability was last used System.time
 
     protected long[] timerArray = new long[10];
 
     //TODO: Change the access modifier
-
     public boolean isColliding;
     private Timer timer = new Timer();
 
-    private Rectangle attackHitbox = new Rectangle(width, width);
 
     private long currentActionStart;
 
     public void moveUp() {
         characterDirection = Directions.UP;
+        if (canUp) {
+            double yCheck = location.getY() - movementSpeed - width / 2f;
+            double xCheck = location.getX() - movementSpeed - width / 2f;
 
-        double yCheck = location.getY() - movementSpeed - width / 2f;
-        double xCheck = location.getX() - movementSpeed - width / 2f;
-
-        if (yCheck >= 0 && xCheck >= 0 && !isColliding) {
-            location = location.add(-movementSpeed, -movementSpeed);
-
+            if (yCheck >= 0 && xCheck >= 0 && !isColliding) {
+                location = location.add(-movementSpeed, -movementSpeed);
+            }
         }
 
 
@@ -58,80 +57,94 @@ public abstract class Character extends PhysicsObject {
 
     public void moveDown(double boardWidth, double boardHeight) {
         characterDirection = Directions.DOWN;
+        if (canDown) {
 
-        double yCheck = location.getY() + movementSpeed + width / 2f;
-        double xCheck = location.getX() + movementSpeed + width / 2f;
+            double yCheck = location.getY() + movementSpeed + width / 2f;
+            double xCheck = location.getX() + movementSpeed + width / 2f;
 
-        if (yCheck <= boardHeight && xCheck <= boardWidth && !isColliding) {
-            location = location.add(movementSpeed, movementSpeed);
+            if (yCheck <= boardHeight && xCheck <= boardWidth && !isColliding) {
+                location = location.add(movementSpeed, movementSpeed);
+            }
         }
     }
 
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
+        if (canLeft) {
 
-        double xCheck = location.getX() - movementSpeed - width / 2f;
-        double yCheck = location.getY() + movementSpeed + width / 2f;
+            double xCheck = location.getX() - movementSpeed - width / 2f;
+            double yCheck = location.getY() + movementSpeed + width / 2f;
 
-        if (xCheck >= 0 && yCheck <= boardWidth && !isColliding) {
-            location = location.add(-movementSpeed, movementSpeed);
+            if (xCheck >= 0 && yCheck <= boardWidth && !isColliding) {
+                location = location.add(-movementSpeed, movementSpeed);
+            }
         }
     }
 
     public void moveRight(double boardWidth, double boardHeight) {
         characterDirection = Directions.RIGHT;
-        //check within bounds
+        if (canRight) {
+            //check within bounds
 
-        double xCheck = location.getX() + movementSpeed + width / 2f;
-        double yCheck = location.getY() - movementSpeed - width / 2f;
+            double xCheck = location.getX() + movementSpeed + width / 2f;
+            double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-        if (xCheck <= boardWidth && yCheck >= 0) {
-            location = location.add(movementSpeed, -movementSpeed);
+            if (xCheck <= boardWidth && yCheck >= 0 && !isColliding) {
+                location = location.add(movementSpeed, -movementSpeed);
+            }
         }
     }
 
     public void moveUpCartesian() {
         characterDirection = Directions.UPCART;
+        if (canUpCart) {
 
-        if ((location.getY() - movementSpeed - width / 2f) >= 0) {
-            location = location.add(0, -(movementSpeed * 2));
-        } else {
-            location = new Point2D(location.getX(), 0 + width / 2f);
+            if ((location.getY() - movementSpeed - width / 2f) >= 0) {
+                location = location.add(0, -(movementSpeed * 2));
+            } else {
+                location = new Point2D(location.getX(), 0 + width / 2f);
+            }
         }
     }
 
     public void moveDownCartestian(double boardHeight) {
         characterDirection = Directions.DOWNCART;
+        if (canDownCart) {
 
-        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
-            location = location.add(0, (movementSpeed * 2));
-        } else {
-            location = new Point2D(location.getX(), boardHeight - width / 2f);
+            if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
+                location = location.add(0, (movementSpeed * 2));
+            } else {
+                location = new Point2D(location.getX(), boardHeight - width / 2f);
+            }
         }
 
     }
 
     public void moveLeftCartesian() {
         characterDirection = Directions.LEFTCART;
+        if (canLeftCart) {
 
-        //check within bounds
-        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
-            location = location.add(-(movementSpeed * 2), 0);
-        } else {
-            location = new Point2D(0 + width / 2f, location.getY());
+            //check within bounds
+            if ((location.getX() - movementSpeed - width / 2f) >= 0) {
+                location = location.add(-(movementSpeed * 2), 0);
+            } else {
+                location = new Point2D(0 + width / 2f, location.getY());
+            }
         }
 
     }
 
     public void moveRightCartesian(double boardWidth) {
         characterDirection = Directions.RIGHTCART;
+        if (canRightCart) {
 
-        //check within bounds
-        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
-            location = location.add((movementSpeed * 2), 0);
-        } else {
-            location = new Point2D(boardWidth - width / 2f, location.getY());
+            //check within bounds
+            if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
+                location = location.add((movementSpeed * 2), 0);
+            } else {
+                location = new Point2D(boardWidth - width / 2f, location.getY());
+            }
         }
     }
 
@@ -146,23 +159,7 @@ public abstract class Character extends PhysicsObject {
 
 
             int damage = 3;
-            //set attack hit box in front of the user
-            //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
 
-
-            attackHitbox.setY(location.getY() + width);
-            Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
-            attackHitbox.getTransforms().addAll(playerAngle);
-
-
-            //If another Character is in the Hitbox calculate the damage they take
-            // How is damaged dealt throught the victim or the attacker or server
-//        for (Character p : otherCharacters) {
-//            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
-//                //TODO: What happens when you hit another Character
-//                //sends to server
-//            }
-//        }
 
             resetActionTimer(attackDuration, remainingAttackDuration);
         }
@@ -188,7 +185,7 @@ public abstract class Character extends PhysicsObject {
     public void chargeHeavyAttack() {
         // TODO handle charging
 
-        if (currentAction == Action.IDLE ){
+        if (currentAction == Action.IDLE) {
 
             currentAction = Action.CHARGE;
             currentActionStart = System.currentTimeMillis();
@@ -206,7 +203,6 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void heavyAttack() {
-
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
@@ -219,7 +215,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
-        if(currentAction == Action.IDLE) {
+        if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             isShielded = true;
 
@@ -227,8 +223,8 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-    public void unShield(){
-        if(currentAction == Action.BLOCK) {
+    public void unShield() {
+        if (currentAction == Action.BLOCK) {
             currentAction = Action.IDLE;
             isShielded = false;
         }
@@ -271,7 +267,7 @@ public abstract class Character extends PhysicsObject {
 
 
     public void setLocation(Point2D location) {
-        this.location = location.add(width / 2f, width / 2f);
+        this.location = location;
     }
 
     public int getMovementSpeed() {
@@ -301,8 +297,10 @@ public abstract class Character extends PhysicsObject {
 
     public void isColliding(PhysicsObject e) {
         isColliding = true;
-        double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
-        double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
+        //                double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
+        //                double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
+        double xDiff = location.getX() - e.getLocation().getX();
+        double yDiff = location.getY() - e.getLocation().getY();
         switch (characterDirection) {
             case UP:
                 // if on the right side of the box
@@ -314,6 +312,8 @@ public abstract class Character extends PhysicsObject {
                     location = location.add((width - yDiff) + movementSpeed, (width - yDiff) + movementSpeed);
                     break;
                 }
+                //                location = location.add((width - yDiff) + movementSpeed, (width - xDiff)+movementSpeed);
+
             case DOWN:
                 location = location.add(-movementSpeed, -movementSpeed);
                 break;
@@ -325,6 +325,7 @@ public abstract class Character extends PhysicsObject {
                 location = location.add(-movementSpeed, movementSpeed);
                 break;
             case UPCART:
+                //                location = new Point2D(location.getX(),location.getY()+yDiff);
                 location = location.add(0, (movementSpeed * 2));
                 break;
             case DOWNCART:
@@ -391,6 +392,21 @@ public abstract class Character extends PhysicsObject {
 
     public long getCurrentActionStart() {
         return currentActionStart;
+    }
+
+    public Rectangle getAttackHitbox() {
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        hitbox.getTransforms().add(rotate);
+        return hitbox;
+    }
+
+    public Circle getHeavyAttackHitbox() {
+        return new Circle(location.getX() + width, location.getY() + width, 200);
+    }
+
+    public Directions getCharacterDirection() {
+        return characterDirection;
     }
 
 }

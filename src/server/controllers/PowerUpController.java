@@ -1,16 +1,20 @@
-package controllers;
+package server.controllers;
 
 import entities.PhysicsObject;
 import entities.PowerUp;
+import networking.server.ServerNetworkDispatcher;
 
 import java.util.ArrayList;
 
 public class PowerUpController implements Runnable {
+
     ArrayList<PhysicsObject> objects;
+    ServerNetworkDispatcher dispatcher;
 
 
-    public PowerUpController(ArrayList<PhysicsObject> objects) {
+    public PowerUpController(ArrayList<PhysicsObject> objects, ServerNetworkDispatcher dispatcher) {
         this.objects = objects;
+        this.dispatcher = dispatcher;
     }
 
     @Override
@@ -18,7 +22,9 @@ public class PowerUpController implements Runnable {
         // creates a power up every 15 sec
         while (true) {
             synchronized (objects) {
-                objects.add(new PowerUp());
+                PowerUp powerUp = new PowerUp();
+                objects.add(powerUp);
+                this.dispatcher.broadcastNewPowerUp(powerUp);
             }
             try {
                 Thread.sleep(15000);

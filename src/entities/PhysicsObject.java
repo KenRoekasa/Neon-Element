@@ -7,6 +7,7 @@ import javafx.scene.shape.Shape;
 
 public abstract class PhysicsObject {
     protected int width;
+    //Top left point of the object
     protected Point2D location;
     protected ObjectType tag;
 

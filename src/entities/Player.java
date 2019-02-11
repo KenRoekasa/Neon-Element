@@ -1,6 +1,7 @@
 package entities;
 
 import enumSwitches.objectSize;
+import enums.Directions;
 import enums.Elements;
 import enums.ObjectType;
 import javafx.geometry.Point2D;
@@ -11,6 +12,7 @@ import static entities.CooldownValues.*;
 
 public class Player extends Character {
 
+    private int id;
 
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
@@ -23,7 +25,9 @@ public class Player extends Character {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
+        characterDirection = Directions.UP;
 
+        canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= true;
         movementSpeed = 5;
         isShielded = false;
         //Default Fire
@@ -35,6 +39,14 @@ public class Player extends Character {
         }
     }
 
+    public Player(int id) {
+        super();
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here
@@ -44,5 +56,12 @@ public class Player extends Character {
             isAlive = true;
         }
 
+    }
+
+    public void setLocation(double x, double y) {
+        double X = this.location.getX();
+        double Y = this.location.getY();
+
+        this.location.add(x-X, y-Y);
     }
 }

@@ -1,7 +1,7 @@
 package controllers;
 
 import client.ClientBoard;
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
-    private GameState gameState;
+    private ClientGameState gameState;
 
     private Rectangle2D stageSize;
     @FXML
@@ -49,6 +49,9 @@ public class MenuController implements Initializable{
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
 
+        // create game rules
+        // todo make this configurable
+        ClientGameState g = GameStateGenerator.createDemoGamestate();
       //select mode
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
 

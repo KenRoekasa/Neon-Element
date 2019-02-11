@@ -19,7 +19,7 @@ public class PowerUpTest {
         if (CollisionDetection.checkCollision(player, powerUp)) {
             powerUp.activatePowerUp(player);
             if (powerUp.getType() == PowerUpType.SPEED) {
-                assertEquals(4, player.getMovementSpeed());
+                assertEquals(8, player.getMovementSpeed());
 
             }
         }
