@@ -21,7 +21,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="options_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNOptions" prefHeight="27.0" prefWidth="89.0" text="OPTIONS" textAlignment="CENTER">
+      <Button fx:id="options_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNOptions" prefHeight="27.0" prefWidth="89.0" text="OPTION" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>

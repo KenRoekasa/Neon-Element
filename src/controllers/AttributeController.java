@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+//To get players' health and speed in top-left hud
 public class AttributeController implements Initializable {
     @FXML
     private Text health;

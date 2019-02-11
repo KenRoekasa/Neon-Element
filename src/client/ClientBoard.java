@@ -46,8 +46,10 @@ public class ClientBoard {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
 
+
         try {
             hudPane = (Pane) loader.load();
+            //get player attribute
             AttributeController attributeController = loader.getController();
             attributeController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
@@ -164,8 +166,6 @@ public class ClientBoard {
 
                 }
             }
-
-
 
 
             //Call update function for all physics objects

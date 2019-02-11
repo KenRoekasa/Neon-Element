@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.OnlineSetUpController">
    <center>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -94,8 +94,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="ok_btn" mnemonicParsing="false" prefHeight="27.0" prefWidth="61.0" text="Create" textAlignment="CENTER" GridPane.rowIndex="1" />
-                  <Button fx:id="back_btn" mnemonicParsing="false" prefHeight="27.0" prefWidth="63.0" text=" Back " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="create" mnemonicParsing="false" onAction="#handleCreateBtn" prefHeight="27.0" prefWidth="61.0" text="Create" textAlignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="27.0" prefWidth="63.0" text=" Back " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulties" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -115,17 +115,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <RadioButton fx:id="easy1" mnemonicParsing="false" text=" 1" GridPane.rowIndex="1">
+                  <RadioButton fx:id="1" mnemonicParsing="false" text=" 1" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="easy2" mnemonicParsing="false" prefHeight="19.0" prefWidth="54.0" text=" 2" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <RadioButton fx:id="2" mnemonicParsing="false" prefHeight="19.0" prefWidth="54.0" text=" 2" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="easy3" mnemonicParsing="false" prefHeight="19.0" prefWidth="31.0" text=" 3" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  <RadioButton fx:id="3" mnemonicParsing="false" prefHeight="19.0" prefWidth="31.0" text=" 3" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
