@@ -15,6 +15,7 @@ class DrawEnemies {
         double yOffset = - enemy.getWidth() / 2f;
 
         Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
 
         DrawPlayers.drawPlayer(gc, relativeLocation, enemy );
 
@@ -23,6 +24,8 @@ class DrawEnemies {
     static void drawerEnemyCursor(GraphicsContext gc, Rectangle stage, Enemy enemy, Player player) {
 
         Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+
+
 
         DrawPlayers.drawCursor(gc, relativeLocation, enemy);
     }

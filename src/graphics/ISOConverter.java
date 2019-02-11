@@ -37,8 +37,7 @@ public class ISOConverter {
         gc.transform(affine);
     }
 
-    static void applyAngleRotation(GraphicsContext gc, long angle) {
-        Point2D rotationCenter = Renderer.getRotationCenter();
+    static void applyAngleRotation(GraphicsContext gc, long angle, Point2D rotationCenter) {
 
         gc.save();
         Affine affine = new Affine();

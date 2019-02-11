@@ -11,8 +11,6 @@ class DrawClientPlayer {
         // adjust for player height and width
         playerCenter = playerCenter.add(-player.getWidth()/2f, -player.getWidth()/2f);
 
-        double centerAdjust = player.getWidth()/2f;
-        //playerCenter = playerCenter.add(0, - centerAdjust);
 
         DrawPlayers.drawPlayer(gc, playerCenter, player);
 

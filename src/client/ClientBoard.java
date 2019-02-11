@@ -11,6 +11,7 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -74,7 +75,7 @@ public class ClientBoard {
 
         //forces the game to be rendered behind the gui
         int index = hudPane.getChildren().indexOf(canvas);
-        hudPane.getChildren().get(index).toBack();
+        //hudPane.getChildren().get(index).toBack();
 
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
