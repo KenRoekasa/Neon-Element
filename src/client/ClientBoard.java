@@ -96,7 +96,6 @@ public class ClientBoard {
                 renderer.render(primaryStage, gameState);
 
 
-
             }
         }.start();
 
@@ -238,7 +237,7 @@ public class ClientBoard {
                                 gameState.getPlayer().canDownCart = false;
                                 gameState.getPlayer().canDown = false;
                                 gameState.getPlayer().canLeft = false;
-                                gameState.getPlayer().canRightCart= false;
+                                gameState.getPlayer().canRightCart = false;
                             }
                             break;
                         case LEFTCART:
@@ -247,7 +246,7 @@ public class ClientBoard {
                                 gameState.getPlayer().canLeftCart = false;
                                 gameState.getPlayer().canUp = false;
                                 gameState.getPlayer().canLeft = false;
-                                gameState.getPlayer().canUpCart=false;
+                                gameState.getPlayer().canUpCart = false;
                             }
                             break;
                         case RIGHTCART:
@@ -257,7 +256,7 @@ public class ClientBoard {
                                 gameState.getPlayer().canDown = false;
                                 gameState.getPlayer().canRight = false;
                                 gameState.getPlayer().canDownCart = false;
-                                gameState.getPlayer().canLeft=false;
+                                gameState.getPlayer().canLeft = false;
                             }
                             break;
                         case RIGHT:
@@ -279,37 +278,36 @@ public class ClientBoard {
         ArrayList<Enemy> enemies = gameState.getEnemies();
         synchronized (enemies) {
 
-            {
-                for (Iterator<Enemy> itr = enemies.iterator(); itr.hasNext(); ) {
-                    PhysicsObject e = itr.next();
-                    //Attack Collision
-                    //if player is light attacking
-                    if (gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
-                        if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
-                            // e takes damage
-                            // this will have to change due to Player being other controlled player when Enemy is when the player is an ai
-                            Enemy enemy = (Enemy) e;
-                            // TODO: For now its takes 3 damage, change later
-                            enemy.removeHealth(3);
-                            gameState.getPlayer().setCurrentAction(Action.IDLE);
-                            System.out.println("hit");
-                            // Sends to server
-                        }
-
+            for (Iterator<Enemy> itr = enemies.iterator(); itr.hasNext(); ) {
+                PhysicsObject e = itr.next();
+                //Attack Collision
+                //if player is light attacking
+                if (gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
+                    if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                        // e takes damage
+                        // this will have to change due to Player being other controlled player when Enemy is when the player is an ai
+                        Enemy enemy = (Enemy) e;
+                        // TODO: For now its takes 3 damage, change later
+                        enemy.removeHealth(3);
+                        gameState.getPlayer().setCurrentAction(Action.IDLE);
+                        System.out.println("hit");
+                        // Sends to server
                     }
-                     if (gameState.getPlayer().getCurrentAction() == Action.HEAVY) {
-                        if (CollisionDetection.checkCollision(gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
-                            // e takes damage
-                            Enemy enemy = (Enemy) e;
-                            // TODO: For now its takes 10 damage, change later
-                            enemy.removeHealth(10);
-                            gameState.getPlayer().setCurrentAction(Action.IDLE);
-                            System.out.println("heavy hit");
-                            // Sends to server
-                        }
+
+                }
+                if (gameState.getPlayer().getCurrentAction() == Action.HEAVY) {
+                    if (CollisionDetection.checkCollision(gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                        // e takes damage
+                        Enemy enemy = (Enemy) e;
+                        // TODO: For now its takes 10 damage, change later
+                        enemy.removeHealth(10);
+                        gameState.getPlayer().setCurrentAction(Action.IDLE);
+                        System.out.println("heavy hit");
+                        // Sends to server
                     }
                 }
             }
+
         }
     }
 }
