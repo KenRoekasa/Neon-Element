@@ -17,11 +17,10 @@ public class ISOConverter {
         return new Point2D(x, y);
     }
 
-    static Point2D twoDToIso(Point2D point) {
+    public static Point2D twoDToIso(Point2D point) {
         double x = point.getX()- point.getY();
         double y = (point.getX() + point.getY()) / 2;
 
-        //return point;
         return new Point2D(x,y);
     }
 

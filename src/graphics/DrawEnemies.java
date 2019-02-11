@@ -14,7 +14,7 @@ class DrawEnemies {
     static void drawEnemy(GraphicsContext gc, Rectangle stage, Enemy enemy, Player player) {
         double yOffset = - enemy.getWidth() / 2f;
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
         relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
 
         DrawPlayers.drawPlayer(gc, relativeLocation, enemy );
@@ -23,7 +23,7 @@ class DrawEnemies {
 
     static void drawerEnemyCursor(GraphicsContext gc, Rectangle stage, Enemy enemy, Player player) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
 
 
 
@@ -33,7 +33,7 @@ class DrawEnemies {
 
     static void drawLightAttack(GraphicsContext gc, Enemy enemy ,Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
 
         DrawStates.drawLightAttack(gc, enemy, remainingAnimDuration, animationDuration, relativeLocation);
     }
@@ -41,21 +41,21 @@ class DrawEnemies {
 
     static void drawHeavyAttackCharge(GraphicsContext gc, Enemy enemy, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
 
         DrawStates.drawHeavyAttackCharge(gc, enemy, remainingAnimDuration, animationDuration, relativeLocation);
     }
 
 
     static void drawHeavyAttack(GraphicsContext gc, Enemy enemy, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
 
         DrawStates.drawHeavyAttack(gc, player, remainingAnimDuration, animationDuration, relativeLocation);
     }
 
 
     public static void drawShield(GraphicsContext gc, Enemy character, Player player, Rectangle stageSize) {
-        Point2D relativeLocation = getRelativeLocation(stageSize, character, player);
+        Point2D relativeLocation = getRelativeLocation(stageSize, character, player.getLocation());
         DrawStates.drawShield(gc, character, relativeLocation);
 
     }
