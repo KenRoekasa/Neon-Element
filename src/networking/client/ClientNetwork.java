@@ -30,18 +30,6 @@ public class ClientNetwork extends Thread {
 
         this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
-
-    //This client cons takes in the serverAddresws and playerName in as an arg from the command line
-    public ClientNetwork(String name, String serverAddress) {
-        try {
-            this.socket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddress);
-        this.name = name;
-    }
     
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;

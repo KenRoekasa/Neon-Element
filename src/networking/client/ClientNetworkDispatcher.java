@@ -19,11 +19,6 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         super(socket, multicastSocket, groupAddress);
         this.gameState = gameState;
     }
-    
-    protected ClientNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, String serverAddress) {
-        super(socket, multicastSocket, groupAddress);
-        this.serverAddress = serverAddress;
-    }
 
     public void sendHello() {
         try {
@@ -47,10 +42,6 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    protected String getServerAddress() {
-    	return serverAddress;
     }
 
 }
