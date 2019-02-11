@@ -393,4 +393,10 @@ public abstract class Character extends PhysicsObject {
         return currentActionStart;
     }
 
+    public String toString(){
+        String s = "ID: " + System.identityHashCode(this) +
+                "\nHealth: " + health +
+                "\nElement: " + currentElement.toString();
+        return s;
+    }
 }

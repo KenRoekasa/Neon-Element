@@ -1,6 +1,14 @@
 package debugger;
 
+import client.GameState;
+import entities.Character;
+import entities.Enemy;
+import entities.PhysicsObject;
+import graphics.ISOConverter;
+import graphics.Renderer;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -22,8 +30,7 @@ public class Debugger {
     public void print(){
         int items = output.size();
 
-        int prevHeight = 20;
-
+        int prevHeight = 100;
         for(int i = 0; i < items; i++){
 
             Pair values = output.remove(0);
@@ -36,6 +43,37 @@ public class Debugger {
             prevHeight = prevHeight + 20 * numLines;
 
         }
+    }
+
+    public void simpleGSDebugger(GameState gameState, Debugger debugger) {
+        debugger.add(gameState.getPlayer().toString(), 4);
+
+        for (Enemy enemy: gameState.getEnemies()){
+            debugger.add(enemy.toString(), 4);
+        }
+
+
+    }
+
+
+    public void gameStateDebugger(GameState gameState, Rectangle stage){
+        Point2D stageCenter = new Point2D(stage.getWidth()/2, stage.getHeight()/2 + 20);
+        printPlayerInfo(gameState.getPlayer(), stageCenter);
+
+        for (Enemy enemy: gameState.getEnemies()){
+
+            Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy, gameState.getPlayer().getLocation());
+
+            //relativeLocation = ISOConverter.twoDToIso(relativeLocation);
+            relativeLocation.add(0, 30);
+            printPlayerInfo(enemy, relativeLocation );
+
+        }
+    }
+
+    private void printPlayerInfo(Character player, Point2D relativeLocation){
+
+        gc.strokeText(player.toString(), relativeLocation.getX(), relativeLocation.getY());
     }
 
     // adds message to be printed - requires the message and the number of lines (number of newline characters)

@@ -56,7 +56,8 @@ public class Renderer {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
-        DrawObjects.drawBackground(gc, stageSize, stars);
+        //DrawObjects.drawBackground(gc, stageSize, stars);
+
 
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
@@ -80,6 +81,8 @@ public class Renderer {
         DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
 
         gc.restore();
+
+        debugger.simpleGSDebugger(gameState, debugger);
 
         debugger.print();
     }
@@ -167,14 +170,12 @@ public class Renderer {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
 
-    static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Player player) {
+    public static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Point2D playerLocation ) {
         Point2D enemyLocation = obj.getLocation();
-        Point2D playerLocation = player.getLocation();
 
         double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();
         double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY();
 
-        //- obj.getWidth()/2f
 
         return new Point2D(relativeX, relativeY);
     }
