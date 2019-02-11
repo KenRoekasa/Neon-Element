@@ -95,7 +95,7 @@ public class ClientBoard {
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                InputHandler.handleInput(gameState.getPlayer(), input, gameState.getMap());
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
                 renderer.render(primaryStage, gameState);
             }
         }.start();

@@ -3,13 +3,17 @@ package client;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 import client.ClientGameState;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
 import entities.PowerUp;
+import enums.ObjectType;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 public class GameClient extends Thread {
 
@@ -37,31 +41,45 @@ public class GameClient extends Thread {
     }
     
     private void doCollisionDetection() {
-        // Collision detection code
-        for (PhysicsObject e : gameState.getObjects()) {
-            if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                //If the object is a power up
-                if (Objects.equals(e.getClass(), PowerUp.class)) {
-                    PowerUp powerUp = (PowerUp) e;
-                    ((PowerUp) e).activatePowerUp(gameState.getPlayer());
-                }else{
-                    //The player has collided with e do something
-                    gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-//                    System.out.println("x diff " + xDiff);
-//                    System.out.println("y diff " + yDiff);
-                    gameState.getPlayer().isColliding(e);
+        synchronized (gameState.getObjects()) {
+            // Collision detection code
+            synchronized (gameState.getObjects()) {
+                for (Iterator<PhysicsObject> itr = gameState.getObjects().iterator(); itr.hasNext(); ) {
+                    PhysicsObject e = itr.next();
+                    if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
+                        //If the object is a power up
+                        if (e.getTag() == ObjectType.POWERUP) {
+                            PowerUp powerUp = (PowerUp) e;
+                            ((PowerUp) e).activatePowerUp(gameState.getPlayer());
+                            // remove power up from objects array list
+                            itr.remove();
+                        } else {
+                            //The player has collided with e do something
+                            gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+                            gameState.getPlayer().isColliding(e);
+                        }
+                    } else {
+                        gameState.getPlayer().isColliding = false;
+                    }
+                    //Attack Collision
+                    //if player is attacking check
+                    Rectangle attackHitbox = new Rectangle(gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY()+gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth(), gameState.getPlayer().getWidth());
+                    Rotate rotate = (Rotate) Rotate.rotate(gameState.getPlayer().getPlayerAngle().getAngle(), gameState.getPlayer().getLocation().getX(), gameState.getPlayer().getLocation().getY());
+                    attackHitbox.getTransforms().addAll(rotate);
+                    if(CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(),e.getBounds().getBoundsInParent())){
+                        // e takes damage
+                    }
+
                 }
-            }else{
-                gameState.getPlayer().isColliding = false;
+            }
+
+
+            //Call update function for all physics objects
+            gameState.getPlayer().update();
+            for (PhysicsObject o : gameState.getObjects()) {
+                o.update();
             }
         }
-        //Call update function for all physics objects
-        gameState.getPlayer().update();
-        for (PhysicsObject o : gameState.getObjects()) {
-            o.update();
-        }
-
-        // Power up creation thread
     }
     
     private void doLocationState() {
