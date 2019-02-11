@@ -10,7 +10,7 @@ import java.net.SocketException;
 import client.ClientGameState;
 import networking.packets.*;
 
-public class ClientNetwork extends Thread {
+public class ClientNetwork {
     protected String name;
     
     protected DatagramSocket socket;

@@ -10,7 +10,6 @@ public class ManualTestClient {
     		//GameState gs = new GameState()
         ClientGameState gameState = GameStateGenerator.createDemoGamestate();
         ClientNetwork net = new ClientNetwork(gameState);
-        net.start();
 
         ClientNetworkDispatcher dispatcher = net.getDispatcher();
         dispatcher.sendHello();
