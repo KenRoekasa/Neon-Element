@@ -3,6 +3,8 @@ package networking;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 
 import networking.packets.Packet;
@@ -10,9 +12,13 @@ import networking.packets.Packet;
 public abstract class NetworkDispatcher {
 
     private DatagramSocket socket;
+    protected MulticastSocket multicastSocket;
+    protected InetAddress groupAddress;
 
-    protected NetworkDispatcher(DatagramSocket socket) {
+    protected NetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress) {
         this.socket = socket;
+        this.multicastSocket = multicastSocket;
+        this.groupAddress = groupAddress;
     }
 
     public void close() {

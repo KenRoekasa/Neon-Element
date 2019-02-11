@@ -1,12 +1,17 @@
 package networking.server;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.util.ArrayList;
 
 import entities.Player;
 import entities.PowerUp;
 import networking.packets.*;
 import server.ServerGameState;
+import networking.Constants;
 import networking.NetworkDispatcher;
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
@@ -16,8 +21,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     private int nextPlayerId = 0;
     private ArrayList<PlayerConnection> connections;
 
-	protected ServerNetworkDispatcher(DatagramSocket socket, ServerGameState gameState) {
-		super(socket);
+	protected ServerNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ServerGameState gameState) {
+		super(socket, multicastSocket, groupAddress);
 		this.gameState = gameState;
         this.connections = new ArrayList<>();
 	}
@@ -107,5 +112,18 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             .findFirst()
             .orElse(null);
 	}
-
+	
+    private void broadcast(Packet packet) {
+        if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
+            byte[] data = packet.getRawBytes();
+            DatagramPacket datagram = new DatagramPacket(data, data.length, this.groupAddress, Constants.BROADCASTING_PORT);
+            try {
+                this.multicastSocket.send(datagram);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Attempted to send a recived packet.");
+        }
+    }
 }
