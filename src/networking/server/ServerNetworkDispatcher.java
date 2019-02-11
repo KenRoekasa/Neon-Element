@@ -93,7 +93,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 	
 	public void broadcastNewPowerUp(PowerUp powerUp) {
-	    // TODO broadcast powerup
+        double x = powerUp.getLocation().getX();
+        double y = powerUp.getLocation().getY();
+	    Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
+	    this.broadcast(packet);
 	}
 
 	protected void receiveSpellCast(CastSpellPacket packet) {

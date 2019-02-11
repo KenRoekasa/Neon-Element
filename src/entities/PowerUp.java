@@ -12,12 +12,15 @@ import java.util.Random;
 
 public class PowerUp extends PhysicsObject {
 
+    private int id;
     private PowerUpType type;
 
     private boolean isActive = true;
-
+    
+    private static int nextId = 0;
 
     public PowerUp() {
+        id = nextId++;
         tag = ObjectType.POWERUP;
         width = objectSize.getObjectSize(tag);
 
@@ -45,6 +48,14 @@ public class PowerUp extends PhysicsObject {
 
         location = new Point2D(randX, randY);
 
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+
+    public Point2D getLocation() {
+       return this.location;
     }
 
     public void setLocation(Point2D location) {

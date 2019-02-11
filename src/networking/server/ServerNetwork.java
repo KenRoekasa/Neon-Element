@@ -27,7 +27,7 @@ public class ServerNetwork extends Thread {
     protected ServerNetworkDispatcher dispatcher;
 
     public ServerNetwork(ServerGameState gameState) {
-        InetAddress groupAddress;
+        InetAddress groupAddress = null;
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
             
