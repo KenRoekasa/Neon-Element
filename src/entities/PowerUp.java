@@ -47,7 +47,11 @@ public class PowerUp extends PhysicsObject {
         int randY = rand.nextInt(1500);
 
         location = new Point2D(randX, randY);
-
+    }
+    
+    public PowerUp(int id, double x, double y) {
+        this.id = id;
+        this.location = new Point2D(x, y);
     }
     
     public int getId() {

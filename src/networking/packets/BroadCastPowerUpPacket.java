@@ -27,7 +27,19 @@ public class BroadCastPowerUpPacket extends Packet {
         this.y = y;
     }
 
-	@Override
+	public int getPowerUpId() {
+        return powerUpId;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    @Override
 	public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.powerUpId);

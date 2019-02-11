@@ -48,7 +48,6 @@ public class ClientNetwork extends Thread {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
             case GAME_START_BCAST:
-            		
                 break;
             case LOCATION_STATE_BCAST:
             		break;
@@ -61,7 +60,8 @@ public class ClientNetwork extends Thread {
             case POWERUP_PICKUP_BCAST:
             		break;
             case POWERUP_STATE_BCAST:
-            		break;
+                this.dispatcher.receivePowerUpBroadcast((BroadCastPowerUpPacket) packet);
+                break;
             case READY_STATE_BCAST:
             		break;
             case CONNECT_BCAST:

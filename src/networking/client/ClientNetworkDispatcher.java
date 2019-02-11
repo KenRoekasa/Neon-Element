@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 import client.ClientGameState;
+import entities.PowerUp;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
@@ -33,6 +34,11 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         int players = packet.getPlayers();
         int maxPlayers = packet.getMaxPlayers();
         System.out.println("Got players: " + players + " max: " + maxPlayers);
+    }
+    
+    protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
+        PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
+        this.gameState.getEntities().add(powerUp);
     }
 
     public void sendLocationState(double x, double y) {
