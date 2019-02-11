@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayerTest {
     @Test
@@ -17,6 +18,9 @@ public class PlayerTest {
     public void onCreatePlayerIsAlive() {
         Player player = new Player(ObjectType.PLAYER);
         assertTrue(player.isAlive());
+    }
+
+    private void assertTrue(boolean alive) {
     }
 
     @Test
