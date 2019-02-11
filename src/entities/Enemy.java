@@ -3,6 +3,7 @@ package entities;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import ai.EnemyFSM;
 import ai.EnemyStates;
@@ -251,10 +252,19 @@ public class Enemy extends Character {
 
     
     public void moveTo(int powerupIndex, Point2D loc) {
+    	
     	System.out.println("enemy moving to powerup");
     	double distance = calcDistance(getLocation(),loc );
     	System.out.println("distance: "+distance);
-    	while( (int) distance > 10) {
+    	while( (int) distance > 2) {
+    		
+    		try {
+    			TimeUnit.MILLISECONDS.sleep(10);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		
     		if(powerupIndex==-1)
     			break;
 
@@ -285,11 +295,20 @@ public class Enemy extends Character {
     }
     
     public void moveTo(Character player) {
+    	
     	Point2D playerLoc = player.getLocation();
     	double distance = calcDistance(getLocation(),playerLoc );
 
     	while( (int) distance - getWidth() > getWidth() ) {
 
+    		try {
+    			TimeUnit.MILLISECONDS.sleep(10);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        	
+    		
     		if(isAbove(playerLoc))
     			moveUp();
     		else if(isUnder(playerLoc))
