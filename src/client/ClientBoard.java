@@ -61,10 +61,9 @@ public class ClientBoard {
             System.exit(0);
         }
 
-        scene = new Scene(hudPane);
+        primaryStage.getScene().setRoot(hudPane);
 
-        primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
+        scene = primaryStage.getScene();
 
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
@@ -73,7 +72,7 @@ public class ClientBoard {
 
         //forces the game to be rendered behind the gui
         int index = hudPane.getChildren().indexOf(canvas);
-        //hudPane.getChildren().get(index).toBack();
+        hudPane.getChildren().get(index).toBack();
 
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
@@ -92,7 +91,6 @@ public class ClientBoard {
 
                 clientLoop();
                 renderer.render(primaryStage, gameState);
-                
 
 
             }

@@ -50,14 +50,12 @@ public class LocalController {
 
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
             ModeController modeController = loader.getController();
             modeController.setStage(stage);
             modeController.setStageSize(stageSize);
             stage.setTitle("Local Mode");
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
+            
         } catch (IOException e) {
             System.out.println("crush in loading mode board ");
             e.printStackTrace();
