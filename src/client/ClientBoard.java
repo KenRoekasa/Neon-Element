@@ -92,11 +92,7 @@ public class ClientBoard {
 
                 clientLoop();
                 renderer.render(primaryStage, gameState);
-
-                Point2D newLocation = gameState.getPlayer().getLocation().add(-100, -200);
-                gameState.getEnemies().get(0).setPlayerAngle(new Rotate(gameState.getEnemies().get(0).getPlayerAngle().getAngle() + 2));
-                gameState.getEnemies().get(0).setLocation(newLocation);
-                debugger.add(gameState.getEnemies().get(0).getLocation().toString(), 1);
+                
 
 
             }
