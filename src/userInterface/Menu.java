@@ -29,11 +29,9 @@ public class Menu extends Application {
         //force screen size
         primaryStage.setMinWidth(width);
         primaryStage.setMinHeight(height);
-        primaryStage.setMaxWidth(width);
-        primaryStage.setMaxHeight(height);
 
-        primaryStage.setScene(new Scene(root, width, height));
-
+        Scene scene = new Scene(root, width, height);
+        primaryStage.setScene(scene);
 
 
         // stops all game threads on close
@@ -43,9 +41,9 @@ public class Menu extends Application {
         });
 
         /*pass current stage to following interactions*/
-        MenuController menuController = (MenuController)loader.getController();
+        MenuController menuController = loader.getController();
         menuController.setStage(primaryStage);
-
+        menuController.setStageSize(primaryScreenBounds);
         primaryStage.show();
 
     }

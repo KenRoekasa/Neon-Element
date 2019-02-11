@@ -1,6 +1,6 @@
 package client;
 
-import controllers.PlayerModel;
+import controllers.AttributeController;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -11,19 +11,16 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Iterator;
 
 
@@ -36,27 +33,26 @@ public class ClientBoard {
     private Rectangle stageSize;
     private ArrayList<String> input;
     private GameState gameState;
-    private PlayerModel playerModel;
 
     public Scene getScene() {
         return scene;
     }
 
-    public ClientBoard(Stage primaryStage, GameState gameState, PlayerModel playerModel) throws Exception {
+    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.playerModel = playerModel;
-
-        playerModel.setHealth(gameState.getPlayer().getHealth());
-        playerModel.setSpeed(gameState.getPlayer().getMovementSpeed());
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
+
+
         try {
             hudPane = (Pane) loader.load();
-            PlayerModel playerModel1 = (PlayerModel)loader.getController();
+            //get player attribute
+            AttributeController attributeController = loader.getController();
+            attributeController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -66,7 +62,6 @@ public class ClientBoard {
         }
 
         scene = new Scene(hudPane);
-
 
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
@@ -78,7 +73,7 @@ public class ClientBoard {
 
         //forces the game to be rendered behind the gui
         int index = hudPane.getChildren().indexOf(canvas);
-        hudPane.getChildren().get(index).toBack();
+        //hudPane.getChildren().get(index).toBack();
 
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
@@ -89,8 +84,6 @@ public class ClientBoard {
         initialiseInput(scene, renderer);
 
         beginClientLoop(renderer);
-
-
     }
 
     private void beginClientLoop(Renderer renderer) {
@@ -99,6 +92,11 @@ public class ClientBoard {
 
                 clientLoop();
                 renderer.render(primaryStage, gameState);
+
+                Point2D newLocation = gameState.getPlayer().getLocation().add(-100, -200);
+                gameState.getEnemies().get(0).setPlayerAngle(new Rotate(gameState.getEnemies().get(0).getPlayerAngle().getAngle() + 2));
+                gameState.getEnemies().get(0).setLocation(newLocation);
+                debugger.add(gameState.getEnemies().get(0).getLocation().toString(), 1);
 
 
             }
@@ -176,22 +174,12 @@ public class ClientBoard {
             }
 
 
-
-
             //Call update function for all physics objects
             gameState.getPlayer().update();
             for (PhysicsObject o : gameState.getObjects()) {
                 o.update();
             }
         }
-    }
-
-    public PlayerModel getPlayerModel() {
-        return playerModel;
-    }
-
-    public void setPlayerModel(PlayerModel playerModel) {
-        this.playerModel = playerModel;
     }
 
 

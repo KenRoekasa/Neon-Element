@@ -23,33 +23,32 @@ public class Renderer {
     private GraphicsContext gc;
 
     private Debugger debugger;
-
     private Rectangle stageSize;
-
     private static Point2D rotationCenter;
-
+    private ArrayList<Point2D> stars;
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         this.stageSize = stageSize;
 
+        stars = DrawObjects.loadStars(stageSize);
 
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
         this.gc = gc;
         this.stageSize = stageSize;
-        
+
+
+        stars = DrawObjects.loadStars(stageSize);
     }
 
     public void render(Stage primaryStage, GameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
-        
 
-
-        //DrawObjects.drawBackground(gc, stageSize);
+        DrawObjects.drawBackground(gc, stageSize, stars);
 
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
@@ -84,16 +83,16 @@ public class Renderer {
             Action status = gameState.getPlayer().getCurrentAction();
             Class charClass = Player.class;
 
-            ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
             DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
+            ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
 
         } else if (Objects.equals(o.getClass(), Enemy.class)) {
             Enemy enemy = (Enemy)o;
             Action status = enemy.getCurrentAction();
             Class charClass = Enemy.class;
 
-            ActionSwitch(status, enemy, charClass, gameState);
             DrawEnemies.drawEnemy(gc, stageSize, (Enemy) o, gameState.getPlayer());
+            ActionSwitch(status, enemy, charClass, gameState);
 
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
@@ -140,6 +139,11 @@ public class Renderer {
 
                 break;
             case BLOCK:
+                if(Objects.equals(charClass, Player.class)) {
+                    DrawClientPlayer.drawShield(gc, gameState.getPlayer(), stageSize);
+                } else {
+                    DrawEnemies.drawShield(gc, (Enemy) character, gameState.getPlayer(), stageSize);
+                }
         }
     }
 
@@ -159,8 +163,11 @@ public class Renderer {
         Point2D enemyLocation = obj.getLocation();
         Point2D playerLocation = player.getLocation();
 
-        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX() - obj.getWidth()/2f;
-        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY() - obj.getWidth()/2f;
+        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();
+        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY();
+
+        //- obj.getWidth()/2f
+
         return new Point2D(relativeX, relativeY);
     }
 
