@@ -3,6 +3,7 @@ package networking.client;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
 
@@ -20,13 +21,14 @@ public class ClientNetwork extends Thread {
     private ClientNetworkDispatcher dispatcher;
 
     public ClientNetwork(ClientGameState gameState) {
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, gameState);
-
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
 
         this.multiConn = new ClientNetworkMulticastConnection(this);
         this.multicastSocket = multiConn.getSocket();
+        InetAddress groupAddress = multiConn.getGroupAddress();
+
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
 
     //This client cons takes in the serverAddresws and playerName in as an arg from the command line

@@ -2,6 +2,7 @@ package networking.client;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 
 import client.ClientGameState;
 import networking.packets.*;
@@ -14,13 +15,13 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     
 	protected String serverAddress;
 
-    protected ClientNetworkDispatcher(DatagramSocket socket, ClientGameState gameState) {
-        super(socket);
+    protected ClientNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ClientGameState gameState) {
+        super(socket, multicastSocket, groupAddress);
         this.gameState = gameState;
     }
     
-    protected ClientNetworkDispatcher(DatagramSocket socket, String serverAddress) {
-        super(socket);
+    protected ClientNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, String serverAddress) {
+        super(socket, multicastSocket, groupAddress);
         this.serverAddress = serverAddress;
     }
 

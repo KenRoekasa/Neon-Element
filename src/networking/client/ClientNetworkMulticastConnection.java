@@ -50,6 +50,10 @@ public class ClientNetworkMulticastConnection extends Thread {
     protected MulticastSocket getSocket() {
         return this.socket;
     }
+    
+    protected InetAddress getGroupAddress() {
+        return this.groupAddress;
+    }
 	
 	 public void close() {
 	        try {
