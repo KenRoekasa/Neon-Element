@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
-    private GameState gameState;
+    private ClientGameState gameState;
 
     private Rectangle2D stageSize;
     @FXML
