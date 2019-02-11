@@ -32,7 +32,7 @@ public class ServerNetwork extends Thread {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
             
             // Multicast socket
-            groupAddress = InetAddress.getByName(Constants.SERVER_ADDRESS);
+            groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
             socket = new MulticastSocket(Constants.SERVER_LISTENING_PORT); // TODO does this need to be a different port?
         } catch (SocketException e) {
             // TODO Auto-generated catch block
