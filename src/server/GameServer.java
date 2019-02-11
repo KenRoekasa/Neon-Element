@@ -41,6 +41,8 @@ public class GameServer extends Thread {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
+            
+            Thread.yield();
         }
 
         this.network.close();

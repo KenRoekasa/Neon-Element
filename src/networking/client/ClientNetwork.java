@@ -28,6 +28,9 @@ public class ClientNetwork extends Thread {
         this.multicastSocket = multiConn.getSocket();
         InetAddress groupAddress = multiConn.getGroupAddress();
 
+        this.conn.start();
+        this.multiConn.start();
+
         this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
     
