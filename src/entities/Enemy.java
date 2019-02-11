@@ -201,6 +201,12 @@ public class Enemy extends Character {
 				index = i;
 			}
 		}
+		
+
+		double angle = calcAngle(getLocation(),players[index].getLocation());
+		
+		setPlayerAngle(  new Rotate(angle) );
+		
 		return players[index];
 	}
 
@@ -209,15 +215,11 @@ public class Enemy extends Character {
     public void attack() {
     	System.out.println("attack");
     	Character player = findNearestPlayer();
-    	System.out.println("move to");
     	moveTo(player);
     	
     	if(inAttackDistance(player)) {
-    		double angle = calcAngle(getLocation(),player.getLocation());
-    		System.out.println(angle);
-    		setPlayerAngle(  new Rotate(angle) );
     		System.out.println("in attack distance");
-    		lightAttack();
+    		//lightAttack();
     	}
     }
     
@@ -225,8 +227,14 @@ public class Enemy extends Character {
     	
     	double x = Math.abs(loc1.getX()-loc2.getX());
     	double y = Math.abs(loc1.getY()-loc2.getY());
-       	
-    	return Math.atan2(y, x)*1000;
+    	
+       	x = Math.toDegrees(x);
+       	y = Math.toDegrees(y);
+    	
+       	double angle = Math.toDegrees(Math.atan2(y, x)); 
+    	
+       	//System.out.println("x: "+x+"\ny: "+y+"\nangle: "+angle);
+       	return angle;
     }
 
     private double calcDistance(Point2D a, Point2D b) {
@@ -241,13 +249,13 @@ public class Enemy extends Character {
 
     	while( (int) distance - getWidth() > getWidth() ) {
 
-    		if(isAbove(powerup.getLocation()))
+    		if(isAbove(powerupLoc))
     			moveUp();
-    		else if(isUnder(powerup.getLocation()))
+    		else if(isUnder(powerupLoc))
     			moveDown(map.getWidth(),map.getHeight());
-    		if(isLeftOf(powerup.getLocation()))
+    		if(isLeftOf(powerupLoc))
     			moveLeft(map.getWidth());
-    		else if (isRightOf(powerup.getLocation()))
+    		else if (isRightOf(powerupLoc))
     			moveRight(map.getWidth(),map.getHeight());
     		
     		distance = calcDistance(getLocation(), powerupLoc);
@@ -260,13 +268,13 @@ public class Enemy extends Character {
 
     	while( (int) distance - getWidth() > getWidth() ) {
 
-    		if(isAbove(player.getLocation()))
+    		if(isAbove(playerLoc))
     			moveUp();
-    		else if(isUnder(player.getLocation()))
+    		else if(isUnder(playerLoc))
     			moveDown(map.getWidth(),map.getHeight());
-    		if(isLeftOf(player.getLocation()))
+    		if(isLeftOf(playerLoc))
     			moveLeft(map.getWidth());
-    		else if (isRightOf(player.getLocation()))
+    		else if (isRightOf(playerLoc))
     			moveRight(map.getWidth(),map.getHeight());
     		
     		distance = calcDistance(getLocation(), playerLoc);
