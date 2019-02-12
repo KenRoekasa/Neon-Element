@@ -1,5 +1,6 @@
 package client;
 
+import audio.AudioManager;
 import controllers.AttributeController;
 import controllers.PowerUpController;
 import debugger.Debugger;
@@ -11,7 +12,6 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,19 +26,17 @@ import java.util.Iterator;
 
 public class ClientBoard {
 
-    private Debugger debugger;
-    private GraphicsContext gc;
     private Stage primaryStage;
     private Scene scene;
-    private Rectangle stageSize;
     private ArrayList<String> input;
     private GameState gameState;
+    private AudioManager audioManager;
 
     public Scene getScene() {
         return scene;
     }
 
-    public ClientBoard(Stage primaryStage, GameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, GameState gameState) {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
@@ -65,7 +63,7 @@ public class ClientBoard {
 
         scene = primaryStage.getScene();
 
-        stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
+        Rectangle stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
         Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
         hudPane.getChildren().add(canvas);
@@ -74,13 +72,14 @@ public class ClientBoard {
         int index = hudPane.getChildren().indexOf(canvas);
         hudPane.getChildren().get(index).toBack();
 
-        gc = canvas.getGraphicsContext2D();
-        debugger = new Debugger(gc);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        Debugger debugger = new Debugger(gc);
 
+        audioManager = new AudioManager();
         Renderer renderer = new Renderer(gc, stageSize, debugger);
 
         // initialise input controls
-        initialiseInput(scene, renderer);
+        initialiseInput(scene);
 
         beginClientLoop(renderer);
     }
@@ -103,7 +102,7 @@ public class ClientBoard {
     }
 
 
-    private void initialiseInput(Scene theScene, Renderer renderer) {
+    private void initialiseInput(Scene theScene) {
         // set input controls
         input = new ArrayList<>();
         theScene.setOnKeyPressed(e -> {
@@ -121,7 +120,7 @@ public class ClientBoard {
                 });
 
         theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
+            InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
 
 
         });
@@ -175,6 +174,5 @@ public class ClientBoard {
             }
         }
     }
-
 
 }

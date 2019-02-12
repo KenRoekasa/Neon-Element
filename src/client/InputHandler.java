@@ -1,6 +1,8 @@
 package client;
 
+import audio.AudioManager;
 import entities.Player;
+import enums.Sound;
 import graphics.Renderer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -103,14 +105,15 @@ public class InputHandler {
         }
     }
 
-    static void handleClick(Player player, Stage primaryStage, MouseEvent e, Renderer r) {
+    static void handleClick(Player player, MouseEvent e, AudioManager audioManager) {
 
         if(e.getButton() == MouseButton.PRIMARY) {
             player.lightAttack();
+            audioManager.playSound(Sound.LIGHT_ATTACK);
 
         } else if (e.getButton() == MouseButton.SECONDARY) {
             player.chargeHeavyAttack();
-
+            audioManager.playSound(Sound.HEAVY_ATTACK);
         }
     }
 }
