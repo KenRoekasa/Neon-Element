@@ -33,6 +33,7 @@ public class GameServer extends Thread {
 
     public void run() {
         this.running = true;
+        this.network.start();
 
         Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects(), this.network.getDispatcher()));
         powerUpController.start();
@@ -41,8 +42,13 @@ public class GameServer extends Thread {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
-            
-            Thread.yield();
+
+            try {
+                Thread.sleep(500); // Every half second
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         this.network.close();
