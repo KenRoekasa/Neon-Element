@@ -33,7 +33,7 @@ public class ServerNetwork extends Thread {
 
             // Multicast socket
             groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
-            socket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
+            multicastSocket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

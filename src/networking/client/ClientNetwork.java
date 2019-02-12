@@ -28,10 +28,10 @@ public class ClientNetwork {
         this.multicastSocket = multiConn.getSocket();
         InetAddress groupAddress = multiConn.getGroupAddress();
 
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
+
         this.conn.start();
         this.multiConn.start();
-
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
     
     public ClientNetworkDispatcher getDispatcher() {
