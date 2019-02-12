@@ -10,6 +10,8 @@ public abstract class GameState {
     protected Rectangle map;
     protected ArrayList<PhysicsObject> objects;
     protected GameType gameType;
+    protected long currentRunTime;
+
 
 
     public GameType getGameType() {
@@ -35,5 +37,13 @@ public abstract class GameState {
 
     public void setObjects(ArrayList<PhysicsObject> objects) {
         this.objects = objects;
+    }
+
+    public long getCurrentRunTime() {
+        return currentRunTime;
+    }
+
+    public void setCurrentRunTime(long currentRunTime) {
+        this.currentRunTime = currentRunTime;
     }
 }
