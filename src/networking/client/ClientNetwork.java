@@ -47,6 +47,10 @@ public class ClientNetwork {
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
         
+        if (packet == null) {
+            System.out.println("Invalid packet recieved");
+            return;
+        }
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
@@ -71,9 +75,8 @@ public class ClientNetwork {
             		break;
             case CAST_SPELL_BCAST:
             		break;
-     
             default:
-                System.out.println("Invalid packet recieved");
+                System.out.println("Unhandled packet " + packet.getType());
         }
     }
 
