@@ -101,7 +101,8 @@ public abstract class Character extends PhysicsObject {
         if (canUpCart) {
 
             if ((location.getY() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(0, -(movementSpeed * 2));
+                location = location.add(0, -Math.sqrt(2*movementSpeed*movementSpeed));
+
             } else {
                 location = new Point2D(location.getX(), 0 + width / 2f);
             }
@@ -113,7 +114,7 @@ public abstract class Character extends PhysicsObject {
         if (canDownCart) {
 
             if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
-                location = location.add(0, (movementSpeed * 2));
+                location = location.add(0, Math.sqrt(2*movementSpeed*movementSpeed));
             } else {
                 location = new Point2D(location.getX(), boardHeight - width / 2f);
             }
@@ -127,7 +128,7 @@ public abstract class Character extends PhysicsObject {
 
             //check within bounds
             if ((location.getX() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(-(movementSpeed * 2), 0);
+                location = location.add(-Math.sqrt(2*movementSpeed*movementSpeed), 0);
             } else {
                 location = new Point2D(0 + width / 2f, location.getY());
             }
@@ -141,7 +142,7 @@ public abstract class Character extends PhysicsObject {
 
             //check within bounds
             if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
-                location = location.add((movementSpeed * 2), 0);
+                location = location.add(Math.sqrt(2*movementSpeed*movementSpeed), 0);
             } else {
                 location = new Point2D(boardWidth - width / 2f, location.getY());
             }
@@ -344,7 +345,7 @@ public abstract class Character extends PhysicsObject {
     // adds Health to the player
     public void addHealth(int amount) {
         health += amount;
-        if (health > 100) {
+        if (health > MAX_HEALTH) {
             health = 100;
         }
     }

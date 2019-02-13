@@ -41,10 +41,8 @@ public class GameStateGenerator {
         PowerUp pus [] = {pu};
         enemies.add(new Enemy(players, objects, map));
         enemies.get(0).setLocation(new Point2D(140, 100));
-        
         //Add the enemies to the objects list
         objects.addAll(enemies);
-        
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
         gameState.start();
 

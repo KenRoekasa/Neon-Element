@@ -4,8 +4,17 @@ import entities.Player;
 
 public class DamageCalculation {
 
+    /** Returns the amount of damage dealt to the victim
+     *
+     * @return damage to be dealt to the victim
+     */
+    public static float calculateDealtDamage(Player player, Player victim){
+       return calculateDamage(3, player,victim) * calculateMitgation(player,victim);
+    }
 
-    public float calculateDamage(float baseDmg, Player player, Player victim) {
+
+
+    private static float calculateDamage(float baseDmg, Player player, Player victim) {
         switch (player.getCurrentElement()) {
             case FIRE:
                 switch (victim.getCurrentElement()) {
@@ -58,7 +67,7 @@ public class DamageCalculation {
     }
 
     //The amount the damaged is reduced by, due to the shields in percentage
-    public float calculateMitgation(Player attackingPlayer, Player victim) {
+    private static float calculateMitgation(Player attackingPlayer, Player victim) {
         if (victim.isShielded()) {
             switch (attackingPlayer.getCurrentElement()) {
                 case FIRE:
