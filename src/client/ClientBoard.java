@@ -1,7 +1,5 @@
 package client;
 
-import client.ClientGameState;
-import client.InputHandler;
 import controllers.AttributeController;
 import debugger.Debugger;
 import entities.*;
@@ -18,13 +16,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import server.controllers.PowerUpController;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import static enums.Directions.LEFTCART;
 
 
 public class ClientBoard {
@@ -202,14 +196,13 @@ public class ClientBoard {
                         gameState.getPlayer().setLocation(previousLocation);
                     }
 
-//                    System.out.println(gameState.getPlayer().getCharacterDirection());
+                    //                    System.out.println(gameState.getPlayer().getCharacterDirection());
                     switch (gameState.getPlayer().getCharacterDirection()) {
                         case UP:
                             projectedPlayer.setLocation(checkUp);
 
                             if (CollisionDetection.checkCollision(projectedPlayer, e)) {
                                 Point2D newLocation = previousLocation;
-                                System.out.println(e.getBounds().getBoundsInParent().getMaxX() + ", " + gameState.getPlayer().getLocation().getX());
                                 //if on the right hand side of the other player
                                 if (e.getBounds().getBoundsInParent().getMaxX() <= gameState.getPlayer().getLocation().getX()) {
                                     double adjacent = gameState.getPlayer().getLocation().getX() - e.getBounds().getBoundsInParent().getMaxX();
@@ -239,19 +232,19 @@ public class ClientBoard {
                             if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
                                 Point2D newLocation = previousLocation;
                                 //if on the right hand side of the other player
-                                if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY()<=  e.getBounds().getBoundsInParent().getMinY()) {
-                                    double adjacent =  e.getBounds().getBoundsInParent().getMinY() - gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() ;
+                                if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() <= e.getBounds().getBoundsInParent().getMinY()) {
+                                    double adjacent = e.getBounds().getBoundsInParent().getMinY() - gameState.getPlayer().getBounds().getBoundsInParent().getMaxY();
                                     double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX()+opposite, gameState.getPlayer().getLocation().getY()+adjacent);
-//                                    newLocation = newLocation.add(collisionOffset, collisionOffset);
+                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + opposite, gameState.getPlayer().getLocation().getY() + adjacent);
+                                    newLocation = newLocation.add(-collisionOffset, -collisionOffset);
                                 }
 
                                 // if on the left hand side of the other player
                                 if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() > e.getBounds().getBoundsInParent().getMinY()) {
-                                    double adjacent = e.getBounds().getBoundsInParent().getMinX() - gameState.getPlayer().getBounds().getBoundsInParent().getMinX();
+                                    double adjacent = e.getBounds().getBoundsInParent().getMinX() - gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
                                     double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-                                    newLocation = new Point2D(e.getLocation().getX(), gameState.getPlayer().getLocation().getY()-opposite);
-//                                    newLocation = newLocation.add(-collisionOffset, collisionOffset);
+                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + adjacent, gameState.getPlayer().getLocation().getY() + opposite);
+                                    newLocation = newLocation.add(-collisionOffset, -collisionOffset);
 
                                 }
 
@@ -267,12 +260,20 @@ public class ClientBoard {
                             if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
                                 //test every the most amount of movement before it collides
                                 Point2D newLocation = gameState.getPlayer().getLocation();
-                                for (int i = movementSpeed; i <= 0; i--) {
-                                    newLocation = gameState.getPlayer().getLocation().add(-i, i);
-                                    projectedPlayer.setLocation(newLocation);
-                                    if (!CollisionDetection.checkCollision(projectedPlayer, e)) {
-                                        break;
-                                    }
+                                //if above the other player
+                                if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY()) {
+                                    double adjacent = e.getBounds().getBoundsInParent().getMinY() - gameState.getPlayer().getBounds().getBoundsInParent().getMaxY();
+                                    double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX() - opposite, gameState.getPlayer().getLocation().getY() + adjacent);
+                                    newLocation = newLocation.add(collisionOffset, -collisionOffset);
+                                }
+
+                                //if below the other player
+                                if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
+                                    double opposite = gameState.getPlayer().getLocation().getX() - e.getBounds().getBoundsInParent().getMaxX();
+                                    double adjacent = (opposite * Math.tan(Math.toRadians(45)));
+                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX() - opposite, gameState.getPlayer().getLocation().getY() + adjacent);
+                                    newLocation = newLocation.add(collisionOffset, -collisionOffset);
                                 }
                                 previousLocation = newLocation;
                                 gameState.getPlayer().setLocation(newLocation);
@@ -288,13 +289,21 @@ public class ClientBoard {
                             if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
                                 //test every the most amount of movement before it collides
                                 Point2D newLocation = gameState.getPlayer().getLocation();
-                                for (int i = movementSpeed; i <= 0; i--) {
+                                //if above the other player
+                                if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX()) {
+                                    double adjacent = e.getLocation().getX() - gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
+                                    double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + adjacent, gameState.getPlayer().getLocation().getY() - opposite);
+                                    newLocation = newLocation.add(-collisionOffset, collisionOffset);
 
-                                    newLocation = gameState.getPlayer().getLocation().add(i, -i);
-                                    projectedPlayer.setLocation(newLocation);
-                                    if (!CollisionDetection.checkCollision(projectedPlayer, e)) {
-                                        break;
-                                    }
+                                }
+
+                                //if below the other player
+                                if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX()) {
+                                    double opposite = gameState.getPlayer().getLocation().getY() - e.getBounds().getBoundsInParent().getMaxY();
+                                    double adjacent = (opposite * Math.tan(Math.toRadians(45)));
+                                    newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + adjacent, gameState.getPlayer().getLocation().getY() - opposite);
+                                    newLocation = newLocation.add(-collisionOffset, collisionOffset);
                                 }
                                 previousLocation = newLocation;
                                 gameState.getPlayer().setLocation(newLocation);
@@ -333,7 +342,7 @@ public class ClientBoard {
                         case LEFTCART:
                             projectedPlayer.setLocation(checkLeftCart);
                             if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-//
+                                //
                                 Point2D newLocation = new Point2D(e.getBounds().getBoundsInParent().getMaxX(), gameState.getPlayer().getLocation().getY());
                                 ;
                                 previousLocation = newLocation;
@@ -349,7 +358,7 @@ public class ClientBoard {
                             if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
                                 //test every the most amount of movement before it collides
                                 Point2D newLocation = new Point2D(e.getBounds().getBoundsInParent().getMinX() - gameState.getPlayer().getWidth(), gameState.getPlayer().getLocation().getY());
-                                ;
+
                                 previousLocation = newLocation;
                                 gameState.getPlayer().setLocation(newLocation);
                                 gameState.getPlayer().canRightCart = false;

@@ -35,7 +35,7 @@ public class EnemyFSM {
 			enemy.setState(EnemyStates.FIND_SPEED);
 		}
 		else {
-//			enemy.setState(EnemyStates.ATTACK);
+			enemy.setState(EnemyStates.ATTACK);
 		}
 
 	}
