@@ -221,13 +221,6 @@ public abstract class Character extends PhysicsObject {
             isShielded = true;
 
 
-//            long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
-//            if (System.currentTimeMillis() > nextAvailableTime) {
-//                //need code to unshield after a certain duration
-//
-//                // set last time spell was used
-//                timerArray[shieldID] = System.currentTimeMillis();
-//            }
         }
     }
 
@@ -239,19 +232,30 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void changeToFire() {
-        currentElement = Elements.FIRE;
+        if (currentAction == Action.IDLE) {
+            currentElement = Elements.FIRE;
+        }
     }
 
     public void changeToWater() {
-        currentElement = Elements.WATER;
+        if (currentAction == Action.IDLE) {
+
+            currentElement = Elements.WATER;
+        }
     }
 
     public void changeToEarth() {
-        currentElement = Elements.EARTH;
+        if (currentAction == Action.IDLE) {
+
+            currentElement = Elements.EARTH;
+        }
     }
 
     public void changeToAir() {
-        currentElement = Elements.AIR;
+        if (currentAction == Action.IDLE) {
+
+            currentElement = Elements.AIR;
+        }
     }
 
     public Rotate getPlayerAngle() {
