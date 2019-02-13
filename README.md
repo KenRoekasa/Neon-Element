@@ -2,6 +2,8 @@ alien8
 
 # Mechanics
 
+https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
+
 ## Tasks
 - Enemy class can only be ai not player controlled enemies. Sort this out- Improve players from walking into each other and getting stuck into each other
 - Dealing damage to other players with damage calculation
