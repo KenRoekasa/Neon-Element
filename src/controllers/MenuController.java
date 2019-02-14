@@ -1,17 +1,10 @@
 package controllers;
 
-import client.ClientBoard;
-import client.GameState;
-import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -29,20 +22,9 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
-    private GameState gameState;
-
-    private Rectangle2D stageSize;
-    @FXML
-    private Text health;
-    @FXML
-    private Text speed;
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public void setStageSize(Rectangle2D stageSize) {
-        this.stageSize = stageSize;
     }
 
     // play -> mode selection
@@ -57,8 +39,6 @@ public class MenuController implements Initializable{
             stage.getScene().setRoot(root);
             ModeController controller = loader.getController();
             controller.setStage(stage);
-            controller.setStageSize(stageSize);
-
             stage.setTitle("Mode");
 
         } catch (IOException e) {
@@ -69,7 +49,7 @@ public class MenuController implements Initializable{
 
     @FXML
     public void handleBTNOptions(ActionEvent actionEvent){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/option_board.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
             stage.getScene().setRoot(root);

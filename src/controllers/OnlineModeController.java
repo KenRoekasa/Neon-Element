@@ -14,15 +14,11 @@ import java.util.ResourceBundle;
 
 public class OnlineModeController implements Initializable{
     private Stage stage;
-    private Rectangle2D stageSize;
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void setStageSize(Rectangle2D stageSize) {
-        this.stageSize = stageSize;
-    }
 
     @FXML
     public void handleHostGame(ActionEvent actionEvent){
@@ -31,7 +27,6 @@ public class OnlineModeController implements Initializable{
             Pane root = loader.load();
             OnlineSetUpController onlineSetUpController = loader.getController();
             onlineSetUpController.setStage(stage);
-            onlineSetUpController.setStageSize(stageSize);
             stage.getScene().setRoot(root);
             stage.setTitle("Online Mode Configuration");
 
@@ -43,20 +38,39 @@ public class OnlineModeController implements Initializable{
     }
 
     @FXML
-    public void handleJoinGame(ActionEvent actionEvent){
+    public void handleJoinGame(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/ip_join.fxml"));
 
         try {
             Pane root = loader.load();
+            JoinController controller  = loader.getController();
+            controller.setStage(stage);
             stage.getScene().setRoot(root);
             stage.setTitle("Join a Game");
-            stage.setFullScreen(true);
+
+
         } catch (IOException e) {
             System.out.println("crush in loading join board ");
             e.printStackTrace();
         }
     }
 
+
+    @FXML
+    public void handleBackBtn(ActionEvent actionEvent){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
+
+        try {
+            Pane root = loader.load();
+            stage.getScene().setRoot(root);
+            ModeController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("Mode");
+        } catch (IOException e) {
+            System.out.println("crush in loading mode sboard ");
+            e.printStackTrace();
+        }
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

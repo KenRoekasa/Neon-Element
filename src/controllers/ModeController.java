@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,15 +18,12 @@ import java.util.ResourceBundle;
 //For mode board: online/local
 public class ModeController implements Initializable{
     private Stage stage;
-    private Rectangle2D stageSize;
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void setStageSize(Rectangle2D stageSize) {
-        this.stageSize = stageSize;
-    }
+
 
    //local -> local_setup
     @FXML
@@ -37,7 +35,6 @@ public class ModeController implements Initializable{
 
             LocalController controller = loader.getController();
             controller.setStage(stage);
-            controller.setStageSize(stageSize);
 
             stage.setTitle("Local Mode Configuration");
 
@@ -58,12 +55,27 @@ public class ModeController implements Initializable{
             OnlineModeController controller = loader.getController();
 
             controller.setStage(stage);
-            controller.setStageSize(stageSize);
             stage.setTitle("Online Mode");
 
 
         } catch (IOException e) {
             System.out.println("crush in loading online option board ");
+            e.printStackTrace();
+        }
+    }
+    //back->mode board
+    @FXML
+    public void handleBackBtn(ActionEvent actionEvent){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/menu.fxml"));
+        try {
+            Pane root = loader.load();
+            stage.getScene().setRoot(root);
+            MenuController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("Menu");
+
+        } catch (IOException e) {
+            System.out.println("crush in loading menu board ");
             e.printStackTrace();
         }
     }

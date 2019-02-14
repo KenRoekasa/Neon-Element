@@ -3,9 +3,9 @@ package controllers;
 import client.ClientBoard;
 import client.GameState;
 import client.GameStateGenerator;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 //For local_setup scene
-public class LocalController  {
+public class HostController {
     private GameState gameState;
     private Stage stage;
 
@@ -23,7 +23,7 @@ public class LocalController  {
 
     // directly go to local mode map
     @FXML
-    public void handleStartBtn(){
+    public void handleStartBtn(ActionEvent event){
         // create game rules
         // todo make this configurable
             gameState = GameStateGenerator.createDemoGamestate();
@@ -40,18 +40,18 @@ public class LocalController  {
     }
 
     @FXML
-    public void handleBackBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
+    public void handleBackBtn(ActionEvent event){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_setup.fxml"));
 
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-            ModeController modeController = loader.getController();
-            modeController.setStage(stage);
-            stage.setTitle("Local Mode");
+            OnlineSetUpController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("Online Setup");
 
         } catch (IOException e) {
-            System.out.println("crush in loading mode board ");
+            System.out.println("crush in loading online setup board ");
             e.printStackTrace();
         }
     }

@@ -43,7 +43,6 @@ public class Menu extends Application {
         /*pass current stage to following interactions*/
         MenuController menuController = loader.getController();
         menuController.setStage(primaryStage);
-        menuController.setStageSize(primaryScreenBounds);
         primaryStage.show();
 
     }

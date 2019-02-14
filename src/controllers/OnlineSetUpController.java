@@ -17,15 +17,9 @@ import java.util.ResourceBundle;
 
 public class OnlineSetUpController implements Initializable{
     private Stage stage;
-    private Rectangle2D stageSize;
-    private GameState gameState;
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public void setStageSize(Rectangle2D stageSize) {
-        this.stageSize = stageSize;
     }
 
     @FXML
@@ -34,7 +28,7 @@ public class OnlineSetUpController implements Initializable{
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-            LoadingController controller = new LoadingController();
+            HostController controller = loader.getController();
             controller.setStage(stage);
             stage.setTitle("Game IP");
 
@@ -53,7 +47,6 @@ public class OnlineSetUpController implements Initializable{
             stage.getScene().setRoot(root);
             ModeController modeController = loader.getController();
             modeController.setStage(stage);
-            modeController.setStageSize(stageSize);
             stage.setTitle("Mode");
         } catch (IOException e) {
             System.out.println("crush in loading mode board ");
