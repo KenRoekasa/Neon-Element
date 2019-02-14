@@ -1,6 +1,7 @@
 package client;
 
-import controllers.AttributeController;
+import controllers.HUDController;
+import controllers.PauseController;
 import controllers.PowerUpController;
 import debugger.Debugger;
 import entities.CollisionDetection;
@@ -11,7 +12,6 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -51,8 +51,8 @@ public class ClientBoard {
         try {
             hudPane = (Pane) loader.load();
             //get player attribute
-            AttributeController attributeController = loader.getController();
-            attributeController.initPlayer(gameState.getPlayer());
+            HUDController HUDController = loader.getController();
+            HUDController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -62,6 +62,10 @@ public class ClientBoard {
         }
 
         primaryStage.getScene().setRoot(hudPane);
+        HUDController controller =loader.getController();
+        System.out.println("HUDloader: "+controller.hashCode());
+        controller.setStage(primaryStage);
+        //controller.
 
         scene = primaryStage.getScene();
 

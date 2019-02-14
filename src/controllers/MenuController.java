@@ -29,7 +29,7 @@ public class MenuController implements Initializable{
 
     // play -> mode selection
     @FXML
-    public void handleBTNPlay(ActionEvent actionEvent) {
+    public void handlePlayBtn(ActionEvent actionEvent) {
 
       //select mode
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
@@ -48,27 +48,45 @@ public class MenuController implements Initializable{
     }
 
     @FXML
-    public void handleBTNOptions(ActionEvent actionEvent){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
+    public void handleSettingBtn(ActionEvent actionEvent){
+        //select mode
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
+
         try {
-            Parent root = (Parent)fxmlLoader.load();
+            Pane root = loader.load();
             stage.getScene().setRoot(root);
-            stage.setTitle("Options");
-            stage.show();
+            SettingController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("Mode");
+
         } catch (IOException e) {
-            System.out.println("crush in loading option board ");
+            System.out.println("crush in loading setting board ");
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @FXML
+    public void handleHelpBtn(ActionEvent actionEvent){
+        //select mode
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/help.fxml"));
+        try {
+            Pane root = loader.load();
+            stage.getScene().setRoot(root);
+            SettingController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("GUIDE");
+
+        } catch (IOException e) {
+            System.out.println("crush in loading setting board ");
             e.printStackTrace();
         }
 
     }
 
     @FXML
-    public void handleBTNHelp(ActionEvent actionEvent){
-
-    }
-
-    @FXML
-    public void handleBTNExit(ActionEvent actionEvent){
+    public void handleExitBtn(ActionEvent actionEvent){
         stage.close();
     }
 
