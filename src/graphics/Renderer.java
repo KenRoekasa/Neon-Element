@@ -56,7 +56,7 @@ public class Renderer {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
-        //DrawObjects.drawBackground(gc, stageSize, stars);
+        DrawObjects.drawBackground(gc, stageSize, stars);
 
 
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
