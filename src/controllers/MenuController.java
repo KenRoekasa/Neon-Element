@@ -1,7 +1,7 @@
 package controllers;
 
 import client.ClientBoard;
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
-    private GameState gameState;
+    private ClientGameState gameState;
 
     private Rectangle2D stageSize;
     @FXML
@@ -49,21 +49,23 @@ public class MenuController implements Initializable{
     @FXML
     public void handleBTNPlay(ActionEvent actionEvent) {
 
+        // create game rules
+        // todo make this configurable
+        ClientGameState g = GameStateGenerator.createDemoGamestate();
       //select mode
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
 
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
-            System.out.println("stage width"+stageSize.getWidth()+"stage height"+stageSize.getHeight());
+
+            stage.getScene().setRoot(root);
+
             ModeController modeController = loader.getController();
             modeController.setStage(stage);
             modeController.setStageSize(stageSize);
+
             stage.setTitle("Mode");
-            stage.setScene(scene);
-            stage.setFullScreen(true); //setFullScreen must set after setting scene
-            stage.show();
-            System.out.println(actionEvent.toString());
+
         } catch (IOException e) {
             System.out.println("crush in loading mode board ");
             e.printStackTrace();
@@ -76,10 +78,9 @@ public class MenuController implements Initializable{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/option_board.fxml"));
         try {
             Parent root = (Parent)fxmlLoader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
+
             stage.setTitle("Options");
-            stage.setScene(scene);
-            stage.setFullScreen(true);
             stage.show();
         } catch (IOException e) {
             System.out.println("crush in loading option board ");

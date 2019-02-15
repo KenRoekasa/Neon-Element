@@ -33,15 +33,13 @@ public class ModeController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/local_setup.fxml"));
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
+
             LocalController localController = loader.getController();
             localController.setStage(stage);
             localController.setStageSize(stageSize);
             stage.setTitle("Local Mode Configuration");
-            System.out.println("haja local");
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
+
         } catch (IOException e) {
             System.out.println("crush in loading local setup board ");
             e.printStackTrace();
@@ -55,18 +53,13 @@ public class ModeController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_option.fxml"));
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
             OnlineModeController onlineModeController = loader.getController();
 
             onlineModeController.setStage(stage);
             onlineModeController.setStageSize(stageSize);
             stage.setTitle("Online Mode");
-            System.out.println("hhhh online");
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
-            System.out.println("@modecontroller onlinebtn "+actionEvent.toString());
-            System.out.println(actionEvent.getTarget());
+
 
         } catch (IOException e) {
             System.out.println("crush in loading online option board ");

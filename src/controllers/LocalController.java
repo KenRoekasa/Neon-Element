@@ -1,7 +1,7 @@
 package controllers;
 
 import client.ClientBoard;
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 //For local_setup scene
 public class LocalController {
-    private GameState gameState;
+    private ClientGameState gameState;
     private Stage stage;
     private Rectangle2D stageSize;
 
@@ -50,14 +50,12 @@ public class LocalController {
 
         try {
             Pane root = loader.load();
-            Scene scene =new Scene(root,stageSize.getWidth(),stageSize.getHeight());
+            stage.getScene().setRoot(root);
             ModeController modeController = loader.getController();
             modeController.setStage(stage);
             modeController.setStageSize(stageSize);
             stage.setTitle("Local Mode");
-            stage.setScene(scene);
-            stage.setFullScreen(true);
-            stage.show();
+            
         } catch (IOException e) {
             System.out.println("crush in loading mode board ");
             e.printStackTrace();

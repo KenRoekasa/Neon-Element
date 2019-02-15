@@ -4,14 +4,11 @@ import calculations.AttackTimes;
 import enums.Action;
 import enums.Directions;
 import enums.Elements;
-import graphics.DrawPlayers;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,6 +18,8 @@ public abstract class Character extends PhysicsObject {
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
+
+
     protected Directions characterDirection;
     protected boolean isShielded;
     protected int movementSpeed;
@@ -29,28 +28,29 @@ public abstract class Character extends PhysicsObject {
     protected Action currentAction = Action.IDLE;
 
 
+    // Used in damage boost buffs
+    protected float damageMultiplier = 1;
+
+    public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
+
+
     // The time the ability was last used System.time
+    protected long[] timerArray = new long[10]; //TODO: Change the array length
 
-    protected long[] timerArray = new long[10];
 
-    //TODO: Change the access modifier
 
-    public boolean isColliding;
-    private Timer timer = new Timer();
-
-    private Rectangle attackHitbox = new Rectangle(width, width);
 
     private long currentActionStart;
 
     public void moveUp() {
         characterDirection = Directions.UP;
+        if (canUp) {
+            double yCheck = location.getY() - movementSpeed - width / 2f;
+            double xCheck = location.getX() - movementSpeed - width / 2f;
 
-        double yCheck = location.getY() - movementSpeed - width / 2f;
-        double xCheck = location.getX() - movementSpeed - width / 2f;
-
-        if (yCheck >= 0 && xCheck >= 0 && !isColliding) {
-            location = location.add(-movementSpeed, -movementSpeed);
-
+            if (yCheck >= 0 && xCheck >= 0) {
+                location = location.add(-movementSpeed, -movementSpeed);
+            }
         }
 
 
@@ -58,111 +58,104 @@ public abstract class Character extends PhysicsObject {
 
     public void moveDown(double boardWidth, double boardHeight) {
         characterDirection = Directions.DOWN;
+        if (canDown) {
 
-        double yCheck = location.getY() + movementSpeed + width / 2f;
-        double xCheck = location.getX() + movementSpeed + width / 2f;
+            double yCheck = location.getY() + movementSpeed + width / 2f;
+            double xCheck = location.getX() + movementSpeed + width / 2f;
 
-        if (yCheck <= boardHeight && xCheck <= boardWidth && !isColliding) {
-            location = location.add(movementSpeed, movementSpeed);
+            if (yCheck <= boardHeight && xCheck <= boardWidth) {
+                location = location.add(movementSpeed, movementSpeed);
+            }
         }
     }
 
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
+        if (canLeft) {
+            double xCheck = location.getX() - movementSpeed - width / 2f;
+            double yCheck = location.getY() + movementSpeed + width / 2f;
 
-        double xCheck = location.getX() - movementSpeed - width / 2f;
-        double yCheck = location.getY() + movementSpeed + width / 2f;
-
-        if (xCheck >= 0 && yCheck <= boardWidth && !isColliding) {
-            location = location.add(-movementSpeed, movementSpeed);
+            if (xCheck >= 0 && yCheck <= boardWidth) {
+                location = location.add(-movementSpeed, movementSpeed);
+            }
         }
     }
 
     public void moveRight(double boardWidth, double boardHeight) {
         characterDirection = Directions.RIGHT;
-        //check within bounds
+        if (canRight) {
+            //check within bounds
 
-        double xCheck = location.getX() + movementSpeed + width / 2f;
-        double yCheck = location.getY() - movementSpeed - width / 2f;
+            double xCheck = location.getX() + movementSpeed + width / 2f;
+            double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-        if (xCheck <= boardWidth && yCheck >= 0) {
-            location = location.add(movementSpeed, -movementSpeed);
+            if (xCheck <= boardWidth && yCheck >= 0) {
+                location = location.add(movementSpeed, -movementSpeed);
+            }
         }
     }
 
     public void moveUpCartesian() {
         characterDirection = Directions.UPCART;
+        if (canUpCart) {
 
-        if ((location.getY() - movementSpeed - width / 2f) >= 0) {
-            location = location.add(0, -(movementSpeed * 2));
-        } else {
-            location = new Point2D(location.getX(), 0 + width / 2f);
+            if ((location.getY() - movementSpeed - width / 2f) >= 0) {
+                location = location.add(0, -Math.sqrt(2 * movementSpeed * movementSpeed));
+
+            } else {
+                location = new Point2D(location.getX(), 0 + width / 2f);
+            }
         }
     }
 
     public void moveDownCartestian(double boardHeight) {
         characterDirection = Directions.DOWNCART;
+        if (canDownCart) {
 
-        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
-            location = location.add(0, (movementSpeed * 2));
-        } else {
-            location = new Point2D(location.getX(), boardHeight - width / 2f);
+            if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
+                location = location.add(0, Math.sqrt(2 * movementSpeed * movementSpeed));
+            } else {
+                location = new Point2D(location.getX(), boardHeight - width / 2f);
+            }
         }
 
     }
 
     public void moveLeftCartesian() {
         characterDirection = Directions.LEFTCART;
-
-        //check within bounds
-        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
-            location = location.add(-(movementSpeed * 2), 0);
-        } else {
-            location = new Point2D(0 + width / 2f, location.getY());
+        if (canLeftCart) {
+            //check within bounds
+            if ((location.getX() - movementSpeed - width / 2f) >= 0) {
+                location = location.add(-Math.sqrt(2 * movementSpeed * movementSpeed), 0);
+            } else {
+                location = new Point2D(0 + width / 2f, location.getY());
+            }
         }
 
     }
 
     public void moveRightCartesian(double boardWidth) {
         characterDirection = Directions.RIGHTCART;
+        if (canRightCart) {
 
-        //check within bounds
-        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
-            location = location.add((movementSpeed * 2), 0);
-        } else {
-            location = new Point2D(boardWidth - width / 2f, location.getY());
+            //check within bounds
+            if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
+                location = location.add(Math.sqrt(2 * movementSpeed * movementSpeed), 0);
+            } else {
+                location = new Point2D(boardWidth - width / 2f, location.getY());
+            }
         }
     }
 
     public void lightAttack() {
-
         if (currentAction == Action.IDLE) {
-
             currentAction = Action.LIGHT;
             currentActionStart = System.currentTimeMillis();
             long attackDuration = AttackTimes.getActionTime(currentAction);
             final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-
-
             int damage = 3;
-            //set attack hit box in front of the user
-            //TODO: Change hitbox location based on rotation too, so the hitbox is in front of the player
 
-
-            attackHitbox.setY(location.getY() + width);
-            Rotate.rotate(playerAngle.getAngle(), location.getX(), location.getY());
-            attackHitbox.getTransforms().addAll(playerAngle);
-
-
-            //If another Character is in the Hitbox calculate the damage they take
-            // How is damaged dealt throught the victim or the attacker or server
-//        for (Character p : otherCharacters) {
-//            if (attackHitbox.intersects(p.getBounds().getBoundsInParent())) {
-//                //TODO: What happens when you hit another Character
-//                //sends to server
-//            }
-//        }
 
             resetActionTimer(attackDuration, remainingAttackDuration);
         }
@@ -188,7 +181,7 @@ public abstract class Character extends PhysicsObject {
     public void chargeHeavyAttack() {
         // TODO handle charging
 
-        if (currentAction == Action.IDLE ){
+        if (currentAction == Action.IDLE) {
 
             currentAction = Action.CHARGE;
             currentActionStart = System.currentTimeMillis();
@@ -206,12 +199,10 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void heavyAttack() {
-
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-        //TODO: DO SOMETHING
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
@@ -219,42 +210,50 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
-        if(currentAction == Action.IDLE) {
+        if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             isShielded = true;
 
-
-//            long nextAvailableTime = (long) (timerArray[shieldID] + (shieldCD * 1000));
-//            if (System.currentTimeMillis() > nextAvailableTime) {
-//                //need code to unshield after a certain duration
-//
-//                // set last time spell was used
-//                timerArray[shieldID] = System.currentTimeMillis();
-//            }
         }
     }
 
-    public void unShield(){
-        if(currentAction == Action.BLOCK) {
+    public void unShield() {
+        if (currentAction == Action.BLOCK) {
             currentAction = Action.IDLE;
             isShielded = false;
         }
     }
 
     public void changeToFire() {
-        currentElement = Elements.FIRE;
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.FIRE;
+            }
+        }
     }
 
     public void changeToWater() {
-        currentElement = Elements.WATER;
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.WATER;
+            }
+        }
     }
 
     public void changeToEarth() {
-        currentElement = Elements.EARTH;
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.EARTH;
+            }
+        }
     }
 
     public void changeToAir() {
-        currentElement = Elements.AIR;
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.AIR;
+            }
+        }
     }
 
     public Rotate getPlayerAngle() {
@@ -267,7 +266,7 @@ public abstract class Character extends PhysicsObject {
 
 
     public void setLocation(Point2D location) {
-        this.location = location.add(width / 2f, width / 2f);
+        this.location = location;
     }
 
     public int getMovementSpeed() {
@@ -295,68 +294,24 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
-    public void isColliding(PhysicsObject e) {
-        isColliding = true;
-        double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
-        double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
-        switch (characterDirection) {
-            case UP:
-                // if on the right side of the box
-                // if player min x > e player max x
-                if (getBounds().getBoundsInParent().getMinX() >= e.getBounds().getBoundsInParent().getMaxX()) {
-                    location = location.add((width - xDiff) + movementSpeed, (width - xDiff) + movementSpeed);
-                    break;
-                } else {
-                    location = location.add((width - yDiff) + movementSpeed, (width - yDiff) + movementSpeed);
-                    break;
-                }
-            case DOWN:
-                location = location.add(-movementSpeed, -movementSpeed);
-                break;
-            case LEFT:
-                location = location.add(movementSpeed, -movementSpeed);
-                break;
-
-            case RIGHT:
-                location = location.add(-movementSpeed, movementSpeed);
-                break;
-            case UPCART:
-                location = location.add(0, (movementSpeed * 2));
-                break;
-            case DOWNCART:
-                location = location.add(0, -(movementSpeed * 2));
-                break;
-            case LEFTCART:
-                location = location.add((movementSpeed * 2), 0);
-                break;
-            case RIGHTCART:
-                location = location.add(-(movementSpeed * 2), 0);
-                break;
-            default:
-                break;
-
-        }
-
-    }
-
 
     // adds Health to the player
     public void addHealth(int amount) {
         health += amount;
-        if (health > 100) {
-            health = 100;
+        if (health > MAX_HEALTH) {
+            health = MAX_HEALTH;
         }
     }
 
     // Increase movement speed
     public void speedBoost() {
+        Timer timer = new Timer();
         movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
             //counts for 4 seconds then back to default movement speed
             (new Timer()).scheduleAtFixedRate(new TimerTask() {
-
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
                         movementSpeed = 5;
@@ -373,7 +328,24 @@ public abstract class Character extends PhysicsObject {
 
     // Doubles the players damage
     public void damageBoost() {
-
+        Timer timer = new Timer();
+        damageMultiplier = 2;
+        // if timer is not already running, run it
+        if (timerArray[damageBoostID] > 0) {
+            timerArray[damageBoostID] = 0;
+            //counts for 4 seconds then back to default movement speed
+            (new Timer()).scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    if (timerArray[damageBoostID] == damageBoostDur) {
+                        damageMultiplier = 1;
+                        timer.cancel();
+                    }
+                    timerArray[damageBoostID]++;
+                }
+            }, 0, 1000);
+        } else {
+            timerArray[damageBoostID] = 0;
+        }
 
     }
 
@@ -387,6 +359,36 @@ public abstract class Character extends PhysicsObject {
 
     public long getCurrentActionStart() {
         return currentActionStart;
+    }
+
+    public float getDamageMultiplier() {
+        return damageMultiplier;
+    }
+    public Rectangle getAttackHitbox() {
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        hitbox.getTransforms().add(rotate);
+        return hitbox;
+    }
+
+    public Circle getHeavyAttackHitbox() {
+        return new Circle(location.getX() + width, location.getY() + width, 200);
+    }
+
+    public Directions getCharacterDirection() {
+        return characterDirection;
+    }
+
+    //check if the action is off cooldown
+    private boolean checkCD(int id, float cooldown) {
+        // get the time it was last used and add the cooldown
+        long nextAvailableTime = (timerArray[id] + ((long) cooldown * 1000));
+        //check if the time calculated has passed
+        if (System.currentTimeMillis() > nextAvailableTime) {
+            timerArray[id] = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
 }

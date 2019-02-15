@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class GameStateGenerator {
 
-    public static GameState createDemoGamestate() {
+    public static ClientGameState createDemoGamestate() {
 
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
@@ -41,12 +41,9 @@ public class GameStateGenerator {
         PowerUp pus [] = {pu};
         enemies.add(new Enemy(players, objects, map));
         enemies.get(0).setLocation(new Point2D(140, 100));
-        
         //Add the enemies to the objects list
         objects.addAll(enemies);
-        
-
-        GameState gameState = new GameState(player, enemies, map, objects);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
         gameState.start();
 
         

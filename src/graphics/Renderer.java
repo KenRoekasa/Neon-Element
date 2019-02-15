@@ -1,7 +1,7 @@
 package graphics;
 
 import calculations.AttackTimes;
-import client.GameState;
+import client.ClientGameState;
 import debugger.Debugger;
 import entities.Character;
 import entities.Enemy;
@@ -11,11 +11,15 @@ import entities.PowerUp;
 import enums.Action;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import textures.TextureLoader;
 
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -26,11 +30,14 @@ public class Renderer {
     private Rectangle stageSize;
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
+    private HashMap<String, Image> textures;
+
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         this.stageSize = stageSize;
+        this.textures = TextureLoader.loadTextures();
 
         stars = DrawObjects.loadStars(stageSize);
 
@@ -39,12 +46,13 @@ public class Renderer {
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
         this.gc = gc;
         this.stageSize = stageSize;
+        this.textures = TextureLoader.loadTextures();
 
 
         stars = DrawObjects.loadStars(stageSize);
     }
 
-    public void render(Stage primaryStage, GameState gameState) {
+    public void render(Stage primaryStage, ClientGameState gameState) {
         // clear screen
         gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
@@ -54,7 +62,7 @@ public class Renderer {
         ISOConverter.applyRotationTransform(gc, rotationCenter);
 
         // draw map to screen
-        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
+        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), textures.get("background"));
 
         //sort based on proximity to the view (greater y is later)
         ArrayList<PhysicsObject> objects = sortDistance(gameState.getEntities());
@@ -77,7 +85,7 @@ public class Renderer {
     }
 
 
-    private void renderObject(PhysicsObject o, GameState gameState) {
+    private void renderObject(PhysicsObject o, ClientGameState gameState) {
 
         if (Objects.equals(o.getClass(), Player.class)) {
             Action status = gameState.getPlayer().getCurrentAction();
@@ -100,7 +108,7 @@ public class Renderer {
 
     }
 
-    private void ActionSwitch(Action status, Character character, Class charClass, GameState gameState){
+    private void ActionSwitch(Action status, Character character, Class charClass, ClientGameState gameState){
 
         long animationDuration;
         long remainingAnimDuration;
