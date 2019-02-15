@@ -11,6 +11,8 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with Server
 - Integrate with UI
 - Add cooldown to heavy attacks, how does it work currently?
+- Fix collision bug
+
 
 
 ## Ideas
@@ -18,5 +20,6 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Player will be tagged enemies, opponents, ai controlled etc...
 - Everything will happen client side first and then confirmed by the server. Which then syncs all the game clients to be like server game state
     - Will probably change
+- Change boundaries when colliding
 
 

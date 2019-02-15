@@ -25,7 +25,7 @@ public class Enemy extends Character {
 
 	public Enemy(Character [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
 
-		canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= true;
+		canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= false;
     	
 
         activeState = EnemyStates.IDLE;
@@ -271,9 +271,9 @@ public class Enemy extends Character {
 
 	public void moveTo(int powerupIndex, Point2D loc) {
 
-		System.out.println("enemy moving to powerup");
+//		System.out.println("enemy moving to powerup");
 		double distance = calcDistance(getLocation(), loc);
-		System.out.println("distance: " + distance);
+//		System.out.println("distance: " + distance);
 		while ((int) distance > 2) {
 
 			try {
@@ -306,8 +306,8 @@ public class Enemy extends Character {
 			if (!objects.get(powerupIndex).getLocation().equals(loc))
 				break;
 
-			System.out.println("stuck in move to pu loop");
-			System.out.println("distance: " + distance + "\nlocation: " + getLocation() + "\npu loc: " + loc);
+//			System.out.println("stuck in move to pu loop");
+//			System.out.println("distance: " + distance + "\nlocation: " + getLocation() + "\npu loc: " + loc);
 			distance = calcDistance(getLocation(), loc);
 		}
 	}
