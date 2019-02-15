@@ -19,12 +19,13 @@ class DrawStates {
 
         ISOConverter.applyAngleRotation(gc, angle, playerCenter);
 
-
+        gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
 
         gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
         //todo make better
 
+        gc.restore();
         gc.restore();
     }
 
@@ -35,6 +36,7 @@ class DrawStates {
         //todo get this from player class
         double attackRadius = 200;
 
+        gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
 
         //gc.strokeLine(stageCenter.getX() - 20, stageCenter.getY() - 20, stageCenter.getX() - 100, stageCenter.getY() - 100);
@@ -47,7 +49,7 @@ class DrawStates {
         //border
         gc.setGlobalAlpha(100);
         gc.strokeOval(playerCenter.getX() - attackRadius / 2f, playerCenter.getY() - attackRadius / 2f, attackRadius, attackRadius);
-
+        gc.restore();
 
     }
 
@@ -58,13 +60,14 @@ class DrawStates {
         long angle = (long) (player.getPlayerAngle().getAngle() + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
 
         ISOConverter.applyAngleRotation(gc, angle, playerCenter);
+        gc.save();
         gc.setFill(Color.BLUE);
 
         //todo make better
         //gc.fillOval(playerCenter.getX() - 10/2f, playerCenter.getY() - 10/2f - player.getWidth()/2f - 30, 10, 10);
         gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
 
-
+        gc.restore();
         gc.restore();
     }
 
@@ -74,10 +77,12 @@ class DrawStates {
 
         Stop[] stops1 = new Stop[]{new Stop(0, Color.LIGHTSTEELBLUE), new Stop(1, Color.BLUE)};
         RadialGradient lg1 = new RadialGradient(0, 0, 0.5, 0.5, 0.8, true, CycleMethod.NO_CYCLE, stops1);
+        gc.save();
         gc.setFill(lg1);
         gc.setGlobalAlpha(0.5);
 
         gc.fillOval(playerCenter.getX() - shieldWidth / 2, playerCenter.getY() - shieldWidth / 2, shieldWidth, shieldWidth);
+        gc.restore();
     }
 
 

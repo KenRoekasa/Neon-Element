@@ -15,29 +15,20 @@ import java.util.TimerTask;
 import static entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
+    protected final float MAX_HEALTH = 100;
+    public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
-
-
     protected Directions characterDirection;
     protected boolean isShielded;
     protected int movementSpeed;
-    protected final float MAX_HEALTH = 100;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
-
-
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
-
-    public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
-
-
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
-
-
 
 
     private long currentActionStart;
@@ -180,25 +171,26 @@ public abstract class Character extends PhysicsObject {
 
     public void chargeHeavyAttack() {
         // TODO handle charging
+        if (checkCD(heavyAttackID, heavyAttackCD)) {
+            if (currentAction == Action.IDLE) {
+                currentAction = Action.CHARGE;
+                currentActionStart = System.currentTimeMillis();
 
-        if (currentAction == Action.IDLE) {
+                (new Thread(() -> {
 
-            currentAction = Action.CHARGE;
-            currentActionStart = System.currentTimeMillis();
-
-            (new Thread(() -> {
-
-                try {
-                    Thread.sleep(AttackTimes.getActionTime(currentAction));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                heavyAttack();
-            })).start();
+                    try {
+                        Thread.sleep(AttackTimes.getActionTime(currentAction));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    heavyAttack();
+                })).start();
+            }
         }
     }
 
-    public void heavyAttack() {
+
+    private void heavyAttack() {
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
@@ -370,6 +362,7 @@ public abstract class Character extends PhysicsObject {
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
+
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
