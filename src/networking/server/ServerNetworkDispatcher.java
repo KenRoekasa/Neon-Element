@@ -126,6 +126,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
             DatagramPacket datagram = new DatagramPacket(data, data.length, this.groupAddress, Constants.BROADCASTING_PORT);
+            System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " <-- " + packet.getType());
             try {
                 this.multicastSocket.send(datagram);
             } catch (IOException e) {

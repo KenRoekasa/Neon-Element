@@ -77,8 +77,12 @@ public class ServerNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
 
+        if (packet == null) {
+            System.out.println("Invalid packet recieved");
+            return;
+        }
+        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
         switch(packet.getType()) {
             case HELLO:
             		System.out.println("recieved ");

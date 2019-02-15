@@ -46,11 +46,12 @@ public class ClientNetwork {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        
+
         if (packet == null) {
             System.out.println("Invalid packet recieved");
             return;
         }
+        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
