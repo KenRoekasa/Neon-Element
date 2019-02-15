@@ -25,6 +25,9 @@ public abstract class Character extends PhysicsObject {
     protected int movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
+    protected float killstreak = 0;
+    protected Character lastAttacker;
+
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -165,8 +168,9 @@ public abstract class Character extends PhysicsObject {
     }
 
 
-    public void removeHealth(float damage) {
+    public void removeHealth(float damage,Character attacker) {
         this.health -= damage;
+        this.lastAttacker = attacker;
     }
 
     public void chargeHeavyAttack() {
@@ -175,9 +179,7 @@ public abstract class Character extends PhysicsObject {
             if (currentAction == Action.IDLE) {
                 currentAction = Action.CHARGE;
                 currentActionStart = System.currentTimeMillis();
-
                 (new Thread(() -> {
-
                     try {
                         Thread.sleep(AttackTimes.getActionTime(currentAction));
                     } catch (InterruptedException e) {

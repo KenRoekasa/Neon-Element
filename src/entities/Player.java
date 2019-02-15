@@ -25,7 +25,7 @@ public class Player extends Character {
         //Default Fire
         currentElement = Elements.FIRE;
         width = objectSize.getObjectSize(type);
-        tag = type;
+
 
 
         for (int i = 0; i < timerArray.length; i++) {

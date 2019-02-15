@@ -6,11 +6,9 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 
 ## Tasks
 - Enemy class can only be ai not player controlled enemies. Sort this out 
-- Dealing damage to other players with damage calculation
 - Sends things to the server
 - Integrate with Server
 - Integrate with UI
-- Add cooldown to heavy attacks, how does it work currently?
 - Fix collision bug
 
 
@@ -20,6 +18,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Player will be tagged enemies, opponents, ai controlled etc...
 - Everything will happen client side first and then confirmed by the server. Which then syncs all the game clients to be like server game state
     - Will probably change
-- Change boundaries when colliding
+- Change boundaries when colliding so it will be a diagonal boundary
+
 
 
