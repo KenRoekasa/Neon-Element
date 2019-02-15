@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import entities.Character;
 import entities.Enemy;
-import entities.PhysicsObject;
 import entities.PowerUp;
 import enums.PowerUpType;
 
@@ -17,7 +16,7 @@ public class EnemyFSM {
 		Character nearestPlayer = enemy.findNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 
-		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=-1 && enemyHP<maxHP) ) {
+		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.HEAL) !=-1 && enemyHP<maxHP) ) {
 			if(!enemy.isShielded())
 				enemy.shield();
 			enemy.setState(EnemyStates.FIND_HEALTH);
