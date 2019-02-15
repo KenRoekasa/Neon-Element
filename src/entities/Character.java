@@ -198,7 +198,7 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-    public void heavyAttack() {
+    private void heavyAttack() {
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);

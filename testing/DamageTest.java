@@ -102,7 +102,7 @@ public class DamageTest {
                 }
             }
         })).start();
-        player.heavyAttack();
+        player.chargeHeavyAttack();
         assertEquals(90, enemy.getHealth(), 0);
     }
 
