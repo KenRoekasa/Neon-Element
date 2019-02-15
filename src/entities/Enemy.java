@@ -316,6 +316,7 @@ public class Enemy extends Character {
 
 		Point2D playerLoc = player.getLocation();
 		double distance = calcDistance(getLocation(), playerLoc);
+		setPlayerAngle(new Rotate(calcAngle(getLocation(),player.getLocation())));
 
 		while ((int) distance - getWidth() > getWidth()) {
 
