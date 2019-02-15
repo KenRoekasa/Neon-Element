@@ -21,6 +21,7 @@ public class GameClient extends Thread {
     public void run() {
         this.running = true;
 
+        this.getDispatcher().sendConnect();
         while(this.running) {
             this.doLocationState();
 

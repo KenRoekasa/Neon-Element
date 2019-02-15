@@ -56,6 +56,9 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
             this.connections.add(playerConn);
             this.gameState.getPlayers().add(player);
+            
+            Packet connect = new BroadCastConnectedUserPacket(playerId);
+            this.broadcast(connect);
 	    }
 
         Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
