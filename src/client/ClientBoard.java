@@ -17,6 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import server.controllers.PowerUpController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -96,7 +97,8 @@ public class ClientBoard {
 
 			}
 		}.start();
-
+		Thread puController = new Thread(new PowerUpController(gameState.getObjects()));
+		puController.start();
 	}
 
 	private void initialiseInput(Scene theScene, Renderer renderer) {
