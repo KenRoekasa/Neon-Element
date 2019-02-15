@@ -26,11 +26,11 @@ public class ClientGameState {
     }
 
     public void start() {
-    	for (Character enemy : enemies) {
-    	    if (enemy.getTag() == ObjectType.ENEMY) {
-    	        ((Enemy) enemy).startBasicAI();
-    	    }
-		}
+//    	for (Character enemy : enemies) {
+//    	    if (enemy.getTag() == ObjectType.ENEMY) {
+//    	        ((Enemy) enemy).startBasicAI();
+//    	    }
+//		}
     }
     
     public ArrayList<PhysicsObject> getEntities(){
