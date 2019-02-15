@@ -12,7 +12,6 @@ import static entities.CooldownValues.*;
 
 public class Player extends Character {
 
-    private int id;
 
     //COOLDOWNS
     //The number of seconds for change state to go off cooldown
@@ -22,6 +21,7 @@ public class Player extends Character {
 
 
     public Player(ObjectType type) {
+        super();
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
@@ -37,15 +37,6 @@ public class Player extends Character {
         for(int i = 0; i < timerArray.length; i++){
             timerArray[i] = System.currentTimeMillis() - 10*1000;
         }
-    }
-
-    public Player(int id) {
-        super();
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override

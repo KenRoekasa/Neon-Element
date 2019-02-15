@@ -15,6 +15,8 @@ import java.util.TimerTask;
 import static entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
+    protected int id;
+    
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
@@ -40,6 +42,21 @@ public abstract class Character extends PhysicsObject {
 
 
     private long currentActionStart;
+    
+    private static int nextId = 1;
+    
+
+    Character() {
+        this.id = Character.nextId++;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void moveUp() {
         characterDirection = Directions.UP;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import entities.Player;
 import entities.PowerUp;
+import enums.ObjectType;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
@@ -17,8 +18,7 @@ import networking.NetworkDispatcher;
 public class ServerNetworkDispatcher extends NetworkDispatcher {
     
     private ServerGameState gameState;
-    
-    private int nextPlayerId = 0;
+
     private ArrayList<PlayerConnection> connections;
 
 	protected ServerNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ServerGameState gameState) {
@@ -42,6 +42,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	    // Allow connection if the game has not started yet and we have space for more players    
 	    ConnectAckPacket.Status status;
+	    int playerId = 0;
 	    if (isStarted) {
 	        status = ConnectAckPacket.Status.ERR_GAME_STARTED;
 	    } else if(!hasSpace) {
@@ -49,15 +50,15 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	    } else {
 	        status = ConnectAckPacket.Status.SUC_CONNECTED;
 
-            PlayerConnection playerConn = new PlayerConnection(this.nextPlayerId, packet.getIpAddress(), packet.getPort());
-            Player player = new Player(this.nextPlayerId);
-            this.nextPlayerId++;
+	        Player player = new Player(ObjectType.PLAYER);
+	        playerId = player.getId();
+            PlayerConnection playerConn = new PlayerConnection(playerId, packet.getIpAddress(), packet.getPort());
 
             this.connections.add(playerConn);
             this.gameState.getPlayers().add(player);
 	    }
 
-        Packet response = new ConnectAckPacket(status, packet.getIpAddress(), packet.getPort());
+        Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
         this.send(response);
         
         if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
