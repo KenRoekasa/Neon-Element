@@ -66,7 +66,7 @@ public class PowerUp extends PhysicsObject {
         this.location = location;
     }
 
-    public void activatePowerUp(Player player) {
+    public void activatePowerUp(entities.Character player) {
         if (isActive) {
             System.out.println("Power up is picked up");
             switch (type) {
