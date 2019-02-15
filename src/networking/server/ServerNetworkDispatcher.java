@@ -92,13 +92,18 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		//Packet response = new BroadCastConnectedUserPacket(new Buffer());
 	//	this.send(response);
 	}
-	
-	public void broadcastNewPowerUp(PowerUp powerUp) {
+    
+    public void broadcastNewPowerUp(PowerUp powerUp) {
         double x = powerUp.getLocation().getX();
         double y = powerUp.getLocation().getY();
-	    Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
-	    this.broadcast(packet);
-	}
+        Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
+        this.broadcast(packet);
+    }
+    
+    public void broadcastLocationState(int playerId, double x, double y) {
+        Packet packet = new BroadCastLocationStatePacket(playerId, x, y);
+        this.broadcast(packet);
+    }
 
 	protected void receiveSpellCast(CastSpellPacket packet) {
 		// Packet response = new SpellCas

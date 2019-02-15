@@ -42,9 +42,10 @@ public class GameServer extends Thread {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
+            this.sendLocations();
 
             try {
-                Thread.sleep(500); // Every half second
+                Thread.sleep(1000l); // Every second
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -223,6 +224,18 @@ public class GameServer extends Thread {
             }
             for (PhysicsObject o : gameState.getObjects()) {
                 o.update();
+            }
+        }
+    }
+    
+    private void sendLocations() {
+        synchronized (gameState.getPlayers()) {
+            for (Player p : gameState.getPlayers()) {
+                Point2D location = p.getLocation();
+                double x = location.getX();
+                double y = location.getY();
+
+                this.network.getDispatcher().broadcastLocationState(p.getId(), x, y);
             }
         }
     }
