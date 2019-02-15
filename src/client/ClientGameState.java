@@ -1,16 +1,12 @@
 package client;
 
 import engine.GameState;
-import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
-import entities.Character;
-import enums.ObjectType;
 import javafx.scene.shape.Rectangle;
 
 
 import java.util.ArrayList;
-
 
 public class ClientGameState extends GameState {
     private Player player;
@@ -20,21 +16,15 @@ public class ClientGameState extends GameState {
     private ArrayList<PhysicsObject> objects;
 
 
-    public ClientGameState(Player player, ArrayList<Player> enemies2, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ClientGameState(Player player, ArrayList<Player> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
         this.player = player;
-        this.enemies = enemies2;
+        this.enemies = enemies;
         this.map = map;
         this.objects = objects;
         
     }
 
-    public void start() {
-    	for (Character enemy : enemies) {
-    	    if (enemy.getTag() == ObjectType.ENEMY) {
-    	        ((Enemy) enemy).startBasicAI();
-    	    }
-		}
-    }
+ 
     
     public ArrayList<PhysicsObject> getEntities(){
 

@@ -100,6 +100,11 @@ public class ClientBoard {
 		Thread puController = new Thread(new PowerUpController(gameState.getObjects()));
 		puController.start();
 	}
+	
+	 public void startGame() {
+	        this.gameClient.start();
+	    }
+
 
 	private void initialiseInput(Scene theScene, Renderer renderer) {
 		// set input controls

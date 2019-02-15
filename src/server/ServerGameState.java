@@ -12,11 +12,11 @@ public class ServerGameState extends GameState {
 
     private boolean isStarted;
     private ArrayList<Player> players;
-    private ArrayList<Enemy> ais;
+    private ArrayList<Player> ais;
 
     private ArrayList<PhysicsObject> objects;
 
-    public ServerGameState(ArrayList<Player> players, ArrayList<Enemy> ais, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ServerGameState(ArrayList<Player> players, ArrayList<Player> ais, Rectangle map, ArrayList<PhysicsObject> objects){
         this.players = players;
         this.ais = ais;
         this.map = map;
@@ -24,11 +24,11 @@ public class ServerGameState extends GameState {
     }
 
 
-    public ArrayList<Enemy> getAis() {
+    public ArrayList<Player> getAis() {
         return ais;
     }
 
-    public void setAis(ArrayList<Enemy> ais) {
+    public void setAis(ArrayList<Player> ais) {
         this.ais = ais;
     }
 

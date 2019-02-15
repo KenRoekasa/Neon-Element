@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import entities.CollisionDetection;
-import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
@@ -180,9 +179,9 @@ public class GameServer extends Thread {
 
 
                 // Loop through all enemies to detect hit detection
-                ArrayList<Enemy> enemies = gameState.getAis();
+                ArrayList<Player> enemies = gameState.getAis();
                 synchronized (enemies) {
-                    for (Iterator<Enemy> itr = enemies.iterator(); itr.hasNext(); ) {
+                    for (Iterator<Player> itr = enemies.iterator(); itr.hasNext(); ) {
                         PhysicsObject e = itr.next();
                         //Attack Collision
                         //if player is light attacking
@@ -190,7 +189,7 @@ public class GameServer extends Thread {
                             if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                                 // e takes damage
                                 // this will have to change due to Player being other controlled player when Enemy is when the player is an ai
-                                Enemy enemy = (Enemy) e;
+                                Player enemy = (Player) e;
                                 // TODO: For now its takes 3 damage, change later
                                 enemy.removeHealth(3);
                                 player.setCurrentAction(Action.IDLE);
@@ -202,7 +201,7 @@ public class GameServer extends Thread {
                         if (player.getCurrentAction() == Action.HEAVY) {
                             if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                                 // e takes damage
-                                Enemy enemy = (Enemy) e;
+                                Player enemy = (Player) e;
                                 // TODO: For now its takes 10 damage, change later
                                 enemy.removeHealth(10);
                                 player.setCurrentAction(Action.IDLE);

@@ -4,7 +4,6 @@ import calculations.AttackTimes;
 import client.ClientGameState;
 import debugger.Debugger;
 import entities.Character;
-import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
@@ -98,7 +97,7 @@ public class Renderer {
         } else if (o.getTag() == ObjectType.ENEMY) {
             Character enemy = (Character) o;
             Action status = enemy.getCurrentAction();
-            Class charClass = Enemy.class;
+            Class charClass = Player.class;
 
             DrawEnemies.drawEnemy(gc, stageSize, enemy, gameState.getPlayer());
             ActionSwitch(status, enemy, charClass, gameState);
@@ -122,7 +121,7 @@ public class Renderer {
                 if(Objects.equals(charClass, Player.class)) {
                     DrawClientPlayer.drawLightAttack(gc, (Player)character, remainingAnimDuration, animationDuration, stageSize);
                 } else {
-                    DrawEnemies.drawLightAttack(gc, (Enemy)character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    DrawEnemies.drawLightAttack(gc, (Player)character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
                 break;
             case CHARGE:
@@ -133,7 +132,7 @@ public class Renderer {
 
                     DrawClientPlayer.drawHeavyAttackCharge(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 } else {
-                    DrawEnemies.drawHeavyAttackCharge(gc, (Enemy) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    DrawEnemies.drawHeavyAttackCharge(gc, (Player) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
                 break;
             case HEAVY:
@@ -143,7 +142,7 @@ public class Renderer {
                 if(Objects.equals(charClass, Player.class)) {
                     DrawClientPlayer.drawHeavyAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 } else {
-                    DrawEnemies.drawHeavyAttack(gc, (Enemy) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    DrawEnemies.drawHeavyAttack(gc, (Player) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
 
                 break;
@@ -151,7 +150,7 @@ public class Renderer {
                 if(Objects.equals(charClass, Player.class)) {
                     DrawClientPlayer.drawShield(gc, gameState.getPlayer(), stageSize);
                 } else {
-                    DrawEnemies.drawShield(gc, (Enemy) character, gameState.getPlayer(), stageSize);
+                    DrawEnemies.drawShield(gc, (Player) character, gameState.getPlayer(), stageSize);
                 }
         }
     }
