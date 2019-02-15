@@ -1,6 +1,6 @@
 package debugger;
 
-import client.GameState;
+import client.ClientGameState;
 import entities.Character;
 import entities.Enemy;
 import entities.PhysicsObject;
@@ -45,7 +45,7 @@ public class Debugger {
         }
     }
 
-    public void simpleGSDebugger(GameState gameState, Debugger debugger) {
+    public void simpleGSDebugger(ClientGameState gameState, Debugger debugger) {
         debugger.add(gameState.getPlayer().toString(), 4);
 
         for (Enemy enemy: gameState.getEnemies()){
@@ -56,7 +56,7 @@ public class Debugger {
     }
 
 
-    public void gameStateDebugger(GameState gameState, Rectangle stage){
+    public void gameStateDebugger(ClientGameState gameState, Rectangle stage){
         Point2D stageCenter = new Point2D(stage.getWidth()/2, stage.getHeight()/2 + 20);
         printPlayerInfo(gameState.getPlayer(), stageCenter);
 

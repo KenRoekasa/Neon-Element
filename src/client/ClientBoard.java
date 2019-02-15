@@ -1,10 +1,7 @@
 package client;
 
 import controllers.HUDController;
-import controllers.PauseController;
-import controllers.PowerUpController;
 import calculations.DamageCalculation;
-import controllers.AttributeController;
 import debugger.Debugger;
 import entities.*;
 import enums.Action;
@@ -13,6 +10,7 @@ import graphics.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

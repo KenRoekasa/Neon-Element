@@ -1,7 +1,7 @@
 package controllers;
 
 import client.ClientBoard;
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 //For local_setup scene
 public class JoinController {
-    private GameState gameState;
+    private ClientGameState gameState;
     private Stage stage;
 
     public void setStage(Stage stage) {
