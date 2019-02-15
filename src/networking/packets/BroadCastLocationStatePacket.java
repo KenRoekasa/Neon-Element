@@ -32,6 +32,10 @@ public class BroadCastLocationStatePacket extends Packet {
         this.y = y;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public double getX() {
         return this.x;
     }

@@ -57,6 +57,7 @@ public class ClientNetwork {
             case GAME_START_BCAST:
                 break;
             case LOCATION_STATE_BCAST:
+                this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);
             		break;
             case DISCONNECT_BCAST:
             		break;

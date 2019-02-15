@@ -9,13 +9,18 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 public class ClientGameState {
+    /** Me */
     private Player player;
+    /** Opponents */
+    private ArrayList<Player> players;
+    /** AIs */
     private ArrayList<Enemy> enemies;
     private Rectangle map;
     private ArrayList<PhysicsObject> objects;
 
-    public ClientGameState(Player player, ArrayList<Enemy> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ClientGameState(Player player, ArrayList<Player> players, ArrayList<Enemy> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
         this.player = player;
+        this.players = players;
         this.enemies = enemies;
         this.map = map;
         this.objects = objects;
@@ -58,6 +63,10 @@ public class ClientGameState {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     public ArrayList<PhysicsObject> getObjects() {
