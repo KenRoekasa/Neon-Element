@@ -40,6 +40,10 @@ public class Enemy extends Character {
         movementSpeed = 2;
         isShielded = false;
         width = objectSize.getObjectSize(ObjectType.ENEMY);
+        
+        for (int i = 0; i < timerArray.length; i++) {
+            timerArray[i] = System.currentTimeMillis() - 10 * 1000;
+        }
     }
 
 	private ArrayList<PowerUp> getPowerups() {
@@ -182,19 +186,19 @@ public class Enemy extends Character {
 	public void findSpeed() {
 		int index = findNearestPowerUp(PowerUpType.SPEED);
 		if (index != -1)
-			moveTo(index, objects.get(index).getLocation());
+			moveTo(index, getPowerups().get(index).getLocation());
 	}
 
 	public void findDamage() {
 		int index = findNearestPowerUp(PowerUpType.DAMAGE);
 		if (index != -1)
-			moveTo(index, objects.get(index).getLocation());
+			moveTo(index, getPowerups().get(index).getLocation());
 	}
 
 	public void findHealth() {
 		int index = findNearestPowerUp(PowerUpType.HEAL);
 		if (index != -1)
-			moveTo(index, objects.get(index).getLocation());
+			moveTo(index, getPowerups().get(index).getLocation());
 	}
 
 	public void aggressiveAttack() {
@@ -271,9 +275,14 @@ public class Enemy extends Character {
 
 	public void moveTo(int powerupIndex, Point2D loc) {
 
-		System.out.println("enemy moving to powerup");
+		//System.out.println("enemy moving to powerup: "+getPowerups().get(powerupIndex).getType());
 		double distance = calcDistance(getLocation(), loc);
-		System.out.println("distance: " + distance);
+		//System.out.println("distance: " + distance);
+
+		for(PowerUp pu:getPowerups())
+			//System.out.println(pu.getType());
+
+		
 		while ((int) distance > 2) {
 
 			try {
@@ -306,8 +315,8 @@ public class Enemy extends Character {
 			if (!objects.get(powerupIndex).getLocation().equals(loc))
 				break;
 
-			System.out.println("stuck in move to pu loop");
-			System.out.println("distance: " + distance + "\nlocation: " + getLocation() + "\npu loc: " + loc);
+			//System.out.println("stuck in move to pu loop");
+			//System.out.println("distance: " + distance + "\nlocation: " + getLocation() + "\npu loc: " + loc);
 			distance = calcDistance(getLocation(), loc);
 		}
 	}
@@ -316,34 +325,47 @@ public class Enemy extends Character {
 
 		Point2D playerLoc = player.getLocation();
 		double distance = calcDistance(getLocation(), playerLoc);
-		setPlayerAngle(new Rotate(calcAngle(getLocation(),player.getLocation())));
+		
 
 		while ((int) distance - getWidth() > getWidth()) {
-
+			
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			setPlayerAngle(new Rotate(calcAngle(getLocation(),player.getLocation())));
 
-			if (isAbove(playerLoc))
+			if (isAbove(playerLoc)) {
 				moveUp();
-			else if (isUnder(playerLoc))
+			}
+			else if (isUnder(playerLoc)) {
+			//	System.out.println("going down");
 				moveDown(map.getWidth(), map.getHeight());
-			if (isLeftOf(playerLoc))
+			}if (isLeftOf(playerLoc)) {
+				//System.out.println("going left");
 				moveLeft(map.getWidth());
-			else if (isRightOf(playerLoc))
+			}else if (isRightOf(playerLoc)) {
+				//System.out.println("going right");
 				moveRight(map.getWidth(), map.getHeight());
-			else if (higherY(playerLoc))
+			}else if (isAbove(playerLoc)) {	
+				//System.out.println("going up");
+				moveUp();
+			}/*else if (higherY(playerLoc)) {
+				System.out.println("going up cart");
 				moveUpCartesian();
-			else if (!higherY(playerLoc))
+			}else if (!higherY(playerLoc)) {
+				System.out.println("going down cart");
 				moveDownCartestian(map.getWidth());
-			else if (higherX(playerLoc))
+			}else if (higherX(playerLoc)) {
+				System.out.println("going left cart");
 				moveLeftCartesian();
-			else if (!higherX(playerLoc))
+			}else if (!higherX(playerLoc)) {
+				System.out.println("going right cart");
 				moveRightCartesian(map.getWidth());
-
+			}*/
 			playerLoc = player.getLocation();
 			distance = calcDistance(getLocation(), playerLoc);
 		}
