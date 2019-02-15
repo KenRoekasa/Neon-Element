@@ -19,21 +19,21 @@ public class ServerNetwork extends Thread {
 	//private UUID severUID = UUID.randomUUID();
 
     protected boolean running;
-    
+
     protected DatagramSocket socket;
 
     protected MulticastSocket multicastSocket;
-    
+
     protected ServerNetworkDispatcher dispatcher;
 
     public ServerNetwork(ServerGameState gameState) {
         InetAddress groupAddress = null;
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
-            
+
             // Multicast socket
             groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
-            socket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
+            multicastSocket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
         } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -45,12 +45,8 @@ public class ServerNetwork extends Thread {
             e.printStackTrace();
         }
 
-        this.running = true;
         this.dispatcher = new ServerNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
-    
-    
-    
 
     public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
@@ -62,14 +58,13 @@ public class ServerNetwork extends Thread {
     }
 
     public void run() {
+        this.running = true;
         while (this.running) {
             byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
 
             DatagramPacket packet = new DatagramPacket(data, data.length);
-            
 
             try {
-
                 this.socket.receive(packet);
                 System.out.println("recieved pac");
             } catch (IOException e) {
@@ -82,8 +77,11 @@ public class ServerNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
 
+        if (packet == null) {
+            System.out.println("Invalid packet recieved");
+            return;
+        }
 
         switch(packet.getType()) {
             case HELLO:

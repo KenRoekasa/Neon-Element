@@ -23,8 +23,13 @@ public class GameClient extends Thread {
 
         while(this.running) {
             this.doLocationState();
-            
-            Thread.yield();
+
+            try {
+                Thread.sleep(1000l); // Every 1 second
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         this.network.close();

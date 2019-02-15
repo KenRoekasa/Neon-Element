@@ -414,9 +414,9 @@ public class ClientBoard {
 		}
 
 		// Loop through all enemies to detect hit detection
-		ArrayList<Enemy> enemies = gameState.getEnemies();
+		ArrayList<Player> enemies = gameState.getEnemies();
 		synchronized (enemies) {
-			for (Iterator<Enemy> itr = enemies.iterator(); itr.hasNext();) {
+			for (Iterator<Player> itr = enemies.iterator(); itr.hasNext();) {
 				PhysicsObject e = itr.next();
 				// Attack Collision
 				// if player is light attacking
@@ -426,7 +426,7 @@ public class ClientBoard {
 						// e takes damage
 						// this will have to change due to Player being other controlled player when
 						// Enemy is when the player is an ai
-						Enemy enemy = (Enemy) e;
+						Player enemy = (Player) e;
 						enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy));
 						gameState.getPlayer().setCurrentAction(Action.IDLE);
 						System.out.println("hit");
@@ -439,7 +439,7 @@ public class ClientBoard {
 							gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(),
 							e.getBounds().getBoundsInParent())) {
 						// e takes damage
-						Enemy enemy = (Enemy) e;
+						Player enemy = (Player) e;
 						// TODO: For now its takes 10 damage, change later
 						enemy.removeHealth(10);
 						gameState.getPlayer().setCurrentAction(Action.IDLE);
@@ -451,4 +451,5 @@ public class ClientBoard {
 
 		}
 	}
+
 }

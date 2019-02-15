@@ -4,27 +4,35 @@ import engine.GameState;
 import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
+import entities.Character;
+import enums.ObjectType;
 import javafx.scene.shape.Rectangle;
 
 
 import java.util.ArrayList;
 
+
 public class ClientGameState extends GameState {
     private Player player;
-    private ArrayList<Enemy> enemies;
+  
+    private ArrayList<Player> enemies;
+    private Rectangle map;
+    private ArrayList<PhysicsObject> objects;
 
 
-    public ClientGameState(Player player, ArrayList<Enemy> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ClientGameState(Player player, ArrayList<Player> enemies2, Rectangle map, ArrayList<PhysicsObject> objects){
         this.player = player;
-        this.enemies = enemies;
+        this.enemies = enemies2;
         this.map = map;
         this.objects = objects;
         
     }
 
     public void start() {
-    	for (Enemy enemy : enemies) {
-        	enemy.startBasicAI();
+    	for (Character enemy : enemies) {
+    	    if (enemy.getTag() == ObjectType.ENEMY) {
+    	        ((Enemy) enemy).startBasicAI();
+    	    }
 		}
     }
     
@@ -36,11 +44,20 @@ public class ClientGameState extends GameState {
         return ents;
     }
 
-    public ArrayList<Enemy> getEnemies() {
+
+    public Rectangle getMap() {
+        return map;
+    }
+
+    public void setMap(Rectangle map) {
+        this.map = map;
+    }
+
+    public ArrayList<Player> getEnemies() {
         return enemies;
     }
 
-    public void setEnemies(ArrayList<Enemy> enemies) {
+    public void setEnemies(ArrayList<Player> enemies) {
         this.enemies = enemies;
     }
 

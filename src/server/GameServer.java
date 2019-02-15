@@ -33,6 +33,7 @@ public class GameServer extends Thread {
 
     public void run() {
         this.running = true;
+        this.network.start();
 
         Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects(), this.network.getDispatcher()));
         powerUpController.start();
@@ -41,8 +42,14 @@ public class GameServer extends Thread {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
-            
-            Thread.yield();
+            this.sendLocations();
+
+            try {
+                Thread.sleep(1000l); // Every second
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         this.network.close();
@@ -217,6 +224,18 @@ public class GameServer extends Thread {
             }
             for (PhysicsObject o : gameState.getObjects()) {
                 o.update();
+            }
+        }
+    }
+    
+    private void sendLocations() {
+        synchronized (gameState.getPlayers()) {
+            for (Player p : gameState.getPlayers()) {
+                Point2D location = p.getLocation();
+                double x = location.getX();
+                double y = location.getY();
+
+                this.network.getDispatcher().broadcastLocationState(p.getId(), x, y);
             }
         }
     }

@@ -11,36 +11,44 @@ public class BroadCastLocationStatePacket extends Packet {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // int + int
-    // 4   + 4   = 8 bytes
+    // int + double + double
+    // 4   + 8      + 8      = 20 bytes
 
-    private int x;
-    private int y;
+    private int id;
+    private double x;
+    private double y;
 
     protected BroadCastLocationStatePacket(ByteBuffer buffer) {
         super(PacketDirection.INCOMING, PacketType.LOCATION_STATE_BCAST);
-        this.x = buffer.getInt();
-        this.y = buffer.getInt();
+        this.id = buffer.getInt();
+        this.x = buffer.getDouble();
+        this.y = buffer.getDouble();
     }
 
-    public BroadCastLocationStatePacket(int x, int y) {
+    public BroadCastLocationStatePacket(int id, double x, double y) {
         super(PacketDirection.OUTGOING, PacketType.LOCATION_STATE_BCAST);
+        this.id = id;
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public int getId() {
+        return this.id;
+    }
+
+    public double getX() {
         return this.x;
     }
 
-    public int getY() {
+    public double getY() {
         return this.y;
     }
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
-        buffer.putInt(this.x);
-        buffer.putInt(this.y);
+        buffer.putInt(this.id);
+        buffer.putDouble(this.x);
+        buffer.putDouble(this.y);
         return Packet.getBytesFromBuffer(buffer);
     }
 

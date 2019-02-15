@@ -23,6 +23,7 @@ public abstract class NetworkDispatcher {
 
     public void close() {
         this.socket.close();
+        this.multicastSocket.close();
     }
 
     protected void send(Packet packet) {
