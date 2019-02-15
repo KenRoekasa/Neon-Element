@@ -1,6 +1,0 @@
-package ai;
-
-public enum BasicEnemyStates {
-	
-	IDLE, ATTACK, AGGRESSIVE_ATTACK, ESCAPE, FIND_HEALTH, FIND_DAMAGE, FIND_SPEED
-}

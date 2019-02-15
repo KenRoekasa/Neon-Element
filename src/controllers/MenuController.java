@@ -1,5 +1,8 @@
 package controllers;
 
+import client.ClientBoard;
+import client.ClientGameState;
+import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +25,7 @@ import java.util.ResourceBundle;
 
 public class MenuController implements Initializable{
     private Stage stage;
+    private ClientGameState gameState;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -31,6 +35,9 @@ public class MenuController implements Initializable{
     @FXML
     public void handlePlayBtn(ActionEvent actionEvent) {
 
+        // create game rules
+        // todo make this configurable
+        ClientGameState g = GameStateGenerator.createDemoGamestate();
       //select mode
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
 

@@ -19,9 +19,6 @@ public class PlayerTest {
         assertTrue(player.isAlive());
     }
 
-    private void assertTrue(boolean alive) {
-    }
-
     @Test
     public void playerMaxHealthIs100() {
         Player player = new Player(ObjectType.PLAYER);
@@ -41,5 +38,12 @@ public class PlayerTest {
         newLocation = newLocation.add(player.getMovementSpeed(),player.getMovementSpeed());
         player.moveDown(1500,1500);
         assertEquals(newLocation,player.getLocation() );
+    }
+
+    @Test
+    public void takeDamage(){
+        Player player = new Player(ObjectType.PLAYER);
+        player.removeHealth(10);
+        assertEquals(90,player.getHealth(),0);
     }
 }

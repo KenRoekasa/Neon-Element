@@ -1,7 +1,7 @@
 package controllers;
 
 import client.ClientBoard;
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 
 public class OnlineSetUpController implements Initializable{
     private Stage stage;
+    private Rectangle2D stageSize;
+    private ClientGameState gameState;
 
     public void setStage(Stage stage) {
         this.stage = stage;
