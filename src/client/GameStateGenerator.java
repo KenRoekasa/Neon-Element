@@ -45,7 +45,7 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+        ClientGameState gameState = new ClientGameState(player, new ArrayList<Player>(), enemies, map, objects);
         gameState.start();
 
         return gameState;
