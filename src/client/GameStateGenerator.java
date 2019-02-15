@@ -40,7 +40,7 @@ public class GameStateGenerator {
         ArrayList<Character> enemies = new ArrayList<>();
         Player players[] = {player};
         PowerUp pus [] = {pu};
-        enemies.add(new Enemy(players, pus, map));
+        enemies.add(new Player(ObjectType.ENEMY));
         enemies.get(0).setLocation(new Point2D(140, 100));
         
         //Add the enemies to the objects list
