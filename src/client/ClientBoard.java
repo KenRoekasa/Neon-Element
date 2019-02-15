@@ -45,6 +45,7 @@ public class ClientBoard {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
+        this.gameClient = new GameClient(gameState);
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
@@ -87,9 +88,6 @@ public class ClientBoard {
         initialiseInput(scene, renderer);
 
         beginClientLoop(renderer);
-
-        //this.gameClient = new GameClient(gameState);
-        //gameClient.run();
     }
 
     private void beginClientLoop(Renderer renderer) {
@@ -133,5 +131,9 @@ public class ClientBoard {
 
     private void clientLoop() {
         InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
+    }
+    
+    public void startGame() {
+        this.gameClient.start();
     }
 }
