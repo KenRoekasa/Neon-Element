@@ -1,20 +1,28 @@
 package calculations;
 
 import entities.Player;
+import enums.Action;
 
 public class DamageCalculation {
 
-    /** Returns the amount of damage dealt to the victim
+    /**
+     * Returns the amount of damage dealt to the victim
      *
      * @return damage to be dealt to the victim
      */
-    public static float calculateDealtDamage(Player player, Player victim){
-       return calculateDamage(3, player,victim) * calculateMitgation(player,victim);
+    public static float calculateDealtDamage(Player player, entities.Character victim) {
+        // Deal damage base on what kind of attack it is
+        if (player.getCurrentAction() == Action.LIGHT) {
+            return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
+        }
+        if (player.getCurrentAction() == Action.HEAVY) {
+            return calculateDamage(10, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
+        }
+        return 0;
     }
 
 
-
-    private static float calculateDamage(float baseDmg, Player player, Player victim) {
+    private static float calculateDamage(float baseDmg, Player player, entities.Character victim) {
         switch (player.getCurrentElement()) {
             case FIRE:
                 switch (victim.getCurrentElement()) {
@@ -67,7 +75,7 @@ public class DamageCalculation {
     }
 
     //The amount the damaged is reduced by, due to the shields in percentage
-    private static float calculateMitgation(Player attackingPlayer, Player victim) {
+    private static float calculateMitgation(Player attackingPlayer, entities.Character victim) {
         if (victim.isShielded()) {
             switch (attackingPlayer.getCurrentElement()) {
                 case FIRE:

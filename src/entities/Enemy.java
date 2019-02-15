@@ -55,11 +55,9 @@ public class Enemy extends Character {
                 boolean bool = true;
                 while (bool) {
 
-
                 	EnemyFSM.basicEnemyFetchAction(enemy, players, powerups);
 
                 	basicAIExecuteAction();
-                	
                     if (health <= 0)
                         bool = false;
                 }

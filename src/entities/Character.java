@@ -27,13 +27,17 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
 
+
+    // Used in damage boost buffs
+    protected float damageMultiplier = 1;
+
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
 
 
     // The time the ability was last used System.time
-    protected long[] timerArray = new long[10];
+    protected long[] timerArray = new long[10]; //TODO: Change the array length
 
-    private Timer timer = new Timer();
+
 
 
     private long currentActionStart;
@@ -68,7 +72,6 @@ public abstract class Character extends PhysicsObject {
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
         if (canLeft) {
-
             double xCheck = location.getX() - movementSpeed - width / 2f;
             double yCheck = location.getY() + movementSpeed + width / 2f;
 
@@ -146,14 +149,11 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-
         if (currentAction == Action.IDLE) {
             currentAction = Action.LIGHT;
             currentActionStart = System.currentTimeMillis();
             long attackDuration = AttackTimes.getActionTime(currentAction);
             final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-
-
             int damage = 3;
 
 
@@ -235,7 +235,6 @@ public abstract class Character extends PhysicsObject {
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
-
                 currentElement = Elements.WATER;
             }
         }
@@ -244,7 +243,6 @@ public abstract class Character extends PhysicsObject {
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
-
                 currentElement = Elements.EARTH;
             }
         }
@@ -253,7 +251,6 @@ public abstract class Character extends PhysicsObject {
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
-
                 currentElement = Elements.AIR;
             }
         }
@@ -308,13 +305,13 @@ public abstract class Character extends PhysicsObject {
 
     // Increase movement speed
     public void speedBoost() {
+        Timer timer = new Timer();
         movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
             //counts for 4 seconds then back to default movement speed
             (new Timer()).scheduleAtFixedRate(new TimerTask() {
-
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
                         movementSpeed = 5;
@@ -331,7 +328,24 @@ public abstract class Character extends PhysicsObject {
 
     // Doubles the players damage
     public void damageBoost() {
-
+        Timer timer = new Timer();
+        damageMultiplier = 2;
+        // if timer is not already running, run it
+        if (timerArray[damageBoostID] > 0) {
+            timerArray[damageBoostID] = 0;
+            //counts for 4 seconds then back to default movement speed
+            (new Timer()).scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    if (timerArray[damageBoostID] == damageBoostDur) {
+                        damageMultiplier = 1;
+                        timer.cancel();
+                    }
+                    timerArray[damageBoostID]++;
+                }
+            }, 0, 1000);
+        } else {
+            timerArray[damageBoostID] = 0;
+        }
 
     }
 
@@ -347,6 +361,9 @@ public abstract class Character extends PhysicsObject {
         return currentActionStart;
     }
 
+    public float getDamageMultiplier() {
+        return damageMultiplier;
+    }
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));

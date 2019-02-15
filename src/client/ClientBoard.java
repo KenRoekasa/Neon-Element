@@ -1,5 +1,6 @@
 package client;
 
+import calculations.DamageCalculation;
 import controllers.AttributeController;
 import debugger.Debugger;
 import entities.*;
@@ -185,16 +186,13 @@ public class ClientBoard {
                     Point2D checkDownCart = new Point2D(x, y + movementSpeed);
                     Point2D checkLeftCart = new Point2D(x - movementSpeed, y);
                     Point2D checkRightCart = new Point2D(x + movementSpeed, y);
-                    double xDiff = gameState.getPlayer().getLocation().getX() - e.getLocation().getX();
-                    double yDiff = gameState.getPlayer().getLocation().getY() - e.getLocation().getY();
 
                     // Check for rare occasion the player is inside another player
                     if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-                        System.out.println("colliding");
-                        gameState.getPlayer().setLocation(previousLocation);
+                        // This line of code seems to cause a bug
+//                        gameState.getPlayer().setLocation(previousLocation);
                     }
 
-                    //                    System.out.println(gameState.getPlayer().getCharacterDirection());
                     switch (gameState.getPlayer().getCharacterDirection()) {
                         case UP:
                             projectedPlayer.setLocation(checkUp);
@@ -268,6 +266,7 @@ public class ClientBoard {
 
                                 //if below the other player
                                 if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
+
                                     double opposite = gameState.getPlayer().getLocation().getX() - e.getBounds().getBoundsInParent().getMaxX();
                                     double adjacent = (opposite * Math.tan(Math.toRadians(45)));
                                     newLocation = new Point2D(gameState.getPlayer().getLocation().getX() - opposite, gameState.getPlayer().getLocation().getY() + adjacent);
@@ -383,8 +382,7 @@ public class ClientBoard {
                         // e takes damage
                         // this will have to change due to Player being other controlled player when Enemy is when the player is an ai
                         Enemy enemy = (Enemy) e;
-                        // TODO: For now its takes 3 damage, change later
-                        enemy.removeHealth(3);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(),enemy));
                         gameState.getPlayer().setCurrentAction(Action.IDLE);
                         System.out.println("hit");
                         // Sends to server

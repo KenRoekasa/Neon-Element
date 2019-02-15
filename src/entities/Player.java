@@ -19,7 +19,6 @@ public class Player extends Character {
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
-
         canUp = canDown = canLeft = canRight = canUpCart = canDownCart = canLeftCart = canRightCart = true;
         movementSpeed = 5;
         isShielded = false;
@@ -27,6 +26,8 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         width = objectSize.getObjectSize(type);
         tag = type;
+
+
         for (int i = 0; i < timerArray.length; i++) {
             timerArray[i] = System.currentTimeMillis() - 10 * 1000;
         }
@@ -47,6 +48,9 @@ public class Player extends Character {
             isAlive = false;
         } else {
             isAlive = true;
+        }
+        if (!isAlive) {
+            System.out.println("Player is Dead");
         }
 
     }
