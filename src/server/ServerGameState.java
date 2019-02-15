@@ -21,6 +21,7 @@ public class ServerGameState extends GameState {
         this.ais = ais;
         this.map = map;
         this.objects = objects;
+        this.startTime = System.currentTimeMillis();
     }
 
 

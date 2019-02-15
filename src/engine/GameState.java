@@ -10,7 +10,7 @@ public abstract class GameState {
     protected Rectangle map;
     protected ArrayList<PhysicsObject> objects;
     protected GameType gameType;
-    protected long currentRunTime;
+    protected long startTime;
 
 
 
@@ -39,11 +39,11 @@ public abstract class GameState {
         this.objects = objects;
     }
 
-    public long getCurrentRunTime() {
-        return currentRunTime;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setCurrentRunTime(long currentRunTime) {
-        this.currentRunTime = currentRunTime;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 }
