@@ -126,6 +126,9 @@ public abstract class Packet {
             case CONNECT_ACK:
                 packet = new ConnectAckPacket(buffer, ipAddress, port);
                 break;
+            case LOCATION_STATE:
+                packet = new LocationStatePacket(buffer, ipAddress, port);
+                break;
             case CONNECT_BCAST:
             		packet = new BroadCastConnectedUserPacket(buffer);
             		break;
