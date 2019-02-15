@@ -1,6 +1,7 @@
 package client;
 
 
+import entities.Character;
 import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
@@ -36,7 +37,7 @@ public class GameStateGenerator {
         
         
         // initialise enemies
-        ArrayList<Enemy> enemies = new ArrayList<>();
+        ArrayList<Character> enemies = new ArrayList<>();
         Player players[] = {player};
         PowerUp pus [] = {pu};
         enemies.add(new Enemy(players, pus, map));
@@ -45,7 +46,7 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         
-        ClientGameState gameState = new ClientGameState(player, new ArrayList<Player>(), enemies, map, objects);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
         gameState.start();
 
         return gameState;

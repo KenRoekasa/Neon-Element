@@ -9,6 +9,7 @@ import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
 import enums.Action;
+import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
@@ -65,7 +66,7 @@ public class Renderer {
         }
 
         // draw cursors to ensure on top
-        for (Enemy e : gameState.getEnemies()) {
+        for (Character e : gameState.getEnemies()) {
             DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
         }
 
@@ -79,19 +80,19 @@ public class Renderer {
 
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
 
-        if (Objects.equals(o.getClass(), Player.class)) {
+        if (o.getTag() == ObjectType.PLAYER) {
             Action status = gameState.getPlayer().getCurrentAction();
             Class charClass = Player.class;
 
             DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
             ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
 
-        } else if (Objects.equals(o.getClass(), Enemy.class)) {
-            Enemy enemy = (Enemy)o;
+        } else if (o.getTag() == ObjectType.ENEMY) {
+            Character enemy = (Character) o;
             Action status = enemy.getCurrentAction();
             Class charClass = Enemy.class;
 
-            DrawEnemies.drawEnemy(gc, stageSize, (Enemy) o, gameState.getPlayer());
+            DrawEnemies.drawEnemy(gc, stageSize, enemy, gameState.getPlayer());
             ActionSwitch(status, enemy, charClass, gameState);
 
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {

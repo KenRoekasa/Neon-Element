@@ -7,6 +7,7 @@ import java.net.MulticastSocket;
 import client.ClientGameState;
 import entities.Player;
 import entities.PowerUp;
+import enums.ObjectType;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
@@ -49,7 +50,9 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             double x = packet.getX();
             double y = packet.getY();
             
-            Player player = this.gameState.getPlayers().stream()
+            Player player = this.gameState.getEnemies().stream()
+                .filter(p -> p.getTag().equals(ObjectType.PLAYER))
+                .map(p -> (Player) p)
                 .filter(p -> p.getId() == id)
                 .findFirst()
                 .orElse(null);
