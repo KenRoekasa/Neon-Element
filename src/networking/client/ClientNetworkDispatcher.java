@@ -65,6 +65,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         Player player = new Player(ObjectType.PLAYER);
         player.setId(packet.getId());
         this.gameState.getEnemies().add((Character) player);
+        this.gameState.getObjects().add((Character) player);
     }
     
     protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {

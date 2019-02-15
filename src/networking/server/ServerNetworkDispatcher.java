@@ -56,6 +56,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
             this.connections.add(playerConn);
             this.gameState.getPlayers().add(player);
+            this.gameState.getObjects().add(player);
             
             Packet connect = new BroadCastConnectedUserPacket(playerId);
             this.broadcast(connect);
