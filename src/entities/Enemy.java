@@ -286,7 +286,7 @@ public class Enemy extends Character {
 		while ((int) distance > 2) {
 
 			try {
-				TimeUnit.MILLISECONDS.sleep(10);
+				TimeUnit.MILLISECONDS.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -330,7 +330,7 @@ public class Enemy extends Character {
 		while ((int) distance - getWidth() > getWidth()) {
 			
 			try {
-				TimeUnit.MILLISECONDS.sleep(10);
+				TimeUnit.MILLISECONDS.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
