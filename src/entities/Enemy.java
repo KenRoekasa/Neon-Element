@@ -25,7 +25,7 @@ public class Enemy extends Character {
 
 	public Enemy(Character [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
 
-		canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= false;
+		canUp=  canDown= canLeft= canRight= canUpCart= canDownCart= canLeftCart= canRightCart= true;
     	
 
         activeState = EnemyStates.IDLE;

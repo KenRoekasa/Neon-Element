@@ -20,7 +20,6 @@ class DrawObjects {
 
     static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player, Image texture) {
 
-
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D playerLocation = player.getLocation();
 
@@ -29,6 +28,7 @@ class DrawObjects {
         Point2D boardPosition = new Point2D(relativeX, relativeY);
 
         // draw map
+        gc.save();
         gc.setFill(Color.rgb(214, 214,214));
 
         //gc.setFill(new ImagePattern(texture));
@@ -36,17 +36,19 @@ class DrawObjects {
         gc.strokeRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
 
         // restore previous state
+        gc.restore();
 
     }
 
     static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player) {
-
         Point2D relativeLocation = getRelativeLocation(stage, powerUp, player);
 
         Color c = colourSwitch.getPowerUpColour(powerUp.getType());
+        gc.save();
         gc.setFill(c);
 
         gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), powerUp.getWidth(), powerUp.getWidth());
+        gc.restore();
 
     }
 
@@ -65,8 +67,6 @@ class DrawObjects {
 
             gc.fillOval(star.getX(), star.getY(), 5, 5);
         }
-
-
 
         gc.restore();
     }

@@ -190,197 +190,198 @@ public abstract class Character extends PhysicsObject {
     }
 
 
-        public void heavyAttack() {
-            currentAction = Action.HEAVY;
-            currentActionStart = System.currentTimeMillis();
-            long attackDuration = AttackTimes.getActionTime(currentAction);
-            final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+    private void heavyAttack() {
+        currentAction = Action.HEAVY;
+        currentActionStart = System.currentTimeMillis();
+        long attackDuration = AttackTimes.getActionTime(currentAction);
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
 
-            resetActionTimer(attackDuration, remainingAttackDuration);
+        resetActionTimer(attackDuration, remainingAttackDuration);
 
+
+    }
+
+    public void shield() {
+        if (currentAction == Action.IDLE) {
+            currentAction = Action.BLOCK;
+            isShielded = true;
 
         }
+    }
 
-        public void shield () {
-            if (currentAction == Action.IDLE) {
-                currentAction = Action.BLOCK;
-                isShielded = true;
+    public void unShield() {
+        if (currentAction == Action.BLOCK) {
+            currentAction = Action.IDLE;
+            isShielded = false;
+        }
+    }
 
+    public void changeToFire() {
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.FIRE;
             }
         }
+    }
 
-        public void unShield () {
-            if (currentAction == Action.BLOCK) {
-                currentAction = Action.IDLE;
-                isShielded = false;
+    public void changeToWater() {
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.WATER;
             }
         }
+    }
 
-        public void changeToFire () {
-            if (currentAction == Action.IDLE) {
-                if (checkCD(changeStateID, changeStateCD)) {
-                    currentElement = Elements.FIRE;
-                }
+    public void changeToEarth() {
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.EARTH;
             }
         }
+    }
 
-        public void changeToWater () {
-            if (currentAction == Action.IDLE) {
-                if (checkCD(changeStateID, changeStateCD)) {
-                    currentElement = Elements.WATER;
-                }
+    public void changeToAir() {
+        if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.AIR;
             }
         }
+    }
 
-        public void changeToEarth () {
-            if (currentAction == Action.IDLE) {
-                if (checkCD(changeStateID, changeStateCD)) {
-                    currentElement = Elements.EARTH;
-                }
-            }
+    public Rotate getPlayerAngle() {
+        return playerAngle;
+    }
+
+    public void setPlayerAngle(Rotate playerAngle) {
+        this.playerAngle = playerAngle;
+    }
+
+
+    public void setLocation(Point2D location) {
+        this.location = location;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public Elements getCurrentElement() {
+        return currentElement;
+    }
+
+
+    public boolean isShielded() {
+        return isShielded;
+    }
+
+    public float getMAX_HEALTH() {
+        return MAX_HEALTH;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+
+    // adds Health to the player
+    public void addHealth(int amount) {
+        health += amount;
+        if (health > MAX_HEALTH) {
+            health = MAX_HEALTH;
         }
+    }
 
-        public void changeToAir () {
-            if (currentAction == Action.IDLE) {
-                if (checkCD(changeStateID, changeStateCD)) {
-                    currentElement = Elements.AIR;
-                }
-            }
-        }
-
-        public Rotate getPlayerAngle () {
-            return playerAngle;
-        }
-
-        public void setPlayerAngle (Rotate playerAngle){
-            this.playerAngle = playerAngle;
-        }
-
-
-        public void setLocation (Point2D location){
-            this.location = location;
-        }
-
-        public int getMovementSpeed () {
-            return movementSpeed;
-        }
-
-        public float getHealth () {
-            return health;
-        }
-
-        public Elements getCurrentElement () {
-            return currentElement;
-        }
-
-
-        public boolean isShielded () {
-            return isShielded;
-        }
-
-        public float getMAX_HEALTH () {
-            return MAX_HEALTH;
-        }
-
-        public boolean isAlive () {
-            return isAlive;
-        }
-
-
-        // adds Health to the player
-        public void addHealth ( int amount){
-            health += amount;
-            if (health > MAX_HEALTH) {
-                health = MAX_HEALTH;
-            }
-        }
-
-        // Increase movement speed
-        public void speedBoost () {
-            Timer timer = new Timer();
-            movementSpeed = 8;
-            // if timer is not already running, run it
-            if (timerArray[speedBoostID] > 0) {
-                timerArray[speedBoostID] = 0;
-                //counts for 4 seconds then back to default movement speed
-                (new Timer()).scheduleAtFixedRate(new TimerTask() {
-                    public void run() {
-                        if (timerArray[speedBoostID] == speedBoostDuration) {
-                            movementSpeed = 5;
-                            timer.cancel();
-                        }
-                        timerArray[speedBoostDuration]++;
+    // Increase movement speed
+    public void speedBoost() {
+        Timer timer = new Timer();
+        movementSpeed = 8;
+        // if timer is not already running, run it
+        if (timerArray[speedBoostID] > 0) {
+            timerArray[speedBoostID] = 0;
+            //counts for 4 seconds then back to default movement speed
+            (new Timer()).scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    if (timerArray[speedBoostID] == speedBoostDuration) {
+                        movementSpeed = 5;
+                        timer.cancel();
                     }
-                }, 0, 1000);
-            } else {
-                timerArray[speedBoostID] = 0;
-            }
+                    timerArray[speedBoostDuration]++;
+                }
+            }, 0, 1000);
+        } else {
+            timerArray[speedBoostID] = 0;
         }
+    }
 
 
-        // Doubles the players damage
-        public void damageBoost () {
-            Timer timer = new Timer();
-            damageMultiplier = 2;
-            // if timer is not already running, run it
-            if (timerArray[damageBoostID] > 0) {
-                timerArray[damageBoostID] = 0;
-                //counts for 4 seconds then back to default movement speed
-                (new Timer()).scheduleAtFixedRate(new TimerTask() {
-                    public void run() {
-                        if (timerArray[damageBoostID] == damageBoostDur) {
-                            damageMultiplier = 1;
-                            timer.cancel();
-                        }
-                        timerArray[damageBoostID]++;
+    // Doubles the players damage
+    public void damageBoost() {
+        Timer timer = new Timer();
+        damageMultiplier = 2;
+        // if timer is not already running, run it
+        if (timerArray[damageBoostID] > 0) {
+            timerArray[damageBoostID] = 0;
+            //counts for 4 seconds then back to default movement speed
+            (new Timer()).scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    if (timerArray[damageBoostID] == damageBoostDur) {
+                        damageMultiplier = 1;
+                        timer.cancel();
                     }
-                }, 0, 1000);
-            } else {
-                timerArray[damageBoostID] = 0;
-            }
-
-        }
-
-        public Action getCurrentAction () {
-            return currentAction;
-        }
-
-        public void setCurrentAction (Action currentAction){
-            this.currentAction = currentAction;
-        }
-
-        public long getCurrentActionStart () {
-            return currentActionStart;
-        }
-
-        public float getDamageMultiplier () {
-            return damageMultiplier;
-        }
-        public Rectangle getAttackHitbox () {
-            Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
-            Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
-            hitbox.getTransforms().add(rotate);
-            return hitbox;
-        }
-
-        public Circle getHeavyAttackHitbox () {
-            return new Circle(location.getX() + width, location.getY() + width, 200);
-        }
-
-        public Directions getCharacterDirection () {
-            return characterDirection;
-        }
-
-        //check if the action is off cooldown
-        private boolean checkCD ( int id, float cooldown){
-            // get the time it was last used and add the cooldown
-            long nextAvailableTime = (timerArray[id] + ((long) cooldown * 1000));
-            //check if the time calculated has passed
-            if (System.currentTimeMillis() > nextAvailableTime) {
-                timerArray[id] = System.currentTimeMillis();
-                return true;
-            }
-            return false;
+                    timerArray[damageBoostID]++;
+                }
+            }, 0, 1000);
+        } else {
+            timerArray[damageBoostID] = 0;
         }
 
     }
+
+    public Action getCurrentAction() {
+        return currentAction;
+    }
+
+    public void setCurrentAction(Action currentAction) {
+        this.currentAction = currentAction;
+    }
+
+    public long getCurrentActionStart() {
+        return currentActionStart;
+    }
+
+    public float getDamageMultiplier() {
+        return damageMultiplier;
+    }
+
+    public Rectangle getAttackHitbox() {
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        hitbox.getTransforms().add(rotate);
+        return hitbox;
+    }
+
+    public Circle getHeavyAttackHitbox() {
+        return new Circle(location.getX() + width, location.getY() + width, 200);
+    }
+
+    public Directions getCharacterDirection() {
+        return characterDirection;
+    }
+
+    //check if the action is off cooldown
+    private boolean checkCD(int id, float cooldown) {
+        // get the time it was last used and add the cooldown
+        long nextAvailableTime = (timerArray[id] + ((long) cooldown * 1000));
+        //check if the time calculated has passed
+        if (System.currentTimeMillis() > nextAvailableTime) {
+            timerArray[id] = System.currentTimeMillis();
+            return true;
+        }
+        return false;
+    }
+
+}
