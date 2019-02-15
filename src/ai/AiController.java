@@ -32,11 +32,14 @@ public class AiController {
 	    	
 
 	        activeState = EnemyStates.IDLE;
-	        //default random
-	        assignRandomElement();
+	     
 	        this.players = players;
 	        this.objects = objects;
 	        this.map = map;
+	        this.aiPlayer =aiPlayer;
+	        //default random
+		      
+	        assignRandomElement();
 	    }
 		
 		public Player getAiPlayer() {
@@ -57,6 +60,7 @@ public class AiController {
 		}
 
 		public void startBasicAI() {
+			System.out.println("IS THIS OWKRIGNKDFKJDSKFj");
 			Thread t = new Thread(new Runnable() {
 
 				@Override

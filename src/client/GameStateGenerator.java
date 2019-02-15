@@ -40,11 +40,10 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
         Player players[] = {player};
-        PowerUp pus [] = {pu};
         
         ArrayList<AiController> aiConList = new ArrayList<>();
         AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
-        
+        aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
         
         enemies.get(0).setLocation(new Point2D(140, 100));

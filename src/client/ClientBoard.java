@@ -42,6 +42,7 @@ public class ClientBoard {
 		// initial setup
 		this.primaryStage = primaryStage;
 		this.gameState = gameState;
+		this.gameClient = new GameClient(gameState);
 
 		// load hud
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));

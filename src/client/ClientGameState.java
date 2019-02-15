@@ -10,10 +10,7 @@ import java.util.ArrayList;
 
 public class ClientGameState extends GameState {
     private Player player;
-  
     private ArrayList<Player> enemies;
-    private Rectangle map;
-    private ArrayList<PhysicsObject> objects;
 
 
     public ClientGameState(Player player, ArrayList<Player> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
