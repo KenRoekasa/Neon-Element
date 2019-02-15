@@ -55,6 +55,10 @@ public class ClientNetwork {
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
+                break;
+            case CONNECT_ACK:
+                this.dispatcher.receiveConnectAck((ConnectAckPacket) packet);
+                break;
             case GAME_START_BCAST:
                 break;
             case LOCATION_STATE_BCAST:
@@ -79,6 +83,7 @@ public class ClientNetwork {
             		break;
             default:
                 System.out.println("Unhandled packet " + packet.getType());
+                break;
         }
     }
 
