@@ -31,11 +31,8 @@ public abstract class Character extends PhysicsObject {
 
 
     // The time the ability was last used System.time
-
     protected long[] timerArray = new long[10];
 
-    //TODO: Change the access modifier
-    public boolean isColliding;
     private Timer timer = new Timer();
 
 
@@ -47,7 +44,7 @@ public abstract class Character extends PhysicsObject {
             double yCheck = location.getY() - movementSpeed - width / 2f;
             double xCheck = location.getX() - movementSpeed - width / 2f;
 
-            if (yCheck >= 0 && xCheck >= 0 && !isColliding) {
+            if (yCheck >= 0 && xCheck >= 0) {
                 location = location.add(-movementSpeed, -movementSpeed);
             }
         }
@@ -62,7 +59,7 @@ public abstract class Character extends PhysicsObject {
             double yCheck = location.getY() + movementSpeed + width / 2f;
             double xCheck = location.getX() + movementSpeed + width / 2f;
 
-            if (yCheck <= boardHeight && xCheck <= boardWidth && !isColliding) {
+            if (yCheck <= boardHeight && xCheck <= boardWidth) {
                 location = location.add(movementSpeed, movementSpeed);
             }
         }
@@ -75,7 +72,7 @@ public abstract class Character extends PhysicsObject {
             double xCheck = location.getX() - movementSpeed - width / 2f;
             double yCheck = location.getY() + movementSpeed + width / 2f;
 
-            if (xCheck >= 0 && yCheck <= boardWidth && !isColliding) {
+            if (xCheck >= 0 && yCheck <= boardWidth) {
                 location = location.add(-movementSpeed, movementSpeed);
             }
         }
@@ -90,7 +87,7 @@ public abstract class Character extends PhysicsObject {
             double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-            if (xCheck <= boardWidth && yCheck >= 0 && !isColliding) {
+            if (xCheck <= boardWidth && yCheck >= 0) {
                 location = location.add(movementSpeed, -movementSpeed);
             }
         }
@@ -101,7 +98,7 @@ public abstract class Character extends PhysicsObject {
         if (canUpCart) {
 
             if ((location.getY() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(0, -Math.sqrt(2*movementSpeed*movementSpeed));
+                location = location.add(0, -Math.sqrt(2 * movementSpeed * movementSpeed));
 
             } else {
                 location = new Point2D(location.getX(), 0 + width / 2f);
@@ -114,7 +111,7 @@ public abstract class Character extends PhysicsObject {
         if (canDownCart) {
 
             if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
-                location = location.add(0, Math.sqrt(2*movementSpeed*movementSpeed));
+                location = location.add(0, Math.sqrt(2 * movementSpeed * movementSpeed));
             } else {
                 location = new Point2D(location.getX(), boardHeight - width / 2f);
             }
@@ -125,10 +122,9 @@ public abstract class Character extends PhysicsObject {
     public void moveLeftCartesian() {
         characterDirection = Directions.LEFTCART;
         if (canLeftCart) {
-
             //check within bounds
             if ((location.getX() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(-Math.sqrt(2*movementSpeed*movementSpeed), 0);
+                location = location.add(-Math.sqrt(2 * movementSpeed * movementSpeed), 0);
             } else {
                 location = new Point2D(0 + width / 2f, location.getY());
             }
@@ -142,7 +138,7 @@ public abstract class Character extends PhysicsObject {
 
             //check within bounds
             if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
-                location = location.add(Math.sqrt(2*movementSpeed*movementSpeed), 0);
+                location = location.add(Math.sqrt(2 * movementSpeed * movementSpeed), 0);
             } else {
                 location = new Point2D(boardWidth - width / 2f, location.getY());
             }
@@ -152,7 +148,6 @@ public abstract class Character extends PhysicsObject {
     public void lightAttack() {
 
         if (currentAction == Action.IDLE) {
-
             currentAction = Action.LIGHT;
             currentActionStart = System.currentTimeMillis();
             long attackDuration = AttackTimes.getActionTime(currentAction);
@@ -208,7 +203,6 @@ public abstract class Character extends PhysicsObject {
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-        //TODO: DO SOMETHING
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
@@ -219,7 +213,6 @@ public abstract class Character extends PhysicsObject {
         if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             isShielded = true;
-
 
         }
     }
@@ -233,28 +226,36 @@ public abstract class Character extends PhysicsObject {
 
     public void changeToFire() {
         if (currentAction == Action.IDLE) {
-            currentElement = Elements.FIRE;
+            if (checkCD(changeStateID, changeStateCD)) {
+                currentElement = Elements.FIRE;
+            }
         }
     }
 
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
 
-            currentElement = Elements.WATER;
+                currentElement = Elements.WATER;
+            }
         }
     }
 
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
 
-            currentElement = Elements.EARTH;
+                currentElement = Elements.EARTH;
+            }
         }
     }
 
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
+            if (checkCD(changeStateID, changeStateCD)) {
 
-            currentElement = Elements.AIR;
+                currentElement = Elements.AIR;
+            }
         }
     }
 
@@ -296,61 +297,12 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
-    public void isColliding(PhysicsObject e) {
-        isColliding = true;
-        //                double xDiff = (getBounds().getBoundsInParent().getMinX() - e.getBounds().getBoundsInParent().getMinX());
-        //                double yDiff = (getBounds().getBoundsInParent().getMinY() - e.getBounds().getBoundsInParent().getMinY());
-        double xDiff = location.getX() - e.getLocation().getX();
-        double yDiff = location.getY() - e.getLocation().getY();
-        switch (characterDirection) {
-            case UP:
-                // if on the right side of the box
-                // if player min x > e player max x
-                if (getBounds().getBoundsInParent().getMinX() >= e.getBounds().getBoundsInParent().getMaxX()) {
-                    location = location.add((width - xDiff) + movementSpeed, (width - xDiff) + movementSpeed);
-                    break;
-                } else {
-                    location = location.add((width - yDiff) + movementSpeed, (width - yDiff) + movementSpeed);
-                    break;
-                }
-                //                location = location.add((width - yDiff) + movementSpeed, (width - xDiff)+movementSpeed);
-
-            case DOWN:
-                location = location.add(-movementSpeed, -movementSpeed);
-                break;
-            case LEFT:
-                location = location.add(movementSpeed, -movementSpeed);
-                break;
-
-            case RIGHT:
-                location = location.add(-movementSpeed, movementSpeed);
-                break;
-            case UPCART:
-                //                location = new Point2D(location.getX(),location.getY()+yDiff);
-                location = location.add(0, (movementSpeed * 2));
-                break;
-            case DOWNCART:
-                location = location.add(0, -(movementSpeed * 2));
-                break;
-            case LEFTCART:
-                location = location.add((movementSpeed * 2), 0);
-                break;
-            case RIGHTCART:
-                location = location.add(-(movementSpeed * 2), 0);
-                break;
-            default:
-                break;
-
-        }
-
-    }
-
 
     // adds Health to the player
     public void addHealth(int amount) {
         health += amount;
         if (health > MAX_HEALTH) {
-            health = 100;
+            health = MAX_HEALTH;
         }
     }
 
@@ -408,6 +360,18 @@ public abstract class Character extends PhysicsObject {
 
     public Directions getCharacterDirection() {
         return characterDirection;
+    }
+
+    //check if the action is off cooldown
+    private boolean checkCD(int id, float cooldown) {
+        // get the time it was last used and add the cooldown
+        long nextAvailableTime = (timerArray[id] + ((long) cooldown * 1000));
+        //check if the time calculated has passed
+        if (System.currentTimeMillis() > nextAvailableTime) {
+            timerArray[id] = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
 }
