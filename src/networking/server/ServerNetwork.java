@@ -82,7 +82,7 @@ public class ServerNetwork extends Thread {
             System.out.println("Invalid packet recieved");
             return;
         }
-        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+
         switch(packet.getType()) {
             case HELLO:
             		System.out.println("recieved ");
