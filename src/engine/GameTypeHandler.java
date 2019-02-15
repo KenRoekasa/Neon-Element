@@ -6,21 +6,27 @@ import engine.gameTypes.TimedGame;
 
 public class GameTypeHandler {
 
-    public boolean checkRunning(GameType type, GameState currentGame) {
+
+    public static boolean checkRunning(GameState currentGame) {
+
+        GameType type = currentGame.gameType;
+
 
         if(type.getClass().equals(TimedGame.class)) {
             // check whether game time is less
             TimedGame t = (TimedGame)type;
-            return currentGame.getCurrentRunTime() < t.getDuration();
+            long duration = t.getDuration();
+
+            return currentGame.startTime + duration < System.currentTimeMillis();
 
             // todo implement!
         } else if (type.getClass().equals(FirstToXKillsGame.class)) {
-
+            return true;
         }
 
-        return false;
+        // return true to allow testing games to run infinitely
+        return true;
     }
-
 
 
 }
