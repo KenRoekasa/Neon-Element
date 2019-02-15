@@ -17,23 +17,29 @@ public class EnemyFSM {
 		float playerHP = nearestPlayer.getHealth();
 
 		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.HEAL) !=-1 && enemyHP<maxHP) ) {
+			System.out.println("State find health");
 			if(!enemy.isShielded())
 				enemy.shield();
 			enemy.setState(EnemyStates.FIND_HEALTH);
 		}
 		else if( enemyHP>playerHP || playerHP< (maxHP/2) ) {
+			System.out.println("state Attack");
 			enemy.setState(EnemyStates.ATTACK);
 		}
 		else if(playerHP< (maxHP/4) ) {
+			//System.out.println("state aggressive attack");
 			enemy.setState(EnemyStates.AGGRESSIVE_ATTACK);
 		}
 		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
+			System.out.println("state find damage");
 			enemy.setState(EnemyStates.FIND_DAMAGE);
 		}
 		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) != -1 ) {
+			//System.out.println("state find speed");
 			enemy.setState(EnemyStates.FIND_SPEED);
 		}
 		else {
+			//System.out.println("ELSE , state attack");
 			enemy.setState(EnemyStates.ATTACK);
 		}
 
