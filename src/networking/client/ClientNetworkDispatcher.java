@@ -55,8 +55,6 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
                 .orElse(null);
 
             if (player != null) {
-                // Just update the location for now
-                // TODO - validate if the location
                 player.setLocation(packet.getX(), packet.getY());
             } else {
                 // Player id not found
