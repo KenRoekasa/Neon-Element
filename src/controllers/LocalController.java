@@ -1,9 +1,10 @@
 package controllers;
 
 import client.ClientBoard;
-import client.GameState;
+import client.ClientGameState;
 import client.GameStateGenerator;
 
+import engine.GameState;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,8 +22,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 //For local_setup scene
+
 public class LocalController  implements Initializable {
-    private GameState gameState;
+    private ClientGameState gameState;
     private Stage stage;
     @FXML
     public RadioButton num_1, num_2, num_3;

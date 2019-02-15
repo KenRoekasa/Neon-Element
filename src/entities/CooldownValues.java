@@ -12,4 +12,8 @@ public class CooldownValues {
     public static int shieldDuration = 3;
     public static int shieldID = 5;
     public static float shieldCD = 2.1f;
+    public static int changeStateID = 5;
+    public static float changeStateCD = 1.5f;
+    public static int damageBoostID = 6;
+    public static float damageBoostDur = 5;
 }
