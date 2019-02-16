@@ -46,7 +46,7 @@ public class AiController {
 			return aiPlayer;
 		}
 
-		private ArrayList<PowerUp> getPowerups() {
+		public ArrayList<PowerUp> getPowerups() {
 
 			ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
 			for (int i = 0; i < objects.size(); i++) {
@@ -58,16 +58,26 @@ public class AiController {
 			}
 			return powerups;
 		}
+		
+		public boolean powerupCloserThanPlayer() {
+			int puIndex = findNearestPowerUp();
+			if(puIndex == -1)
+				return false;
+			double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
+			double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
+			
+			return disToPu>disToPlayer;
+		}
 
 		public void startBasicAI() {
-			System.out.println("IS THIS OWKRIGNKDFKJDSKFj");
+			System.out.println("started basic ai");
 			Thread t = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
 					boolean bool = true;
 					while (bool) {
-						EnemyFSM.basicEnemyFetchAction(aiPlayer, aiCon, players, getPowerups());
+						EnemyFSM.basicEnemyFetchAction(aiPlayer, aiCon, players);
 
 						basicAIExecuteAction();
 						if (aiPlayer.getHealth() <= 0)
@@ -216,6 +226,21 @@ public class AiController {
 			if ((int) calcDistance(aiPlayer.getLocation(), player.getLocation()) - aiPlayer.getWidth() < aiPlayer.getWidth())
 				return true;
 			return false;
+		}
+		
+		public int findNearestPowerUp() {
+			ArrayList<PowerUp> powerups = getPowerups();
+			int index = -1;
+			double distance = Double.MAX_VALUE;
+			for (int i = 0; i < powerups.size(); i++) {
+				double disToPU = calcDistance(powerups.get(i).getLocation(), aiPlayer.getLocation());
+				if (disToPU < distance) {
+					distance = disToPU;
+					index = i;
+				}
+			}
+
+			return index;
 		}
 
 		public int findNearestPowerUp(PowerUpType pu) {

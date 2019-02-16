@@ -44,15 +44,12 @@ public class Player extends Character {
 
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here
-        if (health < 0) {
+        if (health <= 0) {
             isAlive = false;
+            System.out.println("Player is Dead");
         } else {
             isAlive = true;
         }
-        if (!isAlive) {
-            System.out.println("Player is Dead");
-        }
-
     }
 
     public void setLocation(double x, double y) {

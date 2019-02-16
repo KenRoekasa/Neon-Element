@@ -176,6 +176,7 @@ public abstract class Character extends PhysicsObject {
 
     public void removeHealth(float damage) {
         this.health -= damage;
+        System.out.println("player health "+getHealth());
     }
 
     public void chargeHeavyAttack() {

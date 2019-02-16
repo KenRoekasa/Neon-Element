@@ -9,7 +9,7 @@ import enums.PowerUpType;
 
 public class EnemyFSM {
 
-	public static void basicEnemyFetchAction(Player aiPlayer, AiController aiCon,Player [] players, ArrayList<PowerUp> powerups) {
+	public static void basicEnemyFetchAction(Player aiPlayer, AiController aiCon,Player [] players) {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -17,13 +17,13 @@ public class EnemyFSM {
 		float playerHP = nearestPlayer.getHealth();
 
 		if(aiPlayerHP< (maxHP/4) || (aiCon.findNearestPowerUp(PowerUpType.HEAL) !=-1 && aiPlayerHP<maxHP) ) {
-			System.out.println("State find health");
+//			System.out.println("State find health");
 			if(!aiPlayer.isShielded())
 				aiPlayer.shield();
 			aiCon.setState(EnemyStates.FIND_HEALTH);
 		}
 		else if( aiPlayerHP>playerHP || playerHP< (maxHP/2) ) {
-			System.out.println("state Attack");
+//			System.out.println("state Attack");
 			aiCon.setState(EnemyStates.ATTACK);
 		}
 		else if(playerHP< (maxHP/4) ) {
@@ -31,12 +31,28 @@ public class EnemyFSM {
 			aiCon.setState(EnemyStates.AGGRESSIVE_ATTACK);
 		}
 		else if( aiCon.findNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
-			System.out.println("state find damage");
+//			System.out.println("state find damage");
 			aiCon.setState(EnemyStates.FIND_DAMAGE);
 		}
 		else if( aiCon.findNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 			//System.out.println("state find speed");
 			aiCon.setState(EnemyStates.FIND_SPEED);
+		}
+		else if( aiCon.powerupCloserThanPlayer() ) {
+			System.out.println("power up is closer thats why");
+			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
+			case DAMAGE:
+				aiCon.setState(EnemyStates.FIND_DAMAGE);
+				break;
+			case HEAL:
+				aiCon.setState(EnemyStates.FIND_HEALTH);
+				break;
+			case SPEED:
+				aiCon.setState(EnemyStates.FIND_SPEED);
+				break;
+			default:
+				break;
+			}
 		}
 		else {
 			//System.out.println("ELSE , state attack");
