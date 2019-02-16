@@ -134,6 +134,7 @@ public class AiController {
 				findSpeed();
 				break;
 			case ESCAPE:
+				escape();
 				break;
 			case IDLE:
 				break;
@@ -221,6 +222,48 @@ public class AiController {
 				aiPlayer.lightAttack();
 			}
 		}
+		
+		public void escape() {
+			
+			try {
+				TimeUnit.MILLISECONDS.sleep(35);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			Player player = findNearestPlayer();
+			switch(player.getCharacterDirection()) {
+			case DOWN:
+				aiPlayer.moveUp();
+				break;
+			case DOWNCART:
+				aiPlayer.moveUpCartesian();
+				break;
+			case LEFT:
+				aiPlayer.moveRight(map.getWidth(), map.getHeight());
+				break;
+			case LEFTCART:
+				aiPlayer.moveRightCartesian(map.getWidth());
+				break;
+			case RIGHT:
+				aiPlayer.moveLeft(map.getWidth());
+				break;
+			case RIGHTCART:
+				aiPlayer.moveRightCartesian(map.getWidth());
+				break;
+			case UP:
+				aiPlayer.moveDown(map.getWidth(), map.getHeight());
+				break;
+			case UPCART:
+				aiPlayer.moveDown(map.getWidth(), map.getHeight());
+				break;
+			default:
+				break;
+			
+			}
+		}
+
 
 		public boolean inAttackDistance(Player player) {
 			if ((int) calcDistance(aiPlayer.getLocation(), player.getLocation()) - aiPlayer.getWidth() < aiPlayer.getWidth())
@@ -312,7 +355,7 @@ public class AiController {
 			while ((int) distance > 2) {
 
 				try {
-					TimeUnit.MILLISECONDS.sleep(20);
+					TimeUnit.MILLISECONDS.sleep(35);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -356,7 +399,7 @@ public class AiController {
 			while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
 				
 				try {
-					TimeUnit.MILLISECONDS.sleep(20);
+					TimeUnit.MILLISECONDS.sleep(35);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

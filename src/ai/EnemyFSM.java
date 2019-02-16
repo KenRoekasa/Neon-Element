@@ -22,6 +22,10 @@ public class EnemyFSM {
 				aiPlayer.shield();
 			aiCon.setState(EnemyStates.FIND_HEALTH);
 		}
+		else if(aiPlayerHP < (maxHP/3) ) {
+			//System.out.println("ESCAPE");
+			aiCon.setState(EnemyStates.ESCAPE);
+		}
 		else if( aiPlayerHP>playerHP || playerHP< (maxHP/2) ) {
 //			System.out.println("state Attack");
 			aiCon.setState(EnemyStates.ATTACK);
