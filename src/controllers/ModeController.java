@@ -1,12 +1,9 @@
 package controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -23,8 +20,6 @@ public class ModeController implements Initializable{
         this.stage = stage;
     }
 
-
-
    //local -> local_setup
     @FXML
     public void handleLocalBtn(ActionEvent actionEvent){
@@ -32,12 +27,9 @@ public class ModeController implements Initializable{
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-
-            LocalController controller = loader.getController();
+            LocalSetUpController controller = loader.getController();
             controller.setStage(stage);
-
             stage.setTitle("Local Mode Configuration");
-
         } catch (IOException e) {
             System.out.println("crush in loading local setup board ");
             e.printStackTrace();

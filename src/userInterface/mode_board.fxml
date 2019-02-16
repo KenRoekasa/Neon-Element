@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModeController">
+<BorderPane stylesheets="@css/GalaxyTheme.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModeController">
    <center>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -43,7 +43,7 @@
             </Text>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="back" layoutX="66.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBackBtn" text="BACK" />
+                  <Button fx:id="back" layoutX="30.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleBackBtn" text="BACK" />
                </children>
             </Pane>
          </children>

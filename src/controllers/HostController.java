@@ -26,14 +26,13 @@ public class HostController {
     public void handleStartBtn(ActionEvent event){
         // create game rules
         // todo make this configurable
-            gameState = GameStateGenerator.createDemoGamestate();
+            //gameState = GameStateGenerator.createDemoGamestate();
         //g.getPlayer().getHealth();
         try {
             ClientBoard gameBoard = new ClientBoard(stage, gameState);
             Scene scene = gameBoard.getScene();
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
 

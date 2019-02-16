@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" style="-fx-background-color: #142b44;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" styleClass="background" stylesheets="@css/GalaxyTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <children>
-      <BorderPane prefHeight="132.0" prefWidth="623.0">
+      <BorderPane prefHeight="132.0" prefWidth="623.0" stylesheets="@css/GalaxyTheme.css">
          <center>
             <Text fx:id="group_name" fill="#20e0dd" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="ALIEN8" BorderPane.alignment="CENTER">
                <font>
@@ -18,7 +18,7 @@
             </Text>
          </center>
       </BorderPane>
-      <Button fx:id="play_btn" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" onAction="#handlePlayBtn" prefHeight="44.0" prefWidth="124.0" style="-fx-background-radius: 15;" text="PLAY" textAlignment="CENTER" textFill="#030303">
+      <Button fx:id="play_btn" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" onAction="#handlePlayBtn" prefHeight="44.0" prefWidth="124.0" text="PLAY" textAlignment="CENTER" textFill="#030303">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -26,7 +26,7 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="setting" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSettingBtn" prefHeight="44.0" prefWidth="124.0" style="-fx-background-radius: 15;" text="SETTING" textAlignment="CENTER">
+      <Button fx:id="setting" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSettingBtn" prefHeight="44.0" prefWidth="124.0" text="SETTING" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -34,7 +34,7 @@
             <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="help" alignment="CENTER" mnemonicParsing="false" onAction="#handleHelpBtn" prefHeight="44.0" prefWidth="124.0" style="-fx-background-radius: 15;" text="HELP" textAlignment="CENTER">
+      <Button fx:id="help" alignment="CENTER" mnemonicParsing="false" onAction="#handleHelpBtn" prefHeight="44.0" prefWidth="124.0" text="HELP" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -42,7 +42,7 @@
             <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="exit" alignment="CENTER" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="44.0" prefWidth="124.0" style="-fx-background-radius: 15;" text="EXIT" textAlignment="CENTER">
+      <Button fx:id="exit" alignment="CENTER" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="44.0" prefWidth="124.0" text="EXIT" textAlignment="CENTER">
          <VBox.margin>
             <Insets />
          </VBox.margin>
