@@ -435,7 +435,7 @@ public class ClientBoard {
 						Player enemy = (Player) e;
 						enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy));
 						gameState.getPlayer().setCurrentAction(Action.IDLE);
-						System.out.println("hit");
+						//System.out.println("hit");
 						// Sends to server
 					}
 
@@ -449,7 +449,7 @@ public class ClientBoard {
 						// TODO: For now its takes 10 damage, change later
 						enemy.removeHealth(10);
 						gameState.getPlayer().setCurrentAction(Action.IDLE);
-						System.out.println("heavy hit");
+						//System.out.println("heavy hit");
 						// Sends to server
 					}
 				}
