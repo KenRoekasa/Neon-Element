@@ -24,33 +24,32 @@ public class GameStateGenerator {
         Player player = new Player(ObjectType.PLAYER);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
-
+	    Player players[] = {player};
         
-
-
-        //add the 1 power up to the objects list
+        // create object list
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
-        //TODO: Remove
-        //add a powerup
+        
+        // create power up
         PowerUp pu = new PowerUp();
-
         objects.add(pu);
         
-        
-        // initialise enemies
+        // create enemies lists'
         ArrayList<Player> enemies = new ArrayList<>();
-        Player players[] = {player};
-        
         ArrayList<AiController> aiConList = new ArrayList<>();
+        
+        // create an enemy and its ai controller
         AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
         aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
-        
         enemies.get(0).setLocation(new Point2D(140, 100));
-        //Add the enemies to the objects list
+      
+        // Add the enemies to the objects list
         objects.addAll(enemies);
+        
+        // generate a game state
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
 
+        // start the ai
         startAi(aiConList);
         
         return gameState;
