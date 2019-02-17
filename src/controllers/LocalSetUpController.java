@@ -95,29 +95,29 @@ public class LocalSetUpController implements Initializable {
     public void handleStartBtn(ActionEvent actionEvent) {
         //get selected properties
         enemy_num = (int) num_group.getSelectedToggle().getUserData();
-        System.out.println("@localController Number of enemies:\n" + enemy_num);
+        System.out.println("@localController Number of enemies: " + enemy_num);
 
         selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
-        System.out.println("@localController Selected mode: \n" + selected_mode);
+        System.out.println("@localController Selected mode: " + selected_mode);
 
         switch (enemy_num) {
             case 1:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
-                System.out.println("@localController Difficulty of Enemy 1:\n" + enemy_1);
+                System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
                 break;
             case 2:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
-                System.out.println("@localController Difficulty of Enemy 1:\n" + enemy_1);
-                System.out.println("@localController Difficulty of Enemy 2: \n" + enemy_2);
+                System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
+                System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
                 break;
             case 3:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
                 enemy_3 = (String) diff_2.getSelectedToggle().getUserData();
-                System.out.println("@localController Difficulty of Enemy 1:\n" + enemy_1);
-                System.out.println("@localController Difficulty of Enemy 2:\n" + enemy_2);
-                System.out.println("@localController Difficulty of Enemy 3:\n" + enemy_3);
+                System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
+                System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
+                System.out.println("@localController Difficulty of Enemy 3: " + enemy_3);
         }
 
         // create game rules

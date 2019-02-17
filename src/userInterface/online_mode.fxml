@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OnlineModeController">
+<BorderPane styleClass="background" stylesheets="@../resources/css/test01.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OnlineModeController">
    <center>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -36,14 +36,14 @@
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please choose a mode" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Text fill="#fcf8f8" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Please choose a mode" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font size="25.0" />
                </font>
             </Text>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="back" layoutX="70.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleBackBtn" text="BACK" />
+                  <Button fx:id="back" layoutX="22.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleBackBtn" text="BACK" />
                </children>
             </Pane>
          </children>
