@@ -7,9 +7,9 @@ import entities.Player;
 import entities.PowerUp;
 import enums.PowerUpType;
 
-public class EnemyFSM {
+public class AiFSM {
 
-	public static void basicEnemyFetchAction(Player aiPlayer, AiController aiCon,Player [] players) {
+	public static void basicAiFetchAction(Player aiPlayer, AiController aiCon,Player [] players) {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -20,39 +20,39 @@ public class EnemyFSM {
 //			System.out.println("State find health");
 			if(!aiPlayer.isShielded())
 				aiPlayer.shield();
-			aiCon.setState(EnemyStates.FIND_HEALTH);
+			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		else if(aiPlayerHP < (maxHP/3) ) {
 			//System.out.println("ESCAPE");
-			aiCon.setState(EnemyStates.ESCAPE);
+			aiCon.setState(AiStates.ESCAPE);
 		}
 		else if( aiPlayerHP>playerHP || playerHP< (maxHP/2) ) {
 //			System.out.println("state Attack");
-			aiCon.setState(EnemyStates.ATTACK);
+			aiCon.setState(AiStates.ATTACK);
 		}
 		else if(playerHP< (maxHP/4) ) {
 			//System.out.println("state aggressive attack");
-			aiCon.setState(EnemyStates.AGGRESSIVE_ATTACK);
+			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		else if( aiCon.findNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 //			System.out.println("state find damage");
-			aiCon.setState(EnemyStates.FIND_DAMAGE);
+			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		else if( aiCon.findNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 			//System.out.println("state find speed");
-			aiCon.setState(EnemyStates.FIND_SPEED);
+			aiCon.setState(AiStates.FIND_SPEED);
 		}
 		else if( aiCon.powerupCloserThanPlayer() ) {
 //			System.out.println("power up is closer thats why");
 			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
 			case DAMAGE:
-				aiCon.setState(EnemyStates.FIND_DAMAGE);
+				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
 			case HEAL:
-				aiCon.setState(EnemyStates.FIND_HEALTH);
+				aiCon.setState(AiStates.FIND_HEALTH);
 				break;
 			case SPEED:
-				aiCon.setState(EnemyStates.FIND_SPEED);
+				aiCon.setState(AiStates.FIND_SPEED);
 				break;
 			default:
 				break;
@@ -60,7 +60,7 @@ public class EnemyFSM {
 		}
 		else {
 			//System.out.println("ELSE , state attack");
-			aiCon.setState(EnemyStates.ATTACK);
+			aiCon.setState(AiStates.ATTACK);
 		}
 
 	}

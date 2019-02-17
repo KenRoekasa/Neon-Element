@@ -12,13 +12,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import java.util.concurrent.TimeUnit;
 
-import ai.EnemyFSM;
-import ai.EnemyStates;
+import ai.AiFSM;
+import ai.AiStates;
 import javafx.geometry.Point2D;
 public class AiController {
 
 
-		EnemyStates activeState;
+		AiStates activeState;
 		Player[] players;
 		ArrayList<PhysicsObject> objects;
 		Player aiPlayer ;
@@ -32,7 +32,7 @@ public class AiController {
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
 
-	        activeState = EnemyStates.IDLE;
+	        activeState = AiStates.IDLE;
 	     
 	        this.players = players;
 	        this.objects = objects;
@@ -70,7 +70,7 @@ public class AiController {
 			return disToPu>disToPlayer;
 		}
 
-		public void startBasicAI() {
+		public void startBasicAi() {
 			System.out.println("started basic ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
@@ -78,7 +78,7 @@ public class AiController {
 				public void run() {
 					boolean bool = true;
 					while (bool) {
-						EnemyFSM.basicEnemyFetchAction(aiPlayer, aiCon, players);
+						AiFSM.basicAiFetchAction(aiPlayer, aiCon, players);
 						//System.out.println("health "+aiPlayer.getHealth());
 						basicAIExecuteAction();
 						if (aiPlayer.getHealth() <= 0)
@@ -184,11 +184,11 @@ public class AiController {
 			}
 		}
 
-		public EnemyStates getActiveState() {
+		public AiStates getActiveState() {
 			return activeState;
 		}
 
-		public void setState(EnemyStates s) {
+		public void setState(AiStates s) {
 			activeState = s;
 		}
 
