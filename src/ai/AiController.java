@@ -25,6 +25,7 @@ public class AiController {
 		int powerupIndex = -1;
 		Rectangle map;
 		AiController  aiCon= this;
+		final int DELAY_TIME = 28;
 
 		public AiController(Player aiPlayer,Player [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
 
@@ -70,7 +71,7 @@ public class AiController {
 		}
 
 		public void startBasicAI() {
-			System.out.println("started basic ai");
+			System.out.println("started basic ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
 				@Override
@@ -78,7 +79,7 @@ public class AiController {
 					boolean bool = true;
 					while (bool) {
 						EnemyFSM.basicEnemyFetchAction(aiPlayer, aiCon, players);
-
+						//System.out.println("health "+aiPlayer.getHealth());
 						basicAIExecuteAction();
 						if (aiPlayer.getHealth() <= 0)
 							bool = false;
@@ -143,7 +144,7 @@ public class AiController {
 			}
 		}
 
-		private void advancedAIExecuteAction() {
+		/*private void advancedAIExecuteAction() {
 			switch (activeState) {
 			case ATTACK:
 				attack();
@@ -161,7 +162,7 @@ public class AiController {
 				findSpeed();
 				break;
 			}
-		}
+		}*/
 
 		private void assignRandomElement() {
 
@@ -225,12 +226,7 @@ public class AiController {
 		
 		public void escape() {
 			
-			try {
-				TimeUnit.MILLISECONDS.sleep(35);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			delay();
 		
 			Player player = findNearestPlayer();
 			switch(player.getCharacterDirection()) {
@@ -354,12 +350,7 @@ public class AiController {
 			
 			while ((int) distance > 2) {
 
-				try {
-					TimeUnit.MILLISECONDS.sleep(35);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				delay();
 
 				if (powerupIndex == -1)
 					break;
@@ -398,12 +389,7 @@ public class AiController {
 
 			while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
 				
-				try {
-					TimeUnit.MILLISECONDS.sleep(35);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				delay();
 				
 				aiPlayer.setPlayerAngle(new Rotate(calcAngle(aiPlayer.getLocation(),player.getLocation())));
 
@@ -437,6 +423,15 @@ public class AiController {
 				}*/
 				playerLoc = player.getLocation();
 				distance = calcDistance(aiPlayer.getLocation(), playerLoc);
+			}
+		}
+		
+		private void delay() {
+			try {
+				TimeUnit.MILLISECONDS.sleep(DELAY_TIME);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 

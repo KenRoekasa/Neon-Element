@@ -43,7 +43,7 @@ public class EnemyFSM {
 			aiCon.setState(EnemyStates.FIND_SPEED);
 		}
 		else if( aiCon.powerupCloserThanPlayer() ) {
-			System.out.println("power up is closer thats why");
+//			System.out.println("power up is closer thats why");
 			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(EnemyStates.FIND_DAMAGE);
