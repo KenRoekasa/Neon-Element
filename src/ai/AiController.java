@@ -67,7 +67,7 @@ public class AiController {
 			double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
 			double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
 			
-			return disToPu>disToPlayer;
+			return disToPu<disToPlayer;
 		}
 
 		public void startBasicAi() {
@@ -116,7 +116,8 @@ public class AiController {
 			t.start();
 
 		}*/
-
+		
+		//TODO: figure why the shield and heavy attack are using the player's instead of the ai's
 		private void basicAIExecuteAction() {
 			switch (activeState) {
 			case ATTACK:
@@ -126,15 +127,19 @@ public class AiController {
 				aggressiveAttack();
 				break;
 			case FIND_HEALTH:
+				//aiPlayer.shield();
 				findHealth();
 				break;
 			case FIND_DAMAGE:
+				//aiPlayer.shield();
 				findDamage();
 				break;
 			case FIND_SPEED:
+				//aiPlayer.shield();
 				findSpeed();
 				break;
 			case ESCAPE:
+				//aiPlayer.shield();
 				escape();
 				break;
 			case IDLE:
@@ -218,14 +223,12 @@ public class AiController {
 			Player player = findNearestPlayer();
 			moveTo(player);
 			if (inAttackDistance(player)) {
-				// if(canHeavyAttack() )
-				// heavyAttack();
+				aiPlayer.chargeHeavyAttack();
 				aiPlayer.lightAttack();
 			}
 		}
 		
 		public void escape() {
-			
 			delay();
 		
 			Player player = findNearestPlayer();
@@ -344,10 +347,6 @@ public class AiController {
 			double distance = calcDistance(aiPlayer.getLocation(), loc);
 			//System.out.println("distance: " + distance);
 
-			for(PowerUp pu:getPowerups())
-				//System.out.println(pu.getType());
-
-			
 			while ((int) distance > 2) {
 
 				delay();
@@ -372,7 +371,9 @@ public class AiController {
 				else if (!higherX(loc))
 					aiPlayer.moveRightCartesian(map.getWidth());
 
-				if (!objects.get(powerupIndex).getLocation().equals(loc))
+				ArrayList<PowerUp> powerups = getPowerups();
+				//check if the power up has been taken by another player
+				if ( powerups.size() < 1 || !powerups.get(powerupIndex).getLocation().equals(loc))
 					break;
 
 				//System.out.println("stuck in move to pu loop");
@@ -386,10 +387,17 @@ public class AiController {
 			Point2D playerLoc = player.getLocation();
 			double distance = calcDistance(aiPlayer.getLocation(), playerLoc);
 			
+			
+			
+			//System.out.println("distance: "+distance+"\n2*width: "+2*aiPlayer.getWidth());
+			if( distance <= 2*aiPlayer.getWidth()) 
+				return;
 
-			while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
-				
+			//while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
+			
 				delay();
+				//System.out.println("moving to player");
+				
 				
 				aiPlayer.setPlayerAngle(new Rotate(calcAngle(aiPlayer.getLocation(),player.getLocation())));
 
@@ -421,9 +429,9 @@ public class AiController {
 					System.out.println("going right cart");
 					moveRightCartesian(map.getWidth());
 				}*/
-				playerLoc = player.getLocation();
-				distance = calcDistance(aiPlayer.getLocation(), playerLoc);
-			}
+			//	playerLoc = player.getLocation();
+				//distance = calcDistance(aiPlayer.getLocation(), playerLoc);
+			//}
 		}
 		
 		private void delay() {
@@ -467,6 +475,47 @@ public class AiController {
 			if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
 				return true;
 			return false;
+		}
+
+		public void changeToBefittingElement() {
+			Player player = findNearestPlayer();
+			switch(activeState) {
+			
+			//when attacking, change element to maximize damage given
+			case AGGRESSIVE_ATTACK:
+			case ATTACK:
+				switch(player.getCurrentElement()) {
+				case WATER:
+				case AIR:
+					aiPlayer.changeToFire();
+					break;
+				case EARTH:
+				case FIRE:
+					aiPlayer.changeToWater();
+					break;
+				}
+				break;
+				
+			//when not attacking, change element to minimize damage received
+			case ESCAPE:
+			case FIND_DAMAGE:
+			case FIND_HEALTH:
+			case FIND_SPEED:
+			case IDLE:
+				switch(player.getCurrentElement()) {
+				case EARTH:
+				case FIRE:
+					aiPlayer.changeToWater();
+					break;
+				case AIR:
+					aiPlayer.changeToEarth();
+					break;
+				case WATER:
+					aiPlayer.changeToAir();
+					break;
+				}
+				break;
+			}
 		}
 
 
