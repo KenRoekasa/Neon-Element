@@ -11,9 +11,12 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -62,6 +65,10 @@ public class ClientBoard {
         //controller.
 
         scene = primaryStage.getScene();
+        // change cursor
+        Image cursorImage = new Image("textures/cursor.png");
+        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
+        scene.setCursor(iC);
 
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
