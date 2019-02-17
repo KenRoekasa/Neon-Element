@@ -16,7 +16,7 @@ import ai.AiController;
 public class GameStateGenerator {
 
     public static ClientGameState createDemoGamestate() {
-
+    	System.out.println("generating game state");
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
 

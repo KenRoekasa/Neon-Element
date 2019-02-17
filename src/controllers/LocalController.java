@@ -31,6 +31,7 @@ public class LocalController {
     public void handleStartBtn(){
         // create game rules
         // todo make this configurable
+    	System.out.println("local controller class");
             gameState = GameStateGenerator.createDemoGamestate();
         //g.getPlayer().getHealth();
         try {
