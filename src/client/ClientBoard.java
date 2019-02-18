@@ -428,7 +428,7 @@ public class ClientBoard {
                         // this will have to change due to Player being other controlled player when
                         // Enemy is when the player is an ai
                         Enemy enemy = (Enemy) e;
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy));
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy),gameState.getPlayer());
                         gameState.getPlayer().setCurrentAction(Action.IDLE);
                         System.out.println("hit");
                         // Sends to server
@@ -442,7 +442,7 @@ public class ClientBoard {
                         // e takes damage
                         Enemy enemy = (Enemy) e;
                         // TODO: For now its takes 10 damage, change later
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy));
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy),gameState.getPlayer());
                         gameState.getPlayer().setCurrentAction(Action.IDLE);
                         System.out.println("heavy hit");
                         // Sends to server
