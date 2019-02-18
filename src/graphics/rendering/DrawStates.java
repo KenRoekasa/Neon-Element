@@ -20,7 +20,7 @@ class DrawStates {
 
     static void drawHeavyAttack(GraphicsContext gc, Character player, long remainingAnimDuration, long animationDuration, Point2D playerCenter) {
         long startAngle = 0;
-        long finishAngle = 360;
+        long finishAngle = 180;
         long angle = Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle);
 
         gc.save();
@@ -29,7 +29,16 @@ class DrawStates {
 
         ISOConverter.applyAngleRotation(gc, angle, playerCenter);
         gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
-        //todo make better
+
+        ISOConverter.applyAngleRotation(gc, 90, playerCenter);
+        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+
+        ISOConverter.applyAngleRotation(gc, 90, playerCenter);
+        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+
+        ISOConverter.applyAngleRotation(gc, 90, playerCenter);
+        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+
 
         gc.restore();
     }

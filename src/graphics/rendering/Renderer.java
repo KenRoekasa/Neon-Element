@@ -93,8 +93,7 @@ public class Renderer {
 
         gc.restore();
 
-        //debugger.gameStateDebugger(gameState, stageSize);
-
+        debugger.gameStateDebugger(gameState, stageSize);
         debugger.print();
     }
 
