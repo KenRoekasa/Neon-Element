@@ -37,7 +37,7 @@ public class MenuController implements Initializable{
 
         // create game rules
         // todo make this configurable
-        ClientGameState g = GameStateGenerator.createDemoGamestate();
+        
       //select mode
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
 

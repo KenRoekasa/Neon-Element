@@ -167,6 +167,7 @@ public abstract class Character extends PhysicsObject {
 
     public void removeHealth(float damage) {
         this.health -= damage;
+        //System.out.println("player health "+getHealth());
     }
 
     public void chargeHeavyAttack() {
@@ -294,10 +295,11 @@ public abstract class Character extends PhysicsObject {
             health = MAX_HEALTH;
         }
     }
-
+    
     // Increase movement speed
     public void speedBoost() {
-        Timer timer = new Timer();
+    	Timer timer = new Timer();
+    	
         movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
@@ -307,9 +309,10 @@ public abstract class Character extends PhysicsObject {
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
                         movementSpeed = 5;
+                        System.out.println("speed boost has ended");
                         timer.cancel();
                     }
-                    timerArray[speedBoostDuration]++;
+                    timerArray[speedBoostID]++;
                 }
             }, 0, 1000);
         } else {

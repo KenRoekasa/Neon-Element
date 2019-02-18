@@ -4,11 +4,11 @@ import calculations.AttackTimes;
 import client.ClientGameState;
 import debugger.Debugger;
 import entities.Character;
-import entities.Enemy;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
 import enums.Action;
+import enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -73,7 +73,7 @@ public class Renderer {
         }
 
         // draw cursors to ensure on top
-        for (Enemy e : gameState.getEnemies()) {
+        for (Character e : gameState.getEnemies()) {
             DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
         }
 
@@ -89,19 +89,19 @@ public class Renderer {
 
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
 
-        if (Objects.equals(o.getClass(), Player.class)) {
+        if (o.getTag() == ObjectType.PLAYER) {
             Action status = gameState.getPlayer().getCurrentAction();
             Class charClass = Player.class;
 
             DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
             ActionSwitch(status, gameState.getPlayer(), charClass, gameState);
 
-        } else if (Objects.equals(o.getClass(), Enemy.class)) {
-            Enemy enemy = (Enemy)o;
+        } else if (o.getTag() == ObjectType.ENEMY) {
+            Character enemy = (Character) o;
             Action status = enemy.getCurrentAction();
-            Class charClass = Enemy.class;
+            Class charClass = Player.class;
 
-            DrawEnemies.drawEnemy(gc, stageSize, (Enemy) o, gameState.getPlayer());
+            DrawEnemies.drawEnemy(gc, stageSize, enemy, gameState.getPlayer());
             ActionSwitch(status, enemy, charClass, gameState);
 
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
@@ -123,7 +123,7 @@ public class Renderer {
                 if(Objects.equals(charClass, Player.class)) {
                     DrawClientPlayer.drawLightAttack(gc, (Player)character, remainingAnimDuration, animationDuration, stageSize);
                 } else {
-                    DrawEnemies.drawLightAttack(gc, (Enemy)character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    DrawEnemies.drawLightAttack(gc, (Player)character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
                 break;
             case CHARGE:
@@ -134,7 +134,7 @@ public class Renderer {
 
                     DrawClientPlayer.drawHeavyAttackCharge(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 } else {
-                    DrawEnemies.drawHeavyAttackCharge(gc, (Enemy) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    DrawEnemies.drawHeavyAttackCharge(gc, (Player) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
                 break;
             case HEAVY:
@@ -144,7 +144,7 @@ public class Renderer {
                 if(Objects.equals(charClass, Player.class)) {
                     DrawClientPlayer.drawHeavyAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 } else {
-                    DrawEnemies.drawHeavyAttack(gc, (Enemy) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
+                    DrawEnemies.drawHeavyAttack(gc, (Player) character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
 
                 break;
@@ -152,7 +152,7 @@ public class Renderer {
                 if(Objects.equals(charClass, Player.class)) {
                     DrawClientPlayer.drawShield(gc, gameState.getPlayer(), stageSize);
                 } else {
-                    DrawEnemies.drawShield(gc, (Enemy) character, gameState.getPlayer(), stageSize);
+                    DrawEnemies.drawShield(gc, (Player) character, gameState.getPlayer(), stageSize);
                 }
         }
     }

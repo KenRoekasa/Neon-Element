@@ -30,7 +30,7 @@ public class JoinController {
         try {
             ClientBoard gameBoard = new ClientBoard(stage, gameState);
             Scene scene = gameBoard.getScene();
-
+            gameBoard.startGame();
         } catch (Exception e) {
 
             e.printStackTrace();
