@@ -373,7 +373,7 @@ public class AiController {
 
 				ArrayList<PowerUp> powerups = getPowerups();
 				//check if the power up has been taken by another player
-				if ( powerups.size() < 1 || !powerups.get(powerupIndex).getLocation().equals(loc))
+				if ( powerups.size() < 1 || !powerups.get(powerupIndex).getLocation().equals(loc) || powerupIndex>powerups.size())
 					break;
 
 				//System.out.println("stuck in move to pu loop");
