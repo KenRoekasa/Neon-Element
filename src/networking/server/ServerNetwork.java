@@ -32,20 +32,22 @@ public class ServerNetwork extends Thread {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
 
             // Multicast socket
+            /*
             groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
             multicastSocket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
-        } catch (SocketException e) {
+            */
+            } catch (SocketException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (UnknownHostException e) {
+        }/* catch (UnknownHostException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IOException e) {
+        }*/ catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        this.dispatcher = new ServerNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
+        this.dispatcher = new ServerNetworkDispatcher(this.socket, /*this.multicastSocket, groupAddress,*/ gameState);
     }
 
     public ServerNetworkDispatcher getDispatcher() {

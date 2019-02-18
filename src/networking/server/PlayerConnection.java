@@ -22,4 +22,12 @@ public class PlayerConnection {
         return this.ipAddress.equals(ipAddress) && this.port == port;
     }
 
+    public InetAddress getIpAddress() {
+        return ipAddress;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
 }

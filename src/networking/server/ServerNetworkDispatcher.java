@@ -21,8 +21,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
     private ArrayList<PlayerConnection> connections;
 
-	protected ServerNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ServerGameState gameState) {
-		super(socket, multicastSocket, groupAddress);
+	protected ServerNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ServerGameState gameState) {
+		super(socket/*, multicastSocket, groupAddress*/);
 		this.gameState = gameState;
         this.connections = new ArrayList<>();
 	}
@@ -130,12 +130,14 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
-            DatagramPacket datagram = new DatagramPacket(data, data.length, this.groupAddress, Constants.BROADCASTING_PORT);
-            System.out.println("" + this.groupAddress + ":" + Constants.BROADCASTING_PORT + " <-- " + packet.getType());
-            try {
-                this.multicastSocket.send(datagram);
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (PlayerConnection conn : this.connections) {
+                DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
+
+                try {
+                    this.socket.send(datagram);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             System.out.println("Attempted to send a recived packet.");
