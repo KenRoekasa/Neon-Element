@@ -1,5 +1,4 @@
 
-package userInterface;
 import graphics.userInterface.controllers.MenuController;
 
 import javafx.application.Application;
