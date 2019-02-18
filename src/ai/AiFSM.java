@@ -83,7 +83,7 @@ public class AiFSM {
 		
 		else {
 //			System.out.println("case 8");
-			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
+			aiCon.setState(AiStates.ATTACK);
 		}
 		
 		aiCon.changeToBefittingElement();
