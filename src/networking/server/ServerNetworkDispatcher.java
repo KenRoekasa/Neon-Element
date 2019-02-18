@@ -130,10 +130,12 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
+            System.out.println("Group Address: "+groupAddress);
             DatagramPacket datagram = new DatagramPacket(data, data.length, this.groupAddress, Constants.BROADCASTING_PORT);
             System.out.println("" + this.groupAddress + ":" + Constants.BROADCASTING_PORT + " <-- " + packet.getType());
             try {
                 this.multicastSocket.send(datagram);
+                System.out.println("Datagram sent");
             } catch (IOException e) {
                 e.printStackTrace();
             }

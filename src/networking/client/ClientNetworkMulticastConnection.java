@@ -70,7 +70,11 @@ public class ClientNetworkMulticastConnection extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            if(packet == null) {
+            		System.out.println("no packet recieved");
+            }else {
+            		System.out.println("recieved packet");
+            }
             this.net.parse(packet);
         }
 	}

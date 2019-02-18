@@ -11,7 +11,7 @@ import networking.packets.Packet;
 
 public abstract class NetworkDispatcher {
 
-    private DatagramSocket socket;
+    protected DatagramSocket socket;
     protected MulticastSocket multicastSocket;
     protected InetAddress groupAddress;
 

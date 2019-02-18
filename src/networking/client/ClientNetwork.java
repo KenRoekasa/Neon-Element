@@ -32,6 +32,7 @@ public class ClientNetwork {
 
         this.conn.start();
         this.multiConn.start();
+        System.out.println("Is the thread alive: "+multiConn.isAlive());
     }
     
     public ClientNetworkDispatcher getDispatcher() {

@@ -12,6 +12,8 @@ import server.ServerGameState;
 
 public class ManualTestServer {
     public static void main(String[] args) throws IOException {
+    	System.setProperty("java.net.preferIPv4Stack", "true");
+
         ClientGameState clientGameState = GameStateGenerator.createDemoGamestate();
         ServerGameState gameState = new ServerGameState(new ArrayList<Player>(), new ArrayList<Enemy>(), clientGameState.getMap(), clientGameState.getObjects());
         GameServer server = new GameServer(gameState);
