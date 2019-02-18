@@ -10,7 +10,6 @@ import enums.ObjectType;
 import enums.PowerUpType;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import java.util.concurrent.TimeUnit;
 
 import ai.AiFSM;
 import ai.AiStates;
@@ -80,9 +79,9 @@ public class AiController {
 						//System.out.println("health "+aiPlayer.getHealth());
 						basicAIExecuteAction();
 						//delay to limit speed 
-						delay(DELAY_TIME);
+						aiPlayer.delay(DELAY_TIME);
 						if (aiPlayer.getHealth() <= 0) {
-							respawn();
+							aiPlayer.respawn(map.getWidth(),map.getHeight());
 						}
 						
 //						if(timer.off)
@@ -437,14 +436,6 @@ public class AiController {
 			//}
 		}
 		
-		private void delay(int time) {
-			try {
-				TimeUnit.MILLISECONDS.sleep(time);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 		private boolean higherY(Point2D loc) {
 
@@ -532,12 +523,4 @@ public class AiController {
 			}
 		}
 
-		public void respawn() {
-			aiPlayer.addOneDeath();
-			aiPlayer.setLocation(new Point2D(-500, -500));
-			delay(3000);
-			while(aiPlayer.getHealth()!=100)
-				aiPlayer.addHealth(1);
-			aiPlayer.setLocation(new Point2D(map.getWidth()-1, map.getHeight()-1));
-		}
 }

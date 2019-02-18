@@ -11,6 +11,7 @@ import javafx.scene.transform.Rotate;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import static entities.CooldownValues.*;
 
@@ -399,5 +400,24 @@ public abstract class Character extends PhysicsObject {
         }
         return false;
     }
+    
+
+	public void respawn(double mapWidth, double mapHeight) {
+		addOneDeath();
+		setLocation(new Point2D(-500, -500));
+		delay(3000);
+		while(getHealth()!=100)
+			addHealth(1);
+		setLocation(new Point2D(mapWidth-1, mapHeight-1));
+	}
+	
+	public void delay(int time) {
+		try {
+			TimeUnit.MILLISECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
