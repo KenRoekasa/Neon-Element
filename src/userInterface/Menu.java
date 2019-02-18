@@ -16,9 +16,9 @@ public class Menu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+        //TODO do we own the rights to this font? i am rather sceptical
         Font fontLoader = Font.loadFont(getClass().getResourceAsStream("../resources/fonts/Super Mario Bros.ttf"), 14);
-        System.out.println(fontLoader.getName());
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
         Parent root = (Parent)loader.load();
