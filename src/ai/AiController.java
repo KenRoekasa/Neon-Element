@@ -26,7 +26,7 @@ public class AiController {
 		Rectangle map;
 		AiController  aiCon= this;
 		final int DELAY_TIME = 28;
-
+//TODO: implement sheild, attacking other ai's and pause function to pause game and also to kill the enemy
 		public AiController(Player aiPlayer,Player [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
@@ -122,25 +122,27 @@ public class AiController {
 		private void basicAIExecuteAction() {
 			switch (activeState) {
 			case ATTACK:
+				aiPlayer.unShield();
 				attack();
 				break;
 			case AGGRESSIVE_ATTACK:
+				aiPlayer.unShield();
 				aggressiveAttack();
 				break;
 			case FIND_HEALTH:
-				//aiPlayer.shield();
+				aiPlayer.shield();
 				findHealth();
 				break;
 			case FIND_DAMAGE:
-				//aiPlayer.shield();
+				aiPlayer.shield();
 				findDamage();
 				break;
 			case FIND_SPEED:
-				//aiPlayer.shield();
+				aiPlayer.shield();
 				findSpeed();
 				break;
 			case ESCAPE:
-				//aiPlayer.shield();
+				aiPlayer.shield();
 				escape();
 				break;
 			case IDLE:
