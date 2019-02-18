@@ -39,7 +39,6 @@ public class AiController {
 	        this.map = map;
 	        this.aiPlayer =aiPlayer;
 	        //default random
-		      
 	        assignRandomElement();
 	    }
 		
@@ -81,6 +80,8 @@ public class AiController {
 						AiFSM.basicAiFetchAction(aiPlayer, aiCon, players);
 						//System.out.println("health "+aiPlayer.getHealth());
 						basicAIExecuteAction();
+						//delay to limit speed 
+						delay();
 						if (aiPlayer.getHealth() <= 0)
 							bool = false;
 					}
@@ -229,8 +230,6 @@ public class AiController {
 		}
 		
 		public void escape() {
-			delay();
-		
 			Player player = findNearestPlayer();
 			switch(player.getCharacterDirection()) {
 			case DOWN:
@@ -347,12 +346,8 @@ public class AiController {
 			double distance = calcDistance(aiPlayer.getLocation(), loc);
 			//System.out.println("distance: " + distance);
 
-			while ((int) distance > 2) {
-
-				delay();
-
-				if (powerupIndex == -1)
-					break;
+			if(!((int) distance > 2 || powerupIndex == -1))
+				return;
 
 				if (isAbove(loc))
 					aiPlayer.moveUp();
@@ -371,15 +366,15 @@ public class AiController {
 				else if (!higherX(loc))
 					aiPlayer.moveRightCartesian(map.getWidth());
 
-				ArrayList<PowerUp> powerups = getPowerups();
+				//ArrayList<PowerUp> powerups = getPowerups();
 				//check if the power up has been taken by another player
-				if ( powerups.size() < 1 || !powerups.get(powerupIndex).getLocation().equals(loc) || powerupIndex>powerups.size())
-					break;
+				//if ( powerups.size() < 1 || powerupIndex>powerups.size()+1 || powerupIndex==-1 || !powerups.get(powerupIndex).getLocation().equals(loc) )
+				//	break;
 
 				//System.out.println("stuck in move to pu loop");
 				//System.out.println("distance: " + distance + "\nlocation: " + getLocation() + "\npu loc: " + loc);
-				distance = calcDistance(aiPlayer.getLocation(), loc);
-			}
+				//distance = calcDistance(aiPlayer.getLocation(), loc);
+			
 		}
 
 		public void moveTo(Player player) {
@@ -395,7 +390,6 @@ public class AiController {
 
 			//while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
 			
-				delay();
 				//System.out.println("moving to player");
 				
 				
