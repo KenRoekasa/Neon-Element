@@ -88,12 +88,6 @@ public class InputHandler {
         } else {
             player.unShield();
         }
-
-        //if player presses "P" then pause the game
-        if(pause){
-            System.out.println("@Pause  pause the game!");
-            player.pause(primaryStage);
-        }
     }
 
     private static void moveIsometric(Player player, Rectangle board, boolean left, boolean right, boolean up, boolean down) {

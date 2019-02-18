@@ -37,7 +37,13 @@ public abstract class Character extends PhysicsObject {
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
+    public static final int DEFAULT_MOVEMENT_SPEED = 5;
 
+    public Player getLastAttacker() {
+        return lastAttacker;
+    }
+
+    protected Player lastAttacker;
 
     private long currentActionStart;
 
@@ -175,6 +181,11 @@ public abstract class Character extends PhysicsObject {
 
     public void removeHealth(float damage) {
         this.health -= damage;
+        //System.out.println("player health "+getHealth());
+    }
+    public void removeHealth(float damage,Player lastAttacker) {
+        this.health -= damage;
+        this.lastAttacker=lastAttacker;
         //System.out.println("player health "+getHealth());
     }
 
@@ -425,21 +436,4 @@ public abstract class Character extends PhysicsObject {
 			e.printStackTrace();
 		}
 	}
-
-    // not the best place to put pause function
-    //TODO:figure out why access 4 times here
-	public void pause(Stage stage){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../graphics/userInterface/fxmls/pause.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            PauseController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Pause");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading pause board!");
-            e.printStackTrace();
-        }
-    }
 }

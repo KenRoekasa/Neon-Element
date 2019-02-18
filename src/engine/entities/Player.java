@@ -19,7 +19,7 @@ public class Player extends Character {
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
         canUp = canDown = canLeft = canRight = canUpCart = canDownCart = canLeftCart = canRightCart = true;
-        movementSpeed = 5;
+        movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
