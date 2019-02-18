@@ -1,11 +1,8 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import enums.Elements;
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
+import engine.enums.Elements;
 
 public class BroadCastElementStatePacket extends Packet {
 

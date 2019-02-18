@@ -1,5 +1,5 @@
-import entities.Player;
-import enums.ObjectType;
+import engine.entities.Player;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
-import entities.CollisionDetection;
-import entities.Player;
-import entities.PowerUp;
-import enums.ObjectType;
+import engine.entities.CollisionDetection;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;

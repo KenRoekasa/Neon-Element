@@ -1,8 +1,8 @@
 package client;
 
 import engine.GameState;
-import entities.PhysicsObject;
-import entities.Player;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
 import javafx.scene.shape.Rectangle;
 
 

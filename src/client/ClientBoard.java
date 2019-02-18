@@ -1,17 +1,16 @@
 package client;
 
-import controllers.HUDController;
-import calculations.DamageCalculation;
-import debugger.Debugger;
-import entities.*;
-import enums.Action;
-import enums.ObjectType;
-import graphics.Renderer;
+import graphics.userInterface.controllers.HUDController;
+import engine.calculations.DamageCalculation;
+import graphics.debugger.Debugger;
+import engine.entities.*;
+import engine.enums.Action;
+import engine.enums.ObjectType;
+import graphics.rendering.Renderer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -44,7 +43,7 @@ public class ClientBoard {
 		this.gameState = gameState;
 		this.gameClient = new GameClient(gameState);
         // load hud
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
         Pane hudPane = new Pane();
 
         try {
@@ -68,7 +67,7 @@ public class ClientBoard {
 
         scene = primaryStage.getScene();
         // change cursor
-        Image cursorImage = new Image("textures/cursor.png");
+        Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
         ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
         scene.setCursor(iC);
 
@@ -434,7 +433,7 @@ public class ClientBoard {
 								e.getBounds().getBoundsInParent())) {
 							// e takes damage
 							// this will have to change due to Player being other controlled player when
-							// Enemy is when the player is an ai
+							// Enemy is when the player is an engine.ai
 							Player enemy = (Player) e;
 							enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy));
 							player.setCurrentAction(Action.IDLE);

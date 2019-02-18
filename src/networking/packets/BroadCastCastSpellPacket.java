@@ -1,11 +1,8 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import enums.Spell;
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
+import engine.enums.Spell;
 
 //This is a way to hold the information
 public class BroadCastCastSpellPacket extends Packet {

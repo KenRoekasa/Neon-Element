@@ -1,7 +1,7 @@
 package server.controllers;
 
-import entities.PhysicsObject;
-import entities.PowerUp;
+import engine.entities.PhysicsObject;
+import engine.entities.PowerUp;
 import networking.server.ServerNetworkDispatcher;
 
 import java.util.ArrayList;

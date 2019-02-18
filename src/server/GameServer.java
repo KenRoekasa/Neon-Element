@@ -1,22 +1,17 @@
 package server;
 
-import static enums.Directions.LEFTCART;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import engine.GameTypeHandler;
-import entities.CollisionDetection;
-import entities.PhysicsObject;
-import entities.Player;
-import entities.PowerUp;
-import enums.Action;
-import enums.ObjectType;
+import engine.entities.CollisionDetection;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.Action;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
-import server.ServerGameState;
 import server.controllers.PowerUpController;
 
 public class GameServer extends Thread {
@@ -194,7 +189,7 @@ public class GameServer extends Thread {
                         if (player.getCurrentAction() == Action.LIGHT) {
                             if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                                 // e takes damage
-                                // this will have to change due to Player being other controlled player when Enemy is when the player is an ai
+                                // this will have to change due to Player being other controlled player when Enemy is when the player is an engine.ai
                                 Player enemy = (Player) e;
                                 // TODO: For now its takes 3 damage, change later
                                 enemy.removeHealth(3);
