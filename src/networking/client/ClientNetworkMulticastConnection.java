@@ -57,6 +57,7 @@ public class ClientNetworkMulticastConnection extends Thread {
 			    e.printStackTrace();
 			}
             this.socket.close();
+            this.running = false;
 	    }
 
 	public void run() {
