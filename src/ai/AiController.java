@@ -25,6 +25,7 @@ public class AiController {
 		Player player;
 		AiController  aiCon= this;
 		final int DELAY_TIME = 28;
+		boolean wandering = false;
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
@@ -67,23 +68,24 @@ public class AiController {
 			return disToPu<disToPlayer;
 		}
 
-		public void startBasicAi() {
-			System.out.println("started basic ai\n\n");
+		public void startEasyAi() {
+			System.out.println("started easy ai\n\n");
+			changeToRandomElement();
 			Thread t = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
 					boolean bool = true;
 					while (bool) {
-						AiFSM.basicAiFetchAction(aiPlayer, aiCon);
+						AiFSM.easyAiFetchAction(aiPlayer, aiCon);
 						//System.out.println("health "+aiPlayer.getHealth());
 						
 						if(getActiveState().equals(AiStates.ESCAPE))
-							aiPlayer.delay(DELAY_TIME/2);
+							aiPlayer.delay((DELAY_TIME/2)+(DELAY_TIME/4));
 						else
 							aiPlayer.delay(DELAY_TIME);
 						
-						basicAIExecuteAction();
+						easyAIExecuteAction();
 						//delay to limit speed 
 						
 						if (aiPlayer.getHealth() <= 0) {
@@ -101,34 +103,95 @@ public class AiController {
 			t.start();
 		}
 
-		/*public void startAdvancedAI() {
-
+		private void changeToRandomElement() {
 			Thread t = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
-
 					boolean bool = true;
-
 					while (bool) {
-
-						EnemyFSM.advancedEnemyFetchAction(aiPlayer, players, getPowerups());
-
-						advancedAIExecuteAction();
-
-						if (aiPlayer.getHealth() <= 0)
-							bool = false;
+						aiPlayer.delay(15000);
+						assignRandomElement();
+						//TODO: make it terminate when ai player dies	
 					}
+				
 				}
 
 			});
 
 			t.start();
+		}
 
-		}*/
+		public void startMediumAI() {
+			System.out.println("started medium ai\n\n");
+			Thread t = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					boolean bool = true;
+					while (bool) {
+						AiFSM.mediumAiFetchAction(aiPlayer, aiCon);
+						//System.out.println("health "+aiPlayer.getHealth());
+						
+						if(getActiveState().equals(AiStates.ESCAPE))
+							aiPlayer.delay((DELAY_TIME/2)+(DELAY_TIME/4));
+						else
+							aiPlayer.delay(DELAY_TIME);
+						
+						easyAIExecuteAction();
+						//delay to limit speed 
+						
+						if (aiPlayer.getHealth() <= 0) {
+							aiPlayer.respawn(map.getWidth(),map.getHeight());
+						}
+						
+//						if(timer.off)
+//							bool = false;				
+					}
+				
+				}
+
+			});
+
+			t.start();
+		}
+		
+		public void startHardAI() {
+			System.out.println("started hard ai\n\n");
+			Thread t = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					boolean bool = true;
+					while (bool) {
+						AiFSM.hardAiFetchAction(aiPlayer, aiCon);
+						//System.out.println("health "+aiPlayer.getHealth());
+						
+						if(getActiveState().equals(AiStates.ESCAPE))
+							aiPlayer.delay((DELAY_TIME/2)+(DELAY_TIME/4));
+						else
+							aiPlayer.delay(DELAY_TIME);
+						
+						easyAIExecuteAction();
+						//delay to limit speed 
+						
+						if (aiPlayer.getHealth() <= 0) {
+							aiPlayer.respawn(map.getWidth(),map.getHeight());
+						}
+						
+//						if(timer.off)
+//							bool = false;				
+					}
+				
+				}
+
+			});
+
+			t.start();
+		}
 		
 		//TODO: figure why the shield and heavy attack are using the player's instead of the ai's
-		private void basicAIExecuteAction() {
+		private void easyAIExecuteAction() {
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
@@ -154,6 +217,9 @@ public class AiController {
 				aiPlayer.shield();
 				escape();
 				break;
+			case WANDER:
+				aiPlayer.unShield();
+				wander();
 			case IDLE:
 				break;
 			default:
@@ -161,26 +227,63 @@ public class AiController {
 			}
 		}
 
-		/*private void advancedAIExecuteAction() {
-			switch (activeState) {
-			case ATTACK:
-				attack();
-				break;
-			case AGGRESSIVE_ATTACK:
-				aggressiveAttack();
-				break;
-			case FIND_HEALTH:
-				findHealth();
-				break;
-			case FIND_DAMAGE:
-				findDamage();
-				break;
-			case FIND_SPEED:
-				findSpeed();
-				break;
+		private void wander() {
+			Random r = new Random();
+			Player player = findNearestPlayer();
+			
+			int i ;
+			i = r.nextInt(2);
+			if(i==0) {
+				while(!inAttackDistance(player)) {
+					aiPlayer.delay(DELAY_TIME);
+					moveTo(player);
+				}
+				aiPlayer.lightAttack();
 			}
-		}*/
+			else {
+				
+				int movementDirection;
+				movementDirection = r.nextInt(8);
+	
+				wanderingTimer(5000);
+				while (wandering) {
+					
+					aiPlayer.delay(DELAY_TIME);
+					
+					player = findNearestPlayer();
+					
+					if(inAttackDistance(player))
+						aiPlayer.lightAttack();
+	
+					switch(movementDirection) {
+					case 0:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
+					case 1:aiPlayer.moveUp();break;
+					case 2:aiPlayer.moveLeft(map.getWidth());break;
+					case 3:aiPlayer.moveRight(map.getWidth(), map.getHeight());break;
+					case 4:aiPlayer.moveDownCartestian(map.getHeight());break;
+					case 5:aiPlayer.moveUpCartesian();break;
+					case 6:aiPlayer.moveLeftCartesian();break;
+					case 7:aiPlayer.moveRightCartesian(map.getWidth());break;
+					}
+					
+					
+				}
+			}
+		}
+		
+		private void wanderingTimer(int time) {
+			wandering = true;
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+				aiPlayer.delay(time);
+				wandering = false;
+				}
 
+			});
+			t.start();
+		}
+		
 		private void assignRandomElement() {
 
 			Random r = new Random();
