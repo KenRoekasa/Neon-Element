@@ -168,7 +168,7 @@ public class ClientBoard {
 		allPlayers.add(gameState.getPlayer());
 		
 		for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext();) {
-			ArrayList<Player> otherPlayers = new ArrayList<Player>();
+			ArrayList<Player> otherPlayers = new ArrayList<>();
 			otherPlayers.addAll(allPlayers);
 			Player player = itr.next();
 			otherPlayers.remove(player);
@@ -219,6 +219,7 @@ public class ClientBoard {
 							// This line of code seems to cause a bug
 							//                        gameState.getPlayer().setLocation(previousLocation);
 							if(player == e) {
+                                System.out.println(player +" Collided with " + e );
 								System.out.println("Collided with itself");
 							}
 						}
