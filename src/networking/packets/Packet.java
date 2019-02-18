@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 public abstract class Packet {
 
     /** The number of bytes contained in a packet including the packet ID. */
-    public static final int PACKET_BYTES_LENGTH = 255;
+    public static final int PACKET_BYTES_LENGTH = 64;
 
     public static enum PacketDirection { INCOMING, OUTGOING }
 
@@ -16,7 +16,7 @@ public abstract class Packet {
         CONNECT              ((byte) 0x02), CONNECT_ACK          ((byte) 0x03),
         DISCONNECT           ((byte) 0x04), DISCONNECT_ACK       ((byte) 0x05),
         READY_STATE          ((byte) 0x06), HEALTH_STATE         ((byte) 0x07),
-        LOCATION_STATE       ((byte) 0x07), LOCATION_STATE_ACK   ((byte) 0x09),
+        LOCATION_STATE       ((byte) 0x08), LOCATION_STATE_ACK   ((byte) 0x09),
         ELEMENT_STATE        ((byte) 0x0A),
         CAST_SPELL           ((byte) 0x0C),
         POWERUP              ((byte) 0x0E),
@@ -111,6 +111,9 @@ public abstract class Packet {
         System.out.println("" + ipAddress + ":" + port + " --> " + type);
 
         switch (type) {
+            default:
+                packet = null;
+                break;
             case HELLO:
                 packet = new HelloPacket(buffer, ipAddress, port);
                 break;
@@ -122,6 +125,9 @@ public abstract class Packet {
                 break;
             case CONNECT_ACK:
                 packet = new ConnectAckPacket(buffer, ipAddress, port);
+                break;
+            case LOCATION_STATE:
+                packet = new LocationStatePacket(buffer, ipAddress, port);
                 break;
             case CONNECT_BCAST:
             		packet = new BroadCastConnectedUserPacket(buffer);
@@ -143,15 +149,16 @@ public abstract class Packet {
             		break;
             case POWERUP_PICKUP_BCAST:
             		packet = new BroadCastPowerUpPickUpPacket(buffer);
+            		break;
             case POWERUP_STATE_BCAST:
             		packet = new BroadCastPowerUpPacket(buffer);
             		break;
             case GAME_START_BCAST:
             		packet = new BroadCastGameStartPacket(buffer);
+            		break;
             case GAME_OVER_BCAST:
             		packet = new BroadCastGameOverPacket(buffer);
-            default:
-                packet = null;
+            		break;
         }
 
         return packet;

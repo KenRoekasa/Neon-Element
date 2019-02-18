@@ -10,7 +10,7 @@ import java.net.SocketException;
 import client.ClientGameState;
 import networking.packets.*;
 
-public class ClientNetwork extends Thread {
+public class ClientNetwork {
     protected String name;
     
     protected DatagramSocket socket;
@@ -28,10 +28,10 @@ public class ClientNetwork extends Thread {
         this.multicastSocket = multiConn.getSocket();
         InetAddress groupAddress = multiConn.getGroupAddress();
 
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
+
         this.conn.start();
         this.multiConn.start();
-
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
     }
     
     public ClientNetworkDispatcher getDispatcher() {
@@ -46,13 +46,19 @@ public class ClientNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        
+
+        if (packet == null) {
+            System.out.println("Invalid packet recieved");
+            return;
+        }
+        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
             case GAME_START_BCAST:
                 break;
             case LOCATION_STATE_BCAST:
+                this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);
             		break;
             case DISCONNECT_BCAST:
             		break;
@@ -71,9 +77,8 @@ public class ClientNetwork extends Thread {
             		break;
             case CAST_SPELL_BCAST:
             		break;
-     
             default:
-                System.out.println("Invalid packet recieved");
+                System.out.println("Unhandled packet " + packet.getType());
         }
     }
 

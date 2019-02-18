@@ -1,9 +1,8 @@
 package client;
 
 import engine.GameState;
-import entities.Enemy;
-import entities.PhysicsObject;
-import entities.Player;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
 import javafx.scene.shape.Rectangle;
 
 
@@ -11,10 +10,10 @@ import java.util.ArrayList;
 
 public class ClientGameState extends GameState {
     private Player player;
-    private ArrayList<Enemy> enemies;
+    private ArrayList<Player> enemies;
 
 
-    public ClientGameState(Player player, ArrayList<Enemy> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ClientGameState(Player player, ArrayList<Player> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
         this.player = player;
         this.enemies = enemies;
         this.map = map;
@@ -22,11 +21,7 @@ public class ClientGameState extends GameState {
         
     }
 
-    public void start() {
-    	for (Enemy enemy : enemies) {
-        	enemy.startBasicAI();
-		}
-    }
+ 
     
     public ArrayList<PhysicsObject> getEntities(){
 
@@ -36,11 +31,20 @@ public class ClientGameState extends GameState {
         return ents;
     }
 
-    public ArrayList<Enemy> getEnemies() {
+
+    public Rectangle getMap() {
+        return map;
+    }
+
+    public void setMap(Rectangle map) {
+        this.map = map;
+    }
+
+    public ArrayList<Player> getEnemies() {
         return enemies;
     }
 
-    public void setEnemies(ArrayList<Enemy> enemies) {
+    public void setEnemies(ArrayList<Player> enemies) {
         this.enemies = enemies;
     }
 

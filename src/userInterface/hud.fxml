@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Polyline?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HUDController">
+   <children>
+      <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Rectangle fx:id="info" arcHeight="5.0" arcWidth="5.0" fill="#007bff" height="44.0" layoutX="-1.0" layoutY="-1.0" stroke="#007bff" strokeType="INSIDE" width="144.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blood:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.431640625" />
+      <Text fill="#f8f5f5" layoutX="9.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kills   :" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="24.431640625" />
+      <HBox alignment="TOP_CENTER" layoutX="-3.0" layoutY="-2.0" prefHeight="69.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Polyline fx:id="timing_score" fill="#007bff" points="127.0, -73.99996948242188, 66.29132080078125, -4.999977111816406, -59.282379150390625, -4.999977111816406, -123.5, -73.99996948242188" stroke="#007bff" strokeType="INSIDE" HBox.hgrow="NEVER" />
+         </children>
+      </HBox>
+      <Text fx:id="kills" fill="#f8f5f5" layoutX="55.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+      <Text fx:id="health" fill="#f8f5f5" layoutX="55.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+   </children>
+</AnchorPane>
