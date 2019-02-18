@@ -11,6 +11,7 @@ import javafx.scene.transform.Rotate;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import static engine.entities.CooldownValues.*;
 
@@ -25,6 +26,7 @@ public abstract class Character extends PhysicsObject {
     protected int movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
+    protected int deathCounter = 0;
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -380,6 +382,12 @@ public abstract class Character extends PhysicsObject {
     public Directions getCharacterDirection() {
         return characterDirection;
     }
+    public void addOneDeath() {
+    	deathCounter++;
+    }
+    public int getDeathCounter() {
+    	return deathCounter;
+    }
 
     //check if the action is off cooldown
     private boolean checkCD(int id, float cooldown) {
@@ -392,5 +400,24 @@ public abstract class Character extends PhysicsObject {
         }
         return false;
     }
+    
+
+	public void respawn(double mapWidth, double mapHeight) {
+		addOneDeath();
+		setLocation(new Point2D(-500, -500));
+		delay(3000);
+		while(getHealth()!=100)
+			addHealth(1);
+		setLocation(new Point2D(mapWidth-1, mapHeight-1));
+	}
+	
+	public void delay(int time) {
+		try {
+			TimeUnit.MILLISECONDS.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
