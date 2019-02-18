@@ -1,12 +1,9 @@
-package controllers;
+package graphics.userInterface.controllers;
 
-import client.ClientBoard;
 import client.ClientGameState;
-import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -39,7 +36,7 @@ public class MenuController implements Initializable{
         // todo make this configurable
         
       //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
 
         try {
             Pane root = loader.load();
@@ -57,7 +54,7 @@ public class MenuController implements Initializable{
     @FXML
     public void handleSettingBtn(ActionEvent actionEvent){
         //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
 
         try {
             Pane root = loader.load();
@@ -77,7 +74,7 @@ public class MenuController implements Initializable{
     @FXML
     public void handleHelpBtn(ActionEvent actionEvent){
         //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/help.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/help.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);

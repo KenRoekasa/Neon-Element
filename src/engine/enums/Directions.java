@@ -1,4 +1,4 @@
-package enums;
+package engine.enums;
 
 public enum Directions {
 

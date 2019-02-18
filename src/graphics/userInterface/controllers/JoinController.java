@@ -1,4 +1,4 @@
-package controllers;
+package graphics.userInterface.controllers;
 
 import client.ClientBoard;
 import client.ClientGameState;
@@ -40,7 +40,7 @@ public class JoinController {
 
     @FXML
     public void handleBackBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_mode.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/online_mode.fxml"));
 
         try {
             Pane root = loader.load();

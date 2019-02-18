@@ -1,11 +1,9 @@
-package controllers;
+package graphics.userInterface.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import userInterface.Menu;
 
 import java.io.IOException;
 
@@ -26,7 +24,7 @@ public class SettingController {
     }
     @FXML
     public void handleBackBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
 
         try {
             Pane root = loader.load();

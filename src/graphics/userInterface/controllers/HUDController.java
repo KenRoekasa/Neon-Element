@@ -1,7 +1,6 @@
-package controllers;
+package graphics.userInterface.controllers;
 
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
-import entities.Player;
+import engine.entities.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -40,7 +39,7 @@ public class HUDController implements Initializable{
 
     @FXML
     public void handlePauseBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/pause.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/pause.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);

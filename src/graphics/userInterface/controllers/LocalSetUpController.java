@@ -1,4 +1,4 @@
-package controllers;
+package graphics.userInterface.controllers;
 
 import client.ClientBoard;
 import client.ClientGameState;
@@ -135,7 +135,7 @@ public class LocalSetUpController implements Initializable {
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
 
         try {
             Pane root = loader.load();

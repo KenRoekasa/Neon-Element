@@ -1,9 +1,8 @@
-package controllers;
+package graphics.userInterface.controllers;
 
 import client.ClientBoard;
 
 import client.ClientGameState;
-import client.GameStateGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +39,7 @@ public class HostController {
 
     @FXML
     public void handleBackBtn(ActionEvent event){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_setup.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/online_setup.fxml"));
 
         try {
             Pane root = loader.load();

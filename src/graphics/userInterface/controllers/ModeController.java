@@ -1,4 +1,4 @@
-package controllers;
+package graphics.userInterface.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +23,7 @@ public class ModeController implements Initializable{
    //local -> local_setup
     @FXML
     public void handleLocalBtn(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/local_setup.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/local_setup.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
@@ -40,7 +40,7 @@ public class ModeController implements Initializable{
     //online->choose host/ join
     @FXML
     public void handleOnlineBtn(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_mode.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/online_mode.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
@@ -58,8 +58,8 @@ public class ModeController implements Initializable{
     //back->mode board
     @FXML
     public void handleBackBtn(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/menu.fxml"));
-        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
+            try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
             MenuController controller = loader.getController();

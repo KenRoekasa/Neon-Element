@@ -1,4 +1,4 @@
-package controllers;
+package graphics.userInterface.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +24,7 @@ public class PauseController {
     @FXML
     public void handleSettingBtn(){
         //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
 
         try {
             Pane root = loader.load();
@@ -40,7 +40,7 @@ public class PauseController {
     }
     @FXML
     public void handleQuitBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);

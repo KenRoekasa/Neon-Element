@@ -1,4 +1,4 @@
-package enums;
+package engine.enums;
 
 public enum Spell {
     LIGHT(0), HEAVY(1), SHIELD(2);
