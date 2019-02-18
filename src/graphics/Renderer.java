@@ -58,7 +58,6 @@ public class Renderer {
 
         DrawObjects.drawBackground(gc, stageSize, stars);
 
-
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
 

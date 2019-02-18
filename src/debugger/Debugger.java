@@ -8,6 +8,7 @@ import graphics.ISOConverter;
 import graphics.Renderer;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -36,12 +37,15 @@ public class Debugger {
             Pair values = output.remove(0);
             String message = (String)values.getLeft();
 
+            gc.save();
+            gc.setStroke(Color.WHITE);
             gc.strokeText(message, 20, prevHeight);
 
             // calculates height of next message based upon number of previous lines
             int numLines = (int)values.getRight();
             prevHeight = prevHeight + 20 * numLines;
 
+            gc.restore();
         }
     }
 
