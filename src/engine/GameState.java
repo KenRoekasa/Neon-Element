@@ -1,7 +1,7 @@
 package engine;
 
 import engine.gameTypes.GameType;
-import entities.PhysicsObject;
+import engine.entities.PhysicsObject;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;

@@ -5,9 +5,9 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 import client.ClientGameState;
-import entities.Player;
-import entities.PowerUp;
-import enums.ObjectType;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.ObjectType;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
