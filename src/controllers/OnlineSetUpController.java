@@ -1,13 +1,10 @@
 package controllers;
 
-import client.ClientBoard;
 import client.ClientGameState;
-import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -26,7 +23,7 @@ public class OnlineSetUpController implements Initializable{
 
     @FXML
     public void handleCreateBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/ip_host.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/ip_host.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
@@ -43,7 +40,7 @@ public class OnlineSetUpController implements Initializable{
     @FXML
     public void handleBackBtn(){
         //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/mode_board.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);

@@ -11,7 +11,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -42,7 +41,7 @@ public class ClientBoard {
         this.gameState = gameState;
 
         // load hud
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/hud.fxml"));
         Pane hudPane = new Pane();
 
         try {
@@ -60,7 +59,7 @@ public class ClientBoard {
 
         primaryStage.getScene().setRoot(hudPane);
         HUDController controller =loader.getController();
-        System.out.println("HUDloader: "+controller.hashCode());
+
         controller.setStage(primaryStage);
         //controller.
 

@@ -135,7 +135,7 @@ public class LocalSetUpController implements Initializable {
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/mode_board.fxml"));
 
         try {
             Pane root = loader.load();

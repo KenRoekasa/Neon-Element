@@ -40,7 +40,7 @@ public class JoinController {
 
     @FXML
     public void handleBackBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/online_mode.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/online_mode.fxml"));
 
         try {
             Pane root = loader.load();

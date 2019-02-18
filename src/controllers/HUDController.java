@@ -1,14 +1,18 @@
 package controllers;
 
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 import entities.Player;
+import enumSwitches.colourSwitch;
+import enums.Elements;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -30,6 +34,9 @@ public class HUDController implements Initializable{
     @FXML
     private Text speed;
     private StringProperty speedValue;
+    @FXML
+    private Circle fire,water,earth,air;
+
 
     public HUDController(){
         healthValue = new SimpleStringProperty();
@@ -38,9 +45,18 @@ public class HUDController implements Initializable{
         speedValue.set("5");
     }
 
+
+
+
+    @FXML
+    public void changeElement(ActionEvent event,Player player){
+        Elements e = player.getCurrentElement();
+        Color colour = colourSwitch.getElementColour(e);
+
+    }
     @FXML
     public void handlePauseBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/pause.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/pause.fxml"));
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
@@ -63,7 +79,6 @@ public class HUDController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         health.textProperty().bind(healthValue);
         speed.textProperty().bind(speedValue);
-
     }
 }
 

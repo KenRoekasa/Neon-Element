@@ -1,6 +1,5 @@
 package userInterface;
 
-import com.sun.javafx.tk.FontLoader;
 import controllers.MenuController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,7 +19,7 @@ public class Menu extends Application {
         Font fontLoader = Font.loadFont(getClass().getResourceAsStream("../resources/fonts/Super Mario Bros.ttf"), 14);
         System.out.println(fontLoader.getName());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/menu.fxml"));
         Parent root = (Parent)loader.load();
         primaryStage.setTitle("Game");
        
