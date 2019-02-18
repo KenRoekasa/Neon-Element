@@ -79,9 +79,6 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
         Player players[] = {player};
-        PowerUp pus[] = {pu};
-
-
         ArrayList<AiController> aiConList = new ArrayList<>();
 
         // Add the enemies to the objects list
@@ -96,8 +93,6 @@ public class GameStateGenerator {
             enemies.get(i).setLocation(new Point2D(140 + 20 * i, 100));
         }
 
-
-        objects.addAll(enemies);
         //Add the enemies to the objects list
         objects.addAll(enemies);
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
