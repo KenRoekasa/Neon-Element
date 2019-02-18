@@ -1,7 +1,7 @@
-package enumSwitches;
+package client.audiomanager;
 
-import enums.Action;
-import enums.Sound;
+
+import engine.enums.Action;
 
 public class soundSwitch {
     public static Sound switchSound(Action action){
