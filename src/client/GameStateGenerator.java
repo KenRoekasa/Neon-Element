@@ -1,7 +1,7 @@
 package client;
 
 
-import entities.Enemy;
+import entities.Character;
 import entities.PhysicsObject;
 import entities.Player;
 import entities.PowerUp;
@@ -11,10 +11,12 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
+import ai.AiController;
+
 public class GameStateGenerator {
 
     public static ClientGameState createDemoGamestate() {
-
+    	System.out.println("generating game state");
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
 
@@ -22,32 +24,39 @@ public class GameStateGenerator {
         Player player = new Player(ObjectType.PLAYER);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
-
+	    Player players[] = {player};
         
-
-
-        //add the 1 power up to the objects list
+        // create object list
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
-        //TODO: Remove
-        //add a powerup
+        
+        // create power up
         PowerUp pu = new PowerUp();
-
         objects.add(pu);
         
+        // create enemies lists'
+        ArrayList<Player> enemies = new ArrayList<>();
+        ArrayList<AiController> aiConList = new ArrayList<>();
         
-        // initialise enemies
-        ArrayList<Enemy> enemies = new ArrayList<>();
-        Player players[] = {player};
-        PowerUp pus [] = {pu};
-        enemies.add(new Enemy(players, objects, map));
+        // create an enemy and its ai controller
+        AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
+        aiConList.add(aiCon);
+        enemies.add(aiCon.getAiPlayer() );
         enemies.get(0).setLocation(new Point2D(140, 100));
-        //Add the enemies to the objects list
+      
+        // Add the enemies to the objects list
         objects.addAll(enemies);
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
-        gameState.start();
-
         
+        // generate a game state
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+
+        // start the ai
+        startAi(aiConList);
         
         return gameState;
+    }
+    
+    private static void startAi(ArrayList<AiController> aiConList) {
+    	for (AiController aiCon: aiConList)
+    		aiCon.startBasicAi();
     }
 }
