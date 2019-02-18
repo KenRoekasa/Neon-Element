@@ -55,22 +55,6 @@ public class HUDController implements Initializable{
         Color colour = colourSwitch.getElementColour(e);
     }
 
-    @FXML
-    public void handlePauseBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/pause.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            PauseController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Pause");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading pause board ");
-            e.printStackTrace();
-        }
-    }
-
     public void initPlayer(Player player) {
        healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
        //totalKills.set(String.valueof()); //get kills value here

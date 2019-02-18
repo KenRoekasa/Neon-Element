@@ -7,6 +7,8 @@ import engine.entities.*;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.ModeController;
+import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -16,11 +18,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import server.controllers.PowerUpController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -67,7 +71,9 @@ public class ClientBoard {
         //controller.
 
         scene = primaryStage.getScene();
-        // change cursor
+
+
+		// change cursor
         Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
         ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
         scene.setCursor(iC);
@@ -136,10 +142,29 @@ public class ClientBoard {
 
         theScene.setOnMouseClicked(e -> {
             InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
-
         });
 
-        // when the mouse is moved around the screen calculate new angle
+        //Press keybooard P to pause the game
+		theScene.setOnKeyPressed(e->{
+			System.out.println("@Pause pause the game!");
+			if(e.getCode()== KeyCode.P){
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
+				try {
+					Pane root = loader.load();
+					primaryStage.getScene().setRoot(root);
+					PauseController controller =loader.getController();
+					controller.setStage(primaryStage);
+					primaryStage.setTitle("Pause");
+
+				} catch (IOException ex) {
+					System.out.println("crush in loading pause board ");
+					ex.printStackTrace();
+				}
+			}
+		});
+
+
+		// when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
     }
