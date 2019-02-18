@@ -11,6 +11,9 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with Server
 - Integrate with UI
 - Fix collision bug
+- Add light attack speed 
+- Cooldown is not very polished
+- When shielded move slower, or have meter
 
 # Renderer
 ## Tasks
