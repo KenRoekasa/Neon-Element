@@ -134,7 +134,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             DatagramPacket datagram = new DatagramPacket(data, data.length, this.groupAddress, Constants.BROADCASTING_PORT);
             System.out.println("" + this.groupAddress + ":" + Constants.BROADCASTING_PORT + " <-- " + packet.getType());
             try {
-                this.multicastSocket.send(datagram);
+                this.socket.send(datagram);
                 System.out.println("Datagram sent");
             } catch (IOException e) {
                 e.printStackTrace();

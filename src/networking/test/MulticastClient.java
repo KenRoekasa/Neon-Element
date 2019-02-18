@@ -7,7 +7,8 @@ import java.util.*;
 public class MulticastClient {
  
     public static void main(String[] args) throws IOException {
- 
+    	System.setProperty("java.net.preferIPv4Stack", "true");
+
         MulticastSocket socket = new MulticastSocket(4446);
         InetAddress address = InetAddress.getByName("230.0.0.1");
         socket.joinGroup(address);

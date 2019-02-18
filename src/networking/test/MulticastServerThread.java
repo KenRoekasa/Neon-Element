@@ -30,7 +30,7 @@ public class MulticastServerThread extends QuoteServerThread {
 	                buf = dString.getBytes();
 	 
 	            // send it
-	                InetAddress group = InetAddress.getByName("230.0.0.1");
+	                InetAddress group = InetAddress.getByName("239.0.0.1");
 	                System.out.println();
 	                DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 4446);
 	                socket.send(packet);
