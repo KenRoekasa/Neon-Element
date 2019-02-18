@@ -14,10 +14,10 @@ public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         //TODO do we own the rights to this font? i am rather sceptical
-        Font fontLoader = Font.loadFont(getClass().getResourceAsStream("../graphics.userInterface.graphics.userInterface.resources/fonts/Super Mario Bros.ttf"), 14);
+        Font fontLoader = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/Super Mario Bros.ttf"), 14);
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmls/menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu.fxml"));
         Parent root = (Parent)loader.load();
         primaryStage.setTitle("Game");
        
