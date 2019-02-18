@@ -10,7 +10,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 class DrawPlayers {
 
@@ -38,20 +40,15 @@ class DrawPlayers {
     }
 
     static void drawCursor(GraphicsContext gc, Point2D playerCenter, Character player) {
-
         if (player.getCurrentAction() == Action.IDLE) {
-            // transform
             long angle = (long)player.getPlayerAngle().getAngle();
-            ISOConverter.applyAngleRotation(gc, angle, playerCenter);
-
-            // draw
 
             gc.save();
-            gc.setFill(Color.RED);
-            int cursorRadius = 10;
-            gc.fillOval(playerCenter.getX() - cursorRadius/2f, playerCenter.getY() - cursorRadius/2f - player.getWidth()/2f - 30, cursorRadius, cursorRadius);
+            ISOConverter.applyAngleRotation(gc, angle, playerCenter);
+
+            gc.drawImage(Renderer.textures.get("pointer"),playerCenter.getX() - Renderer.textures.get("pointer").getWidth()/2f, playerCenter.getY() - Renderer.textures.get("pointer").getHeight()/2f - player.getWidth()/2f - 30 );
+
             //restore twice following applying the specific angle rotation
-            gc.restore();
             gc.restore();
         }
 

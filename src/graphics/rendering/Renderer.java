@@ -32,14 +32,14 @@ public class Renderer {
     private Rectangle stageSize;
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
-    private HashMap<String, Image> textures;
+    static HashMap<String, Image> textures;
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
         this.gc = gc;
         this.debugger = debugger;
         this.stageSize = stageSize;
-        this.textures = TextureLoader.loadTextures();
+        textures = TextureLoader.loadTextures();
 
         stars = DrawObjects.loadStars(stageSize);
 
@@ -48,19 +48,15 @@ public class Renderer {
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
         this.gc = gc;
         this.stageSize = stageSize;
-        this.textures = TextureLoader.loadTextures();
-
-
+        textures = TextureLoader.loadTextures();
         stars = DrawObjects.loadStars(stageSize);
     }
 
     public void render(Stage primaryStage, ClientGameState gameState) {
-        // clear screen
-        gc.clearRect(0, 0, primaryStage.getWidth(), primaryStage.getHeight());
 
         DrawObjects.drawBackground(gc, stageSize, stars);
 
-
+        gc.save();
 
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
@@ -70,24 +66,30 @@ public class Renderer {
         //applyScreenshake(gameState);
 
         // draw map to screen
-        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), textures.get("background"));
+        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
 
         //sort based on proximity to the view (greater y is later)
         ArrayList<PhysicsObject> objects = sortDistance(gameState.getEntities());
-
-
 
         // draw all objects
         for (PhysicsObject o : objects) {
             renderObject(o, gameState);
         }
 
-        // draw cursors to ensure on top
+        // draw cursors and attacks to ensure on top
         for (Character e : gameState.getEnemies()) {
             DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
+            if(!(e.getCurrentAction() == Action.IDLE)) {
+                ActionSwitch(e.getCurrentAction(), e, gameState);
+            }
         }
 
         DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
+
+        if(!(gameState.getPlayer().getCurrentAction() == Action.IDLE)) {
+            ActionSwitch(gameState.getPlayer().getCurrentAction(), gameState.getPlayer(), gameState);
+        }
+        ActionSwitch(gameState.getPlayer().getCurrentAction(), gameState.getPlayer(), gameState);
 
         gc.restore();
 
@@ -96,36 +98,24 @@ public class Renderer {
         debugger.print();
     }
 
-
+    // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
-
         if (o.getTag() == ObjectType.PLAYER) {
-            Action status = gameState.getPlayer().getCurrentAction();
-
             DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
-            ActionSwitch(status, gameState.getPlayer(), gameState);
-
         } else if (o.getTag() == ObjectType.ENEMY) {
-            Character enemy = (Character) o;
-            Action status = enemy.getCurrentAction();
-
-            DrawEnemies.drawEnemy(gc, stageSize, enemy, gameState.getPlayer());
-            ActionSwitch(status, enemy, gameState);
-
+            DrawEnemies.drawEnemy(gc, stageSize, (Character) o, gameState.getPlayer());
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
         }
-
     }
 
+    // render the action of the provided player
     private void ActionSwitch(Action status, Character character, ClientGameState gameState){
-
         long animationDuration;
         long remainingAnimDuration;
 
         switch(status){
             case LIGHT:
-
                 animationDuration = AttackTimes.getActionTime(Action.LIGHT);
                 remainingAnimDuration = character.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
 
@@ -155,7 +145,6 @@ public class Renderer {
                 } else {
                     DrawEnemies.drawHeavyAttack(gc, character, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);
                 }
-
                 break;
             case BLOCK:
                 if(character.getTag() == ObjectType.PLAYER) {
@@ -163,6 +152,7 @@ public class Renderer {
                 } else {
                     DrawEnemies.drawShield(gc, character, gameState.getPlayer(), stageSize);
                 }
+                break;
         }
     }
 
@@ -192,6 +182,7 @@ public class Renderer {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
 
+    // get relative location of an object with regards to player - allows for player to be central
     public static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Point2D playerLocation) {
         Point2D enemyLocation = obj.getLocation();
 
@@ -200,10 +191,6 @@ public class Renderer {
 
 
         return new Point2D(relativeX, relativeY);
-    }
-
-    static Point2D getRotationCenter() {
-        return rotationCenter;
     }
 
 }

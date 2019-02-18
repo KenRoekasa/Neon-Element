@@ -120,7 +120,6 @@ public class ClientBoard {
         this.gameClient.start();
     }
 
-
     private void initialiseInput(Scene theScene, Renderer renderer) {
         // set input controls
         input = new ArrayList<>();

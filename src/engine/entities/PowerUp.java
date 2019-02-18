@@ -28,7 +28,6 @@ public class PowerUp extends PhysicsObject {
         Random rand = new Random();
         int typeInt = rand.nextInt(3);
 
-        typeInt = 1;
         switch (typeInt) {
             case 0:
                 type = PowerUpType.HEAL;

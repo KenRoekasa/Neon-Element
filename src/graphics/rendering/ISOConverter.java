@@ -36,14 +36,11 @@ public class ISOConverter {
 
 
     static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter) {
-        gc.save();
-
         Affine a = getTransformationAffine(playerCenter);
-
         gc.transform(a);
     }
 
-    public static Affine getTransformationAffine(Point2D playerCenter){
+    private static Affine getTransformationAffine(Point2D playerCenter){
         Affine affine = new Affine();
 
         Rotate rotateX = new Rotate(45, playerCenter.getX(), playerCenter.getY());
@@ -58,7 +55,6 @@ public class ISOConverter {
 
     static void applyAngleRotation(GraphicsContext gc, long angle, Point2D rotationCenter) {
 
-        gc.save();
         Affine affine = new Affine();
         affine.prependRotation(angle, rotationCenter.getX(), rotationCenter.getY());
         gc.transform(affine);

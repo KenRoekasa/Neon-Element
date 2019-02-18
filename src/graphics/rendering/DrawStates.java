@@ -23,13 +23,13 @@ class DrawStates {
         long finishAngle = 360;
         long angle = Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle);
 
-        ISOConverter.applyAngleRotation(gc, angle, playerCenter);
-
+        gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
+        gc.setEffect(new MotionBlur(0, 3));
 
+        ISOConverter.applyAngleRotation(gc, angle, playerCenter);
         gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
         //todo make better
-
 
         gc.restore();
     }
@@ -44,16 +44,13 @@ class DrawStates {
         gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
 
-        //gc.strokeLine(stageCenter.getX() - 20, stageCenter.getY() - 20, stageCenter.getX() - 100, stageCenter.getY() - 100);
         //todo make better
 
         //inner
         gc.setGlobalAlpha(percentCharged);
         gc.fillOval(playerCenter.getX() - attackRadius / 2f, playerCenter.getY() - attackRadius / 2f, attackRadius, attackRadius);
 
-        //border
-        gc.setGlobalAlpha(100);
-        gc.strokeOval(playerCenter.getX() - attackRadius / 2f, playerCenter.getY() - attackRadius / 2f, attackRadius, attackRadius);
+
         gc.restore();
 
     }
@@ -64,9 +61,9 @@ class DrawStates {
 
         long angle = (long) (player.getPlayerAngle().getAngle() + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
 
+        gc.save();
         Effect lightEffect = new MotionBlur(0, 3);
         gc.setEffect(lightEffect);
-
 
         ISOConverter.applyAngleRotation(gc, angle, playerCenter);
         gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
@@ -77,9 +74,7 @@ class DrawStates {
         ISOConverter.applyAngleRotation(gc, 1, playerCenter);
         gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
 
-
-        gc.restore();
-        gc.restore();
+        // restore for each ISO conversion
         gc.restore();
 
     }

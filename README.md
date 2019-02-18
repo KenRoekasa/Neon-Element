@@ -20,6 +20,10 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Improve performance by calculating relative locations once per tick
 - Make things look nice
 
+
+# Gui
+## Tasks
+- Ensure that when exiting a local game in the pause menu that the game thread stops
 ## Ideas
 - Have the aiController that controls a Player object rather than being an engine.entities its self
 - Player will be tagged enemies, opponents, engine.ai controlled etc...
