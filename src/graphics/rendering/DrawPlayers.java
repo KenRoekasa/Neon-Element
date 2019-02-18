@@ -8,7 +8,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class DrawPlayers {
+class DrawPlayers {
+
 
     static void drawPlayer(GraphicsContext gc, Point2D playerCenter, Character player) {
         gc.save();
