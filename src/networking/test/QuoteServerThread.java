@@ -18,7 +18,7 @@ public class QuoteServerThread extends Thread {
         socket = new DatagramSocket(4445);
  
         try {
-            in = new BufferedReader(new FileReader("/Users/KFM/Desktop/one-liners.txt"));
+            in = new BufferedReader(new FileReader("/Users/KFM/Documents/teamProj/alien8/src/networking/test/one-liners.txt"));
         } catch (FileNotFoundException e) {
             System.err.println("Could not open quote file. Serving time instead.");
         }

@@ -21,14 +21,17 @@ public class MulticastServerThread extends QuoteServerThread {
 	 
 	                    // construct quote
 	                String dString = null;
-	                if (in == null)
+	                if (in == null) {
 	                    dString = new Date().toString();
+	                		System.out.println("hh: "+dString);
+	                }
 	                else
 	                    dString = getNextQuote();
 	                buf = dString.getBytes();
 	 
 	            // send it
 	                InetAddress group = InetAddress.getByName("230.0.0.1");
+	                System.out.println();
 	                DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 4446);
 	                socket.send(packet);
 	 
