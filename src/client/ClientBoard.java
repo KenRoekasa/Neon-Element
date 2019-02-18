@@ -1,13 +1,11 @@
 package client;
 
-import graphics.userInterface.controllers.HUDController;
 import engine.calculations.DamageCalculation;
 import graphics.debugger.Debugger;
 import engine.entities.*;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.ModeController;
 import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
