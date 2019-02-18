@@ -46,7 +46,7 @@ public class AiFSM {
 		
 		//case 3, the ai player's hp is less than 33% and a health power up is not available 
 		
-		else if(aiPlayerHP < (maxHP/3) ) {
+		else if(aiPlayerHP < (maxHP/2) ) {
 		//	System.out.println("case 3");
 			aiCon.setState(AiStates.ESCAPE);
 		}
