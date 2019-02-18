@@ -26,6 +26,7 @@ public class AiController {
 		AiController  aiCon= this;
 		final int DELAY_TIME = 28;
 		boolean wandering = false;
+		boolean spamming = false;
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
@@ -77,8 +78,8 @@ public class AiController {
 				public void run() {
 					boolean bool = true;
 					while (bool) {
+						
 						AiFSM.easyAiFetchAction(aiPlayer, aiCon);
-						//System.out.println("health "+aiPlayer.getHealth());
 						
 						if(getActiveState().equals(AiStates.ESCAPE))
 							aiPlayer.delay((DELAY_TIME/2)+(DELAY_TIME/4));
@@ -86,14 +87,10 @@ public class AiController {
 							aiPlayer.delay(DELAY_TIME);
 						
 						easyAIExecuteAction();
-						//delay to limit speed 
-						
+
 						if (aiPlayer.getHealth() <= 0) {
 							aiPlayer.respawn(map.getWidth(),map.getHeight());
-						}
-						
-//						if(timer.off)
-//							bool = false;				
+						}			
 					}
 				
 				}
@@ -103,52 +100,31 @@ public class AiController {
 			t.start();
 		}
 
-		private void changeToRandomElement() {
-			Thread t = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					boolean bool = true;
-					while (bool) {
-						aiPlayer.delay(15000);
-						assignRandomElement();
-						//TODO: make it terminate when ai player dies	
-					}
-				
-				}
-
-			});
-
-			t.start();
-		}
-
-		public void startMediumAI() {
+		public void startMediumAi() {
 			System.out.println("started medium ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
+					
 					boolean bool = true;
 					while (bool) {
+						
 						AiFSM.mediumAiFetchAction(aiPlayer, aiCon);
-						//System.out.println("health "+aiPlayer.getHealth());
 						
 						if(getActiveState().equals(AiStates.ESCAPE))
 							aiPlayer.delay((DELAY_TIME/2)+(DELAY_TIME/4));
 						else
 							aiPlayer.delay(DELAY_TIME);
 						
-						easyAIExecuteAction();
-						//delay to limit speed 
+						mediumAIExecuteAction();
 						
 						if (aiPlayer.getHealth() <= 0) {
 							aiPlayer.respawn(map.getWidth(),map.getHeight());
 						}
 						
-//						if(timer.off)
-//							bool = false;				
 					}
-				
+					
 				}
 
 			});
@@ -156,7 +132,7 @@ public class AiController {
 			t.start();
 		}
 		
-		public void startHardAI() {
+		public void startHardAi() {
 			System.out.println("started hard ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
@@ -190,8 +166,34 @@ public class AiController {
 			t.start();
 		}
 		
-		//TODO: figure why the shield and heavy attack are using the player's instead of the ai's
 		private void easyAIExecuteAction() {
+			switch (activeState) {
+			case ATTACK:
+				aiPlayer.unShield();
+				attack();
+				break;
+			case AGGRESSIVE_ATTACK:
+				aiPlayer.unShield();
+				aggressiveAttack();
+				break;
+			case FIND_HEALTH:
+				findHealth();
+				break;
+			case ESCAPE:
+				aiPlayer.shield();
+				escape();
+				break;
+			case WANDER:
+				aiPlayer.unShield();
+				wander();
+			case IDLE:
+				break;
+			default:
+				break;
+			}
+		}
+		
+		private void mediumAIExecuteAction() {
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
@@ -234,7 +236,7 @@ public class AiController {
 			int i ;
 			i = r.nextInt(2);
 			if(i==0) {
-				while(!inAttackDistance(player)) {
+				while(!inAttackDistance(player) && aiPlayer.getHealth()>0 ) {
 					aiPlayer.delay(DELAY_TIME);
 					moveTo(player);
 				}
@@ -246,7 +248,7 @@ public class AiController {
 				movementDirection = r.nextInt(8);
 	
 				wanderingTimer(5000);
-				while (wandering) {
+				while (wandering && aiPlayer.getHealth()>0) {
 					
 					aiPlayer.delay(DELAY_TIME);
 					
@@ -283,6 +285,26 @@ public class AiController {
 			});
 			t.start();
 		}
+		
+		private void changeToRandomElement() {
+			Thread t = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					boolean bool = true;
+					while (bool) {
+						aiPlayer.delay(15000);
+						assignRandomElement();
+						//TODO: make it terminate when ai player dies	
+					}
+				
+				}
+
+			});
+
+			t.start();
+		}
+
 		
 		private void assignRandomElement() {
 
@@ -337,10 +359,65 @@ public class AiController {
 		public void aggressiveAttack() {
 			Player player = findNearestPlayer();
 			moveTo(player);
-			if (inAttackDistance(player)) {
-				aiPlayer.chargeHeavyAttack();
+			if (inAttackDistance(player) && player.getHealth()>0) {
 				aiPlayer.lightAttack();
+				aiPlayer.chargeHeavyAttack();
 			}
+		}
+		
+		public void spam(int time) {
+			
+			spammingTimer(time);
+			while (spamming) {
+				aiPlayer.delay(DELAY_TIME);
+				switch (activeState) {
+				case ATTACK:
+					aiPlayer.unShield();
+					attack();
+					break;
+				case AGGRESSIVE_ATTACK:
+					aiPlayer.unShield();
+					aggressiveAttack();
+					break;
+				case FIND_HEALTH:
+					aiPlayer.shield();
+					findHealth();
+					break;
+				case FIND_DAMAGE:
+					aiPlayer.shield();
+					findDamage();
+					break;
+				case FIND_SPEED:
+					aiPlayer.shield();
+					findSpeed();
+					break;
+				case ESCAPE:
+					aiPlayer.shield();
+					escape();
+					break;
+				case WANDER:
+					aiPlayer.unShield();
+					wander();
+				case IDLE:
+					break;
+				default:
+					break;
+				}
+			}
+			
+		}
+		
+		private void spammingTimer(int time) {
+			spamming = true;
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+				aiPlayer.delay(time);
+				spamming = false;
+				}
+
+			});
+			t.start();
 		}
 		
 		public void escape() {
@@ -472,7 +549,7 @@ public class AiController {
 			Player player = findNearestPlayer();
 			moveTo(player);
 
-			if (inAttackDistance(player)) {
+			if (inAttackDistance(player) && player.getHealth()>0) {
 				aiPlayer.lightAttack();
 			}
 		}
@@ -649,6 +726,7 @@ public class AiController {
 			case FIND_DAMAGE:
 			case FIND_HEALTH:
 			case FIND_SPEED:
+			case WANDER:
 			case IDLE:
 				switch(player.getCurrentElement()) {
 				case EARTH:
