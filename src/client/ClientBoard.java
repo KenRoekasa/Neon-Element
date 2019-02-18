@@ -153,7 +153,7 @@ public class ClientBoard {
         doHitDetection();
         doUpdates();
         deathHandler();
-        System.out.println(gameState.getScoreBoard().getTotalKills());
+        //System.out.println(gameState.getScoreBoard().getTotalKills());
 
     }
 

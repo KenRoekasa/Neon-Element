@@ -31,6 +31,7 @@ public abstract class Character extends PhysicsObject {
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
+    public static final int DEFAULT_MOVEMENT_SPEED = 5;
 
     public Player getLastAttacker() {
         return lastAttacker;
