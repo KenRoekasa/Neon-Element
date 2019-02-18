@@ -48,14 +48,14 @@ class DrawEnemies {
 
 
     static void drawHeavyAttack(GraphicsContext gc, Character enemy, Player player, long remainingAnimDuration, long animationDuration, Rectangle stage) {
-        Point2D relativeLocation = getRelativeLocation(stage, enemy, player);
+        Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
 
         DrawStates.drawHeavyAttack(gc, player, remainingAnimDuration, animationDuration, relativeLocation);
     }
 
 
     public static void drawShield(GraphicsContext gc, Character character, Player player, Rectangle stageSize) {
-        Point2D relativeLocation = getRelativeLocation(stageSize, character, player);
+        Point2D relativeLocation = getRelativeLocation(stageSize, character, player.getLocation());
         DrawStates.drawShield(gc, character, relativeLocation);
 
     }

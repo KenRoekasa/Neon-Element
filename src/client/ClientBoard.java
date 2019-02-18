@@ -37,10 +37,6 @@ public class ClientBoard {
     private ClientGameState gameState;
     private GameClient gameClient;
 
-    public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
-        // initial setup
-        this.primaryStage = primaryStage;
-        this.gameState = gameState;
 
 	public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
 		// initial setup

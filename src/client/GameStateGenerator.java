@@ -77,20 +77,32 @@ public class GameStateGenerator {
         objects.add(pu);
 
         // initialise enemies
-        ArrayList<Enemy> enemies = new ArrayList<>();
+        ArrayList<Player> enemies = new ArrayList<>();
         Player players[] = {player};
         PowerUp pus[] = {pu};
 
+
+        ArrayList<AiController> aiConList = new ArrayList<>();
+
+        // Add the enemies to the objects list
+
+
         for (int i = 0; i < num_enm; i++) {
-            enemies.add(new Enemy(players, objects, map));
+            AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
+            aiConList.add(aiCon);
+            enemies.add(aiCon.getAiPlayer() );
         }
         for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(new Point2D(140 + 20 * i, 100));
         }
+
+
+        objects.addAll(enemies);
         //Add the enemies to the objects list
         objects.addAll(enemies);
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
-        gameState.start();
+
+        startAi(aiConList);
 
 
         return gameState;

@@ -2,8 +2,8 @@ package debugger;
 
 import client.ClientGameState;
 import entities.Character;
-import entities.Enemy;
-import entities.PhysicsObject;
+
+import entities.Player;
 import graphics.ISOConverter;
 import graphics.Renderer;
 import javafx.geometry.Point2D;
@@ -52,7 +52,7 @@ public class Debugger {
     public void simpleGSDebugger(ClientGameState gameState, Debugger debugger) {
         debugger.add(gameState.getPlayer().toString(), 4);
 
-        for (Enemy enemy: gameState.getEnemies()){
+        for (Player enemy: gameState.getEnemies()){
             debugger.add(enemy.toString(), 4);
         }
 
@@ -64,7 +64,7 @@ public class Debugger {
         Point2D stageCenter = new Point2D(stage.getWidth()/2, stage.getHeight()/2 + 20);
         printPlayerInfo(gameState.getPlayer(), stageCenter);
 
-        for (Enemy enemy: gameState.getEnemies()){
+        for (Player enemy: gameState.getEnemies()){
 
             Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy, gameState.getPlayer().getLocation());
 
