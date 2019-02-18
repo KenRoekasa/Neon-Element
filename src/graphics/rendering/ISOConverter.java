@@ -12,7 +12,6 @@ import static javafx.scene.transform.Rotate.X_AXIS;
 
 public class ISOConverter {
 
-
     public static Point2D isoTo2D(Point2D point) {
         double x = (2 * point.getY() + point.getX()) / 2;
         double y = (2 * point.getY()- point.getX()) / 2;

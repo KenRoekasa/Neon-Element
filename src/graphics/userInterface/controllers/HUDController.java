@@ -35,29 +35,29 @@ public class HUDController implements Initializable{
     @FXML
     private Text health;
     private StringProperty healthValue;
+
     @FXML
-    private Text speed;
-    private StringProperty speedValue;
+    private Text kills;
+    private StringProperty totalKills;
+
+
     @FXML
     private Circle fire,water,earth,air;
 
 
     public HUDController(){
         healthValue = new SimpleStringProperty();
-        speedValue = new SimpleStringProperty();
         healthValue.set("100");
-        speedValue.set("5");
+        totalKills  = new SimpleStringProperty();
+        totalKills.set("0");
     }
-
-
-
 
     @FXML
-    public void changeElement(ActionEvent event,Player player){
+    public void changeElement(ActionEvent event,Player player) {
         Elements e = player.getCurrentElement();
         Color colour = colourSwitch.getElementColour(e);
-
     }
+
     @FXML
     public void handlePauseBtn(){
 <<<<<<< HEAD:src/controllers/HUDController.java
@@ -80,13 +80,13 @@ public class HUDController implements Initializable{
 
     public void initPlayer(Player player) {
        healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
-       speedValue.set(String.valueOf(player.getMovementSpeed()));
+       //totalKills.set(String.valueof()); //get kills value here
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         health.textProperty().bind(healthValue);
-        speed.textProperty().bind(speedValue);
+        //kills.textProperty().bind(totalKills);
     }
 }
 

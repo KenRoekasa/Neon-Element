@@ -85,5 +85,4 @@ class DrawStates {
         gc.restore();
     }
 
-
 }

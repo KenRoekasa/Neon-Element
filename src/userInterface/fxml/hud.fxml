@@ -2,9 +2,6 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Polyline?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
@@ -12,19 +9,6 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HUDController">
    <children>
       <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Circle fx:id="fire" fill="#ff4e1f" layoutX="874.0" layoutY="629.0" radius="22.0" stroke="#ff4e1f" strokeType="INSIDE" AnchorPane.bottomAnchor="28.0" AnchorPane.rightAnchor="27.0" />
-      <Circle fx:id="wind" fill="DODGERBLUE" layoutX="791.0" layoutY="645.0" radius="22.0" strokeType="INSIDE" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="110.0">
-         <stroke>
-            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-               <stops>
-                  <Stop color="#0909f5" offset="0.0074487895716946" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </RadialGradient>
-         </stroke>
-      </Circle>
-      <Circle fx:id="earth" fill="#43a114" layoutX="824.0" layoutY="582.0" radius="22.0" stroke="#12a412" strokeType="INSIDE" AnchorPane.bottomAnchor="75.0" AnchorPane.rightAnchor="77.0" />
-      <Circle fx:id="snow" fill="WHITE" layoutX="884.0" layoutY="552.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="105.0" AnchorPane.rightAnchor="17.0" />
       <Rectangle fx:id="info" arcHeight="5.0" arcWidth="5.0" fill="#007bff" height="44.0" layoutX="-1.0" layoutY="-1.0" stroke="#007bff" strokeType="INSIDE" width="144.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blood:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.431640625" />
       <Text fill="#f8f5f5" layoutX="9.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Speed:" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="24.431640625" />

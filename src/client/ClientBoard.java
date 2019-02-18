@@ -43,11 +43,8 @@ public class ClientBoard {
 		this.gameState = gameState;
 		this.gameClient = new GameClient(gameState);
         // load hud
-<<<<<<< HEAD
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/hud.fxml"));
-=======
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2
         Pane hudPane = new Pane();
 
         try {
@@ -162,6 +159,13 @@ public class ClientBoard {
             }
         }
     }
+
+
+    private void swapElement(){
+        InputHandler.handleKeyboardInput(gameState.getPlayer(),input,gameState.getMap());
+
+    }
+
 
     private void doCollisionDetection() {
 
@@ -463,4 +467,63 @@ public class ClientBoard {
 		}
 	}
 
+<<<<<<< Updated upstream
+=======
+        //temporary for enemies to pickup power ups
+        //TODO: CHange this
+        for (Iterator<PhysicsObject> itr = objects.iterator(); itr.hasNext(); ) {
+            PhysicsObject e = itr.next();
+            // Check if the moving in a certain direction will cause a collision
+            // The player has collided with e do something
+            if (e.getTag() == ObjectType.POWERUP) {
+                if (CollisionDetection.checkCollision(gameState.getEnemies().get(0), e)) {
+                    PowerUp powerUp = (PowerUp) e;
+                    powerUp.activatePowerUp(gameState.getEnemies().get(0));
+                    // remove power up from objects array list
+                    itr.remove();
+                }
+            }
+        }
+
+        // Loop through all enemies to detect hit detection
+        ArrayList<Enemy> enemies = gameState.getEnemies();
+        synchronized (enemies) {
+            for (Iterator<Enemy> itr = enemies.iterator(); itr.hasNext(); ) {
+                PhysicsObject e = itr.next();
+                // Attack Collision
+                // if player is light attacking
+                if (gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
+                    if (CollisionDetection.checkCollision(gameState.getPlayer().getAttackHitbox().getBoundsInParent(),
+                            e.getBounds().getBoundsInParent())) {
+                        // e takes damage
+                        // this will have to change due to Player being other controlled player when
+                        // Enemy is when the player is an ai
+                        Enemy enemy = (Enemy) e;
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(gameState.getPlayer(), enemy));
+                        gameState.getPlayer().setCurrentAction(Action.IDLE);
+                        System.out.println("hit");
+                        // Sends to server
+                    }
+
+                }
+                if (gameState.getPlayer().getCurrentAction() == Action.HEAVY) {
+                    if (CollisionDetection.checkCollision(
+                            gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(),
+                            e.getBounds().getBoundsInParent())) {
+                        // e takes damage
+                        Enemy enemy = (Enemy) e;
+                        // TODO: For now its takes 10 damage, change later
+                        enemy.removeHealth(10);
+                        gameState.getPlayer().setCurrentAction(Action.IDLE);
+                        System.out.println("heavy hit");
+                        // Sends to server
+                    }
+                }
+            }
+
+        }
+    }
+
+
+>>>>>>> Stashed changes
 }
