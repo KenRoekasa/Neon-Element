@@ -155,21 +155,26 @@ public class LocalSetUpController implements Initializable {
         num_1.setToggleGroup(num_group);
         num_2.setToggleGroup(num_group);
         num_3.setToggleGroup(num_group);
+        num_3.setSelected(true);
 
         easy_1.setToggleGroup(diff_1);
         normal_1.setToggleGroup(diff_1);
         hard_1.setToggleGroup(diff_1);
+        easy_1.setSelected(true);
 
         easy_2.setToggleGroup(diff_2);
         normal_2.setToggleGroup(diff_2);
         hard_2.setToggleGroup(diff_2);
+        easy_2.setSelected(true);
 
         easy_3.setToggleGroup(diff_3);
         normal_3.setToggleGroup(diff_3);
         hard_3.setToggleGroup(diff_3);
+        easy_3.setSelected(true);
 
         time_mode.setToggleGroup(mode);
         life_mode.setToggleGroup(mode);
+        time_mode.setSelected(true);
 
         num_1.setUserData(1);
         num_2.setUserData(2);
