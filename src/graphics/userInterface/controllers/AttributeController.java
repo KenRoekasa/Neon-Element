@@ -1,6 +1,7 @@
-package controllers;
+package graphics.userInterface.controllers;
 
-import entities.Player;
+
+import engine.entities.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
