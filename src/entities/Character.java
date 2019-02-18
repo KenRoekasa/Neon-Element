@@ -172,6 +172,9 @@ public abstract class Character extends PhysicsObject {
         this.health -= damage;
         this.lastAttacker = attacker;
     }
+    public void removeHealth(float damage) {
+        this.health -= damage;
+    }
 
     public void chargeHeavyAttack() {
         // TODO handle charging
