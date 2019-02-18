@@ -1,10 +1,7 @@
-<<<<<<< HEAD:src/userInterface/Menu.java
-package userInterface;
 
-import controllers.MenuController;
-=======
+package userInterface;
 import graphics.userInterface.controllers.MenuController;
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/Menu.java
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

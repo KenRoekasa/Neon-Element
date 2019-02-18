@@ -1,4 +1,4 @@
-package graphics;
+package graphics.rendering;
 
 import javafx.animation.PathTransition;
 import javafx.scene.canvas.GraphicsContext;

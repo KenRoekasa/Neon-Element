@@ -24,11 +24,7 @@ public class SettingController {
     }
     @FXML
     public void handleBackBtn(){
-<<<<<<< HEAD:src/controllers/SettingController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/menu.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/SettingController.java
 
         try {
             Pane root = loader.load();

@@ -20,11 +20,7 @@ public class OnlineModeController implements Initializable{
 
     @FXML
     public void handleHostGame(ActionEvent actionEvent){
-<<<<<<< HEAD:src/controllers/OnlineModeController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/online_setup.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/online_setup.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/OnlineModeController.java
         try {
             Pane root = loader.load();
             OnlineSetUpController onlineSetUpController = loader.getController();
@@ -41,11 +37,7 @@ public class OnlineModeController implements Initializable{
 
     @FXML
     public void handleJoinGame(ActionEvent event){
-<<<<<<< HEAD:src/controllers/OnlineModeController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/ip_join.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/ip_join.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/OnlineModeController.java
 
         try {
             Pane root = loader.load();
@@ -64,11 +56,7 @@ public class OnlineModeController implements Initializable{
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent){
-<<<<<<< HEAD:src/controllers/OnlineModeController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/mode_board.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/OnlineModeController.java
 
         try {
             Pane root = loader.load();

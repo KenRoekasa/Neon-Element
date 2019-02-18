@@ -23,11 +23,7 @@ public class OnlineSetUpController implements Initializable{
 
     @FXML
     public void handleCreateBtn(){
-<<<<<<< HEAD:src/controllers/OnlineSetUpController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/ip_host.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/ip_host.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/OnlineSetUpController.java
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
@@ -44,11 +40,7 @@ public class OnlineSetUpController implements Initializable{
     @FXML
     public void handleBackBtn(){
         //select mode
-<<<<<<< HEAD:src/controllers/OnlineSetUpController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/mode_board.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/OnlineSetUpController.java
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);

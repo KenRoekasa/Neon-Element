@@ -1,12 +1,9 @@
 package graphics.userInterface.controllers;
 
-<<<<<<< HEAD:src/controllers/HUDController.java
-import entities.Player;
-import enumSwitches.colourSwitch;
-import enums.Elements;
-=======
+
 import engine.entities.Player;
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/HUDController.java
+import engine.enums.Elements;
+import graphics.enumSwitches.colourSwitch;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -60,11 +57,7 @@ public class HUDController implements Initializable{
 
     @FXML
     public void handlePauseBtn(){
-<<<<<<< HEAD:src/controllers/HUDController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/pause.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/pause.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/HUDController.java
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);

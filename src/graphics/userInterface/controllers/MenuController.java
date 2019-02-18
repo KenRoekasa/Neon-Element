@@ -36,11 +36,8 @@ public class MenuController implements Initializable{
         // todo make this configurable
         
       //select mode
-<<<<<<< HEAD:src/controllers/MenuController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/mode_board.fxml"));
-=======
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/MenuController.java
 
         try {
             Pane root = loader.load();
@@ -58,11 +55,7 @@ public class MenuController implements Initializable{
     @FXML
     public void handleSettingBtn(ActionEvent actionEvent){
         //select mode
-<<<<<<< HEAD:src/controllers/MenuController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/setting.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/MenuController.java
 
         try {
             Pane root = loader.load();
@@ -82,11 +75,7 @@ public class MenuController implements Initializable{
     @FXML
     public void handleHelpBtn(ActionEvent actionEvent){
         //select mode
-<<<<<<< HEAD:src/controllers/MenuController.java
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/fxml/help.fxml"));
-=======
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/help.fxml"));
->>>>>>> 57ad7f93eb51328661503183acca5c860c7e0fd2:src/graphics/userInterface/controllers/MenuController.java
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
