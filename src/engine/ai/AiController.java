@@ -75,9 +75,15 @@ public class AiController {
 					while (bool) {
 						AiFSM.basicAiFetchAction(aiPlayer, aiCon);
 						//System.out.println("health "+aiPlayer.getHealth());
+						
+						if(getActiveState().equals(AiStates.ESCAPE))
+							aiPlayer.delay(DELAY_TIME/2);
+						else
+							aiPlayer.delay(DELAY_TIME);
+						
 						basicAIExecuteAction();
 						//delay to limit speed 
-						aiPlayer.delay(DELAY_TIME);
+						
 						if (aiPlayer.getHealth() <= 0) {
 							aiPlayer.respawn(map.getWidth(),map.getHeight());
 						}
@@ -234,6 +240,10 @@ public class AiController {
 		
 		public void escape() {
 			Player player = findNearestPlayer();
+			if (player.getTag().equals(ObjectType.ENEMY)) {
+				moveAway(player);
+				return;
+			}
 			switch(player.getCharacterDirection()) {
 			case DOWN:
 				aiPlayer.moveUp();
@@ -263,6 +273,36 @@ public class AiController {
 				break;
 			
 			}
+		}
+		
+		public void moveAway(Player player) {
+			Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
+			if(playerLoc.getX()>aiLoc.getX()) {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveUp();
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveLeft(map.getWidth());
+				else
+					aiPlayer.moveUpCartesian();
+			}
+			else if(playerLoc.getX()<aiLoc.getX()) {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveRight(map.getWidth(), map.getHeight());
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveDown(map.getWidth(), map.getHeight());
+				else
+					aiPlayer.moveDownCartestian(map.getHeight());
+			}
+			else {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveLeftCartesian();
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveRightCartesian(map.getWidth());
+				else
+					aiPlayer.moveDown(map.getWidth(), map.getHeight());
+			}
+			
+			
 		}
 
 
@@ -391,7 +431,7 @@ public class AiController {
 			//System.out.println("distance: "+distance+"\n2*width: "+2*aiPlayer.getWidth());
 			if( player.getTag().equals(ObjectType.PLAYER) && distance <= 2*aiPlayer.getWidth()) 
 				return;
-			if( player.getTag().equals(ObjectType.ENEMY) && distance <= aiPlayer.getWidth()) 
+			if( player.getTag().equals(ObjectType.ENEMY) && distance <= 2) 
 				return;
 			
 			//while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
