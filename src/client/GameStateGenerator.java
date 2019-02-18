@@ -103,6 +103,6 @@ public class GameStateGenerator {
     
     private static void startAi(ArrayList<AiController> aiConList) {
     	for (AiController aiCon: aiConList)
-    		aiCon.startBasicAi();
+    		aiCon.startEasyAi();
     }
 }
