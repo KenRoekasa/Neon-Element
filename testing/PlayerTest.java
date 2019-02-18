@@ -1,5 +1,5 @@
-import entities.Player;
-import enums.ObjectType;
+import engine.entities.Player;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import org.junit.Test;
 
@@ -17,9 +17,6 @@ public class PlayerTest {
     public void onCreatePlayerIsAlive() {
         Player player = new Player(ObjectType.PLAYER);
         assertTrue(player.isAlive());
-    }
-
-    private void assertTrue(boolean alive) {
     }
 
     @Test
@@ -41,5 +38,12 @@ public class PlayerTest {
         newLocation = newLocation.add(player.getMovementSpeed(),player.getMovementSpeed());
         player.moveDown(1500,1500);
         assertEquals(newLocation,player.getLocation() );
+    }
+
+    @Test
+    public void takeDamage(){
+        Player player = new Player(ObjectType.PLAYER);
+        player.removeHealth(10);
+        assertEquals(90,player.getHealth(),0);
     }
 }

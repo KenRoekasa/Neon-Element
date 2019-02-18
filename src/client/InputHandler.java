@@ -1,17 +1,13 @@
 package client;
 
-import audio.AudioManager;
-import entities.Player;
-import enums.Sound;
-import graphics.Renderer;
-import javafx.scene.input.KeyEvent;
+import engine.entities.Player;
+import graphics.rendering.Renderer;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class InputHandler {

@@ -1,8 +1,8 @@
-import entities.CollisionDetection;
-import entities.Player;
-import entities.PowerUp;
-import enums.ObjectType;
-import enums.PowerUpType;
+import engine.entities.CollisionDetection;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.ObjectType;
+import engine.enums.PowerUpType;
 import javafx.geometry.Point2D;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class PowerUpTest {
         if (CollisionDetection.checkCollision(player, powerUp)) {
             powerUp.activatePowerUp(player);
             if (powerUp.getType() == PowerUpType.SPEED) {
-                assertEquals(4, player.getMovementSpeed());
+                assertEquals(8, player.getMovementSpeed());
 
             }
         }
