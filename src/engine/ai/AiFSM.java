@@ -6,7 +6,7 @@ import engine.enums.PowerUpType;
 
 public class AiFSM {
 
-	public static void basicAiFetchAction(Player aiPlayer, AiController aiCon,Player [] players) {
+	public static void basicAiFetchAction(Player aiPlayer, AiController aiCon) {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();

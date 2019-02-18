@@ -24,7 +24,6 @@ public class GameStateGenerator {
         Player player = new Player(ObjectType.PLAYER);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
-	    Player players[] = {player};
         
         // create object list
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
@@ -37,8 +36,8 @@ public class GameStateGenerator {
         ArrayList<Player> enemies = new ArrayList<>();
         ArrayList<AiController> aiConList = new ArrayList<>();
         
-        // create an enemy and its engine.ai controller
-        AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
+        // create an enemy and its ai controller
+        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player);
         aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
         enemies.get(0).setLocation(new Point2D(140, 100));
@@ -80,7 +79,6 @@ public class GameStateGenerator {
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
-        Player players[] = {player};
 
         ArrayList<AiController> aiConList = new ArrayList<>();
 
@@ -88,12 +86,12 @@ public class GameStateGenerator {
 
 
         for (int i = 0; i < num_enm; i++) {
-            AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
+            AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map, player );
             aiConList.add(aiCon);
             enemies.add(aiCon.getAiPlayer() );
         }
         for (int i = 0; i < num_enm; i++) {
-            enemies.get(i).setLocation(new Point2D(140 + 20 * i, 100));
+            enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
         }
         ArrayList<Player> deadPlayers = new ArrayList<>();
 

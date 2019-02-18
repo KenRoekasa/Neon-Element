@@ -10,34 +10,32 @@ import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import java.util.concurrent.TimeUnit;
 
 import javafx.geometry.Point2D;
 public class AiController {
 
 
 		AiStates activeState;
-		Player[] players;
 		ArrayList<PhysicsObject> objects;
 		Player aiPlayer ;
 		int powerupIndex = -1;
 		Rectangle map;
+		Player player;
 		AiController  aiCon= this;
 		final int DELAY_TIME = 28;
-//TODO: implement sheild, attacking other ai's and pause function to pause game and also to kill the enemy
-		public AiController(Player aiPlayer,Player [] players, ArrayList<PhysicsObject> objects, Rectangle map) {
+		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
 
 	        activeState = AiStates.IDLE;
-	     
-	        this.players = players;
 	        this.objects = objects;
 	        this.map = map;
+	        this.player = player;
 	        this.aiPlayer =aiPlayer;
 	        //default random
 	        assignRandomElement();
+	        
 	    }
 		
 		public Player getAiPlayer() {
@@ -75,14 +73,19 @@ public class AiController {
 				public void run() {
 					boolean bool = true;
 					while (bool) {
-						AiFSM.basicAiFetchAction(aiPlayer, aiCon, players);
+						AiFSM.basicAiFetchAction(aiPlayer, aiCon);
 						//System.out.println("health "+aiPlayer.getHealth());
 						basicAIExecuteAction();
 						//delay to limit speed 
-						delay();
-						if (aiPlayer.getHealth() <= 0)
-							bool = false;
+						aiPlayer.delay(DELAY_TIME);
+						if (aiPlayer.getHealth() <= 0) {
+							aiPlayer.respawn(map.getWidth(),map.getHeight());
+						}
+						
+//						if(timer.off)
+//							bool = false;				
 					}
+				
 				}
 
 			});
@@ -303,20 +306,21 @@ public class AiController {
 
 		public Player findNearestPlayer() {
 			double minDis = Double.MAX_VALUE;
+			ArrayList<Player> players = getPlayers();
 			int index = 0;
-			for (int i = 0; i < players.length; i++) {
-				double tempDis = calcDistance(players[i].getLocation(), aiPlayer.getLocation());
+			for (int i = 0; i < players.size(); i++) {
+				double tempDis = calcDistance(players.get(i).getLocation(), aiPlayer.getLocation());
 				if (tempDis < minDis) {
 					minDis = tempDis;
 					index = i;
 				}
 			}
 
-			double angle = calcAngle(aiPlayer.getLocation(), players[index].getLocation());
+			double angle = calcAngle(aiPlayer.getLocation(), players.get(index).getLocation());
 
 			aiPlayer.setPlayerAngle(new Rotate(angle));
 
-			return players[index];
+			return players.get(index);
 		}
 
 		public void attack() {
@@ -385,9 +389,11 @@ public class AiController {
 			
 			
 			//System.out.println("distance: "+distance+"\n2*width: "+2*aiPlayer.getWidth());
-			if( distance <= 2*aiPlayer.getWidth()) 
+			if( player.getTag().equals(ObjectType.PLAYER) && distance <= 2*aiPlayer.getWidth()) 
 				return;
-
+			if( player.getTag().equals(ObjectType.ENEMY) && distance <= aiPlayer.getWidth()) 
+				return;
+			
 			//while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
 			
 				//System.out.println("moving to player");
@@ -428,14 +434,6 @@ public class AiController {
 			//}
 		}
 		
-		private void delay() {
-			try {
-				TimeUnit.MILLISECONDS.sleep(DELAY_TIME);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 		private boolean higherY(Point2D loc) {
 
@@ -469,6 +467,17 @@ public class AiController {
 			if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
 				return true;
 			return false;
+		}
+		
+		public ArrayList<Player> getPlayers(){
+			ArrayList<Player> players = new ArrayList<Player>();
+			for(PhysicsObject object : objects) {
+				if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
+					players.add((Player)object);
+				}
+			}
+			players.add(player);
+			return players;
 		}
 
 		public void changeToBefittingElement() {
@@ -511,6 +520,5 @@ public class AiController {
 				break;
 			}
 		}
-
 
 }

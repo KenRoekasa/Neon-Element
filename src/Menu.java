@@ -27,6 +27,8 @@ public class Menu extends Application {
 
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
+        primaryStage.setFullScreenExitHint("");
+
 
         //force screen size
         primaryStage.setMinWidth(width);
@@ -34,6 +36,7 @@ public class Menu extends Application {
 
         Scene scene = new Scene(root, width, height);
         primaryStage.setScene(scene);
+
 
 
         // stops all game threads on close
