@@ -2,10 +2,14 @@ package graphics.rendering;
 
 import engine.entities.Character;
 
+import engine.entities.Player;
 import graphics.enumSwitches.colourSwitch;
 import engine.enums.Action;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.paint.Color;
 
 class DrawPlayers {
@@ -14,8 +18,21 @@ class DrawPlayers {
     static void drawPlayer(GraphicsContext gc, Point2D playerCenter, Character player) {
         gc.save();
         Color c = colourSwitch.getElementColour(player.getCurrentElement());
-        gc.setFill(c);
 
+
+        Effect glow = new Glow(0.4);    // this gives a nice "neon" glow to all of the players
+
+        if(player.getMovementSpeed() > Player.DEFAULT_MOVEMENT_SPEED) {
+
+            MotionBlur m = new MotionBlur(0, 10);
+            m.setInput(glow);
+            
+            gc.setEffect(m);
+        } else {
+            gc.setEffect(glow);
+        }
+
+        gc.setFill(c);
         gc.fillRect(playerCenter.getX(), playerCenter.getY(), player.getWidth(), player.getWidth());
         gc.restore();
     }

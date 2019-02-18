@@ -13,6 +13,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import graphics.rendering.textures.TextureLoader;
 
@@ -57,14 +60,22 @@ public class Renderer {
 
         DrawObjects.drawBackground(gc, stageSize, stars);
 
+
+
         rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
         ISOConverter.applyRotationTransform(gc, rotationCenter);
+
+        // apply screenshake
+        // unsure about this
+        //applyScreenshake(gameState);
 
         // draw map to screen
         DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), textures.get("background"));
 
         //sort based on proximity to the view (greater y is later)
         ArrayList<PhysicsObject> objects = sortDistance(gameState.getEntities());
+
+
 
         // draw all objects
         for (PhysicsObject o : objects) {
@@ -80,7 +91,7 @@ public class Renderer {
 
         gc.restore();
 
-        debugger.gameStateDebugger(gameState, stageSize);
+        //debugger.gameStateDebugger(gameState, stageSize);
 
         debugger.print();
     }
@@ -90,7 +101,7 @@ public class Renderer {
 
         if (o.getTag() == ObjectType.PLAYER) {
             Action status = gameState.getPlayer().getCurrentAction();
-            
+
             DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
             ActionSwitch(status, gameState.getPlayer(), gameState);
 
@@ -114,6 +125,7 @@ public class Renderer {
 
         switch(status){
             case LIGHT:
+
                 animationDuration = AttackTimes.getActionTime(Action.LIGHT);
                 remainingAnimDuration = character.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
 
@@ -154,13 +166,27 @@ public class Renderer {
         }
     }
 
+    private void applyScreenshake(ClientGameState gameState) {
+        if(gameState.getPlayer().getCurrentAction() == Action.LIGHT) {
+            float x = ((float) Math.random() * 10) - 5;
+            float y = ((float) Math.random() * 10) - 5;
+
+            Transform t = new Translate(x, y);
+
+            Affine a = gc.getTransform();
+            a.prepend(t);
+
+            gc.setTransform(a);
+        }
+    }
+
     private ArrayList<PhysicsObject> sortDistance(ArrayList<PhysicsObject> a) {
         a.sort(Comparator.comparingDouble(o -> o.getLocation().getY()));
         return a;
     }
 
-
     // this function takes a value and the range that value could be in, and maps it to its relevant position between two other values
+
     // see this https://www.arduino.cc/reference/en/language/functions/math/map/
     static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
