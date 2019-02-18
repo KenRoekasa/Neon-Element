@@ -54,6 +54,59 @@ public class GameStateGenerator {
         
         return gameState;
     }
+
+    //receive the number of enemy from controller to initialise ai enm
+
+    public static ClientGameState createDemoGamestateSample(int num_enm) {
+
+        //initialise map location
+        Rectangle map = new Rectangle(2000, 2000);
+
+        // create player
+        Player player = new Player(ObjectType.PLAYER);
+        Point2D playerStartLocation = new Point2D(500, 500);
+        player.setLocation(playerStartLocation);
+
+
+        //add the 1 power up to the objects list
+        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        //TODO: Remove
+        //add a powerup
+        PowerUp pu = new PowerUp();
+
+        objects.add(pu);
+
+        // initialise enemies
+        ArrayList<Player> enemies = new ArrayList<>();
+        Player players[] = {player};
+        PowerUp pus[] = {pu};
+
+
+        ArrayList<AiController> aiConList = new ArrayList<>();
+
+        // Add the enemies to the objects list
+
+
+        for (int i = 0; i < num_enm; i++) {
+            AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
+            aiConList.add(aiCon);
+            enemies.add(aiCon.getAiPlayer() );
+        }
+        for (int i = 0; i < num_enm; i++) {
+            enemies.get(i).setLocation(new Point2D(140 + 20 * i, 100));
+        }
+
+
+        objects.addAll(enemies);
+        //Add the enemies to the objects list
+        objects.addAll(enemies);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+
+        startAi(aiConList);
+
+
+        return gameState;
+    }
     
     private static void startAi(ArrayList<AiController> aiConList) {
     	for (AiController aiCon: aiConList)

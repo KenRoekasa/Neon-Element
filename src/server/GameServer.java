@@ -5,6 +5,7 @@ import static enums.Directions.LEFTCART;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import engine.GameTypeHandler;
 import entities.CollisionDetection;
 import entities.PhysicsObject;
 import entities.Player;
@@ -41,6 +42,11 @@ public class GameServer extends Thread {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
+
+
+            this.running = GameTypeHandler.checkRunning(gameState);
+
+            Thread.yield();
             this.sendLocations();
 
             try {

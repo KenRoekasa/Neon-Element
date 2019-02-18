@@ -6,12 +6,8 @@ import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -31,40 +27,25 @@ public class MenuController implements Initializable{
     private Stage stage;
     private ClientGameState gameState;
 
-    private Rectangle2D stageSize;
-    @FXML
-    private Text health;
-    @FXML
-    private Text speed;
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void setStageSize(Rectangle2D stageSize) {
-        this.stageSize = stageSize;
-    }
-
     // play -> mode selection
     @FXML
-    public void handleBTNPlay(ActionEvent actionEvent) {
+    public void handlePlayBtn(ActionEvent actionEvent) {
 
         // create game rules
         // todo make this configurable
-    	System.out.println("menu controller class");
-        ClientGameState g = GameStateGenerator.createDemoGamestate();
+        
       //select mode
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/mode_board.fxml"));
 
         try {
             Pane root = loader.load();
-
             stage.getScene().setRoot(root);
-
-            ModeController modeController = loader.getController();
-            modeController.setStage(stage);
-            modeController.setStageSize(stageSize);
-
+            ModeController controller = loader.getController();
+            controller.setStage(stage);
             stage.setTitle("Mode");
 
         } catch (IOException e) {
@@ -73,30 +54,46 @@ public class MenuController implements Initializable{
         }
     }
 
+    @FXML
+    public void handleSettingBtn(ActionEvent actionEvent){
+        //select mode
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
+
+        try {
+            Pane root = loader.load();
+            stage.getScene().setRoot(root);
+            SettingController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("Mode");
+
+        } catch (IOException e) {
+            System.out.println("crush in loading setting board ");
+            e.printStackTrace();
+        }
+    }
+
+
 
     @FXML
-    public void handleBTNOptions(ActionEvent actionEvent){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../userInterface/option_board.fxml"));
+    public void handleHelpBtn(ActionEvent actionEvent){
+        //select mode
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/help.fxml"));
         try {
-            Parent root = (Parent)fxmlLoader.load();
+            Pane root = loader.load();
             stage.getScene().setRoot(root);
+            SettingController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("GUIDE");
 
-            stage.setTitle("Options");
-            stage.show();
         } catch (IOException e) {
-            System.out.println("crush in loading option board ");
+            System.out.println("crush in loading setting board ");
             e.printStackTrace();
         }
 
     }
 
     @FXML
-    public void handleBTNHelp(ActionEvent actionEvent){
-
-    }
-
-    @FXML
-    public void handleBTNExit(ActionEvent actionEvent){
+    public void handleExitBtn(ActionEvent actionEvent){
         stage.close();
     }
 

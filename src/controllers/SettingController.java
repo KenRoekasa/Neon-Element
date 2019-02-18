@@ -2,45 +2,32 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import userInterface.Menu;
 
 import java.io.IOException;
 
-//Press space to pause the game
-public class PauseController {
-    private Stage stage;
-    @FXML
-
+public class SettingController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    private Stage stage;
     @FXML
-    public void handleResumeBtn(){
-        //preserve game state
+    public void handleSoundVolume(){
+
+    }
+
+    @FXML
+    public void handleOkBtn(){
 
     }
     @FXML
-    public void handleSettingBtn(){
-        //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/setting.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            SettingController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
-            e.printStackTrace();
-        }
-    }
-    @FXML
-    public void handleQuitBtn(){
+    public void handleBackBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/menu.fxml"));
+
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
@@ -53,5 +40,6 @@ public class PauseController {
             e.printStackTrace();
         }
     }
+
 
 }

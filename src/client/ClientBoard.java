@@ -1,7 +1,7 @@
 package client;
 
+import controllers.HUDController;
 import calculations.DamageCalculation;
-import controllers.AttributeController;
 import debugger.Debugger;
 import entities.*;
 import enums.Action;
@@ -11,9 +11,12 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -35,25 +38,20 @@ public class ClientBoard {
     private GameClient gameClient;
 
 
-	public Scene getScene() {
-		return scene;
-	}
-
 	public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
 		// initial setup
 		this.primaryStage = primaryStage;
 		this.gameState = gameState;
 		this.gameClient = new GameClient(gameState);
-
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../userInterface/game_board.fxml"));
         Pane hudPane = new Pane();
 
         try {
             hudPane = (Pane) loader.load();
-            // get player attribute
-            AttributeController attributeController = loader.getController();
-            attributeController.initPlayer(gameState.getPlayer());
+            //get player attribute
+            HUDController HUDController = loader.getController();
+            HUDController.initPlayer(gameState.getPlayer());
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -63,8 +61,16 @@ public class ClientBoard {
         }
 
         primaryStage.getScene().setRoot(hudPane);
+        HUDController controller =loader.getController();
+        System.out.println("HUDloader: "+controller.hashCode());
+        controller.setStage(primaryStage);
+        //controller.
 
         scene = primaryStage.getScene();
+        // change cursor
+        Image cursorImage = new Image("textures/cursor.png");
+        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
+        scene.setCursor(iC);
 
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
@@ -89,7 +95,10 @@ public class ClientBoard {
         // gameClient.run();
     }
 
- 
+    public Scene getScene() {
+        return scene;
+    }
+
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
@@ -103,17 +112,17 @@ public class ClientBoard {
 		Thread puController = new Thread(new PowerUpController(gameState.getObjects()));
 		puController.start();
 	}
-
+	
 	 public void startGame() {
 	        this.gameClient.start();
 	    }
 
 
-    private void initialiseInput(Scene theScene, Renderer renderer) {
-        // set input controls
-        input = new ArrayList<>();
-        theScene.setOnKeyPressed(e -> {
-            String code = e.getCode().toString();
+	private void initialiseInput(Scene theScene, Renderer renderer) {
+		// set input controls
+		input = new ArrayList<>();
+		theScene.setOnKeyPressed(e -> {
+			String code = e.getCode().toString();
 
             // only add each input command once
             if (!input.contains(code))
@@ -157,7 +166,7 @@ public class ClientBoard {
 		ArrayList<Player> allPlayers = new ArrayList<>();
 		allPlayers.addAll(gameState.getEnemies());
 		allPlayers.add(gameState.getPlayer());
-
+		
 		for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext();) {
 			ArrayList<Player> otherPlayers = new ArrayList<Player>();
 			otherPlayers.addAll(allPlayers);
@@ -192,216 +201,213 @@ public class ClientBoard {
 						}
 					} else {
 
-					int collisionOffset = 1;
-					double x = gameState.getPlayer().getLocation().getX();
-					double y = gameState.getPlayer().getLocation().getY();
-					int movementSpeed = gameState.getPlayer().getMovementSpeed();
-					Point2D checkUp = new Point2D(x - movementSpeed, y - movementSpeed);
-					Point2D checkDown = new Point2D(x + movementSpeed, y + movementSpeed);
-					Point2D checkLeft = new Point2D(x - movementSpeed, y + movementSpeed);
-					Point2D checkRight = new Point2D(x + movementSpeed, y - movementSpeed);
-					Point2D checkUpCart = new Point2D(x, y - movementSpeed);
-					Point2D checkDownCart = new Point2D(x, y + movementSpeed);
-					Point2D checkLeftCart = new Point2D(x - movementSpeed, y);
-					Point2D checkRightCart = new Point2D(x + movementSpeed, y);
+						int collisionOffset = 1;
+						double x = player.getLocation().getX();
+						double y = player.getLocation().getY();
+						int movementSpeed = player.getMovementSpeed();
+						Point2D checkUp = new Point2D(x - movementSpeed, y - movementSpeed);
+						Point2D checkDown = new Point2D(x + movementSpeed, y + movementSpeed);
+						Point2D checkLeft = new Point2D(x - movementSpeed, y + movementSpeed);
+						Point2D checkRight = new Point2D(x + movementSpeed, y - movementSpeed);
+						Point2D checkUpCart = new Point2D(x, y - movementSpeed);
+						Point2D checkDownCart = new Point2D(x, y + movementSpeed);
+						Point2D checkLeftCart = new Point2D(x - movementSpeed, y);
+						Point2D checkRightCart = new Point2D(x + movementSpeed, y);
 
-					// Check for rare occasion the player is inside another player
-					if (CollisionDetection.checkCollision(gameState.getPlayer(), e)) {
-						// This line of code seems to cause a bug
-//                        gameState.getPlayer().setLocation(previousLocation);
-					}
-
-					switch (gameState.getPlayer().getCharacterDirection()) {
-					case UP:
-						projectedPlayer.setLocation(checkUp);
-
-						if (CollisionDetection.checkCollision(projectedPlayer, e)) {
-							Point2D newLocation = previousLocation;
-							// if on the right hand side of the other player
-							if (e.getBounds().getBoundsInParent().getMaxX() <= gameState.getPlayer().getLocation()
-									.getX()) {
-								double adjacent = gameState.getPlayer().getLocation().getX()
-										- e.getBounds().getBoundsInParent().getMaxX();
-								double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(e.getBounds().getBoundsInParent().getMaxX(),
-										gameState.getPlayer().getLocation().getY() - opposite);
-								newLocation = newLocation.add(collisionOffset, collisionOffset);
+						// Check for rare occasion the player is inside another player
+						if (CollisionDetection.checkCollision(player, e)) {
+							// This line of code seems to cause a bug
+							//                        gameState.getPlayer().setLocation(previousLocation);
+							if(player == e) {
+								System.out.println("Collided with itself");
 							}
-							// if on the left hand side of the other player
-							if (e.getBounds().getBoundsInParent().getMaxX() > gameState.getPlayer().getLocation()
-									.getX()) {
-								double adjacent = e.getBounds().getBoundsInParent().getMaxY()
-										- gameState.getPlayer().getLocation().getY();
-								double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() - opposite,
+						}
+
+						switch (player.getCharacterDirection()) {
+						case UP:
+							projectedPlayer.setLocation(checkUp);
+
+							if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+								Point2D newLocation = previousLocation;
+								// if on the right hand side of the other player
+								if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX()) {
+									double adjacent = player.getLocation().getX()
+											- e.getBounds().getBoundsInParent().getMaxX();
+									double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(e.getBounds().getBoundsInParent().getMaxX(),
+											player.getLocation().getY() - opposite);
+									newLocation = newLocation.add(collisionOffset, collisionOffset);
+								}
+								// if on the left hand side of the other player
+								if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX()) {
+									double adjacent = e.getBounds().getBoundsInParent().getMaxY()
+											- player.getLocation().getY();
+									double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() - opposite,
+											e.getBounds().getBoundsInParent().getMaxY());
+									newLocation = newLocation.add(-collisionOffset, collisionOffset);
+
+								}
+
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canUp = false;
+								player.canUpCart = false;
+								player.canLeftCart = false;
+							}
+
+							break;
+						case DOWN:
+							projectedPlayer.setLocation(checkDown);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								Point2D newLocation = previousLocation;
+								// if on the right hand side of the other player
+								if (player.getBounds().getBoundsInParent().getMaxY() <= e.getBounds()
+										.getBoundsInParent().getMinY()) {
+									double adjacent = e.getBounds().getBoundsInParent().getMinY()
+											- player.getBounds().getBoundsInParent().getMaxY();
+									double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() + opposite,
+											player.getLocation().getY() + adjacent);
+									newLocation = newLocation.add(-collisionOffset, -collisionOffset);
+								}
+
+								// if on the left hand side of the other player
+								if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds().getBoundsInParent()
+										.getMinY()) {
+									double adjacent = e.getBounds().getBoundsInParent().getMinX()
+											- player.getBounds().getBoundsInParent().getMaxX();
+									double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() + adjacent,
+											player.getLocation().getY() + opposite);
+									newLocation = newLocation.add(-collisionOffset, -collisionOffset);
+
+								}
+
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canDown = false;
+								player.canDownCart = false;
+								player.canRightCart = false;
+							}
+							break;
+						case LEFT:
+							projectedPlayer.setLocation(checkLeft);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								// test every the most amount of movement before it collides
+								Point2D newLocation = player.getLocation();
+								// if above the other player
+								if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY()) {
+									double adjacent = e.getBounds().getBoundsInParent().getMinY()
+											- player.getBounds().getBoundsInParent().getMaxY();
+									double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() - opposite,
+											player.getLocation().getY() + adjacent);
+									newLocation = newLocation.add(collisionOffset, -collisionOffset);
+								}
+
+								// if below the other player
+								if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
+
+									double opposite = player.getLocation().getX()
+											- e.getBounds().getBoundsInParent().getMaxX();
+									double adjacent = (opposite * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() - opposite,
+											player.getLocation().getY() + adjacent);
+									newLocation = newLocation.add(collisionOffset, -collisionOffset);
+								}
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canLeft = false;
+								player.canDownCart = false;
+								player.canLeftCart = false;
+								player.canRightCart = false;
+
+							}
+							break;
+						case RIGHT:
+							projectedPlayer.setLocation(checkRight);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								// test every the most amount of movement before it collides
+								Point2D newLocation = player.getLocation();
+								// if above the other player
+								if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX()) {
+									double adjacent = e.getLocation().getX()
+											- player.getBounds().getBoundsInParent().getMaxX();
+									double opposite = (adjacent * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() + adjacent,
+											player.getLocation().getY() - opposite);
+									newLocation = newLocation.add(-collisionOffset, collisionOffset);
+
+								}
+
+								// if below the other player
+								if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX()) {
+									double opposite = player.getLocation().getY()
+											- e.getBounds().getBoundsInParent().getMaxY();
+									double adjacent = (opposite * Math.tan(Math.toRadians(45)));
+									newLocation = new Point2D(player.getLocation().getX() + adjacent,
+											player.getLocation().getY() - opposite);
+									newLocation = newLocation.add(-collisionOffset, collisionOffset);
+								}
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canRight = false;
+								player.canDown = false;
+								player.canUpCart = false;
+								player.canRightCart = false;
+							}
+							break;
+						case UPCART:
+							projectedPlayer.setLocation(checkUpCart);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								// test every the most amount of movement before it collides
+								Point2D newLocation = new Point2D(player.getLocation().getX(),
 										e.getBounds().getBoundsInParent().getMaxY());
-								newLocation = newLocation.add(-collisionOffset, collisionOffset);
-
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canUpCart = false;
+								player.canUp = false;
+								player.canRight = false;
+								player.canLeftCart = false;
 							}
-
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canUp = false;
-							gameState.getPlayer().canUpCart = false;
-							gameState.getPlayer().canLeftCart = false;
-						}
-
-						break;
-					case DOWN:
-						projectedPlayer.setLocation(checkDown);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							Point2D newLocation = previousLocation;
-							// if on the right hand side of the other player
-							if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() <= e.getBounds()
-									.getBoundsInParent().getMinY()) {
-								double adjacent = e.getBounds().getBoundsInParent().getMinY()
-										- gameState.getPlayer().getBounds().getBoundsInParent().getMaxY();
-								double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + opposite,
-										gameState.getPlayer().getLocation().getY() + adjacent);
-								newLocation = newLocation.add(-collisionOffset, -collisionOffset);
+							break;
+						case DOWNCART:
+							projectedPlayer.setLocation(checkDownCart);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								// test every the most amount of movement before it collides
+								Point2D newLocation = new Point2D(player.getLocation().getX(),
+										e.getBounds().getBoundsInParent().getMinY() - player.getWidth());
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canDownCart = false;
+								player.canDown = false;
+								player.canLeft = false;
+								player.canRightCart = false;
 							}
-
-							// if on the left hand side of the other player
-							if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() > e.getBounds()
-									.getBoundsInParent().getMinY()) {
-								double adjacent = e.getBounds().getBoundsInParent().getMinX()
-										- gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-								double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + adjacent,
-										gameState.getPlayer().getLocation().getY() + opposite);
-								newLocation = newLocation.add(-collisionOffset, -collisionOffset);
-
+							break;
+						case LEFTCART:
+							projectedPlayer.setLocation(checkLeftCart);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								//
+								Point2D newLocation = new Point2D(e.getBounds().getBoundsInParent().getMaxX(),
+										player.getLocation().getY());
+								;
+								previousLocation = newLocation;
+								player.setLocation(newLocation);
+								player.canLeftCart = false;
+								player.canUp = false;
+								player.canLeft = false;
+								player.canUpCart = false;
 							}
-
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canDown = false;
-							gameState.getPlayer().canDownCart = false;
-							gameState.getPlayer().canRightCart = false;
-						}
-						break;
-					case LEFT:
-						projectedPlayer.setLocation(checkLeft);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							// test every the most amount of movement before it collides
-							Point2D newLocation = gameState.getPlayer().getLocation();
-							// if above the other player
-							if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() <= e.getLocation()
-									.getY()) {
-								double adjacent = e.getBounds().getBoundsInParent().getMinY()
-										- gameState.getPlayer().getBounds().getBoundsInParent().getMaxY();
-								double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() - opposite,
-										gameState.getPlayer().getLocation().getY() + adjacent);
-								newLocation = newLocation.add(collisionOffset, -collisionOffset);
-							}
-
-							// if below the other player
-							if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxY() > e.getLocation()
-									.getY()) {
-
-								double opposite = gameState.getPlayer().getLocation().getX()
-										- e.getBounds().getBoundsInParent().getMaxX();
-								double adjacent = (opposite * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() - opposite,
-										gameState.getPlayer().getLocation().getY() + adjacent);
-								newLocation = newLocation.add(collisionOffset, -collisionOffset);
-							}
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canLeft = false;
-							gameState.getPlayer().canDownCart = false;
-							gameState.getPlayer().canLeftCart = false;
-							gameState.getPlayer().canRightCart = false;
-
-						}
-						break;
-					case RIGHT:
-						projectedPlayer.setLocation(checkRight);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							// test every the most amount of movement before it collides
-							Point2D newLocation = gameState.getPlayer().getLocation();
-							// if above the other player
-							if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxX() <= e.getLocation()
-									.getX()) {
-								double adjacent = e.getLocation().getX()
-										- gameState.getPlayer().getBounds().getBoundsInParent().getMaxX();
-								double opposite = (adjacent * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + adjacent,
-										gameState.getPlayer().getLocation().getY() - opposite);
-								newLocation = newLocation.add(-collisionOffset, collisionOffset);
-
-							}
-
-							// if below the other player
-							if (gameState.getPlayer().getBounds().getBoundsInParent().getMaxX() > e.getLocation()
-									.getX()) {
-								double opposite = gameState.getPlayer().getLocation().getY()
-										- e.getBounds().getBoundsInParent().getMaxY();
-								double adjacent = (opposite * Math.tan(Math.toRadians(45)));
-								newLocation = new Point2D(gameState.getPlayer().getLocation().getX() + adjacent,
-										gameState.getPlayer().getLocation().getY() - opposite);
-								newLocation = newLocation.add(-collisionOffset, collisionOffset);
-							}
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canRight = false;
-							gameState.getPlayer().canDown = false;
-							gameState.getPlayer().canUpCart = false;
-							gameState.getPlayer().canRightCart = false;
-						}
-						break;
-					case UPCART:
-						projectedPlayer.setLocation(checkUpCart);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							// test every the most amount of movement before it collides
-							Point2D newLocation = new Point2D(gameState.getPlayer().getLocation().getX(),
-									e.getBounds().getBoundsInParent().getMaxY());
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canUpCart = false;
-							gameState.getPlayer().canUp = false;
-							gameState.getPlayer().canRight = false;
-							gameState.getPlayer().canLeftCart = false;
-						}
-						break;
-					case DOWNCART:
-						projectedPlayer.setLocation(checkDownCart);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							// test every the most amount of movement before it collides
-							Point2D newLocation = new Point2D(gameState.getPlayer().getLocation().getX(),
-									e.getBounds().getBoundsInParent().getMinY() - gameState.getPlayer().getWidth());
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canDownCart = false;
-							gameState.getPlayer().canDown = false;
-							gameState.getPlayer().canLeft = false;
-							gameState.getPlayer().canRightCart = false;
-						}
-						break;
-					case LEFTCART:
-						projectedPlayer.setLocation(checkLeftCart);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							//
-							Point2D newLocation = new Point2D(e.getBounds().getBoundsInParent().getMaxX(),
-									gameState.getPlayer().getLocation().getY());
-							;
-							previousLocation = newLocation;
-							gameState.getPlayer().setLocation(newLocation);
-							gameState.getPlayer().canLeftCart = false;
-							gameState.getPlayer().canUp = false;
-							gameState.getPlayer().canLeft = false;
-							gameState.getPlayer().canUpCart = false;
-						}
-						break;
-					case RIGHTCART:
-						projectedPlayer.setLocation(checkRightCart);
-						if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-							// test every the most amount of movement before it collides
-							Point2D newLocation = new Point2D(
-									e.getBounds().getBoundsInParent().getMinX() - gameState.getPlayer().getWidth(),
-									gameState.getPlayer().getLocation().getY());
+							break;
+						case RIGHTCART:
+							projectedPlayer.setLocation(checkRightCart);
+							if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+								// test every the most amount of movement before it collides
+								Point2D newLocation = new Point2D(
+										e.getBounds().getBoundsInParent().getMinX() - player.getWidth(),
+										player.getLocation().getY());
 
 								previousLocation = newLocation;
 								player.setLocation(newLocation);
@@ -416,7 +422,7 @@ public class ClientBoard {
 					}
 				}
 			}
-
+			
 			// Loop through all enemies to detect hit detection
 				for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext();) {
 					PhysicsObject e = itr1.next();
@@ -435,23 +441,22 @@ public class ClientBoard {
 							// Sends to server
 						}
 
-				}
-				if (gameState.getPlayer().getCurrentAction() == Action.HEAVY) {
-					if (CollisionDetection.checkCollision(
-							gameState.getPlayer().getHeavyAttackHitbox().getBoundsInParent(),
-							e.getBounds().getBoundsInParent())) {
-						// e takes damage
-						Player enemy = (Player) e;
-						// TODO: For now its takes 10 damage, change later
-						enemy.removeHealth(10);
-						gameState.getPlayer().setCurrentAction(Action.IDLE);
-						//System.out.println("heavy hit");
-						// Sends to server
+					}
+					if (player.getCurrentAction() == Action.HEAVY) {
+						if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
+								e.getBounds().getBoundsInParent())) {
+							// e takes damage
+							Player enemy = (Player) e;
+							// TODO: For now its takes 10 damage, change later
+							enemy.removeHealth(10);
+							player.setCurrentAction(Action.IDLE);
+							//System.out.println("heavy hit");
+							// Sends to server
+						}
 					}
 				}
-			}
 
-
+		
 		}
 	}
 

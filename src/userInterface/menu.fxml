@@ -2,47 +2,52 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Sphere?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="623.0" spacing="5" styleClass="background" stylesheets="@../resources/css/test01.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
    <children>
-      <Sphere fx:id="logo" radius="50" VBox.vgrow="NEVER">
-         <VBox.margin>
-            <Insets bottom="30.0" />
-         </VBox.margin>
-      </Sphere>
-      <Button fx:id="play_btn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNPlay" prefHeight="27.0" prefWidth="89.0" text="PLAY" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Button fx:id="options_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBTNOptions" prefHeight="27.0" prefWidth="89.0" text="OPTION" textAlignment="CENTER">
+      <BorderPane prefHeight="132.0" prefWidth="623.0" stylesheets="@../resources/css/test01.css">
+         <center>
+            <Text fx:id="group_name" fill="#f6ffff" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="ALIEN8" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="81.0" />
+               </font>
+            </Text>
+         </center>
+      </BorderPane>
+      <Button fx:id="play_btn" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" onAction="#handlePlayBtn" prefHeight="45.0" prefWidth="155.0" text="PLAY" textAlignment="CENTER" textFill="#030303">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
          <font>
-            <Font size="15.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="help_btn" alignment="CENTER" mnemonicParsing="false" onAction="#handleBTNHelp" prefHeight="27.0" prefWidth="89.0" text="HELP" textAlignment="CENTER">
+      <Button fx:id="setting" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSettingBtn" prefHeight="45.0" prefWidth="155.0" text="SETTING" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
          <font>
-            <Font size="15.0" />
+            <Font size="22.0" />
          </font>
       </Button>
-      <Button fx:id="exit_btn" alignment="CENTER" mnemonicParsing="false" onAction="#handleBTNExit" prefHeight="27.0" prefWidth="89.0" text="EXIT" textAlignment="CENTER">
+      <Button fx:id="help" alignment="CENTER" mnemonicParsing="false" onAction="#handleHelpBtn" prefHeight="44.0" prefWidth="155.0" text="HELP" textAlignment="CENTER">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Button>
+      <Button fx:id="exit" alignment="CENTER" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="44.0" prefWidth="155.0" text="EXIT" textAlignment="CENTER">
          <VBox.margin>
             <Insets />
          </VBox.margin>
          <font>
-            <Font size="15.0" />
+            <Font size="22.0" />
          </font>
       </Button>
    </children>

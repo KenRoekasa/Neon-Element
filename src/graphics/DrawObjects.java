@@ -41,7 +41,8 @@ class DrawObjects {
     }
 
     static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player) {
-        Point2D relativeLocation = getRelativeLocation(stage, powerUp, player);
+
+        Point2D relativeLocation = getRelativeLocation(stage, powerUp, player.getLocation());
 
         Color c = colourSwitch.getPowerUpColour(powerUp.getType());
         gc.save();

@@ -25,9 +25,6 @@ public abstract class Character extends PhysicsObject {
     protected int movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
-    protected float killstreak = 0;
-    protected Character lastAttacker;
-
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -168,12 +165,9 @@ public abstract class Character extends PhysicsObject {
     }
 
 
-    public void removeHealth(float damage,Character attacker) {
-        this.health -= damage;
-        this.lastAttacker = attacker;
-    }
     public void removeHealth(float damage) {
         this.health -= damage;
+        //System.out.println("player health "+getHealth());
     }
 
     public void chargeHeavyAttack() {
@@ -182,7 +176,9 @@ public abstract class Character extends PhysicsObject {
             if (currentAction == Action.IDLE) {
                 currentAction = Action.CHARGE;
                 currentActionStart = System.currentTimeMillis();
+
                 (new Thread(() -> {
+
                     try {
                         Thread.sleep(AttackTimes.getActionTime(currentAction));
                     } catch (InterruptedException e) {
@@ -299,11 +295,11 @@ public abstract class Character extends PhysicsObject {
             health = MAX_HEALTH;
         }
     }
-
+    
     // Increase movement speed
     public void speedBoost() {
     	Timer timer = new Timer();
-
+    	
         movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
@@ -360,6 +356,12 @@ public abstract class Character extends PhysicsObject {
         return currentActionStart;
     }
 
+    public String toString(){
+        String s = "ID: " + System.identityHashCode(this) +
+                "\nHealth: " + health +
+                "\nElement: " + currentElement.toString();
+        return s;
+    }
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
