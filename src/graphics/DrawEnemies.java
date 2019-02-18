@@ -1,5 +1,6 @@
 package graphics;
 
+import debugger.Debugger;
 import entities.Enemy;
 import entities.Player;
 import javafx.geometry.Point2D;
@@ -15,7 +16,7 @@ class DrawEnemies {
 
         Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
         relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
-
+        
         DrawPlayers.drawPlayer(gc, relativeLocation, enemy );
 
     }

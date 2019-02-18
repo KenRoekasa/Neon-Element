@@ -6,6 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 
+import java.nio.file.attribute.AclFileAttributeView;
+
 import static javafx.scene.transform.Rotate.X_AXIS;
 
 public class ISOConverter {
@@ -26,6 +28,13 @@ public class ISOConverter {
 
     static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter) {
         gc.save();
+
+        Affine a = getTransformationAffine(playerCenter);
+
+        gc.transform(a);
+    }
+
+    public static Affine getTransformationAffine(Point2D playerCenter){
         Affine affine = new Affine();
 
         Rotate rotateX = new Rotate(45, playerCenter.getX(), playerCenter.getY());
@@ -33,8 +42,10 @@ public class ISOConverter {
 
         affine.prepend(rotateX);
         affine.prepend(rotateZ);
-        gc.transform(affine);
+
+        return affine;
     }
+
 
     static void applyAngleRotation(GraphicsContext gc, long angle, Point2D rotationCenter) {
 
