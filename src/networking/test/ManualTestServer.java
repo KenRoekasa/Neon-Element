@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import client.ClientGameState;
 import client.GameStateGenerator;
-import entities.Player;
+import engine.entities.Player;
 import server.GameServer;
 import server.ServerGameState;
 

@@ -3,7 +3,7 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import enums.Elements;
+import engine.enums.Elements;
 
 public class ElementStatePacket extends Packet {
 

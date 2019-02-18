@@ -1,17 +1,16 @@
 package client;
 
 
-import entities.Character;
-import entities.PhysicsObject;
-import entities.Player;
-import entities.PowerUp;
-import enums.ObjectType;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-import ai.AiController;
+import engine.ai.AiController;
 
 public class GameStateGenerator {
 
@@ -37,7 +36,7 @@ public class GameStateGenerator {
         ArrayList<Player> enemies = new ArrayList<>();
         ArrayList<AiController> aiConList = new ArrayList<>();
         
-        // create an enemy and its ai controller
+        // create an enemy and its engine.ai controller
         AiController aiCon = new AiController( new Player(ObjectType.ENEMY),players, objects, map );
         aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
@@ -49,13 +48,13 @@ public class GameStateGenerator {
         // generate a game state
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
 
-        // start the ai
+        // start the engine.ai
         startAi(aiConList);
         
         return gameState;
     }
 
-    //receive the number of enemy from controller to initialise ai enm
+    //receive the number of enemy from controller to initialise engine.ai enm
 
     public static ClientGameState createDemoGamestateSample(int num_enm) {
 
