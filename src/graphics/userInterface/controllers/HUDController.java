@@ -24,8 +24,6 @@ import java.util.ResourceBundle;
 //To get players' health and speed in top-left hud
 public class HUDController implements Initializable{
     private Stage stage;
-    @FXML
-    public Button pause;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -37,11 +35,6 @@ public class HUDController implements Initializable{
     private Text kills;
     private StringProperty totalKills;
 
-
-    @FXML
-    private Circle fire,water,earth,air;
-
-
     public HUDController(){
         healthValue = new SimpleStringProperty();
         healthValue.set("100");
@@ -49,20 +42,18 @@ public class HUDController implements Initializable{
         totalKills.set("0");
     }
 
-    @FXML
-    public void changeElement(ActionEvent event,Player player) {
-        Elements e = player.getCurrentElement();
-        Color colour = colourSwitch.getElementColour(e);
-    }
-
     public void initPlayer(Player player) {
        healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
        //totalKills.set(String.valueof()); //get kills value here
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         health.textProperty().bind(healthValue);
+       /* health.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("textfield changed from " + oldValue + " to " + newValue);
+        });*/
         //kills.textProperty().bind(totalKills);
     }
 }

@@ -7,8 +7,6 @@ import engine.entities.*;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.ModeController;
-import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +22,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import server.controllers.PowerUpController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -46,8 +43,8 @@ public class ClientBoard {
 		this.primaryStage = primaryStage;
 		this.gameState = gameState;
 		this.gameClient = new GameClient(gameState);
-        // load hud
 
+        // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
         Pane hudPane = new Pane();
 
@@ -71,7 +68,6 @@ public class ClientBoard {
         //controller.
 
         scene = primaryStage.getScene();
-
 
 		// change cursor
         Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
@@ -108,7 +104,7 @@ public class ClientBoard {
     private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
                 renderer.render(primaryStage, gameState);
                 // TODO: remove this when networking is added
                 clientLoop();
@@ -125,11 +121,10 @@ public class ClientBoard {
 
 
 	private void initialiseInput(Scene theScene, Renderer renderer) {
-		// set input controls
+		// set input controlls
 		input = new ArrayList<>();
 		theScene.setOnKeyPressed(e -> {
 			String code = e.getCode().toString();
-
             // only add each input command once
             if (!input.contains(code))
                 input.add(code);
@@ -144,33 +139,13 @@ public class ClientBoard {
             InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
         });
 
-        //Press keybooard P to pause the game
-		theScene.setOnKeyPressed(e->{
-			System.out.println("@Pause pause the game!");
-			if(e.getCode()== KeyCode.P){
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
-				try {
-					Pane root = loader.load();
-					primaryStage.getScene().setRoot(root);
-					PauseController controller =loader.getController();
-					controller.setStage(primaryStage);
-					primaryStage.setTitle("Pause");
-
-				} catch (IOException ex) {
-					System.out.println("crush in loading pause board ");
-					ex.printStackTrace();
-				}
-			}
-		});
-
-
 		// when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
     }
 
     private void clientLoop() {
-        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
+        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
         doCollisionDetection();
         doUpdates();
     }
@@ -187,7 +162,7 @@ public class ClientBoard {
 
 
     private void swapElement(){
-        InputHandler.handleKeyboardInput(gameState.getPlayer(),input,gameState.getMap());
+        InputHandler.handleKeyboardInput(gameState.getPlayer(),input,gameState.getMap(),primaryStage);
 
     }
 

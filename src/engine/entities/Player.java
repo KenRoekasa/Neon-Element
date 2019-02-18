@@ -13,7 +13,6 @@ public class Player extends Character {
     private int id;
 
 
-
     public Player(ObjectType type) {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);

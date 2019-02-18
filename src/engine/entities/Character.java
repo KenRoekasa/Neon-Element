@@ -4,11 +4,17 @@ import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
 import engine.enums.Elements;
+import graphics.userInterface.controllers.MenuController;
+import graphics.userInterface.controllers.PauseController;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -420,4 +426,20 @@ public abstract class Character extends PhysicsObject {
 		}
 	}
 
+    // not the best place to put pause function
+    //TODO:figure out why access 4 times here
+	public void pause(Stage stage){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../graphics/userInterface/fxmls/pause.fxml"));
+        try {
+            Pane root = loader.load();
+            stage.getScene().setRoot(root);
+            PauseController controller = loader.getController();
+            controller.setStage(stage);
+            stage.setTitle("Pause");
+
+        } catch (IOException e) {
+            System.out.println("crush in loading pause board!");
+            e.printStackTrace();
+        }
+    }
 }

@@ -18,9 +18,10 @@ public class PauseController {
 
     @FXML
     public void handleResumeBtn(){
-        //preserve game state
-
+        //TODO: back to preserved-state game
     }
+
+    //back to menu or game?
     @FXML
     public void handleSettingBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
@@ -37,6 +38,7 @@ public class PauseController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void handleQuitBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
