@@ -52,8 +52,7 @@ public class ClientBoard {
         try {
             hudPane = (Pane) loader.load();
             //get player attribute
-            HUDController HUDController = loader.getController();
-            HUDController.initPlayer(gameState.getPlayer());
+
         } catch (Exception e) {
             // todo make this better
             System.out.println("Crash in loading hud in map");
@@ -63,9 +62,6 @@ public class ClientBoard {
         }
 
         primaryStage.getScene().setRoot(hudPane);
-        HUDController controller =loader.getController();
-
-        controller.setStage(primaryStage);
         //controller.
 
         scene = primaryStage.getScene();
