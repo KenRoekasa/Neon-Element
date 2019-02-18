@@ -166,7 +166,7 @@ public class Renderer {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
 
-    public static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Point2D playerLocation ) {
+    public static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Point2D playerLocation) {
         Point2D enemyLocation = obj.getLocation();
 
         double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();

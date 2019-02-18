@@ -9,13 +9,13 @@ public class colourSwitch {
     public static Color getElementColour(Elements currentElement){
         switch(currentElement){
             case FIRE:
-                return Color.RED;
+                return Color.web("FE446C");
             case AIR:
-                return Color.LIGHTSTEELBLUE;
+                return Color.web("FFAB45");
             case EARTH:
-                return Color.GREEN;
+                return Color.web("85FD44");
             case WATER:
-                return Color.BLUE;
+                return Color.web("4DB8F8");
             default:
                 return Color.BLACK;
         }
