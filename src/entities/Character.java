@@ -25,6 +25,7 @@ public abstract class Character extends PhysicsObject {
     protected int movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
+    protected int deathCounter = 0;
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -379,6 +380,12 @@ public abstract class Character extends PhysicsObject {
 
     public Directions getCharacterDirection() {
         return characterDirection;
+    }
+    public void addOneDeath() {
+    	deathCounter++;
+    }
+    public int getDeathCounter() {
+    	return deathCounter;
     }
 
     //check if the action is off cooldown

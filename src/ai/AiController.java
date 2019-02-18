@@ -26,7 +26,6 @@ public class AiController {
 		Player player;
 		AiController  aiCon= this;
 		final int DELAY_TIME = 28;
-//TODO: attacking other ai's and pause function to pause game and also to kill the enemy
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
@@ -81,10 +80,15 @@ public class AiController {
 						//System.out.println("health "+aiPlayer.getHealth());
 						basicAIExecuteAction();
 						//delay to limit speed 
-						delay();
-						if (aiPlayer.getHealth() <= 0)
-							bool = false;
+						delay(DELAY_TIME);
+						if (aiPlayer.getHealth() <= 0) {
+							respawn();
+						}
+						
+//						if(timer.off)
+//							bool = false;				
 					}
+				
 				}
 
 			});
@@ -433,9 +437,9 @@ public class AiController {
 			//}
 		}
 		
-		private void delay() {
+		private void delay(int time) {
 			try {
-				TimeUnit.MILLISECONDS.sleep(DELAY_TIME);
+				TimeUnit.MILLISECONDS.sleep(time);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -528,5 +532,12 @@ public class AiController {
 			}
 		}
 
-
+		public void respawn() {
+			aiPlayer.addOneDeath();
+			aiPlayer.setLocation(new Point2D(-500, -500));
+			delay(3000);
+			while(aiPlayer.getHealth()!=100)
+				aiPlayer.addHealth(1);
+			aiPlayer.setLocation(new Point2D(map.getWidth()-1, map.getHeight()-1));
+		}
 }
