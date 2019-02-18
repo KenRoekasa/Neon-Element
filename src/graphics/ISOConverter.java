@@ -1,8 +1,10 @@
 package graphics;
 
 
+import entities.PhysicsObject;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 
@@ -25,6 +27,16 @@ public class ISOConverter {
 
         return new Point2D(x,y);
     }
+
+    public static Point2D getLocationOnScreen(Point2D relativeLocation, PhysicsObject object, Rectangle stage){
+        Rectangle r = new Rectangle(relativeLocation.getX(), relativeLocation.getY(), object.getWidth(), object.getWidth());
+        r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(stage.getWidth()/2f, stage.getHeight()/2f)));
+
+        Point2D newLoc = r.localToParent(relativeLocation.getX(), relativeLocation.getY());
+
+        return  newLoc;
+    }
+
 
     static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter) {
         gc.save();

@@ -68,10 +68,7 @@ public class Debugger {
 
             Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy, gameState.getPlayer().getLocation());
 
-            Rectangle r = new Rectangle(relativeLocation.getX(), relativeLocation.getY(), enemy.getWidth(), enemy.getWidth());
-            r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(stage.getWidth()/2, stage.getHeight()/2)));
-
-            Point2D newLoc = r.localToParent(relativeLocation.getX(), relativeLocation.getY());
+            Point2D newLoc = ISOConverter.getLocationOnScreen(relativeLocation, enemy, stage);
             newLoc.add(0, 30);
 
             printPlayerInfo(enemy, newLoc );
