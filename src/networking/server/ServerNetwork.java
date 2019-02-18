@@ -22,7 +22,7 @@ public class ServerNetwork extends Thread {
 
     protected DatagramSocket socket;
 
-    protected MulticastSocket multicastSocket;
+    // protected MulticastSocket multicastSocket;
 
     protected ServerNetworkDispatcher dispatcher;
 

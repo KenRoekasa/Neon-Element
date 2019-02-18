@@ -19,8 +19,8 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     
 	protected String serverAddress;
 
-    protected ClientNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ClientGameState gameState) {
-        super(socket, multicastSocket, groupAddress);
+    protected ClientNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
+        super(socket/*, multicastSocket, groupAddress*/);
         this.gameState = gameState;
     }
 

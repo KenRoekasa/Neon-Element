@@ -14,24 +14,26 @@ public class ClientNetwork {
     protected String name;
     
     protected DatagramSocket socket;
-    protected MulticastSocket multicastSocket;
+    // protected MulticastSocket multicastSocket;
     
     private ClientNetworkConnection conn;
-    private ClientNetworkMulticastConnection multiConn;
+    // private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
 
     public ClientNetwork(ClientGameState gameState) {
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
 
+        /*
         this.multiConn = new ClientNetworkMulticastConnection(this);
         this.multicastSocket = multiConn.getSocket();
         InetAddress groupAddress = multiConn.getGroupAddress();
+        */
 
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, /*this.multicastSocket, groupAddress,*/ gameState);
 
         this.conn.start();
-        this.multiConn.start();
+        // this.multiConn.start();
     }
     
     public ClientNetworkDispatcher getDispatcher() {
@@ -40,7 +42,7 @@ public class ClientNetwork {
 
     public void close() {
         this.conn.close();
-        this.multiConn.close();
+        // this.multiConn.close();
         this.dispatcher.close();
     }
 
