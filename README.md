@@ -12,7 +12,10 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with UI
 - Fix collision bug
 
-
+# Renderer
+## Tasks
+- Improve performance by calculating relative locations once per tick
+- Make things look nice
 
 ## Ideas
 - Have the aiController that controls a Player object rather than being an engine.entities its self

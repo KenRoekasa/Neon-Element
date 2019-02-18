@@ -29,6 +29,7 @@ public class Menu extends Application {
 
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
+        // prevent fullscreen popup
         primaryStage.setFullScreenExitHint("");
 
 
