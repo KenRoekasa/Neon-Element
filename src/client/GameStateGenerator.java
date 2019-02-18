@@ -1,6 +1,7 @@
 package client;
 
 
+import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
@@ -46,7 +47,9 @@ public class GameStateGenerator {
         objects.addAll(enemies);
         
         // generate a game state
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+        ArrayList<Player> deadPlayers = new ArrayList<>();
+        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
         // start the engine.ai
         startAi(aiConList);
@@ -92,9 +95,13 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(new Point2D(140 + 20 * i, 100));
         }
+        ArrayList<Player> deadPlayers = new ArrayList<>();
+
+
         //Add the enemies to the objects list
         objects.addAll(enemies);
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
         startAi(aiConList);
 

@@ -30,6 +30,11 @@ public abstract class Character extends PhysicsObject {
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
 
+    public Player getLastAttacker() {
+        return lastAttacker;
+    }
+
+    protected Player lastAttacker;
 
     private long currentActionStart;
 
@@ -167,6 +172,11 @@ public abstract class Character extends PhysicsObject {
 
     public void removeHealth(float damage) {
         this.health -= damage;
+        //System.out.println("player health "+getHealth());
+    }
+    public void removeHealth(float damage,Player lastAttacker) {
+        this.health -= damage;
+        this.lastAttacker=lastAttacker;
         //System.out.println("player health "+getHealth());
     }
 
