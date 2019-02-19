@@ -250,6 +250,20 @@ public class AiController {
 				wanderingTimer(5000);
 				while (wandering && aiPlayer.getHealth()>0) {
 					
+					if(reachedAnEdge()) {
+						System.out.println("reached an edge");
+						switch(movementDirection) {
+						case 0:aiPlayer.moveUp();break;
+						case 1:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
+						case 2:aiPlayer.moveRight(map.getWidth(), map.getHeight());break;
+						case 3:aiPlayer.moveLeft(map.getWidth());break;
+						case 4:aiPlayer.moveUpCartesian();break;
+						case 5:aiPlayer.moveDownCartestian(map.getHeight());break;
+						case 6:aiPlayer.moveRightCartesian(map.getWidth());break;
+						case 7:aiPlayer.moveLeftCartesian();break;
+						}
+					}
+					
 					aiPlayer.delay(DELAY_TIME);
 					
 					player = findNearestPlayer();
@@ -273,6 +287,14 @@ public class AiController {
 			}
 		}
 		
+		private boolean reachedAnEdge() {
+			double x = aiPlayer.getLocation().getX();
+			double y = aiPlayer.getLocation().getY();
+			if(x<map.getHeight()*0.02 || x>map.getHeight()*0.95 || y<map.getWidth()*0.05 || y>map.getWidth()*0.98)
+				return true;
+			return false;
+		}
+
 		private void wanderingTimer(int time) {
 			wandering = true;
 			Thread t = new Thread(new Runnable() {
@@ -568,9 +590,7 @@ public class AiController {
 
 		public void moveTo(int powerupIndex, Point2D loc) {
 
-			//System.out.println("enemy moving to powerup: "+getPowerups().get(powerupIndex).getType());
 			double distance = calcDistance(aiPlayer.getLocation(), loc);
-			//System.out.println("distance: " + distance);
 
 			if(!((int) distance > 2 || powerupIndex == -1))
 				return;
@@ -592,15 +612,6 @@ public class AiController {
 				else if (!higherX(loc))
 					aiPlayer.moveRightCartesian(map.getWidth());
 
-				//ArrayList<PowerUp> powerups = getPowerups();
-				//check if the power up has been taken by another player
-				//if ( powerups.size() < 1 || powerupIndex>powerups.size()+1 || powerupIndex==-1 || !powerups.get(powerupIndex).getLocation().equals(loc) )
-				//	break;
-
-				//System.out.println("stuck in move to pu loop");
-				//System.out.println("distance: " + distance + "\nlocation: " + getLocation() + "\npu loc: " + loc);
-				//distance = calcDistance(aiPlayer.getLocation(), loc);
-			
 		}
 
 		public void moveTo(Player player) {
@@ -608,18 +619,10 @@ public class AiController {
 			Point2D playerLoc = player.getLocation();
 			double distance = calcDistance(aiPlayer.getLocation(), playerLoc);
 			
-			
-			
-			//System.out.println("distance: "+distance+"\n2*width: "+2*aiPlayer.getWidth());
 			if( player.getTag().equals(ObjectType.PLAYER) && distance <= 2*aiPlayer.getWidth()) 
 				return;
 			if( player.getTag().equals(ObjectType.ENEMY) && distance <= 2) 
 				return;
-			
-			//while ((int) distance - aiPlayer.getWidth() > aiPlayer.getWidth()) {
-			
-				//System.out.println("moving to player");
-				
 				
 				aiPlayer.setPlayerAngle(new Rotate(calcAngle(aiPlayer.getLocation(),player.getLocation())));
 
@@ -638,19 +641,19 @@ public class AiController {
 				}else if (isAbove(playerLoc)) {	
 					//System.out.println("going up");
 					aiPlayer.moveUp();
-				}/*else if (higherY(playerLoc)) {
-					System.out.println("going up cart");
-					moveUpCartesian();
+				}else if (higherY(playerLoc)) {
+//					System.out.println("going up cart");
+					aiPlayer.moveUpCartesian();
 				}else if (!higherY(playerLoc)) {
-					System.out.println("going down cart");
-					moveDownCartestian(map.getWidth());
+//					System.out.println("going down cart");
+					aiPlayer.moveDownCartestian(map.getWidth());
 				}else if (higherX(playerLoc)) {
-					System.out.println("going left cart");
-					moveLeftCartesian();
+//					System.out.println("going left cart");
+					aiPlayer.moveLeftCartesian();
 				}else if (!higherX(playerLoc)) {
-					System.out.println("going right cart");
-					moveRightCartesian(map.getWidth());
-				}*/
+//					System.out.println("going right cart");
+					aiPlayer.moveRightCartesian(map.getWidth());
+				}
 			//	playerLoc = player.getLocation();
 				//distance = calcDistance(aiPlayer.getLocation(), playerLoc);
 			//}
