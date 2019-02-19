@@ -22,6 +22,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
+        player.setID(100);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
         
@@ -44,10 +45,12 @@ public class GameStateGenerator {
       
         // Add the enemies to the objects list
         objects.addAll(enemies);
-        
+        ArrayList<Player> allplayers = new ArrayList<>();
+        allplayers.add(player);
+        allplayers.addAll(enemies);
         // generate a game state
         ArrayList<Player> deadPlayers = new ArrayList<>();
-        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
+        ScoreBoard scoreboard = new ScoreBoard(allplayers);
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
         // start the engine.ai
@@ -65,6 +68,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
+        player.setID(4);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
 
@@ -92,13 +96,16 @@ public class GameStateGenerator {
         }
         for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
+            enemies.get(i).setID(i);
         }
         ArrayList<Player> deadPlayers = new ArrayList<>();
 
-
+        ArrayList<Player> allplayers = new ArrayList<>();
+        allplayers.add(player);
+        allplayers.addAll(enemies);
         //Add the enemies to the objects list
         objects.addAll(enemies);
-        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
+        ScoreBoard scoreboard = new ScoreBoard(allplayers);
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
         startAi(aiConList);

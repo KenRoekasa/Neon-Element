@@ -153,7 +153,6 @@ public class ClientBoard {
         doHitDetection();
         doUpdates();
         deathHandler();
-        System.out.println(gameState.getScoreBoard().getTotalKills());
 
     }
 
@@ -174,13 +173,13 @@ public class ClientBoard {
         allPlayers.add(gameState.getPlayer());
         ArrayList<Player> deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
-
         synchronized (deadPlayers) {
             for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
                 Player player = itr.next();
                 //If not already dead
                 if (!deadPlayers.contains(player)) {
                     if (!player.isAlive()) {
+                        System.out.println(player + "is dead");
                         // Add to dead list
                         deadPlayers.add(player);
                         // Add kills to scoreboard

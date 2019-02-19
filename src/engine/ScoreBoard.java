@@ -1,7 +1,9 @@
 package engine;
 
+import engine.entities.Player;
 import javafx.util.Pair;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,15 +19,15 @@ public class ScoreBoard {
 
     private ArrayList<Integer> leaderBoard;
 
-    public ScoreBoard(int numberOfPlayers) {
+    public ScoreBoard(ArrayList<Player> playerList) {
 
         board = new HashMap<>();
         totalKills = 0;
         leaderBoard = new ArrayList<>();
 
-        for(int i = 0; i < numberOfPlayers; i++){
-            board.put(i, new Pair<>(0, new ArrayList<>()));
-            leaderBoard.add(i);
+        for(Player p : playerList){
+            board.put(p.getId(), new Pair<>(0, new ArrayList<>()));
+            leaderBoard.add(p.getId());
 
         }
     }
@@ -35,7 +37,6 @@ public class ScoreBoard {
         ArrayList<Integer> newLog = board.get(killerID).getValue();
         newLog.add(recipientID);
         Pair<Integer, ArrayList<Integer>> newPair = new Pair<>(newTotal, newLog);
-
         board.put(killerID, newPair);
         totalKills ++;
         updateLeaderBoard();
