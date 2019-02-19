@@ -19,12 +19,19 @@ public class ScoreBoard {
 
     private ArrayList<Integer> leaderBoard;
 
-    public ScoreBoard(ArrayList<Player> playerList) {
-
+    public ScoreBoard() {
         board = new HashMap<>();
         totalKills = 0;
         leaderBoard = new ArrayList<>();
 
+
+    }
+
+    /** Create the hashmap based off the players in the game.
+     * Call this when the match is starting
+     * @param playerList the list of all player
+     */
+    public void initialise(ArrayList<Player> playerList){
         for(Player p : playerList){
             board.put(p.getId(), new Pair<>(0, new ArrayList<>()));
             leaderBoard.add(p.getId());

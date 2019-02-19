@@ -300,9 +300,14 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
+    public void respawn(){
+        isAlive = true;
+        health = MAX_HEALTH;
+    }
 
     // adds Health to the player
     public void addHealth(int amount) {
+
         health += amount;
         if (health > MAX_HEALTH) {
             health = MAX_HEALTH;

@@ -8,32 +8,17 @@ import javafx.scene.shape.Rectangle;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientGameState extends GameState {
+
+
     private Player player;
-    private ArrayList<Player> enemies;
 
-
-
-    public ClientGameState(Player player, ArrayList<Player> enemies, Rectangle map, ArrayList<PhysicsObject> objects, ArrayList<Player> deadPlayers, ScoreBoard scoreboard){
+    public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard) {
+        super(map, objects, deadPlayers, scoreboard);
         this.player = player;
-        this.enemies = enemies;
-        this.map = map;
-        this.objects = objects;
-        this.deadPlayers = deadPlayers;
-        this.scoreBoard = scoreboard;
-
     }
- 
-    
-    public ArrayList<PhysicsObject> getEntities(){
-
-        ArrayList<PhysicsObject> ents = new ArrayList<>(objects);
-        ents.add(player);
-
-        return ents;
-    }
-
 
     public Rectangle getMap() {
         return map;
@@ -43,13 +28,6 @@ public class ClientGameState extends GameState {
         this.map = map;
     }
 
-    public ArrayList<Player> getEnemies() {
-        return enemies;
-    }
-
-    public void setEnemies(ArrayList<Player> enemies) {
-        this.enemies = enemies;
-    }
 
     public Player getPlayer() {
         return player;
@@ -58,5 +36,10 @@ public class ClientGameState extends GameState {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public ArrayList<Player> getAllPlayers() {
+        return allPlayers;
+    }
+
 
 }

@@ -3,6 +3,7 @@ package client;
 
 import engine.ScoreBoard;
 
+import engine.controller.RespawnController;
 import graphics.userInterface.controllers.HUDController;
 import engine.calculations.DamageCalculation;
 import graphics.debugger.Debugger;
@@ -26,6 +27,7 @@ import server.controllers.PowerUpController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientBoard {
 
@@ -114,6 +116,9 @@ public class ClientBoard {
         }.start();
         Thread puController = new Thread(new PowerUpController(gameState.getObjects()));
         puController.start();
+        // Respawn Controller
+        Thread respawnController = new Thread(new RespawnController(gameState));
+        respawnController.start();
     }
 
     public void startGame() {
@@ -168,10 +173,8 @@ public class ClientBoard {
 
     // TODO: Implement
     private void deathHandler() {
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
-        ArrayList<Player> deadPlayers = gameState.getDeadPlayers();
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
+        LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
         synchronized (deadPlayers) {
             for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
@@ -179,16 +182,18 @@ public class ClientBoard {
                 //If not already dead
                 if (!deadPlayers.contains(player)) {
                     if (!player.isAlive()) {
-                        System.out.println(player + "is dead");
                         // Add to dead list
-                        deadPlayers.add(player);
+                        deadPlayers.offer(player);
                         // Add kills to scoreboard
                         scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
-                        //TODO: Respawn or something based off game mode
+                        //if dead teleport player off screen
+                        player.setLocation(new Point2D(5000,5000));
 
                     }
                 }
             }
+
+
         }
     }
 
@@ -196,15 +201,11 @@ public class ClientBoard {
     private void doCollisionDetection() {
 
         ArrayList<PhysicsObject> objects = gameState.getObjects();
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
 
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            ArrayList<Player> otherPlayers = new ArrayList<>();
-            otherPlayers.addAll(allPlayers);
             Player player = itr.next();
-            otherPlayers.remove(player);
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
             synchronized (objects) {
                 // Collision detection code
                 player.canUp = true;
@@ -217,9 +218,8 @@ public class ClientBoard {
                 player.canDownCart = true;
                 Point2D previousLocation = player.getLocation();
                 Player projectedPlayer = new Player(ObjectType.PLAYER);
-                ArrayList<PhysicsObject> otherObjects = new ArrayList<>();
-                otherObjects.addAll(objects);
-                otherObjects.remove(player);
+
+                ArrayList<PhysicsObject> otherObjects = gameState.getOtherObjects(player);
                 for (Iterator<PhysicsObject> itr1 = otherObjects.iterator(); itr1.hasNext(); ) {
                     PhysicsObject e = itr1.next();
                     // Check if the moving in a certain direction will cause a collision
@@ -252,8 +252,8 @@ public class ClientBoard {
                             // This line of code seems to cause a bug
                             //                        gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
-                                System.out.println(player + " Collided with " + e);
-                                System.out.println("Collided with itself");
+//                                System.out.println(player + " Collided with " + e);
+//                                System.out.println("Collided with itself");
                             }
                         }
 
@@ -462,15 +462,10 @@ public class ClientBoard {
     }
 
     private void doHitDetection() {
-        ArrayList<PhysicsObject> objects = gameState.getObjects();
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            ArrayList<Player> otherPlayers = new ArrayList<>();
-            otherPlayers.addAll(allPlayers);
             Player player = itr.next();
-            otherPlayers.remove(player);
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
             // Loop through all enemies to detect hit detection
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 PhysicsObject e = itr1.next();

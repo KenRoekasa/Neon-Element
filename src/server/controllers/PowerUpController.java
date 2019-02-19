@@ -14,7 +14,7 @@ public class PowerUpController implements Runnable {
     public PowerUpController(ArrayList<PhysicsObject> objects) {
         this.objects = objects;
     }
-    
+
     public PowerUpController(ArrayList<PhysicsObject> objects, ServerNetworkDispatcher dispatcher) {
         this.objects = objects;
         this.dispatcher = dispatcher;
@@ -27,7 +27,7 @@ public class PowerUpController implements Runnable {
             synchronized (objects) {
                 PowerUp powerUp = new PowerUp();
                 objects.add(powerUp);
-//                this.dispatcher.broadcastNewPowerUp(powerUp);
+                //                this.dispatcher.broadcastNewPowerUp(powerUp);
             }
             try {
                 Thread.sleep(15000);

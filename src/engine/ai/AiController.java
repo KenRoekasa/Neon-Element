@@ -1,6 +1,7 @@
 package engine.ai;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import engine.entities.PhysicsObject;
@@ -79,7 +80,9 @@ public class AiController {
 						//delay to limit speed 
 						aiPlayer.delay(DELAY_TIME);
 						if (aiPlayer.getHealth() <= 0) {
-							aiPlayer.respawn(map.getWidth(),map.getHeight());
+
+							//TODO: I commented this out for now
+//							aiPlayer.respawn(map.getWidth(),map.getHeight());
 						}
 						
 //						if(timer.off)
@@ -470,10 +473,13 @@ public class AiController {
 		}
 		
 		public ArrayList<Player> getPlayers(){
-			ArrayList<Player> players = new ArrayList<Player>();
-			for(PhysicsObject object : objects) {
-				if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
-					players.add((Player)object);
+			ArrayList<Player> players = new ArrayList<>();
+			synchronized (objects) {
+				for (Iterator<PhysicsObject> itr1 = objects.iterator(); itr1.hasNext(); ) {
+					PhysicsObject object = itr1.next();
+					if (object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)) {
+						players.add((Player) object);
+					}
 				}
 			}
 			players.add(player);
