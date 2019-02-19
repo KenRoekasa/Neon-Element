@@ -11,9 +11,12 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with Server
 - Integrate with UI
 - Fix collision bug
-- Add light attack speed 
-- Cooldown is not very polished
+- Cooldown is not very polished apparently
 - When shielded move slower, or have meter
+- Implement Scoreboard
+- Implement respawning
+- doCollisionDetection(); doHitDetection(); deathHandler(); make one for loop where allplayers is passed in
+- Heavy attacks only hit one person
 
 
 
