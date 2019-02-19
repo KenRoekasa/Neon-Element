@@ -251,7 +251,6 @@ public class AiController {
 				while (wandering && aiPlayer.getHealth()>0) {
 					
 					if(reachedAnEdge()) {
-						System.out.println("reached an edge");
 						switch(movementDirection) {
 						case 0:aiPlayer.moveUp();break;
 						case 1:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
@@ -448,6 +447,13 @@ public class AiController {
 				moveAway(player);
 				return;
 			}
+			
+			if (inAttackDistance(player) && player.getHealth()>0) {
+				aiPlayer.unShield();
+				aiPlayer.lightAttack();
+				aiPlayer.shield();
+			}
+				
 			switch(player.getCharacterDirection()) {
 			case DOWN:
 				aiPlayer.moveUp();
