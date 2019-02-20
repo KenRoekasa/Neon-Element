@@ -29,7 +29,6 @@ public class RespawnController implements Runnable {
     private void normalRespawn() {
         //Remove the dead player from the list
         try {
-            //TODO: This causes null pointers change this
             Player player = deadPlayers.take();
             Thread.sleep(10000);
             player.respawn();

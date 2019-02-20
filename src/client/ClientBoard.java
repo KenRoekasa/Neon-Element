@@ -2,15 +2,17 @@ package client;
 
 
 import engine.ScoreBoard;
-
-import engine.controller.RespawnController;
-import graphics.userInterface.controllers.HUDController;
 import engine.calculations.DamageCalculation;
-import graphics.debugger.Debugger;
-import engine.entities.*;
+import engine.controller.RespawnController;
+import engine.entities.CollisionDetection;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
+import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.HUDController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -74,7 +76,7 @@ public class ClientBoard {
         // change cursor
 
         Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
-        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
+        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
         scene.setCursor(iC);
 
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
@@ -187,7 +189,7 @@ public class ClientBoard {
                         // Add kills to scoreboard
                         scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
                         //if dead teleport player off screen
-                        player.setLocation(new Point2D(5000,5000));
+                        player.setLocation(new Point2D(5000, 5000));
 
                     }
                 }
@@ -252,8 +254,8 @@ public class ClientBoard {
                             // This line of code seems to cause a bug
                             //                        gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
-//                                System.out.println(player + " Collided with " + e);
-//                                System.out.println("Collided with itself");
+                                //                                System.out.println(player + " Collided with " + e);
+                                //                                System.out.println("Collided with itself");
                             }
                         }
 
@@ -264,7 +266,7 @@ public class ClientBoard {
                                 if (CollisionDetection.checkCollision(projectedPlayer, e)) {
                                     Point2D newLocation = previousLocation;
                                     // if on the right hand side of the other player
-                                    if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX()) {
+                                    if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX() && e.getBounds().getBoundsInParent().getMaxY() >= player.getLocation().getY()) {
                                         double adjacent = player.getLocation().getX()
                                                 - e.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -273,7 +275,7 @@ public class ClientBoard {
                                         newLocation = newLocation.add(collisionOffset, collisionOffset);
                                     }
                                     // if on the left hand side of the other player
-                                    if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX()) {
+                                    if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX() && e.getBounds().getBoundsInParent().getMaxY() < player.getLocation().getY()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMaxY()
                                                 - player.getLocation().getY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -297,7 +299,8 @@ public class ClientBoard {
                                     Point2D newLocation = previousLocation;
                                     // if on the right hand side of the other player
                                     if (player.getBounds().getBoundsInParent().getMaxY() <= e.getBounds()
-                                            .getBoundsInParent().getMinY()) {
+                                            .getBoundsInParent().getMinY() && player.getBounds().getBoundsInParent().getMaxX() <= e.getBounds()
+                                            .getBoundsInParent().getMinX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinY()
                                                 - player.getBounds().getBoundsInParent().getMaxY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -307,8 +310,9 @@ public class ClientBoard {
                                     }
 
                                     // if on the left hand side of the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds().getBoundsInParent()
-                                            .getMinY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds()
+                                            .getBoundsInParent().getMinY() && player.getBounds().getBoundsInParent().getMaxX() > e.getBounds()
+                                            .getBoundsInParent().getMinX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinX()
                                                 - player.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -331,7 +335,7 @@ public class ClientBoard {
                                     // test every the most amount of movement before it collides
                                     Point2D newLocation = player.getLocation();
                                     // if above the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY() && player.getLocation().getX() >= e.getBounds().getBoundsInParent().getMaxX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinY()
                                                 - player.getBounds().getBoundsInParent().getMaxY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -341,7 +345,7 @@ public class ClientBoard {
                                     }
 
                                     // if below the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY() && player.getLocation().getX() < e.getBounds().getBoundsInParent().getMaxX()) {
 
                                         double opposite = player.getLocation().getX()
                                                 - e.getBounds().getBoundsInParent().getMaxX();
@@ -365,7 +369,7 @@ public class ClientBoard {
                                     // test every the most amount of movement before it collides
                                     Point2D newLocation = player.getLocation();
                                     // if above the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX() && player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY() ) {
                                         double adjacent = e.getLocation().getX()
                                                 - player.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -376,7 +380,7 @@ public class ClientBoard {
                                     }
 
                                     // if below the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX() && player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
                                         double opposite = player.getLocation().getY()
                                                 - e.getBounds().getBoundsInParent().getMaxY();
                                         double adjacent = (opposite * Math.tan(Math.toRadians(45)));
@@ -478,7 +482,7 @@ public class ClientBoard {
                         // this will have to change due to Player being other controlled player when
                         // Enemy is when the player is an ai
                         Player enemy = (Player) e;
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy),enemy);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
                         player.setCurrentAction(Action.IDLE);
                         //System.out.println("hit");
                         // Sends to server
@@ -491,7 +495,7 @@ public class ClientBoard {
                         // e takes damage
                         Player enemy = (Player) e;
                         // TODO: For now its takes 10 damage, change later
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy),enemy);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
                         player.setCurrentAction(Action.IDLE);
                         //System.out.println("heavy hit");
                         // Sends to server
