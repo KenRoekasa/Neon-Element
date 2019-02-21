@@ -161,6 +161,7 @@ public class ClientBoard {
                     PauseController controller = loader.getController();
                     controller.setHudPane(hudPane);
                     controller.setNode(node);
+                    controller.setStageSize(stageSize);
                     controller.setStage(primaryStage);
                     primaryStage.setTitle("Pause");
 

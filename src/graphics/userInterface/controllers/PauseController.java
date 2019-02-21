@@ -2,14 +2,18 @@ package graphics.userInterface.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import javax.swing.border.EmptyBorder;
 import java.io.IOException;
 
 //Press space to pause the game
 public class PauseController {
     private Stage stage;
+    private Rectangle stageSize;
     private Pane hudPane;
 
     public void setNode(Pane node) {
@@ -17,6 +21,11 @@ public class PauseController {
     }
 
     private  Pane node;
+
+
+    public void setStageSize(Rectangle stageSize) {
+        this.stageSize = stageSize;
+    }
 
     public void setHudPane(Pane hudPane) {
         this.hudPane = hudPane;
@@ -37,15 +46,20 @@ public class PauseController {
     // todo this needs to return to the game, probably want an options menu thats transparent like the pause menu
     @FXML
     public void handleSettingBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/sound.fxml"));
 
         try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            SettingController controller = loader.getController();
+            hudPane.getChildren().remove(node);
+            Pane subnode = loader.load();
+            subnode.setPrefHeight(stageSize.getHeight());
+            subnode.setPrefWidth(stageSize.getWidth());
+            hudPane.getChildren().add(subnode);
+            subnode.setBackground(Background.EMPTY);
+            SoundController controller = loader.getController();
+            controller.setHudPane(hudPane);
+            controller.setNode(subnode);
             controller.setStage(stage);
-            stage.setTitle("Mode");
-
+            stage.setTitle("Setting");
         } catch (IOException e) {
             System.out.println("crush in loading setting board ");
             e.printStackTrace();
