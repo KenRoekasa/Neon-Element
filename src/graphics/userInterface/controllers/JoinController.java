@@ -28,7 +28,8 @@ public class JoinController {
             gameState = GameStateGenerator.createDemoGamestate();
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState);
+            boolean networked = true;
+            ClientBoard gameBoard = new ClientBoard(stage, gameState, networked);
             Scene scene = gameBoard.getScene();
             gameBoard.startGame();
         } catch (Exception e) {

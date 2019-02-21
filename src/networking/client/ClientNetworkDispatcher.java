@@ -63,8 +63,9 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
         Player player = new Player(ObjectType.PLAYER);
         player.setId(packet.getId());
-        this.gameState.getEnemies().add((Character) player);
-        this.gameState.getObjects().add((Character) player);
+        //todo this is probably broken
+        this.gameState.getOtherPlayers(player).add(player);
+        this.gameState.getObjects().add(player);
     }
     
     protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {

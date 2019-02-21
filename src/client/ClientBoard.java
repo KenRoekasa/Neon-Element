@@ -12,15 +12,12 @@ import engine.enums.Action;
 import engine.enums.ObjectType;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.HUDController;
 import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.ImageCursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -28,10 +25,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import server.controllers.PowerUpController;
 
 import java.io.IOException;
@@ -54,11 +49,17 @@ public class ClientBoard {
 
 
 
-    public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
+    public ClientBoard(Stage primaryStage, ClientGameState gameState, boolean networked) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
         this.gameClient = new GameClient(gameState);
+
+        if(networked) {
+            this.gameClient = new GameClient(gameState);
+        }
+
+
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
         //Pane hudPane = new Pane();

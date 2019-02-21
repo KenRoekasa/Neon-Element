@@ -125,7 +125,8 @@ public class LocalSetUpController implements Initializable {
         gameState = GameStateGenerator.createDemoGamestateSample(enemy_num);
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState);
+            boolean networked = false;
+            ClientBoard gameBoard = new ClientBoard(stage, gameState, networked);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 

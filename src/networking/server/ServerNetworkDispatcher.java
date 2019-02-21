@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.ObjectType;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
@@ -37,9 +38,9 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	protected void receiveConnect(ConnectPacket packet) {
 	    boolean isStarted = this.gameState.isStarted();
-	    boolean hasSpace = this.gameState.getPlayers().size() < this.gameState.getMaxPlayers();
-	    
-	    // Allow connection if the game has not started yet and we have space for more players    
+	    boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
+
+	    // Allow connection if the game has not started yet and we have space for more players
 	    ConnectAckPacket.Status status;
 	    int playerId = 0;
 	    if (isStarted) {
@@ -54,7 +55,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             PlayerConnection playerConn = new PlayerConnection(playerId, packet.getIpAddress(), packet.getPort());
 
             this.connections.add(playerConn);
-            this.gameState.getPlayers().add(player);
+            this.gameState.getAllPlayers().add(player);
             this.gameState.getObjects().add(player);
             
             Packet connect = new BroadCastConnectedUserPacket(playerId);

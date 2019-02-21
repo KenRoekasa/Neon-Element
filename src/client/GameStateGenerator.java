@@ -23,7 +23,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
-        player.setID(100);
+        player.setId(100);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
         
@@ -70,7 +70,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
-        player.setID(4);
+        player.setId(4);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
 
@@ -94,7 +94,7 @@ public class GameStateGenerator {
         }
         for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
-            enemies.get(i).setID(i);
+            enemies.get(i).setId(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 

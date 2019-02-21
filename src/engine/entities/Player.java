@@ -10,7 +10,7 @@ import javafx.scene.transform.Rotate;
 
 public class Player extends Character {
 
-
+    private int id;
 
     public Player(ObjectType type) {
         super();
@@ -51,7 +51,12 @@ public class Player extends Character {
         this.location.add(x - X, y - Y);
     }
 
-    public void setID(int i) {
+    public void setId(int i) {
         this.id = i;
+    }
+
+
+    public int getId() {
+        return id;
     }
 }
