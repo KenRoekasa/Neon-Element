@@ -145,7 +145,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
            
             for (PlayerConnection conn : this.connections) {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
-                System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " <-- " + packet.getType());
+                System.out.println("<==" + packet.getType());
 
                 try {
                     this.socket.send(datagram);
