@@ -47,14 +47,27 @@ public class AiController {
 		public void startEasyAi() {
 			aiType = AiType.EASY;
 			System.out.println("started easy ai\n\n");
-			changeToRandomElement();
-
+			
 			Thread t = new Thread(new Runnable() {
-
+				
+			
 				@Override
 				public void run() {
+					
+					double startTime = System.nanoTime()/1000000000;
+					double endTime ;
+					
 					boolean bool = true;
 					while (bool) {
+						
+						//assigns random element every fifteen seconds
+						endTime = System.nanoTime()/1000000000;
+						double elapsedTime = endTime - startTime;
+						if(elapsedTime >= 15) {
+							startTime = System.nanoTime()/1000000000;
+							assignRandomElement();
+						}
+						
 						//System.out.println(aiPlayer.getLocation());
 						AiFSM.easyAiFetchAction(aiPlayer, aiCon);
 						
@@ -287,25 +300,6 @@ public class AiController {
 				return true;
 			return false;
 		}
-
-		private void changeToRandomElement() {
-			Thread t = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					boolean bool = true;
-					while (bool) {
-						aiPlayer.delay(15000);
-						assignRandomElement();
-					}
-				
-				}
-
-			});
-
-			t.start();
-		}
-
 		
 		private void assignRandomElement() {
 
