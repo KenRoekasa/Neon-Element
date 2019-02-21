@@ -1,20 +1,16 @@
 package engine.gameTypes;
 
 public abstract class GameType {
+    
+    private Type type;
 
     public static enum Type {
-        FirstToXKills(0, FirstToXKillsGame.class), TimedGame(1, TimedGame.class);
+        FirstToXKills(0), TimedGame(1);
 
         private byte id;
-        private Class<? extends GameType> gameType;
     
-        Type(int id, Class<? extends GameType> gameType) {
+        Type(int id) {
             this.id = (byte) id;
-            this.gameType = gameType;
-        }
-        
-        public Class<? extends GameType> getGameType() {
-            return this.gameType;
         }
 
         public byte getId() {
@@ -29,5 +25,13 @@ public abstract class GameType {
             }
             return null;
         }
+    }
+    
+    public GameType(Type type) {
+        this.type = type;
+    }
+
+    public Type getType() {
+        return this.type;
     }
 }

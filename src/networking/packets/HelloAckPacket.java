@@ -3,27 +3,27 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import engine.gameTypes.GameType;
+import engine.gameTypes.*;
 
 public class HelloAckPacket extends Packet {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // int + int + byte
-    // 4   + 4   + 1    = 9 bytes
+    // int + int + byte + long/int
+    // 4   + 4   + 1    + 8        = 17 bytes
 
     private int players;
     private int maxPlayers;
-    private GameType.Type gameType;
+    private GameType gameType;
 
     protected HelloAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.HELLO_ACK, ipAddress, port);
         this.players = buffer.getInt();
         this.maxPlayers = buffer.getInt();
-        this.gameType = GameType.Type.getById(buffer.get());
+        this.gameType = bufferToGameType(buffer);
     }
 
-    public HelloAckPacket(int players, int maxPlayers, GameType.Type gameType, InetAddress ipAddress, int port) {
+    public HelloAckPacket(int players, int maxPlayers, GameType gameType, InetAddress ipAddress, int port) {
         super(PacketDirection.OUTGOING, PacketType.HELLO_ACK, ipAddress, port);
         this.players = players;
         this.maxPlayers = maxPlayers;
@@ -38,8 +38,36 @@ public class HelloAckPacket extends Packet {
         return this.maxPlayers;
     }
 
-    public GameType.Type getGameType() {
+    public GameType getGameType() {
         return this.gameType;
+    }
+    
+    private static GameType bufferToGameType(ByteBuffer buffer) {
+        byte id = buffer.get();
+        GameType.Type type = GameType.Type.getById(id);
+        
+        switch (type) {
+            case FirstToXKills:
+                return new FirstToXKillsGame(buffer.getInt());
+            case TimedGame:
+                return new TimedGame(buffer.getLong());
+            default:
+                return null;
+        }
+    }
+    
+    private static void gameTypeToBuffer(GameType gameType, ByteBuffer buffer) {
+        GameType.Type type = gameType.getType();
+
+        if (type != null) {
+            buffer.put(type.getId());
+        }
+        switch (type) {
+            case FirstToXKills:
+                buffer.putInt(((FirstToXKillsGame) gameType).getKillsNeeded());
+            case TimedGame:
+                buffer.putLong(((TimedGame) gameType).getDuration());
+        }
     }
 
     @Override
@@ -47,7 +75,7 @@ public class HelloAckPacket extends Packet {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.players);
         buffer.putInt(this.maxPlayers);
-        buffer.put(this.gameType.getId());
+        gameTypeToBuffer(this.gameType, buffer);
         return Packet.getBytesFromBuffer(buffer);
     }
 

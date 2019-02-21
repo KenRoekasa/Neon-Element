@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
@@ -31,7 +32,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		// TODO - integrate and get these values from somewhere
 		int players = this.gameState.getAllPlayers().size();
 		int maxPlayers = this.gameState.getMaxPlayers();
-		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
+		GameType gameType = this.gameState.getGameType();
+		Packet response = new HelloAckPacket(players, maxPlayers, gameType, packet.getIpAddress(), packet.getPort());
 		System.out.println("respond");
 		this.send(response);
 	}
