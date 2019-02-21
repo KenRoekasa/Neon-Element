@@ -39,7 +39,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	protected void receiveConnect(ConnectPacket packet) {
 	    boolean isStarted = this.gameState.isStarted();
 	    boolean hasSpace = this.gameState.getPlayers().size() < this.gameState.getMaxPlayers();
-
+	    
 	    // Allow connection if the game has not started yet and we have space for more players    
 	    ConnectAckPacket.Status status;
 	    int playerId = 0;
@@ -130,8 +130,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
+           
             for (PlayerConnection conn : this.connections) {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
+                
 
                 try {
                     this.socket.send(datagram);
