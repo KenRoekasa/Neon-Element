@@ -11,19 +11,23 @@ import networking.packets.Packet;
 
 public abstract class NetworkDispatcher {
 
-    private DatagramSocket socket;
+    protected DatagramSocket socket;
+    /*
     protected MulticastSocket multicastSocket;
     protected InetAddress groupAddress;
+    */
 
-    protected NetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress) {
+    protected NetworkDispatcher(DatagramSocket socket/*, MulticastSocket multicastSocket, InetAddress groupAddress*/) {
         this.socket = socket;
+        /*
         this.multicastSocket = multicastSocket;
         this.groupAddress = groupAddress;
+        */
     }
 
     public void close() {
         this.socket.close();
-        this.multicastSocket.close();
+        // this.multicastSocket.close();
     }
 
     protected void send(Packet packet) {

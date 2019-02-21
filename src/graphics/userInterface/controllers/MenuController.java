@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 import client.ClientGameState;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +13,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /* Menu buttons:
 1. Play
@@ -36,6 +38,7 @@ public class MenuController implements Initializable{
         // todo make this configurable
         
       //select mode
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
 
         try {
@@ -92,6 +95,11 @@ public class MenuController implements Initializable{
     @FXML
     public void handleExitBtn(ActionEvent actionEvent){
         stage.close();
+
+       // todo make this graceful
+
+        Platform.exit();
+        System.exit(0);
     }
 
     @Override

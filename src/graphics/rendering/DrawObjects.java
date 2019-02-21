@@ -16,7 +16,7 @@ import static graphics.rendering.Renderer.getRelativeLocation;
 
 class DrawObjects {
 
-    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player, Image texture) {
+    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D playerLocation = player.getLocation();
@@ -29,7 +29,7 @@ class DrawObjects {
         gc.save();
         gc.setFill(Color.rgb(214, 214,214));
 
-        //gc.setFill(new ImagePattern(texture));
+
         gc.fillRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
         gc.strokeRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
 

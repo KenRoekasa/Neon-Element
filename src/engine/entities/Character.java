@@ -4,11 +4,17 @@ import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
 import engine.enums.Elements;
+import graphics.userInterface.controllers.MenuController;
+import graphics.userInterface.controllers.PauseController;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +23,7 @@ import static engine.entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
     protected final float MAX_HEALTH = 100;
+    protected final int DEFAULT_MOVESPEED = 5;
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
@@ -148,15 +155,15 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        if (currentAction == Action.IDLE) {
-            currentAction = Action.LIGHT;
-            currentActionStart = System.currentTimeMillis();
-            long attackDuration = AttackTimes.getActionTime(currentAction);
-            final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-            int damage = 3;
-
-
-            resetActionTimer(attackDuration, remainingAttackDuration);
+        if (checkCD(lightAttackID,lightAttackCD)) {
+            if (currentAction == Action.IDLE) {
+                currentAction = Action.LIGHT;
+                currentActionStart = System.currentTimeMillis();
+                long attackDuration = AttackTimes.getActionTime(currentAction);
+                final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+                int damage = 3;
+                resetActionTimer(attackDuration, remainingAttackDuration);
+            }
         }
 
 
@@ -300,9 +307,14 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
+    public void respawn(){
+        isAlive = true;
+        health = MAX_HEALTH;
+    }
 
     // adds Health to the player
     public void addHealth(int amount) {
+
         health += amount;
         if (health > MAX_HEALTH) {
             health = MAX_HEALTH;
@@ -321,7 +333,7 @@ public abstract class Character extends PhysicsObject {
             (new Timer()).scheduleAtFixedRate(new TimerTask() {
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = 5;
+                        movementSpeed = DEFAULT_MOVESPEED;
                         System.out.println("speed boost has ended");
                         timer.cancel();
                     }
@@ -403,7 +415,7 @@ public abstract class Character extends PhysicsObject {
     //check if the action is off cooldown
     private boolean checkCD(int id, float cooldown) {
         // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + ((long) cooldown * 1000));
+        long nextAvailableTime = (timerArray[id] + (long)(cooldown * 1000));
         //check if the time calculated has passed
         if (System.currentTimeMillis() > nextAvailableTime) {
             timerArray[id] = System.currentTimeMillis();
@@ -430,5 +442,4 @@ public abstract class Character extends PhysicsObject {
 			e.printStackTrace();
 		}
 	}
-
 }

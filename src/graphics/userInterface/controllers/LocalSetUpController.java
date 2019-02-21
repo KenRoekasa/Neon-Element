@@ -1,6 +1,6 @@
 package graphics.userInterface.controllers;
 
-import client.ClientBoard;
+import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 
@@ -125,7 +125,8 @@ public class LocalSetUpController implements Initializable {
         gameState = GameStateGenerator.createDemoGamestateSample(enemy_num);
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState);
+            boolean networked = false;
+            GameClient gameBoard = new GameClient(stage, gameState, networked);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 

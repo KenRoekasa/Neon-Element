@@ -1,4 +1,6 @@
+
 import graphics.userInterface.controllers.MenuController;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +15,8 @@ public class Menu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //TODO do we own the rights to this font? i am rather sceptical
+        //https://www.fontspace.com/mario-monsters: free to downloads and free commercial use also
         Font fontLoader = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/Super Mario Bros.ttf"), 14);
-
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu.fxml"));
         Parent root = (Parent)loader.load();

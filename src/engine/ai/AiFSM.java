@@ -6,7 +6,113 @@ import engine.enums.PowerUpType;
 
 public class AiFSM {
 
-	public static void basicAiFetchAction(Player aiPlayer, AiController aiCon) {
+	public static void easyAiFetchAction(Player aiPlayer, AiController aiCon) {
+
+		float maxHP = aiPlayer.getMAX_HEALTH();
+		float aiPlayerHP = aiPlayer.getHealth();
+		Character nearestPlayer = aiCon.findNearestPlayer();
+		float playerHP = nearestPlayer.getHealth();
+		
+		//case 1, take a heal power up
+		
+		if(  aiCon.powerupCloserThanPlayer() && aiPlayerHP<maxHP && aiCon.findNearestPowerUp(PowerUpType.HEAL) != -1 ) {//System.out.println("case 1");
+			aiCon.setState(AiStates.FIND_HEALTH);
+		}
+	
+		//case 2, run for your life
+		else if(aiPlayerHP < (maxHP/10) || aiPlayerHP < playerHP) {//System.out.println("case 2");
+			aiCon.setState(AiStates.ESCAPE);
+		}
+		
+		//case 3, FINISH HIM
+		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
+			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
+		}		
+		
+		//case 4, normal attacking
+		else if ( aiCon.playerIsTooClose() || aiPlayerHP > playerHP  ) {
+			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
+			aiCon.setState(AiStates.ATTACK);
+		}
+	
+		//case5, take the power up on your way
+		else if (aiCon.powerupIsTooClose()) {//System.out.println("case 5");
+			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
+			case DAMAGE:
+				aiCon.setState(AiStates.FIND_DAMAGE);
+				break;
+			case HEAL:
+				aiCon.setState(AiStates.FIND_HEALTH);
+				break;
+			case SPEED:
+				aiCon.setState(AiStates.FIND_SPEED);
+				break;
+			}
+		}
+		
+		//case 6, 'random action', either fix on one player and attack, or wander for 5 seconds
+		else {//System.out.println("case 6");
+			aiCon.setState(AiStates.WANDER);
+		}
+		//element gets changed randomly every 15 seconds
+
+	}
+	
+	public static void mediumAiFetchAction(Player aiPlayer, AiController aiCon) {
+
+		float maxHP = aiPlayer.getMAX_HEALTH();
+		float aiPlayerHP = aiPlayer.getHealth();
+		Character nearestPlayer = aiCon.findNearestPlayer();
+		float playerHP = nearestPlayer.getHealth();
+		
+		//case 1, take any type of power up
+		if( aiCon.powerupIsTooClose() || aiCon.powerupCloserThanPlayer() ) {
+		//	System.out.println("case 1");
+			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
+			case DAMAGE:
+				aiCon.setState(AiStates.FIND_DAMAGE);
+				break;
+			case HEAL:
+				aiCon.setState(AiStates.FIND_HEALTH);
+				break;
+			case SPEED:
+				aiCon.setState(AiStates.FIND_SPEED);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		//case 2, escape when health is less than third
+		else if(aiPlayerHP < (maxHP/3) ) {
+		//	System.out.println("case 2");
+			aiCon.setState(AiStates.ESCAPE);
+		}
+		
+		//case 3, attack aggressively when the nearest enemy's hp is less than 33%
+		else if (playerHP < (maxHP/3)) {
+		//	System.out.println("case 3");
+			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
+		}
+		
+		//case 4, attack when you got the advantage
+		else if (aiPlayerHP > playerHP) {
+		//	System.out.println("case 4");
+			aiCon.setState(AiStates.ATTACK);
+		}
+		
+		//case 5, wander, or attack, when nothing else is triggered
+		else {
+		// System.out.println("case 5");
+			aiCon.setState(AiStates.WANDER);
+		}
+		
+		//switches elements to maximize damage given and minimize damage received
+		aiCon.changeToBefittingElement();
+
+	}
+	
+	public static void hardAiFetchAction(Player aiPlayer, AiController aiCon) {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -86,35 +192,5 @@ public class AiFSM {
 		aiCon.changeToBefittingElement();
 
 	}
-	
-//	public static void advancedEnemyFetchAction(Player enemy, Character [] players, ArrayList<PowerUp> powerups) {
-//
-//		float maxHP = enemy.getMAX_HEALTH();
-//		float enemyHP = enemy.getHealth();
-//		Character nearestPlayer = enemy.findNearestPlayer();
-//		float playerHP = nearestPlayer.getHealth();
-//
-//		if(enemyHP< (maxHP/4) || (enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=-1 && enemyHP<maxHP) ) {
-//			if(!enemy.isShielded())
-//				enemy.shield();
-//			enemy.setState(EnemyStates.FIND_HEALTH);
-//		}
-//		else if( enemyHP>playerHP || playerHP< (maxHP/2) ) {
-//			enemy.setState(EnemyStates.ATTACK);
-//		}
-//		else if(playerHP< (maxHP/4) ) {
-//			enemy.setState(EnemyStates.AGGRESSIVE_ATTACK);
-//		}
-//		else if( enemy.findNearestPowerUp(PowerUpType.DAMAGE) !=-1 ) {
-//			enemy.setState(EnemyStates.FIND_DAMAGE);
-//		}
-//		else if( enemy.findNearestPowerUp(PowerUpType.SPEED) !=-1 ) {
-//			enemy.setState(EnemyStates.FIND_SPEED);
-//		}
-//		else {
-//			enemy.setState(EnemyStates.ATTACK);
-//		}
-//
-//	}
 	
 }

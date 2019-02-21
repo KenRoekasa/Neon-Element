@@ -30,7 +30,7 @@ public class GameServer extends Thread {
         this.running = true;
         this.network.start();
 
-        Thread powerUpController = new Thread(new PowerUpController(gameState.getObjects(), this.network.getDispatcher()));
+        Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
         powerUpController.start();
 
         while(this.running) {
@@ -61,7 +61,7 @@ public class GameServer extends Thread {
         synchronized (objects) {
             // Collision detection code
             Player projectedPlayer = new Player(ObjectType.PLAYER);
-            for (Iterator<Player> playerItr = gameState.getPlayers().iterator(); playerItr.hasNext(); ) {
+            for (Iterator<Player> playerItr = gameState.getAllPlayers().iterator(); playerItr.hasNext(); ) {
                 Player player = playerItr.next();
                 player.canUp = true;
                 player.canLeft = true;
@@ -180,7 +180,7 @@ public class GameServer extends Thread {
 
 
                 // Loop through all enemies to detect hit detection
-                ArrayList<Player> enemies = gameState.getAis();
+                ArrayList<Player> enemies = gameState.getOtherPlayers(player);
                 synchronized (enemies) {
                     for (Iterator<Player> itr = enemies.iterator(); itr.hasNext(); ) {
                         PhysicsObject e = itr.next();
@@ -194,7 +194,7 @@ public class GameServer extends Thread {
                                 // TODO: For now its takes 3 damage, change later
                                 enemy.removeHealth(3);
                                 player.setCurrentAction(Action.IDLE);
-                                System.out.println("hit");
+//                                System.out.println("hit");
                                 // Sends to server
                             }
 
@@ -206,7 +206,7 @@ public class GameServer extends Thread {
                                 // TODO: For now its takes 10 damage, change later
                                 enemy.removeHealth(10);
                                 player.setCurrentAction(Action.IDLE);
-                                System.out.println("heavy hit");
+//                                System.out.println("heavy hit");
                                 // Sends to server
                             }
                         }
@@ -219,7 +219,7 @@ public class GameServer extends Thread {
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
             //Call update function for all physics objects
-            for (Player p : gameState.getPlayers()) {
+            for (Player p : gameState.getAllPlayers()) {
                 p.update();
             }
             for (PhysicsObject o : gameState.getObjects()) {
@@ -229,8 +229,8 @@ public class GameServer extends Thread {
     }
     
     private void sendLocations() {
-        synchronized (gameState.getPlayers()) {
-            for (Player p : gameState.getPlayers()) {
+        synchronized (gameState.getAllPlayers()) {
+            for (Player p : gameState.getAllPlayers()) {
                 Point2D location = p.getLocation();
                 double x = location.getX();
                 double y = location.getY();

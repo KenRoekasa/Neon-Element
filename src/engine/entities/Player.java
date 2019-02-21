@@ -12,9 +12,8 @@ public class Player extends Character {
 
     private int id;
 
-
-
     public Player(ObjectType type) {
+        super();
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
@@ -31,15 +30,6 @@ public class Player extends Character {
         for (int i = 0; i < timerArray.length; i++) {
             timerArray[i] = System.currentTimeMillis() - 10 * 1000;
         }
-    }
-
-    public Player(int id) {
-        super();
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override
@@ -59,5 +49,14 @@ public class Player extends Character {
         double Y = this.location.getY();
 
         this.location.add(x - X, y - Y);
+    }
+
+    public void setId(int i) {
+        this.id = i;
+    }
+
+
+    public int getId() {
+        return id;
     }
 }
