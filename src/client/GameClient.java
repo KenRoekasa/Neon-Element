@@ -117,7 +117,7 @@ public class GameClient {
                 // TODO: remove this when networking is added
                 clientLoop();
 
-                if(gameState.getRunning()) {
+                if(!gameState.getRunning()) {
                     stop();
                 }
             }
