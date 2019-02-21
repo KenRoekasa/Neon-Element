@@ -97,7 +97,7 @@ public class GameServer extends Thread {
                         Point2D checkRightCart = new Point2D(x + movementSpeed, y);
                         Point2D[] projectedLocations = {checkUp, checkDown, checkLeft, checkRight, checkUpCart, checkDownCart, checkLeftCart, checkRightCart};
     
-                        System.out.println(player.getCharacterDirection());
+                        // System.out.println(player.getCharacterDirection());
     
                         switch (player.getCharacterDirection()) {
                             case UP:
