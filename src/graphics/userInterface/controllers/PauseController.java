@@ -10,6 +10,18 @@ import java.io.IOException;
 //Press space to pause the game
 public class PauseController {
     private Stage stage;
+    private Pane hudPane;
+
+    public void setNode(Pane node) {
+        this.node = node;
+    }
+
+    private  Pane node;
+
+    public void setHudPane(Pane hudPane) {
+        this.hudPane = hudPane;
+    }
+
     @FXML
 
     public void setStage(Stage stage) {
@@ -18,7 +30,7 @@ public class PauseController {
 
     @FXML
     public void handleResumeBtn(){
-        //TODO: back to preserved-state game
+        hudPane.getChildren().remove(node);
     }
 
     //back to menu or game?

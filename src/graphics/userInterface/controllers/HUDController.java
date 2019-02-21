@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 
+import engine.GameState;
 import engine.entities.Player;
 import engine.enums.Elements;
 import graphics.enumSwitches.colourSwitch;
@@ -24,9 +25,16 @@ import java.util.ResourceBundle;
 //To get players' health and speed in top-left hud
 public class HUDController implements Initializable{
     private Stage stage;
+    private GameState gameState;
+
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
     @FXML
     private Text health;
     private StringProperty healthValue;
@@ -50,6 +58,7 @@ public class HUDController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         health.textProperty().bind(healthValue);
        /* health.textProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("textfield changed from " + oldValue + " to " + newValue);

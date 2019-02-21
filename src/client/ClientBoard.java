@@ -50,8 +50,8 @@ public class ClientBoard {
 
     private ClientGameState gameState;
     private GameClient gameClient;
-    private Pane hudPane;
 
+    private Pane hudPane;
 
 
     public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
@@ -159,6 +159,8 @@ public class ClientBoard {
                     hudPane.getChildren().add(node);
                     node.setBackground(Background.EMPTY);
                     PauseController controller = loader.getController();
+                    controller.setHudPane(hudPane);
+                    controller.setNode(node);
                     controller.setStage(primaryStage);
                     primaryStage.setTitle("Pause");
 
