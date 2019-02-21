@@ -2,8 +2,6 @@ package engine;
 
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;
 
@@ -13,6 +11,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class GameState {
     protected Rectangle map;
+
+    private boolean isRunning;
+
     /**
      * All Physics objects
      */
@@ -26,9 +27,9 @@ public abstract class GameState {
     protected LinkedBlockingQueue deadPlayers;
     protected ArrayList<Player> allPlayers = new ArrayList<>();
 
-
-    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard){
+    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType){
         this.objects = objects;
+        this.gameType = gameType;
         for(PhysicsObject o: objects){
             if(Objects.equals(o.getClass(), Player.class)){
                 allPlayers.add((Player) o);
@@ -107,5 +108,17 @@ public abstract class GameState {
         otherObjects.addAll(objects);
         otherObjects.remove(object);
         return otherObjects;
+    }
+
+    public void start() {
+        isRunning = true;
+    }
+
+    public void stop(){
+        isRunning = false;
+    }
+
+    public boolean getRunning(){
+        return isRunning;
     }
 }

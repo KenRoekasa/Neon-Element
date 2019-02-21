@@ -6,6 +6,8 @@ import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
+import engine.gameTypes.FirstToXKillsGame;
+import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
@@ -23,7 +25,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
-        player.setID(100);
+        player.setId(100);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
         
@@ -51,7 +53,8 @@ public class GameStateGenerator {
         // generate a game state
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
         ScoreBoard scoreboard = new ScoreBoard();
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard);
+        GameType gameType = new FirstToXKillsGame(10);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
 
         //This will be initialised on start of the game
         scoreboard.initialise(gameState.getAllPlayers());
@@ -70,7 +73,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
-        player.setID(4);
+        player.setId(4);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
 
@@ -94,7 +97,7 @@ public class GameStateGenerator {
         }
         for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
-            enemies.get(i).setID(i);
+            enemies.get(i).setId(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
@@ -104,9 +107,10 @@ public class GameStateGenerator {
         objects.add(player);
 
 
-        System.out.println(objects);
         ScoreBoard scoreboard = new ScoreBoard();
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard);
+        // First to 10 kills
+        GameType gameType = new FirstToXKillsGame(2);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 
         startAi(aiConList);
@@ -117,6 +121,6 @@ public class GameStateGenerator {
     
     private static void startAi(ArrayList<AiController> aiConList) {
     	for (AiController aiCon: aiConList)
-    		aiCon.startBasicAi();
+    		aiCon.startEasyAi();
     }
 }

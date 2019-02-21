@@ -1,5 +1,6 @@
 package graphics.userInterface.controllers;
 
+import client.ClientGameState;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -30,9 +31,12 @@ public class PauseController {
         this.hudPane = hudPane;
     }
 
+    private ClientGameState gameState;
+
     @FXML
 
-    public void setStage(Stage stage) {
+    public void setStage(Stage stage, ClientGameState gameState) {
+        this.gameState = gameState;
         this.stage = stage;
     }
 
@@ -78,6 +82,7 @@ public class PauseController {
             stage.getScene().setCursor(Cursor.DEFAULT);
 
             stage.setTitle("Menu");
+            gameState.stop();
 
         } catch (IOException e) {
             System.out.println("crush in loading menu board ");
