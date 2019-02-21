@@ -30,7 +30,6 @@ public class RespawnController implements Runnable {
         //Remove the dead player from the list
         try {
             Player player = deadPlayers.take();
-            System.out.println(player);
             player.respawn();
             Thread.sleep(10000);
             //Adding health to player to resurrect them
