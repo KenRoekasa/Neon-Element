@@ -145,7 +145,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
            
             for (PlayerConnection conn : this.connections) {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
-                System.out.println("<==" + packet.getType());
+                
+                if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+                    System.out.println("<==" + packet.getType());
+                }
 
                 try {
                     this.socket.send(datagram);
