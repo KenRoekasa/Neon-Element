@@ -25,7 +25,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
-        player.setID(100);
+        player.setId(100);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
         
@@ -73,7 +73,7 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
-        player.setID(4);
+        player.setId(4);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
 
@@ -117,7 +117,7 @@ public class GameStateGenerator {
 
         ScoreBoard scoreboard = new ScoreBoard();
         // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(2);
+        GameType gameType = new FirstToXKillsGame(1);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 

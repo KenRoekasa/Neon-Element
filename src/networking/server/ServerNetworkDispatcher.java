@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
@@ -17,31 +19,32 @@ import networking.NetworkDispatcher;
 public class ServerNetworkDispatcher extends NetworkDispatcher {
     
     private ServerGameState gameState;
-    
-    private int nextPlayerId = 0;
+
     private ArrayList<PlayerConnection> connections;
 
-	protected ServerNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ServerGameState gameState) {
-		super(socket, multicastSocket, groupAddress);
+	protected ServerNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ServerGameState gameState) {
+		super(socket/*, multicastSocket, groupAddress*/);
 		this.gameState = gameState;
         this.connections = new ArrayList<>();
 	}
 
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
-		int players = this.gameState.getAllPlayers().size();
-		int maxPlayers = this.gameState.getMaxPlayers();
-		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
-		System.out.println("respond");
-		this.send(response);
+//		int players = this.gameState.getAllPlayers().size();
+//		int maxPlayers = this.gameState.getMaxPlayers();
+//
+//		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
+//		System.out.println("respond");
+//		this.send(response);
 	}
 
 	protected void receiveConnect(ConnectPacket packet) {
 	    boolean isStarted = this.gameState.isStarted();
 	    boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
 
-	    // Allow connection if the game has not started yet and we have space for more players    
+	    // Allow connection if the game has not started yet and we have space for more players
 	    ConnectAckPacket.Status status;
+	    int playerId = 0;
 	    if (isStarted) {
 	        status = ConnectAckPacket.Status.ERR_GAME_STARTED;
 	    } else if(!hasSpace) {
@@ -49,15 +52,19 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	    } else {
 	        status = ConnectAckPacket.Status.SUC_CONNECTED;
 
-            PlayerConnection playerConn = new PlayerConnection(this.nextPlayerId, packet.getIpAddress(), packet.getPort());
-            Player player = new Player(this.nextPlayerId);
-            this.nextPlayerId++;
+	        Player player = new Player(ObjectType.PLAYER);
+	        playerId = player.getId();
+            PlayerConnection playerConn = new PlayerConnection(playerId, packet.getIpAddress(), packet.getPort());
 
             this.connections.add(playerConn);
             this.gameState.getAllPlayers().add(player);
+            this.gameState.getObjects().add(player);
+            
+            Packet connect = new BroadCastConnectedUserPacket(playerId);
+            this.broadcast(connect);
 	    }
 
-        Packet response = new ConnectAckPacket(status, packet.getIpAddress(), packet.getPort());
+        Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
         this.send(response);
         
         if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
@@ -125,12 +132,16 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
-            DatagramPacket datagram = new DatagramPacket(data, data.length, this.groupAddress, Constants.BROADCASTING_PORT);
-            System.out.println("" + this.groupAddress + ":" + Constants.BROADCASTING_PORT + " <-- " + packet.getType());
-            try {
-                this.multicastSocket.send(datagram);
-            } catch (IOException e) {
-                e.printStackTrace();
+           
+            for (PlayerConnection conn : this.connections) {
+                DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
+                
+
+                try {
+                    this.socket.send(datagram);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             System.out.println("Attempted to send a recived packet.");

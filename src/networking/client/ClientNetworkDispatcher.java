@@ -8,6 +8,7 @@ import client.ClientGameState;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
@@ -18,8 +19,8 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     
 	protected String serverAddress;
 
-    protected ClientNetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress, ClientGameState gameState) {
-        super(socket, multicastSocket, groupAddress);
+    protected ClientNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
+        super(socket/*, multicastSocket, groupAddress*/);
         this.gameState = gameState;
     }
 
@@ -35,9 +36,47 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     protected void receiveHelloAck(HelloAckPacket packet) {
         int players = packet.getPlayers();
         int maxPlayers = packet.getMaxPlayers();
-        System.out.println("Got players: " + players + " max: " + maxPlayers);
+        GameType gameType = packet.getGameType();
+        this.gameState.setGameType(gameType);
     }
-    
+
+    public void sendConnect() {
+        try {
+            Packet packet = new ConnectPacket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
+            this.send(packet);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void receiveGameStart(BroadCastGameStartPacket packet) {
+        // todo include gamestate in this packet
+        this.gameState.start();
+
+
+    }
+
+    protected void receiveConnectAck(ConnectAckPacket packet) {
+        switch (packet.getStatus()) {
+            case ERR_GAME_STARTED:
+            case ERR_MAX_PLAYERS:
+                System.out.println("Error connecting");
+                break;
+            case SUC_CONNECTED:
+                System.out.println("Successfully connected.  My id: " + packet.getId());
+                this.gameState.getPlayer().setId(packet.getId());
+                break;
+        }
+    }
+
+    protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
+        Player player = new Player(ObjectType.PLAYER);
+        player.setId(packet.getId());
+        //todo this is probably broken
+        this.gameState.getOtherPlayers(player).add(player);
+        this.gameState.getObjects().add(player);
+    }
+
     protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
         PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
         this.gameState.getObjects().add(powerUp);
@@ -47,9 +86,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
-            double x = packet.getX();
-            double y = packet.getY();
-            
+
             Player player = this.gameState.getObjects().stream()
                 .filter(p -> p.getTag().equals(ObjectType.PLAYER))
                 .map(p -> (Player) p)
@@ -64,6 +101,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             }
         }
     }
+
 
     public void sendLocationState(double x, double y) {
         try {

@@ -2,7 +2,7 @@ package networking;
 
 public class Constants {
     public static final String GROUP_SERVER_ADDRESS = "226.5.6.7";
-    public static final String SERVER_ADDRESS = "172.20.10.3";
+    public static final String SERVER_ADDRESS = "172.22.55.251";
     
 
     
