@@ -1,6 +1,7 @@
 package client;
 
 
+import engine.GameTypeHandler;
 import engine.ScoreBoard;
 import engine.calculations.DamageCalculation;
 import engine.controller.RespawnController;
@@ -10,6 +11,7 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.PauseController;
@@ -29,6 +31,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import server.controllers.PowerUpController;
 
+import javax.sound.midi.SysexMessage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,17 +47,17 @@ public class GameClient {
     private ArrayList<String> input;
 
     private ClientGameState gameState;
-    private clientNetworkThread clientNetworkThread;
+    private ClientNetworkThread clientNetworkThread;
     private Pane hudPane;
 
     public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.clientNetworkThread = new clientNetworkThread(gameState);
+        this.clientNetworkThread = new ClientNetworkThread(gameState);
 
         if(online) {
-            this.clientNetworkThread = new clientNetworkThread(gameState);
+            this.clientNetworkThread = new ClientNetworkThread(gameState);
         }
 
 
@@ -102,8 +105,8 @@ public class GameClient {
 
         beginClientLoop(renderer, online);
 
-        // this.clientNetworkThread = new clientNetworkThread(gameState);
-        // clientNetworkThread.run();
+        // this.ClientNetworkThread = new ClientNetworkThread(gameState);
+        // ClientNetworkThread.run();
     }
 
     public Scene getScene() {
@@ -111,7 +114,7 @@ public class GameClient {
     }
 
     private void beginClientLoop(Renderer renderer, boolean online) {
-
+        gameState.start();
         if(online) {
 
             while(!gameState.getRunning()) {
@@ -126,11 +129,14 @@ public class GameClient {
                 // TODO: remove this when networking is added
                 clientLoop();
 
-                if(gameState.getRunning()) {
+                if(!gameState.getRunning()) {
                     stop();
                 }
+
+
             }
         }.start();
+
 
         // todo move to server
         Thread puController = new Thread(new PowerUpController(gameState));
@@ -195,6 +201,9 @@ public class GameClient {
         doHitDetection();
         doUpdates();
         deathHandler();
+        if(!GameTypeHandler.checkRunning(gameState)){
+            gameState.stop();
+        }
 
     }
 
@@ -222,7 +231,7 @@ public class GameClient {
                         // Add to dead list
                         deadPlayers.offer(player);
                         // Add kills to scoreboard
-                        scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
+                        scoreBoard.addKill(player.getLastAttacker().getId());
                         //if dead teleport player off screen
                         player.setLocation(new Point2D(5000, 5000));
 

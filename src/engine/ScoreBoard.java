@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class ScoreBoard {
     //Hash map , key = ID, value = pair type of  (number of kills, list of victims)
-    private HashMap<Integer, Pair<Integer, ArrayList<Integer>>> board;
+    private HashMap<Integer, Integer> board;
     private int totalKills;
 
     public ArrayList<Integer> getLeaderBoard() {
@@ -33,18 +33,14 @@ public class ScoreBoard {
      */
     public void initialise(ArrayList<Player> playerList){
         for(Player p : playerList){
-            board.put(p.getId(), new Pair<>(0, new ArrayList<>()));
+            board.put(p.getId(), 0);
             leaderBoard.add(p.getId());
 
         }
     }
 
-    public void addKill(int killerID, int recipientID){
-        int newTotal = board.get(killerID).getKey() + 1;
-        ArrayList<Integer> newLog = board.get(killerID).getValue();
-        newLog.add(recipientID);
-        Pair<Integer, ArrayList<Integer>> newPair = new Pair<>(newTotal, newLog);
-        board.put(killerID, newPair);
+    public void addKill(int killerID){
+        board.replace(killerID, board.get(killerID)+1);
         totalKills ++;
         updateLeaderBoard();
     }
@@ -52,9 +48,9 @@ public class ScoreBoard {
 
     private void updateLeaderBoard(){
         leaderBoard.sort((o1, o2) -> {
-            if (board.get(o1).getKey() > board.get(o2).getKey()){
+            if (board.get(o1) > board.get(o2)){
                 return 1;
-            } else if (board.get(o1).getKey().equals(board.get(o2).getKey())){
+            } else if (board.get(o1).equals(board.get(o2))){
                 return 0;
             } else {
                 return  -1;
@@ -62,7 +58,7 @@ public class ScoreBoard {
         });
     }
 
-    public Pair<Integer, ArrayList<Integer>> getPlayerKills(int playerID){
+    public Integer getPlayerKills(int playerID){
         return board.get(playerID);
     }
 

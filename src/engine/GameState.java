@@ -12,6 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public abstract class GameState {
     protected Rectangle map;
 
+
     private boolean isRunning;
 
     /**
@@ -119,6 +120,6 @@ public abstract class GameState {
     }
 
     public boolean getRunning(){
-        return isRunning;
+        return isRunning ;
     }
 }
