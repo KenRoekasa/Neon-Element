@@ -22,6 +22,7 @@ public class PauseController {
     }
 
     //back to menu or game?
+    // todo this needs to return to the game, probably want an options menu thats transparent like the pause menu
     @FXML
     public void handleSettingBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
@@ -40,6 +41,7 @@ public class PauseController {
     }
 
     @FXML
+    // todo this needs to end the game thread somehow
     public void handleQuitBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
         try {
