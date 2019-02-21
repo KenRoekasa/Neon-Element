@@ -37,23 +37,28 @@ public class ScoreBoard {
             leaderBoard.add(p.getId());
 
         }
+        System.out.println(board);
     }
 
     public void addKill(int killerID){
+        System.out.println("before" +  board.get(killerID));
         board.replace(killerID, board.get(killerID)+1);
+        System.out.println("after" + board.get(killerID));
         totalKills ++;
         updateLeaderBoard();
-    }
 
+        System.out.println(leaderBoard);
+
+    }
 
     private void updateLeaderBoard(){
         leaderBoard.sort((o1, o2) -> {
             if (board.get(o1) > board.get(o2)){
+                return -1;
+            } else if (board.get(o1) <(board.get(o2))){
                 return 1;
-            } else if (board.get(o1).equals(board.get(o2))){
-                return 0;
             } else {
-                return  -1;
+                return  0;
             }
         });
     }
@@ -64,5 +69,9 @@ public class ScoreBoard {
 
     public int getTotalKills() {
         return totalKills;
+    }
+
+    public String toString() {
+        return board.toString();
     }
 }

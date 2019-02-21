@@ -29,10 +29,9 @@ public class GameTypeHandler {
 //            System.out.println(topPlayerId);
 //            System.out.println(currentGame.getScoreBoard().getPlayerKills(topPlayerId));
 
-            if (currentGame.getScoreBoard().getPlayerKills(score.get(0)) >= typeObj.getKillsNeeded()) {
+            if (currentGame.getScoreBoard().getPlayerKills(topPlayerId) >= typeObj.getKillsNeeded()) {
                 return false;
             } else {
-
                 return true;
             }
         }

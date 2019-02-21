@@ -109,7 +109,7 @@ public class GameStateGenerator {
 
         ScoreBoard scoreboard = new ScoreBoard();
         // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(2);
+        GameType gameType = new FirstToXKillsGame(1);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 

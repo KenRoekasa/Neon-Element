@@ -135,7 +135,7 @@ public class GameClient {
                 if(!gameState.getRunning()) {
                     stop();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/game_over.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userinterface/fxmls/game_over.fxml"));
                     try {
                         Pane root = loader.load();
                         primaryStage.getScene().setRoot(root);

@@ -105,6 +105,7 @@ public class Renderer {
             gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
             gc.restore();
         }
+        debugger.add(gameState.getScoreBoard().toString(), 4);
 
         debugger.print();
     }
