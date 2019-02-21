@@ -195,7 +195,7 @@ public class ClientBoard {
         }
     }
 
-    // TODO: Implement
+
     private void deathHandler() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
@@ -220,7 +220,6 @@ public class ClientBoard {
 
         }
     }
-
 
 
     private void swapElement(){
