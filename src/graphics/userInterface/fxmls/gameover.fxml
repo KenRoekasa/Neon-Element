@@ -34,7 +34,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleQuitBtn" styleClass="button_small" stylesheets="@../resources/css/test01.css" text=" Back " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleQuitBtn" stylesheets="@../resources/css/test01.css" text=" Back " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
