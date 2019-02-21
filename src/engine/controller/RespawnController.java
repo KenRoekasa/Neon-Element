@@ -30,10 +30,11 @@ public class RespawnController implements Runnable {
         //Remove the dead player from the list
         try {
             Player player = deadPlayers.take();
-            Thread.sleep(10000);
+            System.out.println(player);
             player.respawn();
+            Thread.sleep(10000);
             //Adding health to player to resurrect them
-            player.setLocation(new Point2D(10,10));
+            player.setLocation(new Point2D(20,20));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
