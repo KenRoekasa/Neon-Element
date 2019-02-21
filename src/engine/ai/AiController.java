@@ -7,6 +7,7 @@ import java.util.Random;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
 import javafx.scene.shape.Rectangle;
@@ -23,9 +24,11 @@ public class AiController {
 		Rectangle map;
 		Player player;
 		AiController  aiCon= this;
+		AiType aiType;
 		final int DELAY_TIME = 28;
 		boolean wandering = false;
 		boolean spamming = false;
+		int wanderingDirection ;
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
@@ -40,35 +43,10 @@ public class AiController {
 	        assignRandomElement();
 	        
 	    }
-		
-		public Player getAiPlayer() {
-			return aiPlayer;
-		}
-
-		public ArrayList<PowerUp> getPowerups() {
-
-			ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
-			for (int i = 0; i < objects.size(); i++) {
-				if (!objects.get(i).equals(null)) {
-					if (ObjectType.POWERUP.equals(objects.get(i).getTag()))
-						if (!powerups.contains(objects.get(i)))
-							powerups.add((PowerUp) objects.get(i));
-				}
-			}
-			return powerups;
-		}
-		
-		public boolean powerupCloserThanPlayer() {
-			int puIndex = findNearestPowerUp();
-			if(puIndex == -1)
-				return false;
-			double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
-			double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
-			
-			return disToPu<disToPlayer;
-		}
+	
 
 		public void startEasyAi() {
+			aiType = AiType.EASY;
 			System.out.println("started easy ai\n\n");
 			changeToRandomElement();
 
@@ -82,7 +60,7 @@ public class AiController {
 						AiFSM.easyAiFetchAction(aiPlayer, aiCon);
 						
 						if(getActiveState().equals(AiStates.ESCAPE))
-							aiPlayer.delay((DELAY_TIME/2)+(DELAY_TIME/4));
+							aiPlayer.delay((DELAY_TIME/3)*2);
 						else
 							aiPlayer.delay(DELAY_TIME);
 						
@@ -90,7 +68,8 @@ public class AiController {
 
 						if (aiPlayer.getHealth() <= 0) {
 							aiPlayer.respawn(map.getWidth(),map.getHeight());
-						}			
+						}
+						
 					}
 				
 				}
@@ -101,6 +80,7 @@ public class AiController {
 		}
 
 		public void startMediumAi() {
+			aiType = AiType.MEDIUM;
 			System.out.println("started medium ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
@@ -133,6 +113,7 @@ public class AiController {
 		}
 		
 		public void startHardAi() {
+			aiType = AiType.HARD;
 			System.out.println("started hard ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
@@ -167,7 +148,8 @@ public class AiController {
 		}
 		
 		private void easyAIExecuteAction() {
-
+			if(!activeState.equals(AiStates.WANDER))
+				wandering = false;
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
@@ -180,13 +162,21 @@ public class AiController {
 			case FIND_HEALTH:
 				findHealth();
 				break;
+			case FIND_DAMAGE:
+				aiPlayer.shield();
+				findDamage();
+				break;
+			case FIND_SPEED:
+				aiPlayer.shield();
+				findSpeed();
+				break;
 			case ESCAPE:
 				aiPlayer.shield();
 				escape();
 				break;
 			case WANDER:
 				aiPlayer.unShield();
-				wander();
+				startWandering();
 			case IDLE:
 				break;
 			default:
@@ -195,6 +185,8 @@ public class AiController {
 		}
 		
 		private void mediumAIExecuteAction() {
+			if(!activeState.equals(AiStates.WANDER))
+				wandering = false;
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
@@ -222,7 +214,7 @@ public class AiController {
 				break;
 			case WANDER:
 				aiPlayer.unShield();
-				wander();
+				startWandering();
 			case IDLE:
 				break;
 			default:
@@ -230,84 +222,73 @@ public class AiController {
 			}
 		}
 
-		private void wander() {
-			Random r = new Random();
-			Player player = findNearestPlayer();
-			
-			int i ;
-			i = r.nextInt(2);
-			if(i==0) {
-				while(!inAttackDistance(player) && aiPlayer.getHealth()>0 ) {
-					aiPlayer.delay(DELAY_TIME);
-					moveTo(player);
-				}
-				aiPlayer.lightAttack();
+		private void startWandering() {
+			if(!wandering) {
+				wandering = true;
+				Random r = new Random();
+				wanderingDirection = r.nextInt(8);
 			}
-			else {
-				
-				int movementDirection;
-				movementDirection = r.nextInt(8);
-	
-				wanderingTimer(5000);
-				while (wandering && aiPlayer.getHealth()>0) {
-					
-					if(reachedAnEdge()) {
-						switch(movementDirection) {
-						case 0:aiPlayer.moveUp();break;
-						case 1:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
-						case 2:aiPlayer.moveRight(map.getWidth(), map.getHeight());break;
-						case 3:aiPlayer.moveLeft(map.getWidth());break;
-						case 4:aiPlayer.moveUpCartesian();break;
-						case 5:aiPlayer.moveDownCartestian(map.getHeight());break;
-						case 6:aiPlayer.moveRightCartesian(map.getWidth());break;
-						case 7:aiPlayer.moveLeftCartesian();break;
-						}
-					}
-					
-					aiPlayer.delay(DELAY_TIME);
-					
-					player = findNearestPlayer();
-					
-					if(inAttackDistance(player))
-						aiPlayer.lightAttack();
-	
-					switch(movementDirection) {
-					case 0:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
-					case 1:aiPlayer.moveUp();break;
-					case 2:aiPlayer.moveLeft(map.getWidth());break;
-					case 3:aiPlayer.moveRight(map.getWidth(), map.getHeight());break;
-					case 4:aiPlayer.moveDownCartestian(map.getHeight());break;
-					case 5:aiPlayer.moveUpCartesian();break;
-					case 6:aiPlayer.moveLeftCartesian();break;
-					case 7:aiPlayer.moveRightCartesian(map.getWidth());break;
-					}
-					
-					
+			wander();
+		}
+
+		private void wander() {
+			
+			Player player = findNearestPlayer();
+			if(inAttackDistance(player))
+				aiPlayer.lightAttack();
+
+			if(reachedAnEdge()) {
+				switch(wanderingDirection) {
+				case 0:wanderingDirection = 1;break;
+				case 1:wanderingDirection = 0;break;
+				case 2:wanderingDirection = 3;break;
+				case 3:wanderingDirection = 2;break;
+				case 4:wanderingDirection = 5;break;
+				case 5:wanderingDirection = 4;break;
+				case 6:wanderingDirection = 7;break;
+				case 7:wanderingDirection = 8;break;
 				}
+			}
+
+			switch(wanderingDirection) {
+			case 0:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
+			case 1:aiPlayer.moveUp();break;
+			case 2:aiPlayer.moveLeft(map.getWidth());break;
+			case 3:aiPlayer.moveRight(map.getWidth(), map.getHeight());break;
+			case 4:aiPlayer.moveDownCartestian(map.getHeight());break;
+			case 5:aiPlayer.moveUpCartesian();break;
+			case 6:aiPlayer.moveLeftCartesian();break;
+			case 7:aiPlayer.moveRightCartesian(map.getWidth());break;
 			}
 		}
 		
+		public boolean playerIsTooClose() {
+			Point2D playerLoc = findNearestPlayer().getLocation();
+			return isTooClose(playerLoc);
+		}
+		
+		public boolean powerupIsTooClose() {
+			int index = findNearestPowerUp();
+			if(index != -1 && isTooClose(getPowerups().get(index).getLocation())) {
+				return true;
+			}
+			return false;
+		}
+		
+		private boolean isTooClose(Point2D playerLoc ) {
+			Point2D aiLoc = aiPlayer.getLocation();
+			return (aiLoc.distance(playerLoc)<(map.getWidth()*0.2));
+		}
+
+
 		private boolean reachedAnEdge() {
 			double x = aiPlayer.getLocation().getX();
 			double y = aiPlayer.getLocation().getY();
-			if(x<map.getHeight()*0.02 || x>map.getHeight()*0.95 || y<map.getWidth()*0.05 || y>map.getWidth()*0.98)
+			if(x<map.getHeight()*0.02 || x>map.getHeight()*0.98 || y<map.getWidth()*0.02 || y>map.getWidth()*0.98)
 				return true;
 			return false;
 		}
 
-		private void wanderingTimer(int time) {
-			wandering = true;
-			Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-				aiPlayer.delay(time);
-				wandering = false;
-				}
-
-			});
-			t.start();
-		}
-		
 		private void changeToRandomElement() {
 			Thread t = new Thread(new Runnable() {
 
@@ -317,7 +298,6 @@ public class AiController {
 					while (bool) {
 						aiPlayer.delay(15000);
 						assignRandomElement();
-						//TODO: make it terminate when ai player dies	
 					}
 				
 				}
@@ -387,60 +367,60 @@ public class AiController {
 			}
 		}
 		
-		public void spam(int time) {
-			
-			spammingTimer(time);
-			while (spamming) {
-				aiPlayer.delay(DELAY_TIME);
-				switch (activeState) {
-				case ATTACK:
-					aiPlayer.unShield();
-					attack();
-					break;
-				case AGGRESSIVE_ATTACK:
-					aiPlayer.unShield();
-					aggressiveAttack();
-					break;
-				case FIND_HEALTH:
-					aiPlayer.shield();
-					findHealth();
-					break;
-				case FIND_DAMAGE:
-					aiPlayer.shield();
-					findDamage();
-					break;
-				case FIND_SPEED:
-					aiPlayer.shield();
-					findSpeed();
-					break;
-				case ESCAPE:
-					aiPlayer.shield();
-					escape();
-					break;
-				case WANDER:
-					aiPlayer.unShield();
-					wander();
-				case IDLE:
-					break;
-				default:
-					break;
-				}
-			}
-			
-		}
-		
-		private void spammingTimer(int time) {
-			spamming = true;
-			Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-				aiPlayer.delay(time);
-				spamming = false;
-				}
-
-			});
-			t.start();
-		}
+//		public void spam(int time) {
+//			
+//			spammingTimer(time);
+//			while (spamming) {
+//				aiPlayer.delay(DELAY_TIME);
+//				switch (activeState) {
+//				case ATTACK:
+//					aiPlayer.unShield();
+//					attack();
+//					break;
+//				case AGGRESSIVE_ATTACK:
+//					aiPlayer.unShield();
+//					aggressiveAttack();
+//					break;
+//				case FIND_HEALTH:
+//					aiPlayer.shield();
+//					findHealth();
+//					break;
+//				case FIND_DAMAGE:
+//					aiPlayer.shield();
+//					findDamage();
+//					break;
+//				case FIND_SPEED:
+//					aiPlayer.shield();
+//					findSpeed();
+//					break;
+//				case ESCAPE:
+//					aiPlayer.shield();
+//					escape();
+//					break;
+//				case WANDER:
+//					aiPlayer.unShield();
+//					startWandering();
+//				case IDLE:
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//			
+//		}
+//		
+//		private void spammingTimer(int time) {
+//			spamming = true;
+//			Thread t = new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//				aiPlayer.delay(time);
+//				spamming = false;
+//				}
+//
+//			});
+//			t.start();
+//		}
 		
 		public void escape() {
 			Player player = findNearestPlayer();
@@ -514,6 +494,34 @@ public class AiController {
 			}
 			
 			
+		}
+		
+		
+		public Player getAiPlayer() {
+			return aiPlayer;
+		}
+
+		public ArrayList<PowerUp> getPowerups() {
+
+			ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
+			for (int i = 0; i < objects.size(); i++) {
+				if (!objects.get(i).equals(null)) {
+					if (ObjectType.POWERUP.equals(objects.get(i).getTag()))
+						if (!powerups.contains(objects.get(i)))
+							powerups.add((PowerUp) objects.get(i));
+				}
+			}
+			return powerups;
+		}
+		
+		public boolean powerupCloserThanPlayer() {
+			int puIndex = findNearestPowerUp();
+			if(puIndex == -1)
+				return false;
+			double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
+			double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
+			
+			return disToPu<disToPlayer;
 		}
 
 
