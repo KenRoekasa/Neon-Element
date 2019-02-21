@@ -27,7 +27,9 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         width = objectSize.getObjectSize(type);
         tag = type;
-        id=nextId++;
+        if (type.equals(ObjectType.PLAYER)) {
+            id=nextId++;
+        }
 
 
         for (int i = 0; i < timerArray.length; i++) {
