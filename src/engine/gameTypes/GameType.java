@@ -5,7 +5,7 @@ public abstract class GameType {
     private Type type;
 
     public static enum Type {
-        FirstToXKills(0), TimedGame(1);
+        FirstToXKills(1), TimedGame(2);
 
         private byte id;
     
