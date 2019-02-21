@@ -2,8 +2,6 @@ package engine;
 
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;
 
@@ -27,8 +25,9 @@ public abstract class GameState {
     protected ArrayList<Player> allPlayers = new ArrayList<>();
 
 
-    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard){
+    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType){
         this.objects = objects;
+        this.gameType = gameType;
         for(PhysicsObject o: objects){
             if(Objects.equals(o.getClass(), Player.class)){
                 allPlayers.add((Player) o);

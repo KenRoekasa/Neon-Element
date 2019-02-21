@@ -1,17 +1,16 @@
 package client;
 
+import engine.GameTypeHandler;
+import javafx.geometry.Point2D;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;
-
-import client.ClientGameState;
-import javafx.geometry.Point2D;
 
 public class GameClient extends Thread {
 
     private ClientGameState gameState;
     private ClientNetwork network;
 
-    private boolean running;
+    private boolean running = true;
 
     public GameClient(ClientGameState gameState) {
         this.gameState = gameState;
@@ -19,9 +18,9 @@ public class GameClient extends Thread {
     }
 
     public void run() {
-        this.running = true;
-
-        while(this.running) {
+            System.out.println("hello");
+        while (this.running) {
+            this.running = GameTypeHandler.checkRunning(gameState);
             this.doLocationState();
 
             try {
@@ -31,10 +30,11 @@ public class GameClient extends Thread {
                 e.printStackTrace();
             }
         }
+        System.out.println("GAME ENDED");
 
         this.network.close();
     }
-    
+
     private void doLocationState() {
         Point2D location = this.gameState.getPlayer().getLocation();
         double x = location.getX();
@@ -42,7 +42,7 @@ public class GameClient extends Thread {
 
         this.getDispatcher().sendLocationState(x, y);
     }
-    
+
     private ClientNetworkDispatcher getDispatcher() {
         return this.network.getDispatcher();
     }
