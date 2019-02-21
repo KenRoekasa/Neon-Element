@@ -121,6 +121,7 @@ public class GameClient {
             }
         }
 
+        gameState.start();
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
@@ -128,7 +129,7 @@ public class GameClient {
                 // TODO: remove this when networking is added
                 clientLoop();
 
-                if(gameState.getRunning()) {
+                if(!gameState.getRunning()) {
                     stop();
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/game_over.fxml"));
