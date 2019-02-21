@@ -2,12 +2,11 @@ package graphics.userInterface.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
-import javax.swing.border.EmptyBorder;
 import java.io.IOException;
 
 //Press space to pause the game
@@ -75,6 +74,9 @@ public class PauseController {
             stage.getScene().setRoot(root);
             MenuController controller = loader.getController();
             controller.setStage(stage);
+
+            stage.getScene().setCursor(Cursor.DEFAULT);
+
             stage.setTitle("Menu");
 
         } catch (IOException e) {
