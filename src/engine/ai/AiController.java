@@ -48,15 +48,28 @@ public class AiController {
 		public void startEasyAi() {
 			aiType = AiType.EASY;
 			System.out.println("started easy ai\n\n");
-			changeToRandomElement();
-
+			
 			Thread t = new Thread(new Runnable() {
-
+				
+			
 				@Override
 				public void run() {
+					
+					double startTime = System.nanoTime()/1000000000;
+					double endTime ;
+					
 					boolean bool = true;
 					while (bool) {
 						
+						//assigns random element every fifteen seconds
+						endTime = System.nanoTime()/1000000000;
+						double elapsedTime = endTime - startTime;
+						if(elapsedTime >= 15) {
+							startTime = System.nanoTime()/1000000000;
+							assignRandomElement();
+						}
+						
+						//System.out.println(aiPlayer.getLocation());
 						AiFSM.easyAiFetchAction(aiPlayer, aiCon);
 						
 						if(getActiveState().equals(AiStates.ESCAPE))
@@ -288,25 +301,6 @@ public class AiController {
 				return true;
 			return false;
 		}
-
-		private void changeToRandomElement() {
-			Thread t = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					boolean bool = true;
-					while (bool) {
-						aiPlayer.delay(15000);
-						assignRandomElement();
-					}
-				
-				}
-
-			});
-
-			t.start();
-		}
-
 		
 		private void assignRandomElement() {
 
@@ -424,9 +418,52 @@ public class AiController {
 		
 		public void escape() {
 			Player player = findNearestPlayer();
-			if (player.getTag().equals(ObjectType.ENEMY)) {
-				moveAway(player);
-				return;
+//			if (player.getTag().equals(ObjectType.ENEMY)) {
+//				moveAway(player);
+//				return;
+//			}
+			moveAway(player);
+//			
+//			if (inAttackDistance(player) && player.getHealth()>0) {
+//				aiPlayer.unShield();
+//				aiPlayer.lightAttack();
+//				aiPlayer.shield();
+//			}
+//				
+//			switch(player.getCharacterDirection()) {
+//			case DOWN:
+//				aiPlayer.moveUp();
+//				break;
+//			case DOWNCART:
+//				aiPlayer.moveUpCartesian();
+//				break;
+//			case LEFT:
+//				aiPlayer.moveRight(map.getWidth(), map.getHeight());
+//				break;
+//			case LEFTCART:
+//				aiPlayer.moveRightCartesian(map.getWidth());
+//				break;
+//			case RIGHT:
+//				aiPlayer.moveLeft(map.getWidth());
+//				break;
+//			case RIGHTCART:
+//				aiPlayer.moveRightCartesian(map.getWidth());
+//				break;
+//			case UP:
+//				aiPlayer.moveDown(map.getWidth(), map.getHeight());
+//				break;
+//			case UPCART:
+//				aiPlayer.moveDown(map.getWidth(), map.getHeight());
+//				break;
+//			default:
+//				break;
+//			
+//			}
+		}
+		
+		public void moveAway(Player player) {
+			if(reachedAnEdge()) {
+				moveAwayFromEdge();
 			}
 			
 			if (inAttackDistance(player) && player.getHealth()>0) {
@@ -435,38 +472,7 @@ public class AiController {
 				aiPlayer.shield();
 			}
 				
-			switch(player.getCharacterDirection()) {
-			case DOWN:
-				aiPlayer.moveUp();
-				break;
-			case DOWNCART:
-				aiPlayer.moveUpCartesian();
-				break;
-			case LEFT:
-				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-				break;
-			case LEFTCART:
-				aiPlayer.moveRightCartesian(map.getWidth());
-				break;
-			case RIGHT:
-				aiPlayer.moveLeft(map.getWidth());
-				break;
-			case RIGHTCART:
-				aiPlayer.moveRightCartesian(map.getWidth());
-				break;
-			case UP:
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-				break;
-			case UPCART:
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-				break;
-			default:
-				break;
 			
-			}
-		}
-		
-		public void moveAway(Player player) {
 			Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
 			if(playerLoc.getX()>aiLoc.getX()) {
 				if(playerLoc.getY()>aiLoc.getY())
@@ -497,6 +503,162 @@ public class AiController {
 		}
 		
 		
+		private void moveAwayFromEdge() {
+			double width = map.getWidth();
+			double height = map.getHeight();
+			int i = closestEdgeLocation();
+			if(i == 0)
+				i = 2;
+			else if(i == 2)
+				i = 0;
+			if(i == 1)
+				i = 3;
+			else if(i == 3)
+				i = 1;
+			if(i == 4)
+				i = 7;
+			else if(i == 7)
+				i = 4;
+			if(i == 5)
+				i = 6;
+			else if(i == 6)
+				i = 5;
+			switch(i) {
+			case 0:aiPlayer.moveDownCartestian(height);break;
+			case 1:aiPlayer.moveRight(width, height);break;
+			case 2:aiPlayer.moveDown(width, height);break;
+			case 3:aiPlayer.moveRightCartesian(width);break;
+			case 4:aiPlayer.moveUp();break;
+			case 5:aiPlayer.moveLeftCartesian();break;
+			case 6:aiPlayer.moveLeft(width);break;
+			case 7:aiPlayer.moveUpCartesian();break;
+			}
+		}
+		/*
+		 * 0 = down cart
+		 * 1 = right
+		 * 2 = down
+		 * 3 = right cart
+		 * 4 = up
+		 * 5 = left cart
+		 * 6 = left
+		 * 7 = up cart
+		 */
+		private int closestEdgeLocation() {
+			Point2D loc = aiPlayer.getLocation();
+			int dir = -1;
+			double x = loc.getX();
+			double y = loc.getY();
+			double width = map.getWidth();
+			double height = map.getHeight();
+			//x < 1000
+			if(x<width/2) {
+				//x<1000 and y < 1000 - first block, up-most
+				if(y<height/2) {
+					//x < 100 
+					if(x<(width*0.05)) {
+						// x and y < 100,(at start point) - move down cart 
+						if(y<(height*0.05)) {
+							dir = 0;
+						}
+						// x < 100 but 100> y >1000 left-up wall - move right
+						else {
+							dir = 1;
+						}
+					}
+					//x > 100
+					else {
+						// 1000> x >100 and y < 100, right-up wall - move down
+						if(y<(height*0.05)) {
+							dir = 2;
+						}
+						// 1000 > x&y > 100  - close to middle point, not near a wall
+						else {
+						}
+					}
+				}
+				//x<1000 and y > 1000 - second block, left-most
+				else {
+					//x < 100
+					if(x<(width*0.05)) {
+						// x < 100 and y > 1900,(left start point) - right cart
+						if(y>(height*0.95)) {
+							dir = 3;
+						}
+						// x < 100 and 1000 < y < 1900, left-up wall - move right
+						else {
+							dir = 1;
+						}
+					}
+					//x 100 < x < 1000
+					else {
+						//x 100 < x < 1000 and y > 1900 left-down wall, move up
+						if(y>(height*0.95))
+							dir = 4;
+						//close to middle point, not near a wall
+						else {
+						}
+							
+					}
+					
+				}
+			}
+			//x > 1000
+			else {
+				//y < 1000 - third block, right-most
+				if(y<height/2) {
+					// x > 1000 & y < 100
+					if(y<height*0.05) {
+						// x < 1900 and y < 100,(right start point) - left cart
+						if(x>width*0.95) {
+							dir = 5;
+						}
+						//y < 100 and x < 1900, right-up wall -  down
+						else {
+							dir = 2;
+						}
+					}
+					//x > 1000 and 100 > y > 1000
+					else {
+						// x > 1900 and 100 < y < 1000, right-down wall, left
+						if(x>width*0.95)
+							dir = 6;
+						//else goes to the centre, not near a wall
+						else {
+						}
+					}
+					
+				}
+				//x and y > 1000	fourth block, down-most
+				else {
+					//x > 1900 and y > 1000
+					if(x>width*0.95) {
+						//x and y > 1900, (down start point) - up cart
+						if(y>height*0.95) {
+							dir = 7;
+						}
+						//x > 1900 and 1000 < y < 1900, right-down wall, left
+						else {
+							dir = 6;
+						}
+					}
+					//1000 < x < 1900
+					else {
+						//1000 < x < 1900 and y > 1900, left-down wall, up
+						if(y>height*0.95) {
+							dir = 4;
+						}
+						//going to the centre, not close to wall
+						else {
+						}
+					}
+				}
+			}
+			
+			return dir;
+		}
+
+
 		public Player getAiPlayer() {
 			return aiPlayer;
 		}
