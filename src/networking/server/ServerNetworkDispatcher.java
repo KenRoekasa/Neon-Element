@@ -62,6 +62,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             
             Packet connect = new BroadCastConnectedUserPacket(playerId);
             this.broadcast(connect);
+            
+            if(this.connections.size() == 2) {
+                this.broadcastGameStarted();
+            }
 	    }
 
         Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
@@ -70,6 +74,11 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
             // TODO - broadcast new connection to other clients if allowed
         }
+	}
+	
+	protected void broadcastGameStarted() {
+	    Packet packet = new BroadCastGameStartPacket(true);
+	    this.broadcast(packet);
 	}
 
 	protected void receiveLocationState(LocationStatePacket packet) {
