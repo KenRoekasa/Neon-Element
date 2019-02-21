@@ -20,7 +20,7 @@ public class AiFSM {
 		}
 	
 		//case 2, run for your life
-		else if(aiPlayerHP < (maxHP/10) ) {//System.out.println("case 2");
+		else if(aiPlayerHP < (maxHP/10) || aiPlayerHP < playerHP) {//System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
