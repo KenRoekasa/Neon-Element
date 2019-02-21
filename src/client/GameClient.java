@@ -36,6 +36,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameClient {
 
+    private Renderer renderer;
     private Debugger debugger;
     private GraphicsContext gc;
     private Stage primaryStage;
@@ -91,7 +92,7 @@ public class GameClient {
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
-        Renderer renderer = new Renderer(gc, stageSize, debugger);
+        renderer = new Renderer(gc, stageSize, debugger);
 
         // initialise input controls
         initialiseInput(scene, renderer);
@@ -134,6 +135,10 @@ public class GameClient {
 
     public void startNetwork() {
         this.clientNetworkThread.start();
+        while (!this.gameState.getRunning()) {
+            
+        }
+        beginClientLoop(renderer);
     }
 
     private void initialiseInput(Scene theScene, Renderer renderer) {

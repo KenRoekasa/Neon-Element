@@ -64,6 +64,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             this.broadcast(connect);
             
             if(this.connections.size() == 2) {
+                this.gameState.setStarted(true);
                 this.broadcastGameStarted();
             }
 	    }
