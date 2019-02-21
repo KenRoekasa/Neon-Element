@@ -68,7 +68,6 @@ public class ServerNetwork extends Thread {
 
             try {
                 this.socket.receive(packet);
-                System.out.println("recieved pac");
             } catch (IOException e) {
                 e.printStackTrace();
             }
