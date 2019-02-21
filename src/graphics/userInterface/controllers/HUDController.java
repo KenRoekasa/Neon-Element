@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 
+import client.ClientGameState;
 import engine.GameState;
 import engine.entities.Player;
 import engine.enums.Elements;
@@ -21,16 +22,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 //To get players' health and speed in top-left hud
 public class HUDController implements Initializable{
     private Stage stage;
-    private GameState gameState;
+    private ClientGameState gameState;
 
-
-    public void setGameState(GameState gameState) {
+    public void setGameState(ClientGameState gameState) {
         this.gameState = gameState;
     }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -52,18 +54,12 @@ public class HUDController implements Initializable{
 
     public void initPlayer(Player player) {
        healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
-       //totalKills.set(String.valueof()); //get kills value here
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Thread property = new Thread();
 
-        health.textProperty().bind(healthValue);
-       /* health.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("textfield changed from " + oldValue + " to " + newValue);
-        });*/
-        //kills.textProperty().bind(totalKills);
     }
 }
 

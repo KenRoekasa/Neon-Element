@@ -227,7 +227,6 @@ public class ClientBoard {
 
     private void swapElement(){
         InputHandler.handleKeyboardInput(gameState.getPlayer(),input,gameState.getMap(),primaryStage);
-
     }
 
 
