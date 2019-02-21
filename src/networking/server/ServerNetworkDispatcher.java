@@ -29,7 +29,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
-		int players = this.gameState.getPlayers().size();
+		int players = this.gameState.getAllPlayers().size();
 		int maxPlayers = this.gameState.getMaxPlayers();
 		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
 		System.out.println("respond");
@@ -38,7 +38,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	protected void receiveConnect(ConnectPacket packet) {
 	    boolean isStarted = this.gameState.isStarted();
-	    boolean hasSpace = this.gameState.getPlayers().size() < this.gameState.getMaxPlayers();
+	    boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
 
 	    // Allow connection if the game has not started yet and we have space for more players    
 	    ConnectAckPacket.Status status;
@@ -54,7 +54,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             this.nextPlayerId++;
 
             this.connections.add(playerConn);
-            this.gameState.getPlayers().add(player);
+            this.gameState.getAllPlayers().add(player);
 	    }
 
         Packet response = new ConnectAckPacket(status, packet.getIpAddress(), packet.getPort());
@@ -71,7 +71,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	    if (playerConn != null) {
 	        int id = playerConn.getId();
 
-	        Player player = this.gameState.getPlayers().stream()
+	        Player player = this.gameState.getAllPlayers().stream()
 	            .filter(p -> p.getId() == id)
 	            .findFirst()
 	            .orElse(null);

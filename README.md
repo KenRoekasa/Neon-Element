@@ -11,9 +11,14 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with Server
 - Integrate with UI
 - Fix collision bug
-- Add light attack speed 
-- Cooldown is not very polished
+- Cooldown is not very polished apparently
+  - cooldown is wayyyy to slow for light attacks
 - When shielded move slower, or have meter
+- Implement Scoreboard
+- Implement respawning
+- doCollisionDetection(); doHitDetection(); deathHandler(); make one for loop where allplayers is passed in
+- Heavy attacks only hit one person
+
 
 # Renderer
 ## Tasks
@@ -30,6 +35,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Everything will happen client side first and then confirmed by the server. Which then syncs all the game clients to be like server game state
     - Will probably change
 - Change boundaries when colliding so it will be a diagonal boundary
-
+- When you die become a ghost that doesn't collide with anyone but can spectate, opacity turned down
+- Constantly check for people in hit area and place into an array and when heavy/light attack is called damage all players in that array
 
 

@@ -2,14 +2,17 @@ package client;
 
 
 import engine.ScoreBoard;
-
 import engine.calculations.DamageCalculation;
-import graphics.debugger.Debugger;
-import engine.entities.*;
+import engine.controller.RespawnController;
+import engine.entities.CollisionDetection;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
+import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.PauseController;
+import graphics.userInterface.controllers.HUDController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +36,7 @@ import server.controllers.PowerUpController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientBoard {
 
@@ -76,7 +80,7 @@ public class ClientBoard {
 
 		// change cursor
         Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
-        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
+        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
         scene.setCursor(iC);
 
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
@@ -118,6 +122,9 @@ public class ClientBoard {
         }.start();
         Thread puController = new Thread(new PowerUpController(gameState.getObjects()));
         puController.start();
+        // Respawn Controller
+        Thread respawnController = new Thread(new RespawnController(gameState));
+        respawnController.start();
     }
 
     public void startGame() {
@@ -173,7 +180,6 @@ public class ClientBoard {
         doHitDetection();
         doUpdates();
         deathHandler();
-        //System.out.println(gameState.getScoreBoard().getTotalKills());
 
     }
 
@@ -189,12 +195,9 @@ public class ClientBoard {
 
     // TODO: Implement
     private void deathHandler() {
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
-        ArrayList<Player> deadPlayers = gameState.getDeadPlayers();
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
+        LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
-
         synchronized (deadPlayers) {
             for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
                 Player player = itr.next();
@@ -202,14 +205,17 @@ public class ClientBoard {
                 if (!deadPlayers.contains(player)) {
                     if (!player.isAlive()) {
                         // Add to dead list
-                        deadPlayers.add(player);
+                        deadPlayers.offer(player);
                         // Add kills to scoreboard
                         scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
-                        //TODO: Respawn or something based off game mode
+                        //if dead teleport player off screen
+                        player.setLocation(new Point2D(5000, 5000));
 
                     }
                 }
             }
+
+
         }
     }
 
@@ -224,15 +230,11 @@ public class ClientBoard {
     private void doCollisionDetection() {
 
         ArrayList<PhysicsObject> objects = gameState.getObjects();
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
 
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            ArrayList<Player> otherPlayers = new ArrayList<>();
-            otherPlayers.addAll(allPlayers);
             Player player = itr.next();
-            otherPlayers.remove(player);
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
             synchronized (objects) {
                 // Collision detection code
                 player.canUp = true;
@@ -245,9 +247,8 @@ public class ClientBoard {
                 player.canDownCart = true;
                 Point2D previousLocation = player.getLocation();
                 Player projectedPlayer = new Player(ObjectType.PLAYER);
-                ArrayList<PhysicsObject> otherObjects = new ArrayList<>();
-                otherObjects.addAll(objects);
-                otherObjects.remove(player);
+
+                ArrayList<PhysicsObject> otherObjects = gameState.getOtherObjects(player);
                 for (Iterator<PhysicsObject> itr1 = otherObjects.iterator(); itr1.hasNext(); ) {
                     PhysicsObject e = itr1.next();
                     // Check if the moving in a certain direction will cause a collision
@@ -280,8 +281,8 @@ public class ClientBoard {
                             // This line of code seems to cause a bug
                             //                        gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
-                                System.out.println(player + " Collided with " + e);
-                                System.out.println("Collided with itself");
+                                //                                System.out.println(player + " Collided with " + e);
+                                //                                System.out.println("Collided with itself");
                             }
                         }
 
@@ -292,7 +293,7 @@ public class ClientBoard {
                                 if (CollisionDetection.checkCollision(projectedPlayer, e)) {
                                     Point2D newLocation = previousLocation;
                                     // if on the right hand side of the other player
-                                    if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX()) {
+                                    if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX() && e.getBounds().getBoundsInParent().getMaxY() >= player.getLocation().getY()) {
                                         double adjacent = player.getLocation().getX()
                                                 - e.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -301,7 +302,7 @@ public class ClientBoard {
                                         newLocation = newLocation.add(collisionOffset, collisionOffset);
                                     }
                                     // if on the left hand side of the other player
-                                    if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX()) {
+                                    if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX() && e.getBounds().getBoundsInParent().getMaxY() < player.getLocation().getY()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMaxY()
                                                 - player.getLocation().getY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -325,7 +326,8 @@ public class ClientBoard {
                                     Point2D newLocation = previousLocation;
                                     // if on the right hand side of the other player
                                     if (player.getBounds().getBoundsInParent().getMaxY() <= e.getBounds()
-                                            .getBoundsInParent().getMinY()) {
+                                            .getBoundsInParent().getMinY() && player.getBounds().getBoundsInParent().getMaxX() <= e.getBounds()
+                                            .getBoundsInParent().getMinX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinY()
                                                 - player.getBounds().getBoundsInParent().getMaxY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -335,8 +337,9 @@ public class ClientBoard {
                                     }
 
                                     // if on the left hand side of the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds().getBoundsInParent()
-                                            .getMinY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds()
+                                            .getBoundsInParent().getMinY() && player.getBounds().getBoundsInParent().getMaxX() > e.getBounds()
+                                            .getBoundsInParent().getMinX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinX()
                                                 - player.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -359,7 +362,7 @@ public class ClientBoard {
                                     // test every the most amount of movement before it collides
                                     Point2D newLocation = player.getLocation();
                                     // if above the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY() && player.getLocation().getX() >= e.getBounds().getBoundsInParent().getMaxX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinY()
                                                 - player.getBounds().getBoundsInParent().getMaxY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -369,7 +372,7 @@ public class ClientBoard {
                                     }
 
                                     // if below the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY() && player.getLocation().getX() < e.getBounds().getBoundsInParent().getMaxX()) {
 
                                         double opposite = player.getLocation().getX()
                                                 - e.getBounds().getBoundsInParent().getMaxX();
@@ -393,7 +396,7 @@ public class ClientBoard {
                                     // test every the most amount of movement before it collides
                                     Point2D newLocation = player.getLocation();
                                     // if above the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX() && player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY() ) {
                                         double adjacent = e.getLocation().getX()
                                                 - player.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -404,7 +407,7 @@ public class ClientBoard {
                                     }
 
                                     // if below the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX() && player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
                                         double opposite = player.getLocation().getY()
                                                 - e.getBounds().getBoundsInParent().getMaxY();
                                         double adjacent = (opposite * Math.tan(Math.toRadians(45)));
@@ -490,15 +493,10 @@ public class ClientBoard {
     }
 
     private void doHitDetection() {
-        ArrayList<PhysicsObject> objects = gameState.getObjects();
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            ArrayList<Player> otherPlayers = new ArrayList<>();
-            otherPlayers.addAll(allPlayers);
             Player player = itr.next();
-            otherPlayers.remove(player);
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
             // Loop through all enemies to detect hit detection
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 PhysicsObject e = itr1.next();
@@ -511,8 +509,8 @@ public class ClientBoard {
                         // this will have to change due to Player being other controlled player when
                         // Enemy is when the player is an ai
                         Player enemy = (Player) e;
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy),enemy);
-                        //player.setCurrentAction(Action.IDLE);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
+                        player.setCurrentAction(Action.IDLE);
                         //System.out.println("hit");
                         // Sends to server
                     }
@@ -524,8 +522,8 @@ public class ClientBoard {
                         // e takes damage
                         Player enemy = (Player) e;
                         // TODO: For now its takes 10 damage, change later
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy),enemy);
-                        //player.setCurrentAction(Action.IDLE);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
+                        player.setCurrentAction(Action.IDLE);
                         //System.out.println("heavy hit");
                         // Sends to server
                     }

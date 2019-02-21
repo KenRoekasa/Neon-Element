@@ -59,4 +59,8 @@ public class Player extends Character {
 
         this.location.add(x - X, y - Y);
     }
+
+    public void setID(int i) {
+        this.id = i;
+    }
 }

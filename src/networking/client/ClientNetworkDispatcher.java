@@ -40,7 +40,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     
     protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
         PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
-        this.gameState.getEntities().add(powerUp);
+        this.gameState.getObjects().add(powerUp);
     }
 
     protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
@@ -50,7 +50,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             double x = packet.getX();
             double y = packet.getY();
             
-            Player player = this.gameState.getEnemies().stream()
+            Player player = this.gameState.getObjects().stream()
                 .filter(p -> p.getTag().equals(ObjectType.PLAYER))
                 .map(p -> (Player) p)
                 .filter(p -> p.getId() == id)

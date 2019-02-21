@@ -69,15 +69,15 @@ public class Renderer {
         DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
 
         //sort based on proximity to the view (greater y is later)
-        ArrayList<PhysicsObject> objects = sortDistance(gameState.getEntities());
+        ArrayList<PhysicsObject> objects = sortDistance(gameState.getObjects());
 
         // draw all objects
         for (PhysicsObject o : objects) {
             renderObject(o, gameState);
         }
 
-        // draw cursors and attacks to ensure on top
-        for (Character e : gameState.getEnemies()) {
+        // draw cursors to ensure on top
+        for (Character e : gameState.getOtherPlayers(gameState.getPlayer())) {
             DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
             if(!(e.getCurrentAction() == Action.IDLE)) {
                 ActionSwitch(e.getCurrentAction(), e, gameState);

@@ -52,7 +52,7 @@ public class Debugger {
     public void simpleGSDebugger(ClientGameState gameState, Debugger debugger) {
         debugger.add(gameState.getPlayer().toString(), 4);
 
-        for (Player enemy: gameState.getEnemies()){
+        for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
             debugger.add(enemy.toString(), 4);
         }
 
@@ -64,7 +64,7 @@ public class Debugger {
         Point2D stageCenter = new Point2D(stage.getWidth()/2, stage.getHeight()/2 + 20);
         printPlayerInfo(gameState.getPlayer(), stageCenter);
 
-        for (Player enemy: gameState.getEnemies()){
+        for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
 
             Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy, gameState.getPlayer().getLocation());
 
