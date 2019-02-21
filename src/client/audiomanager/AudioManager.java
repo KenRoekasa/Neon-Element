@@ -15,8 +15,7 @@ public class AudioManager {
         soundLibray = new HashMap<>();
 
         for(Sound sound: Sound.values()){
-            String location = "audio/" + sound.toString() + ".mp3";
-            System.out.println(location);
+            String location = sound.getPath();
 
             Media audioFile = new Media(new File(location).toURI().toString());
             MediaPlayer mp = new MediaPlayer(audioFile);
@@ -52,6 +51,5 @@ public class AudioManager {
     public void setVolume(double volume) {
         this.volume = volume;
     }
-
-
+    
 }
