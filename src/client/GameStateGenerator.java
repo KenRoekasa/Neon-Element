@@ -96,7 +96,15 @@ public class GameStateGenerator {
             enemies.add(aiCon.getAiPlayer() );
         }
         for (int i = 0; i < num_enm; i++) {
-            enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
+
+            if(i == 0) {
+                enemies.get(i).setLocation(new Point2D(map.getWidth() - map.getWidth()/10, map.getHeight() - map.getHeight()/10));
+            } else if (i == 1) {
+                enemies.get(i).setLocation(new Point2D(0 +  map.getWidth()/10, map.getHeight() - map.getHeight()/10));
+            } else if (i == 2) {
+                enemies.get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
+            }
+
             enemies.get(i).setID(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
