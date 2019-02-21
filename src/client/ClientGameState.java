@@ -4,6 +4,7 @@ import engine.GameState;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.ScoreBoard;
+import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;
 
 
@@ -15,19 +16,10 @@ public class ClientGameState extends GameState {
 
     private Player player;
 
-    public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard) {
-        super(map, objects, deadPlayers, scoreboard);
+    public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType) {
+        super(map, objects, deadPlayers, scoreboard,gameType);
         this.player = player;
     }
-
-    public Rectangle getMap() {
-        return map;
-    }
-
-    public void setMap(Rectangle map) {
-        this.map = map;
-    }
-
 
     public Player getPlayer() {
         return player;
@@ -35,10 +27,6 @@ public class ClientGameState extends GameState {
 
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-    public ArrayList<Player> getAllPlayers() {
-        return allPlayers;
     }
 
 

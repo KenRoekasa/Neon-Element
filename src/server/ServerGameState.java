@@ -3,19 +3,20 @@ package server;
 import engine.GameState;
 import engine.ScoreBoard;
 import engine.entities.*;
+import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerGameState extends GameState {
-    
+
     private final int MAX_PLAYERS = 10;
 
     private boolean isStarted;
 
-    public ServerGameState(Rectangle map, LinkedBlockingQueue<Player> deadPlayers, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard){
-        super(map,objects,deadPlayers,scoreBoard);
+    public ServerGameState(Rectangle map, LinkedBlockingQueue<Player> deadPlayers, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard,GameType gameType){
+        super(map,objects,deadPlayers,scoreBoard, gameType);
         this.startTime = System.currentTimeMillis();
     }
 
