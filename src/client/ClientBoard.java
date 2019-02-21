@@ -13,6 +13,7 @@ import engine.enums.ObjectType;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.HUDController;
+import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
