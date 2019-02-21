@@ -14,27 +14,44 @@ public class AiFSM {
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take a heal power up
-		if(  aiCon.powerupCloserThanPlayer() && aiPlayerHP<maxHP && aiCon.findNearestPowerUp(PowerUpType.HEAL) != -1 ) {
+		
+		if(  aiCon.powerupCloserThanPlayer() && aiPlayerHP<maxHP && aiCon.findNearestPowerUp(PowerUpType.HEAL) != -1 ) {//System.out.println("case 1");
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
-		
+	
 		//case 2, run for your life
-		else if(aiPlayerHP < (maxHP/10) ) {
+		else if(aiPlayerHP < (maxHP/10) ) {//System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
 		//case 3, FINISH HIM
-		else if (playerHP < (maxHP/3)) {
+		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}		
 		
 		//case 4, normal attacking
-		else if (aiPlayerHP > playerHP) {
+		else if ( aiCon.playerIsTooClose() || aiPlayerHP > playerHP  ) {
+			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
 			aiCon.setState(AiStates.ATTACK);
 		}
+	
+		//case5, take the power up on your way
+		else if (aiCon.powerupIsTooClose()) {//System.out.println("case 5");
+			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
+			case DAMAGE:
+				aiCon.setState(AiStates.FIND_DAMAGE);
+				break;
+			case HEAL:
+				aiCon.setState(AiStates.FIND_HEALTH);
+				break;
+			case SPEED:
+				aiCon.setState(AiStates.FIND_SPEED);
+				break;
+			}
+		}
 		
-		//case 5, 'random action', either fix on one player and attack, or wander for 5 seconds
-		else {
+		//case 6, 'random action', either fix on one player and attack, or wander for 5 seconds
+		else {//System.out.println("case 6");
 			aiCon.setState(AiStates.WANDER);
 		}
 		//element gets changed randomly every 15 seconds
@@ -49,7 +66,7 @@ public class AiFSM {
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up
-		if( aiCon.powerupCloserThanPlayer() ) {
+		if( aiCon.powerupIsTooClose() || aiCon.powerupCloserThanPlayer() ) {
 		//	System.out.println("case 1");
 			switch(aiCon.getPowerups().get(aiCon.findNearestPowerUp()).getType()) {
 			case DAMAGE:
