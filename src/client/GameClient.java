@@ -53,10 +53,6 @@ public class GameClient {
         this.gameState = gameState;
         this.clientNetworkThread = new clientNetworkThread(gameState);
 
-        if(online) {
-            this.clientNetworkThread = new clientNetworkThread(gameState);
-        }
-
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
@@ -100,7 +96,9 @@ public class GameClient {
         // initialise input controls
         initialiseInput(scene, renderer);
 
-        beginClientLoop(renderer, online);
+        if(!online) {
+            beginClientLoop(renderer);
+        }
 
         // this.clientNetworkThread = new clientNetworkThread(gameState);
         // clientNetworkThread.run();
@@ -110,15 +108,7 @@ public class GameClient {
         return scene;
     }
 
-    private void beginClientLoop(Renderer renderer, boolean online) {
-
-        if(online) {
-
-            while(!gameState.getRunning()) {
-
-            }
-        }
-
+    private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
@@ -142,7 +132,7 @@ public class GameClient {
 
     }
 
-    public void startGame() {
+    public void startNetwork() {
         this.clientNetworkThread.start();
     }
 
