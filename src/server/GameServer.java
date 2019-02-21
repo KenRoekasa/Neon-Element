@@ -1,22 +1,17 @@
 package server;
 
-import static enums.Directions.LEFTCART;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import entities.CollisionDetection;
-import entities.Enemy;
-import entities.PhysicsObject;
-import entities.Player;
-import entities.PowerUp;
-import enums.Action;
-import enums.ObjectType;
+import engine.GameTypeHandler;
+import engine.entities.CollisionDetection;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.Action;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
-import server.ServerGameState;
 import server.controllers.PowerUpController;
 
 public class GameServer extends Thread {
@@ -42,6 +37,11 @@ public class GameServer extends Thread {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
+
+
+            this.running = GameTypeHandler.checkRunning(gameState);
+
+            Thread.yield();
             this.sendLocations();
 
             try {
@@ -61,7 +61,7 @@ public class GameServer extends Thread {
         synchronized (objects) {
             // Collision detection code
             Player projectedPlayer = new Player(ObjectType.PLAYER);
-            for (Iterator<Player> playerItr = gameState.getPlayers().iterator(); playerItr.hasNext(); ) {
+            for (Iterator<Player> playerItr = gameState.getAllPlayers().iterator(); playerItr.hasNext(); ) {
                 Player player = playerItr.next();
                 player.canUp = true;
                 player.canLeft = true;
@@ -180,21 +180,21 @@ public class GameServer extends Thread {
 
 
                 // Loop through all enemies to detect hit detection
-                ArrayList<Enemy> enemies = gameState.getAis();
+                ArrayList<Player> enemies = gameState.getOtherPlayers(player);
                 synchronized (enemies) {
-                    for (Iterator<Enemy> itr = enemies.iterator(); itr.hasNext(); ) {
+                    for (Iterator<Player> itr = enemies.iterator(); itr.hasNext(); ) {
                         PhysicsObject e = itr.next();
                         //Attack Collision
                         //if player is light attacking
                         if (player.getCurrentAction() == Action.LIGHT) {
                             if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                                 // e takes damage
-                                // this will have to change due to Player being other controlled player when Enemy is when the player is an ai
-                                Enemy enemy = (Enemy) e;
+                                // this will have to change due to Player being other controlled player when Enemy is when the player is an engine.ai
+                                Player enemy = (Player) e;
                                 // TODO: For now its takes 3 damage, change later
                                 enemy.removeHealth(3);
                                 player.setCurrentAction(Action.IDLE);
-                                System.out.println("hit");
+//                                System.out.println("hit");
                                 // Sends to server
                             }
 
@@ -202,11 +202,11 @@ public class GameServer extends Thread {
                         if (player.getCurrentAction() == Action.HEAVY) {
                             if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
                                 // e takes damage
-                                Enemy enemy = (Enemy) e;
+                                Player enemy = (Player) e;
                                 // TODO: For now its takes 10 damage, change later
                                 enemy.removeHealth(10);
                                 player.setCurrentAction(Action.IDLE);
-                                System.out.println("heavy hit");
+//                                System.out.println("heavy hit");
                                 // Sends to server
                             }
                         }
@@ -219,7 +219,7 @@ public class GameServer extends Thread {
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
             //Call update function for all physics objects
-            for (Player p : gameState.getPlayers()) {
+            for (Player p : gameState.getAllPlayers()) {
                 p.update();
             }
             for (PhysicsObject o : gameState.getObjects()) {
@@ -229,8 +229,8 @@ public class GameServer extends Thread {
     }
     
     private void sendLocations() {
-        synchronized (gameState.getPlayers()) {
-            for (Player p : gameState.getPlayers()) {
+        synchronized (gameState.getAllPlayers()) {
+            for (Player p : gameState.getAllPlayers()) {
                 Point2D location = p.getLocation();
                 double x = location.getX();
                 double y = location.getY();

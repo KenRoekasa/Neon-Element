@@ -1,7 +1,7 @@
-import entities.CollisionDetection;
-import entities.Player;
-import enums.Action;
-import enums.ObjectType;
+import engine.entities.CollisionDetection;
+import engine.entities.Player;
+import engine.enums.Action;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import org.junit.Test;
 
@@ -102,7 +102,7 @@ public class DamageTest {
                 }
             }
         })).start();
-        player.heavyAttack();
+        player.chargeHeavyAttack();
         assertEquals(90, enemy.getHealth(), 0);
     }
 

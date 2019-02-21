@@ -1,44 +1,23 @@
 package client;
 
-import entities.Enemy;
-import entities.PhysicsObject;
-import entities.Player;
-import entities.Character;
-import enums.ObjectType;
+import engine.GameState;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.ScoreBoard;
 import javafx.scene.shape.Rectangle;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class ClientGameState {
-    /** Me */
+public class ClientGameState extends GameState {
+
+
     private Player player;
-    private ArrayList<Character> enemies;
-    private Rectangle map;
-    private ArrayList<PhysicsObject> objects;
 
-    public ClientGameState(Player player, ArrayList<Character> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
+    public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard) {
+        super(map, objects, deadPlayers, scoreboard);
         this.player = player;
-        this.enemies = enemies;
-        this.map = map;
-        this.objects = objects;
-        
-    }
-
-    public void start() {
-//    	for (Character enemy : enemies) {
-//    	    if (enemy.getTag() == ObjectType.ENEMY) {
-//    	        ((Enemy) enemy).startBasicAI();
-//    	    }
-//		}
-    }
-    
-    public ArrayList<PhysicsObject> getEntities(){
-
-        ArrayList<PhysicsObject> ents = new ArrayList<>(objects);
-        ents.add(player);
-
-        return ents;
     }
 
     public Rectangle getMap() {
@@ -49,13 +28,6 @@ public class ClientGameState {
         this.map = map;
     }
 
-    public ArrayList<Character> getEnemies() {
-        return enemies;
-    }
-
-    public void setEnemies(ArrayList<Character> enemies) {
-        this.enemies = enemies;
-    }
 
     public Player getPlayer() {
         return player;
@@ -65,11 +37,9 @@ public class ClientGameState {
         this.player = player;
     }
 
-    public ArrayList<PhysicsObject> getObjects() {
-        return objects;
+    public ArrayList<Player> getAllPlayers() {
+        return allPlayers;
     }
 
-    public void setObjects(ArrayList<PhysicsObject> objects) {
-        this.objects = objects;
-    }
+
 }

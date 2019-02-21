@@ -1,45 +1,22 @@
 package server;
 
-import entities.*;
+import engine.GameState;
+import engine.ScoreBoard;
+import engine.entities.*;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class ServerGameState {
+public class ServerGameState extends GameState {
     
     private final int MAX_PLAYERS = 10;
 
     private boolean isStarted;
-    private ArrayList<Player> players;
-    private ArrayList<Enemy> ais;
-    private Rectangle map;
-    private ArrayList<PhysicsObject> objects;
 
-    public ServerGameState(ArrayList<Player> players, ArrayList<Enemy> ais, Rectangle map, ArrayList<PhysicsObject> objects){
-        this.players = players;
-        this.ais = ais;
-        this.map = map;
-        this.objects = objects;
-    }
-
-    public Rectangle getMap() {
-        return map;
-    }
-
-    public void setMap(Rectangle map) {
-        this.map = map;
-    }
-
-    public ArrayList<Enemy> getAis() {
-        return ais;
-    }
-
-    public void setAis(ArrayList<Enemy> ais) {
-        this.ais = ais;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public ServerGameState(Rectangle map, LinkedBlockingQueue<Player> deadPlayers, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard){
+        super(map,objects,deadPlayers,scoreBoard);
+        this.startTime = System.currentTimeMillis();
     }
 
     public int getMaxPlayers() {
@@ -48,15 +25,7 @@ public class ServerGameState {
     }
 
     public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-    public ArrayList<PhysicsObject> getObjects() {
-        return objects;
-    }
-
-    public void setObjects(ArrayList<PhysicsObject> objects) {
-        this.objects = objects;
+        this.allPlayers = players;
     }
 
     public boolean isStarted() {

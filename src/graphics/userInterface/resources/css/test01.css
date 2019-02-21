@@ -1,0 +1,63 @@
+.background{
+    -fx-background-color: #142b44;
+}
+
+.background_transparent{
+    -fx-background-color: transparent;
+
+}
+
+.text{
+    -fx-text-fill: white;
+}
+
+.title{
+    -fx-font-family: "Comic Sans MS";
+    -fx-border-color: WHITE;
+}
+
+.button_round{
+    -fx-font-family: "Arial Black";
+    -fx-background-radius: 15;
+    -fx-font-size: 13pt;
+}
+
+.button_cute{
+    -fx-font-family: "Comic Sans MS"; /*round and cute*/
+    -fx-background-radius: 13px;
+    -fx-font-size: 18pt;
+}
+
+.button{
+    -fx-font-family: "Super Mario Bros.";
+    -fx-background-radius: 13px;
+    -fx-font-size: 18pt;
+}
+
+/*for jump button*/
+.button_small{
+    -fx-font-family: "Super Mario Bros.";
+    -fx-background-radius: 13px;
+    -fx-font-size: 13pt;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 10pt;
+}
+.label_big{
+    -fx-text-fill: white;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 13pt;
+
+}
+
+.radio-button{
+    -fx-text-fill: white;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 10pt;
+}
+
+
+
