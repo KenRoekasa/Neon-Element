@@ -48,7 +48,7 @@ class DrawStates {
         long finishAlphaValue = 80;
         float percentCharged = (Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, finishAlphaValue, startAlphaValue)) / 100f;
         //todo get this from player class
-        double attackRadius = 200;
+        double attackRadius = 300;
 
         gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));

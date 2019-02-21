@@ -21,6 +21,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Implement respawning
 - doCollisionDetection(); doHitDetection(); deathHandler(); make one for loop where allplayers is passed in
 - Heavy attacks only hit one person
+- make ai attacks speed limited, whilst player attacks should be uncapped
 
 
 # Renderer

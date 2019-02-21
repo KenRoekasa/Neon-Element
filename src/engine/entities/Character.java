@@ -399,7 +399,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, 200);
+        return new Circle(location.getX() + width, location.getY() + width, 300);
     }
 
     public Directions getCharacterDirection() {

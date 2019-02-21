@@ -14,6 +14,7 @@ import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.GameOverController;
 import graphics.userInterface.controllers.MenuController;
 import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
@@ -135,10 +136,12 @@ public class GameClient {
                 if(!gameState.getRunning()) {
                     stop();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userinterface/fxmls/game_over.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_over.fxml"));
                     try {
                         Pane root = loader.load();
                         primaryStage.getScene().setRoot(root);
+                        GameOverController controller = loader.getController();
+                        controller.setStage(primaryStage);
 
                         primaryStage.getScene().setCursor(Cursor.DEFAULT);
 

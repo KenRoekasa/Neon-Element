@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.ScoreBoard;
 import engine.calculations.AttackTimes;
 import client.ClientGameState;
 import graphics.debugger.Debugger;
@@ -98,6 +99,7 @@ public class Renderer {
 
             gc.restore();
             debugger.gameStateDebugger(gameState, stageSize);
+            //debugger.simpleGSDebugger(gameState, debugger);
         } else {
 
             gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
@@ -105,10 +107,37 @@ public class Renderer {
             gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
             gc.restore();
         }
-        debugger.add(gameState.getScoreBoard().toString(), 4);
+
+        printScoreBoard(gc, gameState.getScoreBoard());
 
         debugger.print();
     }
+
+
+    private void printScoreBoard(GraphicsContext gc,  ScoreBoard scoreboard) {
+        gc.save();
+        ArrayList<Integer> leaderboard = scoreboard.getLeaderBoard();
+        gc.setStroke(Color.WHITE);
+        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 25));
+
+        int startY = 140;
+
+        gc.strokeText("Leaderboard:", 25, startY - 40);
+
+
+        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
+        for(int i = 0; i < leaderboard.size(); i++) {
+
+            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerKills(leaderboard.get(i));
+            gc.strokeText(string, 25, startY + i * 40);
+        }
+
+        gc.restore();
+    }
+
+
+
+
 
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
