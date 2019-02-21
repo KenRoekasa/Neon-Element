@@ -49,6 +49,13 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
+    void receiveGameStart(BroadCastGameStartPacket packet) {
+        // todo include gamestate in this packet
+        this.gameState.start();
+
+
+    }
+
     protected void receiveConnectAck(ConnectAckPacket packet) {
         switch (packet.getStatus()) {
             case ERR_GAME_STARTED:
@@ -61,7 +68,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
                 break;
         }
     }
-    
+
     protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
         Player player = new Player(ObjectType.PLAYER);
         player.setId(packet.getId());
@@ -69,7 +76,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         this.gameState.getOtherPlayers(player).add(player);
         this.gameState.getObjects().add(player);
     }
-    
+
     protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
         PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
         this.gameState.getObjects().add(powerUp);
@@ -79,7 +86,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
-            
+
             Player player = this.gameState.getObjects().stream()
                 .filter(p -> p.getTag().equals(ObjectType.PLAYER))
                 .map(p -> (Player) p)
@@ -94,6 +101,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             }
         }
     }
+
 
     public void sendLocationState(double x, double y) {
         try {
