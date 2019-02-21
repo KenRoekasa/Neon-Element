@@ -105,7 +105,7 @@ public class GameStateGenerator {
                 enemies.get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
             }
 
-            enemies.get(i).setID(i);
+            enemies.get(i).setId(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
@@ -117,7 +117,7 @@ public class GameStateGenerator {
 
         ScoreBoard scoreboard = new ScoreBoard();
         // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(1);
+        GameType gameType = new FirstToXKillsGame(3);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 
