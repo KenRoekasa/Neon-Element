@@ -1,5 +1,7 @@
 package client.audiomanager;
 
+import engine.enums.Action;
+
 public enum Sound {
     LIGHT_ATTACK("audio/light_attack.mp3"),
     HEAVY_ATTACK("audio/heavy_attack.mp3"),
@@ -16,6 +18,22 @@ public enum Sound {
 
     public String getPath() {
         return path;
+    }
+
+
+    // todo expand
+    public static Sound switchSound(Action action){
+        switch (action){
+            case LIGHT:
+                return Sound.LIGHT_ATTACK;
+            case HEAVY:
+                return Sound.HEAVY_ATTACK;
+            case BLOCK:
+                return Sound.SHIELD;
+            case CHARGE:
+                return Sound.CHARGE;
+        }
+        return null;
     }
 
 

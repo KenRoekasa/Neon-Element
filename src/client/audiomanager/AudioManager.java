@@ -51,5 +51,5 @@ public class AudioManager {
     public void setVolume(double volume) {
         this.volume = volume;
     }
-    
+
 }
