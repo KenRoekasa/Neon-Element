@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -98,6 +99,8 @@ public class Renderer {
             gc.restore();
             debugger.gameStateDebugger(gameState, stageSize);
         } else {
+
+            gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
             gc.setStroke(Color.WHITE);
             gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
             gc.restore();
