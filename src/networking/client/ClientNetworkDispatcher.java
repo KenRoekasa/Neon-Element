@@ -8,6 +8,7 @@ import client.ClientGameState;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
@@ -35,7 +36,8 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     protected void receiveHelloAck(HelloAckPacket packet) {
         int players = packet.getPlayers();
         int maxPlayers = packet.getMaxPlayers();
-        System.out.println("Got players: " + players + " max: " + maxPlayers);
+        GameType gameType = packet.getGameType();
+        this.gameState.setGameType(gameType);
     }
 
     public void sendConnect() {

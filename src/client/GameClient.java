@@ -14,11 +14,13 @@ import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.MenuController;
 import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -122,6 +124,7 @@ public class GameClient {
             }
         }
 
+        gameState.start();
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
@@ -131,6 +134,21 @@ public class GameClient {
 
                 if(!gameState.getRunning()) {
                     stop();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/game_over.fxml"));
+                    try {
+                        Pane root = loader.load();
+                        primaryStage.getScene().setRoot(root);
+
+                        primaryStage.getScene().setCursor(Cursor.DEFAULT);
+
+                        primaryStage.setTitle("Game Over!");
+                        gameState.stop();
+
+                    } catch (IOException e) {
+                        System.out.println("crush in loading menu board ");
+                        e.printStackTrace();
+                    }
                 }
 
 
@@ -179,6 +197,9 @@ public class GameClient {
                     hudPane.getChildren().add(node);
                     node.setBackground(Background.EMPTY);
                     PauseController controller = loader.getController();
+                    controller.setHudPane(hudPane);
+                    controller.setNode(node);
+                    controller.setStageSize(stageSize);
                     controller.setStage(primaryStage, gameState);
                     primaryStage.setTitle("Pause");
 
