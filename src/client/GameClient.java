@@ -135,9 +135,7 @@ public class GameClient {
 
     public void startNetwork() {
         this.clientNetworkThread.start();
-        while (!this.gameState.getRunning()) {
-            
-        }
+        this.gameState.start();
         beginClientLoop(renderer);
     }
 
