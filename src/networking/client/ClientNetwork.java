@@ -62,6 +62,7 @@ public class ClientNetwork {
                 this.dispatcher.receiveConnectAck((ConnectAckPacket) packet);
                 break;
             case GAME_START_BCAST:
+                this.dispatcher.receiveGameStart((BroadCastGameStartPacket) packet);
                 break;
             case LOCATION_STATE_BCAST:
                 this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);

@@ -1,6 +1,6 @@
 package graphics.userInterface.controllers;
 
-import client.ClientBoard;
+import client.GameClient;
 
 import client.ClientGameState;
 import javafx.event.ActionEvent;
@@ -29,7 +29,7 @@ public class HostController {
         //g.getPlayer().getHealth();
         try {
             boolean networked = false;
-            ClientBoard gameBoard = new ClientBoard(stage, gameState, networked);
+            GameClient gameBoard = new GameClient(stage, gameState, networked);
             Scene scene = gameBoard.getScene();
 
         } catch (Exception e) {

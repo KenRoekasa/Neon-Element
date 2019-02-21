@@ -1,6 +1,6 @@
 package graphics.userInterface.controllers;
 
-import client.ClientBoard;
+import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
@@ -29,7 +29,7 @@ public class JoinController {
         //g.getPlayer().getHealth();
         try {
             boolean networked = true;
-            ClientBoard gameBoard = new ClientBoard(stage, gameState, networked);
+            GameClient gameBoard = new GameClient(stage, gameState, networked);
             Scene scene = gameBoard.getScene();
             gameBoard.startGame();
         } catch (Exception e) {

@@ -4,6 +4,9 @@ alien8
 
 https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 
+#Do not forget
+- Threads need to be killed properly and gracefully 
+
 ## Tasks
 - Enemy class can only be engine.ai not player controlled enemies. Sort this out 
 - Dealing damage to other players with damage calculation

@@ -11,6 +11,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class GameState {
     protected Rectangle map;
+
+    private boolean isRunning;
+
     /**
      * All Physics objects
      */
@@ -23,7 +26,6 @@ public abstract class GameState {
     protected ScoreBoard scoreBoard;
     protected LinkedBlockingQueue deadPlayers;
     protected ArrayList<Player> allPlayers = new ArrayList<>();
-
 
     public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType){
         this.objects = objects;
@@ -106,5 +108,17 @@ public abstract class GameState {
         otherObjects.addAll(objects);
         otherObjects.remove(object);
         return otherObjects;
+    }
+
+    public void start() {
+        isRunning = true;
+    }
+
+    public void stop(){
+        isRunning = false;
+    }
+
+    public boolean getRunning(){
+        return isRunning;
     }
 }

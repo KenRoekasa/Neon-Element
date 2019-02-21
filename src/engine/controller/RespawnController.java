@@ -18,7 +18,7 @@ public class RespawnController implements Runnable {
     @Override
     public void run() {
         //TODO: change when game has ended etc...
-        while (true) {
+        while (gameState.getRunning()) {
             //TODO: If statement based on game type to determine how respawns works based on the game mode
             normalRespawn();
         }
