@@ -8,11 +8,12 @@ public class TextureLoader {
 
     public static HashMap<String, Image> loadTextures() {
         HashMap<String, Image> values = new HashMap<>();
-        Image background = new Image("graphics/rendering/textures/moon.png");
-        Image hardBackground = new Image("graphics/rendering/textures/moon.png", background.getRequestedWidth(), background.getRequestedHeight(), false, false);
+        Image cursor = new Image("graphics/rendering/textures/pointer.png");
+        // reload forcing no sharpening
+        Image hardBackground = new Image("graphics/rendering/textures/pointer.png", cursor.getRequestedWidth(), cursor.getRequestedHeight(), false, false);
 
 
-        values.put("background", hardBackground);
+        values.put("pointer", hardBackground);
 
         return  values;
     }

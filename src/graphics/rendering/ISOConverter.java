@@ -12,7 +12,6 @@ import static javafx.scene.transform.Rotate.X_AXIS;
 
 public class ISOConverter {
 
-
     public static Point2D isoTo2D(Point2D point) {
         double x = (2 * point.getY() + point.getX()) / 2;
         double y = (2 * point.getY()- point.getX()) / 2;
@@ -37,14 +36,11 @@ public class ISOConverter {
 
 
     static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter) {
-        gc.save();
-
         Affine a = getTransformationAffine(playerCenter);
-
         gc.transform(a);
     }
 
-    public static Affine getTransformationAffine(Point2D playerCenter){
+    private static Affine getTransformationAffine(Point2D playerCenter){
         Affine affine = new Affine();
 
         Rotate rotateX = new Rotate(45, playerCenter.getX(), playerCenter.getY());
@@ -59,7 +55,6 @@ public class ISOConverter {
 
     static void applyAngleRotation(GraphicsContext gc, long angle, Point2D rotationCenter) {
 
-        gc.save();
         Affine affine = new Affine();
         affine.prependRotation(angle, rotationCenter.getX(), rotationCenter.getY());
         gc.transform(affine);

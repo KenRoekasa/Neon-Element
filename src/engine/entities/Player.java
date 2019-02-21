@@ -13,14 +13,13 @@ public class Player extends Character {
     private int id;
 
 
-
     public Player(ObjectType type) {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
         canUp = canDown = canLeft = canRight = canUpCart = canDownCart = canLeftCart = canRightCart = true;
-        movementSpeed = 5;
+        movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;

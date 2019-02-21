@@ -4,11 +4,17 @@ import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
 import engine.enums.Elements;
+import graphics.userInterface.controllers.MenuController;
+import graphics.userInterface.controllers.PauseController;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +38,7 @@ public abstract class Character extends PhysicsObject {
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
+    public static final int DEFAULT_MOVEMENT_SPEED = 5;
 
     public Player getLastAttacker() {
         return lastAttacker;
@@ -435,5 +442,4 @@ public abstract class Character extends PhysicsObject {
 			e.printStackTrace();
 		}
 	}
-
 }

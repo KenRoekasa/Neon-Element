@@ -36,6 +36,7 @@ public class MenuController implements Initializable{
         // todo make this configurable
         
       //select mode
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
 
         try {
