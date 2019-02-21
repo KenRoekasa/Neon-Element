@@ -1,8 +1,9 @@
 package client;
 
 import engine.GameState;
-import entities.PhysicsObject;
-import entities.Player;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.ScoreBoard;
 import javafx.scene.shape.Rectangle;
 
 
@@ -13,14 +14,16 @@ public class ClientGameState extends GameState {
     private ArrayList<Player> enemies;
 
 
-    public ClientGameState(Player player, ArrayList<Player> enemies, Rectangle map, ArrayList<PhysicsObject> objects){
+
+    public ClientGameState(Player player, ArrayList<Player> enemies, Rectangle map, ArrayList<PhysicsObject> objects, ArrayList<Player> deadPlayers, ScoreBoard scoreboard){
         this.player = player;
         this.enemies = enemies;
         this.map = map;
         this.objects = objects;
-        
-    }
+        this.deadPlayers = deadPlayers;
+        this.scoreBoard = scoreboard;
 
+    }
  
     
     public ArrayList<PhysicsObject> getEntities(){

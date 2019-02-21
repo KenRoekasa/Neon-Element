@@ -1,7 +1,8 @@
 package engine;
 
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
 import engine.gameTypes.GameType;
-import entities.PhysicsObject;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -14,6 +15,13 @@ public abstract class GameState {
 
 
 
+    protected ScoreBoard scoreBoard;
+    protected ArrayList<Player> deadPlayers;
+
+    public ScoreBoard getScoreBoard() {
+        return scoreBoard;
+    }
+
     public GameType getGameType() {
         return gameType;
     }
@@ -21,7 +29,9 @@ public abstract class GameState {
     public void setGameType(GameType gameType) {
         this.gameType = gameType;
     }
-
+    public ArrayList<Player> getDeadPlayers() {
+        return deadPlayers;
+    }
 
     public Rectangle getMap() {
         return map;
@@ -46,4 +56,6 @@ public abstract class GameState {
     public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
+
+
 }

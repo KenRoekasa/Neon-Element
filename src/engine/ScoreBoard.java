@@ -7,11 +7,17 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 public class ScoreBoard {
+    //Hash map , key = ID, value = pair type of  (number of kills, list of victims)
     private HashMap<Integer, Pair<Integer, ArrayList<Integer>>> board;
     private int totalKills;
+
+    public ArrayList<Integer> getLeaderBoard() {
+        return leaderBoard;
+    }
+
     private ArrayList<Integer> leaderBoard;
 
-    ScoreBoard(int numberOfPlayers) {
+    public ScoreBoard(int numberOfPlayers) {
 
         board = new HashMap<>();
         totalKills = 0;

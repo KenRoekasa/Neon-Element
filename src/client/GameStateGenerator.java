@@ -1,17 +1,17 @@
 package client;
 
 
-import entities.Character;
-import entities.PhysicsObject;
-import entities.Player;
-import entities.PowerUp;
-import enums.ObjectType;
+import engine.ScoreBoard;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
+import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-import ai.AiController;
+import engine.ai.AiController;
 
 public class GameStateGenerator {
 
@@ -46,15 +46,17 @@ public class GameStateGenerator {
         objects.addAll(enemies);
         
         // generate a game state
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+        ArrayList<Player> deadPlayers = new ArrayList<>();
+        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
-        // start the ai
+        // start the engine.ai
         startAi(aiConList);
         
         return gameState;
     }
 
-    //receive the number of enemy from controller to initialise ai enm
+    //receive the number of enemy from controller to initialise engine.ai enm
 
     public static ClientGameState createDemoGamestateSample(int num_enm) {
 
@@ -91,9 +93,13 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
         }
+        ArrayList<Player> deadPlayers = new ArrayList<>();
+
+
         //Add the enemies to the objects list
         objects.addAll(enemies);
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects);
+        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
+        ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
         startAi(aiConList);
 

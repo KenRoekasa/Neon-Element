@@ -1,7 +1,7 @@
 package server;
 
 import engine.GameState;
-import entities.*;
+import engine.entities.*;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;

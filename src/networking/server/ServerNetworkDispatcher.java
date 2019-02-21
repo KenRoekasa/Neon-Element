@@ -7,8 +7,8 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.ArrayList;
 
-import entities.Player;
-import entities.PowerUp;
+import engine.entities.Player;
+import engine.entities.PowerUp;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
