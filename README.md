@@ -12,6 +12,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with UI
 - Fix collision bug
 - Cooldown is not very polished apparently
+  - cooldown is wayyyy to slow for light attacks
 - When shielded move slower, or have meter
 - Implement Scoreboard
 - Implement respawning
