@@ -1,7 +1,9 @@
 package engine.ai;
 
+import engine.calculations.AiCalculations;
 import engine.entities.Character;
 import engine.entities.Player;
+import engine.enums.AiStates;
 import engine.enums.PowerUpType;
 
 public class AiFSM {

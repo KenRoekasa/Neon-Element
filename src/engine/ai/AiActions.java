@@ -2,6 +2,7 @@ package engine.ai;
 
 import java.util.Random;
 
+import engine.calculations.AiCalculations;
 import engine.entities.Player;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;

@@ -3,9 +3,11 @@ package engine.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
+import engine.calculations.AiCalculations;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.AiStates;
 import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
@@ -313,6 +315,9 @@ public class AiController {
 			activeState = s;
 		}
 		
+		public ArrayList<PhysicsObject> getObjects() {
+			return objects;
+		}
 		
 		public AiStates getActiveState() {
 			return activeState;

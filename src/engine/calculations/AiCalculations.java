@@ -1,7 +1,8 @@
-package engine.ai;
+package engine.calculations;
 
 import java.util.ArrayList;
 
+import engine.ai.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
@@ -13,7 +14,7 @@ import javafx.scene.transform.Rotate;
 
 public class AiCalculations {
 	
-	final int DELAY_TIME = 28;
+	public final int DELAY_TIME = 28;
 	private AiController aiCon;
 	private Player aiPlayer;
 	private Rectangle map;	
@@ -30,7 +31,7 @@ public class AiCalculations {
 
 	public ArrayList<Player> getPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(PhysicsObject object : aiCon.objects) {
+		for(PhysicsObject object : aiCon.getObjects()) {
 			if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
 				players.add((Player)object);
 			}
@@ -43,11 +44,11 @@ public class AiCalculations {
 	public ArrayList<PowerUp> getPowerups() {
 
 		ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
-		for (int i = 0; i < aiCon.objects.size(); i++) {
-			if (!aiCon.objects.get(i).equals(null)) {
-				if (ObjectType.POWERUP.equals(aiCon.objects.get(i).getTag()))
-					if (!powerups.contains(aiCon.objects.get(i)))
-						powerups.add((PowerUp) aiCon.objects.get(i));
+		for (int i = 0; i < aiCon.getObjects().size(); i++) {
+			if (!aiCon.getObjects().get(i).equals(null)) {
+				if (ObjectType.POWERUP.equals(aiCon.getObjects().get(i).getTag()))
+					if (!powerups.contains(aiCon.getObjects().get(i)))
+						powerups.add((PowerUp) aiCon.getObjects().get(i));
 			}
 		}
 		return powerups;
