@@ -18,9 +18,9 @@ public class AudioManager {
             String location = sound.getPath();
 
             Media audioFile = new Media(new File(location).toURI().toString());
-            MediaPlayer mp = new MediaPlayer(audioFile);
+            //MediaPlayer mp = new MediaPlayer(audioFile);
 
-            soundLibray.put(sound, mp);
+           // soundLibray.put(sound, mp);
         }
 
     }

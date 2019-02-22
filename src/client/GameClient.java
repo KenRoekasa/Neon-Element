@@ -182,7 +182,7 @@ public class GameClient {
         });
 
         theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
+          InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
         });
 
 		// when the mouse is moved around the screen calculate new angle
