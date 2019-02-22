@@ -1,7 +1,6 @@
 package engine.entities;
 
 
-import engine.enumSwitches.objectSize;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
 import javafx.geometry.Point2D;
@@ -22,7 +21,7 @@ public class PowerUp extends PhysicsObject {
     public PowerUp() {
         id = nextId++;
         tag = ObjectType.POWERUP;
-        width = objectSize.getObjectSize(tag);
+        width = tag.getSize();
 
         //Randomise the type of power up when it spawns
         Random rand = new Random();
