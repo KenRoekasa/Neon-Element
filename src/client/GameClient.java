@@ -52,8 +52,6 @@ public class GameClient {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.clientNetworkThread = new clientNetworkThread(gameState);
-
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
@@ -134,6 +132,7 @@ public class GameClient {
     }
 
     public void startNetwork() {
+        this.clientNetworkThread = new clientNetworkThread(gameState);
         this.clientNetworkThread.start();
         this.gameState.start();
         beginClientLoop(renderer);
