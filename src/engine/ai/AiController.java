@@ -245,25 +245,25 @@ public class AiController {
 		}
 		
 		public void findSpeed() {
-			int index = calc.findNearestPowerUp(PowerUpType.SPEED);
+			int index = calc.getNearestPowerUp(PowerUpType.SPEED);
 			if (index != -1)
 				actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 		}
 
 		public void findDamage() {
-			int index = calc.findNearestPowerUp(PowerUpType.DAMAGE);
+			int index = calc.getNearestPowerUp(PowerUpType.DAMAGE);
 			if (index != -1)
 				actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 		}
 
 		public void findHealth() {
-			int index = calc.findNearestPowerUp(PowerUpType.HEAL);
+			int index = calc.getNearestPowerUp(PowerUpType.HEAL);
 			if (index != -1)
 				actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 		}
 
 		public void aggressiveAttack() {
-			Player player = calc.findNearestPlayer();
+			Player player = calc.getNearestPlayer();
 			actions.moveTo(player);
 			if (calc.inAttackDistance(player) && player.getHealth()>0) {
 				aiPlayer.lightAttack();
@@ -272,12 +272,12 @@ public class AiController {
 		}
 		
 		public void escape() {
-			Player player = calc.findNearestPlayer();
+			Player player = calc.getNearestPlayer();
 			actions.moveAway(player);
 		}	
 		
 		public void attack() {
-			Player player = calc.findNearestPlayer();
+			Player player = calc.getNearestPlayer();
 			actions.moveTo(player);
 
 			if (calc.inAttackDistance(player) && player.getHealth()>0) {

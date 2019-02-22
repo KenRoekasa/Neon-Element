@@ -2,6 +2,7 @@ package engine.calculations;
 
 import engine.entities.Player;
 import engine.enums.Action;
+import engine.enums.ObjectType;
 
 public class DamageCalculation {
 
@@ -13,9 +14,15 @@ public class DamageCalculation {
     public static float calculateDealtDamage(Player player, engine.entities.Character victim) {
         // Deal damage base on what kind of attack it is
         if (player.getCurrentAction() == Action.LIGHT) {
+        	if(victim.getTag() == ObjectType.ENEMY) {
+        		return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier()*5;
+        	}
             return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
         }
         if (player.getCurrentAction() == Action.HEAVY) {
+        	if(victim.getTag() == ObjectType.ENEMY) {
+        		return calculateDamage(10, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier()*5;
+        	}
             return calculateDamage(10, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
         }
         return 0;

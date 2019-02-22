@@ -196,7 +196,7 @@ public class AiActions {
 
 	public void wander() {
 		
-		Player player = calc.findNearestPlayer();
+		Player player = calc.getNearestPlayer();
 		if(calc.inAttackDistance(player))
 			aiPlayer.lightAttack();
 
@@ -226,7 +226,7 @@ public class AiActions {
 	}
 	
 	public void changeToBefittingElement() {
-		Player player = calc.findNearestPlayer();
+		Player player = calc.getNearestPlayer();
 		switch(aiCon.activeState) {
 		
 		//when attacking, change element to maximize damage given

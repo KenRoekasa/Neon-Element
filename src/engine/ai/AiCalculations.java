@@ -54,19 +54,19 @@ public class AiCalculations {
 	}
 
 	public boolean playerIsTooClose() {
-		Point2D playerLoc = findNearestPlayer().getLocation();
+		Point2D playerLoc = getNearestPlayer().getLocation();
 		return isTooClose(playerLoc);
 	}
 	
 	public boolean powerupIsTooClose() {
-		int index = findNearestPowerUp();
+		int index = getNearestPowerUp();
 		if(index != -1 && isTooClose(getPowerups().get(index).getLocation())) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isTooClose(Point2D playerLoc ) {
+	private boolean isTooClose(Point2D playerLoc ) {
 		Point2D aiLoc = aiPlayer.getLocation();
 		return (aiLoc.distance(playerLoc)<(map.getWidth()*0.2));
 	}
@@ -252,11 +252,11 @@ public class AiCalculations {
 	}
 	
 	public boolean powerupCloserThanPlayer() {
-		int puIndex = findNearestPowerUp();
+		int puIndex = getNearestPowerUp();
 		if(puIndex == -1)
 			return false;
 		double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
-		double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
+		double disToPlayer = getNearestPlayer().getLocation().distance(aiPlayer.getLocation());
 		
 		return disToPu<disToPlayer;
 	}
@@ -268,7 +268,7 @@ public class AiCalculations {
 		return false;
 	}
 	
-	public int findNearestPowerUp() {
+	public int getNearestPowerUp() {
 		ArrayList<PowerUp> powerups = getPowerups();
 		int index = -1;
 		double distance = Double.MAX_VALUE;
@@ -283,7 +283,7 @@ public class AiCalculations {
 		return index;
 	}
 
-	public int findNearestPowerUp(PowerUpType pu) {
+	public int getNearestPowerUp(PowerUpType pu) {
 		ArrayList<PowerUp> powerups = getPowerups();
 		int index = -1;
 		double distance = Double.MAX_VALUE;
@@ -300,7 +300,7 @@ public class AiCalculations {
 		return index;
 	}
 
-	public Player findNearestPlayer() {
+	public Player getNearestPlayer() {
 		double minDis = Double.MAX_VALUE;
 		ArrayList<Player> players = getPlayers();
 		int index = 0;

@@ -10,12 +10,12 @@ public class AiFSM {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.findNearestPlayer();
+		Character nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take a heal power up
 		
-		if(  calc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.findNearestPowerUp(PowerUpType.HEAL) != -1 ) {//System.out.println("case 1");
+		if(  calc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getNearestPowerUp(PowerUpType.HEAL) != -1 ) {//System.out.println("case 1");
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 	
@@ -37,7 +37,7 @@ public class AiFSM {
 	
 		//case5, take the power up on your way
 		else if (calc.powerupIsTooClose()) {//System.out.println("case 5");
-			switch(calc.getPowerups().get(calc.findNearestPowerUp()).getType()) {
+			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -62,13 +62,13 @@ public class AiFSM {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.findNearestPlayer();
+		Character nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up
 		if( calc.powerupIsTooClose() || calc.powerupCloserThanPlayer() ) {
 		//	System.out.println("case 1");
-			switch(calc.getPowerups().get(calc.findNearestPowerUp()).getType()) {
+			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -116,7 +116,7 @@ public class AiFSM {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.findNearestPlayer();
+		Character nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 //		System.out.println("decide what case");
@@ -125,7 +125,7 @@ public class AiFSM {
 		
 		if( calc.powerupCloserThanPlayer() ) {
 		//	System.out.println("case 1");
-			switch(calc.getPowerups().get(calc.findNearestPowerUp()).getType()) {
+			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -142,7 +142,7 @@ public class AiFSM {
 		
 		//case 2, the engine.ai player's hp is less than 33% and a health power up is available
 		
-		else if (aiPlayerHP<(maxHP/3) && calc.findNearestPowerUp(PowerUpType.HEAL) != -1) {
+		else if (aiPlayerHP<(maxHP/3) && calc.getNearestPowerUp(PowerUpType.HEAL) != -1) {
 		//	System.out.println("case 2");
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
@@ -163,14 +163,14 @@ public class AiFSM {
 		
 		//case 5, there exist a damage power up
 		
-		else if( calc.findNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
+		else if( calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 		//	System.out.println("case 5");
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
 		//case 6, there exist a speed power up
 		
-		else if( calc.findNearestPowerUp(PowerUpType.SPEED) != -1 ) {
+		else if( calc.getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 		//	System.out.println("case 6");
 			aiCon.setState(AiStates.FIND_SPEED);
 		}
