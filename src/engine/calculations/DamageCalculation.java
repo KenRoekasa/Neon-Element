@@ -21,9 +21,9 @@ public class DamageCalculation {
         }
         if (player.getCurrentAction() == Action.HEAVY) {
         	if(victim.getTag() == ObjectType.ENEMY) {
-        		return calculateDamage(10, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier()*5;
+        		return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier()*4;
         	}
-            return calculateDamage(10, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
+            return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
         }
         return 0;
     }
