@@ -30,12 +30,12 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
-		int players = this.gameState.getAllPlayers().size();
-		int maxPlayers = this.gameState.getMaxPlayers();
-		GameType gameType = this.gameState.getGameType();
-		Packet response = new HelloAckPacket(players, maxPlayers, gameType, packet.getIpAddress(), packet.getPort());
-		System.out.println("respond");
-		this.send(response);
+//		int players = this.gameState.getAllPlayers().size();
+//		int maxPlayers = this.gameState.getMaxPlayers();
+//
+//		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
+//		System.out.println("respond");
+//		this.send(response);
 	}
 
 	protected void receiveConnect(ConnectPacket packet) {
@@ -56,31 +56,32 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	        Player player = new Player(ObjectType.PLAYER);
 	        playerId = player.getId();
-            PlayerConnection playerConn = new PlayerConnection(playerId, packet.getIpAddress(), packet.getPort());
+            PlayerConnection playerConn = new PlayerConnection(player, packet.getIpAddress(), packet.getPort());
 
             this.connections.add(playerConn);
             this.gameState.getAllPlayers().add(player);
             this.gameState.getObjects().add(player);
-            
-            Packet connect = new BroadCastConnectedUserPacket(playerId);
-            this.broadcast(connect);
-            
-            if(this.connections.size() == 2) {
-                this.gameState.setStarted(true);
-                this.broadcastGameStarted();
-            }
+
+            System.out.println("New player connection. P " + playerId + " from " + packet.getIpAddress());
+
 	    }
 
         Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
         this.send(response);
         
         if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
-            // TODO - broadcast new connection to other clients if allowed
+            Packet connect = new BroadCastConnectedUserPacket(playerId);
+            this.broadcast(connect);
+
+            if(this.connections.size() == 2) {
+                this.gameState.setStarted(true);
+                this.broadcastGameStarted();
+            }
         }
 	}
 	
 	protected void broadcastGameStarted() {
-	    Packet packet = new BroadCastGameStartPacket(true);
+	    Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
 	    this.broadcast(packet);
 	}
 
@@ -88,20 +89,11 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 
 	    if (playerConn != null) {
-	        int id = playerConn.getId();
+	        Player player = playerConn.getPlayer();
 
-	        Player player = this.gameState.getAllPlayers().stream()
-	            .filter(p -> p.getId() == id)
-	            .findFirst()
-	            .orElse(null);
-
-	        if (player != null) {
-	            // Just update the location for now
-	            // TODO - validate if the location
-	            player.setLocation(packet.getX(), packet.getY());
-	        } else {
-	            // Player id not found
-	        }
+            // Just update the location for now
+            // TODO - validate if the location
+            player.setLocation(packet.getX(), packet.getY());
 	    } else {
 	        // Player connection not found
 	    }
@@ -151,7 +143,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
                 		
                     System.out.println("sent " +packet.getType() +" Packet ==> "+" Player with id: "+conn.getId());
-                    
+                 
                 }
 
                 try {

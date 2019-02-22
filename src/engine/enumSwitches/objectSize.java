@@ -6,11 +6,11 @@ public class objectSize {
     public static int getObjectSize(ObjectType obj){
         switch(obj){
             case PLAYER:
-                return 30;
+                return 40;
             case POWERUP:
-                return 15;
+                return 20;
             case ENEMY:
-                return 30;
+                return 40;
             case OBSTACLE:
                 return 50;
             default:

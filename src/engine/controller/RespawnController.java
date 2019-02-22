@@ -21,6 +21,8 @@ public class RespawnController implements Runnable {
         while (gameState.getRunning()) {
             //TODO: If statement based on game type to determine how respawns works based on the game mode
             normalRespawn();
+            System.out.println("running" +
+                    "");
         }
 
     }
@@ -30,10 +32,15 @@ public class RespawnController implements Runnable {
         //Remove the dead player from the list
         try {
             Player player = deadPlayers.take();
-            player.respawn();
-            Thread.sleep(10000);
+            Thread.sleep(5000);
             //Adding health to player to resurrect them
-            player.setLocation(new Point2D(20,20));
+
+            int x = (int) (Math.random() * 2000);
+            int y = (int) (Math.random() * 2000);
+
+            player.setLocation(new Point2D(x,y));
+            player.respawn();
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();

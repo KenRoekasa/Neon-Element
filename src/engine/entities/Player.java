@@ -60,6 +60,12 @@ public class Player extends Character {
         this.id = i;
     }
 
+    public String toString(){
+        String s = "Player: " + this.id +
+                "\nHealth: " + health;
+        return s;
+    }
+
 
     public int getId() {
         return id;

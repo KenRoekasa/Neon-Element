@@ -5,14 +5,14 @@ import javafx.geometry.Point2D;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;
 
-public class clientNetworkThread extends Thread {
+public class ClientNetworkThread extends Thread {
 
     private ClientGameState gameState;
     private ClientNetwork network;
 
     private boolean running = true;
 
-    public clientNetworkThread(ClientGameState gameState) {
+    public ClientNetworkThread(ClientGameState gameState) {
         this.gameState = gameState;
         this.network = new ClientNetwork(this.gameState);
     }
@@ -32,7 +32,6 @@ public class clientNetworkThread extends Thread {
         // Now we have been sent game started
 
         while (this.running) {
-            this.running = GameTypeHandler.checkRunning(gameState);
             this.doLocationState();
 
             try {

@@ -1,6 +1,8 @@
 package client;
 
 
+import client.audiomanager.AudioManager;
+import engine.GameTypeHandler;
 import engine.ScoreBoard;
 import engine.calculations.DamageCalculation;
 import engine.controller.RespawnController;
@@ -10,13 +12,17 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.GameOverController;
+import graphics.userInterface.controllers.MenuController;
 import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -29,6 +35,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import server.controllers.PowerUpController;
 
+import javax.sound.midi.SysexMessage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,15 +52,15 @@ public class GameClient {
     private ArrayList<String> input;
 
     private ClientGameState gameState;
-    private clientNetworkThread clientNetworkThread;
+    private ClientNetworkThread clientNetworkThread;
     private Pane hudPane;
+
+    private AudioManager audioManager;
 
     public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.clientNetworkThread = new clientNetworkThread(gameState);
-
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
@@ -94,15 +101,18 @@ public class GameClient {
 
         renderer = new Renderer(gc, stageSize, debugger);
 
+        audioManager = new AudioManager();
+
         // initialise input controls
         initialiseInput(scene, renderer);
 
         if(!online) {
+            this.gameState.start();
             beginClientLoop(renderer);
         }
 
-        // this.clientNetworkThread = new clientNetworkThread(gameState);
-        // clientNetworkThread.run();
+        // this.ClientNetworkThread = new ClientNetworkThread(gameState);
+        // ClientNetworkThread.run();
     }
 
     public Scene getScene() {
@@ -119,9 +129,31 @@ public class GameClient {
 
                 if(!gameState.getRunning()) {
                     stop();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
+                    try {
+                        Pane root = loader.load();
+                        primaryStage.getScene().setRoot(root);
+                        root.setPrefHeight(stageSize.getHeight());
+                        root.setPrefWidth(stageSize.getWidth());
+                        GameOverController controller = loader.getController();
+                        controller.setStage(primaryStage);
+
+                        primaryStage.getScene().setCursor(Cursor.DEFAULT);
+
+                        primaryStage.setTitle("Game Over!");
+                        gameState.stop();
+
+                    } catch (IOException e) {
+                        System.out.println("crush in loading menu board ");
+                        e.printStackTrace();
+                    }
                 }
+
+
             }
         }.start();
+
 
         // todo move to server
         Thread puController = new Thread(new PowerUpController(gameState));
@@ -134,6 +166,7 @@ public class GameClient {
     }
 
     public void startNetwork() {
+        this.clientNetworkThread = new ClientNetworkThread(gameState);
         this.clientNetworkThread.start();
         this.gameState.start();
         beginClientLoop(renderer);
@@ -149,7 +182,7 @@ public class GameClient {
         });
 
         theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
+            InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
         });
 
 		// when the mouse is moved around the screen calculate new angle
@@ -166,6 +199,9 @@ public class GameClient {
                     hudPane.getChildren().add(node);
                     node.setBackground(Background.EMPTY);
                     PauseController controller = loader.getController();
+                    controller.setHudPane(hudPane);
+                    controller.setNode(node);
+                    controller.setStageSize(stageSize);
                     controller.setStage(primaryStage, gameState);
                     primaryStage.setTitle("Pause");
 
@@ -188,6 +224,9 @@ public class GameClient {
         doHitDetection();
         doUpdates();
         deathHandler();
+        if(!GameTypeHandler.checkRunning(gameState)){
+            gameState.stop();
+        }
 
     }
 
@@ -215,7 +254,7 @@ public class GameClient {
                         // Add to dead list
                         deadPlayers.offer(player);
                         // Add kills to scoreboard
-                        scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
+                        scoreBoard.addKill(player.getLastAttacker().getId());
                         //if dead teleport player off screen
                         player.setLocation(new Point2D(5000, 5000));
 

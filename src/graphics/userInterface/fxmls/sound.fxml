@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane styleClass="background" stylesheets="@../resources/css/test01.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.SettingController">
+<BorderPane styleClass="background" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.SoundController">
    <center>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -27,10 +27,10 @@
          <children>
             <Label styleClass="label_big" text="Sound" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Font" size="24.0" />
                </font>
             </Label>
-            <Slider fx:id="sound" prefHeight="54.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" onDragDone="#handleSoundVolume" />
+            <Slider fx:id="sound" prefHeight="54.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <GridPane GridPane.columnIndex="2" GridPane.rowIndex="2">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -42,8 +42,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" styleClass="button_small" text="  OK   " textAlignment="CENTER" GridPane.rowIndex="1" />
-                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button_small" text=" Back " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" styleClass="button_small" stylesheets="@../resources/css/test01.css" text="  OK   " textAlignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button_small" stylesheets="@../resources/css/test01.css" text=" Back " GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

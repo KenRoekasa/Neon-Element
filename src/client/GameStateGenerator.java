@@ -96,7 +96,15 @@ public class GameStateGenerator {
             enemies.add(aiCon.getAiPlayer() );
         }
         for (int i = 0; i < num_enm; i++) {
-            enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
+
+            if(i == 0) {
+                enemies.get(i).setLocation(new Point2D(map.getWidth() - map.getWidth()/10, map.getHeight() - map.getHeight()/10));
+            } else if (i == 1) {
+                enemies.get(i).setLocation(new Point2D(0 +  map.getWidth()/10, map.getHeight() - map.getHeight()/10));
+            } else if (i == 2) {
+                enemies.get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
+            }
+
             enemies.get(i).setId(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
@@ -109,7 +117,7 @@ public class GameStateGenerator {
 
         ScoreBoard scoreboard = new ScoreBoard();
         // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(2);
+        GameType gameType = new FirstToXKillsGame(3);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 

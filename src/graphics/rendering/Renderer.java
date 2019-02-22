@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.ScoreBoard;
 import engine.calculations.AttackTimes;
 import client.ClientGameState;
 import graphics.debugger.Debugger;
@@ -12,7 +13,10 @@ import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -56,46 +60,84 @@ public class Renderer {
 
         DrawObjects.drawBackground(gc, stageSize, stars);
 
-        gc.save();
 
-        rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
-        ISOConverter.applyRotationTransform(gc, rotationCenter);
 
         // apply screenshake
         // unsure about this
         //applyScreenshake(gameState);
+        gc.save();
 
-        // draw map to screen
-        DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
+        if (gameState.getPlayer().isAlive()) {
+            rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
+            ISOConverter.applyRotationTransform(gc, rotationCenter);
 
-        //sort based on proximity to the view (greater y is later)
-        ArrayList<PhysicsObject> objects = sortDistance(gameState.getObjects());
+            // draw map to screen
+            DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
 
-        // draw all objects
-        for (PhysicsObject o : objects) {
-            renderObject(o, gameState);
-        }
+            //sort based on proximity to the view (greater y is later)
+            ArrayList<PhysicsObject> objects = sortDistance(gameState.getObjects());
 
-        // draw cursors to ensure on top
-        for (Character e : gameState.getOtherPlayers(gameState.getPlayer())) {
-            DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
-            if(!(e.getCurrentAction() == Action.IDLE)) {
-                ActionSwitch(e.getCurrentAction(), e, gameState);
+            // draw all objects
+            for (PhysicsObject o : objects) {
+                renderObject(o, gameState);
             }
-        }
 
-        DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
+            // draw cursors to ensure on top
+            for (Character e : gameState.getOtherPlayers(gameState.getPlayer())) {
+                DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
+                if(!(e.getCurrentAction() == Action.IDLE)) {
+                    ActionSwitch(e.getCurrentAction(), e, gameState);
+                }
+            }
 
-        if(!(gameState.getPlayer().getCurrentAction() == Action.IDLE)) {
+            DrawClientPlayer.drawPlayerCursor(gc, stageSize, gameState.getPlayer());
+
+            if(!(gameState.getPlayer().getCurrentAction() == Action.IDLE)) {
+                ActionSwitch(gameState.getPlayer().getCurrentAction(), gameState.getPlayer(), gameState);
+            }
             ActionSwitch(gameState.getPlayer().getCurrentAction(), gameState.getPlayer(), gameState);
+
+            gc.restore();
+            debugger.gameStateDebugger(gameState, stageSize);
+            //debugger.simpleGSDebugger(gameState, debugger);
+        } else {
+
+            gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
+            gc.setStroke(Color.WHITE);
+            gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
+            gc.restore();
         }
-        ActionSwitch(gameState.getPlayer().getCurrentAction(), gameState.getPlayer(), gameState);
 
-        gc.restore();
+        printScoreBoard(gc, gameState.getScoreBoard());
 
-        debugger.gameStateDebugger(gameState, stageSize);
         debugger.print();
     }
+
+
+    private void printScoreBoard(GraphicsContext gc,  ScoreBoard scoreboard) {
+        gc.save();
+        ArrayList<Integer> leaderboard = scoreboard.getLeaderBoard();
+        gc.setStroke(Color.WHITE);
+        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 25));
+
+        int startY = 140;
+
+        gc.strokeText("Leaderboard:", 25, startY - 40);
+
+
+        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
+        for(int i = 0; i < leaderboard.size(); i++) {
+
+            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerKills(leaderboard.get(i));
+            gc.strokeText(string, 25, startY + i * 40);
+        }
+
+        gc.restore();
+    }
+
+
+
+
 
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
