@@ -143,7 +143,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
                 		
                     System.out.println("sent " +packet.getType() +" Packet ==> "+" Player with id: "+conn.getId());
-                 
+            
                 }
 
                 try {
