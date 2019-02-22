@@ -59,10 +59,11 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             this.connections.add(playerConn);
             this.gameState.getAllPlayers().add(player);
             this.gameState.getObjects().add(player);
-            
+
+            System.out.println("New player connection. P " + playerId + " from " + packet.getIpAddress());
             Packet connect = new BroadCastConnectedUserPacket(playerId);
             this.broadcast(connect);
-            
+
             if(this.connections.size() == 2) {
                 this.gameState.setStarted(true);
                 this.broadcastGameStarted();
