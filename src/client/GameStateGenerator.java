@@ -5,6 +5,7 @@ import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.AiType;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
@@ -51,14 +52,14 @@ public class GameStateGenerator {
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
         // start the engine.ai
-        startAi(aiConList);
+        //startAi(aiConList);
         
         return gameState;
     }
 
     //receive the number of enemy from controller to initialise engine.ai enm
 
-    public static ClientGameState createDemoGamestateSample(int num_enm) {
+    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
 
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
@@ -101,14 +102,30 @@ public class GameStateGenerator {
         ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
         ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
 
-        startAi(aiConList);
+        startAi(aiConList, aiTypes);
 
 
         return gameState;
     }
     
-    private static void startAi(ArrayList<AiController> aiConList) {
-    	for (AiController aiCon: aiConList)
-    		aiCon.startEasyAi();
+    private static void startAi(ArrayList<AiController> aiConList, ArrayList<String> aiTypes) {
+    	for(int i = 0; i < aiTypes.size() ; i++) {
+    		switch(aiTypes.get(i).toLowerCase()) {
+    		default:
+    		case "easy":
+    			aiConList.get(i).setAiType(AiType.EASY);
+    			aiConList.get(i).startEasyAi();
+    			break;
+    		case "normal":
+    			aiConList.get(i).setAiType(AiType.NORMAL);
+    			aiConList.get(i).startNormalAi();
+    			break;
+    		case "hard":
+    			aiConList.get(i).setAiType(AiType.HARD);
+    			aiConList.get(i).startHardAi();
+    			break;
+    		
+    		}
+    	}
     }
 }

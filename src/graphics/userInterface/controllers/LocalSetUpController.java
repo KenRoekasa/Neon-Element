@@ -18,7 +18,9 @@ import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ArrayBlockingQueue;
 
 //For local_setup scene
 
@@ -100,16 +102,21 @@ public class LocalSetUpController implements Initializable {
         selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
         System.out.println("@localController Selected mode: " + selected_mode);
 
+        ArrayList<String> enemyTypes = new ArrayList<>();
+        
         switch (enemy_num) {
             case 1:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
+                enemyTypes.add(enemy_1);
                 break;
             case 2:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
                 System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
                 System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
+                enemyTypes.add(enemy_1);
+                enemyTypes.add(enemy_2);
                 break;
             case 3:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
@@ -118,11 +125,14 @@ public class LocalSetUpController implements Initializable {
                 System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
                 System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
                 System.out.println("@localController Difficulty of Enemy 3: " + enemy_3);
+                enemyTypes.add(enemy_1);
+                enemyTypes.add(enemy_2);
+                enemyTypes.add(enemy_3);
         }
 
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num);
+        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num, enemyTypes);
         //g.getPlayer().getHealth();
         try {
             ClientBoard gameBoard = new ClientBoard(stage, gameState);
