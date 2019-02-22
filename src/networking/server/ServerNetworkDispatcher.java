@@ -139,7 +139,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
                 
                 if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
-                    System.out.println("<==" + packet.getType());
+                    System.out.println("" + conn.getIpAddress() + ":" + conn.getPort() + " <== " + packet.getType());
                 }
 
                 try {
