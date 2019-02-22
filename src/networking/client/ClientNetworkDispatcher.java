@@ -73,7 +73,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         Player player = new Player(ObjectType.PLAYER);
         player.setId(packet.getId());
         //todo this is probably broken
-        this.gameState.getOtherPlayers(player).add(player);
+        this.gameState.getAllPlayers().add(player);
         this.gameState.getObjects().add(player);
     }
 
@@ -87,18 +87,24 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
 
-            Player player = this.gameState.getObjects().stream()
+            Player foundPlayer = this.gameState.getObjects().stream()
                 .filter(p -> p.getTag().equals(ObjectType.PLAYER))
                 .map(p -> (Player) p)
                 .filter(p -> p.getId() == id)
                 .findFirst()
                 .orElse(null);
 
-            if (player != null) {
-                player.setLocation(packet.getX(), packet.getY());
+            Player player;
+            if (foundPlayer != null) {
+                player = foundPlayer;
             } else {
                 // Player id not found
+                player = new Player(ObjectType.PLAYER);
+                player.setId(id);
+                this.gameState.getAllPlayers().add(player);
+                this.gameState.getObjects().add(player);
             }
+            player.setLocation(packet.getX(), packet.getY());
         }
     }
 
