@@ -20,7 +20,7 @@ public class ClientNetwork {
     // private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
 
-    public ClientNetwork(ClientGameState gameState) {
+    public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
 
@@ -30,7 +30,7 @@ public class ClientNetwork {
         InetAddress groupAddress = multiConn.getGroupAddress();
         */
 
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, /*this.multicastSocket, groupAddress,*/ gameState);
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddr, /*this.multicastSocket, groupAddress,*/ gameState);
 
         this.conn.start();
         // this.multiConn.start();

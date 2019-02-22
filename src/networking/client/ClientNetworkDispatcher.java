@@ -15,18 +15,20 @@ import networking.NetworkDispatcher;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
 
+    private InetAddress serverAddr;
     private ClientGameState gameState;
     
 	protected String serverAddress;
 
-    protected ClientNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
+    protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
         super(socket/*, multicastSocket, groupAddress*/);
+        this.serverAddr = serverAddr;
         this.gameState = gameState;
     }
 
     public void sendHello() {
         try {
-            Packet packet = new HelloPacket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
+            Packet packet = new HelloPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
@@ -42,7 +44,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendConnect() {
         try {
-            Packet packet = new ConnectPacket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
+            Packet packet = new ConnectPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
@@ -70,8 +72,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     }
 
     protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
-        Player player = new Player(ObjectType.PLAYER);
-        player.setId(packet.getId());
+        Player player = new Player(ObjectType.PLAYER, packet.getId());
         //todo this is probably broken
         this.gameState.getAllPlayers().add(player);
         this.gameState.getObjects().add(player);
@@ -99,8 +100,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
                 player = foundPlayer;
             } else {
                 // Player id not found
-                player = new Player(ObjectType.PLAYER);
-                player.setId(id);
+                player = new Player(ObjectType.PLAYER, id);
                 this.gameState.getAllPlayers().add(player);
                 this.gameState.getObjects().add(player);
             }
@@ -111,7 +111,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendLocationState(double x, double y) {
         try {
-            Packet packet = new LocationStatePacket(x, y, InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_LISTENING_PORT);
+            Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
