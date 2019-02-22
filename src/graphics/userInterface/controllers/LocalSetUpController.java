@@ -121,7 +121,7 @@ public class LocalSetUpController implements Initializable {
             case 3:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
-                enemy_3 = (String) diff_2.getSelectedToggle().getUserData();
+                enemy_3 = (String) diff_3.getSelectedToggle().getUserData();
                 System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
                 System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
                 System.out.println("@localController Difficulty of Enemy 3: " + enemy_3);
