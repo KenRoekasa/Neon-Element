@@ -1,5 +1,7 @@
 package client;
 
+import java.net.InetAddress;
+
 import engine.GameTypeHandler;
 import javafx.geometry.Point2D;
 import networking.client.ClientNetwork;
@@ -12,9 +14,9 @@ public class ClientNetworkThread extends Thread {
 
     private boolean running = true;
 
-    public ClientNetworkThread(ClientGameState gameState) {
+    public ClientNetworkThread(ClientGameState gameState, InetAddress serverAddr) {
         this.gameState = gameState;
-        this.network = new ClientNetwork(this.gameState);
+        this.network = new ClientNetwork(this.gameState, serverAddr);
     }
 
     public void run() {

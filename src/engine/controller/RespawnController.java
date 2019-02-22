@@ -31,15 +31,19 @@ public class RespawnController implements Runnable {
     private void normalRespawn() {
         //Remove the dead player from the list
         try {
-            Player player = deadPlayers.take();
-            Thread.sleep(5000);
-            //Adding health to player to resurrect them
+            if (!deadPlayers.isEmpty()) {
+                Player player = deadPlayers.peek();
+                Thread.sleep(5000);
+                //Adding health to player to resurrect them
 
-            int x = (int) (Math.random() * 2000);
-            int y = (int) (Math.random() * 2000);
+                int x = (int) (Math.random() * 2000);
+                int y = (int) (Math.random() * 2000);
 
-            player.setLocation(new Point2D(x,y));
-            player.respawn();
+                player.setLocation(new Point2D(x, y));
+                player.respawn();
+                // SO you don't respawn twice
+                deadPlayers.take();
+            }
 
 
         } catch (InterruptedException e) {
