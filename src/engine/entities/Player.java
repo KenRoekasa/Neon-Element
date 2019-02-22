@@ -1,6 +1,5 @@
 package engine.entities;
 
-import engine.enumSwitches.objectSize;
 import engine.enums.Directions;
 import engine.enums.Elements;
 import engine.enums.ObjectType;
@@ -25,8 +24,8 @@ public class Player extends Character {
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
-        width = objectSize.getObjectSize(type);
         tag = type;
+        width = tag.getSize();
         if (type.equals(ObjectType.PLAYER)) {
             id=nextId++;
         }
