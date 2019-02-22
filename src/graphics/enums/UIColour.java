@@ -1,6 +1,6 @@
 package graphics.enums;
 
-import javafx.scene.paint.Color;
+import javafx.scene.paint.*;
 
 public enum UIColour {
 
@@ -8,13 +8,15 @@ public enum UIColour {
     HEAD_TEXT(Color.rgb(3,45,20)),
     NEON_BORDER(Color.web("1b03a3"));
 
-    private Color color;
+    private Paint color;
+
+
 
     UIColour(Color color) {
         this.color = color;
     }
 
-    public Color getColor() {
+    public Paint getColor() {
         return color;
     }
 }

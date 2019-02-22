@@ -32,7 +32,6 @@ class DrawObjects {
         double relativeX = stageCenter.getX() - playerLocation.getX() ;
         double relativeY = stageCenter.getY() - playerLocation.getY();
         Point2D boardPosition = new Point2D(relativeX, relativeY);
-
         // draw map
         gc.save();
 
