@@ -27,13 +27,13 @@ public class AiController {
 		AiType aiType;
 		AiCalculations calc;
 		AiActions actions;
+		AiStateActions stateActions;
 		boolean wandering = false;
 		
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
-
 	        activeState = AiStates.IDLE;
 	        this.objects = objects;
 	        this.map = map;
@@ -42,6 +42,7 @@ public class AiController {
 	        aiCon = this;
 	        calc = new AiCalculations(aiCon, map);
 	        actions = new AiActions(aiCon, calc, map);
+	        stateActions = new AiStateActions(aiCon, calc, actions);
 	        setAiType(AiType.EASY);
 	        //default random
 	        actions.assignRandomElement();
@@ -183,30 +184,30 @@ public class AiController {
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
-				attack();
+				stateActions.attack();
 				break;
 			case AGGRESSIVE_ATTACK:
 				aiPlayer.unShield();
-				aggressiveAttack();
+				stateActions.aggressiveAttack();
 				break;
 			case FIND_HEALTH:
-				findHealth();
+				stateActions.findHealth();
 				break;
 			case FIND_DAMAGE:
 				aiPlayer.shield();
-				findDamage();
+				stateActions.findDamage();
 				break;
 			case FIND_SPEED:
 				aiPlayer.shield();
-				findSpeed();
+				stateActions.findSpeed();
 				break;
 			case ESCAPE:
 				aiPlayer.shield();
-				escape();
+				stateActions.escape();
 				break;
 			case WANDER:
 				aiPlayer.unShield();
-				startWandering();
+				stateActions.startWandering();
 			case IDLE:
 				break;
 			default:
@@ -221,31 +222,31 @@ public class AiController {
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
-				attack();
+				stateActions.attack();
 				break;
 			case AGGRESSIVE_ATTACK:
 				aiPlayer.unShield();
-				aggressiveAttack();
+				stateActions.aggressiveAttack();
 				break;
 			case FIND_HEALTH:
 				aiPlayer.shield();
-				findHealth();
+				stateActions.findHealth();
 				break;
 			case FIND_DAMAGE:
 				aiPlayer.shield();
-				findDamage();
+				stateActions.findDamage();
 				break;
 			case FIND_SPEED:
 				aiPlayer.shield();
-				findSpeed();
+				stateActions.findSpeed();
 				break;
 			case ESCAPE:
 				aiPlayer.shield();
-				escape();
+				stateActions.escape();
 				break;
 			case WANDER:
 				aiPlayer.unShield();
-				startWandering();
+				stateActions.startWandering();
 			case IDLE:
 				break;
 			default:
@@ -260,85 +261,35 @@ public class AiController {
 			switch (activeState) {
 			case ATTACK:
 				aiPlayer.unShield();
-				attack();
+				stateActions.attack();
 				break;
 			case AGGRESSIVE_ATTACK:
 				aiPlayer.unShield();
-				aggressiveAttack();
+				stateActions.aggressiveAttack();
 				break;
 			case FIND_HEALTH:
 				aiPlayer.shield();
-				findHealth();
+				stateActions.findHealth();
 				break;
 			case FIND_DAMAGE:
 				aiPlayer.shield();
-				findDamage();
+				stateActions.findDamage();
 				break;
 			case FIND_SPEED:
 				aiPlayer.shield();
-				findSpeed();
+				stateActions.findSpeed();
 				break;
 			case ESCAPE:
 				aiPlayer.shield();
-				escape();
+				stateActions.escape();
 				break;
 			case WANDER:
 				aiPlayer.unShield();
-				startWandering();
+				stateActions.startWandering();
 			case IDLE:
 				break;
 			default:
 				break;
-			}
-		}
-
-		private void startWandering() {
-			if(!wandering) {
-				wandering = true;
-				Random r = new Random();
-				actions.wanderingDirection = r.nextInt(8);
-			}
-			actions.wander();
-		}
-		
-		private void findSpeed() {
-			int index = calc.getNearestPowerUp(PowerUpType.SPEED);
-			if (index != -1)
-				actions.moveTo(index, calc.getPowerups().get(index).getLocation());
-		}
-
-		private void findDamage() {
-			int index = calc.getNearestPowerUp(PowerUpType.DAMAGE);
-			if (index != -1)
-				actions.moveTo(index, calc.getPowerups().get(index).getLocation());
-		}
-
-		private void findHealth() {
-			int index = calc.getNearestPowerUp(PowerUpType.HEAL);
-			if (index != -1)
-				actions.moveTo(index, calc.getPowerups().get(index).getLocation());
-		}
-
-		private void aggressiveAttack() {
-			Player player = calc.getNearestPlayer();
-			actions.moveTo(player);
-			if (calc.inAttackDistance(player) && player.getHealth()>0) {
-				aiPlayer.lightAttack();
-				aiPlayer.chargeHeavyAttack();
-			}
-		}
-		
-		private void escape() {
-			Player player = calc.getNearestPlayer();
-			actions.moveAway(player);
-		}	
-		
-		private void attack() {
-			Player player = calc.getNearestPlayer();
-			actions.moveTo(player);
-
-			if (calc.inAttackDistance(player) && player.getHealth()>0) {
-				aiPlayer.lightAttack();
 			}
 		}
 		
@@ -348,6 +299,14 @@ public class AiController {
 		
 		public void setState(AiStates s) {
 			activeState = s;
+		}
+		
+		public void setWandering(boolean bool) {
+			wandering = bool;
+		}
+		
+		public boolean isWandering() {
+			return wandering;
 		}
 		
 		public ArrayList<PhysicsObject> getObjects() {

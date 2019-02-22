@@ -9,6 +9,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
+//low level actions used by state actions and in ai controller
 public class AiActions {
 	
 
@@ -195,7 +196,7 @@ public class AiActions {
 	
 
 
-	public void wander() {
+	public void startWandering() {
 		
 		Player player = calc.getNearestPlayer();
 		if(calc.inAttackDistance(player))
