@@ -13,9 +13,10 @@ public class Player extends Character {
     private int id;
     
     private static int nextId = 1;
-
-    public Player(ObjectType type) {
+    
+    public Player(ObjectType type, int id) {
         super();
+        this.id = id;
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
@@ -27,14 +28,14 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         width = objectSize.getObjectSize(type);
         tag = type;
-        if (type.equals(ObjectType.PLAYER)) {
-            id=nextId++;
-        }
-
 
         for (int i = 0; i < timerArray.length; i++) {
             timerArray[i] = System.currentTimeMillis() - 10 * 1000;
         }
+    }
+
+    public Player(ObjectType type) {
+        this(type, (type.equals(ObjectType.PLAYER) ? nextId++ : 0));
     }
 
     @Override
