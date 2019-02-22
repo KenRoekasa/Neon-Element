@@ -166,7 +166,7 @@ public class GameClient {
     }
 
     public void startNetwork() {
-        this.clientNetworkThread = new clientNetworkThread(gameState);
+        this.clientNetworkThread = new ClientNetworkThread(gameState);
         this.clientNetworkThread.start();
         this.gameState.start();
         beginClientLoop(renderer);
