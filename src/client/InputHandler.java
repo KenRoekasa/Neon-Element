@@ -1,5 +1,7 @@
 package client;
 
+import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import engine.entities.Player;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.HUDController;
@@ -111,11 +113,10 @@ public class InputHandler {
 
         if(e.getButton() == MouseButton.PRIMARY) {
             player.lightAttack();
-            audioManager.playSound(Sound.LIGHT_ATTACK);
 
         } else if (e.getButton() == MouseButton.SECONDARY) {
             player.chargeHeavyAttack();
-            audioManager.playSound(Sound.HEAVY_ATTACK);
+
         }
     }
 

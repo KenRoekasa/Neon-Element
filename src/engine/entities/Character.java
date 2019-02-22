@@ -1,5 +1,7 @@
 package engine.entities;
 
+import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
@@ -39,6 +41,10 @@ public abstract class Character extends PhysicsObject {
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
     public static final int DEFAULT_MOVEMENT_SPEED = 5;
+
+
+    public static AudioManager audioManager = new AudioManager();
+
 
     public Player getLastAttacker() {
         return lastAttacker;
@@ -157,6 +163,9 @@ public abstract class Character extends PhysicsObject {
     public void lightAttack() {
         if (checkCD(lightAttackID,lightAttackCD)) {
             if (currentAction == Action.IDLE) {
+
+                audioManager.playSound(Sound.LIGHT_ATTACK);
+
                 currentAction = Action.LIGHT;
                 currentActionStart = System.currentTimeMillis();
                 long attackDuration = AttackTimes.getActionTime(currentAction);
@@ -212,7 +221,10 @@ public abstract class Character extends PhysicsObject {
 
 
     private void heavyAttack() {
+
+
         currentAction = Action.HEAVY;
+        audioManager.playSound(Sound.HEAVY_ATTACK);
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};

@@ -1,6 +1,7 @@
 package client;
 
 
+import client.audiomanager.AudioManager;
 import engine.GameTypeHandler;
 import engine.ScoreBoard;
 import engine.calculations.DamageCalculation;
@@ -53,6 +54,8 @@ public class GameClient {
     private ClientNetworkThread clientNetworkThread;
     private Pane hudPane;
 
+    private AudioManager audioManager;
+
     public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
@@ -102,6 +105,8 @@ public class GameClient {
         debugger = new Debugger(gc);
 
         Renderer renderer = new Renderer(gc, stageSize, debugger);
+
+        audioManager = new AudioManager();
 
         // initialise input controls
         initialiseInput(scene, renderer);
@@ -185,7 +190,7 @@ public class GameClient {
         });
 
         theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
+            InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
         });
 
 		// when the mouse is moved around the screen calculate new angle

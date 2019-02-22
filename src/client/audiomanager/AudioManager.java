@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 
 public class AudioManager {
-    private double volume;
+    private static double volume;
     private HashMap<Sound, MediaPlayer> soundLibray;
 
     public AudioManager(){
@@ -28,19 +28,6 @@ public class AudioManager {
     public void playSound(Sound s){
         soundLibray.get(s).setVolume(volume);
         soundLibray.get(s).play();
-        soundLibray.get(s).getTotalDuration();
-
-        (new Thread(() -> {
-            try {
-                stopSound(s);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        })).start();
-    }
-
-    private void stopSound(Sound s) throws InterruptedException {
-        wait((long) soundLibray.get(s).getTotalDuration().toMillis());
         soundLibray.get(s).stop();
     }
 
@@ -48,8 +35,8 @@ public class AudioManager {
         return volume;
     }
 
-    public void setVolume(double volume) {
-        this.volume = volume;
+    public static void setVolume(double volume) {
+        AudioManager.volume = volume;
     }
 
 }
