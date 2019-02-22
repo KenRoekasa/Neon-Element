@@ -96,6 +96,7 @@ public class GameClient {
         initialiseInput(scene, renderer);
 
         if(!online) {
+            this.gameState.start();
             beginClientLoop(renderer);
         }
 
