@@ -61,6 +61,13 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             this.gameState.getObjects().add(player);
 
             System.out.println("New player connection. P " + playerId + " from " + packet.getIpAddress());
+
+	    }
+
+        Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
+        this.send(response);
+        
+        if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
             Packet connect = new BroadCastConnectedUserPacket(playerId);
             this.broadcast(connect);
 
@@ -68,13 +75,6 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 this.gameState.setStarted(true);
                 this.broadcastGameStarted();
             }
-	    }
-
-        Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
-        this.send(response);
-        
-        if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
-            // TODO - broadcast new connection to other clients if allowed
         }
 	}
 	
