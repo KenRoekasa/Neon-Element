@@ -53,7 +53,13 @@ public class ClientNetwork {
             System.out.println("Invalid packet recieved");
             return;
         }
-        //System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+        if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+            if (datagram.getData()[0] >= (byte) 0xF0) {
+                System.out.println("==> " + packet.getType());
+            } else {
+                System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+            }
+        }
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);

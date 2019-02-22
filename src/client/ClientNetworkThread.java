@@ -19,7 +19,17 @@ public class ClientNetworkThread extends Thread {
 
     public void run() {
         this.getDispatcher().sendConnect();
-
+        
+        // Wait for game to start
+        while (!this.gameState.getRunning()) {
+            try {
+                Thread.sleep(1000l); // Every 1 second
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        // Now we have been sent game started
 
         while (this.running) {
             this.doLocationState();

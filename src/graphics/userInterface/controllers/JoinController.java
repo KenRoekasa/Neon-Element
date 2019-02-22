@@ -31,9 +31,8 @@ public class JoinController {
             boolean networked = true;
             GameClient gameBoard = new GameClient(stage, gameState, networked);
             Scene scene = gameBoard.getScene();
-            gameBoard.startGame();
+            gameBoard.startNetwork();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
 

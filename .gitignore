@@ -34,6 +34,6 @@ out/production/alien8/META-INF/
 .idea
 .project
 .classpath
-
+.vscode
 
 out/

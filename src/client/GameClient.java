@@ -43,6 +43,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameClient {
 
+    private Renderer renderer;
     private Debugger debugger;
     private GraphicsContext gc;
     private Stage primaryStage;
@@ -60,12 +61,6 @@ public class GameClient {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.clientNetworkThread = new ClientNetworkThread(gameState);
-
-        if(online) {
-            this.clientNetworkThread = new ClientNetworkThread(gameState);
-        }
-
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
@@ -104,14 +99,17 @@ public class GameClient {
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
-        Renderer renderer = new Renderer(gc, stageSize, debugger);
+        renderer = new Renderer(gc, stageSize, debugger);
 
         audioManager = new AudioManager();
 
         // initialise input controls
         initialiseInput(scene, renderer);
 
-        beginClientLoop(renderer, online);
+        if(!online) {
+            this.gameState.start();
+            beginClientLoop(renderer);
+        }
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
@@ -121,16 +119,7 @@ public class GameClient {
         return scene;
     }
 
-    private void beginClientLoop(Renderer renderer, boolean online) {
-        gameState.start();
-        if(online) {
-
-            while(!gameState.getRunning()) {
-
-            }
-        }
-
-        gameState.start();
+    private void beginClientLoop(Renderer renderer) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
@@ -176,8 +165,11 @@ public class GameClient {
 
     }
 
-    public void startGame() {
+    public void startNetwork() {
+        this.clientNetworkThread = new clientNetworkThread(gameState);
         this.clientNetworkThread.start();
+        this.gameState.start();
+        beginClientLoop(renderer);
     }
 
     private void initialiseInput(Scene theScene, Renderer renderer) {

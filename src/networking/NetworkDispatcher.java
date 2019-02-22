@@ -33,8 +33,12 @@ public abstract class NetworkDispatcher {
     protected void send(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
-            //System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " <-- " + packet.getType());
+
             DatagramPacket datagram = new DatagramPacket(data, data.length, packet.getIpAddress(), packet.getPort());
+
+            if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE)) {
+                System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " <-- " + packet.getType());
+            }
 
             try {
                 this.socket.send(datagram);

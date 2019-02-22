@@ -11,6 +11,8 @@ import javafx.scene.transform.Rotate;
 public class Player extends Character {
 
     private int id;
+    
+    private static int nextId = 1;
 
     public Player(ObjectType type) {
         super();
@@ -25,6 +27,9 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         width = objectSize.getObjectSize(type);
         tag = type;
+        if (type.equals(ObjectType.PLAYER)) {
+            id=nextId++;
+        }
 
 
         for (int i = 0; i < timerArray.length; i++) {
