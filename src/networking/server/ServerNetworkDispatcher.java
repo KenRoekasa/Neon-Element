@@ -41,6 +41,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	protected void receiveConnect(ConnectPacket packet) {
 	    boolean isStarted = this.gameState.isStarted();
 	    boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
+	    System.out.println("Does the game have space: "+hasSpace);
+	    System.out.println("has the game Started: "+isStarted);
 
 	    // Allow connection if the game has not started yet and we have space for more players
 	    ConnectAckPacket.Status status;
@@ -147,7 +149,9 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
                 
                 if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
-                    System.out.println("<==" + packet.getType());
+                		
+                    System.out.println("sent " +packet.getType() +" Packet ==> "+" Player with id: "+conn.getId());
+                    
                 }
 
                 try {

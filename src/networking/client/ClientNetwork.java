@@ -53,8 +53,12 @@ public class ClientNetwork {
             System.out.println("Invalid packet recieved");
             return;
         }
-        if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
-            System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+        if ((!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) && (packet.getIpAddress() != null)) {
+            System.out.println("recieved a packet pf type: "+packet.getType()+" <== " + packet.getIpAddress() + " and port: " + packet.getPort()  );
+            
+        }else {
+            System.out.println("recieved a broacdcast packet of type: "+packet.getType());
+
         }
         switch(packet.getType()) {
             case HELLO_ACK:
