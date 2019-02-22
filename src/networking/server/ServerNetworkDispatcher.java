@@ -62,7 +62,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             this.gameState.getAllPlayers().add(player);
             this.gameState.getObjects().add(player);
 
-            System.out.println("New player connection. P " + playerId + " from " + packet.getIpAddress());
+            System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress());
 
 	    }
 
