@@ -58,7 +58,7 @@ public class AiFSM {
 
 	}
 	
-	public static void mediumAiFetchAction(Player aiPlayer, AiController aiCon, AiCalculations calc) {
+	public static void normalAiFetchAction(Player aiPlayer, AiController aiCon, AiCalculations calc) {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -108,7 +108,6 @@ public class AiFSM {
 		}
 		
 		//switches elements to maximize damage given and minimize damage received
-		aiCon.changeToBefittingElement();
 
 	}
 	
@@ -189,7 +188,6 @@ public class AiFSM {
 			aiCon.setState(AiStates.ATTACK);
 		}
 		//System.out.println("engine.ai health: "+aiPlayer.getHealth());
-		aiCon.changeToBefittingElement();
 
 	}
 	

@@ -25,7 +25,6 @@ public class AiController {
 		AiType aiType;
 		AiCalculations calc;
 		AiActions actions;
-
 		boolean wandering = false;
 		
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
@@ -41,12 +40,31 @@ public class AiController {
 	        aiCon = this;
 	        calc = new AiCalculations(aiCon, map);
 	        actions = new AiActions(aiCon, calc, map);
+	        setAiType(AiType.EASY);
+	        //default random
+	        actions.assignRandomElement();
+	    }
+		
+		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType) {
+
+			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
+	    	
+
+	        activeState = AiStates.IDLE;
+	        this.objects = objects;
+	        this.map = map;
+	        this.player = player;
+	        this.aiPlayer = aiPlayer;
+	        this.aiType = aiType;
+	        aiCon = this;
+	        calc = new AiCalculations(aiCon, map);
+	        actions = new AiActions(aiCon, calc, map);
 	        //default random
 	        actions.assignRandomElement();
 	    }
 		
 		public void startEasyAi() {
-			aiType = AiType.EASY;
+			//aiType = AiType.EASY;
 			System.out.println("started easy ai\n\n");
 			
 			Thread t = new Thread(new Runnable() {
@@ -92,9 +110,9 @@ public class AiController {
 			t.start();
 		}
 
-		public void startMediumAi() {
-			aiType = AiType.MEDIUM;
-			System.out.println("started medium ai\n\n");
+		public void startNormalAi() {
+			//aiType = AiType.NORMAL;
+			System.out.println("started normal ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
 				@Override
@@ -103,14 +121,15 @@ public class AiController {
 					boolean bool = true;
 					while (bool) {
 						
-						AiFSM.mediumAiFetchAction(aiPlayer, aiCon, calc);
+						AiFSM.normalAiFetchAction(aiPlayer, aiCon, calc);
 						
 						if(getActiveState().equals(AiStates.ESCAPE))
 							aiPlayer.delay((calc.DELAY_TIME/2)+(calc.DELAY_TIME/4));
 						else
 							aiPlayer.delay(calc.DELAY_TIME);
 						
-						mediumAIExecuteAction();
+						actions.changeToBefittingElement();
+						normalAIExecuteAction();
 						
 						if (aiPlayer.getHealth() <= 0) {
 							aiPlayer.respawn(map.getWidth(),map.getHeight());
@@ -126,7 +145,7 @@ public class AiController {
 		}
 		
 		public void startHardAi() {
-			aiType = AiType.HARD;
+			//aiType = AiType.HARD;
 			System.out.println("started hard ai\n\n");
 			Thread t = new Thread(new Runnable() {
 
@@ -142,6 +161,7 @@ public class AiController {
 						else
 							aiPlayer.delay(calc.DELAY_TIME);
 						
+						actions.changeToBefittingElement();
 						easyAIExecuteAction();
 						//delay to limit speed 
 						
@@ -197,7 +217,7 @@ public class AiController {
 			}
 		}
 		
-		private void mediumAIExecuteAction() {
+		private void normalAIExecuteAction() {
 			if(!activeState.equals(AiStates.WANDER))
 				wandering = false;
 			switch (activeState) {
@@ -285,16 +305,17 @@ public class AiController {
 			}
 		}
 		
-		public void changeToBefittingElement() {
-			actions.changeToBefittingElement();
+		public void setAiType(AiType type) {
+			aiType = type;
 		}
+		
+		public void setState(AiStates s) {
+			activeState = s;
+		}
+		
 		
 		public AiStates getActiveState() {
 			return activeState;
-		}
-
-		public void setState(AiStates s) {
-			activeState = s;
 		}
 		
 		public Player getAiPlayer() {
@@ -305,6 +326,9 @@ public class AiController {
 			return player;
 		}
 		
+		public AiType getAiType() {
+			return aiType;
+		}
 		
 		
 
