@@ -11,29 +11,37 @@ public class BroadCastGameStartPacket extends Packet {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // boolean
-    // 1 = 1 bytes
+    // boolean + int
+    // 1       + 4   = 1 bytes
 
     private boolean gameStarted;
+    private int players;
 
     protected BroadCastGameStartPacket(ByteBuffer buffer) {
         super(PacketDirection.INCOMING, PacketType.GAME_START_BCAST);
         this.gameStarted = getBooleanValue(buffer.get());
+        this.players = buffer.getInt();
     }
 
-    public BroadCastGameStartPacket(boolean gameStarted) {
+    public BroadCastGameStartPacket(boolean gameStarted, int players) {
         super(PacketDirection.OUTGOING, PacketType.GAME_START_BCAST);
         this.gameStarted = gameStarted;
+        this.players = players;
     }
 
     public boolean getGameStartVar() {
         return this.gameStarted;
+    }
+    
+    public int getPlayersCount() {
+        return this.players;
     }
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         	//this identifier has been placed twice
         buffer.put(getByteValue(this.getGameStartVar()));
+        buffer.putInt(this.players);
         return Packet.getBytesFromBuffer(buffer);
     }
 }
