@@ -54,7 +54,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	        Player player = new Player(ObjectType.PLAYER);
 	        playerId = player.getId();
-            PlayerConnection playerConn = new PlayerConnection(playerId, packet.getIpAddress(), packet.getPort());
+            PlayerConnection playerConn = new PlayerConnection(player, packet.getIpAddress(), packet.getPort());
 
             this.connections.add(playerConn);
             this.gameState.getAllPlayers().add(player);
@@ -87,20 +87,11 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 
 	    if (playerConn != null) {
-	        int id = playerConn.getId();
+	        Player player = playerConn.getPlayer();
 
-	        Player player = this.gameState.getAllPlayers().stream()
-	            .filter(p -> p.getId() == id)
-	            .findFirst()
-	            .orElse(null);
-
-	        if (player != null) {
-	            // Just update the location for now
-	            // TODO - validate if the location
-	            player.setLocation(packet.getX(), packet.getY());
-	        } else {
-	            // Player id not found
-	        }
+            // Just update the location for now
+            // TODO - validate if the location
+            player.setLocation(packet.getX(), packet.getY());
 	    } else {
 	        // Player connection not found
 	    }
