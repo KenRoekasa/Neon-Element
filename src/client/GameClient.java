@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import server.controllers.PowerUpController;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class GameClient {
@@ -105,6 +106,12 @@ public class GameClient {
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
     }
+    
+    public GameClient(Stage primaryStage, ClientGameState gameState, String addr) throws Exception {
+        this(primaryStage, gameState, true);
+
+        this.clientNetworkThread = new ClientNetworkThread(gameState, InetAddress.getByName(addr));
+    }
 
     public Scene getScene() {
         return scene;
@@ -158,7 +165,6 @@ public class GameClient {
     }
 
     public void startNetwork() {
-        this.clientNetworkThread = new ClientNetworkThread(gameState);
         this.clientNetworkThread.start();
         this.gameState.start();
         beginClientLoop(renderer);
