@@ -79,7 +79,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 	
 	protected void broadcastGameStarted() {
-	    Packet packet = new BroadCastGameStartPacket(true);
+	    Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
 	    this.broadcast(packet);
 	}
 
