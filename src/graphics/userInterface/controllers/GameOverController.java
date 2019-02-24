@@ -1,39 +1,21 @@
 package graphics.userInterface.controllers;
 
-import client.audiomanager.AudioManager;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SettingController {
-    public Slider sound;
+public class GameOverController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-
-
     }
 
     private Stage stage;
-    @FXML
-    public void handleSoundVolume(){
-        //todo this ?
-        AudioManager.setVolume(sound.getValue());
 
-    }
-
-    @FXML
-    public void handleOkBtn(){
-
-    }
-    @FXML
-    public void handleBackBtn(){
+    public void handleQuitBtn(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
 
         try {
@@ -48,6 +30,4 @@ public class SettingController {
             e.printStackTrace();
         }
     }
-
-
 }

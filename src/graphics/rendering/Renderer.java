@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.ScoreBoard;
 import engine.calculations.AttackTimes;
 import client.ClientGameState;
 import graphics.debugger.Debugger;
@@ -9,11 +10,11 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
+import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
@@ -35,7 +36,7 @@ public class Renderer {
     private Rectangle stageSize;
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
-    static HashMap<String, Image> textures;
+    static HashMap<Sprites, Image> textures;
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
@@ -45,7 +46,6 @@ public class Renderer {
         textures = TextureLoader.loadTextures();
 
         stars = DrawObjects.loadStars(stageSize);
-
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
@@ -66,12 +66,12 @@ public class Renderer {
         //applyScreenshake(gameState);
         gc.save();
 
-        if (gameState.getPlayer().isAlive()) {
+        if ( gameState.getPlayer().isAlive()) {
             rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
             ISOConverter.applyRotationTransform(gc, rotationCenter);
 
             // draw map to screen
-            DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer());
+            DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), textures);
 
             //sort based on proximity to the view (greater y is later)
             ArrayList<PhysicsObject> objects = sortDistance(gameState.getObjects());
@@ -98,6 +98,7 @@ public class Renderer {
 
             gc.restore();
             debugger.gameStateDebugger(gameState, stageSize);
+            //debugger.simpleGSDebugger(gameState, debugger);
         } else {
 
             gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
@@ -105,10 +106,37 @@ public class Renderer {
             gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
             gc.restore();
         }
-        debugger.add(gameState.getScoreBoard().toString(), 4);
+
+        printScoreBoard(gc, gameState.getScoreBoard());
 
         debugger.print();
     }
+
+
+    private void printScoreBoard(GraphicsContext gc,  ScoreBoard scoreboard) {
+        gc.save();
+        ArrayList<Integer> leaderboard = scoreboard.getLeaderBoard();
+        gc.setStroke(Color.WHITE);
+        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 25));
+
+        int startY = 140;
+
+        gc.strokeText("Leaderboard:", 25, startY - 40);
+
+
+        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
+        for(int i = 0; i < leaderboard.size(); i++) {
+
+            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerKills(leaderboard.get(i));
+            gc.strokeText(string, 25, startY + i * 40);
+        }
+
+        gc.restore();
+    }
+
+
+
+
 
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {

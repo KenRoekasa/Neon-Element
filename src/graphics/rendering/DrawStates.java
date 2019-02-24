@@ -2,14 +2,17 @@ package graphics.rendering;
 
 import engine.entities.Character;
 import graphics.enumSwitches.colourSwitch;
+import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.MotionBlur;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
+import javafx.scene.image.Image;
+import javafx.scene.paint.*;
+
+import java.util.HashMap;
+
+import static graphics.rendering.Renderer.textures;
 
 
 class DrawStates {
@@ -48,7 +51,7 @@ class DrawStates {
         long finishAlphaValue = 80;
         float percentCharged = (Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, finishAlphaValue, startAlphaValue)) / 100f;
         //todo get this from player class
-        double attackRadius = 200;
+        double attackRadius = 300;
 
         gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
@@ -71,26 +74,18 @@ class DrawStates {
         long angle = (long) (player.getPlayerAngle().getAngle() + Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, startAngle, finishAngle));
 
         gc.save();
-        Effect lightEffect = new MotionBlur(0, 3);
-        gc.setEffect(lightEffect);
 
-        ISOConverter.applyAngleRotation(gc, angle, playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+        gc.setEffect(new MotionBlur(0, 3));
+        ISOConverter.applyAngleRotation(gc, angle - 45, playerCenter);
+        gc.drawImage(textures.get(Sprites.BLADE), playerCenter.getX() - textures.get(Sprites.BLADE).getWidth(), playerCenter.getY() - textures.get(Sprites.BLADE).getHeight());
 
-        ISOConverter.applyAngleRotation(gc, 1 , playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
-
-        ISOConverter.applyAngleRotation(gc, 1, playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
-
-        // restore for each ISO conversion
         gc.restore();
 
     }
 
     static void drawShield(GraphicsContext gc, Character player, Point2D playerCenter) {
         gc.save();
-        double shieldWidth = player.getWidth() + 20;
+        double shieldWidth = player.getWidth() + 40;
 
         // this creates the gradient needed
         // using custom colours with lowered opacity as gc.setGlobalAlpha was causing me issues making everything transparent

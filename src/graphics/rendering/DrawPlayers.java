@@ -5,6 +5,7 @@ import engine.entities.Character;
 import engine.entities.Player;
 import graphics.enumSwitches.colourSwitch;
 import engine.enums.Action;
+import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
@@ -22,7 +23,7 @@ class DrawPlayers {
         Color c = colourSwitch.getElementColour(player.getCurrentElement());
 
 
-        Effect glow = new Glow(0.4);    // this gives a nice "neon" glow to all of the players
+        Effect glow = new Glow(0.8);    // this gives a nice "neon" glow to all of the players
 
         if(player.getMovementSpeed() > Player.DEFAULT_MOVEMENT_SPEED) {
 
@@ -46,7 +47,7 @@ class DrawPlayers {
             gc.save();
             ISOConverter.applyAngleRotation(gc, angle, playerCenter);
 
-            gc.drawImage(Renderer.textures.get("pointer"),playerCenter.getX() - Renderer.textures.get("pointer").getWidth()/2f, playerCenter.getY() - Renderer.textures.get("pointer").getHeight()/2f - player.getWidth()/2f - 30 );
+            gc.drawImage(Renderer.textures.get(Sprites.CURSOR),playerCenter.getX() - Renderer.textures.get(Sprites.CURSOR).getWidth()/2f, playerCenter.getY() - Renderer.textures.get(Sprites.CURSOR).getHeight()/2f - player.getWidth()/2f - 30 );
 
             //restore twice following applying the specific angle rotation
             gc.restore();

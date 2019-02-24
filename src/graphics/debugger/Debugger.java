@@ -56,22 +56,21 @@ public class Debugger {
             debugger.add(enemy.toString(), 4);
         }
 
-
     }
 
 
     public void gameStateDebugger(ClientGameState gameState, Rectangle stage){
-        Point2D stageCenter = new Point2D(stage.getWidth()/2, stage.getHeight()/2 + 20);
-        printPlayerInfo(gameState.getPlayer(), stageCenter);
+        Point2D stageCenter = new Point2D(stage.getWidth()/2 - 15, stage.getHeight()/2 );
+        printPlayerHealth(gameState.getPlayer(), stageCenter);
 
         for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
 
             Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy, gameState.getPlayer().getLocation());
 
             Point2D newLoc = ISOConverter.getLocationOnScreen(relativeLocation, enemy, stage);
-            newLoc.add(0, 30);
+            newLoc = newLoc.add(-15, 0);
 
-            printPlayerInfo(enemy, newLoc );
+            printPlayerHealth(enemy, newLoc);
 
         }
     }
@@ -80,6 +79,12 @@ public class Debugger {
 
         gc.strokeText(player.toString(), relativeLocation.getX(), relativeLocation.getY());
     }
+
+    private void printPlayerHealth(Character player, Point2D relativeLocation){
+
+        gc.strokeText(String.valueOf((int)player.getHealth()), relativeLocation.getX(), relativeLocation.getY());
+    }
+
 
     // adds message to be printed - requires the message and the number of lines (number of newline characters)
     public void add(String toPrint, int numLines) {

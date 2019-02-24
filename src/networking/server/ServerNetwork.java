@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import networking.packets.*;
+import networking.packets.Packet.PacketType;
 import server.ServerGameState;
 import networking.Constants;
 
@@ -68,7 +69,6 @@ public class ServerNetwork extends Thread {
 
             try {
                 this.socket.receive(packet);
-                System.out.println("recieved pac");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,6 +79,7 @@ public class ServerNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
+        System.out.println("Type of packet rec: "+ packet.getType());
 
         if (packet == null) {
             System.out.println("Invalid packet recieved");

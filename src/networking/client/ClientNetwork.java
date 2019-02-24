@@ -20,7 +20,7 @@ public class ClientNetwork {
     // private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
 
-    public ClientNetwork(ClientGameState gameState) {
+    public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
 
@@ -30,7 +30,7 @@ public class ClientNetwork {
         InetAddress groupAddress = multiConn.getGroupAddress();
         */
 
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, /*this.multicastSocket, groupAddress,*/ gameState);
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddr, /*this.multicastSocket, groupAddress,*/ gameState);
 
         this.conn.start();
         // this.multiConn.start();
@@ -53,7 +53,15 @@ public class ClientNetwork {
             System.out.println("Invalid packet recieved");
             return;
         }
-        //System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+
+        if ((!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) && (packet.getIpAddress() != null)) {
+            System.out.println("recieved a packet pf type: "+packet.getType()+" <== " + packet.getIpAddress() + " and port: " + packet.getPort()  );
+            
+        }else {
+            System.out.println("recieved a broacdcast packet of type: "+packet.getType());
+
+
+        }
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
