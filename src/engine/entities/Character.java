@@ -6,17 +6,11 @@ import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
 import engine.enums.Elements;
-import graphics.userInterface.controllers.MenuController;
-import graphics.userInterface.controllers.PauseController;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -238,6 +232,7 @@ public abstract class Character extends PhysicsObject {
         if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             isShielded = true;
+            movementSpeed = movementSpeed/2;
 
         }
     }
@@ -245,6 +240,7 @@ public abstract class Character extends PhysicsObject {
     public void unShield() {
         if (currentAction == Action.BLOCK) {
             currentAction = Action.IDLE;
+            movementSpeed = DEFAULT_MOVESPEED;
             isShielded = false;
         }
     }
@@ -419,9 +415,6 @@ public abstract class Character extends PhysicsObject {
     }
     public void addOneDeath() {
     	deathCounter++;
-    }
-    public int getDeathCounter() {
-    	return deathCounter;
     }
 
     //check if the action is off cooldown
