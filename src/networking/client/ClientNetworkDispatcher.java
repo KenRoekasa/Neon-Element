@@ -3,8 +3,12 @@ package networking.client;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import client.ClientGameState;
+import engine.ScoreBoard;
+import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
@@ -15,18 +19,20 @@ import networking.NetworkDispatcher;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
 
-    private InetAddress serverAddr;
-    private ClientGameState gameState;
-
+	private InetAddress serverAddr;
+	private ClientGameState gameState;
+	private InetAddress clientIpAddress;
 	protected String serverAddress;
+	private int clientID;
 
-    protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
-        super(socket/*, multicastSocket, groupAddress*/);
-        this.serverAddr = serverAddr;
-        this.gameState = gameState;
-    }
+	protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr,
+			/* MulticastSocket multicastSocket, InetAddress groupAddress, */ ClientGameState gameState) {
+		super(socket/* , multicastSocket, groupAddress */);
+		this.serverAddr = serverAddr;
+		this.gameState = gameState;
+	}
 
-    public void sendHello() {
+	public void sendHello() {
         try {
             Packet packet = new HelloPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
@@ -83,12 +89,10 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         this.gameState.getObjects().add(powerUp);
     }
 
-    
+
     protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
        	BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(), packet.getMap(), packet.getPlayersInfo());
     		this.gameState = new ClientGameState(gameState.getPlayer(), gameState.getMap(), gameState.getObjects(), gameState.getDeadPlayers(), gameState.getScoreBoard(), gameState.getGameType());
-        
- 
     }
 
     protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
@@ -116,7 +120,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
- 
+
     public void sendLocationState(double x, double y) {
         try {
             Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);

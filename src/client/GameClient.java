@@ -2,6 +2,7 @@ package client;
 
 
 import client.audiomanager.AudioManager;
+import engine.GameState;
 import engine.Physics;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -125,32 +126,17 @@ public class GameClient {
 
                 // TODO: remove this when networking is added
                 physicsEngine.clientLoop();
+                audioManager.clientLoop(gameState);
 
                 if(!gameState.getRunning()) {
                     stop();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
-                    try {
-                        Pane root = loader.load();
-                        primaryStage.getScene().setRoot(root);
-                        root.setPrefHeight(stageSize.getHeight());
-                        root.setPrefWidth(stageSize.getWidth());
-                        GameOverController controller = loader.getController();
-                        controller.setStage(primaryStage);
-
-                        primaryStage.getScene().setCursor(Cursor.DEFAULT);
-
-                        primaryStage.setTitle("Game Over!");
-                        gameState.stop();
-
-                    } catch (IOException e) {
-                        System.out.println("crush in loading menu board ");
-                        e.printStackTrace();
-                    }
+                    showGameOver();
                 }
 
-
             }
+
+
         }.start();
 
 
@@ -161,7 +147,28 @@ public class GameClient {
         Thread respawnController = new Thread(new RespawnController(gameState));
         respawnController.start();
 
+    }
 
+
+    private void showGameOver() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
+        try {
+            Pane root = loader.load();
+            primaryStage.getScene().setRoot(root);
+            root.setPrefHeight(stageSize.getHeight());
+            root.setPrefWidth(stageSize.getWidth());
+            GameOverController controller = loader.getController();
+            controller.setStage(primaryStage);
+
+            primaryStage.getScene().setCursor(Cursor.DEFAULT);
+
+            primaryStage.setTitle("Game Over!");
+            gameState.stop();
+
+        } catch (IOException e) {
+            System.out.println("crush in loading menu board ");
+            e.printStackTrace();
+        }
     }
 
     public void startNetwork() {
@@ -180,7 +187,7 @@ public class GameClient {
         });
 
         theScene.setOnMouseClicked(e -> {
-          InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
+            InputHandler.handleClick(gameState.getPlayer(), e);
         });
 
 		// when the mouse is moved around the screen calculate new angle
