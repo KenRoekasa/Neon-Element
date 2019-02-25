@@ -4,7 +4,7 @@ alien8
 
 https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 
-#Do not forget
+# Do not forget
 - Threads need to be killed properly and gracefully 
 
 ## Tasks
@@ -22,6 +22,16 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - doCollisionDetection(); doHitDetection(); deathHandler(); make one for loop where allplayers is passed in
 - Heavy attacks only hit one person
 - make ai attacks speed limited, whilst player attacks should be uncapped
+- Movement must be changed so movement is update per tick
+
+## Ideas
+- Have the aiController that controls a Player object rather than being an engine.entities its self
+- Player will be tagged enemies, opponents, engine.ai controlled etc...
+- Everything will happen client side first and then confirmed by the server. Which then syncs all the game clients to be like server game state
+    - Will probably change
+- Change boundaries when colliding so it will be a diagonal boundary
+- When you die become a ghost that doesn't collide with anyone but can spectate, opacity turned down
+- Constantly check for people in hit area and place into an array and when heavy/light attack is called damage all players in that array
 
 
 # Renderer
@@ -33,13 +43,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 # Gui
 ## Tasks
 - Ensure that when exiting a local game in the pause menu that the game thread stops
-## Ideas
-- Have the aiController that controls a Player object rather than being an engine.entities its self
-- Player will be tagged enemies, opponents, engine.ai controlled etc...
-- Everything will happen client side first and then confirmed by the server. Which then syncs all the game clients to be like server game state
-    - Will probably change
-- Change boundaries when colliding so it will be a diagonal boundary
-- When you die become a ghost that doesn't collide with anyone but can spectate, opacity turned down
-- Constantly check for people in hit area and place into an array and when heavy/light attack is called damage all players in that array
+
+
 
 
