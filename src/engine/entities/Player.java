@@ -1,7 +1,6 @@
 package engine.entities;
 
 import client.GameClient;
-import engine.enumSwitches.objectSize;
 import engine.enums.Directions;
 import engine.enums.Elements;
 import engine.enums.ObjectType;
@@ -27,8 +26,8 @@ public class Player extends Character {
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
-        width = objectSize.getObjectSize(type);
         tag = type;
+        width = tag.getSize();
 
         for (int i = 0; i < timerArray.length; i++) {
             timerArray[i] = System.currentTimeMillis() - 10 * 1000;
