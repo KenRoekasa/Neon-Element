@@ -16,8 +16,6 @@ import server.ServerGameState;
 
 public class ManualTestServer {
     public static void main(String[] args) throws IOException {
-        //TODO: not sure what this does change the parameters below accordingly - Kenny"
-            
         // todo when connected initialise scoreboard
         ServerGameState gameState = new ServerGameState(new Rectangle(2000, 2000), new LinkedBlockingQueue<Player>(),new ArrayList<PhysicsObject>(), new ScoreBoard(), new FirstToXKillsGame(3));
         GameServer server = new GameServer(gameState);
