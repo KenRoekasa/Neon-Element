@@ -178,10 +178,10 @@ public class AiActions {
 				aiPlayer.moveUp();
 			}else if (calc.higherY(playerLoc)) {
 //				System.out.println("going up cart");
-				aiPlayer.moveUpCartesian();
+				aiPlayer.moveDownCartestian(map.getWidth());
 			}else if (!calc.higherY(playerLoc)) {
 //				System.out.println("going down cart");
-				aiPlayer.moveDownCartestian(map.getWidth());
+				aiPlayer.moveUpCartesian();
 			}else if (calc.higherX(playerLoc)) {
 //				System.out.println("going left cart");
 				aiPlayer.moveLeftCartesian();
