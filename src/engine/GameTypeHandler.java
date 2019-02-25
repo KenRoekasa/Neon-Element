@@ -21,14 +21,10 @@ public class GameTypeHandler {
 
             return currentGame.startTime + duration < System.currentTimeMillis();
 
-            // todo implement!
         } else if (type.getClass().equals(FirstToXKillsGame.class)) {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) type;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
-//            System.out.println(topPlayerId);
-//            System.out.println(currentGame.getScoreBoard().getPlayerKills(topPlayerId));
-
             if (currentGame.getScoreBoard().getPlayerKills(topPlayerId) >= typeObj.getKillsNeeded()) {
                 return false;
             } else {

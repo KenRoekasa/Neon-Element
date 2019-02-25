@@ -155,7 +155,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        if (checkCD(lightAttackID,lightAttackCD)) {
+        if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
 
                 audioManager.playSound(Sound.LIGHT_ATTACK);
@@ -187,9 +187,10 @@ public abstract class Character extends PhysicsObject {
         this.health -= damage;
         //System.out.println("player health "+getHealth());
     }
-    public void removeHealth(float damage,Player lastAttacker) {
+
+    public void removeHealth(float damage, Player lastAttacker) {
         this.health -= damage;
-        this.lastAttacker=lastAttacker;
+        this.lastAttacker = lastAttacker;
         //System.out.println("player health "+getHealth());
     }
 
@@ -232,7 +233,7 @@ public abstract class Character extends PhysicsObject {
         if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             isShielded = true;
-            movementSpeed = movementSpeed/2;
+            movementSpeed = movementSpeed / 2;
 
         }
     }
@@ -315,7 +316,7 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
-    public void respawn(){
+    public void respawn() {
         isAlive = true;
         health = MAX_HEALTH;
     }
@@ -328,11 +329,11 @@ public abstract class Character extends PhysicsObject {
             health = MAX_HEALTH;
         }
     }
-    
+
     // Increase movement speed
     public void speedBoost() {
-    	Timer timer = new Timer();
-    	
+        Timer timer = new Timer();
+
         movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
@@ -389,12 +390,13 @@ public abstract class Character extends PhysicsObject {
         return currentActionStart;
     }
 
-    public String toString(){
+    public String toString() {
         String s = "ID: " + System.identityHashCode(this) +
                 "\nHealth: " + health +
                 "\nElement: " + currentElement.toString();
         return s;
     }
+
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
@@ -413,14 +415,15 @@ public abstract class Character extends PhysicsObject {
     public Directions getCharacterDirection() {
         return characterDirection;
     }
+
     public void addOneDeath() {
-    	deathCounter++;
+        deathCounter++;
     }
 
     //check if the action is off cooldown
     private boolean checkCD(int id, float cooldown) {
         // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + (long)(cooldown * 1000));
+        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000));
         //check if the time calculated has passed
         if (System.currentTimeMillis() > nextAvailableTime) {
             timerArray[id] = System.currentTimeMillis();
@@ -428,23 +431,23 @@ public abstract class Character extends PhysicsObject {
         }
         return false;
     }
-    
 
-	public void respawn(double mapWidth, double mapHeight) {
-		addOneDeath();
-		setLocation(new Point2D(-500, -500));
-		delay(3000);
-		while(getHealth()!=100)
-			addHealth(1);
-		setLocation(new Point2D(mapWidth-1, mapHeight-1));
-	}
-	
-	public void delay(int time) {
-		try {
-			TimeUnit.MILLISECONDS.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
+    public void respawn(double mapWidth, double mapHeight) {
+        addOneDeath();
+        setLocation(new Point2D(-500, -500));
+        delay(3000);
+        while (getHealth() != 100)
+            addHealth(1);
+        setLocation(new Point2D(mapWidth - 1, mapHeight - 1));
+    }
+
+    public void delay(int time) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(time);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
