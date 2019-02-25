@@ -5,7 +5,7 @@ public class TimedGame extends GameType {
 
 
     public TimedGame(long duration) {
-        super(Type.TimedGame);
+        super(Type.Timed);
         this.duration = duration;
     }
 
