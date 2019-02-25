@@ -16,11 +16,16 @@ import java.io.IOException;
 public class JoinController {
     private ClientGameState gameState;
     private Stage stage;
-    
+
     public TextField ip;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void initialize() {
+        // TODO: store/retrieve last connected IP
+        ip.setText("127.0.0.1");
     }
 
     @FXML
