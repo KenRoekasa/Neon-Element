@@ -1,7 +1,5 @@
 package engine.entities;
 
-import client.audiomanager.AudioManager;
-import client.audiomanager.Sound;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
@@ -42,8 +40,9 @@ public abstract class Character extends PhysicsObject {
     protected long[] timerArray = new long[10]; //TODO: Change the array length
     public static final int DEFAULT_MOVEMENT_SPEED = 5;
 
+    protected boolean actionHasSounded;
 
-    public static AudioManager audioManager = new AudioManager();
+
 
 
     public Player getLastAttacker() {
@@ -163,8 +162,7 @@ public abstract class Character extends PhysicsObject {
     public void lightAttack() {
         if (checkCD(lightAttackID,lightAttackCD)) {
             if (currentAction == Action.IDLE) {
-
-                audioManager.playSound(Sound.LIGHT_ATTACK);
+                actionHasSounded = false;
 
                 currentAction = Action.LIGHT;
                 currentActionStart = System.currentTimeMillis();
@@ -193,16 +191,17 @@ public abstract class Character extends PhysicsObject {
         this.health -= damage;
         //System.out.println("player health "+getHealth());
     }
+
     public void removeHealth(float damage,Player lastAttacker) {
         this.health -= damage;
         this.lastAttacker=lastAttacker;
         //System.out.println("player health "+getHealth());
     }
-
     public void chargeHeavyAttack() {
         // TODO handle charging
         if (checkCD(heavyAttackID, heavyAttackCD)) {
             if (currentAction == Action.IDLE) {
+                actionHasSounded = false;
                 currentAction = Action.CHARGE;
                 currentActionStart = System.currentTimeMillis();
 
@@ -222,9 +221,8 @@ public abstract class Character extends PhysicsObject {
 
     private void heavyAttack() {
 
-
+        actionHasSounded = false;
         currentAction = Action.HEAVY;
-        audioManager.playSound(Sound.HEAVY_ATTACK);
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
@@ -236,6 +234,7 @@ public abstract class Character extends PhysicsObject {
 
     public void shield() {
         if (currentAction == Action.IDLE) {
+            actionHasSounded = false;
             currentAction = Action.BLOCK;
             isShielded = true;
 
@@ -325,6 +324,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     // adds Health to the player
+
     public void addHealth(int amount) {
 
         health += amount;
@@ -332,11 +332,11 @@ public abstract class Character extends PhysicsObject {
             health = MAX_HEALTH;
         }
     }
-    
     // Increase movement speed
+
     public void speedBoost() {
     	Timer timer = new Timer();
-    	
+
         movementSpeed = 8;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
@@ -357,8 +357,8 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-
     // Doubles the players damage
+
     public void damageBoost() {
         Timer timer = new Timer();
         damageMultiplier = 2;
@@ -380,7 +380,6 @@ public abstract class Character extends PhysicsObject {
         }
 
     }
-
     public Action getCurrentAction() {
         return currentAction;
     }
@@ -399,10 +398,10 @@ public abstract class Character extends PhysicsObject {
                 "\nElement: " + currentElement.toString();
         return s;
     }
+
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
-
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
@@ -417,11 +416,19 @@ public abstract class Character extends PhysicsObject {
     public Directions getCharacterDirection() {
         return characterDirection;
     }
+
     public void addOneDeath() {
     	deathCounter++;
     }
     public int getDeathCounter() {
     	return deathCounter;
+    }
+    public boolean hasActionSounded() {
+        return actionHasSounded;
+    }
+
+    public void setActionHasSounded(boolean actionHasSounded) {
+        this.actionHasSounded = actionHasSounded;
     }
 
     //check if the action is off cooldown
@@ -435,7 +442,7 @@ public abstract class Character extends PhysicsObject {
         }
         return false;
     }
-    
+
 
 	public void respawn(double mapWidth, double mapHeight) {
 		addOneDeath();
