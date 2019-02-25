@@ -1,8 +1,6 @@
 package engine;
 
 import client.ClientGameState;
-import client.GameClient;
-import client.InputHandler;
 import engine.calculations.DamageCalculation;
 import engine.entities.CollisionDetection;
 import engine.entities.PhysicsObject;
@@ -48,25 +46,25 @@ public class Physics {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
-        synchronized (deadPlayers) {
             for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
                 Player player = itr.next();
                 //If not already dead
-                if (!deadPlayers.contains(player)) {
-                    if (!player.isAlive()) {
-                        // Add to dead list
-                        deadPlayers.offer(player);
-                        // Add kills to scoreboard
-                        scoreBoard.addKill(player.getLastAttacker().getId());
-                        //if dead teleport player off screen
-                        player.setLocation(new Point2D(5000, 5000));
+                if (!deadPlayers.contains(player) && !player.isAlive()) {
+                    // Add to dead list
 
-                    }
+                    deadPlayers.offer(player);
+
+                    // Add kills to scoreboard
+                    scoreBoard.addKill(player.getLastAttacker().getId());
+                    //if dead teleport player off screen
+                    player.setLocation(new Point2D(5000, 5000));
+
                 }
+
             }
 
 
-        }
+
     }
 
     public void doCollisionDetection() {

@@ -3,20 +3,28 @@ package graphics.rendering;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import graphics.enumSwitches.colourSwitch;
+import graphics.enums.UIColour;
+import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static graphics.rendering.Renderer.getRelativeLocation;
 
 class DrawObjects {
 
-    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player) {
+    private static Stop[] stops1 = new Stop[]{new Stop(0.2, Color.web("060419")), new Stop(0.4, Color.web("041830")), new Stop(0.7, Color.ORCHID), new Stop(1, Color.ORANGE)};
+    private static RadialGradient lg1 = new RadialGradient(0, 0, 0.5, 0.5, 0.8, true, CycleMethod.NO_CYCLE, stops1);
+
+
+    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player, HashMap<Sprites, Image> textures) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D playerLocation = player.getLocation();
@@ -24,14 +32,13 @@ class DrawObjects {
         double relativeX = stageCenter.getX() - playerLocation.getX() ;
         double relativeY = stageCenter.getY() - playerLocation.getY();
         Point2D boardPosition = new Point2D(relativeX, relativeY);
-
         // draw map
         gc.save();
-        gc.setFill(Color.rgb(214, 214,214));
 
-
+        // todo remove string compare
+        gc.setFill(new ImagePattern(textures.get(Sprites.MAP)));
         gc.fillRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
-        gc.strokeRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
+
 
         // restore previous state
         gc.restore();
@@ -58,7 +65,12 @@ class DrawObjects {
 
     static void drawBackground(GraphicsContext gc, Rectangle stageSize, ArrayList<Point2D> stars) {
         gc.save();
-        gc.setFill(Color.BLACK);
+        gc.setFill(UIColour.BACKGROUND.getColor());
+
+
+
+        gc.setFill(lg1);
+
         gc.fillRect(0, 0, stageSize.getWidth(), stageSize.getHeight());
 
         gc.setFill(Color.WHITE);

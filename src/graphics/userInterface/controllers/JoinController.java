@@ -23,7 +23,6 @@ public class JoinController {
         this.stage = stage;
     }
 
-
     @FXML
     public void handleOkBtn(){
         // create game rules

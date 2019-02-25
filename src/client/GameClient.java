@@ -122,8 +122,8 @@ public class GameClient {
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
                 renderer.render(primaryStage, gameState);
-                // TODO: remove this when networking is added
 
+                // TODO: remove this when networking is added
                 physicsEngine.clientLoop();
 
                 if(!gameState.getRunning()) {
