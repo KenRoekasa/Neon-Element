@@ -19,20 +19,20 @@ import networking.NetworkDispatcher;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
 
-	private InetAddress serverAddr;
-	private ClientGameState gameState;
-	private InetAddress clientIpAddress;
-	protected String serverAddress;
-	private int clientID;
+    private InetAddress serverAddr;
+    private ClientGameState gameState;
+    private InetAddress clientIpAddress;
+    protected String serverAddress;
+    private int clientID;
 
-	protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr,
-			/* MulticastSocket multicastSocket, InetAddress groupAddress, */ ClientGameState gameState) {
-		super(socket/* , multicastSocket, groupAddress */);
-		this.serverAddr = serverAddr;
-		this.gameState = gameState;
-	}
+    protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr,
+            /* MulticastSocket multicastSocket, InetAddress groupAddress, */ ClientGameState gameState) {
+        super(socket/* , multicastSocket, groupAddress */);
+        this.serverAddr = serverAddr;
+        this.gameState = gameState;
+    }
 
-	public void sendHello() {
+    public void sendHello() {
         try {
             Packet packet = new HelloPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
@@ -89,10 +89,37 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         this.gameState.getObjects().add(powerUp);
     }
 
-
     protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
-       	BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(), packet.getMap(), packet.getPlayersInfo());
-    		this.gameState = new ClientGameState(gameState.getPlayer(), gameState.getMap(), gameState.getObjects(), gameState.getDeadPlayers(), gameState.getScoreBoard(), gameState.getGameType());
+        BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(),
+                packet.getIds(), packet.getLocations(), packet.getMap());
+
+        Player clientPlayer = new Player(ObjectType.PLAYER);
+        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        LinkedBlockingQueue<Player> deadPlayers = new LinkedBlockingQueue<Player>();
+        ScoreBoard scoreboard = new ScoreBoard();
+        ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
+
+        for (int i = 0; i < initGameState.getIds().size(); i++) {
+            if (initGameState.getIds().get(i) == clientID) {
+                clientPlayer.setLocation(initGameState.getLocations().get(i));
+                clientPlayer.setId(initGameState.getIds().get(i));
+                objects.add(clientPlayer);
+                tempScoreboardPlayers.add(clientPlayer);
+            } else {
+                Player enemy = new Player(ObjectType.ENEMY);
+                enemy.setId(initGameState.getIds().get(i));
+                enemy.setLocation(initGameState.getLocations().get(i));
+                objects.add(enemy);
+                tempScoreboardPlayers.add(enemy);
+
+            }
+
+        }
+        scoreboard.initialise(tempScoreboardPlayers);
+
+        this.gameState = new ClientGameState(clientPlayer, initGameState.getMap(), objects, deadPlayers,
+                scoreboard, initGameState.getGameType());
+
     }
 
     protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
