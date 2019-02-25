@@ -1,5 +1,9 @@
 package client.audiomanager;
 
+import client.ClientGameState;
+import engine.GameState;
+import engine.entities.Player;
+import engine.enums.Action;
 import javafx.scene.media.AudioClip;
 
 import java.io.File;
@@ -26,7 +30,10 @@ public class AudioManager {
 
     public void playSound(Sound s){
         effects.get(s).play(volume);
+    }
 
+    public void playSound(Sound s, double volumeDistance) {
+        effects.get(s).play(volumeDistance * volume);
     }
 
     public double getVolume() {
@@ -36,4 +43,40 @@ public class AudioManager {
         AudioManager.volume = volume;
     }
 
+
+
+
+    // todo improve this
+    public void clientLoop(ClientGameState gameState) {
+
+        if(gameState.getPlayer().isAlive()) {
+            if(gameState.getPlayer().getCurrentAction() != Action.IDLE && !gameState.getPlayer().hasActionSounded()) {
+
+
+                playSound(Sound.switchSound(gameState.getPlayer().getCurrentAction()));
+                gameState.getPlayer().setActionHasSounded(true);
+            }
+
+
+            for(Player enemy: gameState.getOtherPlayers(gameState.getPlayer())) {
+
+                if(enemy.getCurrentAction() != Action.IDLE && !enemy.hasActionSounded()) {
+
+
+                    double distance = gameState.getPlayer().getLocation().distance(enemy.getLocation());
+                    double func = 1 / (distance);
+                    func = func * 100;
+
+                    // calculate distance
+                    
+
+                    playSound(Sound.switchSound(enemy.getCurrentAction()), func);
+                    enemy.setActionHasSounded(true);
+                }
+
+            }
+        }
+
+
+    }
 }

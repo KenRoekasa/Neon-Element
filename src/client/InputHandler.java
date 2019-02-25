@@ -1,7 +1,5 @@
 package client;
 
-import client.audiomanager.AudioManager;
-import client.audiomanager.Sound;
 import engine.entities.Player;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.HUDController;
@@ -109,7 +107,7 @@ public class InputHandler {
         }
     }
 
-    static void handleClick(Player player, MouseEvent e, AudioManager audioManager) {
+    static void handleClick(Player player, MouseEvent e) {
 
         if(e.getButton() == MouseButton.PRIMARY) {
             player.lightAttack();
