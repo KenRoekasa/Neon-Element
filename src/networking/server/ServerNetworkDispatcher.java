@@ -24,8 +24,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	private ServerGameState gameState;
 	private int expectedPlayersToJoin = 2;
 	private ArrayList<PlayerConnection> connections;
-	private ArrayList<Integer> playerIds;
-	private ArrayList<Point2D> playeLoc;
+	private ArrayList<Integer> playerIds = new ArrayList<Integer>();
+	private ArrayList<Point2D> playeLoc = new ArrayList<Point2D>();
 
 	protected ServerNetworkDispatcher(DatagramSocket socket,
 			/* MulticastSocket multicastSocket, InetAddress groupAddress, */ ServerGameState gameState) {
