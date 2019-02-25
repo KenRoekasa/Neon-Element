@@ -7,10 +7,12 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.ArrayList;
 
+import engine.GameState;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
+import javafx.geometry.Point2D;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
@@ -19,8 +21,10 @@ import networking.NetworkDispatcher;
 public class ServerNetworkDispatcher extends NetworkDispatcher {
     
     private ServerGameState gameState;
-
+    private int expectedPlayersToJoin = 2;
     private ArrayList<PlayerConnection> connections;
+    private ArrayList<Integer> playerIds;
+    private ArrayList<Point2D> playeLoc;
 
 	protected ServerNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ServerGameState gameState) {
 		super(socket/*, multicastSocket, groupAddress*/);
@@ -56,11 +60,22 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	        Player player = new Player(ObjectType.PLAYER);
 	        playerId = player.getId();
+	   
+	        this.playerIds.add(playerId);
             PlayerConnection playerConn = new PlayerConnection(player, packet.getIpAddress(), packet.getPort());
 
             this.connections.add(playerConn);
+            this.playeLoc.add(player.getLocation());
+            
             this.gameState.getAllPlayers().add(player);
             this.gameState.getObjects().add(player);
+            
+            
+            
+            
+            
+            
+            System.out.println("Number of players connected: "+gameState.getAllPlayers().size());
 
             System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress());
 
@@ -73,7 +88,12 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             Packet connect = new BroadCastConnectedUserPacket(playerId);
             this.broadcast(connect);
 
-            if(this.connections.size() == 2) {
+            	
+            	if(connections.size() == expectedPlayersToJoin) {
+            		this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
+            		Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), gameState.getMap(),connections);
+            		this.broadcast(gameStatePacket);
+           
                 this.gameState.setStarted(true);
                 this.broadcastGameStarted();
             }

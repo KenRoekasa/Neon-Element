@@ -83,6 +83,14 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         this.gameState.getObjects().add(powerUp);
     }
 
+    
+    protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
+       	BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(), packet.getMap(), packet.getPlayersInfo());
+    		this.gameState = new ClientGameState(gameState.getPlayer(), gameState.getMap(), gameState.getObjects(), gameState.getDeadPlayers(), gameState.getScoreBoard(), gameState.getGameType());
+        
+ 
+    }
+
     protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
@@ -108,7 +116,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
-
+ 
     public void sendLocationState(double x, double y) {
         try {
             Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);

@@ -2,19 +2,24 @@ package networking.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import client.ClientGameState;
 import client.GameStateGenerator;
+import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
+import engine.gameTypes.FirstToXKillsGame;
+import javafx.scene.shape.Rectangle;
 import server.GameServer;
 import server.ServerGameState;
 
 public class ManualTestServer {
     public static void main(String[] args) throws IOException {
-        ClientGameState clientGameState = GameStateGenerator.createDemoGamestate();
         //TODO: not sure what this does change the parameters below accordingly - Kenny"
-        ServerGameState gameState = new ServerGameState(clientGameState.getMap(), clientGameState.getDeadPlayers(),clientGameState.getObjects(), clientGameState.getScoreBoard(),clientGameState.getGameType());
+            
+        // todo when connected initialise scoreboard
+        ServerGameState gameState = new ServerGameState(new Rectangle(2000, 2000), new LinkedBlockingQueue<Player>(),new ArrayList<PhysicsObject>(), new ScoreBoard(), new FirstToXKillsGame(3));
         GameServer server = new GameServer(gameState);
         server.start();
 
