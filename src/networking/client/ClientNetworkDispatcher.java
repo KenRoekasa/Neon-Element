@@ -96,19 +96,19 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
 
-            Player foundPlayer = this.gameState.getObjects().stream()
-                .filter(p -> p.getTag().equals(ObjectType.PLAYER))
-                .map(p -> (Player) p)
-                .filter(p -> p.getId() == id)
-                .findFirst()
-                .orElse(null);
+            Player foundPlayer = this.gameState.getAllPlayers().stream()
+            .filter(p -> p.getTag().equals(ObjectType.ENEMY))
+            .map(p -> (Player) p)
+            .filter(p -> p.getId() == id)
+            .findFirst()
+            .orElse(null);
 
             Player player;
             if (foundPlayer != null) {
                 player = foundPlayer;
             } else {
                 // Player id not found
-                player = new Player(ObjectType.PLAYER, id);
+                player = new Player(ObjectType.ENEMY, id);
                 this.gameState.getAllPlayers().add(player);
                 this.gameState.getObjects().add(player);
             }
