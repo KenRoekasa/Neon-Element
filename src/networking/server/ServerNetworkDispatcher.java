@@ -74,7 +74,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
             System.out.println("Number of players connected: "+gameState.getAllPlayers().size());
 
-            System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress());
+            System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress() + ":" + packet.getPort());
 
 	    }
 
@@ -158,9 +158,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
 
                 if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
-
-                    System.out.println("sent " +packet.getType() +" Packet ==> "+" Player with id: "+conn.getId());
-
+                    System.out.println("Sent " + packet.getType() + " to " + conn.getIpAddress() + ":" +conn.getPort() + " (" + conn.getId() + ")");
                 }
 
                 try {

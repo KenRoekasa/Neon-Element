@@ -12,10 +12,10 @@ import networking.packets.*;
 
 public class ClientNetwork {
     protected String name;
-    
+
     protected DatagramSocket socket;
     // protected MulticastSocket multicastSocket;
-    
+
     private ClientNetworkConnection conn;
     // private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
@@ -35,7 +35,7 @@ public class ClientNetwork {
         this.conn.start();
         // this.multiConn.start();
     }
-    
+
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
@@ -54,14 +54,14 @@ public class ClientNetwork {
             return;
         }
 
-        if ((!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) && (packet.getIpAddress() != null)) {
-            System.out.println("recieved a packet pf type: "+packet.getType()+" <== " + packet.getIpAddress() + " and port: " + packet.getPort()  );
-            
-        }else {
-            System.out.println("recieved a broacdcast packet of type: "+packet.getType());
-
-
+        if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+            if (packet.getIpAddress() != null) {
+                System.out.println("Got " + packet.getType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
+            } else {
+                System.out.println("Got " + packet.getType());
+            }
         }
+
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
