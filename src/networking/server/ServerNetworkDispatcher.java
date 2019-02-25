@@ -32,7 +32,17 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		super(socket/* , multicastSocket, groupAddress */);
 		this.gameState = gameState;
 		this.connections = new ArrayList<>();
-	}
+		
+	}	
+ 
+
+/*	protected ServerNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,erverGameState gameState)*/ {
+	//	super(socket/*, multicastSocket, groupAddress*/);
+		/*this.gameState = gameState;
+        this.connections = new ArrayList<>();
+        this.playerIds = new ArrayList<>();
+        this.playerLoc = new ArrayList<>();*/
+}
 
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
@@ -116,7 +126,13 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 				this.broadcastGameStarted();
 			}
 		}
-	}
+		
+
+	    }
+
+       
+
+	
 
 	protected void broadcastGameStarted() {
 		Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
@@ -142,17 +158,20 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		// this.send(response);
 	}
 
-	public void broadcastNewPowerUp(PowerUp powerUp) {
-		double x = powerUp.getLocation().getX();
-		double y = powerUp.getLocation().getY();
-		Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
-		this.broadcast(packet);
-	}
 
-	public void broadcastLocationState(int playerId, double x, double y) {
-		Packet packet = new BroadCastLocationStatePacket(playerId, x, y);
-		this.broadcast(packet);
-	}
+
+
+    public void broadcastNewPowerUp(PowerUp powerUp) {
+        double x = powerUp.getLocation().getX();
+        double y = powerUp.getLocation().getY();
+        Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
+        this.broadcast(packet);
+    }
+
+    public void broadcastLocationState(int playerId, double x, double y) {
+        Packet packet = new BroadCastLocationStatePacket(playerId, x, y);
+        this.broadcast(packet);
+    }
 
 	protected void receiveSpellCast(CastSpellPacket packet) {
 		// Packet response = new SpellCas
@@ -169,28 +188,27 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 				.orElse(null);
 	}
 
-	private void broadcast(Packet packet) {
-		if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
-			byte[] data = packet.getRawBytes();
 
-			for (PlayerConnection conn : this.connections) {
-				DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
 
-				if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+    private void broadcast(Packet packet) {
+        if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
+            byte[] data = packet.getRawBytes();
 
-					System.out
-							.println("sent " + packet.getType() + " Packet ==> " + " Player with id: " + conn.getId());
+            for (PlayerConnection conn : this.connections) {
+                DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
 
-				}
+                if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+                    System.out.println("Sent " + packet.getType() + " to " + conn.getIpAddress() + ":" +conn.getPort() + " (" + conn.getId() + ")");
+                }
 
-				try {
-					this.socket.send(datagram);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} else {
-			System.out.println("Attempted to send a recived packet.");
-		}
-	}
+                try {
+                    this.socket.send(datagram);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("Attempted to send a recived packet.");
+        }
+    }
 }

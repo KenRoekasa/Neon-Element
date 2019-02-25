@@ -79,20 +79,25 @@ public class ServerNetwork extends Thread {
 
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        System.out.println("Type of packet rec: "+ packet.getType());
 
         if (packet == null) {
             System.out.println("Invalid packet recieved");
             return;
         }
 
+        if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE)) {
+            System.out.println("Got " + packet.getType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
+        }
+
         switch(packet.getType()) {
             case HELLO:
-            		System.out.println("recieved ");
                 this.dispatcher.receiveHello((HelloPacket) packet);
                 break;
             case CONNECT:
                 this.dispatcher.receiveConnect((ConnectPacket) packet);
+                break;
+            case LOCATION_STATE:
+                this.dispatcher.receiveLocationState((LocationStatePacket) packet);
                 break;
             default:
                 // TODO: log invalid packet

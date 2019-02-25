@@ -27,17 +27,21 @@ public class GameServer extends Thread {
     }
 
     public void run() {
-        this.running = true;
         this.network.start();
+
+        // Wait for game to be started
+        while(!this.gameState.isStarted()) {
+            Thread.yield();
+        }
 
         Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
         powerUpController.start();
 
+        this.running = true;
         while(this.running) {
             // Server logic
             this.doCollisionDetection();
             this.doUpdates();
-
 
             this.running = GameTypeHandler.checkRunning(gameState);
 
@@ -81,7 +85,7 @@ public class GameServer extends Thread {
                             powerUp.activatePowerUp(player);
                             // remove power up from objects array list
                             itr.remove();
-    
+
                         }
                     } else {
                         double x = player.getLocation().getX();
@@ -96,9 +100,9 @@ public class GameServer extends Thread {
                         Point2D checkLeftCart = new Point2D(x - movementSpeed, y);
                         Point2D checkRightCart = new Point2D(x + movementSpeed, y);
                         Point2D[] projectedLocations = {checkUp, checkDown, checkLeft, checkRight, checkUpCart, checkDownCart, checkLeftCart, checkRightCart};
-    
+
                         // System.out.println(player.getCharacterDirection());
-    
+
                         switch (player.getCharacterDirection()) {
                             case UP:
                                 projectedPlayer.setLocation(checkUp);
@@ -107,7 +111,7 @@ public class GameServer extends Thread {
                                     player.canUpCart = false;
                                     player.canLeftCart = false;
                                 }
-    
+
                                 break;
                             case DOWN:
                                 projectedPlayer.setLocation(checkDown);
@@ -124,9 +128,9 @@ public class GameServer extends Thread {
                                     player.canDownCart = false;
                                     player.canLeftCart = false;
                                     player.canRightCart = false;
-    
+
                                 }
-    
+
                                 break;
                             case UPCART:
                                 projectedPlayer.setLocation(checkUpCart);
@@ -227,7 +231,7 @@ public class GameServer extends Thread {
             }
         }
     }
-    
+
     private void sendLocations() {
         synchronized (gameState.getAllPlayers()) {
             for (Player p : gameState.getAllPlayers()) {

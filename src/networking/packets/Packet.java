@@ -26,8 +26,8 @@ public abstract class Packet {
         READY_STATE_BCAST    ((byte) 0xF2), LOCATION_STATE_BCAST ((byte) 0xF3),
         ELEMENT_STATE_BCAST  ((byte) 0xF4), CAST_SPELL_BCAST     ((byte) 0xF5),
         POWERUP_PICKUP_BCAST ((byte) 0xF6), POWERUP_STATE_BCAST  ((byte) 0xF7),
-        GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF), 
-        BCAST_INITIAL_GAME_STATE((byte) 0xF9);
+        INITIAL_STATE_BCAST  ((byte) 0xF8),
+        GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF);
 
         private byte id;
 
@@ -61,11 +61,11 @@ public abstract class Packet {
         this.ipAddress = ipAddress;
         this.port = port;
     }
-    
+
     protected Packet(PacketDirection direction, PacketType type) {
     	this.direction = direction;
         this.type = type;
-       
+
     }
 
     public abstract byte[] getRawBytes();
@@ -106,61 +106,42 @@ public abstract class Packet {
         buffer.put(data);
         buffer.flip();
 
-        Packet packet;
         PacketType type = PacketType.getTypeFromId(id);
 
         switch (type) {
-            default:
-                packet = null;
-                break;
             case HELLO:
-                packet = new HelloPacket(buffer, ipAddress, port);
-                break;
+                return new HelloPacket(buffer, ipAddress, port);
             case HELLO_ACK:
-                packet = new HelloAckPacket(buffer, ipAddress, port);
-                break;
+                return new HelloAckPacket(buffer, ipAddress, port);
             case CONNECT:
-                packet = new ConnectPacket(buffer, ipAddress, port);
-                break;
+                return new ConnectPacket(buffer, ipAddress, port);
             case CONNECT_ACK:
-                packet = new ConnectAckPacket(buffer, ipAddress, port);
-                break;
+                return new ConnectAckPacket(buffer, ipAddress, port);
             case LOCATION_STATE:
-                packet = new LocationStatePacket(buffer, ipAddress, port);
-                break;
+                return new LocationStatePacket(buffer, ipAddress, port);
             case CONNECT_BCAST:
-            		packet = new BroadCastConnectedUserPacket(buffer);
-            		break;
+                return new BroadCastConnectedUserPacket(buffer);
             case DISCONNECT_BCAST:
-            		packet = new BroadCastDisconnectedUserPacket(buffer);
-            		break;
+                return new BroadCastDisconnectedUserPacket(buffer);
             case READY_STATE_BCAST:
-            		packet = new BroadCastReadyStatePacket(buffer);
-            		break;
+                return new BroadCastReadyStatePacket(buffer);
             case LOCATION_STATE_BCAST:
-            		packet = new BroadCastLocationStatePacket(buffer);
-            		break;
+                return new BroadCastLocationStatePacket(buffer);
             case ELEMENT_STATE_BCAST:
-            		packet = new BroadCastElementStatePacket(buffer);
-            		break;
+                return new BroadCastElementStatePacket(buffer);
             case CAST_SPELL_BCAST:
-            		packet = new BroadCastCastSpellPacket(buffer);
-            		break;
+                return new BroadCastCastSpellPacket(buffer);
             case POWERUP_PICKUP_BCAST:
-            		packet = new BroadCastPowerUpPickUpPacket(buffer);
-            		break;
+                return new BroadCastPowerUpPickUpPacket(buffer);
             case POWERUP_STATE_BCAST:
-            		packet = new BroadCastPowerUpPacket(buffer);
-            		break;
+                return new BroadCastPowerUpPacket(buffer);
             case GAME_START_BCAST:
-            		packet = new BroadCastGameStartPacket(buffer);
-            		break;
+                return new BroadCastGameStartPacket(buffer);
             case GAME_OVER_BCAST:
-            		packet = new BroadCastGameOverPacket(buffer);
-            		break;
+                return new BroadCastGameOverPacket(buffer);
+            default:
+                return null;
         }
-
-        return packet;
     }
 
     public static final byte getByteValue(boolean b) {

@@ -10,13 +10,13 @@ import javafx.scene.transform.Rotate;
 public class Player extends Character {
 
     private int id;
-    
+
     private static int nextId = 1;
-    
+
     public Player(ObjectType type, int id) {
         super();
         this.id = id;
-        location = new Point2D(0, 0);
+        location = Point2D.ZERO;
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
@@ -50,10 +50,7 @@ public class Player extends Character {
     }
 
     public void setLocation(double x, double y) {
-        double X = this.location.getX();
-        double Y = this.location.getY();
-
-        this.location.add(x - X, y - Y);
+        this.location = new Point2D(x, y);
     }
 
     public void setId(int i) {
