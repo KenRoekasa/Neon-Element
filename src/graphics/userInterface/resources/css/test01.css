@@ -11,10 +11,7 @@
     -fx-text-fill: white;
 }
 
-.title{
-    -fx-font-family: "Comic Sans MS";
-    -fx-border-color: WHITE;
-}
+
 
 .button_round{
     -fx-font-family: "Arial Black";
@@ -29,9 +26,10 @@
 }
 
 .button{
-    -fx-font-family: "Super Mario Bros.";
+/*    -fx-font-family: "Super Mario Bros.";
     -fx-background-radius: 13px;
-    -fx-font-size: 18pt;
+    -fx-font-size: 18pt;*/
+
 }
 
 /*for jump button*/
@@ -61,6 +59,22 @@
     -fx-text-fill: white;
     -fx-font-family: "Comic Sans MS";
     -fx-font-size: 10pt;
+}
+
+.text_outrun{
+/*    -fx-font-family: "BullpenThreeD-Regular";*/
+    -fx-font-family: "911 Porscha 3D";
+    -fx-text-fill:red;
+
+}
+.linear-grad-to-top {
+    -fx-background-color: linear-gradient(to top, #ff7f50, #6a5acd);
+}
+
+.title_outrun{
+    -fx-font-family: "Outrun future Bold Italic";
+    -fx-font-size: 30pt;
+    -fx-text-fill: white;
 }
 
 

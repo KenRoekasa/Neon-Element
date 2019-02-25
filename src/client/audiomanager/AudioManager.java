@@ -11,7 +11,7 @@ public class AudioManager {
     private HashMap<Sound, MediaPlayer> soundLibray;
 
     public AudioManager(){
-        volume = 100;
+        volume = 0;
         soundLibray = new HashMap<>();
 
         for(Sound sound: Sound.values()){
