@@ -1,6 +1,6 @@
 package engine.entities;
 
-import engine.enumSwitches.objectSize;
+import client.GameClient;
 import engine.enums.Directions;
 import engine.enums.Elements;
 import engine.enums.ObjectType;
@@ -26,8 +26,8 @@ public class Player extends Character {
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
-        width = objectSize.getObjectSize(type);
         tag = type;
+        width = tag.getSize();
 
         for (int i = 0; i < timerArray.length; i++) {
             timerArray[i] = System.currentTimeMillis() - 10 * 1000;
@@ -48,6 +48,13 @@ public class Player extends Character {
         } else {
             isAlive = true;
         }
+
+        location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
+        horizontalMove = 0;
+        verticalMove = 0 ;
+
+
+
     }
 
     public void setLocation(double x, double y) {
