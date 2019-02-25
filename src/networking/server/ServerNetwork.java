@@ -96,6 +96,9 @@ public class ServerNetwork extends Thread {
             case CONNECT:
                 this.dispatcher.receiveConnect((ConnectPacket) packet);
                 break;
+            case LOCATION_STATE:
+                this.dispatcher.receiveLocationState((LocationStatePacket) packet);
+                break;
             default:
                 // TODO: log invalid packet
         }
