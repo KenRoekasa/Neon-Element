@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import static engine.entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
-    public static final float DEFAULT_MOVEMENT_SPEED = 0.5f;
+    public static final float DEFAULT_MOVEMENT_SPEED = 0.35f;
     protected static final float MAX_HEALTH = 100;
     public static AudioManager audioManager = new AudioManager();
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;

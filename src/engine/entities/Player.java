@@ -52,7 +52,7 @@ public class Player extends Character {
 
         location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
         horizontalMove = 0;
-        verticalMove =0;
+        verticalMove = 0 ;
 
 
 
