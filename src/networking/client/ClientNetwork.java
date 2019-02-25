@@ -14,24 +14,26 @@ public class ClientNetwork {
     protected String name;
     
     protected DatagramSocket socket;
-    protected MulticastSocket multicastSocket;
+    // protected MulticastSocket multicastSocket;
     
     private ClientNetworkConnection conn;
-    private ClientNetworkMulticastConnection multiConn;
+    // private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
 
-    public ClientNetwork(ClientGameState gameState) {
+    public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
 
+        /*
         this.multiConn = new ClientNetworkMulticastConnection(this);
         this.multicastSocket = multiConn.getSocket();
         InetAddress groupAddress = multiConn.getGroupAddress();
+        */
 
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, this.multicastSocket, groupAddress, gameState);
+        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddr, /*this.multicastSocket, groupAddress,*/ gameState);
 
         this.conn.start();
-        this.multiConn.start();
+        // this.multiConn.start();
     }
     
     public ClientNetworkDispatcher getDispatcher() {
@@ -40,7 +42,7 @@ public class ClientNetwork {
 
     public void close() {
         this.conn.close();
-        this.multiConn.close();
+        // this.multiConn.close();
         this.dispatcher.close();
     }
 
@@ -51,11 +53,24 @@ public class ClientNetwork {
             System.out.println("Invalid packet recieved");
             return;
         }
-        System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " --> " + packet.getType());
+
+        if ((!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) && (packet.getIpAddress() != null)) {
+            System.out.println("recieved a packet pf type: "+packet.getType()+" <== " + packet.getIpAddress() + " and port: " + packet.getPort()  );
+            
+        }else {
+            System.out.println("recieved a broacdcast packet of type: "+packet.getType());
+
+
+        }
         switch(packet.getType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
+                break;
+            case CONNECT_ACK:
+                this.dispatcher.receiveConnectAck((ConnectAckPacket) packet);
+                break;
             case GAME_START_BCAST:
+                this.dispatcher.receiveGameStart((BroadCastGameStartPacket) packet);
                 break;
             case LOCATION_STATE_BCAST:
                 this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);
@@ -79,6 +94,7 @@ public class ClientNetwork {
             		break;
             default:
                 System.out.println("Unhandled packet " + packet.getType());
+                break;
         }
     }
 

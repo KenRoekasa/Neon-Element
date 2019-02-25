@@ -1,67 +1,64 @@
 package graphics.userInterface.controllers;
 
+
+import client.ClientGameState;
+import engine.GameState;
 import engine.entities.Player;
+import engine.enums.Elements;
+import graphics.enumSwitches.colourSwitch;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 //To get players' health and speed in top-left hud
 public class HUDController implements Initializable{
     private Stage stage;
-    @FXML
-    public Button pause;
+    private ClientGameState gameState;
+
+    public void setGameState(ClientGameState gameState) {
+        this.gameState = gameState;
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
     @FXML
     private Text health;
     private StringProperty healthValue;
+
     @FXML
-    private Text speed;
-    private StringProperty speedValue;
+    private Text kills;
+    private StringProperty totalKills;
 
     public HUDController(){
         healthValue = new SimpleStringProperty();
-        speedValue = new SimpleStringProperty();
         healthValue.set("100");
-        speedValue.set("5");
-    }
-
-    @FXML
-    public void handlePauseBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/pause.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            PauseController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Pause");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading pause board ");
-            e.printStackTrace();
-        }
+        totalKills  = new SimpleStringProperty();
+        totalKills.set("0");
     }
 
     public void initPlayer(Player player) {
        healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
-       speedValue.set(String.valueOf(player.getMovementSpeed()));
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        health.textProperty().bind(healthValue);
-        speed.textProperty().bind(speedValue);
+        Thread property = new Thread();
 
     }
 }

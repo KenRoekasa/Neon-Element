@@ -2,6 +2,11 @@
     -fx-background-color: #142b44;
 }
 
+.background_transparent{
+    -fx-background-color: transparent;
+
+}
+
 .text{
     -fx-text-fill: white;
 }
@@ -47,7 +52,11 @@
     -fx-font-size: 13pt;
 
 }
-
+.label_large{
+    -fx-text-fill: white;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 34pt;
+}
 .radio-button{
     -fx-text-fill: white;
     -fx-font-family: "Comic Sans MS";

@@ -8,15 +8,15 @@ import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.AiStates;
+
 import engine.enums.AiType;
-import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
-import javafx.geometry.Point2D;
+import java.util.ArrayList;
+import java.util.Random;
+
 public class AiController {
-
 
 		AiStates activeState;
 		ArrayList<PhysicsObject> objects;
@@ -100,9 +100,7 @@ public class AiController {
 						
 						easyAIExecuteAction();
 
-						if (aiPlayer.getHealth() <= 0) {
-							aiPlayer.respawn(map.getWidth(),map.getHeight());
-						}
+
 						
 					}
 				
@@ -132,10 +130,7 @@ public class AiController {
 							aiPlayer.delay(calc.DELAY_TIME);
 						
 						normalAIExecuteAction();
-						
-						if (aiPlayer.getHealth() <= 0) {
-							aiPlayer.respawn(map.getWidth(),map.getHeight());
-						}
+
 						
 					}
 					
@@ -165,9 +160,7 @@ public class AiController {
 						
 						hardAIExecuteAction();
 						
-						if (aiPlayer.getHealth() <= 0) {
-							aiPlayer.respawn(map.getWidth(),map.getHeight());
-						}
+
 								
 					}
 				
@@ -329,6 +322,5 @@ public class AiController {
 			return aiType;
 		}
 		
-		
-
+	
 }

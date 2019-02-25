@@ -20,20 +20,24 @@ public class AiCalculations {
 	private Player aiPlayer;
 	private Rectangle map;	
 	private Player player;
+	private ArrayList<PowerUp> powerups;
 	
 	public AiCalculations(AiController aiCon,Rectangle map) {
 		this.aiCon = aiCon;
 		this.map = map;
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
+		powerups = new ArrayList<>();
 		
 	}
 
 
 	public ArrayList<Player> getPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(PhysicsObject object : aiCon.getObjects()) {
-			if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for(PhysicsObject object : objects) {
+			if( object.getTag() == (ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
 				players.add((Player)object);
 			}
 		}
@@ -42,17 +46,18 @@ public class AiCalculations {
 	}
 
 	
-	public ArrayList<PowerUp> getPowerups() {
+	public void updatePowerups() {
 
-		ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
-		for (int i = 0; i < aiCon.getObjects().size(); i++) {
-			if (!aiCon.getObjects().get(i).equals(null)) {
-				if (ObjectType.POWERUP.equals(aiCon.getObjects().get(i).getTag()))
-					if (!powerups.contains(aiCon.getObjects().get(i)))
-						powerups.add((PowerUp) aiCon.getObjects().get(i));
+		powerups.clear();
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for (int i = 0; i < objects.size(); i++) {
+			if (!objects.get(i).equals(null)) {
+				if ( (objects.get(i).getTag()) ==  ObjectType.POWERUP)
+					if (!powerups.contains(objects.get(i)))
+						powerups.add((PowerUp) objects.get(i));
 			}
 		}
-		return powerups;
 	}
 	
 	public boolean isCharging(Player player) {
@@ -66,7 +71,7 @@ public class AiCalculations {
 	
 	public boolean powerupIsTooClose() {
 		int index = getNearestPowerUp();
-		if(index != -1 && isTooClose(getPowerups().get(index).getLocation())) {
+		if(index != -1 && isTooClose(powerups.get(index).getLocation())) {
 			return true;
 		}
 		return false;
@@ -261,7 +266,7 @@ public class AiCalculations {
 		int puIndex = getNearestPowerUp();
 		if(puIndex == -1)
 			return false;
-		double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
+		double disToPu = powerups.get(puIndex).getLocation().distance(aiPlayer.getLocation());
 		double disToPlayer = getNearestPlayer().getLocation().distance(aiPlayer.getLocation());
 		
 		return disToPu<disToPlayer;
@@ -325,6 +330,11 @@ public class AiCalculations {
 		return players.get(index);
 	}
 	
+	
+	public ArrayList<PowerUp> getPowerups(){
+		updatePowerups();
+		return powerups;
+	}
 	
 
 

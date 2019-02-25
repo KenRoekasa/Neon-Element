@@ -1,11 +1,12 @@
 package graphics.userInterface.controllers;
 
-import client.ClientBoard;
+import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -15,11 +16,12 @@ import java.io.IOException;
 public class JoinController {
     private ClientGameState gameState;
     private Stage stage;
+    
+    public TextField ip;
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 
     @FXML
     public void handleOkBtn(){
@@ -28,11 +30,11 @@ public class JoinController {
             gameState = GameStateGenerator.createDemoGamestate();
         //g.getPlayer().getHealth();
         try {
-            ClientBoard gameBoard = new ClientBoard(stage, gameState);
+            String addr = ip.getText();
+            GameClient gameBoard = new GameClient(stage, gameState, addr);
             Scene scene = gameBoard.getScene();
-            gameBoard.startGame();
+            gameBoard.startNetwork();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
 

@@ -7,10 +7,13 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.AiType;
 import engine.enums.ObjectType;
+import engine.gameTypes.FirstToXKillsGame;
+import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.ai.AiController;
 
@@ -23,11 +26,12 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
+        player.setId(100);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
         
         // create object list
-        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> objects = new ArrayList<>();
         
         // create power up
         PowerUp pu = new PowerUp();
@@ -45,12 +49,16 @@ public class GameStateGenerator {
       
         // Add the enemies to the objects list
         objects.addAll(enemies);
-        
+        objects.add(player);
+        System.out.println(objects);
         // generate a game state
-        ArrayList<Player> deadPlayers = new ArrayList<>();
-        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
+        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
+        ScoreBoard scoreboard = new ScoreBoard();
+        GameType gameType = new FirstToXKillsGame(10);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
 
+        //This will be initialised on start of the game
+        scoreboard.initialise(gameState.getAllPlayers());
         // start the engine.ai
         //startAi(aiConList);
         
@@ -66,17 +74,14 @@ public class GameStateGenerator {
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
+        player.setId(4);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
 
 
         //add the 1 power up to the objects list
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
-        //TODO: Remove
-        //add a powerup
-        PowerUp pu = new PowerUp();
 
-        objects.add(pu);
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
@@ -92,15 +97,30 @@ public class GameStateGenerator {
             enemies.add(aiCon.getAiPlayer() );
         }
         for (int i = 0; i < num_enm; i++) {
-            enemies.get(i).setLocation(new Point2D(140 + 200 * i, 100));
+
+            if(i == 0) {
+                enemies.get(i).setLocation(new Point2D(map.getWidth() - map.getWidth()/10, map.getHeight() - map.getHeight()/10));
+            } else if (i == 1) {
+                enemies.get(i).setLocation(new Point2D(0 +  map.getWidth()/10, map.getHeight() - map.getHeight()/10));
+            } else if (i == 2) {
+                enemies.get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
+            }
+
+            enemies.get(i).setId(i);
         }
-        ArrayList<Player> deadPlayers = new ArrayList<>();
+        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
 
         //Add the enemies to the objects list
         objects.addAll(enemies);
-        ScoreBoard scoreboard = new ScoreBoard(enemies.size()+1);
-        ClientGameState gameState = new ClientGameState(player, enemies, map, objects,deadPlayers, scoreboard);
+        objects.add(player);
+
+
+        ScoreBoard scoreboard = new ScoreBoard();
+        // First to 10 kills
+        GameType gameType = new FirstToXKillsGame(3);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+        scoreboard.initialise(gameState.getAllPlayers());
 
         startAi(aiConList, aiTypes);
 

@@ -1,14 +1,16 @@
 package engine;
 
+import engine.entities.Player;
 import javafx.util.Pair;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
 public class ScoreBoard {
     //Hash map , key = ID, value = pair type of  (number of kills, list of victims)
-    private HashMap<Integer, Pair<Integer, ArrayList<Integer>>> board;
+    private HashMap<Integer, Integer> board;
     private int totalKills;
 
     public ArrayList<Integer> getLeaderBoard() {
@@ -17,48 +19,59 @@ public class ScoreBoard {
 
     private ArrayList<Integer> leaderBoard;
 
-    public ScoreBoard(int numberOfPlayers) {
-
+    public ScoreBoard() {
         board = new HashMap<>();
         totalKills = 0;
         leaderBoard = new ArrayList<>();
 
-        for(int i = 0; i < numberOfPlayers; i++){
-            board.put(i, new Pair<>(0, new ArrayList<>()));
-            leaderBoard.add(i);
+
+    }
+
+    /** Create the hashmap based off the players in the game.
+     * Call this when the match is starting
+     * @param playerList the list of all player
+     */
+    public void initialise(ArrayList<Player> playerList){
+        for(Player p : playerList){
+            board.put(p.getId(), 0);
+            leaderBoard.add(p.getId());
 
         }
+        System.out.println(board);
     }
 
-    public void addKill(int killerID, int recipientID){
-        int newTotal = board.get(killerID).getKey() + 1;
-        ArrayList<Integer> newLog = board.get(killerID).getValue();
-        newLog.add(recipientID);
-        Pair<Integer, ArrayList<Integer>> newPair = new Pair<>(newTotal, newLog);
-
-        board.put(killerID, newPair);
+    public void addKill(int killerID){
+        System.out.println("before" +  board.get(killerID));
+        board.replace(killerID, board.get(killerID)+1);
+        System.out.println("after" + board.get(killerID));
         totalKills ++;
         updateLeaderBoard();
-    }
 
+        System.out.println(leaderBoard);
+
+    }
 
     private void updateLeaderBoard(){
         leaderBoard.sort((o1, o2) -> {
-            if (board.get(o1).getKey() > board.get(o2).getKey()){
+            if (board.get(o1) > board.get(o2)){
+                return -1;
+            } else if (board.get(o1) <(board.get(o2))){
                 return 1;
-            } else if (board.get(o1).getKey().equals(board.get(o2).getKey())){
-                return 0;
             } else {
-                return  -1;
+                return  0;
             }
         });
     }
 
-    public Pair<Integer, ArrayList<Integer>> getPlayerKills(int playerID){
+    public Integer getPlayerKills(int playerID){
         return board.get(playerID);
     }
 
     public int getTotalKills() {
         return totalKills;
+    }
+
+    public String toString() {
+        return board.toString();
     }
 }

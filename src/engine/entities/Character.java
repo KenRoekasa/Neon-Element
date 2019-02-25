@@ -1,5 +1,8 @@
 package engine.entities;
 
+import client.GameClient;
+import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
@@ -16,14 +19,16 @@ import java.util.concurrent.TimeUnit;
 import static engine.entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
-    protected final float MAX_HEALTH = 100;
+    public static final float DEFAULT_MOVEMENT_SPEED = 0.35f;
+    protected static final float MAX_HEALTH = 100;
+    public static AudioManager audioManager = new AudioManager();
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
     protected Directions characterDirection;
     protected boolean isShielded;
-    protected int movementSpeed;
+    protected float movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
     protected int deathCounter = 0;
@@ -32,24 +37,24 @@ public abstract class Character extends PhysicsObject {
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
-    public static final int DEFAULT_MOVEMENT_SPEED = 5;
+    protected float verticalMove = 0;
+    protected float horizontalMove = 0;
+    protected Player lastAttacker;
+    private long currentActionStart;
 
     public Player getLastAttacker() {
         return lastAttacker;
     }
 
-    protected Player lastAttacker;
-
-    private long currentActionStart;
-
     public void moveUp() {
         characterDirection = Directions.UP;
         if (canUp) {
-            double yCheck = location.getY() - movementSpeed - width / 2f;
-            double xCheck = location.getX() - movementSpeed - width / 2f;
+            double yCheck = location.getY() - movementSpeed  - width / 2f;
+            double xCheck = location.getX() - movementSpeed  - width / 2f;
 
             if (yCheck >= 0 && xCheck >= 0) {
-                location = location.add(-movementSpeed, -movementSpeed);
+                horizontalMove = -movementSpeed ;
+                verticalMove = -movementSpeed ;
             }
         }
 
@@ -60,11 +65,12 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.DOWN;
         if (canDown) {
 
-            double yCheck = location.getY() + movementSpeed + width / 2f;
-            double xCheck = location.getX() + movementSpeed + width / 2f;
+            double yCheck = location.getY() + movementSpeed  + width / 2f;
+            double xCheck = location.getX() + movementSpeed  + width / 2f;
 
             if (yCheck <= boardHeight && xCheck <= boardWidth) {
-                location = location.add(movementSpeed, movementSpeed);
+                horizontalMove = movementSpeed ;
+                verticalMove = movementSpeed ;
             }
         }
     }
@@ -72,11 +78,12 @@ public abstract class Character extends PhysicsObject {
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
         if (canLeft) {
-            double xCheck = location.getX() - movementSpeed - width / 2f;
-            double yCheck = location.getY() + movementSpeed + width / 2f;
+            double xCheck = location.getX() - movementSpeed  - width / 2f;
+            double yCheck = location.getY() + movementSpeed  + width / 2f;
 
             if (xCheck >= 0 && yCheck <= boardWidth) {
-                location = location.add(-movementSpeed, movementSpeed);
+                horizontalMove = -movementSpeed ;
+                verticalMove = movementSpeed ;
             }
         }
     }
@@ -86,12 +93,14 @@ public abstract class Character extends PhysicsObject {
         if (canRight) {
             //check within bounds
 
-            double xCheck = location.getX() + movementSpeed + width / 2f;
-            double yCheck = location.getY() - movementSpeed - width / 2f;
+            double xCheck = location.getX() + movementSpeed  + width / 2f;
+            double yCheck = location.getY() - movementSpeed  - width / 2f;
 
 
             if (xCheck <= boardWidth && yCheck >= 0) {
-                location = location.add(movementSpeed, -movementSpeed);
+
+                horizontalMove = movementSpeed ;
+                verticalMove = -movementSpeed ;
             }
         }
     }
@@ -100,8 +109,10 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.UPCART;
         if (canUpCart) {
 
-            if ((location.getY() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(0, -Math.sqrt(2 * movementSpeed * movementSpeed));
+            if ((location.getY() - movementSpeed  - width / 2f) >= 0) {
+
+                horizontalMove = 0;
+                verticalMove = (float) (-Math.sqrt(2 * movementSpeed * movementSpeed) );
 
             } else {
                 location = new Point2D(location.getX(), 0 + width / 2f);
@@ -113,8 +124,9 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.DOWNCART;
         if (canDownCart) {
 
-            if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
-                location = location.add(0, Math.sqrt(2 * movementSpeed * movementSpeed));
+            if ((location.getY() + movementSpeed  + width / 2f) <= boardHeight) {
+                horizontalMove = 0;
+                verticalMove = (float) (Math.sqrt(2 * movementSpeed * movementSpeed) );
             } else {
                 location = new Point2D(location.getX(), boardHeight - width / 2f);
             }
@@ -126,8 +138,9 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.LEFTCART;
         if (canLeftCart) {
             //check within bounds
-            if ((location.getX() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(-Math.sqrt(2 * movementSpeed * movementSpeed), 0);
+            if ((location.getX() - movementSpeed  - width / 2f) >= 0) {
+                horizontalMove = (float) (-Math.sqrt(2 * movementSpeed * movementSpeed) );
+                verticalMove = 0;
             } else {
                 location = new Point2D(0 + width / 2f, location.getY());
             }
@@ -140,8 +153,9 @@ public abstract class Character extends PhysicsObject {
         if (canRightCart) {
 
             //check within bounds
-            if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
-                location = location.add(Math.sqrt(2 * movementSpeed * movementSpeed), 0);
+            if ((location.getX() + movementSpeed  + width / 2f) <= boardWidth) {
+                horizontalMove = (float) (Math.sqrt(2 * movementSpeed * movementSpeed) );
+                verticalMove = 0;
             } else {
                 location = new Point2D(boardWidth - width / 2f, location.getY());
             }
@@ -149,15 +163,18 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void lightAttack() {
-        if (currentAction == Action.IDLE) {
-            currentAction = Action.LIGHT;
-            currentActionStart = System.currentTimeMillis();
-            long attackDuration = AttackTimes.getActionTime(currentAction);
-            final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-            int damage = 3;
+        if (checkCD(lightAttackID, lightAttackCD)) {
+            if (currentAction == Action.IDLE) {
 
+                audioManager.playSound(Sound.LIGHT_ATTACK);
 
-            resetActionTimer(attackDuration, remainingAttackDuration);
+                currentAction = Action.LIGHT;
+                currentActionStart = System.currentTimeMillis();
+                long attackDuration = AttackTimes.getActionTime(currentAction);
+                final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+                int damage = 3;
+                resetActionTimer(attackDuration, remainingAttackDuration);
+            }
         }
 
 
@@ -178,9 +195,10 @@ public abstract class Character extends PhysicsObject {
         this.health -= damage;
         //System.out.println("player health "+getHealth());
     }
-    public void removeHealth(float damage,Player lastAttacker) {
+
+    public void removeHealth(float damage, Player lastAttacker) {
         this.health -= damage;
-        this.lastAttacker=lastAttacker;
+        this.lastAttacker = lastAttacker;
         //System.out.println("player health "+getHealth());
     }
 
@@ -206,7 +224,10 @@ public abstract class Character extends PhysicsObject {
 
 
     private void heavyAttack() {
+
+
         currentAction = Action.HEAVY;
+        audioManager.playSound(Sound.HEAVY_ATTACK);
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
@@ -276,7 +297,7 @@ public abstract class Character extends PhysicsObject {
         this.location = location;
     }
 
-    public int getMovementSpeed() {
+    public float getMovementSpeed() {
         return movementSpeed;
     }
 
@@ -301,20 +322,25 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
+    public void respawn() {
+        isAlive = true;
+        health = MAX_HEALTH;
+    }
 
     // adds Health to the player
     public void addHealth(int amount) {
+
         health += amount;
         if (health > MAX_HEALTH) {
             health = MAX_HEALTH;
         }
     }
-    
+
     // Increase movement speed
     public void speedBoost() {
-    	Timer timer = new Timer();
-    	
-        movementSpeed = 8;
+        Timer timer = new Timer();
+
+        movementSpeed = DEFAULT_MOVEMENT_SPEED * 2;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
@@ -322,7 +348,7 @@ public abstract class Character extends PhysicsObject {
             (new Timer()).scheduleAtFixedRate(new TimerTask() {
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = 5;
+                        movementSpeed = DEFAULT_MOVEMENT_SPEED;
                         System.out.println("speed boost has ended");
                         timer.cancel();
                     }
@@ -377,12 +403,13 @@ public abstract class Character extends PhysicsObject {
         return currentActionStart;
     }
 
-    public String toString(){
+    public String toString() {
         String s = "ID: " + System.identityHashCode(this) +
                 "\nHealth: " + health +
                 "\nElement: " + currentElement.toString();
         return s;
     }
+
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
@@ -395,23 +422,18 @@ public abstract class Character extends PhysicsObject {
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, 200);
+        return new Circle(location.getX() + width, location.getY() + width, 300);
     }
 
     public Directions getCharacterDirection() {
         return characterDirection;
     }
-    public void addOneDeath() {
-    	deathCounter++;
-    }
-    public int getDeathCounter() {
-    	return deathCounter;
-    }
+
 
     //check if the action is off cooldown
     private boolean checkCD(int id, float cooldown) {
         // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + ((long) cooldown * 1000));
+        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000));
         //check if the time calculated has passed
         if (System.currentTimeMillis() > nextAvailableTime) {
             timerArray[id] = System.currentTimeMillis();
@@ -419,24 +441,14 @@ public abstract class Character extends PhysicsObject {
         }
         return false;
     }
-    
 
-	public void respawn(double mapWidth, double mapHeight) {
-		addOneDeath();
-		setLocation(new Point2D(-500, -500));
-		delay(3000);
-		while(getHealth()!=100)
-			addHealth(1);
-		setLocation(new Point2D(mapWidth-1, mapHeight-1));
-	}
-	
-	public void delay(int time) {
-		try {
-			TimeUnit.MILLISECONDS.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
+    public void delay(int time) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(time);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

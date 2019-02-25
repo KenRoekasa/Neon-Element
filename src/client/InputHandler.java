@@ -1,13 +1,21 @@
 package client;
 
+import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import engine.entities.Player;
 import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.HUDController;
+import graphics.userInterface.controllers.PauseController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class InputHandler {
@@ -41,11 +49,12 @@ public class InputHandler {
         player.setPlayerAngle(new Rotate(angle));
     }
 
-    static void handleKeyboardInput(Player player, ArrayList<String> input, Rectangle board) {
+    static void handleKeyboardInput(Player player, ArrayList<String> input, Rectangle board,Stage primaryStage) {
         boolean left = input.contains("LEFT") || input.contains("A");
         boolean right = input.contains("RIGHT") || input.contains("D");
         boolean up = input.contains("UP") || input.contains("W");
         boolean down = input.contains("DOWN") || input.contains("S");
+        boolean pause = input.contains("P");
 
         if (left && up || left & down || right && up || right & down) {
             if (left & up) {
@@ -81,7 +90,6 @@ public class InputHandler {
         } else {
             player.unShield();
         }
-
     }
 
     private static void moveIsometric(Player player, Rectangle board, boolean left, boolean right, boolean up, boolean down) {
@@ -101,7 +109,7 @@ public class InputHandler {
         }
     }
 
-    static void handleClick(Player player, Stage primaryStage, MouseEvent e, Renderer r) {
+    static void handleClick(Player player, MouseEvent e, AudioManager audioManager) {
 
         if(e.getButton() == MouseButton.PRIMARY) {
             player.lightAttack();
@@ -111,4 +119,5 @@ public class InputHandler {
 
         }
     }
+
 }

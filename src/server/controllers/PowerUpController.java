@@ -1,5 +1,6 @@
 package server.controllers;
 
+import engine.GameState;
 import engine.entities.PhysicsObject;
 import engine.entities.PowerUp;
 import networking.server.ServerNetworkDispatcher;
@@ -8,26 +9,29 @@ import java.util.ArrayList;
 
 public class PowerUpController implements Runnable {
 
+    private GameState gamestate;
     ArrayList<PhysicsObject> objects;
     ServerNetworkDispatcher dispatcher;
 
-    public PowerUpController(ArrayList<PhysicsObject> objects) {
-        this.objects = objects;
+    public PowerUpController(GameState gameState) {
+        this.objects = gameState.getObjects();
+        this.gamestate = gameState;
     }
-    
-    public PowerUpController(ArrayList<PhysicsObject> objects, ServerNetworkDispatcher dispatcher) {
-        this.objects = objects;
+
+    public PowerUpController(GameState gameState, ServerNetworkDispatcher dispatcher) {
+        this.objects = gameState.getObjects();
+        this.gamestate = gameState;
         this.dispatcher = dispatcher;
     }
 
     @Override
     public void run() {
         // creates a power up every 15 sec
-        while (true) {
+        while (gamestate.getRunning()) {
             synchronized (objects) {
                 PowerUp powerUp = new PowerUp();
                 objects.add(powerUp);
-//                this.dispatcher.broadcastNewPowerUp(powerUp);
+                //                this.dispatcher.broadcastNewPowerUp(powerUp);
             }
             try {
                 Thread.sleep(15000);

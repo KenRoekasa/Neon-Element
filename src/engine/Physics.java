@@ -1,163 +1,39 @@
-package client;
+package engine;
 
-
-import engine.ScoreBoard;
-
-import graphics.userInterface.controllers.HUDController;
+import client.ClientGameState;
+import client.GameClient;
 import engine.calculations.DamageCalculation;
-import graphics.debugger.Debugger;
-import engine.entities.*;
+import engine.entities.CollisionDetection;
+import engine.entities.PhysicsObject;
+import engine.entities.Player;
+import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
-import graphics.rendering.Renderer;
-import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.ImageCursor;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import server.controllers.PowerUpController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class ClientBoard {
-
-    private Debugger debugger;
-    private GraphicsContext gc;
-    private Stage primaryStage;
-    private Scene scene;
-    private Rectangle stageSize;
-    private ArrayList<String> input;
-
+public class Physics {
     private ClientGameState gameState;
-    private GameClient gameClient;
 
-
-    public ClientBoard(Stage primaryStage, ClientGameState gameState) throws Exception {
-        // initial setup
-        this.primaryStage = primaryStage;
+    public Physics(ClientGameState gameState) {
         this.gameState = gameState;
-        this.gameClient = new GameClient(gameState);
-        // load hud
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
-        Pane hudPane = new Pane();
-
-        try {
-            hudPane = (Pane) loader.load();
-            //get player attribute
-            HUDController HUDController = loader.getController();
-            HUDController.initPlayer(gameState.getPlayer());
-        } catch (Exception e) {
-            // todo make this better
-            System.out.println("Crash in loading hud in map");
-            e.printStackTrace();
-            Platform.exit();
-            System.exit(0);
-        }
-
-        primaryStage.getScene().setRoot(hudPane);
-        HUDController controller = loader.getController();
-        System.out.println("HUDloader: " + controller.hashCode());
-        controller.setStage(primaryStage);
-        //controller.
-
-        scene = primaryStage.getScene();
-        // change cursor
-
-        Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
-        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth()/2, cursorImage.getHeight()/2);
-        scene.setCursor(iC);
-
-        stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
-
-        Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
-        hudPane.getChildren().add(canvas);
-
-        // forces the game to be rendered behind the gui
-        int index = hudPane.getChildren().indexOf(canvas);
-        hudPane.getChildren().get(index).toBack();
-
-        gc = canvas.getGraphicsContext2D();
-        debugger = new Debugger(gc);
-
-        Renderer renderer = new Renderer(gc, stageSize, debugger);
-
-        // initialise input controls
-        initialiseInput(scene, renderer);
-
-        beginClientLoop(renderer);
-
-        // this.gameClient = new GameClient(gameState);
-        // gameClient.run();
     }
 
-    public Scene getScene() {
-        return scene;
-    }
-
-    private void beginClientLoop(Renderer renderer) {
-        new AnimationTimer() {
-            public void handle(long currentNanoTime) {
-                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
-                renderer.render(primaryStage, gameState);
-                // TODO: remove this when networking is added
-                clientLoop();
-
-            }
-        }.start();
-        Thread puController = new Thread(new PowerUpController(gameState.getObjects()));
-        puController.start();
-    }
-
-    public void startGame() {
-        this.gameClient.start();
-    }
-
-
-    private void initialiseInput(Scene theScene, Renderer renderer) {
-        // set input controls
-        input = new ArrayList<>();
-        theScene.setOnKeyPressed(e -> {
-            String code = e.getCode().toString();
-
-            // only add each input command once
-            if (!input.contains(code))
-                input.add(code);
-        });
-
-        theScene.setOnKeyReleased(e -> {
-            String code = e.getCode().toString();
-            input.remove(code);
-        });
-
-        theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), primaryStage, e, renderer);
-
-        });
-
-        // when the mouse is moved around the screen calculate new angle
-        theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
-        theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
-    }
-
-    private void clientLoop() {
-        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap());
+    public void clientLoop() {
         doCollisionDetection();
         doHitDetection();
         doUpdates();
         deathHandler();
-        //System.out.println(gameState.getScoreBoard().getTotalKills());
+        if (!GameTypeHandler.checkRunning(gameState)) {
+            gameState.stop();
+        }
 
     }
 
-    private void doUpdates() {
+    public void doUpdates() {
         synchronized (gameState.getObjects()) {
             // Call update function for all physics objects
             gameState.getPlayer().update();
@@ -167,45 +43,39 @@ public class ClientBoard {
         }
     }
 
-    // TODO: Implement
-    private void deathHandler() {
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
-        ArrayList<Player> deadPlayers = gameState.getDeadPlayers();
+    public void deathHandler() {
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
+        LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
-
-        synchronized (deadPlayers) {
             for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
                 Player player = itr.next();
                 //If not already dead
-                if (!deadPlayers.contains(player)) {
-                    if (!player.isAlive()) {
-                        // Add to dead list
-                        deadPlayers.add(player);
-                        // Add kills to scoreboard
-                        scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
-                        //TODO: Respawn or something based off game mode
+                if (!deadPlayers.contains(player) && !player.isAlive()) {
+                    // Add to dead list
 
-                    }
+                    deadPlayers.offer(player);
+
+                    // Add kills to scoreboard
+                    scoreBoard.addKill(player.getLastAttacker().getId());
+                    //if dead teleport player off screen
+                    player.setLocation(new Point2D(5000, 5000));
+
                 }
+
             }
-        }
+
+
+
     }
 
-
-    private void doCollisionDetection() {
+    public void doCollisionDetection() {
 
         ArrayList<PhysicsObject> objects = gameState.getObjects();
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
 
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            ArrayList<Player> otherPlayers = new ArrayList<>();
-            otherPlayers.addAll(allPlayers);
             Player player = itr.next();
-            otherPlayers.remove(player);
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
             synchronized (objects) {
                 // Collision detection code
                 player.canUp = true;
@@ -218,9 +88,8 @@ public class ClientBoard {
                 player.canDownCart = true;
                 Point2D previousLocation = player.getLocation();
                 Player projectedPlayer = new Player(ObjectType.PLAYER);
-                ArrayList<PhysicsObject> otherObjects = new ArrayList<>();
-                otherObjects.addAll(objects);
-                otherObjects.remove(player);
+
+                ArrayList<PhysicsObject> otherObjects = gameState.getOtherObjects(player);
                 for (Iterator<PhysicsObject> itr1 = otherObjects.iterator(); itr1.hasNext(); ) {
                     PhysicsObject e = itr1.next();
                     // Check if the moving in a certain direction will cause a collision
@@ -238,7 +107,7 @@ public class ClientBoard {
                         int collisionOffset = 1;
                         double x = player.getLocation().getX();
                         double y = player.getLocation().getY();
-                        int movementSpeed = player.getMovementSpeed();
+                        float movementSpeed = player.getMovementSpeed() * GameClient.deltaTime;
                         Point2D checkUp = new Point2D(x - movementSpeed, y - movementSpeed);
                         Point2D checkDown = new Point2D(x + movementSpeed, y + movementSpeed);
                         Point2D checkLeft = new Point2D(x - movementSpeed, y + movementSpeed);
@@ -253,8 +122,8 @@ public class ClientBoard {
                             // This line of code seems to cause a bug
                             //                        gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
-                                System.out.println(player + " Collided with " + e);
-                                System.out.println("Collided with itself");
+                                //                                System.out.println(player + " Collided with " + e);
+                                //                                System.out.println("Collided with itself");
                             }
                         }
 
@@ -265,7 +134,7 @@ public class ClientBoard {
                                 if (CollisionDetection.checkCollision(projectedPlayer, e)) {
                                     Point2D newLocation = previousLocation;
                                     // if on the right hand side of the other player
-                                    if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX()) {
+                                    if (e.getBounds().getBoundsInParent().getMaxX() <= player.getLocation().getX() && e.getBounds().getBoundsInParent().getMaxY() >= player.getLocation().getY()) {
                                         double adjacent = player.getLocation().getX()
                                                 - e.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -274,7 +143,7 @@ public class ClientBoard {
                                         newLocation = newLocation.add(collisionOffset, collisionOffset);
                                     }
                                     // if on the left hand side of the other player
-                                    if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX()) {
+                                    if (e.getBounds().getBoundsInParent().getMaxX() > player.getLocation().getX() && e.getBounds().getBoundsInParent().getMaxY() < player.getLocation().getY()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMaxY()
                                                 - player.getLocation().getY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -298,7 +167,8 @@ public class ClientBoard {
                                     Point2D newLocation = previousLocation;
                                     // if on the right hand side of the other player
                                     if (player.getBounds().getBoundsInParent().getMaxY() <= e.getBounds()
-                                            .getBoundsInParent().getMinY()) {
+                                            .getBoundsInParent().getMinY() && player.getBounds().getBoundsInParent().getMaxX() <= e.getBounds()
+                                            .getBoundsInParent().getMinX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinY()
                                                 - player.getBounds().getBoundsInParent().getMaxY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -308,8 +178,9 @@ public class ClientBoard {
                                     }
 
                                     // if on the left hand side of the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds().getBoundsInParent()
-                                            .getMinY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getBounds()
+                                            .getBoundsInParent().getMinY() && player.getBounds().getBoundsInParent().getMaxX() > e.getBounds()
+                                            .getBoundsInParent().getMinX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinX()
                                                 - player.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -332,7 +203,7 @@ public class ClientBoard {
                                     // test every the most amount of movement before it collides
                                     Point2D newLocation = player.getLocation();
                                     // if above the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY() && player.getLocation().getX() >= e.getBounds().getBoundsInParent().getMaxX()) {
                                         double adjacent = e.getBounds().getBoundsInParent().getMinY()
                                                 - player.getBounds().getBoundsInParent().getMaxY();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -342,7 +213,7 @@ public class ClientBoard {
                                     }
 
                                     // if below the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY() && player.getLocation().getX() < e.getBounds().getBoundsInParent().getMaxX()) {
 
                                         double opposite = player.getLocation().getX()
                                                 - e.getBounds().getBoundsInParent().getMaxX();
@@ -366,7 +237,7 @@ public class ClientBoard {
                                     // test every the most amount of movement before it collides
                                     Point2D newLocation = player.getLocation();
                                     // if above the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxX() <= e.getLocation().getX() && player.getBounds().getBoundsInParent().getMaxY() <= e.getLocation().getY()) {
                                         double adjacent = e.getLocation().getX()
                                                 - player.getBounds().getBoundsInParent().getMaxX();
                                         double opposite = (adjacent * Math.tan(Math.toRadians(45)));
@@ -377,7 +248,7 @@ public class ClientBoard {
                                     }
 
                                     // if below the other player
-                                    if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX()) {
+                                    if (player.getBounds().getBoundsInParent().getMaxX() > e.getLocation().getX() && player.getBounds().getBoundsInParent().getMaxY() > e.getLocation().getY()) {
                                         double opposite = player.getLocation().getY()
                                                 - e.getBounds().getBoundsInParent().getMaxY();
                                         double adjacent = (opposite * Math.tan(Math.toRadians(45)));
@@ -462,16 +333,11 @@ public class ClientBoard {
         }
     }
 
-    private void doHitDetection() {
-        ArrayList<PhysicsObject> objects = gameState.getObjects();
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(gameState.getEnemies());
-        allPlayers.add(gameState.getPlayer());
+    public void doHitDetection() {
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            ArrayList<Player> otherPlayers = new ArrayList<>();
-            otherPlayers.addAll(allPlayers);
             Player player = itr.next();
-            otherPlayers.remove(player);
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
             // Loop through all enemies to detect hit detection
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 PhysicsObject e = itr1.next();
@@ -484,7 +350,7 @@ public class ClientBoard {
                         // this will have to change due to Player being other controlled player when
                         // Enemy is when the player is an ai
                         Player enemy = (Player) e;
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy),enemy);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
                         player.setCurrentAction(Action.IDLE);
                         //System.out.println("hit");
                         // Sends to server
@@ -497,7 +363,7 @@ public class ClientBoard {
                         // e takes damage
                         Player enemy = (Player) e;
                         // TODO: For now its takes 10 damage, change later
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy),enemy);
+                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
                         player.setCurrentAction(Action.IDLE);
                         //System.out.println("heavy hit");
                         // Sends to server
@@ -506,5 +372,4 @@ public class ClientBoard {
             }
         }
     }
-
 }

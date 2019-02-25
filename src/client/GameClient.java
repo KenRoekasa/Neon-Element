@@ -1,51 +1,238 @@
 package client;
 
-import networking.client.ClientNetwork;
-import networking.client.ClientNetworkDispatcher;
 
-import client.ClientGameState;
-import javafx.geometry.Point2D;
+import client.audiomanager.AudioManager;
+import engine.Physics;
+import engine.controller.RespawnController;
+import graphics.debugger.Debugger;
+import graphics.rendering.Renderer;
+import graphics.userInterface.controllers.GameOverController;
+import graphics.userInterface.controllers.PauseController;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import server.controllers.PowerUpController;
 
-public class GameClient extends Thread {
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.ArrayList;
 
+public class GameClient {
+
+    /**
+     * Time since the last frame
+     */
+    public static float deltaTime;
+    
+    private Physics physicsEngine;
+    private Renderer renderer;
+    private Debugger debugger;
+    private GraphicsContext gc;
+    private Stage primaryStage;
+    private Scene scene;
+    private Rectangle stageSize;
+    private ArrayList<String> input;
     private ClientGameState gameState;
-    private ClientNetwork network;
+    private ClientNetworkThread clientNetworkThread;
+    private Pane hudPane;
 
-    private boolean running;
+    private AudioManager audioManager;
 
-    public GameClient(ClientGameState gameState) {
+
+    public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
+        // initial setup
+        this.primaryStage = primaryStage;
         this.gameState = gameState;
-        this.network = new ClientNetwork(this.gameState);
-    }
 
-    public void run() {
-        this.running = true;
+        // load hud
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
+        //Pane hudPane = new Pane();
 
-        while(this.running) {
-            this.doLocationState();
+        try {
+            hudPane = (Pane) loader.load();
+            //get player attribute
 
-            try {
-                Thread.sleep(1000l); // Every 1 second
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            // todo make this better
+            System.out.println("Crash in loading hud in map");
+            e.printStackTrace();
+            Platform.exit();
+            System.exit(0);
         }
 
-        this.network.close();
-    }
-    
-    private void doLocationState() {
-        Point2D location = this.gameState.getPlayer().getLocation();
-        double x = location.getX();
-        double y = location.getY();
+        primaryStage.getScene().setRoot(hudPane);
 
-        this.getDispatcher().sendLocationState(x, y);
-    }
-    
-    private ClientNetworkDispatcher getDispatcher() {
-        return this.network.getDispatcher();
-    }
+        scene = primaryStage.getScene();
+
+        // change cursor
+        Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
+        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
+        scene.setCursor(iC);
+
+        stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
+
+        Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
+        hudPane.getChildren().add(canvas);
+
+        // forces the game to be rendered behind the gui
+        int index = hudPane.getChildren().indexOf(canvas);
+        hudPane.getChildren().get(index).toBack();
+
+        gc = canvas.getGraphicsContext2D();
+        debugger = new Debugger(gc);
+
+        renderer = new Renderer(gc, stageSize, debugger);
+
+        audioManager = new AudioManager();
+
+        //Creates the physics engine
+        physicsEngine = new Physics(gameState);
 
 
+        // initialise input controls
+        initialiseInput(scene, renderer);
+
+        if (!online) {
+            this.gameState.start();
+            beginClientLoop(renderer);
+        }
+
+        // this.ClientNetworkThread = new ClientNetworkThread(gameState);
+        // ClientNetworkThread.run();
+    }
+
+    public GameClient(Stage primaryStage, ClientGameState gameState, String addr) throws Exception {
+        this(primaryStage, gameState, true);
+
+        this.clientNetworkThread = new ClientNetworkThread(gameState, InetAddress.getByName(addr));
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    private void beginClientLoop(Renderer renderer) {
+
+        new AnimationTimer() {
+            long lastTime = System.nanoTime();
+            public void handle(long currentNanoTime) {
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
+                renderer.render(primaryStage, gameState);
+
+                // TODO: remove this when networking is added
+                physicsEngine.clientLoop();
+
+                //calculate deltaTime
+                long time = System.nanoTime();
+                deltaTime = (int) ((time - lastTime) / 1000000);
+                lastTime = time;
+
+                if (!gameState.getRunning()) {
+                    stop();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
+                    try {
+                        Pane root = loader.load();
+                        primaryStage.getScene().setRoot(root);
+                        root.setPrefHeight(stageSize.getHeight());
+                        root.setPrefWidth(stageSize.getWidth());
+                        GameOverController controller = loader.getController();
+                        controller.setStage(primaryStage);
+
+                        primaryStage.getScene().setCursor(Cursor.DEFAULT);
+
+                        primaryStage.setTitle("Game Over!");
+                        gameState.stop();
+
+                    } catch (IOException e) {
+                        System.out.println("crush in loading menu board ");
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+        }.start();
+
+
+        // todo move to server
+        Thread puController = new Thread(new PowerUpController(gameState));
+        puController.start();
+        // Respawn Controller
+        Thread respawnController = new Thread(new RespawnController(gameState));
+        respawnController.start();
+
+
+
+
+    }
+
+    public void startNetwork() {
+        this.clientNetworkThread.start();
+        this.gameState.start();
+        beginClientLoop(renderer);
+    }
+
+    private void initialiseInput(Scene theScene, Renderer renderer) {
+        // set input controls
+        input = new ArrayList<>();
+
+        theScene.setOnKeyReleased(e -> {
+            String code = e.getCode().toString();
+            input.remove(code);
+        });
+
+        theScene.setOnMouseClicked(e -> {
+            InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
+        });
+
+        // when the mouse is moved around the screen calculate new angle
+        theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
+        theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
+
+        theScene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.P) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
+                try {
+                    Pane node = loader.load();
+                    node.setPrefHeight(stageSize.getHeight());
+                    node.setPrefWidth(stageSize.getWidth());
+                    hudPane.getChildren().add(node);
+                    node.setBackground(Background.EMPTY);
+                    PauseController controller = loader.getController();
+                    controller.setHudPane(hudPane);
+                    controller.setNode(node);
+                    controller.setStageSize(stageSize);
+                    controller.setStage(primaryStage, gameState);
+                    primaryStage.setTitle("Pause");
+
+                } catch (IOException ex) {
+                    System.out.println("crush in loading pause board ");
+                    ex.printStackTrace();
+                }
+            }
+
+            String code = e.getCode().toString();
+            // only add each input command once
+            if (!input.contains(code))
+                input.add(code);
+        });
+    }
+
+    private void swapElement() {
+        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
+
+    }
 }

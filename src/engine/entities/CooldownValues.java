@@ -5,7 +5,7 @@ public class CooldownValues {
     public static int speedBoostID = 1;
     public static int speedBoostDuration = 4 ;
     public static int lightAttackID = 2;
-    public static float lightAttackCD=1.2f;
+    public static float lightAttackCD=0.30f; //attack speed
     public static int heavyAttackID = 3;
     public static float heavyAttackCD =7.5f;
     public static int shieldDurID = 4;

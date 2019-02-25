@@ -9,9 +9,10 @@ public class ConnectAckPacket extends Packet {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // Status
-    // 1 = 1 bytes
+    // int + Status
+    // 4   + 1      = 5 bytes
 
+    private int playerId;
     private Status status;
     
     public static enum Status {
@@ -41,12 +42,18 @@ public class ConnectAckPacket extends Packet {
 
     protected ConnectAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
         super(PacketDirection.INCOMING, PacketType.CONNECT_ACK, ipAddress, port);
+        this.playerId = buffer.getInt();
         this.status = Status.getTypeFromId(buffer.get());
     }
 
-    public ConnectAckPacket(Status status, InetAddress ipAddress, int port) {
+    public ConnectAckPacket(int playerId, Status status, InetAddress ipAddress, int port) {
         super(PacketDirection.OUTGOING, PacketType.CONNECT_ACK, ipAddress, port);
+        this.playerId = playerId;
         this.status = status;
+    }
+    
+    public int getId() {
+        return this.playerId;
     }
 
     public boolean getAllowed() {
@@ -59,6 +66,7 @@ public class ConnectAckPacket extends Packet {
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
+        buffer.putInt(this.playerId);
         buffer.put(this.status.getId());
         return Packet.getBytesFromBuffer(buffer);
     }

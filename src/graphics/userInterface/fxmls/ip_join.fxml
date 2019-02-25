@@ -28,7 +28,7 @@
           <RowConstraints maxHeight="113.0" minHeight="10.0" prefHeight="88.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="ip" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Button fx:id="ok" mnemonicParsing="false" onAction="#handleOkBtn" styleClass="button_small" text="OK" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                <children>

@@ -11,26 +11,34 @@ import networking.packets.Packet;
 
 public abstract class NetworkDispatcher {
 
-    private DatagramSocket socket;
+    protected DatagramSocket socket;
+    /*
     protected MulticastSocket multicastSocket;
     protected InetAddress groupAddress;
+    */
 
-    protected NetworkDispatcher(DatagramSocket socket, MulticastSocket multicastSocket, InetAddress groupAddress) {
+    protected NetworkDispatcher(DatagramSocket socket/*, MulticastSocket multicastSocket, InetAddress groupAddress*/) {
         this.socket = socket;
+        /*
         this.multicastSocket = multicastSocket;
         this.groupAddress = groupAddress;
+        */
     }
 
     public void close() {
         this.socket.close();
-        this.multicastSocket.close();
+        // this.multicastSocket.close();
     }
 
     protected void send(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
-            //System.out.println("" + packet.getIpAddress() + ":" + packet.getPort() + " <-- " + packet.getType());
+
             DatagramPacket datagram = new DatagramPacket(data, data.length, packet.getIpAddress(), packet.getPort());
+
+            if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE)) {
+                System.out.println("sent packet of type: "+packet.getType() +" ==> "+ packet.getIpAddress() + " and " + packet.getPort() );
+            }
 
             try {
                 this.socket.send(datagram);
