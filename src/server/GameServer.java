@@ -34,6 +34,8 @@ public class GameServer extends Thread {
             Thread.yield();
         }
 
+        System.out.println("Game started.");
+
         Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
         powerUpController.start();
 

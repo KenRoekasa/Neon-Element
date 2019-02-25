@@ -17,7 +17,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     private InetAddress serverAddr;
     private ClientGameState gameState;
-    
+
 	protected String serverAddress;
 
     protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
@@ -79,7 +79,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     }
 
     protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
-        PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
+        PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY(), packet.getPowerUpType());
         this.gameState.getObjects().add(powerUp);
     }
 

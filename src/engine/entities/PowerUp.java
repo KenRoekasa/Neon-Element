@@ -15,7 +15,7 @@ public class PowerUp extends PhysicsObject {
     private PowerUpType type;
 
     private boolean isActive = true;
-    
+
     private static int nextId = 0;
 
     public PowerUp() {
@@ -48,12 +48,15 @@ public class PowerUp extends PhysicsObject {
 
         location = new Point2D(randX, randY);
     }
-    
-    public PowerUp(int id, double x, double y) {
+
+    public PowerUp(int id, double x, double y, PowerUpType type) {
         this.id = id;
         this.location = new Point2D(x, y);
+        this.tag = ObjectType.POWERUP;
+        this.width = tag.getSize();
+        this.type = type;
     }
-    
+
     public int getId() {
         return this.id;
     }

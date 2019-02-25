@@ -124,7 +124,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     public void broadcastNewPowerUp(PowerUp powerUp) {
         double x = powerUp.getLocation().getX();
         double y = powerUp.getLocation().getY();
-        Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
+        Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y, powerUp.getType());
         this.broadcast(packet);
     }
 

@@ -26,12 +26,13 @@ public class PowerUpController implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("Started powerup controller.");
         // creates a power up every 15 sec
         while (gamestate.getRunning()) {
             synchronized (objects) {
                 PowerUp powerUp = new PowerUp();
                 objects.add(powerUp);
-                //                this.dispatcher.broadcastNewPowerUp(powerUp);
+                this.dispatcher.broadcastNewPowerUp(powerUp);
             }
             try {
                 Thread.sleep(15000);
