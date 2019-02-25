@@ -1,22 +1,17 @@
 package engine.entities;
 
+import client.GameClient;
 import client.audiomanager.AudioManager;
 import client.audiomanager.Sound;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
 import engine.enums.Elements;
-import graphics.userInterface.controllers.MenuController;
-import graphics.userInterface.controllers.PauseController;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -24,15 +19,14 @@ import java.util.concurrent.TimeUnit;
 import static engine.entities.CooldownValues.*;
 
 public abstract class Character extends PhysicsObject {
-    protected final float MAX_HEALTH = 100;
-    protected final int DEFAULT_MOVESPEED = 5;
+    protected static final float MAX_HEALTH = 100;
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
     protected Directions characterDirection;
     protected boolean isShielded;
-    protected int movementSpeed;
+    protected float movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
     protected int deathCounter = 0;
@@ -40,7 +34,7 @@ public abstract class Character extends PhysicsObject {
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
-    public static final int DEFAULT_MOVEMENT_SPEED = 5;
+    public static final float DEFAULT_MOVEMENT_SPEED = 0.5f;
 
 
     public static AudioManager audioManager = new AudioManager();
@@ -57,11 +51,11 @@ public abstract class Character extends PhysicsObject {
     public void moveUp() {
         characterDirection = Directions.UP;
         if (canUp) {
-            double yCheck = location.getY() - movementSpeed - width / 2f;
-            double xCheck = location.getX() - movementSpeed - width / 2f;
+            double yCheck = location.getY() - movementSpeed*GameClient.deltaTime - width / 2f;
+            double xCheck = location.getX() - movementSpeed*GameClient.deltaTime - width / 2f;
 
             if (yCheck >= 0 && xCheck >= 0) {
-                location = location.add(-movementSpeed, -movementSpeed);
+                location = location.add(-movementSpeed* GameClient.deltaTime, -movementSpeed*GameClient.deltaTime);
             }
         }
 
@@ -72,11 +66,11 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.DOWN;
         if (canDown) {
 
-            double yCheck = location.getY() + movementSpeed + width / 2f;
-            double xCheck = location.getX() + movementSpeed + width / 2f;
+            double yCheck = location.getY() + movementSpeed*GameClient.deltaTime + width / 2f;
+            double xCheck = location.getX() + movementSpeed*GameClient.deltaTime + width / 2f;
 
             if (yCheck <= boardHeight && xCheck <= boardWidth) {
-                location = location.add(movementSpeed, movementSpeed);
+                location = location.add(movementSpeed* GameClient.deltaTime, movementSpeed* GameClient.deltaTime);
             }
         }
     }
@@ -84,11 +78,11 @@ public abstract class Character extends PhysicsObject {
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
         if (canLeft) {
-            double xCheck = location.getX() - movementSpeed - width / 2f;
-            double yCheck = location.getY() + movementSpeed + width / 2f;
+            double xCheck = location.getX() - movementSpeed*GameClient.deltaTime - width / 2f;
+            double yCheck = location.getY() + movementSpeed*GameClient.deltaTime + width / 2f;
 
             if (xCheck >= 0 && yCheck <= boardWidth) {
-                location = location.add(-movementSpeed, movementSpeed);
+                location = location.add(-movementSpeed* GameClient.deltaTime, movementSpeed* GameClient.deltaTime);
             }
         }
     }
@@ -98,12 +92,12 @@ public abstract class Character extends PhysicsObject {
         if (canRight) {
             //check within bounds
 
-            double xCheck = location.getX() + movementSpeed + width / 2f;
-            double yCheck = location.getY() - movementSpeed - width / 2f;
+            double xCheck = location.getX() + movementSpeed*GameClient.deltaTime + width / 2f;
+            double yCheck = location.getY() - movementSpeed*GameClient.deltaTime - width / 2f;
 
 
             if (xCheck <= boardWidth && yCheck >= 0) {
-                location = location.add(movementSpeed, -movementSpeed);
+                location = location.add(movementSpeed* GameClient.deltaTime, -movementSpeed* GameClient.deltaTime);
             }
         }
     }
@@ -112,8 +106,8 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.UPCART;
         if (canUpCart) {
 
-            if ((location.getY() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(0, -Math.sqrt(2 * movementSpeed * movementSpeed));
+            if ((location.getY() - movementSpeed *GameClient.deltaTime- width / 2f) >= 0) {
+                location = location.add(0, -Math.sqrt(2 * movementSpeed * movementSpeed)* GameClient.deltaTime);
 
             } else {
                 location = new Point2D(location.getX(), 0 + width / 2f);
@@ -125,8 +119,8 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.DOWNCART;
         if (canDownCart) {
 
-            if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
-                location = location.add(0, Math.sqrt(2 * movementSpeed * movementSpeed));
+            if ((location.getY() + movementSpeed*GameClient.deltaTime + width / 2f) <= boardHeight) {
+                location = location.add(0, Math.sqrt(2 * movementSpeed * movementSpeed)* GameClient.deltaTime);
             } else {
                 location = new Point2D(location.getX(), boardHeight - width / 2f);
             }
@@ -138,8 +132,8 @@ public abstract class Character extends PhysicsObject {
         characterDirection = Directions.LEFTCART;
         if (canLeftCart) {
             //check within bounds
-            if ((location.getX() - movementSpeed - width / 2f) >= 0) {
-                location = location.add(-Math.sqrt(2 * movementSpeed * movementSpeed), 0);
+            if ((location.getX() - movementSpeed *GameClient.deltaTime- width / 2f) >= 0) {
+                location = location.add(-Math.sqrt(2 * movementSpeed * movementSpeed)* GameClient.deltaTime, 0);
             } else {
                 location = new Point2D(0 + width / 2f, location.getY());
             }
@@ -152,8 +146,8 @@ public abstract class Character extends PhysicsObject {
         if (canRightCart) {
 
             //check within bounds
-            if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
-                location = location.add(Math.sqrt(2 * movementSpeed * movementSpeed), 0);
+            if ((location.getX() + movementSpeed*GameClient.deltaTime + width / 2f) <= boardWidth) {
+                location = location.add(Math.sqrt(2 * movementSpeed * movementSpeed)* GameClient.deltaTime, 0);
             } else {
                 location = new Point2D(boardWidth - width / 2f, location.getY());
             }
@@ -294,7 +288,7 @@ public abstract class Character extends PhysicsObject {
         this.location = location;
     }
 
-    public int getMovementSpeed() {
+    public float getMovementSpeed() {
         return movementSpeed;
     }
 
@@ -337,7 +331,7 @@ public abstract class Character extends PhysicsObject {
     public void speedBoost() {
     	Timer timer = new Timer();
     	
-        movementSpeed = 8;
+        movementSpeed = DEFAULT_MOVEMENT_SPEED*2;
         // if timer is not already running, run it
         if (timerArray[speedBoostID] > 0) {
             timerArray[speedBoostID] = 0;
@@ -345,7 +339,7 @@ public abstract class Character extends PhysicsObject {
             (new Timer()).scheduleAtFixedRate(new TimerTask() {
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = DEFAULT_MOVESPEED;
+                        movementSpeed = DEFAULT_MOVEMENT_SPEED;
                         System.out.println("speed boost has ended");
                         timer.cancel();
                     }
