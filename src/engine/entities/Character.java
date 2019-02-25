@@ -21,7 +21,7 @@ import static engine.entities.CooldownValues.*;
 public abstract class Character extends PhysicsObject {
     public static final float DEFAULT_MOVEMENT_SPEED = 0.5f;
     protected static final float MAX_HEALTH = 100;
-    public static AudioManager audioManager = new AudioManager();
+//    public static AudioManager audioManager = new AudioManager();
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
@@ -165,7 +165,7 @@ public abstract class Character extends PhysicsObject {
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
 
-                audioManager.playSound(Sound.LIGHT_ATTACK);
+//                audioManager.playSound(Sound.LIGHT_ATTACK);
 
                 currentAction = Action.LIGHT;
                 currentActionStart = System.currentTimeMillis();
@@ -226,7 +226,7 @@ public abstract class Character extends PhysicsObject {
 
 
         currentAction = Action.HEAVY;
-        audioManager.playSound(Sound.HEAVY_ATTACK);
+//        audioManager.playSound(Sound.HEAVY_ATTACK);
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};

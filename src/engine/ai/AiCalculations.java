@@ -45,11 +45,13 @@ public class AiCalculations {
 	public ArrayList<PowerUp> getPowerups() {
 
 		ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
-		for (int i = 0; i < aiCon.objects.size(); i++) {
-			if (!aiCon.objects.get(i).equals(null)) {
-				if (ObjectType.POWERUP.equals(aiCon.objects.get(i).getTag()))
-					if (!powerups.contains(aiCon.objects.get(i)))
-						powerups.add((PowerUp) aiCon.objects.get(i));
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.objects);
+		for (int i = 0; i < objects.size(); i++) {
+			if (!objects.get(i).equals(null)) {
+				if (ObjectType.POWERUP.equals(objects.get(i).getTag()))
+					if (!powerups.contains(objects.get(i)))
+						powerups.add((PowerUp) objects.get(i));
 			}
 		}
 		return powerups;
