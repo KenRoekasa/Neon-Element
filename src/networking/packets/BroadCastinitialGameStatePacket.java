@@ -21,7 +21,7 @@ public class BroadCastinitialGameStatePacket extends Packet{
 	
 	
 	public BroadCastinitialGameStatePacket(GameType gameType,  Rectangle map, ArrayList<PlayerConnection> playersInfo) {
-		super(PacketDirection.OUTGOING, PacketType.BCAST_INITIAL_GAME_STATE);
+		super(PacketDirection.OUTGOING, PacketType.INITIAL_STATE_BCAST);
 		this.gameType = gameType;
 		//this.ids = ids;
 		this.playersInfo = playersInfo;

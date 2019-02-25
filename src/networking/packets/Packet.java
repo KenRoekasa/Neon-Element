@@ -26,8 +26,8 @@ public abstract class Packet {
         READY_STATE_BCAST    ((byte) 0xF2), LOCATION_STATE_BCAST ((byte) 0xF3),
         ELEMENT_STATE_BCAST  ((byte) 0xF4), CAST_SPELL_BCAST     ((byte) 0xF5),
         POWERUP_PICKUP_BCAST ((byte) 0xF6), POWERUP_STATE_BCAST  ((byte) 0xF7),
-        GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF), 
-        BCAST_INITIAL_GAME_STATE((byte) 0xF9);
+        INITIAL_STATE_BCAST  ((byte) 0xF8),
+        GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF);
 
         private byte id;
 
