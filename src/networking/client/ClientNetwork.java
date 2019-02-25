@@ -74,24 +74,24 @@ public class ClientNetwork {
                 break;
             case LOCATION_STATE_BCAST:
                 this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);
-            		break;
+                break;
             case DISCONNECT_BCAST:
-            		break;
+                break;
             case ELEMENT_STATE_BCAST:
-            		break;
+                break;
             case GAME_OVER_BCAST:
-            		break;
+                break;
             case POWERUP_PICKUP_BCAST:
-            		break;
+                break;
             case POWERUP_STATE_BCAST:
                 this.dispatcher.receivePowerUpBroadcast((BroadCastPowerUpPacket) packet);
                 break;
             case READY_STATE_BCAST:
-            		break;
+                break;
             case CONNECT_BCAST:
-            		break;
+                break;
             case CAST_SPELL_BCAST:
-            		break;
+                break;
             default:
                 System.out.println("Unhandled packet " + packet.getType());
                 break;
