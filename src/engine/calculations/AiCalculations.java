@@ -6,6 +6,7 @@ import engine.ai.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.Action;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
 import javafx.geometry.Point2D;
@@ -52,6 +53,10 @@ public class AiCalculations {
 			}
 		}
 		return powerups;
+	}
+	
+	public boolean isCharging(Player player) {
+		return player.getCurrentAction().equals(Action.CHARGE);
 	}
 
 	public boolean playerIsTooClose() {

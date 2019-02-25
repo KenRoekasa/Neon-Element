@@ -110,7 +110,7 @@ public class GameStateGenerator {
     
     private static void startAi(ArrayList<AiController> aiConList, ArrayList<String> aiTypes) {
     	for(int i = 0; i < aiTypes.size() ; i++) {
-    		switch(aiTypes.get(i).toLowerCase()) {
+    		switch(aiTypes.get(i).toLowerCase().trim()) {
     		default:
     		case "easy":
     			aiConList.get(i).setAiType(AiType.EASY);

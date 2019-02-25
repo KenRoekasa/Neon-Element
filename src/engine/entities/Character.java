@@ -27,6 +27,7 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
     protected int deathCounter = 0;
+    protected boolean damagePowerup=false;
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -338,6 +339,7 @@ public abstract class Character extends PhysicsObject {
     public void damageBoost() {
         Timer timer = new Timer();
         damageMultiplier = 2;
+        damagePowerup = true;
         // if timer is not already running, run it
         if (timerArray[damageBoostID] > 0) {
             timerArray[damageBoostID] = 0;
@@ -346,15 +348,21 @@ public abstract class Character extends PhysicsObject {
                 public void run() {
                     if (timerArray[damageBoostID] == damageBoostDur) {
                         damageMultiplier = 1;
+                        damagePowerup = false;
                         timer.cancel();
                     }
                     timerArray[damageBoostID]++;
                 }
             }, 0, 1000);
         } else {
+        	damagePowerup = false;
             timerArray[damageBoostID] = 0;
         }
 
+    }
+    
+    public boolean activeDamagePowerup () {
+    	return damagePowerup;
     }
 
     public Action getCurrentAction() {

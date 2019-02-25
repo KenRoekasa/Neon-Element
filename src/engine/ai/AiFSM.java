@@ -86,7 +86,7 @@ public class AiFSM {
 		}
 		
 		//case 2, escape when health is less than third
-		else if(aiPlayerHP < (maxHP/3) ) {
+		else if(aiPlayerHP < (maxHP/3) && aiPlayerHP<playerHP) {
 		//	System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
 		}
@@ -117,7 +117,7 @@ public class AiFSM {
 
 		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 //		System.out.println("decide what case");
@@ -141,25 +141,11 @@ public class AiFSM {
 			}
 		}
 		
-		//case 2, the engine.ai player's hp is less than 33% and a health power up is available
+		//case 2, the ai player's hp is less than maxHP and a health power up is available
 		
-		else if (aiPlayerHP<(maxHP/3) && calc.getNearestPowerUp(PowerUpType.HEAL) != -1) {
+		else if (aiPlayerHP<(maxHP) && calc.getNearestPowerUp(PowerUpType.HEAL) != -1) {
 		//	System.out.println("case 2");
 			aiCon.setState(AiStates.FIND_HEALTH);
-		}
-		
-		//case 3, the engine.ai player's hp is less than 33% and a health power up is not available
-		
-		else if(aiPlayerHP < (maxHP/2) ) {
-		//	System.out.println("case 3");
-			aiCon.setState(AiStates.ESCAPE);
-		}
-		
-		//case 4, the nearest enemy's hp is less than 33%
-		
-		else if (playerHP < (maxHP/3)) {
-		//	System.out.println("case 4");
-			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
 		//case 5, there exist a damage power up
@@ -169,6 +155,30 @@ public class AiFSM {
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
+
+		
+		
+		//case 3, the engine.ai player's hp is less than 33% and a health power up is not available
+		
+		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.isCharging(nearestPlayer) ) {
+//			System.out.println("case 3");
+			aiCon.setState(AiStates.ESCAPE);
+		}
+		
+		//case 4, the nearest enemy's hp is less than 33%
+		
+		else if ( playerHP < (maxHP/3) || aiPlayer.activeDamagePowerup()) {
+		//	System.out.println("case 4");
+			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
+		}
+
+		//case 7, the nearest enemy's hp is less than ai player's hp
+		
+		else if (aiPlayerHP > playerHP) {
+		//	System.out.println("case 7");
+			aiCon.setState(AiStates.ATTACK);
+		}
+		
 		//case 6, there exist a speed power up
 		
 		else if( calc.getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
@@ -176,20 +186,13 @@ public class AiFSM {
 			aiCon.setState(AiStates.FIND_SPEED);
 		}
 		
-		//case 7, the nearest enemy's hp is less than engine.ai player's hp
-		
-		else if (aiPlayerHP > playerHP) {
-		//	System.out.println("case 7");
-			aiCon.setState(AiStates.ATTACK);
-		}
-		
-		//else 'when the enemy's hp is more than the engine.ai player's or equal to it"
+		//else 'when the enemy's hp is more than the ai player's or equal to it"
 		
 		else {
 		// System.out.println("case 8");
 			aiCon.setState(AiStates.ATTACK);
 		}
-		//System.out.println("engine.ai health: "+aiPlayer.getHealth());
+		//System.out.println("ai health: "+aiPlayer.getHealth());
 
 	}
 	

@@ -55,8 +55,8 @@ public class AiStateActions {
 		Player player = calc.getNearestPlayer();
 		actions.moveTo(player);
 		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.lightAttack();
 			aiPlayer.chargeHeavyAttack();
+			aiPlayer.lightAttack();
 		}
 	}
 	
