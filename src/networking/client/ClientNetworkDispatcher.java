@@ -3,8 +3,12 @@ package networking.client;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import client.ClientGameState;
+import engine.ScoreBoard;
+import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
@@ -15,115 +19,137 @@ import networking.NetworkDispatcher;
 
 public class ClientNetworkDispatcher extends NetworkDispatcher {
 
-    private InetAddress serverAddr;
-    private ClientGameState gameState;
-    
+	private InetAddress serverAddr;
+	private ClientGameState gameState;
+	private InetAddress clientIpAddress;
 	protected String serverAddress;
+	private int clientID;
 
-    protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ClientGameState gameState) {
-        super(socket/*, multicastSocket, groupAddress*/);
-        this.serverAddr = serverAddr;
-        this.gameState = gameState;
-    }
+	protected ClientNetworkDispatcher(DatagramSocket socket, InetAddress serverAddr,
+			/* MulticastSocket multicastSocket, InetAddress groupAddress, */ ClientGameState gameState) {
+		super(socket/* , multicastSocket, groupAddress */);
+		this.serverAddr = serverAddr;
+		this.gameState = gameState;
+	}
 
-    public void sendHello() {
-        try {
-            Packet packet = new HelloPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
-            this.send(packet);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public void sendHello() {
+		try {
+			Packet packet = new HelloPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
+			this.send(packet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    protected void receiveHelloAck(HelloAckPacket packet) {
-        int players = packet.getPlayers();
-        int maxPlayers = packet.getMaxPlayers();
-        GameType gameType = packet.getGameType();
-        this.gameState.setGameType(gameType);
-    }
+	protected void receiveHelloAck(HelloAckPacket packet) {
+		int players = packet.getPlayers();
+		int maxPlayers = packet.getMaxPlayers();
+		GameType gameType = packet.getGameType();
+		this.gameState.setGameType(gameType);
+	}
 
-    public void sendConnect() {
-        try {
-            Packet packet = new ConnectPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
-            this.send(packet);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public void sendConnect() {
+		try {
+			Packet packet = new ConnectPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
+			this.send(packet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    void receiveGameStart(BroadCastGameStartPacket packet) {
-        // todo include gamestate in this packet
-        this.gameState.start();
+	void receiveGameStart(BroadCastGameStartPacket packet) {
+		// todo include gamestate in this packet
+		this.gameState.start();
 
+	}
 
-    }
+	protected void receiveConnectAck(ConnectAckPacket packet) {
+		switch (packet.getStatus()) {
+		case ERR_GAME_STARTED:
+		case ERR_MAX_PLAYERS:
+			System.out.println("Error connecting");
+			break;
+		case SUC_CONNECTED:
+			System.out.println("Successfully connected.  My id: " + packet.getId());
 
-    protected void receiveConnectAck(ConnectAckPacket packet) {
-        switch (packet.getStatus()) {
-            case ERR_GAME_STARTED:
-            case ERR_MAX_PLAYERS:
-                System.out.println("Error connecting");
-                break;
-            case SUC_CONNECTED:
-                System.out.println("Successfully connected.  My id: " + packet.getId());
-                this.gameState.getPlayer().setId(packet.getId());
-                break;
-        }
-    }
+			clientID = packet.getId();
+			break;
+		}
+	}
 
-    protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
-        Player player = new Player(ObjectType.PLAYER, packet.getId());
-        //todo this is probably broken
-        this.gameState.getAllPlayers().add(player);
-        this.gameState.getObjects().add(player);
-    }
+	protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
+		Player player = new Player(ObjectType.PLAYER, packet.getId());
+		// todo this is probably broken
+		this.gameState.getAllPlayers().add(player);
+		this.gameState.getObjects().add(player);
+	}
 
-    protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
-        PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
-        this.gameState.getObjects().add(powerUp);
-    }
+	protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
+		PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY());
+		this.gameState.getObjects().add(powerUp);
+	}
 
-    
-    protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
-       	BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(), packet.getMap(), packet.getPlayersInfo());
-    		this.gameState = new ClientGameState(gameState.getPlayer(), gameState.getMap(), gameState.getObjects(), gameState.getDeadPlayers(), gameState.getScoreBoard(), gameState.getGameType());
-        
- 
-    }
+	protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
+		BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(),
+				packet.getIds(), packet.getLocations(), packet.getMap());
 
-    protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
-        // Only update locations of other players
-        if (packet.getId() != this.gameState.getPlayer().getId()) {
-            int id = packet.getId();
+		Player clientPlayer = new Player(ObjectType.PLAYER);
+		ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+		LinkedBlockingQueue<Player> deadPlayers = new LinkedBlockingQueue<Player>();
+		ScoreBoard scoreboard = new ScoreBoard();
+		ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
 
-            Player foundPlayer = this.gameState.getObjects().stream()
-                .filter(p -> p.getTag().equals(ObjectType.PLAYER))
-                .map(p -> (Player) p)
-                .filter(p -> p.getId() == id)
-                .findFirst()
-                .orElse(null);
+		for (int i = 0; i < initGameState.getIds().size(); i++) {
+			if (initGameState.getIds().get(i) == clientID) {
+				clientPlayer.setLocation(initGameState.getLocations().get(i));
+				clientPlayer.setId(initGameState.getIds().get(i));
+				objects.add(clientPlayer);
+				tempScoreboardPlayers.add(clientPlayer);
+			} else {
+				Player enemy = new Player(ObjectType.ENEMY);
+				enemy.setId(initGameState.getIds().get(i));
+				enemy.setLocation(initGameState.getLocations().get(i));
+				objects.add(enemy);
+				tempScoreboardPlayers.add(enemy);
 
-            Player player;
-            if (foundPlayer != null) {
-                player = foundPlayer;
-            } else {
-                // Player id not found
-                player = new Player(ObjectType.PLAYER, id);
-                this.gameState.getAllPlayers().add(player);
-                this.gameState.getObjects().add(player);
-            }
-            player.setLocation(packet.getX(), packet.getY());
-        }
-    }
+			}
 
- 
-    public void sendLocationState(double x, double y) {
-        try {
-            Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);
-            this.send(packet);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+		}
+		scoreboard.initialise(tempScoreboardPlayers);
+
+		this.gameState = new ClientGameState(clientPlayer, initGameState.getMap(), objects, deadPlayers,
+				scoreboard, initGameState.getGameType());
+
+	}
+
+	protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
+		// Only update locations of other players
+		if (packet.getId() != this.gameState.getPlayer().getId()) {
+			int id = packet.getId();
+
+			Player foundPlayer = this.gameState.getObjects().stream().filter(p -> p.getTag().equals(ObjectType.PLAYER))
+					.map(p -> (Player) p).filter(p -> p.getId() == id).findFirst().orElse(null);
+
+			Player player;
+			if (foundPlayer != null) {
+				player = foundPlayer;
+			} else {
+				// Player id not found
+				player = new Player(ObjectType.PLAYER, id);
+				this.gameState.getAllPlayers().add(player);
+				this.gameState.getObjects().add(player);
+			}
+			player.setLocation(packet.getX(), packet.getY());
+		}
+	}
+
+	public void sendLocationState(double x, double y) {
+		try {
+			Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);
+			this.send(packet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

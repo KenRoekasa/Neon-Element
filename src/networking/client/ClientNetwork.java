@@ -90,6 +90,9 @@ public class ClientNetwork {
             		break;
             case CONNECT_BCAST:
             		break;
+            case BCAST_INITIAL_GAME_STATE:
+            		this.dispatcher.receiveInitialGameStartStateBroadcast((BroadCastinitialGameStatePacket)packet);
+            		break;
             case CAST_SPELL_BCAST:
             		break;
             default:
