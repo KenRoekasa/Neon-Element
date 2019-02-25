@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import client.ClientGameState;
-import client.GameStateGenerator;
 import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
