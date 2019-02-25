@@ -18,12 +18,14 @@ public class AiCalculations {
 	private Player aiPlayer;
 	private Rectangle map;	
 	private Player player;
+	private ArrayList<PowerUp> powerups;
 	
 	public AiCalculations(AiController aiCon,Rectangle map) {
 		this.aiCon = aiCon;
 		this.map = map;
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
+		powerups = new ArrayList<>();
 		
 	}
 
@@ -33,7 +35,7 @@ public class AiCalculations {
 		ArrayList<PhysicsObject> objects = new ArrayList<>();
 		objects.addAll(aiCon.objects);
 		for(PhysicsObject object : objects) {
-			if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
+			if( object.getTag() == (ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
 				players.add((Player)object);
 			}
 		}
@@ -42,19 +44,18 @@ public class AiCalculations {
 	}
 
 	
-	public ArrayList<PowerUp> getPowerups() {
+	public void updatePowerups() {
 
-		ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
+		powerups.clear();
 		ArrayList<PhysicsObject> objects = new ArrayList<>();
 		objects.addAll(aiCon.objects);
 		for (int i = 0; i < objects.size(); i++) {
 			if (!objects.get(i).equals(null)) {
-				if (ObjectType.POWERUP.equals(objects.get(i).getTag()))
+				if ( (objects.get(i).getTag()) ==  ObjectType.POWERUP)
 					if (!powerups.contains(objects.get(i)))
 						powerups.add((PowerUp) objects.get(i));
 			}
 		}
-		return powerups;
 	}
 
 	public boolean playerIsTooClose() {
@@ -64,7 +65,7 @@ public class AiCalculations {
 	
 	public boolean powerupIsTooClose() {
 		int index = findNearestPowerUp();
-		if(index != -1 && isTooClose(getPowerups().get(index).getLocation())) {
+		if(index != -1 && isTooClose(powerups.get(index).getLocation())) {
 			return true;
 		}
 		return false;
@@ -259,7 +260,7 @@ public class AiCalculations {
 		int puIndex = findNearestPowerUp();
 		if(puIndex == -1)
 			return false;
-		double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
+		double disToPu = powerups.get(puIndex).getLocation().distance(aiPlayer.getLocation());
 		double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
 		
 		return disToPu<disToPlayer;
@@ -273,7 +274,7 @@ public class AiCalculations {
 	}
 	
 	public int findNearestPowerUp() {
-		ArrayList<PowerUp> powerups = getPowerups();
+		updatePowerups();
 		int index = -1;
 		double distance = Double.MAX_VALUE;
 		for (int i = 0; i < powerups.size(); i++) {
@@ -288,7 +289,7 @@ public class AiCalculations {
 	}
 
 	public int findNearestPowerUp(PowerUpType pu) {
-		ArrayList<PowerUp> powerups = getPowerups();
+		updatePowerups();
 		int index = -1;
 		double distance = Double.MAX_VALUE;
 		for (int i = 0; i < powerups.size(); i++) {
@@ -323,6 +324,11 @@ public class AiCalculations {
 		return players.get(index);
 	}
 	
+	
+	public ArrayList<PowerUp> getPowerups(){
+		updatePowerups();
+		return powerups;
+	}
 	
 
 
