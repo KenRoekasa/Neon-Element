@@ -2,12 +2,14 @@ package engine.ai;
 
 import java.util.Random;
 
+import engine.calculations.AiCalculations;
 import engine.entities.Player;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
+//low level actions used by state actions and in ai controller
 public class AiActions {
 	
 
@@ -194,9 +196,9 @@ public class AiActions {
 	
 
 
-	public void wander() {
+	public void startWandering() {
 		
-		Player player = calc.findNearestPlayer();
+		Player player = calc.getNearestPlayer();
 		if(calc.inAttackDistance(player))
 			aiPlayer.lightAttack();
 
@@ -226,7 +228,7 @@ public class AiActions {
 	}
 	
 	public void changeToBefittingElement() {
-		Player player = calc.findNearestPlayer();
+		Player player = calc.getNearestPlayer();
 		switch(aiCon.activeState) {
 		
 		//when attacking, change element to maximize damage given
