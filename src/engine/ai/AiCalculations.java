@@ -30,7 +30,9 @@ public class AiCalculations {
 
 	public ArrayList<Player> getPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(PhysicsObject object : aiCon.objects) {
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.objects);
+		for(PhysicsObject object : objects) {
 			if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
 				players.add((Player)object);
 			}
