@@ -42,7 +42,6 @@ public class PauseController extends UIController{
         hudPane.getChildren().remove(node);
     }
 
-    //back to menu or game?
     // todo this needs to return to the game, probably want an options menu thats transparent like the pause menu
     @FXML
     public void handleSettingBtn(){
@@ -59,9 +58,9 @@ public class PauseController extends UIController{
             controller.setHudPane(hudPane);
             controller.setNode(subnode);
             controller.setStage(stage);
-            stage.setTitle("Setting");
+            stage.setTitle("Sound");
         } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
+            System.out.println("Crush in loading setting board ");
             e.printStackTrace();
         }
     }
@@ -69,23 +68,12 @@ public class PauseController extends UIController{
     @FXML
     // todo this needs to end the game thread somehow
     public void handleQuitBtn(){
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            MenuController controller = loader.getController();
-            controller.setStage(stage);
-
-            stage.getScene().setCursor(Cursor.DEFAULT);
-
-            stage.setTitle("Menu");
-            gameState.stop();
-
-        } catch (IOException e) {
-            System.out.println("crush in loading menu board ");
-            e.printStackTrace();
-        }
+        String fxmlPath = "../fxmls/menu_new.fxml";
+        String stageTitle = "Menu";
+        String fileException ="Menu";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        super.stage.getScene().setCursor(Cursor.DEFAULT);
+        gameState.stop();
     }
 
 }

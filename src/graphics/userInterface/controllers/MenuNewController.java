@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -28,7 +30,11 @@ import java.util.ResourceBundle;
 //Gonna replace old MenuController once everything goes well
 public class MenuNewController extends UIController implements Initializable{
     @FXML
-    public Text alien,play,help,option,exit;
+    public Text alien;
+    @FXML
+    public Button play,help,option,exit;
+    @FXML
+    public Label play_label,help_label,option_label,exit_label;
     @FXML
     VBox background;
 
@@ -38,54 +44,38 @@ public class MenuNewController extends UIController implements Initializable{
 
     // play -> mode selection
     @FXML
-    public void handlePlayBtn(MouseEvent actionEvent) {
+    public void handlePlayBtn(ActionEvent actionEvent) {
 
         // create game rules
         // todo make this configurable
-
         //select mode
-        String fxmlPath = "../fxmls/mode_board.fxml";
+        String fxmlPath = "../fxmls/mode.fxml";
         String stageTitle = "Mode";
         String fileException ="Mode";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @FXML
-    public void handleOptionBtn(MouseEvent actionEvent){
+    public void handleOptionBtn(ActionEvent actionEvent){
         String fxmlPath ="../fxmls/option.fxml";
         String stageTitle ="Option Setup" ;
         String fileException ="Option";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
-
-//        //select mode
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/option.fxml"));
-//
-//        try {
-//            Pane root = loader.load();
-//            stage.getScene().setRoot(root);
-//            SettingController controller = loader.getController();
-//            controller.setStage(stage);
-//            stage.setTitle("Mode");
-//
-//        } catch (IOException e) {
-//            System.out.println("crush in loading setting board ");
-//            e.printStackTrace();
-//        }
     }
 
 
 
     @FXML
-    public void handleHelpBtn(MouseEvent actionEvent){
+    public void handleHelpBtn(ActionEvent actionEvent){
         String fxmlPath ="../fxmls/help.fxml";
-        String stageTitle ="Tutuorial" ;
+        String stageTitle ="Tutorial" ;
         String fileException ="Help";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
 
     }
 
     @FXML
-    public void handleExitBtn(MouseEvent actionEvent){
+    public void handleExitBtn(ActionEvent actionEvent){
         stage.close();
 
         // todo make this graceful
@@ -96,65 +86,16 @@ public class MenuNewController extends UIController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         //get color from UIColour
         background.setBackground(new Background(new BackgroundFill(UIColour.BACKGROUND.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
 
-        outline= Color.WHITE;
+        outline = Color.WHITE; //TODO:get border colour from UIColour
 
         alien.setFill(UIColour.HEAD_TEXT.getColor());
 
-        play.setFill(outline);
-        help.setFill(outline);
-        option.setFill(outline);
-        exit.setFill(outline);
-
-        //Set effect
-        Blend blend = new Blend();
-        blend.setMode(BlendMode.MULTIPLY);
-
-        DropShadow ds = new DropShadow();
-        ds.setColor(Color.WHITE);
-        ds.setOffsetX(5);
-        ds.setOffsetY(5);
-        ds.setRadius(5);
-        ds.setSpread(0.2);
-
-        blend.setBottomInput(ds);
-
-        DropShadow ds1 = new DropShadow();
-        ds1.setColor((Color) UIColour.NEON_BORDER.getColor());
-        ds1.setRadius(10);
-        ds1.setSpread(0.2);
-
-        Blend blend2 = new Blend();
-        blend2.setMode(BlendMode.MULTIPLY);
-
-        InnerShadow is = new InnerShadow();
-        is.setColor((Color) UIColour.NEON_BORDER.getColor());
-        is.setRadius(2);
-        is.setChoke(0.8);
-        blend2.setBottomInput(is);
-
-        InnerShadow is1 = new InnerShadow();
-        is1.setColor((Color) UIColour.NEON_BORDER.getColor());
-        //	#55185F dark purple
-
-        is1.setRadius(2);
-        is1.setChoke(0.4);
-        blend2.setTopInput(is1);
-
-        Blend blend1 = new Blend();
-        blend1.setMode(BlendMode.MULTIPLY);
-        blend1.setBottomInput(ds1);
-        blend1.setTopInput(blend2);
-        blend.setTopInput(blend1);
-
-        play.setEffect(blend);
-        help.setEffect(blend);
-        option.setEffect(blend);
-        exit.setEffect(blend);
-
+        play_label.setEffect(blend);
+        help_label.setEffect(blend);
+        option_label.setEffect(blend);
+        exit_label.setEffect(blend);
     }
 }

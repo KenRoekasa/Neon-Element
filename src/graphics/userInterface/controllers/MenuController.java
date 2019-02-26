@@ -42,7 +42,7 @@ public class MenuController implements Initializable{
         String stageTitle;
         String fileException;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode.fxml"));
 
         try {
             Pane root = loader.load();
