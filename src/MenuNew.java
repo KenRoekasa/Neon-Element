@@ -13,15 +13,15 @@ public class MenuNew extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //load menu
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu_new.fxml"));
-        //load fonts
 
         Font fontLoader01 = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/Outrun.otf"), 14);
         Font fontLoader02 = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/porscha.ttf"), 14);
+        System.out.println("Porsha name :"+fontLoader02.getName());
 
         Parent root = loader.load();
-        primaryStage.setTitle("Alien8");
+        primaryStage.setTitle("Game");
         MenuNewController controller = loader.getController();
         controller.setStage(primaryStage);
 

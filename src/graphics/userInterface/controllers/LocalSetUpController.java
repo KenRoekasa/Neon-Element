@@ -22,9 +22,9 @@ import java.util.ResourceBundle;
 
 //For local_setup scene
 
-public class LocalSetUpController implements Initializable {
+public class LocalSetUpController extends UIController implements Initializable {
     private ClientGameState gameState;
-    private Stage stage;
+
     @FXML
     public RadioButton num_1, num_2, num_3;
     @FXML
@@ -39,10 +39,6 @@ public class LocalSetUpController implements Initializable {
     final ToggleGroup diff_2 = new ToggleGroup();
     final ToggleGroup diff_3 = new ToggleGroup();
     final ToggleGroup mode = new ToggleGroup();
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     private int enemy_num;
     private String enemy_1;
@@ -136,19 +132,10 @@ public class LocalSetUpController implements Initializable {
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            ModeController modeController = loader.getController();
-            modeController.setStage(stage);
-            stage.setTitle("Local Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading mode board ");
-            e.printStackTrace();
-        }
+        String fxmlPath ="../fxmls/mode_board.fxml";
+        String stageTitle ="Mode" ;
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @Override

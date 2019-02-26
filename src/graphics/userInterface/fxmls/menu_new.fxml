@@ -8,12 +8,12 @@
 
 <VBox fx:id="background" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="623.0" spacing="20.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.MenuNewController">
    <children>
-      <Text fx:id="alien" onMouseMoved="#handlePlayFill" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="ALIEN">
+      <Text fx:id="alien" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="ALIEN">
          <font>
             <Font size="96.0" />
          </font>
       </Text>
-      <Text fx:id="play" fill="WHITE" onMouseClicked="#handlePlayBtn" onMouseMoved="#handlePlayFill" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="PLAY">
+      <Text fx:id="play" fill="WHITE" onMouseClicked="#handlePlayBtn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="PLAY">
          <font>
             <Font size="50.0" />
          </font>
@@ -21,7 +21,7 @@
             <Glow level="1.0" />
          </effect>
       </Text>
-      <Text fx:id="help" fill="WHITE" onMouseClicked="#handleHelpBtn" onMouseMoved="#handleHelpFill" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="HELP">
+      <Text fx:id="help" fill="WHITE" onMouseClicked="#handleHelpBtn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="HELP">
          <font>
             <Font size="65.0" />
          </font>
@@ -29,7 +29,7 @@
             <Glow level="1.0" />
          </effect>
       </Text>
-      <Text fx:id="option" fill="WHITE" onMouseClicked="#handleSettingBtn" onMouseMoved="#handleOptionFill" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="OPTION">
+      <Text fx:id="option" fill="WHITE" onMouseClicked="#handleOptionBtn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="OPTION">
          <font>
             <Font size="65.0" />
          </font>
@@ -37,7 +37,7 @@
             <Glow level="1.0" />
          </effect>
       </Text>
-      <Text fx:id="exit" fill="WHITE" onMouseClicked="#handleExitBtn" onMouseMoved="#handleExitFill" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="EXIT">
+      <Text fx:id="exit" fill="WHITE" onMouseClicked="#handleExitBtn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="EXIT">
          <font>
             <Font size="65.0" />
          </font>

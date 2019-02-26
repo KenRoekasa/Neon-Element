@@ -10,67 +10,31 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OnlineModeController implements Initializable{
-    private Stage stage;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
+public class OnlineModeController extends UIController{
 
     @FXML
     public void handleHostGame(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/online_setup.fxml"));
-        try {
-            Pane root = loader.load();
-            OnlineSetUpController onlineSetUpController = loader.getController();
-            onlineSetUpController.setStage(stage);
-            stage.getScene().setRoot(root);
-            stage.setTitle("Online Mode Configuration");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading online setup board ");
-            e.printStackTrace();
-        }
-
+        String fxmlPath = "../fxmls/online_setup.fxml";
+        String stageTitle = "Online Mode Configuration";
+        String fileException ="Online Setup";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @FXML
-    public void handleJoinGame(ActionEvent event){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/ip_join.fxml"));
-
-        try {
-            Pane root = loader.load();
-            JoinController controller  = loader.getController();
-            controller.setStage(stage);
-            stage.getScene().setRoot(root);
-            stage.setTitle("Join a Game");
-
-
-        } catch (IOException e) {
-            System.out.println("crush in loading join board ");
-            e.printStackTrace();
-        }
+    public void handleJoinGame(ActionEvent event) {
+        String fxmlPath = "../fxmls/ip_join.fxml";
+        String stageTitle = "Join a game";
+        String fileException = "IP Join ";
+        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException);
     }
 
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            ModeController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Mode");
-        } catch (IOException e) {
-            System.out.println("crush in loading mode sboard ");
-            e.printStackTrace();
-        }
+        String fxmlPath ="../fxmls/mode_board.fxml";
+        String stageTitle = "Mode";
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-    }
 }

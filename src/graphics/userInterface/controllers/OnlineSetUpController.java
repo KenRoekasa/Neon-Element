@@ -12,49 +12,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OnlineSetUpController implements Initializable{
-    private Stage stage;
+public class OnlineSetUpController extends UIController{
     private Rectangle2D stageSize;
     private ClientGameState gameState;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     @FXML
     public void handleCreateBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/ip_host.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            HostController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Game IP");
 
-        } catch (IOException e) {
-            System.out.println("crush in loading host ip board ");
-            e.printStackTrace();
-        }
+        String fxmlPath = "../fxmls/ip_host.fxml";
+        String stageTitle ="Host a Game" ;
+        String fileException ="IP Host";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @FXML
     public void handleBackBtn(){
         //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            ModeController modeController = loader.getController();
-            modeController.setStage(stage);
-            stage.setTitle("Mode");
-        } catch (IOException e) {
-            System.out.println("crush in loading mode board ");
-            e.printStackTrace();
-        }
+
+        String fxmlPath = "../fxmls/online_setup.fxml";
+        String stageTitle = "Online Configuration";
+        String fileException ="Online Setup";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 }
