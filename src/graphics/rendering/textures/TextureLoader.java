@@ -6,14 +6,16 @@ import java.util.HashMap;
 
 public class TextureLoader {
 
-    public static HashMap<String, Image> loadTextures() {
-        HashMap<String, Image> values = new HashMap<>();
-        Image cursor = new Image("graphics/rendering/textures/pointer.png");
-        // reload forcing no sharpening
-        Image hardBackground = new Image("graphics/rendering/textures/pointer.png", cursor.getRequestedWidth(), cursor.getRequestedHeight(), false, false);
+    public static HashMap<Sprites, Image> loadTextures() {
+        HashMap<Sprites, Image> values = new HashMap<>();
 
+        for (Sprites sprite: Sprites.values()) {
+            Image initial = new Image(sprite.getLocation());
+            // reload forcing no sharpening
+            Image finalImg = new Image(sprite.getLocation(), initial.getRequestedWidth(), initial.getRequestedHeight(), false, false);
 
-        values.put("pointer", hardBackground);
+            values.put(sprite, finalImg);
+        }
 
         return  values;
     }
