@@ -11,18 +11,19 @@ public class GameTypeHandler {
 
     public static boolean checkRunning(GameState currentGame) {
 
-        GameType type = currentGame.gameType;
+        GameType gameType = currentGame.gameType;
 
 
-        if (type.getClass().equals(TimedGame.class)) {
+        if (gameType.getType().equals(GameType.Type.Timed)) {
             // check whether game time is less
-            TimedGame t = (TimedGame) type;
+            TimedGame t = (TimedGame) gameType;
             long duration = t.getDuration();
 
             return currentGame.startTime + duration < System.currentTimeMillis();
 
-        } else if (type.getClass().equals(FirstToXKillsGame.class)) {
-            FirstToXKillsGame typeObj = (FirstToXKillsGame) type;
+            // todo implement!
+        } else if (gameType.getType().equals(GameType.Type.FirstToXKills)) {
+            FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
             if (currentGame.getScoreBoard().getPlayerKills(topPlayerId) >= typeObj.getKillsNeeded()) {

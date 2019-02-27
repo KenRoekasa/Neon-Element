@@ -8,7 +8,7 @@ public class TimedGame extends GameType {
      * @param duration Duration of how long the match will last in milliseconds
      */
     public TimedGame(long duration) {
-        super(Type.TimedGame);
+        super(Type.Timed);
         this.duration = duration;
     }
 
