@@ -120,7 +120,7 @@ public class Physics {
                         // Check for rare occasion the player is inside another player
                         if (CollisionDetection.checkCollision(player, e)) {
                             // This line of code seems to cause a bug
-                            //                        gameState.getPlayer().setLocation(previousLocation);
+//                                                    gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
                                 //                                System.out.println(player + " Collided with " + e);
                                 //                                System.out.println("Collided with itself");
