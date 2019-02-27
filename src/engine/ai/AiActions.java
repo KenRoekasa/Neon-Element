@@ -47,6 +47,66 @@ public class AiActions {
 			break;
 		}
 	}
+	
+	public void assignDifferentRandomElement() {
+
+		Random r = new Random();
+		int rand = r.nextInt(3);
+		switch(aiPlayer.getCurrentElement()) {
+		case AIR:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToEarth();
+				break;
+			case 1:
+				aiPlayer.changeToFire();
+				break;
+			case 2:
+				aiPlayer.changeToWater();
+				break;
+			}
+			break;
+		case EARTH:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToAir();
+				break;
+			case 1:
+				aiPlayer.changeToFire();
+				break;
+			case 2:
+				aiPlayer.changeToWater();
+				break;
+			}
+			break;
+		case FIRE:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToEarth();
+				break;
+			case 1:
+				aiPlayer.changeToAir();
+				break;
+			case 2:
+				aiPlayer.changeToWater();
+				break;
+			}
+			break;
+		case WATER:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToEarth();
+				break;
+			case 1:
+				aiPlayer.changeToFire();
+				break;
+			case 2:
+				aiPlayer.changeToAir();
+				break;
+			}
+			break;
+		}
+	}
 
 	public void moveAway(Player player) {
 		if(calc.reachedAnEdge()) {
@@ -194,6 +254,12 @@ public class AiActions {
 		//}
 	}
 	
+	public void changeToRandomElementAfter(int seconds) {
+		if(calc.secondsElapsed() >= seconds) {
+			calc.setStartTime(System.nanoTime()/1000000000);
+			assignDifferentRandomElement();
+		}
+	}
 
 
 	public void startWandering() {

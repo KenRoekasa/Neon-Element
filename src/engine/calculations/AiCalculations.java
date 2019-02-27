@@ -21,6 +21,7 @@ public class AiCalculations {
 	private Rectangle map;	
 	private Player player;
 	private ArrayList<PowerUp> powerups;
+	float startTime;
 	
 	public AiCalculations(AiController aiCon,Rectangle map) {
 		this.aiCon = aiCon;
@@ -28,7 +29,18 @@ public class AiCalculations {
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
 		powerups = new ArrayList<>();
+		startTime = System.nanoTime()/1000000000;
 		
+	}
+	
+	public float secondsElapsed() {
+		float endTime = System.nanoTime()/1000000000;
+		float elapsedTime = endTime - startTime;
+		return elapsedTime;
+	}
+	
+	public void setStartTime(float time) {
+		startTime = time;
 	}
 
 
