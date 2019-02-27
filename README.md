@@ -7,21 +7,13 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 
 # Mechanics
 ## Tasks
-- Enemy class can only be engine.ai not player controlled enemies. Sort this out 
-- Dealing damage to other players with damage calculation
-- Sends things to the server
 - Integrate with Server
 - Integrate with UI
 - Fix collision bug
 - Cooldown is not very polished apparently
   - cooldown is wayyyy to slow for light attacks
 - When shielded move slower, or have meter
-- Implement Scoreboard
-- Implement respawning
-- doCollisionDetection(); doHitDetection(); deathHandler(); make one for loop where allplayers is passed in
-- Heavy attacks only hit one person
 - make ai attacks speed limited, whilst player attacks should be uncapped
-- Movement must be changed so movement is update per tick
 - Make more game modes
 
 
