@@ -109,8 +109,37 @@ public class AiActions {
 	}
 
 	public void moveAway(Player player) {
+		
+		
 		if(calc.reachedAnEdge()) {
 			moveAwayFromEdge();
+		}
+		else {
+			Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
+			if(playerLoc.getX()>aiLoc.getX()) {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveUp();
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveLeft(map.getWidth());
+				else
+					aiPlayer.moveUpCartesian();
+			}
+			else if(playerLoc.getX()<aiLoc.getX()) {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveRight(map.getWidth(), map.getHeight());
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveDown(map.getWidth(), map.getHeight());
+				else
+					aiPlayer.moveDownCartestian(map.getHeight());
+			}
+			else {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveLeftCartesian();
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveRightCartesian(map.getWidth());
+				else
+					aiPlayer.moveDown(map.getWidth(), map.getHeight());
+			}
 		}
 		
 		if (calc.inAttackDistance(player) && player.getHealth()>0) {
@@ -118,34 +147,6 @@ public class AiActions {
 			aiPlayer.lightAttack();
 			aiPlayer.shield();
 		}
-			
-		
-		Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
-		if(playerLoc.getX()>aiLoc.getX()) {
-			if(playerLoc.getY()>aiLoc.getY())
-				aiPlayer.moveUp();
-			else if(playerLoc.getY()<aiLoc.getY())
-				aiPlayer.moveLeft(map.getWidth());
-			else
-				aiPlayer.moveUpCartesian();
-		}
-		else if(playerLoc.getX()<aiLoc.getX()) {
-			if(playerLoc.getY()>aiLoc.getY())
-				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-			else if(playerLoc.getY()<aiLoc.getY())
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-			else
-				aiPlayer.moveDownCartestian(map.getHeight());
-		}
-		else {
-			if(playerLoc.getY()>aiLoc.getY())
-				aiPlayer.moveLeftCartesian();
-			else if(playerLoc.getY()<aiLoc.getY())
-				aiPlayer.moveRightCartesian(map.getWidth());
-			else
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-		}
-		
 		
 	}
 	

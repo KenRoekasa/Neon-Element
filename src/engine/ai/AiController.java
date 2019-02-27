@@ -63,7 +63,7 @@ public class AiController {
 	        calc = new AiCalculations(aiCon, map);
 	        actions = new AiActions(aiCon, calc, map);
 	        stateActions = new AiStateActions(aiCon, calc, actions);
-	        setAiType(AiType.EASY);
+	        setAiType(aiType);
 	        //default random
 	        actions.assignRandomElement();
 	        System.out.println("started ai\n difficulty: "+String.valueOf(aiType)+"\n\n");
@@ -71,29 +71,29 @@ public class AiController {
 		
 		public void update() {
 			switch(aiType) {
-			case EASY:startEasyAi();
+			case EASY:updateEasyAi();
 				break;
-			case NORMAL:startNormalAi();
+			case NORMAL:updateNormalAi();
 				break;
-			case HARD:startHardAi();
+			case HARD:updateHardAi();
 				break;
 			}
 		}
 		
-		public void startEasyAi() {
+		public void updateEasyAi() {
 			
 			AiFSM.easyAiFetchAction(aiPlayer, aiCon, calc);	
 			easyAIExecuteAction();
 		}
 
-		public void startNormalAi() {
+		public void updateNormalAi() {
 			
 			AiFSM.normalAiFetchAction(aiPlayer, aiCon, calc);
 			normalAIExecuteAction();
 
 		}
 		
-		public void startHardAi() {
+		public void updateHardAi() {
 			
 			AiFSM.hardAiFetchAction(aiPlayer, aiCon, calc);
 			hardAIExecuteAction();
