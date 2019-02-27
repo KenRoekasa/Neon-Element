@@ -1,11 +1,8 @@
 package engine;
 
 import engine.entities.Player;
-import javafx.util.Pair;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class ScoreBoard {

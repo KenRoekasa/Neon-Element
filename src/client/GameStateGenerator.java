@@ -80,7 +80,7 @@ public class GameStateGenerator {
 
 
         //add the 1 power up to the objects list
-        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> objects = new ArrayList<>();
 
 
         // initialise enemies

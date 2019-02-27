@@ -1,6 +1,5 @@
 package engine.entities;
 
-import client.audiomanager.AudioManager;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
@@ -409,10 +408,9 @@ public abstract class Character extends PhysicsObject {
     }
 
     public String toString() {
-        String s = "ID: " + System.identityHashCode(this) +
+        return "ID: " + System.identityHashCode(this) +
                 "\nHealth: " + health +
                 "\nElement: " + currentElement.toString();
-        return s;
     }
 
     public float getDamageMultiplier() {

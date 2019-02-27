@@ -26,11 +26,7 @@ public class GameTypeHandler {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
-            if (currentGame.getScoreBoard().getPlayerKills(topPlayerId) >= typeObj.getKillsNeeded()) {
-                return false;
-            } else {
-                return true;
-            }
+            return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < typeObj.getKillsNeeded();
         }
 
         // return true to allow testing games to run infinitely

@@ -1,7 +1,6 @@
 package client.audiomanager;
 
 import client.ClientGameState;
-import engine.GameState;
 import engine.entities.Player;
 import engine.enums.Action;
 import javafx.scene.media.AudioClip;

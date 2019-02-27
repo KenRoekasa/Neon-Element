@@ -2,7 +2,6 @@ package client;
 
 
 import client.audiomanager.AudioManager;
-import engine.GameState;
 import engine.Physics;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -61,7 +60,7 @@ public class GameClient {
         //Pane hudPane = new Pane();
 
         try {
-            hudPane = (Pane) loader.load();
+            hudPane = loader.load();
             //get player attribute
 
         } catch (Exception e) {
@@ -198,9 +197,7 @@ public class GameClient {
             input.remove(code);
         });
 
-        theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), e);
-        });
+        theScene.setOnMouseClicked(e -> InputHandler.handleClick(gameState.getPlayer(), e));
 
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));

@@ -19,7 +19,6 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.ArrayBlockingQueue;
 
 //For local_setup scene
 

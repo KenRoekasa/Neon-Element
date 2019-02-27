@@ -65,38 +65,32 @@ public class AiController {
         //aiType = AiType.EASY;
         System.out.println("started ai\n difficulty: Easy\n\n");
 
-        Thread t = new Thread(new Runnable() {
+        Thread t = new Thread(() -> {
 
+            double startTime = System.nanoTime() / 1000000000;
+            double endTime;
 
-            @Override
-            public void run() {
+            boolean bool = true;
+            while (bool) {
 
-                double startTime = System.nanoTime() / 1000000000;
-                double endTime;
-
-                boolean bool = true;
-                while (bool) {
-
-                    //assigns random element every fifteen seconds
-                    endTime = System.nanoTime() / 1000000000;
-                    double elapsedTime = endTime - startTime;
-                    if (elapsedTime >= 15) {
-                        startTime = System.nanoTime() / 1000000000;
-                        actions.assignRandomElement();
-                    }
-
-                    //System.out.println(aiPlayer.getLocation());
-                    AiFSM.easyAiFetchAction(aiPlayer, aiCon, calc);
-
-                    if (getActiveState().equals(AiStates.ESCAPE))
-                        aiPlayer.delay((calc.DELAY_TIME / 3) * 2);
-                    else
-                        aiPlayer.delay(calc.DELAY_TIME);
-
-                    easyAIExecuteAction();
-
-
+                //assigns random element every fifteen seconds
+                endTime = System.nanoTime() / 1000000000;
+                double elapsedTime = endTime - startTime;
+                if (elapsedTime >= 15) {
+                    startTime = System.nanoTime() / 1000000000;
+                    actions.assignRandomElement();
                 }
+
+                //System.out.println(aiPlayer.getLocation());
+                AiFSM.easyAiFetchAction(aiPlayer, aiCon, calc);
+
+                if (getActiveState().equals(AiStates.ESCAPE))
+                    aiPlayer.delay((calc.DELAY_TIME / 3) * 2);
+                else
+                    aiPlayer.delay(calc.DELAY_TIME);
+
+                easyAIExecuteAction();
+
 
             }
 
@@ -108,25 +102,20 @@ public class AiController {
     public void startNormalAi() {
         //aiType = AiType.NORMAL;
         System.out.println("started ai\n difficulty: Normal\n\n");
-        Thread t = new Thread(new Runnable() {
+        Thread t = new Thread(() -> {
 
-            @Override
-            public void run() {
+            boolean bool = true;
+            while (bool) {
 
-                boolean bool = true;
-                while (bool) {
+                AiFSM.normalAiFetchAction(aiPlayer, aiCon, calc);
 
-                    AiFSM.normalAiFetchAction(aiPlayer, aiCon, calc);
+                if (getActiveState().equals(AiStates.ESCAPE))
+                    aiPlayer.delay((calc.DELAY_TIME / 2) + (calc.DELAY_TIME / 4));
+                else
+                    aiPlayer.delay(calc.DELAY_TIME);
 
-                    if (getActiveState().equals(AiStates.ESCAPE))
-                        aiPlayer.delay((calc.DELAY_TIME / 2) + (calc.DELAY_TIME / 4));
-                    else
-                        aiPlayer.delay(calc.DELAY_TIME);
+                normalAIExecuteAction();
 
-                    normalAIExecuteAction();
-
-
-                }
 
             }
 
@@ -138,24 +127,19 @@ public class AiController {
     public void startHardAi() {
         //aiType = AiType.HARD;
         System.out.println("started ai\n difficulty: Hard\n\n");
-        Thread t = new Thread(new Runnable() {
+        Thread t = new Thread(() -> {
+            boolean bool = true;
+            while (bool) {
 
-            @Override
-            public void run() {
-                boolean bool = true;
-                while (bool) {
+                AiFSM.hardAiFetchAction(aiPlayer, aiCon, calc);
 
-                    AiFSM.hardAiFetchAction(aiPlayer, aiCon, calc);
+                if (getActiveState().equals(AiStates.ESCAPE))
+                    aiPlayer.delay((calc.DELAY_TIME / 2) + (calc.DELAY_TIME / 4));
+                else
+                    aiPlayer.delay(calc.DELAY_TIME);
 
-                    if (getActiveState().equals(AiStates.ESCAPE))
-                        aiPlayer.delay((calc.DELAY_TIME / 2) + (calc.DELAY_TIME / 4));
-                    else
-                        aiPlayer.delay(calc.DELAY_TIME);
+                hardAIExecuteAction();
 
-                    hardAIExecuteAction();
-
-
-                }
 
             }
 

@@ -33,7 +33,7 @@ public class Physics {
 
     }
 
-    public void doUpdates() {
+    private void doUpdates() {
         synchronized (gameState.getObjects()) {
             // Call update function for all physics objects
             gameState.getPlayer().update();
@@ -43,7 +43,7 @@ public class Physics {
         }
     }
 
-    public void deathHandler() {
+    private void deathHandler() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
@@ -67,7 +67,7 @@ public class Physics {
 
     }
 
-    public void doCollisionDetection() {
+    private void doCollisionDetection() {
 
         ArrayList<PhysicsObject> objects = gameState.getObjects();
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
@@ -297,7 +297,6 @@ public class Physics {
                                     //
                                     Point2D newLocation = new Point2D(e.getBounds().getBoundsInParent().getMaxX(),
                                             player.getLocation().getY());
-                                    ;
                                     previousLocation = newLocation;
                                     player.setLocation(newLocation);
                                     player.canLeftCart = false;
@@ -332,7 +331,7 @@ public class Physics {
         }
     }
 
-    public void doHitDetection() {
+    private void doHitDetection() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
             Player player = itr.next();

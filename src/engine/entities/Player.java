@@ -71,9 +71,8 @@ public class Player extends Character {
     }
 
     public String toString(){
-        String s = "Player: " + this.id +
+        return "Player: " + this.id +
                 "\nHealth: " + health;
-        return s;
     }
 
 

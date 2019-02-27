@@ -33,8 +33,9 @@ public class AiCalculations {
 
 
     public ArrayList<Player> getPlayers() {
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
         ArrayList<PhysicsObject> objects = new ArrayList<>();
+        //TODO objects adding to itself
         objects.addAll(objects);
         for (PhysicsObject object : objects) {
             if (object.getTag() == (ObjectType.ENEMY) && !object.equals(aiPlayer)) {
@@ -51,7 +52,9 @@ public class AiCalculations {
 
         powerups.clear();
         ArrayList<PhysicsObject> objects = new ArrayList<>();
+        //TODO objects adding to itself
         objects.addAll(objects);
+
         for (int i = 0; i < objects.size(); i++) {
             if (!objects.get(i).equals(null)) {
                 if ((objects.get(i).getTag()) == ObjectType.POWERUP)

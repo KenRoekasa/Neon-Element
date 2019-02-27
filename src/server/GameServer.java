@@ -45,7 +45,7 @@ public class GameServer extends Thread {
             this.sendLocations();
 
             try {
-                Thread.sleep(1000l); // Every second
+                Thread.sleep(1000L); // Every second
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
