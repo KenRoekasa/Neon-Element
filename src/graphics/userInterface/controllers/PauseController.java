@@ -11,8 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 //Press space to pause the game
-public class PauseController {
-    private Stage stage;
+public class PauseController extends UIController{
     private Rectangle stageSize;
     private Pane hudPane;
 
@@ -21,7 +20,6 @@ public class PauseController {
     }
 
     private  Pane node;
-
 
     public void setStageSize(Rectangle stageSize) {
         this.stageSize = stageSize;
@@ -34,10 +32,9 @@ public class PauseController {
     private ClientGameState gameState;
 
     @FXML
-
     public void setStage(Stage stage, ClientGameState gameState) {
         this.gameState = gameState;
-        this.stage = stage;
+        super.stage = stage;
     }
 
     @FXML
@@ -72,6 +69,7 @@ public class PauseController {
     @FXML
     // todo this needs to end the game thread somehow
     public void handleQuitBtn(){
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
         try {
             Pane root = loader.load();

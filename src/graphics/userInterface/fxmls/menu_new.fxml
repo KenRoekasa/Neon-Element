@@ -29,7 +29,7 @@
             <Glow level="1.0" />
          </effect>
       </Text>
-      <Text fx:id="option" fill="WHITE" onMouseClicked="#handleSettingBtn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="OPTION">
+      <Text fx:id="option" fill="WHITE" onMouseClicked="#handleOptionBtn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button" text="OPTION">
          <font>
             <Font size="65.0" />
          </font>

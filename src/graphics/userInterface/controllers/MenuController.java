@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 /* Menu buttons:
 1. Play
@@ -39,6 +38,10 @@ public class MenuController implements Initializable{
         
       //select mode
 
+        String fxmlPath;
+        String stageTitle;
+        String fileException;
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
 
         try {
@@ -57,7 +60,7 @@ public class MenuController implements Initializable{
     @FXML
     public void handleSettingBtn(ActionEvent actionEvent){
         //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/option.fxml"));
 
         try {
             Pane root = loader.load();

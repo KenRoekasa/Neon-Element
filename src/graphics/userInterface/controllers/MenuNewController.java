@@ -19,21 +19,22 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-public class MenuNewController implements Initializable{
+/* Menu buttons:
+1. Play
+2. Options
+3. Help
+4. Exit
+*/
+//Gonna replace old MenuController once everything goes well
+public class MenuNewController extends UIController implements Initializable{
     @FXML
     public Text alien,play,help,option,exit;
     @FXML
     VBox background;
 
     private Color outline;
-
-    private Stage stage;
     private ClientGameState gameState;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     // play -> mode selection
     @FXML
@@ -43,57 +44,43 @@ public class MenuNewController implements Initializable{
         // todo make this configurable
 
         //select mode
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            ModeController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading mode board ");
-            e.printStackTrace();
-        }
+        String fxmlPath = "../fxmls/mode_board.fxml";
+        String stageTitle = "Mode";
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @FXML
-    public void handleSettingBtn(MouseEvent actionEvent){
-        //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/setting.fxml"));
+    public void handleOptionBtn(MouseEvent actionEvent){
+        String fxmlPath ="../fxmls/option.fxml";
+        String stageTitle ="Option Setup" ;
+        String fileException ="Option";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
 
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            SettingController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
-            e.printStackTrace();
-        }
+//        //select mode
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/option.fxml"));
+//
+//        try {
+//            Pane root = loader.load();
+//            stage.getScene().setRoot(root);
+//            SettingController controller = loader.getController();
+//            controller.setStage(stage);
+//            stage.setTitle("Mode");
+//
+//        } catch (IOException e) {
+//            System.out.println("crush in loading setting board ");
+//            e.printStackTrace();
+//        }
     }
 
 
 
     @FXML
     public void handleHelpBtn(MouseEvent actionEvent){
-        //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/help.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            SettingController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("GUIDE");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
-            e.printStackTrace();
-        }
+        String fxmlPath ="../fxmls/help.fxml";
+        String stageTitle ="Tutuorial" ;
+        String fileException ="Help";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
 
     }
 
@@ -109,6 +96,7 @@ public class MenuNewController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
         //get color from UIColour
         background.setBackground(new Background(new BackgroundFill(UIColour.BACKGROUND.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
