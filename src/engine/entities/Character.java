@@ -240,7 +240,7 @@ public abstract class Character extends PhysicsObject {
         if (currentAction == Action.IDLE) {
             currentAction = Action.BLOCK;
             isShielded = true;
-            movementSpeed = movementSpeed / 2;
+            movementSpeed = DEFAULT_MOVEMENT_SPEED / 2;
 
         }
     }
