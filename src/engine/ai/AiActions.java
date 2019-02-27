@@ -173,7 +173,7 @@ public class AiActions {
 			}else if (calc.isRightOf(playerLoc)) {
 				//System.out.println("going right");
 				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-			}else if (calc.isAbove(playerLoc)) {	
+			}else if (calc.isAbove(playerLoc)) {
 				//System.out.println("going up");
 				aiPlayer.moveUp();
 			}else if (calc.higherY(playerLoc)) {

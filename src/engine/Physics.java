@@ -47,23 +47,22 @@ public class Physics {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
-            for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-                Player player = itr.next();
-                //If not already dead
-                if (!deadPlayers.contains(player) && !player.isAlive()) {
-                    // Add to dead list
+        for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
+            Player player = itr.next();
+            //If not already dead
+            if (!deadPlayers.contains(player) && !player.isAlive()) {
+                // Add to dead list
 
-                    deadPlayers.offer(player);
+                deadPlayers.offer(player);
 
-                    // Add kills to scoreboard
-                    scoreBoard.addKill(player.getLastAttacker().getId());
-                    //if dead teleport player off screen
-                    player.setLocation(new Point2D(5000, 5000));
-
-                }
+                // Add kills to scoreboard
+                scoreBoard.addKill(player.getLastAttacker().getId());
+                //if dead teleport player off screen
+                player.setLocation(new Point2D(5000, 5000));
 
             }
 
+        }
 
 
     }
@@ -120,7 +119,7 @@ public class Physics {
                         // Check for rare occasion the player is inside another player
                         if (CollisionDetection.checkCollision(player, e)) {
                             // This line of code seems to cause a bug
-//                                                    gameState.getPlayer().setLocation(previousLocation);
+                            //                                                    gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
                                 //                                System.out.println(player + " Collided with " + e);
                                 //                                System.out.println("Collided with itself");
@@ -338,36 +337,35 @@ public class Physics {
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
             Player player = itr.next();
             ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
+            ArrayList<Player> lightHittablePlayers = new ArrayList<>();
+            ArrayList<Player> heavyHittablePlayer = new ArrayList<>();
             // Loop through all enemies to detect hit detection
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 PhysicsObject e = itr1.next();
-                // Attack Collision
-                // if player is light attacking
-                if (player.getCurrentAction() == Action.LIGHT) {
-                    if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(),
-                            e.getBounds().getBoundsInParent())) {
-                        // e takes damage
-                        // this will have to change due to Player being other controlled player when
-                        // Enemy is when the player is an ai
-                        Player enemy = (Player) e;
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
-                        player.setCurrentAction(Action.IDLE);
-                        //System.out.println("hit");
-                        // Sends to server
-                    }
-
+                // Check light attack
+                if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                    lightHittablePlayers.add((Player) e);
                 }
-                if (player.getCurrentAction() == Action.HEAVY) {
-                    if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
-                            e.getBounds().getBoundsInParent())) {
-                        // e takes damage
-                        Player enemy = (Player) e;
-                        // TODO: For now its takes 10 damage, change later
-                        enemy.removeHealth(DamageCalculation.calculateDealtDamage(player, enemy), enemy);
-                        player.setCurrentAction(Action.IDLE);
-                        //System.out.println("heavy hit");
-                        // Sends to server
-                    }
+                //Check heavy attack
+                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
+                        e.getBounds().getBoundsInParent())) {
+                    heavyHittablePlayer.add((Player) e);
+                }
+            }
+            // Attack Collision
+            // if player is light attacking
+            if (player.getCurrentAction() == Action.LIGHT) {
+                for (Player e : lightHittablePlayers) {
+                    float damage = DamageCalculation.calculateDealtDamage(player, e);
+                    e.removeHealth(damage, player);
+                }
+            }
+
+            // if player is heavy attacking
+            if (player.getCurrentAction() == Action.HEAVY) {
+                for (Player e : heavyHittablePlayer) {
+                    float damage = DamageCalculation.calculateDealtDamage(player, e);
+                    e.removeHealth(damage, player);
                 }
             }
         }

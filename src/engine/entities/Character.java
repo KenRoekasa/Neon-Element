@@ -419,7 +419,8 @@ public abstract class Character extends PhysicsObject {
         return damageMultiplier;
     }
     public Rectangle getAttackHitbox() {
-        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
+        float height = width * 4;
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - height, width, height);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
         hitbox.getTransforms().add(rotate);
         return hitbox;
