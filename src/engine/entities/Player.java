@@ -28,6 +28,8 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         tag = type;
         width = tag.getSize();
+        actionHasSounded = false;
+
 
         for (int i = 0; i < timerArray.length; i++) {
             timerArray[i] = System.currentTimeMillis() - 10 * 1000;

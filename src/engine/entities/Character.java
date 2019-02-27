@@ -1,7 +1,6 @@
 package engine.entities;
 
 import client.audiomanager.AudioManager;
-import client.audiomanager.Sound;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
@@ -36,6 +35,12 @@ public abstract class Character extends PhysicsObject {
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
     protected long[] timerArray = new long[10]; //TODO: Change the array length
+
+    protected boolean actionHasSounded;
+
+
+
+
     protected float verticalMove = 0;
     protected float horizontalMove = 0;
     protected Player lastAttacker;
@@ -164,8 +169,7 @@ public abstract class Character extends PhysicsObject {
     public void lightAttack() {
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
-
-                audioManager.playSound(Sound.LIGHT_ATTACK);
+                actionHasSounded = false;
 
                 currentAction = Action.LIGHT;
                 currentActionStart = System.currentTimeMillis();
@@ -200,11 +204,11 @@ public abstract class Character extends PhysicsObject {
         this.lastAttacker = lastAttacker;
         //System.out.println("player health "+getHealth());
     }
-
     public void chargeHeavyAttack() {
         // TODO handle charging
         if (checkCD(heavyAttackID, heavyAttackCD)) {
             if (currentAction == Action.IDLE) {
+                actionHasSounded = false;
                 currentAction = Action.CHARGE;
                 currentActionStart = System.currentTimeMillis();
 
@@ -224,9 +228,8 @@ public abstract class Character extends PhysicsObject {
 
     private void heavyAttack() {
 
-
+        actionHasSounded = false;
         currentAction = Action.HEAVY;
-        audioManager.playSound(Sound.HEAVY_ATTACK);
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
         final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
@@ -238,6 +241,7 @@ public abstract class Character extends PhysicsObject {
 
     public void shield() {
         if (currentAction == Action.IDLE) {
+            actionHasSounded = false;
             currentAction = Action.BLOCK;
             isShielded = true;
             movementSpeed = DEFAULT_MOVEMENT_SPEED / 2;
@@ -329,6 +333,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     // adds Health to the player
+
     public void addHealth(int amount) {
 
         health += amount;
@@ -338,6 +343,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     // Increase movement speed
+
     public void speedBoost() {
         Timer timer = new Timer();
 
@@ -361,8 +367,8 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-
     // Doubles the players damage
+
     public void damageBoost() {
         Timer timer = new Timer();
         damageMultiplier = 2;
@@ -414,7 +420,6 @@ public abstract class Character extends PhysicsObject {
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
-
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
@@ -430,6 +435,14 @@ public abstract class Character extends PhysicsObject {
         return characterDirection;
     }
 
+
+    public boolean hasActionSounded() {
+        return actionHasSounded;
+    }
+
+    public void setActionHasSounded(boolean actionHasSounded) {
+        this.actionHasSounded = actionHasSounded;
+    }
 
     //check if the action is off cooldown
     private boolean checkCD(int id, float cooldown) {
