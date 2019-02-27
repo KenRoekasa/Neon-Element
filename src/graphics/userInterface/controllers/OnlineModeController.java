@@ -2,15 +2,15 @@ package graphics.userInterface.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import java.io.IOException;
+import javafx.scene.control.Label;
+
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OnlineModeController extends UIController{
+    @FXML
+    Label host,join,back;
 
     @FXML
     public void handleHostGame(ActionEvent actionEvent){
@@ -31,10 +31,20 @@ public class OnlineModeController extends UIController{
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent){
-        String fxmlPath ="../fxmls/mode_board.fxml";
+        String fxmlPath ="../fxmls/mode.fxml";
         String stageTitle = "Mode";
         String fileException ="Mode";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        host.setTextFill(outline);
+        host.setEffect(blend);
+        join.setTextFill(outline);
+        join.setEffect(blend);
+        back.setTextFill(outline);
+        back.setEffect(blend);
     }
 
 }

@@ -2,19 +2,14 @@ package graphics.userInterface.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
+import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-//For mode board: online/local
+/*Mode board: online/local*/
 public class ModeController extends UIController{
-
+    @FXML
+    Label online,local,back;
    //local -> local_setup
     @FXML
     public void handleLocalBtn(ActionEvent actionEvent){
@@ -40,5 +35,16 @@ public class ModeController extends UIController{
         String stageTitle ="Menu" ;
         String fileException ="Menu";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //can't not fill colour by css since label is in button
+        online.setTextFill(outline);
+        online.setEffect(blend);
+        local.setTextFill(outline);
+        local.setEffect(blend);
+        back.setTextFill(outline);
+        back.setEffect(blend);
     }
 }

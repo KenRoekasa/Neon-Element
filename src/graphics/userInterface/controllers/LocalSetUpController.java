@@ -5,18 +5,17 @@ import client.ClientGameState;
 import client.GameStateGenerator;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+
 
 import javafx.event.ActionEvent;
+import javafx.scene.layout.GridPane;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -26,7 +25,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class LocalSetUpController extends UIController implements Initializable {
     private ClientGameState gameState;
-
+    @FXML
+    Label start,back;
     @FXML
     public RadioButton num_1, num_2, num_3;
     @FXML
@@ -142,7 +142,7 @@ public class LocalSetUpController extends UIController implements Initializable 
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent) {
-        String fxmlPath ="../fxmls/mode_board.fxml";
+        String fxmlPath ="../fxmls/mode.fxml";
         String stageTitle ="Mode" ;
         String fileException ="Mode";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
@@ -190,6 +190,11 @@ public class LocalSetUpController extends UIController implements Initializable 
         hard_1.setUserData("Hard");
         hard_2.setUserData("Hard");
         hard_3.setUserData("Hard");
+
+        back.setTextFill(outline);
+        start.setTextFill(outline);
+        back.setEffect(blend);
+        start.setEffect(blend);
     }
 
 }
