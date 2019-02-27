@@ -25,16 +25,12 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 //To get players' health and speed in top-left hud
-public class HUDController implements Initializable{
-    private Stage stage;
+public class HUDController extends UIController implements Initializable{
+
     private ClientGameState gameState;
 
     public void setGameState(ClientGameState gameState) {
         this.gameState = gameState;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     @FXML

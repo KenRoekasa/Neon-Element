@@ -7,14 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SoundController  {
-    private Stage stage;
+public class SoundController extends UIController{
     private Pane hudPane;
     private Pane node;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     public void setHudPane(Pane hudPane) {
         this.hudPane = hudPane;
@@ -27,10 +22,10 @@ public class SoundController  {
     @FXML
     public void handleOkBtn(){
 
-
     }
     @FXML
     public void handleBackBtn(){
         hudPane.getChildren().remove(node);
     }
 }
+

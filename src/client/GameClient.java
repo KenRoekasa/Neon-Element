@@ -31,6 +31,11 @@ import java.util.ArrayList;
 
 public class GameClient {
 
+    /**
+     * Time since the last frame
+     */
+    public static float deltaTime;
+
     private Physics physicsEngine;
     private Renderer renderer;
     private Debugger debugger;
@@ -39,12 +44,12 @@ public class GameClient {
     private Scene scene;
     private Rectangle stageSize;
     private ArrayList<String> input;
-
     private ClientGameState gameState;
     private ClientNetworkThread clientNetworkThread;
     private Pane hudPane;
 
     private AudioManager audioManager;
+
 
     public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
         // initial setup
@@ -71,7 +76,7 @@ public class GameClient {
 
         scene = primaryStage.getScene();
 
-		// change cursor
+        // change cursor
         Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
         ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
         scene.setCursor(iC);
@@ -92,14 +97,14 @@ public class GameClient {
 
         audioManager = new AudioManager();
 
-        //Create the physics engine 
+        //Creates the physics engine
         physicsEngine = new Physics(gameState);
 
 
         // initialise input controls
         initialiseInput(scene, renderer);
 
-        if(!online) {
+        if (!online) {
             this.gameState.start();
             beginClientLoop(renderer);
         }
@@ -107,7 +112,7 @@ public class GameClient {
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
     }
-    
+
     public GameClient(Stage primaryStage, ClientGameState gameState, String addr) throws Exception {
         this(primaryStage, gameState, true);
 
@@ -119,16 +124,23 @@ public class GameClient {
     }
 
     private void beginClientLoop(Renderer renderer) {
+
         new AnimationTimer() {
+            long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
-                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
                 renderer.render(primaryStage, gameState);
 
                 // TODO: remove this when networking is added
                 physicsEngine.clientLoop();
                 audioManager.clientLoop(gameState);
 
-                if(!gameState.getRunning()) {
+                //calculate deltaTime
+                long time = System.nanoTime();
+                deltaTime = (int) ((time - lastTime) / 1000000);
+                lastTime = time;
+
+                if (!gameState.getRunning()) {
                     stop();
 
                     showGameOver();
@@ -165,11 +177,11 @@ public class GameClient {
             primaryStage.setTitle("Game Over!");
             gameState.stop();
 
-        } catch (IOException e) {
-            System.out.println("crush in loading menu board ");
-            e.printStackTrace();
-        }
-    }
+                    } catch (IOException e) {
+                        System.out.println("crush in loading menu board ");
+                        e.printStackTrace();
+                    }
+                }
 
     public void startNetwork() {
         this.clientNetworkThread.start();
@@ -190,12 +202,12 @@ public class GameClient {
             InputHandler.handleClick(gameState.getPlayer(), e);
         });
 
-		// when the mouse is moved around the screen calculate new angle
+        // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
 
         theScene.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.P) {
+            if (e.getCode() == KeyCode.P) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
                 try {
                     Pane node = loader.load();
@@ -223,8 +235,8 @@ public class GameClient {
         });
     }
 
-    private void swapElement(){
-        InputHandler.handleKeyboardInput(gameState.getPlayer(),input,gameState.getMap(),primaryStage);
+    private void swapElement() {
+        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
 
     }
 }

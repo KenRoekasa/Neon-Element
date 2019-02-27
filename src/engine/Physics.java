@@ -1,6 +1,7 @@
 package engine;
 
 import client.ClientGameState;
+import client.GameClient;
 import engine.calculations.DamageCalculation;
 import engine.entities.CollisionDetection;
 import engine.entities.PhysicsObject;
@@ -106,7 +107,7 @@ public class Physics {
                         int collisionOffset = 1;
                         double x = player.getLocation().getX();
                         double y = player.getLocation().getY();
-                        int movementSpeed = player.getMovementSpeed();
+                        float movementSpeed = player.getMovementSpeed() * GameClient.deltaTime;
                         Point2D checkUp = new Point2D(x - movementSpeed, y - movementSpeed);
                         Point2D checkDown = new Point2D(x + movementSpeed, y + movementSpeed);
                         Point2D checkLeft = new Point2D(x - movementSpeed, y + movementSpeed);
@@ -119,7 +120,7 @@ public class Physics {
                         // Check for rare occasion the player is inside another player
                         if (CollisionDetection.checkCollision(player, e)) {
                             // This line of code seems to cause a bug
-                            //                        gameState.getPlayer().setLocation(previousLocation);
+//                                                    gameState.getPlayer().setLocation(previousLocation);
                             if (player == e) {
                                 //                                System.out.println(player + " Collided with " + e);
                                 //                                System.out.println("Collided with itself");

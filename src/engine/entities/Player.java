@@ -1,5 +1,6 @@
 package engine.entities;
 
+import client.GameClient;
 import engine.enums.Directions;
 import engine.enums.Elements;
 import engine.enums.ObjectType;
@@ -49,6 +50,13 @@ public class Player extends Character {
         } else {
             isAlive = true;
         }
+
+        location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
+        horizontalMove = 0;
+        verticalMove = 0 ;
+
+
+
     }
 
     public void setLocation(double x, double y) {

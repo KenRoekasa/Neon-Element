@@ -92,7 +92,7 @@ public class GameServer extends Thread {
                     } else {
                         double x = player.getLocation().getX();
                         double y = player.getLocation().getY();
-                        int movementSpeed = player.getMovementSpeed();
+                        float movementSpeed = player.getMovementSpeed();
                         Point2D checkUp = new Point2D(x - movementSpeed, y - movementSpeed);
                         Point2D checkDown = new Point2D(x + movementSpeed, y + movementSpeed);
                         Point2D checkLeft = new Point2D(x - movementSpeed, y + movementSpeed);
