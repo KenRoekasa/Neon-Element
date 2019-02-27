@@ -19,7 +19,6 @@ import static engine.entities.CooldownValues.*;
 public abstract class Character extends PhysicsObject {
     public static final float DEFAULT_MOVEMENT_SPEED = 0.35f;
     protected static final float MAX_HEALTH = 100;
-    public static AudioManager audioManager = new AudioManager();
     public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
@@ -29,7 +28,6 @@ public abstract class Character extends PhysicsObject {
     protected float movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
-    protected int deathCounter = 0;
     protected boolean damagePowerup=false;
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
