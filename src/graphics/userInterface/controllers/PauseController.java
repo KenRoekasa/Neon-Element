@@ -4,14 +4,19 @@ import client.ClientGameState;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 //Press space to pause the game
 public class PauseController extends UIController{
+    @FXML
+    Label resume,option,quit;
     private Rectangle stageSize;
     private Pane hudPane;
 
@@ -74,6 +79,16 @@ public class PauseController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        resume.setTextFill(outline);
+        option.setTextFill(outline);
+        quit.setTextFill(outline);
+        resume.setEffect(blend);
+        option.setEffect(blend);
+        quit.setEffect(blend);
     }
 
 }
