@@ -69,7 +69,7 @@ public class AiFSM {
 		
 		//case 1, take any type of power up
 		if( calc.powerupIsTooClose() || calc.powerupCloserThanPlayer() ) {
-		//	System.out.println("case 1");
+			System.out.println("case 1");
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
@@ -87,25 +87,25 @@ public class AiFSM {
 		
 		//case 2, escape when health is less than third
 		else if(aiPlayerHP < (maxHP/3) && aiPlayerHP<playerHP) {
-		//	System.out.println("case 2");
+			System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
 		//case 3, attack aggressively when the nearest enemy's hp is less than 33%
 		else if (playerHP < (maxHP/3)) {
-		//	System.out.println("case 3");
+			System.out.println("case 3");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
 		//case 4, attack when you got the advantage
 		else if (aiPlayerHP > playerHP) {
-		//	System.out.println("case 4");
+			System.out.println("case 4");
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
 		//case 5, wander, or attack, when nothing else is triggered
 		else {
-		// System.out.println("case 5");
+		 System.out.println("case 5");
 			aiCon.setState(AiStates.WANDER);
 		}
 		
