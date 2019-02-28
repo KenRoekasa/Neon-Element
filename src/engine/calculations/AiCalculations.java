@@ -104,14 +104,14 @@ public class AiCalculations {
 	}
 	
 	/*
-	 * 0 = down cart
-	 * 1 = right
-	 * 2 = down
-	 * 3 = right cart
-	 * 4 = up
-	 * 5 = left cart
-	 * 6 = left
-	 * 7 = up cart
+	 * 0 = down 
+	 * 1 = right cart
+	 * 2 = down cart
+	 * 3 = right 
+	 * 4 = up cart
+	 * 5 = left 
+	 * 6 = left cart
+	 * 7 = up 
 	 */
 	public int closestEdgeLocation() {
 		Point2D loc = aiPlayer.getLocation();

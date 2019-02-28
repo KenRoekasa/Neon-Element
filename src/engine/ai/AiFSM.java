@@ -68,7 +68,7 @@ public class AiFSM {
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up
-		if( calc.powerupIsTooClose() || calc.powerupCloserThanPlayer() ) {
+		if( ( calc.powerupIsTooClose() && calc.powerupCloserThanPlayer() ) || calc.powerupCloserThanPlayer() ) {
 		//	System.out.println("case 1");
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
@@ -98,7 +98,7 @@ public class AiFSM {
 		}
 		
 		//case 4, attack when you got the advantage
-		else if (aiPlayerHP > playerHP) {
+		else if (calc.playerIsTooClose() || aiPlayerHP > playerHP) {
 		//	System.out.println("case 4");
 			aiCon.setState(AiStates.ATTACK);
 		}
@@ -136,8 +136,6 @@ public class AiFSM {
 			case SPEED:
 				aiCon.setState(AiStates.FIND_SPEED);
 				break;
-			default:
-				break;
 			}
 		}
 		
@@ -150,7 +148,7 @@ public class AiFSM {
 		
 		//case 5, there exist a damage power up
 		
-		else if( calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
+		else if(  calc.powerupCloserThanPlayer() && calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 		//	System.out.println("case 5");
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
