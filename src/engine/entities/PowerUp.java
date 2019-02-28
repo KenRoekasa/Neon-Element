@@ -99,7 +99,7 @@ public class PowerUp extends PhysicsObject {
 
     @Override
     public Shape getBounds() {
-        return new Circle(location.getX() + width, location.getY() + width, width / 2f);
+        return new Circle(location.getX() + width, location.getY() + width, width);
     }
 }
 
