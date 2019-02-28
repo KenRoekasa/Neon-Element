@@ -120,7 +120,7 @@ public class GameStateGenerator {
         // First to 10 kills
         GameType gameType = new FirstToXKillsGame(3);
         GameType gameType1 = new TimedGame(60000);
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType1);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();

@@ -21,7 +21,6 @@ public class Player extends Character {
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
-        canUp = canDown = canLeft = canRight = canUpCart = canDownCart = canLeftCart = canRightCart = true;
         movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
