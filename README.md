@@ -26,7 +26,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
     - Will probably change
 - When you die become a ghost that doesn't collide with anyone but can spectate, opacity turned down
 - Constantly check for people in hit area and place into an array and when heavy/light attack is called damage all players in that array
-
+- Find the time it takes to intersect the player when attacking
 # Renderer
 ## Tasks
 - Improve performance by calculating relative locations once per tick
