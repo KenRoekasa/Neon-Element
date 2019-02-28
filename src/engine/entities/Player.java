@@ -29,6 +29,7 @@ public class Player extends Character {
         tag = type;
         width = tag.getSize();
         actionHasSounded = false;
+        lightAttackRange = width * 4;
 
 
         for (int i = 0; i < timerArray.length; i++) {
@@ -54,6 +55,9 @@ public class Player extends Character {
         location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
         horizontalMove = 0;
         verticalMove = 0 ;
+
+        //decrease iframes every frame
+        iframes--;
 
 
 

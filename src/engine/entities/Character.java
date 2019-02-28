@@ -28,6 +28,10 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
     protected boolean damagePowerup=false;
+    /**
+     * The number of frames the character is invunerable for
+     */
+    protected int iframes = 0;
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -40,9 +44,9 @@ public abstract class Character extends PhysicsObject {
 
     protected float verticalMove = 0;
     protected float horizontalMove = 0;
-    protected Player lastAttacker;
+    protected Player lastAttacker = null;
     private long currentActionStart;
-    private double lightAttackRange = width * 4;
+    protected double lightAttackRange = width * 4;
 
     public Player getLastAttacker() {
         return lastAttacker;
@@ -190,15 +194,23 @@ public abstract class Character extends PhysicsObject {
     }
 
 
+    /** Just simply removing health from the player but not from another player attack it
+     * @param damage the amount you want to remove the health from the player
+     */
     public void removeHealth(float damage) {
         this.health -= damage;
-        //System.out.println("player health "+getHealth());
     }
 
-    public void removeHealth(float damage, Player lastAttacker) {
+    /** The Character is taking damage from another player
+     * @param damage the amount the character is taking damge from
+     * @param lastAttacker the person attacking the character
+     */
+    public void takeDamage(float damage, Player lastAttacker) {
         this.health -= damage;
         this.lastAttacker = lastAttacker;
-        //System.out.println("player health "+getHealth());
+        // iframes of the attacker increase
+        // TODO: find perfect iframe value
+        this.iframes = 65;
     }
     public void chargeHeavyAttack() {
         // TODO handle charging
@@ -463,5 +475,9 @@ public abstract class Character extends PhysicsObject {
 
     public double getLightAttackRange() {
         return lightAttackRange;
+    }
+
+    public int getIframes() {
+        return iframes;
     }
 }

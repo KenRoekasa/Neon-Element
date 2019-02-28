@@ -340,23 +340,31 @@ public class Physics {
             ArrayList<Player> heavyHittablePlayer = new ArrayList<>();
             // Loop through all enemies to detect hit detection
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
-                PhysicsObject e = itr1.next();
+                Player e = itr1.next();
                 // Check light attack
                 if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
-                    lightHittablePlayers.add((Player) e);
+                    lightHittablePlayers.add(e);
                 }
                 //Check heavy attack
                 if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
                         e.getBounds().getBoundsInParent())) {
-                    heavyHittablePlayer.add((Player) e);
+                    heavyHittablePlayer.add(e);
                 }
             }
             // Attack Collision
             // if player is light attacking
             if (player.getCurrentAction() == Action.LIGHT) {
                 for (Player e : lightHittablePlayers) {
-                    float damage = DamageCalculation.calculateDealtDamage(player, e);
-                    e.removeHealth(damage, player);
+                    if (e.getLastAttacker() != null) {
+                    // If the player isn't invulnerable and attack by the same person
+                        if (e.getIframes() <= 0) {
+                            float damage = DamageCalculation.calculateDealtDamage(player, e);
+                            e.takeDamage(damage, player);
+                        }
+                    } else {
+                        float damage = DamageCalculation.calculateDealtDamage(player, e);
+                        e.takeDamage(damage, player);
+                    }
                 }
             }
 
@@ -364,7 +372,7 @@ public class Physics {
             if (player.getCurrentAction() == Action.HEAVY) {
                 for (Player e : heavyHittablePlayer) {
                     float damage = DamageCalculation.calculateDealtDamage(player, e);
-                    e.removeHealth(damage, player);
+                    e.takeDamage(damage, player);
                 }
             }
         }
