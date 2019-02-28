@@ -357,7 +357,7 @@ public class Physics {
                 for (Player e : lightHittablePlayers) {
                     if (e.getLastAttacker() != null) {
                     // If the player isn't invulnerable and attack by the same person
-                        if (e.getIframes() <= 0) {
+                        if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
                         }
