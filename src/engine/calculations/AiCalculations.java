@@ -103,7 +103,7 @@ public class AiCalculations {
 		return false;
 	}
 	
-	/*
+	/*returns integer value, between 0 and 7 inclusive, to indicate movement direction to move away from edge
 	 * 0 = down 
 	 * 1 = right cart
 	 * 2 = down cart
@@ -225,41 +225,6 @@ public class AiCalculations {
 		}
 		
 		return dir;
-	}
-	
-
-	public boolean higherY(Point2D loc) {
-
-		return (aiPlayer.getLocation().getY() - loc.getY() < 0) ? true : false;
-	}
-
-	public boolean higherX(Point2D loc) {
-
-		return (aiPlayer.getLocation().getX() - loc.getX() < 0) ? true : false;
-	}
-
-	public boolean isRightOf(Point2D loc) {
-		if (loc.getX() > aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isLeftOf(Point2D loc) {
-		if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() > aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isUnder(Point2D loc) {
-		if (loc.getX() > aiPlayer.getLocation().getX() && loc.getY() > aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isAbove(Point2D loc) {
-		if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
-			return true;
-		return false;
 	}
 	
 	public double calcAngle(Point2D loc1, Point2D loc2) {
