@@ -210,6 +210,9 @@ public abstract class Character extends PhysicsObject {
         this.lastAttacker = lastAttacker;
         // iframes of the attacker increase
         // TODO: find perfect iframe value
+        //Currently 65
+        System.out.println(lastAttacker);
+        System.out.println("taking damage");
         this.iframes = 65;
     }
     public void chargeHeavyAttack() {

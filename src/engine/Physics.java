@@ -371,8 +371,16 @@ public class Physics {
             // if player is heavy attacking
             if (player.getCurrentAction() == Action.HEAVY) {
                 for (Player e : heavyHittablePlayer) {
-                    float damage = DamageCalculation.calculateDealtDamage(player, e);
-                    e.takeDamage(damage, player);
+                    if (e.getLastAttacker() != null) {
+                        // If the player isn't invulnerable and attack by the same person
+                        if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
+                            float damage = DamageCalculation.calculateDealtDamage(player, e);
+                            e.takeDamage(damage, player);
+                        }
+                    } else {
+                        float damage = DamageCalculation.calculateDealtDamage(player, e);
+                        e.takeDamage(damage, player);
+                    }
                 }
             }
         }
