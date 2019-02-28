@@ -111,6 +111,7 @@ public abstract class GameState {
     }
 
     public void start() {
+        startTime = System.currentTimeMillis();
         isRunning = true;
     }
 

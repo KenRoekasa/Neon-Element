@@ -19,7 +19,9 @@ public class GameTypeHandler {
             TimedGame t = (TimedGame) gameType;
             long duration = t.getDuration();
 
-            return currentGame.startTime + duration < System.currentTimeMillis();
+//            System.out.println("start Time: " + currentGame.startTime + "duration: " + duration + "current time:" + System.currentTimeMillis()
+//            );
+            return currentGame.startTime + duration > System.currentTimeMillis();
 
             // todo implement!
         } else if (gameType.getType().equals(GameType.Type.FirstToXKills)) {
