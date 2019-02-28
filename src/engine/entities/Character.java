@@ -42,6 +42,7 @@ public abstract class Character extends PhysicsObject {
     protected float horizontalMove = 0;
     protected Player lastAttacker;
     private long currentActionStart;
+    private double lightAttackRange = width * 4;
 
     public Player getLastAttacker() {
         return lastAttacker;
@@ -167,12 +168,10 @@ public abstract class Character extends PhysicsObject {
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
-
                 currentAction = Action.LIGHT;
                 currentActionStart = System.currentTimeMillis();
                 long attackDuration = AttackTimes.getActionTime(currentAction);
                 final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-                int damage = 3;
                 resetActionTimer(attackDuration, remainingAttackDuration);
             }
         }
@@ -417,8 +416,7 @@ public abstract class Character extends PhysicsObject {
         return damageMultiplier;
     }
     public Rectangle getAttackHitbox() {
-        float height = width * 4;
-        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - height, width, height);
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - lightAttackRange, width, lightAttackRange);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
         hitbox.getTransforms().add(rotate);
         return hitbox;
@@ -461,5 +459,9 @@ public abstract class Character extends PhysicsObject {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public double getLightAttackRange() {
+        return lightAttackRange;
     }
 }
