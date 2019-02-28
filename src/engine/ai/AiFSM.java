@@ -162,7 +162,7 @@ public class AiFSM {
 		
 		//case 4, the nearest enemy's hp is less than 33%
 		
-		else if ( playerHP < (maxHP/3) || aiPlayer.activeDamagePowerup()) {
+		else if ( playerHP < (maxHP/2) || aiPlayer.activeDamagePowerup()) {
 		//	System.out.println("case 4");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}

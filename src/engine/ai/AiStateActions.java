@@ -53,9 +53,9 @@ public class AiStateActions {
 
 	public void aggressiveAttack() {
 		Player player = calc.getNearestPlayer();
+		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.chargeHeavyAttack();
+		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();
 		}
 	}
