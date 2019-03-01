@@ -43,8 +43,8 @@ public class PowerUp extends PhysicsObject {
 
 
         //TODO: Change Values to be based on the map
-        int randX = rand.nextInt(1500);
-        int randY = rand.nextInt(1500);
+        int randX = rand.nextInt(2000);
+        int randY = rand.nextInt(2000);
 
         location = new Point2D(randX, randY);
     }

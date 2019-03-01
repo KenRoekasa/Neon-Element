@@ -99,7 +99,6 @@ public class GameClient {
         //Creates the physics engine
         physicsEngine = new Physics(gameState);
 
-
         // initialise input controls
         initialiseInput(scene, renderer);
 
@@ -149,7 +148,6 @@ public class GameClient {
 
 
         }.start();
-
 
         // todo move to server
         Thread puController = new Thread(new PowerUpController(gameState));

@@ -34,7 +34,6 @@ public class ScoreBoard {
             leaderBoard.add(p.getId());
 
         }
-        System.out.println(board);
     }
 
     public void addKill(int killerID){

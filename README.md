@@ -9,7 +9,6 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 ## Tasks
 - Integrate with Server
 - Integrate with UI
-- Fix collision bug
 - Cooldown is not very polished apparently
   - cooldown is wayyyy to slow for light attacks
 - make ai attacks speed limited, whilst player attacks should be uncapped

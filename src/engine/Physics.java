@@ -30,7 +30,6 @@ public class Physics {
         if (!GameTypeHandler.checkRunning(gameState)) {
             gameState.stop();
         }
-
     }
 
     private void doUpdates() {
@@ -110,20 +109,6 @@ public class Physics {
                         Point2D checkLeftCart = player.getLocation().add(-movementSpeed, 0);
 
                         Point2D checkRightCart = player.getLocation().add(movementSpeed, 0);
-
-                        // Check for rare occasion the player is inside another player
-                        if (CollisionDetection.checkCollision(player, e)) {
-                            // This line of code seems to cause a bug
-                            //                                                                                gameState.getPlayer().setLocation(previousLocation);
-
-                            // If not yourself
-                            if (player != e) {
-                                //                                System.out.println(player + " Collided with " + e);
-                                //                                System.out.println("Collided with itself");
-                                //                                player.setVerticalMove(0);
-                                //                                player.setHorizontalMove(0);
-                            }
-                        }
 
                         switch (player.getCharacterDirection()) {
                             case UP:

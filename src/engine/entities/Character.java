@@ -28,7 +28,7 @@ public abstract class Character extends PhysicsObject {
     protected Action currentAction = Action.IDLE;
     protected boolean damagePowerup = false;
     /**
-     * The number of frames the character is invunerable for
+     * The number of frames the character is invulnerable for
      */
     protected int iframes = 0;
     // Used in damage boost buffs
@@ -37,7 +37,6 @@ public abstract class Character extends PhysicsObject {
     protected long[] timerArray = new long[10]; //TODO: Change the array length
 
     protected boolean actionHasSounded;
-
 
     protected float verticalMove = 0;
     protected float horizontalMove = 0;
@@ -250,6 +249,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
+
         if (currentAction == Action.IDLE) {
             actionHasSounded = false;
             currentAction = Action.BLOCK;
@@ -257,6 +257,7 @@ public abstract class Character extends PhysicsObject {
             movementSpeed = DEFAULT_MOVEMENT_SPEED / 2;
 
         }
+
     }
 
     public void unShield() {
@@ -477,9 +478,6 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-    public double getLightAttackRange() {
-        return lightAttackRange;
-    }
 
     public int getIframes() {
         return iframes;
