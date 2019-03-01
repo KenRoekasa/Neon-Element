@@ -160,7 +160,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendActionState(Action action) {
         try {
-            Packet packet = new ActionPacket(action, serverAddr, Constants.SERVER_LISTENING_PORT);
+            Packet packet = new ActionStatePacket(action, serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch (Exception e) {
             e.printStackTrace();
