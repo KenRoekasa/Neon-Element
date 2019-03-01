@@ -48,24 +48,18 @@ public class HUDController extends UIController implements Initializable{
         totalKills.set("0");
     }
 
-    public void initPlayer(Player player) {
-       healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //healthValue.set(Float.toString(gameState.getPlayer().getHealth()));
+
         health.textProperty().bind(healthValue);
         kills.textProperty().bind(totalKills);
 
-        //totalKills.set(Float.toString(gameState.getScoreBoard().getPlayerKills(gameState.getPlayer().getId())));
     }
 
     public void update() {
-        healthValue.set(Float.toString(gameState.getPlayer().getHealth()));
-        totalKills.set(Float.toString(gameState.getScoreBoard().getPlayerKills(gameState.getPlayer().getId())));
+        healthValue.set(String.valueOf((int)(gameState.getPlayer().getHealth())));
+        totalKills.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerKills(gameState.getPlayer().getId()))));
     }
-
-
 }
 
