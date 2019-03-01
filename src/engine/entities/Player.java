@@ -1,9 +1,7 @@
 package engine.entities;
 
 import client.GameClient;
-import engine.enums.Directions;
-import engine.enums.Elements;
-import engine.enums.ObjectType;
+import engine.enums.*;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
@@ -66,6 +64,22 @@ public class Player extends Character {
 
     public void setId(int i) {
         this.id = i;
+    }
+    
+    public void doAction(Action action) {
+        switch(action) {
+            case LIGHT:
+                this.lightAttack();
+                break;
+            case CHARGE:
+                this.chargeHeavyAttack();
+                break;
+            case BLOCK:
+                this.shield();
+                break;
+            default:
+                break;
+        }
     }
 
     public String toString() {
