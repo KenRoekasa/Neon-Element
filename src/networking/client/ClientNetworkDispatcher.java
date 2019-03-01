@@ -12,6 +12,7 @@ import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
+import engine.enums.Elements;
 import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import networking.packets.*;
@@ -167,4 +168,12 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
+    public void sendElementState(Elements element) {
+        try {
+            Packet packet = new ElementStatePacket(serverAddr, Constants.SERVER_LISTENING_PORT, element);
+            this.send(packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
