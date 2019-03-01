@@ -11,6 +11,7 @@ import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.Action;
 import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import networking.packets.*;
@@ -153,6 +154,15 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendActionState(Action action) {
+        try {
+            Packet packet = new ActionPacket(action, serverAddr, Constants.SERVER_LISTENING_PORT);
+            this.send(packet);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

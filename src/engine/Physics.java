@@ -16,9 +16,9 @@ import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Physics {
-    private ClientGameState gameState;
+    private GameState gameState;
 
-    public Physics(ClientGameState gameState) {
+    public Physics(GameState gameState) {
         this.gameState = gameState;
     }
 
@@ -35,7 +35,7 @@ public class Physics {
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
             // Call update function for all physics objects
-            gameState.getPlayer().update();
+
             for (PhysicsObject o : gameState.getObjects()) {
                 o.update();
             }

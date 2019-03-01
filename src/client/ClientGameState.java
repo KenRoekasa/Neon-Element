@@ -15,6 +15,7 @@ public class ClientGameState extends GameState {
 
 
     private Player player;
+    private Boolean currentActionSent;
 
     public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType) {
         super(map, objects, deadPlayers, scoreboard,gameType);

@@ -41,7 +41,7 @@ public abstract class Character extends PhysicsObject {
     protected float verticalMove = 0;
     protected float horizontalMove = 0;
     protected Player lastAttacker = null;
-    private long currentActionStart;
+    private long currentActionStart = 0;
     protected double lightAttackRange = width * 4;
 
     public Player getLastAttacker() {
