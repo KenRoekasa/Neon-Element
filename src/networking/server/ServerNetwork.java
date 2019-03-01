@@ -4,14 +4,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.UUID;
 
 import networking.packets.*;
-import networking.packets.Packet.PacketType;
 import server.ServerGameState;
 import networking.Constants;
 
@@ -37,10 +32,7 @@ public class ServerNetwork extends Thread {
             groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
             multicastSocket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
             */
-            } catch (SocketException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }/* catch (UnknownHostException e) {
+            } /* catch (UnknownHostException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }*/ catch (IOException e) {

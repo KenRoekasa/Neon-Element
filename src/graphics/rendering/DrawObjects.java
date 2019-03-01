@@ -7,7 +7,6 @@ import graphics.enums.UIColour;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;

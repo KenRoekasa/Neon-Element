@@ -19,18 +19,16 @@ public class GameTypeHandler {
             TimedGame t = (TimedGame) gameType;
             long duration = t.getDuration();
 
-            return currentGame.startTime + duration < System.currentTimeMillis();
+//            System.out.println("start Time: " + currentGame.startTime + "duration: " + duration + "current time:" + System.currentTimeMillis()
+//            );
+            return currentGame.startTime + duration > System.currentTimeMillis();
 
             // todo implement!
         } else if (gameType.getType().equals(GameType.Type.FirstToXKills)) {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
-            if (currentGame.getScoreBoard().getPlayerKills(topPlayerId) >= typeObj.getKillsNeeded()) {
-                return false;
-            } else {
-                return true;
-            }
+            return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < typeObj.getKillsNeeded();
         }
 
         // return true to allow testing games to run infinitely

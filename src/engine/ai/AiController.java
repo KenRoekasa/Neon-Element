@@ -1,6 +1,5 @@
 package engine.ai;
 
-
 import engine.calculations.AiCalculations;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
@@ -11,7 +10,6 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 public class AiController {
-
 
     AiStates activeState;
     ArrayList<PhysicsObject> objects;
@@ -25,9 +23,9 @@ public class AiController {
     AiStateActions stateActions;
     boolean wandering = false;
 
-    public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
 
-        aiPlayer.canUp = aiPlayer.canDown = aiPlayer.canLeft = aiPlayer.canRight = aiPlayer.canUpCart = aiPlayer.canDownCart = aiPlayer.canLeftCart = aiPlayer.canRightCart = true;
+    public  AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
+
 
         activeState = AiStates.IDLE;
         this.objects = objects;
@@ -41,11 +39,10 @@ public class AiController {
         setAiType(AiType.EASY);
         //default random
         actions.assignRandomElement();
+        System.out.println("started ai\n difficulty: " + String.valueOf(aiType) + "\n\n");
     }
 
     public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType) {
-
-        aiPlayer.canUp = aiPlayer.canDown = aiPlayer.canLeft = aiPlayer.canRight = aiPlayer.canUpCart = aiPlayer.canDownCart = aiPlayer.canLeftCart = aiPlayer.canRightCart = true;
 
 
         activeState = AiStates.IDLE;
@@ -53,118 +50,52 @@ public class AiController {
         this.map = map;
         this.player = player;
         this.aiPlayer = aiPlayer;
-        this.aiType = aiType;
         aiCon = this;
         calc = new AiCalculations(aiCon, map);
         actions = new AiActions(aiCon, calc, map);
+        stateActions = new AiStateActions(aiCon, calc, actions);
+        setAiType(aiType);
         //default random
         actions.assignRandomElement();
+        System.out.println("started ai\n difficulty: " + String.valueOf(aiType) + "\n\n");
     }
 
-    public void startEasyAi() {
-        //aiType = AiType.EASY;
-        System.out.println("started ai\n difficulty: Easy\n\n");
-
-        Thread t = new Thread(new Runnable() {
-
-
-            @Override
-            public void run() {
-
-                double startTime = System.nanoTime() / 1000000000;
-                double endTime;
-
-                boolean bool = true;
-                while (bool) {
-
-                    //assigns random element every fifteen seconds
-                    endTime = System.nanoTime() / 1000000000;
-                    double elapsedTime = endTime - startTime;
-                    if (elapsedTime >= 15) {
-                        startTime = System.nanoTime() / 1000000000;
-                        actions.assignRandomElement();
-                    }
-
-                    //System.out.println(aiPlayer.getLocation());
-                    AiFSM.easyAiFetchAction(aiPlayer, aiCon, calc);
-
-                    if (getActiveState().equals(AiStates.ESCAPE))
-                        aiPlayer.delay((calc.DELAY_TIME / 3) * 2);
-                    else
-                        aiPlayer.delay(calc.DELAY_TIME);
-
-                    easyAIExecuteAction();
-
-
-                }
-
-            }
-
-        });
-
-        t.start();
+    public void update() {
+        switch (aiType) {
+            case EASY:
+                updateEasyAi();
+                break;
+            case NORMAL:
+                updateNormalAi();
+                break;
+            case HARD:
+                updateHardAi();
+                break;
+        }
     }
 
-    public void startNormalAi() {
-        //aiType = AiType.NORMAL;
-        System.out.println("started ai\n difficulty: Normal\n\n");
-        Thread t = new Thread(new Runnable() {
+    public void updateEasyAi() {
 
-            @Override
-            public void run() {
-
-                boolean bool = true;
-                while (bool) {
-
-                    AiFSM.normalAiFetchAction(aiPlayer, aiCon, calc);
-
-                    if (getActiveState().equals(AiStates.ESCAPE))
-                        aiPlayer.delay((calc.DELAY_TIME / 2) + (calc.DELAY_TIME / 4));
-                    else
-                        aiPlayer.delay(calc.DELAY_TIME);
-
-                    normalAIExecuteAction();
-
-
-                }
-
-            }
-
-        });
-
-        t.start();
+        AiFSM.easyAiFetchAction(aiPlayer, aiCon, calc);
+        easyAIExecuteAction();
     }
 
-    public void startHardAi() {
-        //aiType = AiType.HARD;
-        System.out.println("started ai\n difficulty: Hard\n\n");
-        Thread t = new Thread(new Runnable() {
+    public void updateNormalAi() {
 
-            @Override
-            public void run() {
-                boolean bool = true;
-                while (bool) {
+        AiFSM.normalAiFetchAction(aiPlayer, aiCon, calc);
+        normalAIExecuteAction();
 
-                    AiFSM.hardAiFetchAction(aiPlayer, aiCon, calc);
+    }
 
-                    if (getActiveState().equals(AiStates.ESCAPE))
-                        aiPlayer.delay((calc.DELAY_TIME / 2) + (calc.DELAY_TIME / 4));
-                    else
-                        aiPlayer.delay(calc.DELAY_TIME);
+    public void updateHardAi() {
 
-                    hardAIExecuteAction();
+        AiFSM.hardAiFetchAction(aiPlayer, aiCon, calc);
+        hardAIExecuteAction();
 
-
-                }
-
-            }
-
-        });
-
-        t.start();
     }
 
     private void easyAIExecuteAction() {
+        actions.changeToRandomElementAfter(15);
         if (!activeState.equals(AiStates.WANDER))
             wandering = false;
         switch (activeState) {
@@ -193,7 +124,7 @@ public class AiController {
                 break;
             case WANDER:
                 aiPlayer.unShield();
-                stateActions.startWandering();
+                stateActions.wander();
             case IDLE:
                 break;
             default:
@@ -232,7 +163,7 @@ public class AiController {
                 break;
             case WANDER:
                 aiPlayer.unShield();
-                stateActions.startWandering();
+                stateActions.wander();
             case IDLE:
                 break;
             default:
@@ -271,7 +202,7 @@ public class AiController {
                 break;
             case WANDER:
                 aiPlayer.unShield();
-                stateActions.startWandering();
+                stateActions.wander();
             case IDLE:
                 break;
             default:
@@ -279,16 +210,20 @@ public class AiController {
         }
     }
 
+    public void setAiType(AiType type) {
+        aiType = type;
+    }
+
     public void setState(AiStates s) {
         activeState = s;
     }
 
-    public boolean isWandering() {
-        return wandering;
-    }
-
     public void setWandering(boolean bool) {
         wandering = bool;
+    }
+
+    public boolean isWandering() {
+        return wandering;
     }
 
     public ArrayList<PhysicsObject> getObjects() {
@@ -309,10 +244,6 @@ public class AiController {
 
     public AiType getAiType() {
         return aiType;
-    }
-
-    public void setAiType(AiType type) {
-        aiType = type;
     }
 
 

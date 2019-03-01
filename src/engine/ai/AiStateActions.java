@@ -24,7 +24,7 @@ public class AiStateActions {
 		
 	}
 
-	public void startWandering() {
+	public void wander() {
 		if(!aiCon.isWandering()) {
 			aiCon.setWandering(true);
 			Random r = new Random();

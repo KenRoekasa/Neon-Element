@@ -155,9 +155,6 @@ public class AiFSM {
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
-
-		
-		
 		//case 3, the engine.ai player's hp is less than 33% and a health power up is not available
 		
 		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.isCharging(nearestPlayer) ) {

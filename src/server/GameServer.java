@@ -69,14 +69,6 @@ public class GameServer extends Thread {
             Player projectedPlayer = new Player(ObjectType.PLAYER);
             for (Iterator<Player> playerItr = gameState.getAllPlayers().iterator(); playerItr.hasNext(); ) {
                 Player player = playerItr.next();
-                player.canUp = true;
-                player.canLeft = true;
-                player.canRight = true;
-                player.canDown = true;
-                player.canUpCart = true;
-                player.canRightCart = true;
-                player.canLeftCart = true;
-                player.canDownCart = true;
                 for (Iterator<PhysicsObject> itr = objects.iterator(); itr.hasNext(); ) {
                     PhysicsObject e = itr.next();
                     // Check if the moving in a certain direction will cause a collision
@@ -109,18 +101,12 @@ public class GameServer extends Thread {
                             case UP:
                                 projectedPlayer.setLocation(checkUp);
                                 if (CollisionDetection.checkCollision(projectedPlayer, e)) {
-                                    player.canUp = false;
-                                    player.canUpCart = false;
-                                    player.canLeftCart = false;
                                 }
 
                                 break;
                             case DOWN:
                                 projectedPlayer.setLocation(checkDown);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canDown = false;
-                                    player.canDownCart = false;
-                                    player.canRightCart = false;
                                 }
                                 break;
                             case LEFT:
@@ -137,47 +123,26 @@ public class GameServer extends Thread {
                             case UPCART:
                                 projectedPlayer.setLocation(checkUpCart);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canUpCart = false;
-                                    player.canUp = false;
-                                    player.canRight = false;
-                                    player.canLeftCart = false;
                                 }
                                 break;
                             case DOWNCART:
                                 projectedPlayer.setLocation(checkDownCart);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canDownCart = false;
-                                    player.canDown = false;
-                                    player.canLeft = false;
-                                    player.canRightCart= false;
                                 }
                                 break;
                             case LEFTCART:
                                 projectedPlayer.setLocation(checkLeftCart);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canLeftCart = false;
-                                    player.canUp = false;
-                                    player.canLeft = false;
-                                    player.canUpCart=false;
                                 }
                                 break;
                             case RIGHTCART:
                                 projectedPlayer.setLocation(checkRightCart);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canRightCart = false;
-                                    player.canDown = false;
-                                    player.canRight = false;
-                                    player.canDownCart = false;
-                                    player.canLeft=false;
                                 }
                                 break;
                             case RIGHT:
                                 projectedPlayer.setLocation(checkRight);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canRight = false;
-                                    player.canDown = false;
-                                    player.canUpCart = false;
-                                    player.canRightCart = false;
                                 }
                                 break;
                         }

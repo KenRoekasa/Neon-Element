@@ -21,7 +21,6 @@ public class Player extends Character {
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
-        canUp = canDown = canLeft = canRight = canUpCart = canDownCart = canLeftCart = canRightCart = true;
         movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
@@ -29,6 +28,7 @@ public class Player extends Character {
         tag = type;
         width = tag.getSize();
         actionHasSounded = false;
+        lightAttackRange = width * 4;
 
 
         for (int i = 0; i < timerArray.length; i++) {
@@ -43,19 +43,20 @@ public class Player extends Character {
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here
         if (health <= 0) {
-        	if(isAlive) {
-        		isAlive = false;
-            	System.out.println("Player is Dead");
-        	}
+            if (isAlive) {
+                isAlive = false;
+                System.out.println("Player is Dead");
+            }
         } else {
             isAlive = true;
         }
 
         location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
         horizontalMove = 0;
-        verticalMove = 0 ;
+        verticalMove = 0;
 
-
+        //decrease iframes every frame
+        iframes--;
 
     }
 
@@ -67,10 +68,9 @@ public class Player extends Character {
         this.id = i;
     }
 
-    public String toString(){
-        String s = "Player: " + this.id +
+    public String toString() {
+        return "Player: " + this.id +
                 "\nHealth: " + health;
-        return s;
     }
 
 

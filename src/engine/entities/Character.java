@@ -1,6 +1,5 @@
 package engine.entities;
 
-import client.audiomanager.AudioManager;
 import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
@@ -19,8 +18,6 @@ import static engine.entities.CooldownValues.*;
 public abstract class Character extends PhysicsObject {
     public static final float DEFAULT_MOVEMENT_SPEED = 0.35f;
     protected static final float MAX_HEALTH = 100;
-    public static AudioManager audioManager = new AudioManager();
-    public boolean canUp, canDown, canLeft, canRight, canUpCart, canDownCart, canLeftCart, canRightCart;
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
@@ -29,8 +26,11 @@ public abstract class Character extends PhysicsObject {
     protected float movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
-    protected int deathCounter = 0;
-    protected boolean damagePowerup=false;
+    protected boolean damagePowerup = false;
+    /**
+     * The number of frames the character is invulnerable for
+     */
+    protected int iframes = 0;
     // Used in damage boost buffs
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
@@ -38,13 +38,11 @@ public abstract class Character extends PhysicsObject {
 
     protected boolean actionHasSounded;
 
-
-
-
     protected float verticalMove = 0;
     protected float horizontalMove = 0;
-    protected Player lastAttacker;
+    protected Player lastAttacker = null;
     private long currentActionStart;
+    protected double lightAttackRange = width * 4;
 
     public Player getLastAttacker() {
         return lastAttacker;
@@ -52,14 +50,13 @@ public abstract class Character extends PhysicsObject {
 
     public void moveUp() {
         characterDirection = Directions.UP;
-        if (canUp) {
-            double yCheck = location.getY() - movementSpeed  - width / 2f;
-            double xCheck = location.getX() - movementSpeed  - width / 2f;
 
-            if (yCheck >= 0 && xCheck >= 0) {
-                horizontalMove = -movementSpeed ;
-                verticalMove = -movementSpeed ;
-            }
+        double yCheck = location.getY() - movementSpeed - width / 2f;
+        double xCheck = location.getX() - movementSpeed - width / 2f;
+
+        if (yCheck >= 0 && xCheck >= 0) {
+            horizontalMove = -movementSpeed;
+            verticalMove = -movementSpeed;
         }
 
 
@@ -67,115 +64,113 @@ public abstract class Character extends PhysicsObject {
 
     public void moveDown(double boardWidth, double boardHeight) {
         characterDirection = Directions.DOWN;
-        if (canDown) {
 
-            double yCheck = location.getY() + movementSpeed  + width / 2f;
-            double xCheck = location.getX() + movementSpeed  + width / 2f;
 
-            if (yCheck <= boardHeight && xCheck <= boardWidth) {
-                horizontalMove = movementSpeed ;
-                verticalMove = movementSpeed ;
-            }
+        double yCheck = location.getY() + movementSpeed + width / 2f;
+        double xCheck = location.getX() + movementSpeed + width / 2f;
+
+        if (yCheck <= boardHeight && xCheck <= boardWidth) {
+            horizontalMove = movementSpeed;
+            verticalMove = movementSpeed;
         }
     }
+
 
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
-        if (canLeft) {
-            double xCheck = location.getX() - movementSpeed  - width / 2f;
-            double yCheck = location.getY() + movementSpeed  + width / 2f;
 
-            if (xCheck >= 0 && yCheck <= boardWidth) {
-                horizontalMove = -movementSpeed ;
-                verticalMove = movementSpeed ;
-            }
+        double xCheck = location.getX() - movementSpeed - width / 2f;
+        double yCheck = location.getY() + movementSpeed + width / 2f;
+
+        if (xCheck >= 0 && yCheck <= boardWidth) {
+            horizontalMove = -movementSpeed;
+            verticalMove = movementSpeed;
         }
     }
 
+
     public void moveRight(double boardWidth, double boardHeight) {
         characterDirection = Directions.RIGHT;
-        if (canRight) {
-            //check within bounds
 
-            double xCheck = location.getX() + movementSpeed  + width / 2f;
-            double yCheck = location.getY() - movementSpeed  - width / 2f;
+        //check within bounds
+
+        double xCheck = location.getX() + movementSpeed + width / 2f;
+        double yCheck = location.getY() - movementSpeed - width / 2f;
 
 
-            if (xCheck <= boardWidth && yCheck >= 0) {
+        if (xCheck <= boardWidth && yCheck >= 0) {
 
-                horizontalMove = movementSpeed ;
-                verticalMove = -movementSpeed ;
-            }
+            horizontalMove = movementSpeed;
+            verticalMove = -movementSpeed;
         }
+
     }
 
     public void moveUpCartesian() {
         characterDirection = Directions.UPCART;
-        if (canUpCart) {
 
-            if ((location.getY() - movementSpeed  - width / 2f) >= 0) {
 
-                horizontalMove = 0;
-                verticalMove = (float) (-Math.sqrt(2 * movementSpeed * movementSpeed) );
+        if ((location.getY() - movementSpeed - width / 2f) >= 0) {
 
-            } else {
-                location = new Point2D(location.getX(), 0 + width / 2f);
-            }
+            horizontalMove = 0;
+            verticalMove = (float) (-Math.sqrt(2 * movementSpeed * movementSpeed));
+
+        } else {
+            location = new Point2D(location.getX(), 0 + width / 2f);
         }
+
     }
 
     public void moveDownCartestian(double boardHeight) {
         characterDirection = Directions.DOWNCART;
-        if (canDownCart) {
 
-            if ((location.getY() + movementSpeed  + width / 2f) <= boardHeight) {
-                horizontalMove = 0;
-                verticalMove = (float) (Math.sqrt(2 * movementSpeed * movementSpeed) );
-            } else {
-                location = new Point2D(location.getX(), boardHeight - width / 2f);
-            }
+
+        if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
+            horizontalMove = 0;
+            verticalMove = (float) (Math.sqrt(2 * movementSpeed * movementSpeed));
+        } else {
+            location = new Point2D(location.getX(), boardHeight - width / 2f);
         }
+
 
     }
 
     public void moveLeftCartesian() {
         characterDirection = Directions.LEFTCART;
-        if (canLeftCart) {
-            //check within bounds
-            if ((location.getX() - movementSpeed  - width / 2f) >= 0) {
-                horizontalMove = (float) (-Math.sqrt(2 * movementSpeed * movementSpeed) );
-                verticalMove = 0;
-            } else {
-                location = new Point2D(0 + width / 2f, location.getY());
-            }
+
+        //check within bounds
+        if ((location.getX() - movementSpeed - width / 2f) >= 0) {
+            horizontalMove = (float) (-Math.sqrt(2 * movementSpeed * movementSpeed));
+            verticalMove = 0;
+        } else {
+            location = new Point2D(0 + width / 2f, location.getY());
         }
+
 
     }
 
     public void moveRightCartesian(double boardWidth) {
         characterDirection = Directions.RIGHTCART;
-        if (canRightCart) {
 
-            //check within bounds
-            if ((location.getX() + movementSpeed  + width / 2f) <= boardWidth) {
-                horizontalMove = (float) (Math.sqrt(2 * movementSpeed * movementSpeed) );
-                verticalMove = 0;
-            } else {
-                location = new Point2D(boardWidth - width / 2f, location.getY());
-            }
+
+        //check within bounds
+        if ((location.getX() + movementSpeed + width / 2f) <= boardWidth) {
+            horizontalMove = (float) (Math.sqrt(2 * movementSpeed * movementSpeed));
+            verticalMove = 0;
+        } else {
+            location = new Point2D(boardWidth - width / 2f, location.getY());
         }
+
     }
 
     public void lightAttack() {
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
-
                 currentAction = Action.LIGHT;
                 currentActionStart = System.currentTimeMillis();
                 long attackDuration = AttackTimes.getActionTime(currentAction);
                 final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
-                int damage = 3;
                 resetActionTimer(attackDuration, remainingAttackDuration);
             }
         }
@@ -194,16 +189,30 @@ public abstract class Character extends PhysicsObject {
     }
 
 
+    /**
+     * Just simply removing health from the player but not from another player attack it
+     *
+     * @param damage the amount you want to remove the health from the player
+     */
     public void removeHealth(float damage) {
         this.health -= damage;
-        //System.out.println("player health "+getHealth());
     }
 
-    public void removeHealth(float damage, Player lastAttacker) {
+    /**
+     * The Character is taking damage from another player
+     *
+     * @param damage       the amount the character is taking damge from
+     * @param lastAttacker the person attacking the character
+     */
+    public void takeDamage(float damage, Player lastAttacker) {
         this.health -= damage;
         this.lastAttacker = lastAttacker;
-        //System.out.println("player health "+getHealth());
+        // iframes of the attacker increase
+        // TODO: find perfect iframe value
+        //Currently 65
+        this.iframes = 65;
     }
+
     public void chargeHeavyAttack() {
         // TODO handle charging
         if (checkCD(heavyAttackID, heavyAttackCD)) {
@@ -240,6 +249,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public void shield() {
+
         if (currentAction == Action.IDLE) {
             actionHasSounded = false;
             currentAction = Action.BLOCK;
@@ -247,6 +257,7 @@ public abstract class Character extends PhysicsObject {
             movementSpeed = DEFAULT_MOVEMENT_SPEED / 2;
 
         }
+
     }
 
     public void unShield() {
@@ -330,6 +341,7 @@ public abstract class Character extends PhysicsObject {
     public void respawn() {
         isAlive = true;
         health = MAX_HEALTH;
+        iframes = 120;
     }
 
     // adds Health to the player
@@ -388,14 +400,14 @@ public abstract class Character extends PhysicsObject {
                 }
             }, 0, 1000);
         } else {
-        	damagePowerup = false;
+            damagePowerup = false;
             timerArray[damageBoostID] = 0;
         }
 
     }
 
-    public boolean activeDamagePowerup () {
-    	return damagePowerup;
+    public boolean activeDamagePowerup() {
+        return damagePowerup;
     }
 
     public Action getCurrentAction() {
@@ -411,17 +423,17 @@ public abstract class Character extends PhysicsObject {
     }
 
     public String toString() {
-        String s = "ID: " + System.identityHashCode(this) +
+        return "ID: " + System.identityHashCode(this) +
                 "\nHealth: " + health +
                 "\nElement: " + currentElement.toString();
-        return s;
     }
 
     public float getDamageMultiplier() {
         return damageMultiplier;
     }
+
     public Rectangle getAttackHitbox() {
-        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - width, width, width);
+        Rectangle hitbox = new Rectangle(location.getX(), location.getY() - lightAttackRange, width, lightAttackRange);
         Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
         hitbox.getTransforms().add(rotate);
         return hitbox;
@@ -464,5 +476,18 @@ public abstract class Character extends PhysicsObject {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+
+    public int getIframes() {
+        return iframes;
+    }
+
+    public void setHorizontalMove(float horizontalMove) {
+        this.horizontalMove = horizontalMove;
+    }
+
+    public void setVerticalMove(float verticalMove) {
+        this.verticalMove = verticalMove;
     }
 }

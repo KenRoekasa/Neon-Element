@@ -29,6 +29,6 @@ public abstract class PhysicsObject {
 
     public ObjectType getTag(){
         return tag;
-    };
+    }
 
 }
