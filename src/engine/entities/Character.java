@@ -490,4 +490,8 @@ public abstract class Character extends PhysicsObject {
     public void setVerticalMove(float verticalMove) {
         this.verticalMove = verticalMove;
     }
+
+    public void setCurrentElement(Elements element) {
+        currentElement = element;
+    }
 }

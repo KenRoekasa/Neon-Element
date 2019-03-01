@@ -94,6 +94,8 @@ public class ServerNetwork extends Thread {
             case ACTION_STATE:
                 this.dispatcher.receiveActionState((ActionStatePacket) packet);
                 break;
+            case ELEMENT_STATE:
+                this.dispatcher.receiveElementState((ElementStatePacket) packet);
             default:
                 // TODO: log invalid packet
         }

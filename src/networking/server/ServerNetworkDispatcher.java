@@ -7,12 +7,15 @@ import java.util.ArrayList;
 
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.Action;
+import engine.enums.Elements;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.NetworkDispatcher;
+
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
 
@@ -170,10 +173,28 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         this.broadcast(packet);
     }
 
+    public void broadcastElementState(int playerId, Elements element) {
+    	Packet packet = new BroadCastElementStatePacket(playerId, element);
+    	this.broadcast(packet);
+	}
+
+	public void broadcastAttackState(int playerId, Action action) {
+		Packet packet = new BroadcastActionPacket(playerId, action);
+		this.broadcast(packet);
+	}
+
 	protected void receiveActionState(ActionStatePacket packet) {
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 	    playerConn.getPlayer().doAction(packet.getAction());
 	}
+
+
+	public void receiveElementState(ElementStatePacket packet) {
+
+		PlayerConnection playerConn = getPlayerConnection(packet);
+		playerConn.getPlayer().setCurrentElement(packet.getPlayerElementState());
+	}
+
 
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
@@ -209,4 +230,6 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             System.out.println("Attempted to send a recived packet.");
         }
     }
+
+
 }
