@@ -112,10 +112,7 @@ public class GameServer extends Thread {
                             case LEFT:
                                 projectedPlayer.setLocation(checkLeft);
                                 if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
-                                    player.canLeft = false;
-                                    player.canDownCart = false;
-                                    player.canLeftCart = false;
-                                    player.canRightCart = false;
+
 
                                 }
 
