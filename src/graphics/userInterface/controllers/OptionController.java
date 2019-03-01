@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SettingController extends UIController{
+public class OptionController extends UIController{
     public Slider sound;
     @FXML
     Label ok,back;
@@ -29,6 +29,8 @@ public class SettingController extends UIController{
     public void handleOkBtn(){
 
     }
+
+
     @FXML
     public void handleBackBtn() {
         String fxmlPath = "../fxmls/menu_new.fxml";

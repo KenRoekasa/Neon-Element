@@ -65,7 +65,7 @@ public class MenuController implements Initializable{
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-            SettingController controller = loader.getController();
+            OptionController controller = loader.getController();
             controller.setStage(stage);
             stage.setTitle("Mode");
 
@@ -84,7 +84,7 @@ public class MenuController implements Initializable{
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-            SettingController controller = loader.getController();
+            OptionController controller = loader.getController();
             controller.setStage(stage);
             stage.setTitle("GUIDE");
 
