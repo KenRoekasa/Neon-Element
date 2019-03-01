@@ -170,8 +170,9 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         this.broadcast(packet);
     }
 
-	protected void receiveSpellCast(CastSpellPacket packet) {
-		// Packet response = new SpellCas
+	protected void receiveActionState(ActionStatePacket packet) {
+	    PlayerConnection playerConn = getPlayerConnection(packet);
+	    playerConn.getPlayer().doAction(packet.getAction());
 	}
 
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
