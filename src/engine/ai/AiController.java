@@ -3,6 +3,7 @@ package engine.ai;
 import java.util.ArrayList;
 import java.util.Random;
 
+import engine.ScoreBoard;
 import engine.calculations.AiCalculations;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
@@ -28,10 +29,11 @@ public class AiController {
 		AiCalculations calc;
 		AiActions actions;
 		AiStateActions stateActions;
+		ScoreBoard scoreboard;
 		boolean wandering = false;
 		
 		
-		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
+		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, ScoreBoard scoreboard) {
 
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
@@ -41,7 +43,7 @@ public class AiController {
 	        this.player = player;
 	        this.aiPlayer = aiPlayer;
 	        aiCon = this;
-	        calc = new AiCalculations(aiCon, map);
+	        calc = new AiCalculations(aiCon, map, scoreboard);
 	        actions = new AiActions(aiCon, calc, map);
 	        stateActions = new AiStateActions(aiCon, calc, actions);
 	        setAiType(AiType.EASY);
@@ -50,7 +52,7 @@ public class AiController {
 	        System.out.println("started ai\n difficulty: "+String.valueOf(aiType)+"\n\n");
 	    }
 		
-		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType) {
+		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType, ScoreBoard scoreboard) {
 			
 			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
@@ -59,8 +61,9 @@ public class AiController {
 	        this.map = map;
 	        this.player = player;
 	        this.aiPlayer = aiPlayer;
+	        this.scoreboard = scoreboard;
 	        aiCon = this;
-	        calc = new AiCalculations(aiCon, map);
+	        calc = new AiCalculations(aiCon, map, scoreboard);
 	        actions = new AiActions(aiCon, calc, map);
 	        stateActions = new AiStateActions(aiCon, calc, actions);
 	        setAiType(aiType);
@@ -209,6 +212,9 @@ public class AiController {
 			case WANDER:
 				aiPlayer.unShield();
 				stateActions.wander();
+			case ATTACK_WINNER:
+				aiPlayer.unShield();
+				stateActions.attackWinner();
 			case IDLE:
 				break;
 			default:

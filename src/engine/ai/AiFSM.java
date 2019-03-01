@@ -166,7 +166,12 @@ public class AiFSM {
 		//	System.out.println("case 4");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
-
+		
+		else if(calc.killDifferenceIsMoreThan(2)) {
+//			System.out.println("attack winner");
+			aiCon.setState(AiStates.ATTACK_WINNER);
+		}
+		
 		//case 7, the nearest enemy's hp is less than ai player's hp
 		
 		else if (aiPlayerHP > playerHP) {

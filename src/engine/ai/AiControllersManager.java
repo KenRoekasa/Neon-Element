@@ -3,6 +3,7 @@ package engine.ai;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.enums.AiType;
@@ -15,17 +16,19 @@ public class AiControllersManager {
 	private ArrayList<PhysicsObject> objects;
 	private Rectangle map;
 	private Player player;
+	private ScoreBoard scoreboard;
 	
 
-	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, Player player) {
+	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, Player player, ScoreBoard sb) {
 		controllers = new ArrayList<>();
 		this.objects = objects;
         this.map = map;
         this.player = player;
+        scoreboard = sb;
 	}
 	
 	public Player addAi(AiType type) {
-		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, player,type));
+		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, player,type, scoreboard));
 		return controllers.get(controllers.size()-1).getAiPlayer();
 	}
 	

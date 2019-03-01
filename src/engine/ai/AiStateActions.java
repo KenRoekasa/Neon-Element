@@ -73,4 +73,16 @@ public class AiStateActions {
 			aiPlayer.lightAttack();
 		}
 	}
+
+	public void attackWinner() {
+		Player player = calc.getWinningPlayer();
+		actions.moveTo(player);
+		aiPlayer.chargeHeavyAttack();
+		actions.moveTo(player);
+		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+			aiPlayer.lightAttack();
+		}
+		
+		
+	}
 }

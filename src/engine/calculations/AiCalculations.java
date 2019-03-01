@@ -2,6 +2,7 @@ package engine.calculations;
 
 import java.util.ArrayList;
 
+import engine.ScoreBoard;
 import engine.ai.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
@@ -21,11 +22,13 @@ public class AiCalculations {
 	private Rectangle map;	
 	private Player player;
 	private ArrayList<PowerUp> powerups;
+	ScoreBoard scoreboard;
 	float startTime;
 	
-	public AiCalculations(AiController aiCon,Rectangle map) {
+	public AiCalculations(AiController aiCon,Rectangle map, ScoreBoard scoreboard) {
 		this.aiCon = aiCon;
 		this.map = map;
+		this.scoreboard = scoreboard;
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
 		powerups = new ArrayList<>();
@@ -44,7 +47,7 @@ public class AiCalculations {
 	}
 
 
-	public ArrayList<Player> getPlayers(){
+	public ArrayList<Player> getOtherPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
 		ArrayList<PhysicsObject> objects = new ArrayList<>();
 		objects.addAll(aiCon.getObjects());
@@ -57,6 +60,36 @@ public class AiCalculations {
 		return players;
 	}
 
+	public ArrayList<Player> getPlayers(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for(PhysicsObject object : objects) {
+			if( object.getTag() == (ObjectType.ENEMY) ) {
+				players.add((Player)object);
+			}
+		}
+		players.add(player);
+		return players;
+	}
+	
+	public Player getWinningPlayer() {
+		ArrayList<Player> players = getPlayers();
+		int  id =(scoreboard.getLeaderBoard().get(0));
+		Player winningPlayer = null;
+		for (Player player : players) {
+			if(player.getId() == id)
+				winningPlayer = player;
+		}
+		return winningPlayer;
+	}
+	
+	public boolean killDifferenceIsMoreThan(int kills) {
+		Player winner = getWinningPlayer();
+		int difference = scoreboard.getPlayerKills(winner.getId()) - scoreboard.getPlayerKills(aiPlayer.getId()) ;
+		return difference >= kills;
+	}
+	
 	
 	public void updatePowerups() {
 
@@ -290,7 +323,7 @@ public class AiCalculations {
 
 	public Player getNearestPlayer() {
 		double minDis = Double.MAX_VALUE;
-		ArrayList<Player> players = getPlayers();
+		ArrayList<Player> players = getOtherPlayers();
 		int index = 0;
 		for (int i = 0; i < players.size(); i++) {
 			double tempDis = calcDistance(players.get(i).getLocation(), aiPlayer.getLocation());
