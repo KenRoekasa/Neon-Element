@@ -9,8 +9,10 @@ import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.FirstToXKillsGame;
 import engine.gameTypes.GameType;
+import engine.gameTypes.HillGame;
 import engine.gameTypes.TimedGame;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -120,7 +122,8 @@ public class GameStateGenerator {
         // First to 10 kills
         GameType gameType = new FirstToXKillsGame(3);
         GameType gameType1 = new TimedGame(60000);
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+        GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();

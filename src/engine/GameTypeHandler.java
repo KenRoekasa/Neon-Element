@@ -2,6 +2,7 @@ package engine;
 
 import engine.gameTypes.FirstToXKillsGame;
 import engine.gameTypes.GameType;
+import engine.gameTypes.HillGame;
 import engine.gameTypes.TimedGame;
 
 import java.util.ArrayList;
@@ -29,6 +30,12 @@ public class GameTypeHandler {
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
             return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < typeObj.getKillsNeeded();
+        }else if(gameType.getType().equals(GameType.Type.Hill)){
+            HillGame h = (HillGame) gameType;
+            ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
+            int topPlayerId = score.get(0);
+            return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < h.getScoreNeeded();
+
         }
 
         // return true to allow testing games to run infinitely

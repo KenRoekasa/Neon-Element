@@ -25,6 +25,8 @@ public class RespawnController implements Runnable {
                 normalRespawn(5000);
             }else if(gameState.getGameType().getType() == GameType.Type.Timed){
                 normalRespawn(2500);
+            }else if(gameState.getGameType().getType() == GameType.Type.Hill){
+                normalRespawn(2500);
             }
         }
 
