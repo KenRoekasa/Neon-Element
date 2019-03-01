@@ -11,9 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.MotionBlur;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 class DrawPlayers {
 

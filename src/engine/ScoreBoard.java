@@ -1,11 +1,8 @@
 package engine;
 
 import engine.entities.Player;
-import javafx.util.Pair;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class ScoreBoard {
@@ -37,7 +34,6 @@ public class ScoreBoard {
             leaderBoard.add(p.getId());
 
         }
-        System.out.println(board);
     }
 
     public void addKill(int killerID){

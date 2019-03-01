@@ -35,7 +35,6 @@ public class AiController {
 		
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, ScoreBoard scoreboard) {
 
-			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
 	        activeState = AiStates.IDLE;
 	        this.objects = objects;
@@ -54,7 +53,6 @@ public class AiController {
 		
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType, ScoreBoard scoreboard) {
 			
-			aiPlayer.canUp=  aiPlayer.canDown= aiPlayer.canLeft= aiPlayer.canRight= aiPlayer.canUpCart= aiPlayer.canDownCart= aiPlayer.canLeftCart= aiPlayer.canRightCart= true;
 	    	
 			activeState = AiStates.IDLE;
 	        this.objects = objects;

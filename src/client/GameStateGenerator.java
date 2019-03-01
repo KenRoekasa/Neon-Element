@@ -9,6 +9,7 @@ import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.FirstToXKillsGame;
 import engine.gameTypes.GameType;
+import engine.gameTypes.TimedGame;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
@@ -81,8 +82,10 @@ public class GameStateGenerator {
 
 
         //add the 1 power up to the objects list
+
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         ScoreBoard scoreboard = new ScoreBoard();
+
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
@@ -117,7 +120,9 @@ public class GameStateGenerator {
 
        
         // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(20);
+
+        GameType gameType = new FirstToXKillsGame(3);
+        GameType gameType1 = new TimedGame(60000);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 

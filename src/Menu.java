@@ -19,7 +19,7 @@ public class Menu extends Application {
         Font fontLoader = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/bullpen.ttf"), 14);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu.fxml"));
-        Parent root = (Parent)loader.load();
+        Parent root = loader.load();
         primaryStage.setTitle("Game");
 
 
