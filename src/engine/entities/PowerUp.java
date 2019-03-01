@@ -15,7 +15,7 @@ public class PowerUp extends PhysicsObject {
     private PowerUpType type;
 
     private boolean isActive = true;
-    
+
     private static int nextId = 0;
 
     public PowerUp() {
@@ -43,17 +43,20 @@ public class PowerUp extends PhysicsObject {
 
 
         //TODO: Change Values to be based on the map
-        int randX = rand.nextInt(1500);
-        int randY = rand.nextInt(1500);
+        int randX = rand.nextInt(2000);
+        int randY = rand.nextInt(2000);
 
         location = new Point2D(randX, randY);
     }
-    
-    public PowerUp(int id, double x, double y) {
+
+    public PowerUp(int id, double x, double y, PowerUpType type) {
         this.id = id;
         this.location = new Point2D(x, y);
+        this.tag = ObjectType.POWERUP;
+        this.width = tag.getSize();
+        this.type = type;
     }
-    
+
     public int getId() {
         return this.id;
     }
@@ -99,7 +102,7 @@ public class PowerUp extends PhysicsObject {
 
     @Override
     public Shape getBounds() {
-        return new Circle(location.getX() + width, location.getY() + width, width / 2f);
+        return new Circle(location.getX() + width, location.getY() + width, width);
     }
 }
 

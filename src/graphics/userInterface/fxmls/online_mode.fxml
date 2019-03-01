@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -9,15 +10,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane styleClass="background" stylesheets="@../resources/css/test01.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.OnlineModeController">
+<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.OnlineModeController">
    <center>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" BorderPane.alignment="CENTER">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="99.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="53.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="186.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="118.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="138.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,22 +28,31 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="join" mnemonicParsing="false" onAction="#handleJoinGame" prefHeight="45.0" prefWidth="119.0" text="JOIN" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <Button fx:id="join_btn" mnemonicParsing="false" onAction="#handleJoinGame" prefHeight="45.0" prefWidth="119.0" styleClass="button-page" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <font>
                   <Font size="18.0" />
-               </font></Button>
-            <Button fx:id="host" mnemonicParsing="false" onAction="#handleHostGame" prefHeight="42.0" prefWidth="121.0" text="HOST" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               </font>
+               <graphic>
+                  <Label fx:id="join" text="JOIN" />
+               </graphic></Button>
+            <Button fx:id="host_btn" mnemonicParsing="false" onAction="#handleHostGame" prefHeight="42.0" prefWidth="121.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="18.0" />
-               </font></Button>
-            <Text fill="#fcf8f8" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Please choose a mode" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               </font>
+               <graphic>
+                  <Label fx:id="host" text="HOST" />
+               </graphic></Button>
+            <Text fill="#fcf8f8" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-title" text="Please choose a mode" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="25.0" />
                </font>
             </Text>
-            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <children>
-                  <Button fx:id="back" layoutX="22.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleBackBtn" text="BACK" />
+                  <Button fx:id="back_btn" layoutX="-30.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button-page">
+                     <graphic>
+                        <Label fx:id="back" text="BACK" />
+                     </graphic></Button>
                </children>
             </Pane>
          </children>

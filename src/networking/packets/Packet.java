@@ -20,13 +20,14 @@ public abstract class Packet {
         ELEMENT_STATE        ((byte) 0x0A),
         CAST_SPELL           ((byte) 0x0C),
         POWERUP              ((byte) 0x0E),
+        ACTION_STATE         ((byte) 0x10), ACTION_STATE_ACK     ((byte) 0x11),
 
         // Broadcast from Server -> All Clients
         CONNECT_BCAST        ((byte) 0xF0), DISCONNECT_BCAST     ((byte) 0xF1),
         READY_STATE_BCAST    ((byte) 0xF2), LOCATION_STATE_BCAST ((byte) 0xF3),
         ELEMENT_STATE_BCAST  ((byte) 0xF4), CAST_SPELL_BCAST     ((byte) 0xF5),
         POWERUP_PICKUP_BCAST ((byte) 0xF6), POWERUP_STATE_BCAST  ((byte) 0xF7),
-        INITIAL_STATE_BCAST  ((byte) 0xF8),
+        INITIAL_STATE_BCAST  ((byte) 0xF8), ACTION_BCAST         ((byte) 0xF9),
         GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF);
 
         private byte id;

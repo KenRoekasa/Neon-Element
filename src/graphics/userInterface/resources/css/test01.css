@@ -11,8 +11,6 @@
     -fx-text-fill: white;
 }
 
-
-
 .button_round{
     -fx-font-family: "Arial Black";
     -fx-background-radius: 15;
@@ -41,7 +39,7 @@
 
 .label{
     -fx-text-fill: white;
-    -fx-font-family: "Comic Sans MS";
+    -fx-font-family: "911 Porscha 3D" ;
     -fx-font-size: 10pt;
 }
 .label_big{

@@ -1,13 +1,9 @@
 package graphics.rendering;
 
 import engine.entities.Player;
-import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
-
-import java.util.HashMap;
 
 
 /*

@@ -84,14 +84,14 @@ public class BroadCastinitialGameStatePacket extends Packet {
 		this.map = map;
 	}
 
-	public static <E> byte[] toByteArray(ArrayList<E> in) {
-		byte[] result = new byte[in.size()];
-		for (int i = 0; i < in.size(); i++) {
-			result[i] = ((byte) in.get(i));
-
-		}
-		return result;
-	}
+//	public static <E> byte[] toByteArray(ArrayList<E> in) {
+//		byte[] result = new byte[in.size()];
+//		for (int i = 0; i < in.size(); i++) {
+//			result[i] = ((byte) in.get(i));
+//
+//		}
+//		return result;
+//	}
 
 
 

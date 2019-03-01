@@ -5,9 +5,11 @@ import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.FirstToXKillsGame;
 import engine.gameTypes.GameType;
+import engine.gameTypes.TimedGame;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.ai.AiController;
+import engine.ai.AiControllersManager;
 
 public class GameStateGenerator {
 
@@ -59,14 +62,14 @@ public class GameStateGenerator {
         //This will be initialised on start of the game
         scoreboard.initialise(gameState.getAllPlayers());
         // start the engine.ai
-        startAi(aiConList);
+        //startAi(aiConList);
         
         return gameState;
     }
 
     //receive the number of enemy from controller to initialise engine.ai enm
 
-    public static ClientGameState createDemoGamestateSample(int num_enm) {
+    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
 
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
@@ -79,21 +82,19 @@ public class GameStateGenerator {
 
 
         //add the 1 power up to the objects list
-        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> objects = new ArrayList<>();
 
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        ArrayList<AiController> aiConList = new ArrayList<>();
+       	AiControllersManager aiManager = new AiControllersManager(objects, map, player);
 
         // Add the enemies to the objects list
 
 
         for (int i = 0; i < num_enm; i++) {
-            AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map, player );
-            aiConList.add(aiCon);
-            enemies.add(aiCon.getAiPlayer() );
+            enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
         }
         for (int i = 0; i < num_enm; i++) {
 
@@ -118,17 +119,25 @@ public class GameStateGenerator {
         ScoreBoard scoreboard = new ScoreBoard();
         // First to 10 kills
         GameType gameType = new FirstToXKillsGame(3);
+        GameType gameType1 = new TimedGame(60000);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 
-        startAi(aiConList);
-
-
+        aiManager.startAllAi();
+        
         return gameState;
     }
     
-    private static void startAi(ArrayList<AiController> aiConList) {
-    	for (AiController aiCon: aiConList)
-    		aiCon.startEasyAi();
+    private static AiType getType(String type) {
+    	switch(type.toLowerCase().trim()) {
+    		default:
+    		case "easy":
+    			return AiType.EASY;
+    		case "normal":
+    			return AiType.NORMAL;
+    		case "hard":
+    			return AiType.HARD;
+    	
+    	}
     }
 }

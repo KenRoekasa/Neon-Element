@@ -27,7 +27,7 @@ public abstract class GameType {
         }
     }
 
-    public GameType(Type type) {
+    GameType(Type type) {
         this.type = type;
     }
 
