@@ -10,8 +10,6 @@ public enum UIColour {
 
     private Paint color;
 
-
-
     UIColour(Color color) {
         this.color = color;
     }

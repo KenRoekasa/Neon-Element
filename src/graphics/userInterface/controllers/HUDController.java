@@ -25,16 +25,12 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 //To get players' health and speed in top-left hud
-public class HUDController implements Initializable{
-    private Stage stage;
+public class HUDController extends UIController implements Initializable{
+
     private ClientGameState gameState;
 
     public void setGameState(ClientGameState gameState) {
         this.gameState = gameState;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     @FXML
@@ -52,14 +48,18 @@ public class HUDController implements Initializable{
         totalKills.set("0");
     }
 
-    public void initPlayer(Player player) {
-       healthValue.set(String.valueOf(player.getHealth()+"/100.0 "));
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread property = new Thread();
 
+        health.textProperty().bind(healthValue);
+        kills.textProperty().bind(totalKills);
+
+    }
+
+    public void update() {
+        healthValue.set(String.valueOf((int)(gameState.getPlayer().getHealth())));
+        totalKills.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerKills(gameState.getPlayer().getId()))));
     }
 }
 

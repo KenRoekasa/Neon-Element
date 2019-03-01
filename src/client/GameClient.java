@@ -7,7 +7,9 @@ import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.GameOverController;
+import graphics.userInterface.controllers.HUDController;
 import graphics.userInterface.controllers.PauseController;
+import graphics.userInterface.controllers.UIController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +58,7 @@ public class GameClient {
 
         try {
             hudPane = (Pane) loader.load();
+
             //get player attribute
 
         } catch (Exception e) {
@@ -65,6 +68,11 @@ public class GameClient {
             Platform.exit();
             System.exit(0);
         }
+
+
+        HUDController HUDController = loader.getController();
+        HUDController.setGameState(gameState);
+
 
         primaryStage.getScene().setRoot(hudPane);
 
@@ -100,7 +108,7 @@ public class GameClient {
 
         if(!online) {
             this.gameState.start();
-            beginClientLoop(renderer);
+            beginClientLoop(renderer, HUDController);
         }
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
@@ -117,11 +125,12 @@ public class GameClient {
         return scene;
     }
 
-    private void beginClientLoop(Renderer renderer) {
+    private void beginClientLoop(Renderer renderer, HUDController hudController) {
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
                 renderer.render(primaryStage, gameState);
+                hudController.update();
 
                 // TODO: remove this when networking is added
                 physicsEngine.clientLoop();
@@ -167,7 +176,8 @@ public class GameClient {
     public void startNetwork() {
         this.clientNetworkThread.start();
         this.gameState.start();
-        beginClientLoop(renderer);
+        // todo talk to jordan about what this does
+        beginClientLoop(renderer, new HUDController());
     }
 
     private void initialiseInput(Scene theScene, Renderer renderer) {

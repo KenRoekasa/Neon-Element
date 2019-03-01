@@ -1,6 +1,4 @@
-
-import graphics.userInterface.controllers.MenuController;
-
+import graphics.userInterface.controllers.MenuNewController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,19 +9,21 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class Menu extends Application {
+public class MenuNew extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //https://www.fontspace.com/mario-monsters: free to downloads and free commercial use also
-        Font fontLoader = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/bullpen.ttf"), 14);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu.fxml"));
-        Parent root = (Parent)loader.load();
-        primaryStage.setTitle("Game");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu_new.fxml"));
 
+        Font fontLoader01 = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/Outrun.otf"), 14);
+        Font fontLoader02 = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/porscha.ttf"), 14);
 
-       
+        Parent root = loader.load();
+        primaryStage.setTitle("Menu");
+        MenuNewController controller = loader.getController();
+        controller.setStage(primaryStage);
+
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
         Double width = primaryScreenBounds.getWidth();
         Double height = primaryScreenBounds.getHeight();
@@ -41,19 +41,16 @@ public class Menu extends Application {
         Scene scene = new Scene(root, width, height);
         primaryStage.setScene(scene);
 
-
-
         // stops all game threads on close
         primaryStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
         });
 
-        /*pass current stage to following interactions*/
-        MenuController menuController = loader.getController();
-        menuController.setStage(primaryStage);
-        primaryStage.show();
 
+        //MenuController menuController = loader.getController();
+        //menuController.setStage(primaryStage);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
