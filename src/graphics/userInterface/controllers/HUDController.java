@@ -54,8 +54,18 @@ public class HUDController extends UIController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread property = new Thread();
+        //healthValue.set(Float.toString(gameState.getPlayer().getHealth()));
+        health.textProperty().bind(healthValue);
+        kills.textProperty().bind(totalKills);
 
+        //totalKills.set(Float.toString(gameState.getScoreBoard().getPlayerKills(gameState.getPlayer().getId())));
     }
+
+    public void update() {
+        healthValue.set(Float.toString(gameState.getPlayer().getHealth()));
+        totalKills.set(Float.toString(gameState.getScoreBoard().getPlayerKills(gameState.getPlayer().getId())));
+    }
+
+
 }
 
