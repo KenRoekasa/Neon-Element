@@ -37,7 +37,7 @@ public class ClientNetworkThread extends Thread {
             this.doLocationState();
 
             try {
-                Thread.sleep(1000l); // Every 1 second
+                Thread.sleep(25); // Every 1 second
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

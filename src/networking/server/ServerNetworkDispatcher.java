@@ -3,20 +3,15 @@ package networking.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
 import java.util.ArrayList;
 
-import engine.GameState;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
-import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import networking.packets.*;
 import server.ServerGameState;
-import networking.Constants;
 import networking.NetworkDispatcher;
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
@@ -25,14 +20,16 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	private int expectedPlayersToJoin = 2;
 	private ArrayList<PlayerConnection> connections;
 	private ArrayList<Integer> playerIds;
-	private ArrayList<Point2D> playeLoc;
+	private ArrayList<Point2D> playerLocations;
 
 	protected ServerNetworkDispatcher(DatagramSocket socket,
 			/* MulticastSocket multicastSocket, InetAddress groupAddress, */ ServerGameState gameState) {
 		super(socket/* , multicastSocket, groupAddress */);
 		this.gameState = gameState;
 		this.connections = new ArrayList<>();
-		
+		this.playerIds = new ArrayList<>();
+		this.playerLocations = new ArrayList<>();
+
 	}	
  
 
@@ -110,7 +107,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 			            		gameState.getAllPlayers().get(i).setLocation(new Point2D(map.getHeight() - map.getHeight()/10, 0 + map.getHeight()/10));
 			            }
 			            
-			            playeLoc.add(gameState.getAllPlayers().get(i).getLocation());
+			            playerLocations.add(gameState.getAllPlayers().get(i).getLocation());
 			            
 
 				}
@@ -118,7 +115,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 				
 				
 				this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
-				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), playerIds, playeLoc
+				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), playerIds, playerLocations
 						,this.gameState.getMap());
 				this.broadcast(gameStatePacket);
 
