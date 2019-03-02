@@ -11,6 +11,7 @@ import engine.enums.Action;
 import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import engine.gameTypes.HillGame;
+import engine.gameTypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 
@@ -30,7 +31,7 @@ public class Physics {
         doHitDetection();
         doUpdates();
         deathHandler();
-        if(gameState.getGameType().getType().equals(GameType.Type.Hill)){
+        if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
             kingOfHillHandler();
         }
         if (!GameTypeHandler.checkRunning(gameState)) {
@@ -65,10 +66,10 @@ public class Physics {
         if (playersInside.size() == 1) {
             Player onlyPlayer = playersInside.get(0);
             int onlyPlayerId = onlyPlayer.getId();
-            scoreBoard.addScore(onlyPlayerId, (int) (1*GameClient.deltaTime));
+            scoreBoard.addScore(onlyPlayerId, (int) (1 * GameClient.deltaTime));
         }
-
     }
+
 
     private void deathHandler() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
@@ -86,6 +87,17 @@ public class Physics {
 
                 if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
                     scoreBoard.addKill(player.getLastAttacker().getId());
+                } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
+                    Regicide regicide = (Regicide) gameState.getGameType();
+                    int baseScore = 5;
+                    // if the player dead is the king the killer gets more points
+                    if (regicide.getKing().equals(player)) {
+                        scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
+                        // Make the attacker the king now
+                        regicide.setKing(player.getLastAttacker());
+                    } else {
+                        scoreBoard.addScore(player.getLastAttacker().getId(), baseScore);
+                    }
                 }
                 //if dead teleport player off screen
                 player.setLocation(new Point2D(5000, 5000));

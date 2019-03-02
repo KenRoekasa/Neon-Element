@@ -18,15 +18,15 @@ public class RespawnController implements Runnable {
 
     @Override
     public void run() {
-        //TODO: change when game has ended etc...
         while (gameState.getRunning()) {
-            //TODO: If statement based on game type to determine how respawns works based on the game mode
             if(gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
                 normalRespawn(5000);
             }else if(gameState.getGameType().getType() == GameType.Type.Timed){
                 normalRespawn(2500);
             }else if(gameState.getGameType().getType() == GameType.Type.Hill){
                 normalRespawn(2500);
+            }else if(gameState.getGameType().getType() == GameType.Type.Regicide){
+                normalRespawn(1000);
             }
         }
 
