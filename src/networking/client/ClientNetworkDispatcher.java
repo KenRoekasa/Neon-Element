@@ -195,8 +195,11 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 	            if (foundPlayer != null) {
 	                player = foundPlayer;
 	                player.doAction(packet.getPlayerActionState());
-	            } 
+	            } else {
+	            		System.out.println("Player does not exists");
+	            }
 	        }
+		 
 		
 	}
 
@@ -216,7 +219,9 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             if (foundPlayer != null) {
                 player = foundPlayer;
                 player.setCurrentElement(packet.getPlayerElementState());
-            } 
+            }else {
+            		System.out.println("Player does not exists");
+            }
         }
 		
 	}
