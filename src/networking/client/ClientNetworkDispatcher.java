@@ -176,4 +176,17 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             e.printStackTrace();
         }
     }
+    
+   
+
+	public void recievePlayerActionBroadCast(BroadcastActionPacket packet) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void recieveElementBroadcast(BroadCastElementStatePacket packet) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

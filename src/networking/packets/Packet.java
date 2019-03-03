@@ -136,6 +136,8 @@ public abstract class Packet {
                 return new BroadCastPowerUpPickUpPacket(buffer);
             case POWERUP_STATE_BCAST:
                 return new BroadCastPowerUpPacket(buffer);
+            case ACTION_BCAST:
+            		return new BroadcastActionPacket(buffer);
             case GAME_START_BCAST:
                 return new BroadCastGameStartPacket(buffer);
             case GAME_OVER_BCAST:

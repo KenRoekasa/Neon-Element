@@ -75,6 +75,7 @@ public class ClientNetwork {
             case DISCONNECT_BCAST:
                 break;
             case ELEMENT_STATE_BCAST:
+            		this.dispatcher.recieveElementBroadcast((BroadCastElementStatePacket)packet);
                 break;
             case GAME_OVER_BCAST:
                 break;
@@ -86,7 +87,9 @@ public class ClientNetwork {
             case READY_STATE_BCAST:
                 break;
             case CONNECT_BCAST:
-
+            		break;
+            case ACTION_BCAST:
+            		this.dispatcher.recievePlayerActionBroadCast((BroadcastActionPacket) packet);
             		break;
             case INITIAL_STATE_BCAST:
             		this.dispatcher.receiveInitialGameStartStateBroadcast((BroadCastinitialGameStatePacket)packet);
