@@ -1,22 +1,17 @@
 package client;
 
 import client.audiomanager.AudioManager;
-import client.audiomanager.Sound;
 import engine.entities.Player;
-import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.HUDController;
-import graphics.userInterface.controllers.PauseController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.input.KeyCode;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
+
+import static graphics.rendering.ISOConverter.getPlayerLocOnScreen;
 
 public class InputHandler {
 
@@ -25,9 +20,13 @@ public class InputHandler {
     // possibilities are:
     // threading, faster angle calculation, both
     static void mouseAngleCalc(Player player, Stage primaryStage, MouseEvent event) {
-        double opposite = primaryStage.getWidth()/2 - event.getX();
 
-        double adjacent = primaryStage.getHeight()/2 - event.getY();
+
+        Point2D newLoc = getPlayerLocOnScreen(player, new Rectangle(primaryStage.getWidth(), primaryStage.getHeight()));
+
+
+        double opposite = newLoc.getX() - event.getX();
+        double adjacent = newLoc.getY() - event.getY();
 
         double angle = Math.atan(Math.abs(opposite)/Math.abs(adjacent));
         angle = Math.toDegrees(angle);
@@ -48,6 +47,9 @@ public class InputHandler {
 
         player.setPlayerAngle(new Rotate(angle));
     }
+
+
+
 
     static void handleKeyboardInput(Player player, ArrayList<String> input, Rectangle board,Stage primaryStage) {
         boolean left = input.contains("LEFT") || input.contains("A");

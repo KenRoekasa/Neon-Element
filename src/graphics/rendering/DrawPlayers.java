@@ -3,6 +3,7 @@ package graphics.rendering;
 import engine.entities.Character;
 
 import engine.entities.Player;
+import engine.enums.Elements;
 import graphics.enumSwitches.colourSwitch;
 import engine.enums.Action;
 import graphics.rendering.textures.Sprites;
@@ -13,23 +14,41 @@ import javafx.scene.effect.Glow;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
+import javafx.scene.paint.ImagePattern;
+
+import java.util.HashMap;
 
 class DrawPlayers {
 
 
-    static void drawPlayer(GraphicsContext gc, Point2D playerCenter, Character player) {
+    static void drawPlayer(GraphicsContext gc, Point2D playerCenter, Character player, HashMap<Sprites, Image> textures) {
+        gc.save();
+
+
+
+        if(player.getMovementSpeed() > Player.DEFAULT_MOVEMENT_SPEED) {
+
+            MotionBlur m = new MotionBlur(0, 10);
+            gc.setEffect(m);
+        }
+
+
+        gc.setFill(new ImagePattern(textures.get(Elements.getSprite(player.getCurrentElement()))));
+        gc.fillRect(playerCenter.getX(), playerCenter.getY(), player.getWidth(), player.getWidth());
+        gc.restore();
+    }
+
+    static void drawPlayerOld(GraphicsContext gc, Point2D playerCenter, Character player) {
         gc.save();
         Color c = colourSwitch.getElementColour(player.getCurrentElement());
 
 
         Effect glow = new Glow(0.8);    // this gives a nice "neon" glow to all of the players
-
         if(player.getMovementSpeed() > Player.DEFAULT_MOVEMENT_SPEED) {
 
             MotionBlur m = new MotionBlur(0, 10);
             m.setInput(glow);
-            
+
             gc.setEffect(m);
         } else {
             gc.setEffect(glow);

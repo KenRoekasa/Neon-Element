@@ -37,6 +37,9 @@ public class Renderer {
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
     static HashMap<Sprites, Image> textures;
+    public static float xOffset;
+    public static float yOffset;
+
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
@@ -46,6 +49,9 @@ public class Renderer {
         textures = TextureLoader.loadTextures();
 
         stars = DrawObjects.loadStars(stageSize);
+        xOffset = 0;
+        yOffset = 0;
+
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
@@ -53,6 +59,9 @@ public class Renderer {
         this.stageSize = stageSize;
         textures = TextureLoader.loadTextures();
         stars = DrawObjects.loadStars(stageSize);
+        xOffset = 0;
+        yOffset = 0;
+
     }
 
     public void render(Stage primaryStage, ClientGameState gameState) {
@@ -67,6 +76,9 @@ public class Renderer {
         gc.save();
 
         if ( gameState.getPlayer().isAlive()) {
+
+            calculateOffset(gameState);
+
             rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
             ISOConverter.applyRotationTransform(gc, rotationCenter);
 
@@ -100,6 +112,9 @@ public class Renderer {
             debugger.gameStateDebugger(gameState, stageSize);
             //debugger.simpleGSDebugger(gameState, debugger);
         } else {
+            // reset render offset
+            xOffset = 0;
+            yOffset = 0;
 
             gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
             gc.setStroke(Color.WHITE);
@@ -110,6 +125,26 @@ public class Renderer {
         printScoreBoard(gc, gameState.getScoreBoard());
 
         debugger.print();
+    }
+
+    private void calculateOffset(ClientGameState gameState) {
+        // todo make this exponential
+        int maxAllowedDistance = 300;
+
+        if(gameState.getPlayer().getLocation().getX() <= maxAllowedDistance ) {
+            xOffset = -(maxAllowedDistance - (float) gameState.getPlayer().getLocation().getX());
+
+        } else if(gameState.getMap().getWidth() - maxAllowedDistance <= gameState.getPlayer().getLocation().getX()) {
+            xOffset = -(float) (gameState.getMap().getWidth() - gameState.getPlayer().getLocation().getX() - maxAllowedDistance);
+        }
+
+        if(gameState.getPlayer().getLocation().getY() <= maxAllowedDistance ) {
+            yOffset = -(maxAllowedDistance - (float) gameState.getPlayer().getLocation().getY());
+        } else if(gameState.getMap().getHeight() - maxAllowedDistance <= gameState.getPlayer().getLocation().getY()) {
+            yOffset = -(float) (gameState.getMap().getHeight() - gameState.getPlayer().getLocation().getY() - maxAllowedDistance);
+        }
+
+
     }
 
 
@@ -141,7 +176,7 @@ public class Renderer {
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
         if (o.getTag() == ObjectType.PLAYER) {
-            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
+            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer(), textures);
         } else if (o.getTag() == ObjectType.ENEMY) {
             DrawEnemies.drawEnemy(gc, stageSize, (Character) o, gameState.getPlayer());
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
@@ -228,6 +263,22 @@ public class Renderer {
 
         double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();
         double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY();
+
+        relativeX += xOffset;
+        relativeY += yOffset;
+
+
+        return new Point2D(relativeX, relativeY);
+    }
+
+    public static Point2D getRelativeLocation(Rectangle stage, Point2D playerLocation) {
+
+
+        double relativeX = stage.getWidth() / 2f - playerLocation.getX();
+        double relativeY = stage.getHeight() / 2f - playerLocation.getY();
+
+        relativeX += xOffset;
+        relativeY += yOffset;
 
 
         return new Point2D(relativeX, relativeY);
