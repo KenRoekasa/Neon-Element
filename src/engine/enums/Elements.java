@@ -1,5 +1,7 @@
 package engine.enums;
 
+import graphics.rendering.textures.Sprites;
+
 public enum Elements {
     //subject to change
     FIRE(0), WATER(1), EARTH(2), AIR(3);
@@ -22,4 +24,25 @@ public enum Elements {
         }
         return null;
     }
+
+    public static Sprites getSprite(Elements element) {
+        switch (element) {
+            case FIRE:
+                return Sprites.FIRE;
+
+            case AIR:
+                return Sprites.AIR;
+
+            case EARTH:
+                return Sprites.EARTH;
+
+            case WATER:
+                return Sprites.WATER;
+
+                default:
+                    return Sprites.WATER;
+
+        }
+    }
+
 }

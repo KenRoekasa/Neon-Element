@@ -29,16 +29,17 @@ class DrawObjects {
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D playerLocation = player.getLocation();
 
-        double relativeX = stageCenter.getX() - playerLocation.getX() ;
-        double relativeY = stageCenter.getY() - playerLocation.getY();
-        Point2D boardPosition = new Point2D(relativeX, relativeY);
+//        double relativeX = stageCenter.getX() - playerLocation.getX() ;
+//        double relativeY = stageCenter.getY() - playerLocation.getY();
+//        Point2D boardPosition = new Point2D(relativeX, relativeY);
+
+        Point2D relativeLocation = getRelativeLocation(stage,player.getLocation());
+
         // draw map
         gc.save();
 
-        // todo remove string compare
         gc.setFill(new ImagePattern(textures.get(Sprites.MAP)));
-        gc.fillRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
-
+        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), map.getWidth(), map.getHeight());
 
         // restore previous state
         gc.restore();
