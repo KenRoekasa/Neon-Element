@@ -181,11 +181,43 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
 	public void recievePlayerActionBroadCast(BroadcastActionPacket packet) {
 		// TODO Auto-generated method stub
+		 if (packet.getId() != this.gameState.getPlayer().getId()) {
+	            int id = packet.getId();
+
+	            Player foundPlayer = this.gameState.getAllPlayers().stream()
+	            .filter(p -> p.getTag().equals(ObjectType.ENEMY))
+	            .map(p -> (Player) p)
+	            .filter(p -> p.getId() == id)
+	            .findFirst()
+	            .orElse(null);
+
+	            Player player;
+	            if (foundPlayer != null) {
+	                player = foundPlayer;
+	                player.doAction(packet.getPlayerActionState());
+	            } 
+	        }
 		
 	}
 
 	public void recieveElementBroadcast(BroadCastElementStatePacket packet) {
 		// TODO Auto-generated method stub
+		if (packet.getId()!= this.gameState.getPlayer().getId()) {
+            int id = packet.getId();
+
+            Player foundPlayer = this.gameState.getAllPlayers().stream()
+            .filter(p -> p.getTag().equals(ObjectType.ENEMY))
+            .map(p -> (Player) p)
+            .filter(p -> p.getId() == id)
+            .findFirst()
+            .orElse(null);
+
+            Player player;
+            if (foundPlayer != null) {
+                player = foundPlayer;
+                player.setCurrentElement(packet.getPlayerElementState());
+            } 
+        }
 		
 	}
 

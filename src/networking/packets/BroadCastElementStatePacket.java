@@ -29,6 +29,10 @@ public class BroadCastElementStatePacket extends Packet {
     public Elements getPlayerElementState() {
         return this.playerElementState;
     }
+    
+    public int getId() {
+    		return id;
+    }
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
