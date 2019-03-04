@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
 import networking.server.ServerNetworkHandler;
-import utils.InvalidEnumId;
 
 public class ElementStatePacket extends Packet.PacketToServer {
 

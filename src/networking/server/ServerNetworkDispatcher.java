@@ -3,19 +3,13 @@ package networking.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.ArrayList;
 
-import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.Elements;
-import engine.enums.ObjectType;
-import javafx.geometry.Point2D;
-import javafx.scene.shape.Rectangle;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.NetworkDispatcher;
-
 
 public class ServerNetworkDispatcher extends NetworkDispatcher {
 
@@ -23,7 +17,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	private ConnectedPlayers connectedPlayers;
 
 	protected ServerNetworkDispatcher(ServerGameState gameState, ConnectedPlayers connectedPlayers, DatagramSocket socket) {
-		super(socket/* , multicastSocket, groupAddress */);
+		super(socket);
 		this.gameState = gameState;
 		this.connectedPlayers = connectedPlayers;
 	}

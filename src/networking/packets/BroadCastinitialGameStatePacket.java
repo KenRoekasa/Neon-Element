@@ -11,7 +11,6 @@ import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import networking.client.ClientNetworkHandler;
-import networking.server.PlayerConnection;
 
 public class BroadCastinitialGameStatePacket extends Packet.PacketToClient {
 

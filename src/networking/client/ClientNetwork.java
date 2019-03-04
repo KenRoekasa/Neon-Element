@@ -8,13 +8,9 @@ import client.ClientGameState;
 import networking.packets.*;
 
 public class ClientNetwork {
-    protected String name;
-
     protected DatagramSocket socket;
-    // protected MulticastSocket multicastSocket;
 
     private ClientNetworkConnection conn;
-    // private ClientNetworkMulticastConnection multiConn;
     private ClientNetworkDispatcher dispatcher;
     private ClientNetworkHandler handler;
 
@@ -22,17 +18,10 @@ public class ClientNetwork {
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
 
-        /*
-        this.multiConn = new ClientNetworkMulticastConnection(this);
-        this.multicastSocket = multiConn.getSocket();
-        InetAddress groupAddress = multiConn.getGroupAddress();
-        */
-
         this.dispatcher = new ClientNetworkDispatcher(gameState, this.socket, serverAddr);
         this.handler = new ClientNetworkHandler(gameState);
 
         this.conn.start();
-        // this.multiConn.start();
     }
 
     public ClientNetworkDispatcher getDispatcher() {
@@ -41,7 +30,6 @@ public class ClientNetwork {
 
     public void close() {
         this.conn.close();
-        // this.multiConn.close();
         this.dispatcher.close();
     }
 

@@ -3,22 +3,15 @@ package networking.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
 
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
 
 public class ServerNetwork extends Thread {
-	//changed it to protected
-	//private UUID severUID = UUID.randomUUID();
-
     protected boolean running;
 
     protected DatagramSocket socket;
-
-    // protected MulticastSocket multicastSocket;
 
     protected ServerNetworkDispatcher dispatcher;
     private ServerNetworkHandler handler;
@@ -26,19 +19,9 @@ public class ServerNetwork extends Thread {
     private ConnectedPlayers connectedPlayers;
 
     public ServerNetwork(ServerGameState gameState) {
-        InetAddress groupAddress = null;
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
-
-            // Multicast socket
-            /*
-            groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
-            multicastSocket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
-            */
-            } /* catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/ catch (IOException e) {
+        } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

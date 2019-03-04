@@ -1,16 +1,8 @@
 package server;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import engine.GameTypeHandler;
 import engine.Physics;
-import engine.entities.CollisionDetection;
-import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import networking.server.ConnectedPlayers;
 import networking.server.ServerNetwork;
