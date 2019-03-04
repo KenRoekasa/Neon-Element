@@ -193,11 +193,11 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
 	            Player player;
 	            if (foundPlayer != null) {
-	                player = foundPlayer;
-	                player.doAction(packet.getPlayerActionState());
+	                foundPlayer.doAction(packet.getPlayerActionState());
 	            } else {
 	            		System.out.println("Player does not exists");
 	            }
+
 	        }
 		 
 		
