@@ -73,6 +73,8 @@ public class GameClient {
         HUDController.setGameState(gameState);
         HUDController.setScoreBoard(gameState.getScoreBoard());
         HUDController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+        HUDController.setPlayerId(gameState.getPlayer().getId());
+        System.out.println("Player Id: "+gameState.getPlayer().getId());
         HUDController.setNum_player(gameState.getNum_player());
 
         primaryStage.getScene().setRoot(hudPane);

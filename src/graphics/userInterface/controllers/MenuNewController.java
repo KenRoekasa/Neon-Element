@@ -36,7 +36,7 @@ public class MenuNewController extends UIController implements Initializable{
     @FXML
     public Label play_label,help_label,option_label,exit_label;
     @FXML
-    VBox background;
+    GridPane background;
 
     private Color outline;
     private ClientGameState gameState;
