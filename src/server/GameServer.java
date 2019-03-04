@@ -35,20 +35,7 @@ public class GameServer extends Thread {
     public void run() {
         this.network.start();
 
-        ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
-
-        // Wait for enough players to start the game
-        while(connectedPlayers.count() < expectedPlayersToJoin) {
-            Thread.yield();
-        }
-
-        // Start the game
-        connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
-        this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
-        this.network.getDispatcher().broadcastGameState();
-
-        this.gameState.setStarted(true);
-        this.network.getDispatcher().broadcastGameStarted();
+        this.waitForPlayersToConnect();
 
         System.out.println("Game started.");
 
@@ -56,7 +43,7 @@ public class GameServer extends Thread {
         powerUpController.start();
 
         this.running = true;
-        while(this.running) {
+        while (this.running) {
             // Server logic
             physicsEngine.clientLoop();
 
@@ -74,6 +61,23 @@ public class GameServer extends Thread {
         }
 
         this.network.close();
+    }
+
+    private void waitForPlayersToConnect() {
+        ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
+
+        // Wait for enough players to start the game
+        while (connectedPlayers.count() < expectedPlayersToJoin) {
+            Thread.yield();
+        }
+
+        // Start the game
+        connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
+        this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
+        this.network.getDispatcher().broadcastGameState();
+
+        this.gameState.setStarted(true);
+        this.network.getDispatcher().broadcastGameStarted();
     }
 
 
