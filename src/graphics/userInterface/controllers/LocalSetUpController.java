@@ -140,6 +140,10 @@ public class LocalSetUpController extends UIController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        removeRadioCircle();
+
+
+
         num_1.setToggleGroup(num_group);
         num_2.setToggleGroup(num_group);
         num_3.setToggleGroup(num_group);
@@ -180,6 +184,58 @@ public class LocalSetUpController extends UIController implements Initializable 
         hard_1.setUserData("Hard");
         hard_2.setUserData("Hard");
         hard_3.setUserData("Hard");
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    private void removeRadioCircle() {
+        // there might be a less long way of doing this
+        num_1.getStyleClass().remove("radio-button");
+        num_1.getStyleClass().add("button");
+
+
+        num_2.getStyleClass().remove("radio-button");
+        num_2.getStyleClass().add("button");
+
+
+        num_3.getStyleClass().remove("radio-button");
+        num_3.getStyleClass().add("button");
+
+
+        easy_1.getStyleClass().remove("radio-button");
+        easy_1.getStyleClass().add("button");
+
+        easy_2.getStyleClass().remove("radio-button");
+        easy_2.getStyleClass().add("button");
+
+        easy_3.getStyleClass().remove("radio-button");
+        easy_3.getStyleClass().add("button");
+
+        normal_1.getStyleClass().remove("radio-button");
+        normal_1.getStyleClass().add("button");
+
+        normal_2.getStyleClass().remove("radio-button");
+        normal_2.getStyleClass().add("button");
+
+        normal_3.getStyleClass().remove("radio-button");
+        normal_3.getStyleClass().add("button");
+
+        hard_1.getStyleClass().remove("radio-button");
+        hard_1.getStyleClass().add("button");
+
+        hard_2.getStyleClass().remove("radio-button");
+        hard_2.getStyleClass().add("button");
+
+        hard_3.getStyleClass().remove("radio-button");
+        hard_3.getStyleClass().add("button");
+
+
+        time_mode.getStyleClass().remove("radio-button");
+        time_mode.getStyleClass().add("button");
+
+        life_mode.getStyleClass().remove("radio-button");
+        life_mode.getStyleClass().add("button");
+
 
     }
 

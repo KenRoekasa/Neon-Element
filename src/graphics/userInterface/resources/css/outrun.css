@@ -31,16 +31,51 @@
     -fx-background-radius: 0;
     -fx-background-color: transparent;
 }
-.text{
+
+
+.radio-text {
     -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 25;
+
+}
+
+.radio-text:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+.radio-text:selected > .radio-text{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+
+.standard-text{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+}
+
+.standard-text-big{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 100px;
+}
+.button-text{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
     -fx-fill: rgba(120, 0, 50, .5);
 /*-fx-effect: dropshadow(gaussian, white, 20, 0.1, 0, 0)*/
 }
 
 
-
-.text:hover{
-
+.button-text:hover{
+    -fx-text-fill: rgb(230, 0, 120);
     -fx-fill: rgb(230, 0, 120);
     -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
 
