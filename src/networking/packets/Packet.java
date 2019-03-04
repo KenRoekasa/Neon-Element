@@ -135,7 +135,11 @@ public abstract class Packet {
         PacketType type = PacketType.getTypeFromId(id);
         Sender sender = new Sender(ipAddress, port);
 
-        return type.create(buffer, sender);
+        if (type != null) {
+            return type.create(buffer, sender);
+        }
+
+        return null;
     }
 
     public static final byte getByteValue(boolean b) {
