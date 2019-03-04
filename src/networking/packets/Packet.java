@@ -21,7 +21,6 @@ public abstract class Packet {
         CAST_SPELL           ((byte) 0x0C),
         POWERUP              ((byte) 0x0E),
         ACTION_STATE         ((byte) 0x10), ACTION_STATE_ACK     ((byte) 0x11),
-
         // Broadcast from Server -> All Clients
         CONNECT_BCAST        ((byte) 0xF0), DISCONNECT_BCAST     ((byte) 0xF1),
         READY_STATE_BCAST    ((byte) 0xF2), LOCATION_STATE_BCAST ((byte) 0xF3),

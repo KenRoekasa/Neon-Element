@@ -48,7 +48,14 @@ public class Player extends Character {
         } else {
             isAlive = true;
         }
-
+        
+        if(currentAction == Action.BLOCK) {
+        		isShielded = true;
+        		
+        }else {
+        		isShielded = false;
+        }
+        
         location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
         horizontalMove = 0;
         verticalMove = 0;
