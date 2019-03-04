@@ -2,7 +2,6 @@ package networking.server;
 
 import engine.entities.Player;
 import engine.enums.ObjectType;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import networking.packets.*;
 import server.ServerGameState;
@@ -88,7 +87,6 @@ public class ServerNetworkHandler {
 		//currently set to broadcast if and only if there are currently more than 2 players
 		boolean isStarted = this.gameState.isStarted();
 		int numberOfPlayers = this.gameState.getAllPlayers().size();
-
 
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 	    playerConn.getPlayer().doAction(packet.getAction());
