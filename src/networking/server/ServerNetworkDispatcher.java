@@ -54,7 +54,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     	this.broadcast(packet);
 	}
 
-	public void broadcastAttackState(int playerId, Action action) {
+	public void broadcastActionState(int playerId, Action action) {
 		Packet packet = new BroadcastActionPacket(playerId, action);
 		this.broadcast(packet);
 	}

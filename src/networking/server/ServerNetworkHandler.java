@@ -94,8 +94,7 @@ public class ServerNetworkHandler {
 	    playerConn.getPlayer().doAction(packet.getAction());
 
 	    if(isStarted && (numberOfPlayers >= 2) ){
-			Packet actionState = new BroadcastActionPacket(playerConn.getId(), packet.getAction());
-			this.broadcast(actionState);
+            this.dispatcher.broadcastActionState(playerConn.getId(), packet.getAction());
 	    }
 	}
 
@@ -106,9 +105,8 @@ public class ServerNetworkHandler {
 		PlayerConnection playerConn = getPlayerConnection(packet);
 		playerConn.getPlayer().setCurrentElement(packet.getPlayerElementState());
 
-		if(isStarted && (numberOfPlayers >= 2) ){
-			Packet elementState = new BroadCastElementStatePacket(playerConn.getId(),packet.getPlayerElementState());
-			this.broadcast(elementState);
+		if(isStarted && (numberOfPlayers >= 2)) {
+            this.dispatcher.broadcastElementState(playerConn.getId(), packet.getPlayerElementState());
 	    }
 	}
 
