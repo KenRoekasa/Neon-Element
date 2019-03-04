@@ -1,22 +1,23 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class BroadCastConnectedUserPacket extends Packet {
 
 	private int playerId;
 
-	protected BroadCastConnectedUserPacket(ByteBuffer buffer) {
-		super(PacketDirection.INCOMING, PacketType.CONNECT_BCAST);
+	protected BroadCastConnectedUserPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+		super(PacketType.CONNECT_BCAST, ipAddress, port);
 		this.playerId = buffer.getInt();
 
 	}
 
 	public BroadCastConnectedUserPacket(int playerId) {
-		super(PacketDirection.OUTGOING, PacketType.CONNECT_BCAST);
+		super(PacketType.CONNECT_BCAST);
 		this.playerId = playerId;
 	}
-	
+
 	public int getId() {
 	    return this.playerId;
 	}

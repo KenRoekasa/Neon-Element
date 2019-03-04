@@ -1,5 +1,6 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.PowerUpType;
@@ -16,8 +17,8 @@ public class BroadCastPowerUpPacket extends Packet {
     private double y;
     private PowerUpType type;
 
-	protected BroadCastPowerUpPacket(ByteBuffer buffer) {
-		super(PacketDirection.INCOMING, PacketType.POWERUP_STATE_BCAST);
+	protected BroadCastPowerUpPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+		super(PacketType.POWERUP_STATE_BCAST, ipAddress, port);
         this.powerUpId = buffer.getInt();
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
@@ -25,7 +26,7 @@ public class BroadCastPowerUpPacket extends Packet {
 	}
 
 	public BroadCastPowerUpPacket(int powerUpId, double x, double y, PowerUpType type) {
-        super(PacketDirection.OUTGOING, PacketType.CAST_SPELL);
+        super(PacketType.CAST_SPELL);
         this.powerUpId = powerUpId;
         this.x = x;
         this.y = y;

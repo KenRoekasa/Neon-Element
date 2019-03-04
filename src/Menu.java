@@ -23,7 +23,7 @@ public class Menu extends Application {
         primaryStage.setTitle("Game");
 
 
-       
+
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
         Double width = primaryScreenBounds.getWidth();
         Double height = primaryScreenBounds.getHeight();

@@ -1,5 +1,6 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
@@ -14,14 +15,14 @@ public class BroadCastElementStatePacket extends Packet {
     private Elements playerElementState;
     private int id;
 
-    protected BroadCastElementStatePacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.ELEMENT_STATE_BCAST);
+    protected BroadCastElementStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+        super(PacketType.ELEMENT_STATE_BCAST, ipAddress, port);
         this.id = buffer.getInt();
         this.playerElementState = Elements.getById(buffer.get());
     }
 
     public BroadCastElementStatePacket(int id, Elements playerElementState) {
-        super(PacketDirection.OUTGOING, PacketType.ELEMENT_STATE_BCAST);
+        super(PacketType.ELEMENT_STATE_BCAST);
         this.id = id;
         this.playerElementState = playerElementState;
     }
@@ -29,7 +30,7 @@ public class BroadCastElementStatePacket extends Packet {
     public Elements getPlayerElementState() {
         return this.playerElementState;
     }
-    
+
     public int getId() {
     		return id;
     }

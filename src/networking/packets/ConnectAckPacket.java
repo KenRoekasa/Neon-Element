@@ -3,8 +3,6 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import networking.packets.Packet.PacketType;
-
 public class ConnectAckPacket extends Packet {
 
     // Bytes required for packet data.
@@ -14,7 +12,7 @@ public class ConnectAckPacket extends Packet {
 
     private int playerId;
     private Status status;
-    
+
     public static enum Status {
         SUC_CONNECTED((byte) 0x00),
         ERR_GAME_STARTED((byte) 0x01),
@@ -41,17 +39,17 @@ public class ConnectAckPacket extends Packet {
     }
 
     protected ConnectAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.CONNECT_ACK, ipAddress, port);
+        super(PacketType.CONNECT_ACK, ipAddress, port);
         this.playerId = buffer.getInt();
         this.status = Status.getTypeFromId(buffer.get());
     }
 
-    public ConnectAckPacket(int playerId, Status status, InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.CONNECT_ACK, ipAddress, port);
+    public ConnectAckPacket(int playerId, Status status) {
+        super(PacketType.CONNECT_ACK);
         this.playerId = playerId;
         this.status = status;
     }
-    
+
     public int getId() {
         return this.playerId;
     }

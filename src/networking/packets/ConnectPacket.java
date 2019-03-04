@@ -10,11 +10,11 @@ public class ConnectPacket extends Packet {
     // = 0 bytes
 
     protected ConnectPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.CONNECT, ipAddress, port);
+        super(PacketType.CONNECT, ipAddress, port);
     }
 
-    public ConnectPacket(InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.CONNECT, ipAddress, port);
+    public ConnectPacket() {
+        super(PacketType.CONNECT);
     }
 
     public byte[] getRawBytes() {

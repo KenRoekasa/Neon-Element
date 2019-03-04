@@ -1,5 +1,6 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.Spell;
@@ -8,13 +9,13 @@ import engine.enums.Spell;
 public class BroadCastCastSpellPacket extends Packet {
 	Spell spell;
 
-	protected BroadCastCastSpellPacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.CAST_SPELL_BCAST);
+	protected BroadCastCastSpellPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+        super(PacketType.CAST_SPELL_BCAST, ipAddress, port);
         this.spell = Spell.getById(buffer.get());
     }
 
     public BroadCastCastSpellPacket(Spell spell) {
-        super(PacketDirection.OUTGOING, PacketType.CAST_SPELL_BCAST);
+        super(PacketType.CAST_SPELL_BCAST);
         this.spell = spell;
     }
 
@@ -24,7 +25,7 @@ public class BroadCastCastSpellPacket extends Packet {
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
-        //this method getByteBuffer() already places the id of the spell into the first position of the buffer array. 
+        //this method getByteBuffer() already places the id of the spell into the first position of the buffer array.
         //buffer.put(this.spell.getId());
         return Packet.getBytesFromBuffer(buffer);
     }

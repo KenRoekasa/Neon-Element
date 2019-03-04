@@ -15,12 +15,12 @@ public class CastSpellPacket extends Packet {
     private Spell spell;
 
     protected CastSpellPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.CAST_SPELL, ipAddress, port);
+        super(PacketType.CAST_SPELL, ipAddress, port);
         this.spell = Spell.getById(buffer.get());
     }
 
-    public CastSpellPacket(InetAddress ipAddress, int port, Spell spell) {
-        super(PacketDirection.OUTGOING, PacketType.CAST_SPELL, ipAddress, port);
+    public CastSpellPacket(Spell spell) {
+        super(PacketType.CAST_SPELL);
         this.spell = spell;
     }
 
@@ -30,7 +30,7 @@ public class CastSpellPacket extends Packet {
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
-        //this method getByteBuffer() already places the id of the spell into the first position of the buffer array. 
+        //this method getByteBuffer() already places the id of the spell into the first position of the buffer array.
         //buffer.put(this.spell.getId());
         return Packet.getBytesFromBuffer(buffer);
     }

@@ -14,13 +14,13 @@ public class LocationStatePacket extends Packet {
     private double y;
 
     protected LocationStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.LOCATION_STATE, ipAddress, port);
+        super(PacketType.LOCATION_STATE, ipAddress, port);
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
     }
 
-    public LocationStatePacket(double x, double y, InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.LOCATION_STATE, ipAddress, port);
+    public LocationStatePacket(double x, double y) {
+        super(PacketType.LOCATION_STATE);
         this.x = x;
         this.y = y;
     }

@@ -1,9 +1,7 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
-
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
 
 public class BroadCastGameOverPacket extends Packet {
 
@@ -14,13 +12,13 @@ public class BroadCastGameOverPacket extends Packet {
 
     private boolean gameOver;
 
-    protected BroadCastGameOverPacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.GAME_OVER_BCAST);
+    protected BroadCastGameOverPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+        super(PacketType.GAME_OVER_BCAST, ipAddress, port);
         this.gameOver = getBooleanValue(buffer.get());
     }
 
     public BroadCastGameOverPacket(boolean gameOver) {
-        super(PacketDirection.OUTGOING, PacketType.GAME_OVER_BCAST);
+        super(PacketType.GAME_OVER_BCAST);
         this.gameOver = gameOver;
     }
 

@@ -7,17 +7,17 @@ public class HelloPacket extends Packet {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // 
+    //
     // = 0 bytes
 
     protected HelloPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.HELLO, ipAddress, port);
+        super(PacketType.HELLO, ipAddress, port);
     }
 
-    public HelloPacket(InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.HELLO, ipAddress, port);
+    public HelloPacket() {
+        super(PacketType.HELLO);
     }
-    
+
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         return Packet.getBytesFromBuffer(buffer);

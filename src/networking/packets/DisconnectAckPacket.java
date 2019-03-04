@@ -13,12 +13,12 @@ public class DisconnectAckPacket extends Packet {
     private boolean allowed;
 
     protected DisconnectAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.DISCONNECT_ACK, ipAddress, port);
+        super(PacketType.DISCONNECT_ACK, ipAddress, port);
         this.allowed = getBooleanValue(buffer.get());
     }
 
-    public DisconnectAckPacket(InetAddress ipAddress, int port, boolean allowed) {
-        super(PacketDirection.OUTGOING, PacketType.DISCONNECT_ACK, ipAddress, port);
+    public DisconnectAckPacket(boolean allowed) {
+        super(PacketType.DISCONNECT_ACK);
         this.allowed = allowed;
     }
 

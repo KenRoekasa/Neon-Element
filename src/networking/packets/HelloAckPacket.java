@@ -17,14 +17,14 @@ public class HelloAckPacket extends Packet {
     private GameType gameType;
 
     protected HelloAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.HELLO_ACK, ipAddress, port);
+        super(PacketType.HELLO_ACK, ipAddress, port);
         this.players = buffer.getInt();
         this.maxPlayers = buffer.getInt();
         this.gameType = bufferToGameType(buffer);
     }
 
-    public HelloAckPacket(int players, int maxPlayers, GameType gameType, InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.HELLO_ACK, ipAddress, port);
+    public HelloAckPacket(int players, int maxPlayers, GameType gameType) {
+        super(PacketType.HELLO_ACK);
         this.players = players;
         this.maxPlayers = maxPlayers;
         this.gameType = gameType;

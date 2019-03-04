@@ -92,7 +92,7 @@ public class ClientNetwork {
             		this.dispatcher.recievePlayerActionBroadCast((BroadcastActionPacket) packet);
             		break;
             case INITIAL_STATE_BCAST:
-            		this.dispatcher.receiveInitialGameStartStateBroadcast((BroadCastinitialGameStatePacket)packet);
+            		this.dispatcher.receiveInitialGameStartStateBroadcast((BroadCastinitialGameStatePacket) packet);
             		break;
             case CAST_SPELL_BCAST:
                 break;

@@ -1,9 +1,7 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
-
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
 
 public class BroadCastGameStartPacket extends Packet {
 
@@ -16,14 +14,14 @@ public class BroadCastGameStartPacket extends Packet {
     private boolean gameStarted;
     private int players;
 
-    protected BroadCastGameStartPacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.GAME_START_BCAST);
+    protected BroadCastGameStartPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+        super(PacketType.GAME_START_BCAST, ipAddress, port);
         this.gameStarted = getBooleanValue(buffer.get());
         this.players = buffer.getInt();
     }
 
     public BroadCastGameStartPacket(boolean gameStarted, int players) {
-        super(PacketDirection.OUTGOING, PacketType.GAME_START_BCAST);
+        super(PacketType.GAME_START_BCAST);
         this.gameStarted = gameStarted;
         this.players = players;
     }
@@ -31,7 +29,7 @@ public class BroadCastGameStartPacket extends Packet {
     public boolean getGameStartVar() {
         return this.gameStarted;
     }
-    
+
     public int getPlayersCount() {
         return this.players;
     }

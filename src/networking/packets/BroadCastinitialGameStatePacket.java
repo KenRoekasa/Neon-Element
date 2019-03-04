@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
 import networking.server.PlayerConnection;
 
 public class BroadCastinitialGameStatePacket extends Packet {
@@ -22,20 +20,18 @@ public class BroadCastinitialGameStatePacket extends Packet {
 	public ArrayList<Point2D> locations;
 	public Rectangle map;
 
-	public BroadCastinitialGameStatePacket(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
-		super(PacketDirection.OUTGOING, PacketType.INITIAL_STATE_BCAST);
+	protected BroadCastinitialGameStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+		super(PacketType.INITIAL_STATE_BCAST, ipAddress, port);
+		// Todo convert from buffer and set attributes
 	}
-	
-	public BroadCastinitialGameStatePacket(GameType gameType,  Rectangle map, ArrayList<PlayerConnection> playersInfo) {
-		super(PacketDirection.OUTGOING, PacketType.INITIAL_STATE_BCAST);
+
+	public BroadCastinitialGameStatePacket(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map, ArrayList<PlayerConnection> playersInfo) {
+		super(PacketType.INITIAL_STATE_BCAST);
 		this.gameType = gameType;
 		this.ids = ids;
 		this.locations = locations;
 		this.map = map;
-		// TODO Auto-generated constructor stub
 	}
-
-	
 
 	@Override
 	public byte[] getRawBytes() {
@@ -117,7 +113,7 @@ public class BroadCastinitialGameStatePacket extends Packet {
 		}
 		return yourBytes;
 	}
-	
+
 	public byte[] convertGTypeToBytes(GameType object) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutput out = null;
@@ -140,7 +136,7 @@ public class BroadCastinitialGameStatePacket extends Packet {
 		}
 		return yourBytes;
 	}
-	
+
 	public byte[] convertMapToBytes(Rectangle object) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutput out = null;

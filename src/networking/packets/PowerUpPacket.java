@@ -13,12 +13,12 @@ public class PowerUpPacket extends Packet {
     private int powerupPickupId;
 
     protected PowerUpPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.POWERUP, ipAddress, port);
+        super(PacketType.POWERUP, ipAddress, port);
         this.powerupPickupId = buffer.getInt();
     }
 
-    public PowerUpPacket(InetAddress ipAddress, int port, int powerupPickupId) {
-        super(PacketDirection.OUTGOING, PacketType.POWERUP, ipAddress, port);
+    public PowerUpPacket(int powerupPickupId) {
+        super(PacketType.POWERUP);
         this.powerupPickupId = powerupPickupId;
     }
 

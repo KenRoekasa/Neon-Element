@@ -80,7 +80,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 		}
 
-		Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
+		Packet response = new ConnectAckPacket(playerId, status);
 		this.send(response, packet.getIpAddress(), packet.getPort());
 
 		if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
@@ -106,8 +106,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 				}
 
 				this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
-				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), playerIds, playerLocations
-						,this.gameState.getMap());
+				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), playerIds, playerLocations, this.gameState.getMap(), this.connections);
 				this.broadcast(gameStatePacket);
 
 				this.gameState.setStarted(true);
@@ -180,7 +179,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
-		Packet response = new DisconnectAckPacket(packet.getIpAddress(), packet.getPort(), true);
+		Packet response = new DisconnectAckPacket(true);
 		this.send(response, packet.getIpAddress(), packet.getPort());
 	}
 

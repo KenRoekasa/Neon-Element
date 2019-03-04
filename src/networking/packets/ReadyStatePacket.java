@@ -13,12 +13,12 @@ public class ReadyStatePacket extends Packet {
     private boolean ready;
 
     protected ReadyStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.READY_STATE, ipAddress, port);
+        super(PacketType.READY_STATE, ipAddress, port);
         this.ready = getBooleanValue(buffer.get());
     }
 
-    public ReadyStatePacket(InetAddress ipAddress, int port, boolean ready) {
-        super(PacketDirection.OUTGOING, PacketType.READY_STATE, ipAddress, port);
+    public ReadyStatePacket(boolean ready) {
+        super(PacketType.READY_STATE);
         this.ready = ready;
     }
 

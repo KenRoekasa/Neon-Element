@@ -15,12 +15,12 @@ public class ActionStatePacket extends Packet {
     private Action action;
 
     protected ActionStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.ACTION_STATE, ipAddress, port);
+        super(PacketType.ACTION_STATE, ipAddress, port);
         this.action = Action.getById(buffer.get());
     }
 
-    public ActionStatePacket(Action action, InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.ACTION_STATE, ipAddress, port);
+    public ActionStatePacket(Action action) {
+        super(PacketType.ACTION_STATE);
         this.action = action;
     }
 

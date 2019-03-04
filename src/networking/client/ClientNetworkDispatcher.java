@@ -36,7 +36,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendHello() {
         try {
-            Packet packet = new HelloPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
+            Packet packet = new HelloPacket();
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendConnect() {
         try {
-            Packet packet = new ConnectPacket(serverAddr, Constants.SERVER_LISTENING_PORT);
+            Packet packet = new ConnectPacket();
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
@@ -92,25 +92,22 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     }
 
     protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
-        BroadCastinitialGameStatePacket initGameState = new BroadCastinitialGameStatePacket(packet.getGameType(),
-                packet.getIds(), packet.getLocations(), packet.getMap());
-
         Player clientPlayer = new Player(ObjectType.PLAYER);
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         LinkedBlockingQueue<Player> deadPlayers = new LinkedBlockingQueue<Player>();
         ScoreBoard scoreboard = new ScoreBoard();
         ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
 
-        for (int i = 0; i < initGameState.getIds().size(); i++) {
-            if (initGameState.getIds().get(i) == clientID) {
-                clientPlayer.setLocation(initGameState.getLocations().get(i));
-                clientPlayer.setId(initGameState.getIds().get(i));
+        for (int i = 0; i < packet.getIds().size(); i++) {
+            if (packet.getIds().get(i) == clientID) {
+                clientPlayer.setLocation(packet.getLocations().get(i));
+                clientPlayer.setId(packet.getIds().get(i));
                 objects.add(clientPlayer);
                 tempScoreboardPlayers.add(clientPlayer);
             } else {
                 Player enemy = new Player(ObjectType.ENEMY);
-                enemy.setId(initGameState.getIds().get(i));
-                enemy.setLocation(initGameState.getLocations().get(i));
+                enemy.setId(packet.getIds().get(i));
+                enemy.setLocation(packet.getLocations().get(i));
                 objects.add(enemy);
                 tempScoreboardPlayers.add(enemy);
 
@@ -119,8 +116,8 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
         scoreboard.initialise(tempScoreboardPlayers);
 
-        this.gameState = new ClientGameState(clientPlayer, initGameState.getMap(), objects, deadPlayers,
-                scoreboard, initGameState.getGameType());
+        this.gameState = new ClientGameState(clientPlayer, packet.getMap(), objects, deadPlayers,
+                scoreboard, packet.getGameType());
 
     }
 
@@ -152,7 +149,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendLocationState(double x, double y) {
         try {
-            Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);
+            Packet packet = new LocationStatePacket(x, y);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
@@ -161,7 +158,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendActionState(Action action) {
         try {
-            Packet packet = new ActionStatePacket(action, serverAddr, Constants.SERVER_LISTENING_PORT);
+            Packet packet = new ActionStatePacket(action);
             this.send(packet);
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,14 +167,12 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     public void sendElementState(Elements element) {
         try {
-            Packet packet = new ElementStatePacket(serverAddr, Constants.SERVER_LISTENING_PORT, element);
+            Packet packet = new ElementStatePacket(element);
             this.send(packet);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 
 	public void recievePlayerActionBroadCast(BroadcastActionPacket packet) {
 		// TODO Auto-generated method stub
@@ -199,8 +194,6 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 	            		System.out.println("Player does not exists");
 	            }
 	        }
-
-
 	}
 
 	public void recieveElementBroadcast(BroadCastElementStatePacket packet) {

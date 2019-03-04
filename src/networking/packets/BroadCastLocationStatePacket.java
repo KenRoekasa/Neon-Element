@@ -1,9 +1,7 @@
 package networking.packets;
 
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
-
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
 
 public class BroadCastLocationStatePacket extends Packet {
 
@@ -17,15 +15,15 @@ public class BroadCastLocationStatePacket extends Packet {
     private double x;
     private double y;
 
-    protected BroadCastLocationStatePacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.LOCATION_STATE_BCAST);
+    protected BroadCastLocationStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
+        super(PacketType.LOCATION_STATE_BCAST, ipAddress, port);
         this.id = buffer.getInt();
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
     }
 
     public BroadCastLocationStatePacket(int id, double x, double y) {
-        super(PacketDirection.OUTGOING, PacketType.LOCATION_STATE_BCAST);
+        super(PacketType.LOCATION_STATE_BCAST);
         this.id = id;
         this.x = x;
         this.y = y;

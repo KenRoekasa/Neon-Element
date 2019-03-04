@@ -15,12 +15,12 @@ public class ElementStatePacket extends Packet {
     private Elements playerElementState;
 
     protected ElementStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.ELEMENT_STATE, ipAddress, port);
+        super(PacketType.ELEMENT_STATE, ipAddress, port);
         this.playerElementState = Elements.getById(buffer.get());
     }
 
-    public ElementStatePacket(InetAddress ipAddress, int port, Elements playerElementState) {
-        super(PacketDirection.OUTGOING, PacketType.ELEMENT_STATE, ipAddress, port);
+    public ElementStatePacket(Elements playerElementState) {
+        super(PacketType.ELEMENT_STATE);
         this.playerElementState = playerElementState;
     }
 

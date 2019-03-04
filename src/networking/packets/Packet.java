@@ -53,20 +53,21 @@ public abstract class Packet {
 
     private PacketDirection direction;
     private PacketType type;
+
+    // Only set for incoming packets
     private InetAddress ipAddress;
     private int port;
 
-    protected Packet(PacketDirection direction, PacketType type, InetAddress ipAddress, int port) {
-        this.direction = direction;
+    protected Packet(PacketType type, InetAddress ipAddress, int port) {
+        this.direction = PacketDirection.INCOMING;
         this.type = type;
         this.ipAddress = ipAddress;
         this.port = port;
     }
 
-    protected Packet(PacketDirection direction, PacketType type) {
-    	this.direction = direction;
+    protected Packet(PacketType type) {
+    	this.direction = PacketDirection.OUTGOING;
         this.type = type;
-
     }
 
     public abstract byte[] getRawBytes();
@@ -123,27 +124,29 @@ public abstract class Packet {
             case ACTION_STATE:
                 return new ActionStatePacket(buffer, ipAddress, port);
             case CONNECT_BCAST:
-                return new BroadCastConnectedUserPacket(buffer);
+                return new BroadCastConnectedUserPacket(buffer, ipAddress, port);
             case DISCONNECT_BCAST:
-                return new BroadCastDisconnectedUserPacket(buffer);
+                return new BroadCastDisconnectedUserPacket(buffer, ipAddress, port);
             case READY_STATE_BCAST:
-                return new BroadCastReadyStatePacket(buffer);
+                return new BroadCastReadyStatePacket(buffer, ipAddress, port);
             case LOCATION_STATE_BCAST:
-                return new BroadCastLocationStatePacket(buffer);
+                return new BroadCastLocationStatePacket(buffer, ipAddress, port);
             case ELEMENT_STATE_BCAST:
-                return new BroadCastElementStatePacket(buffer);
+                return new BroadCastElementStatePacket(buffer, ipAddress, port);
             case CAST_SPELL_BCAST:
-                return new BroadCastCastSpellPacket(buffer);
+                return new BroadCastCastSpellPacket(buffer, ipAddress, port);
             case POWERUP_PICKUP_BCAST:
-                return new BroadCastPowerUpPickUpPacket(buffer);
+                return new BroadCastPowerUpPickUpPacket(buffer, ipAddress, port);
             case POWERUP_STATE_BCAST:
-                return new BroadCastPowerUpPacket(buffer);
+                return new BroadCastPowerUpPacket(buffer, ipAddress, port);
+            case INITIAL_STATE_BCAST:
+                return new BroadCastinitialGameStatePacket(buffer, ipAddress, port);
             case ACTION_BCAST:
-            		return new BroadcastActionPacket(buffer);
+                return new BroadcastActionPacket(buffer, ipAddress, port);
             case GAME_START_BCAST:
-                return new BroadCastGameStartPacket(buffer);
+                return new BroadCastGameStartPacket(buffer, ipAddress, port);
             case GAME_OVER_BCAST:
-                return new BroadCastGameOverPacket(buffer);
+                return new BroadCastGameOverPacket(buffer, ipAddress, port);
             default:
                 return null;
         }

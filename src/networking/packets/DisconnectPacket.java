@@ -11,11 +11,11 @@ public class DisconnectPacket extends Packet {
     // = 0 bytes
 
     protected DisconnectPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.DISCONNECT, ipAddress, port);
+        super(PacketType.DISCONNECT, ipAddress, port);
     }
 
-    public DisconnectPacket(InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.DISCONNECT, ipAddress, port);
+    public DisconnectPacket() {
+        super(PacketType.DISCONNECT);
     }
 
     public byte[] getRawBytes() {
