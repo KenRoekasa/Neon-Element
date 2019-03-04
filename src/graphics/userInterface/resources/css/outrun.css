@@ -65,12 +65,27 @@
     -fx-fill: rgba(120, 0, 50, .5);
 }
 
+.standard-text-medium{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 50px;
+}
+
+.standard-text-normal{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 25px;
+}
+
 .standard-text-big{
     -fx-font-family: Audiowide;
     -fx-text-fill: rgba(120, 0, 50, .5);
     -fx-fill: rgba(120, 0, 50, .5);
     -fx-font-size: 100px;
 }
+
 .button-text{
     -fx-font-family: Audiowide;
     -fx-text-fill: rgba(120, 0, 50, .5);
