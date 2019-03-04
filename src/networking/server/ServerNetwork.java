@@ -22,6 +22,8 @@ public class ServerNetwork extends Thread {
 
     protected ServerNetworkDispatcher dispatcher;
 
+    private ConnectedPlayers connectedPlayers;
+
     public ServerNetwork(ServerGameState gameState) {
         InetAddress groupAddress = null;
         try {
@@ -40,13 +42,17 @@ public class ServerNetwork extends Thread {
             e.printStackTrace();
         }
 
-        ConnectedPlayers connectedPlayers = new ConnectedPlayers();
+        this.connectedPlayers = new ConnectedPlayers();
 
         this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.socket);
     }
 
     public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
+    }
+
+    public ConnectedPlayers getConnectedPlayers() {
+        return this.connectedPlayers;
     }
 
     public void close() {

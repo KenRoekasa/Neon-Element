@@ -20,7 +20,6 @@ import networking.NetworkDispatcher;
 public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	private ServerGameState gameState;
-	private int expectedPlayersToJoin = 2;
 	private ConnectedPlayers connectedPlayers;
 
 	protected ServerNetworkDispatcher(ServerGameState gameState, ConnectedPlayers connectedPlayers, DatagramSocket socket) {
@@ -76,23 +75,15 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
 			Packet connect = new BroadCastConnectedUserPacket(playerId);
 			this.broadcast(connect);
-
-			if (this.connectedPlayers.count() == expectedPlayersToJoin) {
-				Rectangle map = gameState.getMap();
-
-				this.connectedPlayers.assignStartingLocations(map.getWidth(), map.getHeight());
-
-				this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
-				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), this.connectedPlayers.getIds(), this.connectedPlayers.getLocations(), this.gameState.getMap());
-				this.broadcast(gameStatePacket);
-
-				this.gameState.setStarted(true);
-				this.broadcastGameStarted();
-			}
 		}
 	}
 
-	protected void broadcastGameStarted() {
+	public void broadcastGameState() {
+		Packet packet = new BroadCastinitialGameStatePacket(gameState.getGameType(), connectedPlayers.getIds(), connectedPlayers.getLocations(), this.gameState.getMap());
+        this.broadcast(packet);
+	}
+
+	public void broadcastGameStarted() {
 		Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
 		this.broadcast(packet);
 	}

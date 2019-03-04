@@ -12,6 +12,7 @@ import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
+import networking.server.ConnectedPlayers;
 import networking.server.ServerNetwork;
 import server.controllers.PowerUpController;
 
@@ -23,6 +24,8 @@ public class GameServer extends Thread {
 
     private boolean running;
 
+    private int expectedPlayersToJoin = 2;
+
     public GameServer(ServerGameState gameState) {
         this.gameState = gameState;
         this.network = new ServerNetwork(this.gameState);
@@ -32,10 +35,20 @@ public class GameServer extends Thread {
     public void run() {
         this.network.start();
 
-        // Wait for game to be started
-        while(!this.gameState.isStarted()) {
+        ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
+
+        // Wait for enough players to start the game
+        while(connectedPlayers.count() < expectedPlayersToJoin) {
             Thread.yield();
         }
+
+        // Start the game
+        connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
+        this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
+        this.network.getDispatcher().broadcastGameState();
+
+        this.gameState.setStarted(true);
+        this.network.getDispatcher().broadcastGameStarted();
 
         System.out.println("Game started.");
 

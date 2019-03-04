@@ -38,7 +38,7 @@ public class ConnectedPlayers {
             .orElse(null);
 	}
 
-    int count() {
+    public int count() {
         return this.connections.size();
     }
 
@@ -54,7 +54,7 @@ public class ConnectedPlayers {
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    void assignStartingLocations(double width, double height) {
+    public void assignStartingLocations(double width, double height) {
         Point2D[] locations = {
             (new Point2D(width - width/10, height - height/10)),
             (new Point2D(0 +  width/10, height - height/10)),
