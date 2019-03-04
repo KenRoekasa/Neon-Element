@@ -120,6 +120,8 @@ public abstract class Packet {
                 return new ConnectAckPacket(buffer, ipAddress, port);
             case LOCATION_STATE:
                 return new LocationStatePacket(buffer, ipAddress, port);
+            case ACTION_STATE:
+                return new ActionStatePacket(buffer, ipAddress, port);
             case CONNECT_BCAST:
                 return new BroadCastConnectedUserPacket(buffer);
             case DISCONNECT_BCAST:
