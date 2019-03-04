@@ -11,12 +11,7 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 - Integrate with UI
 - Cooldown is not very polished apparently
   - cooldown is wayyyy to slow for light attacks
-- make ai attacks speed limited, whilst player attacks should be uncapped
-- Make more game modes
 ## Ideas
-- Everything will happen client side first and then confirmed by the server. Which then syncs all the game clients to be like server game state
-    - Will probably change
-- When you die become a ghost that doesn't collide with anyone but can spectate, opacity turned down
 
 # Renderer
 ## Tasks

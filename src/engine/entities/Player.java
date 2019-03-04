@@ -27,6 +27,7 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         tag = type;
         width = tag.getSize();
+        height = width;
         actionHasSounded = false;
         lightAttackRange = width * 4;
 
