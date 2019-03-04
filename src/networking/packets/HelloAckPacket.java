@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.gameTypes.*;
@@ -16,8 +15,8 @@ public class HelloAckPacket extends Packet {
     private int maxPlayers;
     private GameType gameType;
 
-    protected HelloAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.HELLO_ACK, ipAddress, port);
+    protected HelloAckPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.HELLO_ACK, sender);
         this.players = buffer.getInt();
         this.maxPlayers = buffer.getInt();
         this.gameType = bufferToGameType(buffer);

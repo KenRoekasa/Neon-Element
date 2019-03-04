@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class ConnectAckPacket extends Packet {
@@ -38,8 +37,8 @@ public class ConnectAckPacket extends Packet {
         }
     }
 
-    protected ConnectAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.CONNECT_ACK, ipAddress, port);
+    protected ConnectAckPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.CONNECT_ACK, sender);
         this.playerId = buffer.getInt();
         this.status = Status.getTypeFromId(buffer.get());
     }

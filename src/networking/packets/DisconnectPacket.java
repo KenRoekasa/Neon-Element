@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class DisconnectPacket extends Packet {
@@ -10,8 +9,8 @@ public class DisconnectPacket extends Packet {
     //
     // = 0 bytes
 
-    protected DisconnectPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.DISCONNECT, ipAddress, port);
+    protected DisconnectPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.DISCONNECT, sender);
     }
 
     public DisconnectPacket() {

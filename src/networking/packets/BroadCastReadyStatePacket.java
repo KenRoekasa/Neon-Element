@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class BroadCastReadyStatePacket extends Packet {
@@ -12,8 +11,8 @@ public class BroadCastReadyStatePacket extends Packet {
 
     private boolean ready;
 
-    protected BroadCastReadyStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.READY_STATE_BCAST, ipAddress, port);
+    protected BroadCastReadyStatePacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.READY_STATE_BCAST, sender);
         this.ready = getBooleanValue(buffer.get());
     }
 

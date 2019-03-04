@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class ReadyStatePacket extends Packet {
@@ -12,8 +11,8 @@ public class ReadyStatePacket extends Packet {
 
     private boolean ready;
 
-    protected ReadyStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.READY_STATE, ipAddress, port);
+    protected ReadyStatePacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.READY_STATE, sender);
         this.ready = getBooleanValue(buffer.get());
     }
 

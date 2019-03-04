@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class ConnectPacket extends Packet {
@@ -9,8 +8,8 @@ public class ConnectPacket extends Packet {
     //
     // = 0 bytes
 
-    protected ConnectPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.CONNECT, ipAddress, port);
+    protected ConnectPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.CONNECT, sender);
     }
 
     public ConnectPacket() {

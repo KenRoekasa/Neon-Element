@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.Action;
@@ -14,8 +13,8 @@ public class ActionStatePacket extends Packet {
 
     private Action action;
 
-    protected ActionStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.ACTION_STATE, ipAddress, port);
+    protected ActionStatePacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.ACTION_STATE, sender);
         this.action = Action.getById(buffer.get());
     }
 

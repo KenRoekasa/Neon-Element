@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class HelloPacket extends Packet {
@@ -10,8 +9,8 @@ public class HelloPacket extends Packet {
     //
     // = 0 bytes
 
-    protected HelloPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.HELLO, ipAddress, port);
+    protected HelloPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.HELLO, sender);
     }
 
     public HelloPacket() {

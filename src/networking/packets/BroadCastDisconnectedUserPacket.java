@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class BroadCastDisconnectedUserPacket extends Packet {
@@ -10,8 +9,8 @@ public class BroadCastDisconnectedUserPacket extends Packet {
     //
     // = 0 bytes
 
-    protected BroadCastDisconnectedUserPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.DISCONNECT_BCAST, ipAddress, port);
+    protected BroadCastDisconnectedUserPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.DISCONNECT_BCAST, sender);
     }
 
     public BroadCastDisconnectedUserPacket() {

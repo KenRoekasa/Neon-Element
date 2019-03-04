@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.Spell;
@@ -14,8 +13,8 @@ public class CastSpellPacket extends Packet {
 
     private Spell spell;
 
-    protected CastSpellPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.CAST_SPELL, ipAddress, port);
+    protected CastSpellPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.CAST_SPELL, sender);
         this.spell = Spell.getById(buffer.get());
     }
 

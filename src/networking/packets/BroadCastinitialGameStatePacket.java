@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
@@ -20,8 +19,8 @@ public class BroadCastinitialGameStatePacket extends Packet {
 	public ArrayList<Point2D> locations;
 	public Rectangle map;
 
-	protected BroadCastinitialGameStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-		super(PacketType.INITIAL_STATE_BCAST, ipAddress, port);
+	protected BroadCastinitialGameStatePacket(ByteBuffer buffer, Sender sender) {
+		super(PacketType.INITIAL_STATE_BCAST, sender);
 		// Todo convert from buffer and set attributes
 	}
 

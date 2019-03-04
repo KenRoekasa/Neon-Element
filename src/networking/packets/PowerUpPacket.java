@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class PowerUpPacket extends Packet {
@@ -12,8 +11,8 @@ public class PowerUpPacket extends Packet {
 
     private int powerupPickupId;
 
-    protected PowerUpPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.POWERUP, ipAddress, port);
+    protected PowerUpPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.POWERUP, sender);
         this.powerupPickupId = buffer.getInt();
     }
 

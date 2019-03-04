@@ -1,14 +1,13 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class BroadCastPowerUpPickUpPacket extends Packet {
 
 	 private int powerupPickupId;
 
-	protected BroadCastPowerUpPickUpPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-		super(PacketType.POWERUP, ipAddress, port);
+	protected BroadCastPowerUpPickUpPacket(ByteBuffer buffer, Sender sender) {
+		super(PacketType.POWERUP, sender);
 		this.powerupPickupId = buffer.getInt();
 	}
 

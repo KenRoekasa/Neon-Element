@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class DisconnectAckPacket extends Packet {
@@ -12,8 +11,8 @@ public class DisconnectAckPacket extends Packet {
 
     private boolean allowed;
 
-    protected DisconnectAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.DISCONNECT_ACK, ipAddress, port);
+    protected DisconnectAckPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.DISCONNECT_ACK, sender);
         this.allowed = getBooleanValue(buffer.get());
     }
 

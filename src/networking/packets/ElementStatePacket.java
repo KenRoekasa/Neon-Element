@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
@@ -14,8 +13,8 @@ public class ElementStatePacket extends Packet {
 
     private Elements playerElementState;
 
-    protected ElementStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.ELEMENT_STATE, ipAddress, port);
+    protected ElementStatePacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.ELEMENT_STATE, sender);
         this.playerElementState = Elements.getById(buffer.get());
     }
 

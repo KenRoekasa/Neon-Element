@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
@@ -15,8 +14,8 @@ public class BroadCastElementStatePacket extends Packet {
     private Elements playerElementState;
     private int id;
 
-    protected BroadCastElementStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.ELEMENT_STATE_BCAST, ipAddress, port);
+    protected BroadCastElementStatePacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.ELEMENT_STATE_BCAST, sender);
         this.id = buffer.getInt();
         this.playerElementState = Elements.getById(buffer.get());
     }

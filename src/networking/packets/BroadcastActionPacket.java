@@ -2,7 +2,6 @@ package networking.packets;
 
 import engine.enums.Action;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class BroadcastActionPacket extends Packet {
@@ -11,8 +10,8 @@ public class BroadcastActionPacket extends Packet {
 
     private int id;
 
-    protected BroadcastActionPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.ACTION_BCAST, ipAddress, port);
+    protected BroadcastActionPacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.ACTION_BCAST, sender);
         this.id = buffer.getInt();
         this.playerActionState = Action.getById(buffer.get());
     }

@@ -1,6 +1,5 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 public class LocationStatePacket extends Packet {
@@ -13,8 +12,8 @@ public class LocationStatePacket extends Packet {
     private double x;
     private double y;
 
-    protected LocationStatePacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketType.LOCATION_STATE, ipAddress, port);
+    protected LocationStatePacket(ByteBuffer buffer, Sender sender) {
+        super(PacketType.LOCATION_STATE, sender);
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
     }
