@@ -7,10 +7,9 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.AiType;
 import engine.enums.ObjectType;
-import engine.gameTypes.FirstToXKillsGame;
-import engine.gameTypes.GameType;
-import engine.gameTypes.TimedGame;
+import engine.gameTypes.*;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -123,7 +122,9 @@ public class GameStateGenerator {
 
         GameType gameType = new FirstToXKillsGame(3);
         GameType gameType1 = new TimedGame(60000);
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+        GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
+        GameType gameType3 = new Regicide(player, 5000);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType3);
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();

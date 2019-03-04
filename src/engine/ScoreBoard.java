@@ -37,14 +37,18 @@ public class ScoreBoard {
     }
 
     public void addKill(int killerID){
-        System.out.println("before" +  board.get(killerID));
         board.replace(killerID, board.get(killerID)+1);
-        System.out.println("after" + board.get(killerID));
         totalKills ++;
         updateLeaderBoard();
 
-        System.out.println(leaderBoard);
 
+    }
+
+    public void addScore(int scorer, int score){
+        board.replace(scorer, board.get(scorer) + score);
+        //TODO: What do i do instead of total kills
+        totalKills++;
+        updateLeaderBoard();
     }
 
     private void updateLeaderBoard(){
