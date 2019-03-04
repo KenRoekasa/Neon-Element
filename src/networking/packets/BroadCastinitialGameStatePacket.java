@@ -25,7 +25,7 @@ public class BroadCastinitialGameStatePacket extends Packet.PacketToClient {
 		// Todo convert from buffer and set attributes
 	}
 
-	public BroadCastinitialGameStatePacket(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map, ArrayList<PlayerConnection> playersInfo) {
+	public BroadCastinitialGameStatePacket(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
 		super();
 		this.gameType = gameType;
 		this.ids = ids;

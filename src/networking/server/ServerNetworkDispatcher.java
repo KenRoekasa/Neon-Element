@@ -21,19 +21,12 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	private ServerGameState gameState;
 	private int expectedPlayersToJoin = 2;
-	private ArrayList<PlayerConnection> connections;
+	private ConnectedPlayers connectedPlayers;
 
-	private ArrayList<Integer> playerIds;
-	private ArrayList<Point2D> playerLocations;
-
-	protected ServerNetworkDispatcher(DatagramSocket socket,
-			/* MulticastSocket multicastSocket, InetAddress groupAddress, */ ServerGameState gameState) {
+	protected ServerNetworkDispatcher(ServerGameState gameState, ConnectedPlayers connectedPlayers, DatagramSocket socket) {
 		super(socket/* , multicastSocket, groupAddress */);
 		this.gameState = gameState;
-		this.connections = new ArrayList<>();
-		this.playerIds = new ArrayList<>();
-		this.playerLocations = new ArrayList<>();
-
+		this.connectedPlayers = connectedPlayers;
 	}
 
 	public void receiveHello(HelloPacket packet) {
@@ -67,10 +60,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 			Player player = new Player(ObjectType.PLAYER);
 			playerId = player.getId();
 
-			PlayerConnection playerConn = new PlayerConnection(player, packet.getIpAddress(), packet.getPort());
-
-			this.connections.add(playerConn);
-			this.playerIds.add(playerId);
+			this.connectedPlayers.addConnection(player, packet.getIpAddress(), packet.getPort());
 			this.gameState.getAllPlayers().add(player);
 			this.gameState.getObjects().add(player);
 
@@ -87,26 +77,13 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 			Packet connect = new BroadCastConnectedUserPacket(playerId);
 			this.broadcast(connect);
 
-			if (connections.size() == expectedPlayersToJoin) {
+			if (this.connectedPlayers.count() == expectedPlayersToJoin) {
 				Rectangle map = gameState.getMap();
 
-				for(int i = 0; i < connections.size(); i++) {
-
-			            if(i == 0) {
-			                gameState.getAllPlayers().get(i).setLocation(new Point2D(map.getWidth() - map.getWidth()/10, map.getHeight() - map.getHeight()/10));
-			            } else if (i == 1) {
-			            		gameState.getAllPlayers().get(i).setLocation(new Point2D(0 +  map.getWidth()/10, map.getHeight() - map.getHeight()/10));
-			            } else if (i == 2) {
-			            		gameState.getAllPlayers().get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
-			            } else if ( i == 3) {
-			            		gameState.getAllPlayers().get(i).setLocation(new Point2D(map.getHeight() - map.getHeight()/10, 0 + map.getHeight()/10));
-			            }
-
-			            playerLocations.add(gameState.getAllPlayers().get(i).getLocation());
-				}
+				this.connectedPlayers.assignStartingLocations(map.getWidth(), map.getHeight());
 
 				this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
-				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), playerIds, playerLocations, this.gameState.getMap(), this.connections);
+				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), this.connectedPlayers.getIds(), this.connectedPlayers.getLocations(), this.gameState.getMap());
 				this.broadcast(gameStatePacket);
 
 				this.gameState.setStarted(true);
@@ -184,15 +161,14 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 
 	private PlayerConnection getPlayerConnection(Packet packet) {
-		return this.connections.stream().filter(c -> c.is(packet.getIpAddress(), packet.getPort())).findFirst()
-				.orElse(null);
+		return this.connectedPlayers.getPlayerConnection(packet.getIpAddress(), packet.getPort());
 	}
 
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
 
-            for (PlayerConnection conn : this.connections) {
+            for (PlayerConnection conn : this.connectedPlayers.getConnections()) {
                 DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
 
                 if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {

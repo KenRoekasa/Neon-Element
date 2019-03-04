@@ -40,7 +40,9 @@ public class ServerNetwork extends Thread {
             e.printStackTrace();
         }
 
-        this.dispatcher = new ServerNetworkDispatcher(this.socket, /*this.multicastSocket, groupAddress,*/ gameState);
+        ConnectedPlayers connectedPlayers = new ConnectedPlayers();
+
+        this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.socket);
     }
 
     public ServerNetworkDispatcher getDispatcher() {
