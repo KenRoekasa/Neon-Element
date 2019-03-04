@@ -144,8 +144,6 @@ public abstract class Packet {
                 return new BroadCastGameStartPacket(buffer);
             case GAME_OVER_BCAST:
                 return new BroadCastGameOverPacket(buffer);
-            case ACTION_STATE:
-            		return new ActionStatePacket(buffer,ipAddress, port);
             default:
                 return null;
         }

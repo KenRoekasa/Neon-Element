@@ -19,7 +19,7 @@ public class BroadcastActionPacket extends Packet {
     }
 
     public BroadcastActionPacket(int id, Action playerActionState) {
-        super(PacketDirection.OUTGOING, PacketType.ELEMENT_STATE_BCAST);
+        super(PacketDirection.OUTGOING, PacketType.ACTION_BCAST);
         this.id = id;
         this.playerActionState = playerActionState;
     }

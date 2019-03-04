@@ -180,8 +180,18 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 
 	protected void receiveActionState(ActionStatePacket packet) {
+		//currently set to broadcast if and only if there are currently more than 2 players
+		boolean isStarted = this.gameState.isStarted();
+		int numberOfPlayers = this.gameState.getAllPlayers().size();
+	
+		
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 	    playerConn.getPlayer().doAction(packet.getAction());
+	    
+	    if(isStarted && (numberOfPlayers >= 2) ){
+			Packet actionState = new BroadcastActionPacket(playerConn.getId(), packet.getAction());
+			this.broadcast(actionState);
+	    }
 	}
 
 
