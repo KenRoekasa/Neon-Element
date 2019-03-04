@@ -15,6 +15,7 @@ import engine.enums.Action;
 import engine.enums.Elements;
 import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
+import javafx.scene.transform.Rotate;
 import networking.packets.*;
 import networking.Constants;
 import networking.NetworkDispatcher;
@@ -145,14 +146,17 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
                 this.gameState.getAllPlayers().add(player);
                 this.gameState.getObjects().add(player);
             }
+            
             player.setLocation(packet.getX(), packet.getY());
+            Rotate playerAngle = player.getPlayerAngle();
+            playerAngle.setAngle(packet.getPlayerAngle());
         }
     }
 
 
-    public void sendLocationState(double x, double y) {
+    public void sendLocationState(double x, double y, double playerAngle) {
         try {
-            Packet packet = new LocationStatePacket(x, y, serverAddr, Constants.SERVER_LISTENING_PORT);
+            Packet packet = new LocationStatePacket(x, y, playerAngle, serverAddr, Constants.SERVER_LISTENING_PORT);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();

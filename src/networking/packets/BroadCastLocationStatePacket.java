@@ -16,19 +16,22 @@ public class BroadCastLocationStatePacket extends Packet {
     private int id;
     private double x;
     private double y;
+    private double playerAngle;
 
     protected BroadCastLocationStatePacket(ByteBuffer buffer) {
         super(PacketDirection.INCOMING, PacketType.LOCATION_STATE_BCAST);
         this.id = buffer.getInt();
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
+        this.playerAngle = buffer.getDouble();
     }
 
-    public BroadCastLocationStatePacket(int id, double x, double y) {
+    public BroadCastLocationStatePacket(int id, double x, double y, double playerAngle) {
         super(PacketDirection.OUTGOING, PacketType.LOCATION_STATE_BCAST);
         this.id = id;
         this.x = x;
         this.y = y;
+        this.playerAngle = playerAngle;
     }
 
     public int getId() {
@@ -42,12 +45,18 @@ public class BroadCastLocationStatePacket extends Packet {
     public double getY() {
         return this.y;
     }
+    
+    public double getPlayerAngle() {
+    		return playerAngle;
+    }
+    
 
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.id);
         buffer.putDouble(this.x);
         buffer.putDouble(this.y);
+        buffer.putDouble(this.playerAngle);
         return Packet.getBytesFromBuffer(buffer);
     }
 

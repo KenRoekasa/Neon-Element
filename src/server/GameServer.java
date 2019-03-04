@@ -12,6 +12,7 @@ import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
+import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
 import server.controllers.PowerUpController;
 
@@ -68,10 +69,11 @@ public class GameServer extends Thread {
         synchronized (gameState.getAllPlayers()) {
             for (Player p : gameState.getAllPlayers()) {
                 Point2D location = p.getLocation();
+                Rotate playerAngle = p.getPlayerAngle();
                 double x = location.getX();
                 double y = location.getY();
 
-                this.network.getDispatcher().broadcastLocationState(p.getId(), x, y);
+                this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
             }
         }
     }

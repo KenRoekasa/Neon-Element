@@ -12,6 +12,7 @@ import engine.enums.Elements;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.NetworkDispatcher;
@@ -144,6 +145,9 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 			// Just update the location for now
 			// TODO - validate if the location
 			player.setLocation(packet.getX(), packet.getY());
+			Rotate playerAngle = player.getPlayerAngle();
+			playerAngle.setAngle(packet.getPlayerAngle());
+			
 		} else {
 			// Player connection not found
 		}
@@ -164,8 +168,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         this.broadcast(packet);
     }
 
-    public void broadcastLocationState(int playerId, double x, double y) {
-        Packet packet = new BroadCastLocationStatePacket(playerId, x, y);
+    public void broadcastLocationState(int playerId, double x, double y, double playerAngle) {
+        Packet packet = new BroadCastLocationStatePacket(playerId, x, y, playerAngle);
         this.broadcast(packet);
     }
 

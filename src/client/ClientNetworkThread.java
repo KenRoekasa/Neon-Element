@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import engine.enums.Action;
 import engine.enums.Elements;
 import javafx.geometry.Point2D;
+import javafx.scene.transform.Rotate;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;
 
@@ -80,8 +81,11 @@ public class ClientNetworkThread extends Thread {
         Point2D location = this.gameState.getPlayer().getLocation();
         double x = location.getX();
         double y = location.getY();
+        Rotate playerAngle = this.gameState.getPlayer().getPlayerAngle();
+        
+        
 
-        this.getDispatcher().sendLocationState(x, y);
+        this.getDispatcher().sendLocationState(x, y, playerAngle.getAngle());
     }
 
     private ClientNetworkDispatcher getDispatcher() {
