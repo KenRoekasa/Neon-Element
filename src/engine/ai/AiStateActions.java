@@ -90,24 +90,6 @@ public class AiStateActions {
 			break;
 		}
 	}
-	
-	private void escapeOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			escape();
-	}
-
-	private void wanderOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			wander();
-	}
-
-	private void goToHill() {
-		actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
-	}
 
 	private void normalAIExecuteAction() {
 		
@@ -185,6 +167,30 @@ public class AiStateActions {
 		default:
 			break;
 		}
+	}
+	
+	
+	private void escapeOnHill() {
+		if(!calc.onHill(aiPlayer.getLocation()))
+			goToHill();
+		else
+			escape();
+	}
+
+	private void wanderOnHill() {
+		if(!calc.onHill(aiPlayer.getLocation()))
+			goToHill();
+		else
+			wander();
+	}
+
+	private void goToHill() {
+		Player player = calc.getNearestPlayer();
+		if (calc.inAttackDistance(player) && player.getHealth()>0) {
+			aiPlayer.lightAttack();
+		}
+		if( aiPlayer.getLocation().distance(calc.getHillCentreLocation()) > 10 )
+			actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
 	}
 
 	private void wander() {
