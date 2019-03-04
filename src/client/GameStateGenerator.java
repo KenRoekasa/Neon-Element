@@ -17,6 +17,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import engine.ai.AiController;
 
 public class GameStateGenerator {
+    private static int num_player;
+    public int getNum_player() {
+        return num_player;
+    }
+
 
     public static ClientGameState createDemoGamestate() {
     	System.out.println("generating game state");
@@ -67,7 +72,7 @@ public class GameStateGenerator {
     //receive the number of enemy from controller to initialise engine.ai enm
 
     public static ClientGameState createDemoGamestateSample(int num_enm) {
-
+        num_player = num_enm+1;
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
 
@@ -119,6 +124,7 @@ public class GameStateGenerator {
         // First to 10 kills
         GameType gameType = new FirstToXKillsGame(3);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+        gameState.setNum_player(num_player);
         scoreboard.initialise(gameState.getAllPlayers());
 
         startAi(aiConList);

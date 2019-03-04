@@ -23,8 +23,6 @@ public class ScoreBoard {
         board = new HashMap<>();
         totalKills = 0;
         leaderBoard = new ArrayList<>();
-
-
     }
 
     /** Create the hashmap based off the players in the game.

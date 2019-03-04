@@ -68,3 +68,10 @@
     -fx-text-fill: white;
 }
 
+.label-board{
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+}
+
+
