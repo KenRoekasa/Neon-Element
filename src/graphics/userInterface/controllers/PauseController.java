@@ -80,15 +80,4 @@ public class PauseController extends UIController{
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        resume.setTextFill(outline);
-        option.setTextFill(outline);
-        quit.setTextFill(outline);
-        resume.setEffect(blend);
-        option.setEffect(blend);
-        quit.setEffect(blend);
-    }
-
 }

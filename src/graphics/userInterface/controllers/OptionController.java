@@ -46,11 +46,6 @@ public class OptionController extends UIController{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        back.setTextFill(outline);
-        ok.setTextFill(outline);
-        back.setEffect(blend);
-        ok.setEffect(blend);
-
 
         // Set slider properties
         // volume range:0 - 1.0

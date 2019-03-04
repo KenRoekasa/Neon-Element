@@ -16,8 +16,6 @@ public class MenuNew extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("graphics/userInterface/fxmls/menu_new.fxml"));
 
-        Font fontLoader01 = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/Outrun.otf"), 14);
-        Font fontLoader02 = Font.loadFont(getClass().getResourceAsStream("graphics/userInterface/resources/fonts/porscha.ttf"), 14);
 
         Parent root = loader.load();
         primaryStage.setTitle("Menu");

@@ -22,8 +22,4 @@ public class GameOverController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        back.setTextFill(outline);
-    }
 }

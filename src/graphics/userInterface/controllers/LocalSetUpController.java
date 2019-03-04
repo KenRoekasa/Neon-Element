@@ -181,10 +181,6 @@ public class LocalSetUpController extends UIController implements Initializable 
         hard_2.setUserData("Hard");
         hard_3.setUserData("Hard");
 
-        back.setTextFill(outline);
-        start.setTextFill(outline);
-        back.setEffect(blend);
-        start.setEffect(blend);
     }
 
 }

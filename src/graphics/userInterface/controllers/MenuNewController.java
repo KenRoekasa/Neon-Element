@@ -84,18 +84,4 @@ public class MenuNewController extends UIController implements Initializable{
         System.exit(0);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //get color from UIColour
-        background.setBackground(new Background(new BackgroundFill(UIColour.BACKGROUND.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        outline = Color.WHITE; //TODO:get border colour from UIColour
-
-        alien.setFill(UIColour.HEAD_TEXT.getColor());
-
-        play_label.setEffect(blend);
-        help_label.setEffect(blend);
-        option_label.setEffect(blend);
-        exit_label.setEffect(blend);
-    }
 }

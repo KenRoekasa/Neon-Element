@@ -34,14 +34,6 @@ public class OnlineSetUpController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        create.setTextFill(outline);
-        back.setTextFill(outline);
-        create.setEffect(blend);
-        back.setEffect(blend);
-
-    }
 
 
 }
