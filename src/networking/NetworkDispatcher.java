@@ -28,7 +28,7 @@ public abstract class NetworkDispatcher {
         // this.multicastSocket.close();
     }
 
-    protected void send(Packet packet, InetAddress ipAddress, int port) {
+    public void send(Packet packet, InetAddress ipAddress, int port) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
 

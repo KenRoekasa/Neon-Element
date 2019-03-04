@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
@@ -70,8 +70,8 @@ public class ConnectAckPacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
-        dispatcher.receiveConnectAck(this);
+    public void handle(ClientNetworkHandler handler) {
+        handler.receiveConnectAck(this);
     }
 
     @Override

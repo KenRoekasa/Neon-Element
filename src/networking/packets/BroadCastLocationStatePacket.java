@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 public class BroadCastLocationStatePacket extends Packet.PacketToClient {
 
@@ -47,8 +47,8 @@ public class BroadCastLocationStatePacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
-        dispatcher.receiveLocationStateBroadcast(this);
+    public void handle(ClientNetworkHandler handler) {
+        handler.receiveLocationStateBroadcast(this);
     }
 
     @Override

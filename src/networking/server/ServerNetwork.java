@@ -21,6 +21,7 @@ public class ServerNetwork extends Thread {
     // protected MulticastSocket multicastSocket;
 
     protected ServerNetworkDispatcher dispatcher;
+    private ServerNetworkHandler handler;
 
     private ConnectedPlayers connectedPlayers;
 
@@ -45,6 +46,7 @@ public class ServerNetwork extends Thread {
         this.connectedPlayers = new ConnectedPlayers();
 
         this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.socket);
+        this.handler = new ServerNetworkHandler(gameState, connectedPlayers, this.dispatcher);
     }
 
     public ServerNetworkDispatcher getDispatcher() {
@@ -92,6 +94,6 @@ public class ServerNetwork extends Thread {
             System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
         }
 
-        ((Packet.PacketToServer) packet).handle(this.dispatcher);
+        ((Packet.PacketToServer) packet).handle(this.handler);
     }
 }

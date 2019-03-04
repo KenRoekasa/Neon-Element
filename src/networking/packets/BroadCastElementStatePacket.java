@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 public class BroadCastElementStatePacket extends Packet.PacketToClient {
 
@@ -40,8 +40,8 @@ public class BroadCastElementStatePacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
-        dispatcher.receiveElementBroadcast(this);
+    public void handle(ClientNetworkHandler handler) {
+        handler.receiveElementBroadcast(this);
     }
 
     @Override

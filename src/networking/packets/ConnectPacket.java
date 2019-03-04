@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 
 public class ConnectPacket extends Packet.PacketToServer {
     // Bytes required for packet data.
@@ -23,8 +23,8 @@ public class ConnectPacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
-        dispatcher.receiveConnect(this);
+    public void handle(ServerNetworkHandler handler) {
+        handler.receiveConnect(this);
     }
 
     @Override

@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 public class BroadCastGameOverPacket extends Packet.PacketToClient {
 
@@ -32,7 +32,7 @@ public class BroadCastGameOverPacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
+    public void handle(ClientNetworkHandler handler) {
         // TODO handle packet
     }
 

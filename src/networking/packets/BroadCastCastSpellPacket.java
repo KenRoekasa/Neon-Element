@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Spell;
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 //This is a way to hold the information
 public class BroadCastCastSpellPacket extends Packet.PacketToClient {
@@ -28,7 +28,7 @@ public class BroadCastCastSpellPacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
+    public void handle(ClientNetworkHandler handler) {
         // TODO handle packet
     }
 

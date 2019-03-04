@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 
 public class LocationStatePacket extends Packet.PacketToServer {
 
@@ -39,8 +39,8 @@ public class LocationStatePacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
-        dispatcher.receiveLocationState(this);
+    public void handle(ServerNetworkHandler handler) {
+        handler.receiveLocationState(this);
     }
 
     @Override

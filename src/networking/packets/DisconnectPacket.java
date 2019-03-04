@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 
 public class DisconnectPacket extends Packet.PacketToServer {
 
@@ -24,7 +24,7 @@ public class DisconnectPacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
+    public void handle(ServerNetworkHandler handler) {
         // TODO handle packet
     }
 

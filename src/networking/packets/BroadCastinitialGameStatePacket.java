@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 import networking.server.PlayerConnection;
 
 public class BroadCastinitialGameStatePacket extends Packet.PacketToClient {
@@ -38,8 +38,8 @@ public class BroadCastinitialGameStatePacket extends Packet.PacketToClient {
 	}
 
 	@Override
-	public void handle(ClientNetworkDispatcher dispatcher) {
-		dispatcher.receiveInitialGameStartStateBroadcast(this);
+	public void handle(ClientNetworkHandler handler) {
+		handler.receiveInitialGameStartStateBroadcast(this);
 	}
 
 	@Override

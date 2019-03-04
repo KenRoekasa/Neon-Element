@@ -3,8 +3,8 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import networking.client.ClientNetworkDispatcher;
-import networking.server.ServerNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
+import networking.server.ServerNetworkHandler;
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
@@ -95,7 +95,7 @@ public abstract class Packet {
             super();
         }
 
-        public abstract void handle(ClientNetworkDispatcher dispatcher);
+        public abstract void handle(ClientNetworkHandler handler);
     }
 
     public static abstract class PacketToServer extends Packet {
@@ -107,7 +107,7 @@ public abstract class Packet {
             super();
         }
 
-        public abstract void handle(ServerNetworkDispatcher dispatcher);
+        public abstract void handle(ServerNetworkHandler handler);
     }
 
     private PacketDirection direction;

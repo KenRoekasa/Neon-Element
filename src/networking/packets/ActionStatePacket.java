@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Action;
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 
 public class ActionStatePacket extends Packet.PacketToServer {
 
@@ -33,8 +33,8 @@ public class ActionStatePacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
-        dispatcher.receiveActionState(this);
+    public void handle(ServerNetworkHandler handler) {
+        handler.receiveActionState(this);
     }
 
     @Override

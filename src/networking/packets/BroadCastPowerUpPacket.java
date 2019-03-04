@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.PowerUpType;
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 public class BroadCastPowerUpPacket extends Packet.PacketToClient {
 
@@ -54,8 +54,8 @@ public class BroadCastPowerUpPacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
-        dispatcher.receivePowerUpBroadcast(this);
+    public void handle(ClientNetworkHandler handler) {
+        handler.receivePowerUpBroadcast(this);
     }
 
     @Override

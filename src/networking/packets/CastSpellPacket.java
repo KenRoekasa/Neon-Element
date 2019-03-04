@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Spell;
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 
 public class CastSpellPacket extends Packet.PacketToServer {
 
@@ -33,7 +33,7 @@ public class CastSpellPacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
+    public void handle(ServerNetworkHandler handler) {
         // TODO handle packet
     }
 

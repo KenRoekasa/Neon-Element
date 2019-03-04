@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 import utils.InvalidEnumId;
 
 public class ElementStatePacket extends Packet.PacketToServer {
@@ -34,8 +34,8 @@ public class ElementStatePacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
-        dispatcher.receiveElementState(this);
+    public void handle(ServerNetworkHandler handler) {
+        handler.receiveElementState(this);
     }
 
     @Override

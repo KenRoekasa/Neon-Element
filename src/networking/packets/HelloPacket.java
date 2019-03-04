@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.server.ServerNetworkDispatcher;
+import networking.server.ServerNetworkHandler;
 
 public class HelloPacket extends Packet.PacketToServer {
 
@@ -24,8 +24,8 @@ public class HelloPacket extends Packet.PacketToServer {
     }
 
     @Override
-    public void handle(ServerNetworkDispatcher dispatcher) {
-        dispatcher.receiveHello(this);
+    public void handle(ServerNetworkHandler handler) {
+        handler.receiveHello(this);
     }
 
     @Override

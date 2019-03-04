@@ -3,7 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.gameTypes.*;
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 public class HelloAckPacket extends Packet.PacketToClient {
 
@@ -75,8 +75,8 @@ public class HelloAckPacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
-        dispatcher.receiveHelloAck(this);
+    public void handle(ClientNetworkHandler handler) {
+        handler.receiveHelloAck(this);
     }
 
     @Override

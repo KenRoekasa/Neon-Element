@@ -1,7 +1,7 @@
 package networking.packets;
 
 import engine.enums.Action;
-import networking.client.ClientNetworkDispatcher;
+import networking.client.ClientNetworkHandler;
 
 import java.nio.ByteBuffer;
 
@@ -36,8 +36,8 @@ public class BroadcastActionPacket extends Packet.PacketToClient {
     }
 
     @Override
-    public void handle(ClientNetworkDispatcher dispatcher) {
-        dispatcher.receivePlayerActionBroadCast(this);
+    public void handle(ClientNetworkHandler handler) {
+        handler.receivePlayerActionBroadCast(this);
     }
 
     @Override

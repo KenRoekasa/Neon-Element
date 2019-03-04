@@ -28,56 +28,6 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.connectedPlayers = connectedPlayers;
 	}
 
-	public void receiveHello(HelloPacket packet) {
-		// TODO - integrate and get these values from somewhere
-		// int players = this.gameState.getAllPlayers().size();
-		// int maxPlayers = this.gameState.getMaxPlayers();
-		//
-		// Packet response = new HelloAckPacket(players, maxPlayers,
-		// packet.getIpAddress(), packet.getPort());
-		// System.out.println("respond");
-		// this.send(response);
-	}
-
-	public void receiveConnect(ConnectPacket packet) {
-		boolean isStarted = this.gameState.isStarted();
-		boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
-		System.out.println("Does the game have space: " + hasSpace);
-		System.out.println("has the game Started: " + isStarted);
-
-		// Allow connection if the game has not started yet and we have space for more
-		// players
-		ConnectAckPacket.Status status;
-		int playerId = 0;
-		if (isStarted) {
-			status = ConnectAckPacket.Status.ERR_GAME_STARTED;
-		} else if (!hasSpace) {
-			status = ConnectAckPacket.Status.ERR_MAX_PLAYERS;
-		} else {
-			status = ConnectAckPacket.Status.SUC_CONNECTED;
-
-			Player player = new Player(ObjectType.PLAYER);
-			playerId = player.getId();
-
-			this.connectedPlayers.addConnection(player, packet.getIpAddress(), packet.getPort());
-			this.gameState.getAllPlayers().add(player);
-			this.gameState.getObjects().add(player);
-
-			System.out.println("Number of players connected: " + gameState.getAllPlayers().size());
-
-			System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress());
-
-		}
-
-		Packet response = new ConnectAckPacket(playerId, status);
-		this.send(response, packet.getIpAddress(), packet.getPort());
-
-		if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
-			Packet connect = new BroadCastConnectedUserPacket(playerId);
-			this.broadcast(connect);
-		}
-	}
-
 	public void broadcastGameState() {
 		Packet packet = new BroadCastinitialGameStatePacket(gameState.getGameType(), connectedPlayers.getIds(), connectedPlayers.getLocations(), this.gameState.getMap());
         this.broadcast(packet);
@@ -88,27 +38,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.broadcast(packet);
 	}
 
-	public void receiveLocationState(LocationStatePacket packet) {
-		PlayerConnection playerConn = getPlayerConnection(packet);
-
-		if (playerConn != null) {
-			Player player = playerConn.getPlayer();
-
-			// Just update the location for now
-			// TODO - validate if the location
-			player.setLocation(packet.getX(), packet.getY());
-		} else {
-			// Player connection not found
-		}
-	}
-
 	protected void broadCastNewConnectedUser() {
 		// Packet response = new BroadCastConnectedUserPacket(new Buffer());
 		// this.send(response);
 	}
-
-
-
 
     public void broadcastNewPowerUp(PowerUp powerUp) {
         double x = powerUp.getLocation().getX();
@@ -132,18 +65,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.broadcast(packet);
 	}
 
-	public void receiveActionState(ActionStatePacket packet) {
-	    PlayerConnection playerConn = getPlayerConnection(packet);
-	    playerConn.getPlayer().doAction(packet.getAction());
+	public void broadcastConnectedUser(int playerId) {
+		Packet packet = new BroadCastConnectedUserPacket(playerId);
+		this.broadcast(packet);
 	}
-
-
-	public void receiveElementState(ElementStatePacket packet) {
-
-		PlayerConnection playerConn = getPlayerConnection(packet);
-		playerConn.getPlayer().setCurrentElement(packet.getPlayerElementState());
-	}
-
 
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
@@ -176,9 +101,5 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
             System.out.println("Attempted to send a recived packet.");
         }
     }
-
-	private void send(Packet packet, PlayerConnection conn) {
-		super.send(packet, conn.getIpAddress(), conn.getPort());
-	}
 
 }
