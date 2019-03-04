@@ -17,7 +17,7 @@ public class BroadCastPowerUpPacket extends Packet {
     private PowerUpType type;
 
 	protected BroadCastPowerUpPacket(ByteBuffer buffer, Sender sender) {
-		super(PacketType.POWERUP_STATE_BCAST, sender);
+		super(sender);
         this.powerUpId = buffer.getInt();
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
@@ -25,11 +25,15 @@ public class BroadCastPowerUpPacket extends Packet {
 	}
 
 	public BroadCastPowerUpPacket(int powerUpId, double x, double y, PowerUpType type) {
-        super(PacketType.CAST_SPELL);
+        super();
         this.powerUpId = powerUpId;
         this.x = x;
         this.y = y;
         this.type = type;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.POWERUP_STATE_BCAST;
     }
 
 	public int getPowerUpId() {

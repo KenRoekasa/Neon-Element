@@ -38,15 +38,19 @@ public class ConnectAckPacket extends Packet {
     }
 
     protected ConnectAckPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.CONNECT_ACK, sender);
+        super(sender);
         this.playerId = buffer.getInt();
         this.status = Status.getTypeFromId(buffer.get());
     }
 
     public ConnectAckPacket(int playerId, Status status) {
-        super(PacketType.CONNECT_ACK);
+        super();
         this.playerId = playerId;
         this.status = status;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.CONNECT_ACK;
     }
 
     public int getId() {

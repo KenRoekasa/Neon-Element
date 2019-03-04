@@ -15,17 +15,21 @@ public class BroadCastLocationStatePacket extends Packet {
     private double y;
 
     protected BroadCastLocationStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.LOCATION_STATE_BCAST, sender);
+        super(sender);
         this.id = buffer.getInt();
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
     }
 
     public BroadCastLocationStatePacket(int id, double x, double y) {
-        super(PacketType.LOCATION_STATE_BCAST);
+        super();
         this.id = id;
         this.x = x;
         this.y = y;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.LOCATION_STATE_BCAST;
     }
 
     public int getId() {

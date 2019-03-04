@@ -7,14 +7,18 @@ public class BroadCastPowerUpPickUpPacket extends Packet {
 	 private int powerupPickupId;
 
 	protected BroadCastPowerUpPickUpPacket(ByteBuffer buffer, Sender sender) {
-		super(PacketType.POWERUP, sender);
+		super(sender);
 		this.powerupPickupId = buffer.getInt();
 	}
 
 	public BroadCastPowerUpPickUpPacket(int powerupPickupId) {
-		super(PacketType.POWERUP);
+		super();
 		this.powerupPickupId = powerupPickupId;
 	}
+
+    public PacketType getPacketType() {
+       return PacketType.POWERUP;
+    }
 
 	public int getPowerupPickupId() {
 		return this.powerupPickupId;

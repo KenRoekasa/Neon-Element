@@ -10,11 +10,15 @@ public class DisconnectPacket extends Packet {
     // = 0 bytes
 
     protected DisconnectPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.DISCONNECT, sender);
+        super(sender);
     }
 
     public DisconnectPacket() {
-        super(PacketType.DISCONNECT);
+        super();
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.DISCONNECT;
     }
 
     public byte[] getRawBytes() {

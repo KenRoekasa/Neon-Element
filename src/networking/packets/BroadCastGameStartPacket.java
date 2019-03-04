@@ -14,15 +14,19 @@ public class BroadCastGameStartPacket extends Packet {
     private int players;
 
     protected BroadCastGameStartPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.GAME_START_BCAST, sender);
+        super(sender);
         this.gameStarted = getBooleanValue(buffer.get());
         this.players = buffer.getInt();
     }
 
     public BroadCastGameStartPacket(boolean gameStarted, int players) {
-        super(PacketType.GAME_START_BCAST);
+        super();
         this.gameStarted = gameStarted;
         this.players = players;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.GAME_START_BCAST;
     }
 
     public boolean getGameStartVar() {

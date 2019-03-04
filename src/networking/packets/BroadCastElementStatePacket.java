@@ -15,15 +15,19 @@ public class BroadCastElementStatePacket extends Packet {
     private int id;
 
     protected BroadCastElementStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.ELEMENT_STATE_BCAST, sender);
+        super(sender);
         this.id = buffer.getInt();
         this.playerElementState = Elements.getById(buffer.get());
     }
 
     public BroadCastElementStatePacket(int id, Elements playerElementState) {
-        super(PacketType.ELEMENT_STATE_BCAST);
+        super();
         this.id = id;
         this.playerElementState = playerElementState;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.ELEMENT_STATE_BCAST;
     }
 
     public Elements getPlayerElementState() {

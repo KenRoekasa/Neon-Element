@@ -7,15 +7,19 @@ public class BroadCastConnectedUserPacket extends Packet {
 	private int playerId;
 
 	protected BroadCastConnectedUserPacket(ByteBuffer buffer, Sender sender) {
-		super(PacketType.CONNECT_BCAST, sender);
+		super(sender);
 		this.playerId = buffer.getInt();
 
 	}
 
 	public BroadCastConnectedUserPacket(int playerId) {
-		super(PacketType.CONNECT_BCAST);
+		super();
 		this.playerId = playerId;
 	}
+
+    public PacketType getPacketType() {
+       return PacketType.CONNECT_BCAST;
+    }
 
 	public int getId() {
 	    return this.playerId;

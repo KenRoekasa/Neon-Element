@@ -34,8 +34,8 @@ public abstract class NetworkDispatcher {
 
             DatagramPacket datagram = new DatagramPacket(data, data.length, ipAddress, port);
 
-            if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE)) {
-                System.out.println("Sent " + packet.getType() + " to " + ipAddress + ":" + port);
+            if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE)) {
+                System.out.println("Sent " + packet.getPacketType() + " to " + ipAddress + ":" + port);
             }
 
             try {

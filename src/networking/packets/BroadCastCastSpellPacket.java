@@ -9,13 +9,17 @@ public class BroadCastCastSpellPacket extends Packet {
 	Spell spell;
 
 	protected BroadCastCastSpellPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.CAST_SPELL_BCAST, sender);
+        super(sender);
         this.spell = Spell.getById(buffer.get());
     }
 
     public BroadCastCastSpellPacket(Spell spell) {
-        super(PacketType.CAST_SPELL_BCAST);
+        super();
         this.spell = spell;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.CAST_SPELL_BCAST;
     }
 
     public Spell getSpell() {

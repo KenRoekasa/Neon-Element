@@ -9,11 +9,15 @@ public class ConnectPacket extends Packet {
     // = 0 bytes
 
     protected ConnectPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.CONNECT, sender);
+        super(sender);
     }
 
     public ConnectPacket() {
-        super(PacketType.CONNECT);
+        super();
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.CONNECT;
     }
 
     public byte[] getRawBytes() {

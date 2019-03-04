@@ -77,11 +77,11 @@ public class ServerNetwork extends Thread {
             return;
         }
 
-        if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE)) {
-            System.out.println("Got " + packet.getType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
+        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE)) {
+            System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
         }
 
-        switch(packet.getType()) {
+        switch(packet.getPacketType()) {
             case HELLO:
                 this.dispatcher.receiveHello((HelloPacket) packet);
                 break;

@@ -12,13 +12,17 @@ public class ReadyStatePacket extends Packet {
     private boolean ready;
 
     protected ReadyStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.READY_STATE, sender);
+        super(sender);
         this.ready = getBooleanValue(buffer.get());
     }
 
     public ReadyStatePacket(boolean ready) {
-        super(PacketType.READY_STATE);
+        super();
         this.ready = ready;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.READY_STATE;
     }
 
     public boolean getReady() {

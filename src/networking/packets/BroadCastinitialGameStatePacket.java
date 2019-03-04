@@ -20,17 +20,21 @@ public class BroadCastinitialGameStatePacket extends Packet {
 	public Rectangle map;
 
 	protected BroadCastinitialGameStatePacket(ByteBuffer buffer, Sender sender) {
-		super(PacketType.INITIAL_STATE_BCAST, sender);
+		super(sender);
 		// Todo convert from buffer and set attributes
 	}
 
 	public BroadCastinitialGameStatePacket(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map, ArrayList<PlayerConnection> playersInfo) {
-		super(PacketType.INITIAL_STATE_BCAST);
+		super();
 		this.gameType = gameType;
 		this.ids = ids;
 		this.locations = locations;
 		this.map = map;
 	}
+
+    public PacketType getPacketType() {
+       return PacketType.INITIAL_STATE_BCAST;
+    }
 
 	@Override
 	public byte[] getRawBytes() {

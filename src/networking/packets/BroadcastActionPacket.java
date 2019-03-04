@@ -11,15 +11,19 @@ public class BroadcastActionPacket extends Packet {
     private int id;
 
     protected BroadcastActionPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.ACTION_BCAST, sender);
+        super(sender);
         this.id = buffer.getInt();
         this.playerActionState = Action.getById(buffer.get());
     }
 
     public BroadcastActionPacket(int id, Action playerActionState) {
-        super(PacketType.ACTION_BCAST);
+        super();
         this.id = id;
         this.playerActionState = playerActionState;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.ACTION_BCAST;
     }
 
     public Action getPlayerActionState() {

@@ -51,15 +51,15 @@ public class ClientNetwork {
             return;
         }
 
-        if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
             if (packet.getIpAddress() != null) {
-                System.out.println("Got " + packet.getType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
+                System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
             } else {
-                System.out.println("Got " + packet.getType());
+                System.out.println("Got " + packet.getPacketType());
             }
         }
 
-        switch(packet.getType()) {
+        switch(packet.getPacketType()) {
             case HELLO_ACK:
                 this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
                 break;
@@ -97,7 +97,7 @@ public class ClientNetwork {
             case CAST_SPELL_BCAST:
                 break;
             default:
-                System.out.println("Unhandled packet " + packet.getType());
+                System.out.println("Unhandled packet " + packet.getPacketType());
                 break;
         }
     }

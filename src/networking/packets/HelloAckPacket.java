@@ -16,17 +16,21 @@ public class HelloAckPacket extends Packet {
     private GameType gameType;
 
     protected HelloAckPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.HELLO_ACK, sender);
+        super(sender);
         this.players = buffer.getInt();
         this.maxPlayers = buffer.getInt();
         this.gameType = bufferToGameType(buffer);
     }
 
     public HelloAckPacket(int players, int maxPlayers, GameType gameType) {
-        super(PacketType.HELLO_ACK);
+        super();
         this.players = players;
         this.maxPlayers = maxPlayers;
         this.gameType = gameType;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.HELLO_ACK;
     }
 
     public int getPlayers() {

@@ -12,13 +12,17 @@ public class BroadCastReadyStatePacket extends Packet {
     private boolean ready;
 
     protected BroadCastReadyStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.READY_STATE_BCAST, sender);
+        super(sender);
         this.ready = getBooleanValue(buffer.get());
     }
 
-    public BroadCastReadyStatePacket (boolean ready) {
-        super(PacketType.READY_STATE_BCAST);
+    public BroadCastReadyStatePacket(boolean ready) {
+        super();
         this.ready = ready;
+    }
+
+    public PacketType getPacketType() {
+        return PacketType.READY_STATE_BCAST;
     }
 
     public boolean getReady() {

@@ -14,13 +14,17 @@ public class ActionStatePacket extends Packet {
     private Action action;
 
     protected ActionStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.ACTION_STATE, sender);
+        super(sender);
         this.action = Action.getById(buffer.get());
     }
 
     public ActionStatePacket(Action action) {
-        super(PacketType.ACTION_STATE);
+        super();
         this.action = action;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.ACTION_STATE;
     }
 
     public Action getAction() {

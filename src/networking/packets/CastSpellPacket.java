@@ -14,13 +14,17 @@ public class CastSpellPacket extends Packet {
     private Spell spell;
 
     protected CastSpellPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.CAST_SPELL, sender);
+        super(sender);
         this.spell = Spell.getById(buffer.get());
     }
 
     public CastSpellPacket(Spell spell) {
-        super(PacketType.CAST_SPELL);
+        super();
         this.spell = spell;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.CAST_SPELL;
     }
 
     public Spell getSpell() {

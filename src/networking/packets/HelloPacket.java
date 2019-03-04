@@ -10,11 +10,15 @@ public class HelloPacket extends Packet {
     // = 0 bytes
 
     protected HelloPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.HELLO, sender);
+        super(sender);
     }
 
     public HelloPacket() {
-        super(PacketType.HELLO);
+        super();
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.HELLO;
     }
 
     public byte[] getRawBytes() {

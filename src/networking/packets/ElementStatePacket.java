@@ -14,13 +14,17 @@ public class ElementStatePacket extends Packet {
     private Elements playerElementState;
 
     protected ElementStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.ELEMENT_STATE, sender);
+        super(sender);
         this.playerElementState = Elements.getById(buffer.get());
     }
 
     public ElementStatePacket(Elements playerElementState) {
-        super(PacketType.ELEMENT_STATE);
+        super();
         this.playerElementState = playerElementState;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.ELEMENT_STATE;
     }
 
     public Elements getPlayerElementState() {

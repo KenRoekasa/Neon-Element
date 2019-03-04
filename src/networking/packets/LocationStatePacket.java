@@ -13,15 +13,19 @@ public class LocationStatePacket extends Packet {
     private double y;
 
     protected LocationStatePacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.LOCATION_STATE, sender);
+        super(sender);
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
     }
 
     public LocationStatePacket(double x, double y) {
-        super(PacketType.LOCATION_STATE);
+        super();
         this.x = x;
         this.y = y;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.LOCATION_STATE;
     }
 
     public double getX() {

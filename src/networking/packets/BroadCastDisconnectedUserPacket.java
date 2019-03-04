@@ -10,11 +10,15 @@ public class BroadCastDisconnectedUserPacket extends Packet {
     // = 0 bytes
 
     protected BroadCastDisconnectedUserPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.DISCONNECT_BCAST, sender);
+        super(sender);
     }
 
     public BroadCastDisconnectedUserPacket() {
-        super(PacketType.DISCONNECT_BCAST);
+        super();
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.DISCONNECT_BCAST;
     }
 
     public byte[] getRawBytes() {

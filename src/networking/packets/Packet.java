@@ -83,20 +83,17 @@ public abstract class Packet {
     }
 
     private PacketDirection direction;
-    private PacketType type;
 
     // Only set for incoming packets
     private Sender sender;
 
-    protected Packet(PacketType type, Sender sender) {
+    protected Packet(Sender sender) {
         this.direction = PacketDirection.INCOMING;
-        this.type = type;
         this.sender = sender;
     }
 
-    protected Packet(PacketType type) {
+    protected Packet() {
     	this.direction = PacketDirection.OUTGOING;
-        this.type = type;
     }
 
     public abstract byte[] getRawBytes();
@@ -105,9 +102,7 @@ public abstract class Packet {
         return this.direction;
     }
 
-    public PacketType getType() {
-        return this.type;
-    }
+    public abstract PacketType getPacketType();
 
     public InetAddress getIpAddress() {
         return this.sender.getIpAddress();
@@ -119,7 +114,7 @@ public abstract class Packet {
 
     protected ByteBuffer getByteBuffer() {
         ByteBuffer buffer = ByteBuffer.allocate(Packet.PACKET_BYTES_LENGTH);
-        buffer.put(this.type.getId());
+        buffer.put(this.getPacketType().getId());
         return buffer;
     }
 

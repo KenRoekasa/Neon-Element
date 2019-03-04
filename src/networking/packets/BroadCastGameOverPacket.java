@@ -12,13 +12,17 @@ public class BroadCastGameOverPacket extends Packet {
     private boolean gameOver;
 
     protected BroadCastGameOverPacket(ByteBuffer buffer, Sender sender) {
-        super(PacketType.GAME_OVER_BCAST, sender);
+        super(sender);
         this.gameOver = getBooleanValue(buffer.get());
     }
 
     public BroadCastGameOverPacket(boolean gameOver) {
-        super(PacketType.GAME_OVER_BCAST);
+        super();
         this.gameOver = gameOver;
+    }
+
+    public PacketType getPacketType() {
+       return PacketType.GAME_OVER_BCAST;
     }
 
     public boolean getGameOverVar() {
