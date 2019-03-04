@@ -9,7 +9,6 @@ import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.GameOverController;
 import graphics.userInterface.controllers.HUDController;
 import graphics.userInterface.controllers.PauseController;
-import graphics.userInterface.controllers.UIController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +52,7 @@ public class GameClient {
         this.gameState = gameState;
 
         // load hud
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
         //Pane hudPane = new Pane();
 
         try {
@@ -206,6 +205,7 @@ public class GameClient {
                     node.setPrefWidth(stageSize.getWidth());
                     hudPane.getChildren().add(node);
                     node.setBackground(Background.EMPTY);
+
                     PauseController controller = loader.getController();
                     controller.setHudPane(hudPane);
                     controller.setNode(node);
@@ -226,8 +226,4 @@ public class GameClient {
         });
     }
 
-    private void swapElement(){
-        InputHandler.handleKeyboardInput(gameState.getPlayer(),input,gameState.getMap(),primaryStage);
-
-    }
 }
