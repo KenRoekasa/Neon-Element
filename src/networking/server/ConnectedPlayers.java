@@ -10,21 +10,15 @@ import javafx.geometry.Point2D;
 public class ConnectedPlayers {
 
     private ArrayList<PlayerConnection> connections;
-	private ArrayList<Integer> playerIds;
-	private ArrayList<Point2D> playerLocations;
 
     ConnectedPlayers() {
         this.connections = new ArrayList<>();
-		this.playerIds = new ArrayList<>();
-		this.playerLocations = new ArrayList<>();
     }
 
     void addConnection(Player player, InetAddress ipAddress, int port) {
         PlayerConnection conn = new PlayerConnection(player, ipAddress, port);
 
         this.connections.add(conn);
-
-        this.playerIds.add(player.getId());
     }
 
     ArrayList<PlayerConnection> getConnections() {
