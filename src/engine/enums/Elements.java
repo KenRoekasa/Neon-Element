@@ -1,6 +1,8 @@
 package engine.enums;
 
-public enum Elements {
+import utils.LookupableById;
+
+public enum Elements implements LookupableById {
     //subject to change
     FIRE(0), WATER(1), EARTH(2), AIR(3);
 
@@ -15,11 +17,6 @@ public enum Elements {
     }
 
     public static Elements getById(byte id) {
-        for (Elements t : Elements.values()) {
-            if (t.id == id) {
-                return t;
-            }
-        }
-        return null;
+        return LookupableById.lookup(Elements.class, id);
     }
 }

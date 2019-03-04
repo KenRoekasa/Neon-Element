@@ -2,6 +2,8 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
+import utils.LookupableById;
+
 public class ConnectAckPacket extends Packet {
 
     // Bytes required for packet data.
@@ -12,7 +14,7 @@ public class ConnectAckPacket extends Packet {
     private int playerId;
     private Status status;
 
-    public static enum Status {
+    public static enum Status implements LookupableById {
         SUC_CONNECTED((byte) 0x00),
         ERR_GAME_STARTED((byte) 0x01),
         ERR_MAX_PLAYERS((byte) 0x02);
@@ -23,17 +25,12 @@ public class ConnectAckPacket extends Packet {
             this.id = id;
         }
 
-        protected byte getId() {
+        public byte getId() {
             return this.id;
         }
 
         public static Status getTypeFromId(byte id) {
-            for (Status t : Status.values()) {
-                if (t.id == id) {
-                    return t;
-                }
-            }
-            return null;
+            return LookupableById.lookup(Status.class, id);
         }
     }
 

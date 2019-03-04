@@ -4,6 +4,8 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.function.BiFunction;
 
+import utils.LookupableById;
+
 public abstract class Packet {
 
     /** The number of bytes contained in a packet including the packet ID. */
@@ -11,7 +13,7 @@ public abstract class Packet {
 
     public static enum PacketDirection { INCOMING, OUTGOING }
 
-    public static enum PacketType {
+    public static enum PacketType implements LookupableById {
         // Client -> Server                                     // Server -> Client
         HELLO          ((byte) 0x00, HelloPacket::new),         HELLO_ACK            ((byte) 0x01, HelloAckPacket::new),
         CONNECT        ((byte) 0x02, ConnectPacket::new),       CONNECT_ACK          ((byte) 0x03, ConnectAckPacket::new),
@@ -45,7 +47,7 @@ public abstract class Packet {
             this.constructor = constructor;
         }
 
-        protected byte getId() {
+        public byte getId() {
             return this.id;
         }
 
@@ -53,13 +55,8 @@ public abstract class Packet {
             return this.constructor.apply(buffer, sender);
         }
 
-        public static PacketType getTypeFromId(byte id) {
-            for (PacketType t : PacketType.values()) {
-                if (t.id == id) {
-                    return t;
-                }
-            }
-            return null;
+        public static PacketType getById(byte id) {
+            return LookupableById.lookup(PacketType.class, id);
         }
 
     }
@@ -132,7 +129,7 @@ public abstract class Packet {
         buffer.put(data);
         buffer.flip();
 
-        PacketType type = PacketType.getTypeFromId(id);
+        PacketType type = PacketType.getById(id);
         Sender sender = new Sender(ipAddress, port);
 
         if (type != null) {

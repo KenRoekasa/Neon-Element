@@ -1,10 +1,12 @@
 package engine.gameTypes;
 
+import utils.LookupableById;
+
 public abstract class GameType {
 
     private Type type;
 
-    public static enum Type {
+    public static enum Type implements LookupableById {
         FirstToXKills(1), Timed(2);
 
         private byte id;
@@ -18,12 +20,7 @@ public abstract class GameType {
         }
 
         public static Type getById(byte id) {
-            for (Type t : Type.values()) {
-                if (t.id == id) {
-                    return t;
-                }
-            }
-            return null;
+            return LookupableById.lookup(Type.class, id);
         }
     }
 

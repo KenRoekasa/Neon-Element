@@ -1,6 +1,8 @@
 package engine.enums;
 
-public enum Spell {
+import utils.LookupableById;
+
+public enum Spell implements LookupableById {
     LIGHT(0), HEAVY(1), SHIELD(2);
 
     private byte id;
@@ -14,11 +16,6 @@ public enum Spell {
     }
 
     public static Spell getById(byte id) {
-        for (Spell t : Spell.values()) {
-            if (t.id == id) {
-                return t;
-            }
-        }
-        return null;
+        return LookupableById.lookup(Spell.class, id);
     }
 }

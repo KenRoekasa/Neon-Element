@@ -1,6 +1,8 @@
 package engine.enums;
 
-public enum PowerUpType {
+import utils.LookupableById;
+
+public enum PowerUpType implements LookupableById {
     HEAL(1), SPEED(2), DAMAGE(3);
 
     private byte id;
@@ -14,12 +16,7 @@ public enum PowerUpType {
     }
 
     public static PowerUpType getById(byte id) {
-        for (PowerUpType t : PowerUpType.values()) {
-            if (t.id == id) {
-                return t;
-            }
-        }
-        return null;
+        return LookupableById.lookup(PowerUpType.class, id);
     }
 
 }
