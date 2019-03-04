@@ -3,6 +3,7 @@ package networking;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import networking.packets.Packet;
 
@@ -27,14 +28,14 @@ public abstract class NetworkDispatcher {
         // this.multicastSocket.close();
     }
 
-    protected void send(Packet packet) {
+    protected void send(Packet packet, InetAddress ipAddress, int port) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
 
-            DatagramPacket datagram = new DatagramPacket(data, data.length, packet.getIpAddress(), packet.getPort());
+            DatagramPacket datagram = new DatagramPacket(data, data.length, ipAddress, port);
 
             if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE)) {
-                System.out.println("Sent " + packet.getType() + " to " + packet.getIpAddress() + ":" + packet.getPort());
+                System.out.println("Sent " + packet.getType() + " to " + ipAddress + ":" + port);
             }
 
             try {

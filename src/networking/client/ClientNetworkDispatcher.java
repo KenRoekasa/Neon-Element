@@ -176,8 +176,8 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             e.printStackTrace();
         }
     }
-    
-   
+
+
 
 	public void recievePlayerActionBroadCast(BroadcastActionPacket packet) {
 		// TODO Auto-generated method stub
@@ -199,8 +199,8 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 	            		System.out.println("Player does not exists");
 	            }
 	        }
-		 
-		
+
+
 	}
 
 	public void recieveElementBroadcast(BroadCastElementStatePacket packet) {
@@ -223,7 +223,10 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
             		System.out.println("Player does not exists");
             }
         }
-		
-	}
+    }
+
+    private void send(Packet packet) {
+        super.send(packet, serverAddr, Constants.SERVER_LISTENING_PORT);
+    }
 
 }

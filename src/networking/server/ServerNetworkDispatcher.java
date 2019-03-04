@@ -34,11 +34,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.playerIds = new ArrayList<>();
 		this.playerLocations = new ArrayList<>();
 
-	}	
- 
-
-
-
+	}
 
 	protected void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
@@ -85,7 +81,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		}
 
 		Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
-		this.send(response);
+		this.send(response, packet.getIpAddress(), packet.getPort());
 
 		if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
 			Packet connect = new BroadCastConnectedUserPacket(playerId);
@@ -93,7 +89,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 			if (connections.size() == expectedPlayersToJoin) {
 				Rectangle map = gameState.getMap();
-				
+
 				for(int i = 0; i < connections.size(); i++) {
 
 			            if(i == 0) {
@@ -105,14 +101,10 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 			            } else if ( i == 3) {
 			            		gameState.getAllPlayers().get(i).setLocation(new Point2D(map.getHeight() - map.getHeight()/10, 0 + map.getHeight()/10));
 			            }
-			            
-			            playerLocations.add(gameState.getAllPlayers().get(i).getLocation());
-			            
 
+			            playerLocations.add(gameState.getAllPlayers().get(i).getLocation());
 				}
-				
-				
-				
+
 				this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
 				Packet gameStatePacket = new BroadCastinitialGameStatePacket(gameState.getGameType(), playerIds, playerLocations
 						,this.gameState.getMap());
@@ -122,13 +114,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 				this.broadcastGameStarted();
 			}
 		}
-		
-
-	    }
-
-       
-
-	
+	}
 
 	protected void broadcastGameStarted() {
 		Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
@@ -195,15 +181,13 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
 		Packet response = new DisconnectAckPacket(packet.getIpAddress(), packet.getPort(), true);
-		this.send(response);
+		this.send(response, packet.getIpAddress(), packet.getPort());
 	}
 
 	private PlayerConnection getPlayerConnection(Packet packet) {
 		return this.connections.stream().filter(c -> c.is(packet.getIpAddress(), packet.getPort())).findFirst()
 				.orElse(null);
 	}
-
-
 
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
@@ -227,5 +211,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
+	private void send(Packet packet, PlayerConnection conn) {
+		super.send(packet, conn.getIpAddress(), conn.getPort());
+	}
 
 }
