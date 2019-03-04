@@ -1,5 +1,6 @@
 package engine.enums;
 
+import utils.InvalidEnumId;
 import utils.LookupableById;
 
 public enum Spell implements LookupableById {
@@ -15,7 +16,7 @@ public enum Spell implements LookupableById {
         return this.id;
     }
 
-    public static Spell getById(byte id) {
+    public static Spell getById(byte id) throws InvalidEnumId {
         return LookupableById.lookup(Spell.class, id);
     }
 }

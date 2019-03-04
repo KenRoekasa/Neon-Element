@@ -14,7 +14,7 @@ public class BroadCastElementStatePacket extends Packet {
     private Elements playerElementState;
     private int id;
 
-    protected BroadCastElementStatePacket(ByteBuffer buffer, Sender sender) {
+    protected BroadCastElementStatePacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.id = buffer.getInt();
         this.playerElementState = Elements.getById(buffer.get());

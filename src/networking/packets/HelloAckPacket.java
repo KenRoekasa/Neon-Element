@@ -15,7 +15,7 @@ public class HelloAckPacket extends Packet {
     private int maxPlayers;
     private GameType gameType;
 
-    protected HelloAckPacket(ByteBuffer buffer, Sender sender) {
+    protected HelloAckPacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.players = buffer.getInt();
         this.maxPlayers = buffer.getInt();
@@ -45,7 +45,7 @@ public class HelloAckPacket extends Packet {
         return this.gameType;
     }
 
-    private static GameType bufferToGameType(ByteBuffer buffer) {
+    private static GameType bufferToGameType(ByteBuffer buffer) throws Exception {
         byte id = buffer.get();
         GameType.Type type = GameType.Type.getById(id);
 

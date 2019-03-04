@@ -16,7 +16,7 @@ public class BroadCastPowerUpPacket extends Packet {
     private double y;
     private PowerUpType type;
 
-	protected BroadCastPowerUpPacket(ByteBuffer buffer, Sender sender) {
+	protected BroadCastPowerUpPacket(ByteBuffer buffer, Sender sender) throws Exception {
 		super(sender);
         this.powerUpId = buffer.getInt();
         this.x = buffer.getDouble();

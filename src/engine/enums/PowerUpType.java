@@ -1,5 +1,6 @@
 package engine.enums;
 
+import utils.InvalidEnumId;
 import utils.LookupableById;
 
 public enum PowerUpType implements LookupableById {
@@ -15,7 +16,7 @@ public enum PowerUpType implements LookupableById {
         return this.id;
     }
 
-    public static PowerUpType getById(byte id) {
+    public static PowerUpType getById(byte id) throws InvalidEnumId {
         return LookupableById.lookup(PowerUpType.class, id);
     }
 

@@ -13,7 +13,7 @@ public class CastSpellPacket extends Packet {
 
     private Spell spell;
 
-    protected CastSpellPacket(ByteBuffer buffer, Sender sender) {
+    protected CastSpellPacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.spell = Spell.getById(buffer.get());
     }

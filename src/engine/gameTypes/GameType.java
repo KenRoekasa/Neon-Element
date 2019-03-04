@@ -1,5 +1,6 @@
 package engine.gameTypes;
 
+import utils.InvalidEnumId;
 import utils.LookupableById;
 
 public abstract class GameType {
@@ -19,7 +20,7 @@ public abstract class GameType {
             return this.id;
         }
 
-        public static Type getById(byte id) {
+        public static Type getById(byte id) throws InvalidEnumId {
             return LookupableById.lookup(Type.class, id);
         }
     }

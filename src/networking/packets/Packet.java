@@ -2,8 +2,8 @@ package networking.packets;
 
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
-import java.util.function.BiFunction;
 
+import utils.InvalidEnumId;
 import utils.LookupableById;
 
 public abstract class Packet {
@@ -12,6 +12,11 @@ public abstract class Packet {
     public static final int PACKET_BYTES_LENGTH = 128;
 
     public static enum PacketDirection { INCOMING, OUTGOING }
+
+    @FunctionalInterface
+    private static interface PacketConstructor {
+        Packet apply(ByteBuffer buffer, Sender sender) throws Exception;
+    }
 
     public static enum PacketType implements LookupableById {
         // Client -> Server                                     // Server -> Client
@@ -40,9 +45,9 @@ public abstract class Packet {
         GAME_OVER_BCAST      ((byte) 0xFF, BroadCastGameOverPacket::new);
 
         private byte id;
-        private BiFunction<ByteBuffer, Sender, Packet> constructor;
+        private PacketConstructor constructor;
 
-        private PacketType(byte id, BiFunction<ByteBuffer, Sender, Packet> constructor) {
+        private PacketType(byte id, PacketConstructor constructor) {
             this.id = id;
             this.constructor = constructor;
         }
@@ -51,11 +56,11 @@ public abstract class Packet {
             return this.id;
         }
 
-        protected Packet create(ByteBuffer buffer, Sender sender) {
+        protected Packet create(ByteBuffer buffer, Sender sender) throws Exception {
             return this.constructor.apply(buffer, sender);
         }
 
-        public static PacketType getById(byte id) {
+        public static PacketType getById(byte id) throws InvalidEnumId {
             return LookupableById.lookup(PacketType.class, id);
         }
 
@@ -129,14 +134,18 @@ public abstract class Packet {
         buffer.put(data);
         buffer.flip();
 
-        PacketType type = PacketType.getById(id);
         Sender sender = new Sender(ipAddress, port);
 
-        if (type != null) {
-            return type.create(buffer, sender);
-        }
+        try {
+            PacketType type = LookupableById.lookup(PacketType.class, id);
 
-        return null;
+            Packet packet = type.create(buffer, sender);
+
+            return packet;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static final byte getByteValue(boolean b) {

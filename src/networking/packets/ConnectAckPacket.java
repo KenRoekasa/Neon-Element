@@ -2,6 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
+import utils.InvalidEnumId;
 import utils.LookupableById;
 
 public class ConnectAckPacket extends Packet {
@@ -17,7 +18,8 @@ public class ConnectAckPacket extends Packet {
     public static enum Status implements LookupableById {
         SUC_CONNECTED((byte) 0x00),
         ERR_GAME_STARTED((byte) 0x01),
-        ERR_MAX_PLAYERS((byte) 0x02);
+        ERR_MAX_PLAYERS((byte) 0x02),
+        ERR_UNKOWN((byte) 0xFF);
 
         private byte id;
 
@@ -29,7 +31,7 @@ public class ConnectAckPacket extends Packet {
             return this.id;
         }
 
-        public static Status getTypeFromId(byte id) {
+        public static Status getTypeFromId(byte id) throws InvalidEnumId {
             return LookupableById.lookup(Status.class, id);
         }
     }
@@ -37,7 +39,11 @@ public class ConnectAckPacket extends Packet {
     protected ConnectAckPacket(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.playerId = buffer.getInt();
-        this.status = Status.getTypeFromId(buffer.get());
+        try {
+            this.status = Status.getTypeFromId(buffer.get());
+        } catch (InvalidEnumId e) {
+            this.status = Status.ERR_UNKOWN;
+        }
     }
 
     public ConnectAckPacket(int playerId, Status status) {

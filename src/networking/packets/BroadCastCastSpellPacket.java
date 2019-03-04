@@ -8,7 +8,7 @@ import engine.enums.Spell;
 public class BroadCastCastSpellPacket extends Packet {
 	Spell spell;
 
-	protected BroadCastCastSpellPacket(ByteBuffer buffer, Sender sender) {
+	protected BroadCastCastSpellPacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.spell = Spell.getById(buffer.get());
     }

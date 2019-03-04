@@ -70,6 +70,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         switch (packet.getStatus()) {
             case ERR_GAME_STARTED:
             case ERR_MAX_PLAYERS:
+            case ERR_UNKOWN:
                 System.out.println("Error connecting");
                 break;
             case SUC_CONNECTED:

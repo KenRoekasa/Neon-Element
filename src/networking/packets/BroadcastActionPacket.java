@@ -10,7 +10,7 @@ public class BroadcastActionPacket extends Packet {
 
     private int id;
 
-    protected BroadcastActionPacket(ByteBuffer buffer, Sender sender) {
+    protected BroadcastActionPacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.id = buffer.getInt();
         this.playerActionState = Action.getById(buffer.get());

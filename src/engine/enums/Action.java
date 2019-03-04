@@ -1,5 +1,6 @@
 package engine.enums;
 
+import utils.InvalidEnumId;
 import utils.LookupableById;
 
 public enum Action implements LookupableById {
@@ -15,7 +16,7 @@ public enum Action implements LookupableById {
         return this.id;
     }
 
-    public static Action getById(byte id) {
+    public static Action getById(byte id) throws InvalidEnumId {
         return LookupableById.lookup(Action.class, id);
     }
 

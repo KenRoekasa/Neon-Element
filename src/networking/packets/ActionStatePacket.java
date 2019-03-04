@@ -13,7 +13,7 @@ public class ActionStatePacket extends Packet {
 
     private Action action;
 
-    protected ActionStatePacket(ByteBuffer buffer, Sender sender) {
+    protected ActionStatePacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.action = Action.getById(buffer.get());
     }

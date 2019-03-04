@@ -3,6 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
+import utils.InvalidEnumId;
 
 public class ElementStatePacket extends Packet {
 
@@ -13,7 +14,7 @@ public class ElementStatePacket extends Packet {
 
     private Elements playerElementState;
 
-    protected ElementStatePacket(ByteBuffer buffer, Sender sender) {
+    protected ElementStatePacket(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.playerElementState = Elements.getById(buffer.get());
     }
