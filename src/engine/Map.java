@@ -1,3 +1,4 @@
+package engine;
 import engine.entities.Wall;
 import javafx.scene.shape.Rectangle;
 
@@ -13,7 +14,8 @@ public class Map {
         this.ground = ground;
         this.walls = walls;
     }
-    
+
+
 
 
 }
