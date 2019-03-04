@@ -1,5 +1,7 @@
 package engine.calculations;
 
+import static engine.gameTypes.GameType.Type.Hill;
+
 import java.util.ArrayList;
 
 import engine.ScoreBoard;
@@ -10,6 +12,8 @@ import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
+import engine.gameTypes.GameType;
+import engine.gameTypes.HillGame;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -22,20 +26,49 @@ public class AiCalculations {
 	private Rectangle map;	
 	private Player player;
 	private ArrayList<PowerUp> powerups;
-	ScoreBoard scoreboard;
-	float startTime;
+	private GameType gameType;
+	private ScoreBoard scoreboard;
+	private float startTime;
+	private double circleX;
+	private double circleY;
+	private Point2D circleCentre;
+	private double circleRadius;
 	
-	public AiCalculations(AiController aiCon,Rectangle map, ScoreBoard scoreboard) {
+	public AiCalculations(AiController aiCon,Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		this.aiCon = aiCon;
 		this.map = map;
 		this.scoreboard = scoreboard;
+		this.gameType = gameType;
+		
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
 		powerups = new ArrayList<>();
 		startTime = System.nanoTime()/1000000000;
 		
+		setCircleCoordination();
 	}
 	
+	private void setCircleCoordination() {
+		if(gameType.getType().equals(Hill)) {
+			HillGame hillGame = (HillGame) gameType;
+			circleX = hillGame.getHill().getCenterX();
+			circleY = hillGame.getHill().getCenterY();
+			circleCentre = new Point2D(circleX,circleY);
+			circleRadius = hillGame.getHill().getRadius();
+		}
+	}
+	
+	public Point2D getHillCentreLocation() {
+		return circleCentre; 
+	}
+	
+	public boolean onHill(Point2D loc) {
+		double locX = loc.getX();
+		double locY = loc.getY();
+		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
+		return distance < circleRadius;
+	}
+
 	public float secondsElapsed() {
 		float endTime = System.nanoTime()/1000000000;
 		float elapsedTime = endTime - startTime;

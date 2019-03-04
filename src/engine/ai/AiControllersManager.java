@@ -8,6 +8,7 @@ import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.enums.AiType;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;
 
 public class AiControllersManager {
@@ -17,18 +18,19 @@ public class AiControllersManager {
 	private Rectangle map;
 	private Player player;
 	private ScoreBoard scoreboard;
-	
+	private GameType gameType;
 
-	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, Player player, ScoreBoard sb) {
+	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, Player player, ScoreBoard sb, GameType gameType) {
 		controllers = new ArrayList<>();
 		this.objects = objects;
         this.map = map;
         this.player = player;
+        this.gameType = gameType;
         scoreboard = sb;
 	}
 	
 	public Player addAi(AiType type) {
-		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, player,type, scoreboard));
+		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, player,type, scoreboard, gameType));
 		return controllers.get(controllers.size()-1).getAiPlayer();
 	}
 	
