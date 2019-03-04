@@ -3,9 +3,10 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Spell;
+import networking.client.ClientNetworkDispatcher;
 
 //This is a way to hold the information
-public class BroadCastCastSpellPacket extends Packet {
+public class BroadCastCastSpellPacket extends Packet.PacketToClient {
 	Spell spell;
 
 	protected BroadCastCastSpellPacket(ByteBuffer buffer, Sender sender) throws Exception {
@@ -26,6 +27,12 @@ public class BroadCastCastSpellPacket extends Packet {
         return this.spell;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         //this method getByteBuffer() already places the id of the spell into the first position of the buffer array.

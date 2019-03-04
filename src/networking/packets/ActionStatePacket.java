@@ -3,8 +3,9 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Action;
+import networking.server.ServerNetworkDispatcher;
 
-public class ActionStatePacket extends Packet {
+public class ActionStatePacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -31,6 +32,12 @@ public class ActionStatePacket extends Packet {
         return this.action;
     }
 
+    @Override
+    public void handle(ServerNetworkDispatcher dispatcher) {
+        dispatcher.receiveActionState(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.put(this.action.getId());

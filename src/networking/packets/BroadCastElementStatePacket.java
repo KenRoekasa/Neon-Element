@@ -3,8 +3,9 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
+import networking.client.ClientNetworkDispatcher;
 
-public class BroadCastElementStatePacket extends Packet {
+public class BroadCastElementStatePacket extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -38,6 +39,12 @@ public class BroadCastElementStatePacket extends Packet {
     		return id;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        dispatcher.receiveElementBroadcast(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.id);

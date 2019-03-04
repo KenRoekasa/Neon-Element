@@ -43,7 +43,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
-    protected void receiveHelloAck(HelloAckPacket packet) {
+    public void receiveHelloAck(HelloAckPacket packet) {
         int players = packet.getPlayers();
         int maxPlayers = packet.getMaxPlayers();
         GameType gameType = packet.getGameType();
@@ -59,14 +59,12 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
-    void receiveGameStart(BroadCastGameStartPacket packet) {
+    public void receiveGameStart(BroadCastGameStartPacket packet) {
         // todo include gamestate in this packet
         this.gameState.start();
-
-
     }
 
-    protected void receiveConnectAck(ConnectAckPacket packet) {
+    public void receiveConnectAck(ConnectAckPacket packet) {
         switch (packet.getStatus()) {
             case ERR_GAME_STARTED:
             case ERR_MAX_PLAYERS:
@@ -80,19 +78,19 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
-    protected void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
+    public void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
         Player player = new Player(ObjectType.PLAYER, packet.getId());
         //todo this is probably broken
         this.gameState.getAllPlayers().add(player);
         this.gameState.getObjects().add(player);
     }
 
-    protected void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
+    public void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
         PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY(), packet.getPowerUpType());
         this.gameState.getObjects().add(powerUp);
     }
 
-    protected void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
+    public void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
         Player clientPlayer = new Player(ObjectType.PLAYER);
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         LinkedBlockingQueue<Player> deadPlayers = new LinkedBlockingQueue<Player>();
@@ -122,7 +120,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
     }
 
-    protected void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
+    public void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
@@ -175,7 +173,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
-	public void recievePlayerActionBroadCast(BroadcastActionPacket packet) {
+	public void receivePlayerActionBroadCast(BroadcastActionPacket packet) {
 		// TODO Auto-generated method stub
 		 if (packet.getId() != this.gameState.getPlayer().getId()) {
 	            int id = packet.getId();
@@ -197,7 +195,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 	        }
 	}
 
-	public void recieveElementBroadcast(BroadCastElementStatePacket packet) {
+	public void receiveElementBroadcast(BroadCastElementStatePacket packet) {
 		// TODO Auto-generated method stub
 		if (packet.getId()!= this.gameState.getPlayer().getId()) {
             int id = packet.getId();

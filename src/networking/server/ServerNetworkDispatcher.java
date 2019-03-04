@@ -36,7 +36,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 	}
 
-	protected void receiveHello(HelloPacket packet) {
+	public void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
 		// int players = this.gameState.getAllPlayers().size();
 		// int maxPlayers = this.gameState.getMaxPlayers();
@@ -47,7 +47,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		// this.send(response);
 	}
 
-	protected void receiveConnect(ConnectPacket packet) {
+	public void receiveConnect(ConnectPacket packet) {
 		boolean isStarted = this.gameState.isStarted();
 		boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
 		System.out.println("Does the game have space: " + hasSpace);
@@ -120,7 +120,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.broadcast(packet);
 	}
 
-	protected void receiveLocationState(LocationStatePacket packet) {
+	public void receiveLocationState(LocationStatePacket packet) {
 		PlayerConnection playerConn = getPlayerConnection(packet);
 
 		if (playerConn != null) {
@@ -164,7 +164,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.broadcast(packet);
 	}
 
-	protected void receiveActionState(ActionStatePacket packet) {
+	public void receiveActionState(ActionStatePacket packet) {
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 	    playerConn.getPlayer().doAction(packet.getAction());
 	}

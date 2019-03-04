@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class LocationStatePacket extends Packet {
+import networking.server.ServerNetworkDispatcher;
+
+public class LocationStatePacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -36,6 +38,12 @@ public class LocationStatePacket extends Packet {
         return this.y;
     }
 
+    @Override
+    public void handle(ServerNetworkDispatcher dispatcher) {
+        dispatcher.receiveLocationState(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putDouble(this.x);

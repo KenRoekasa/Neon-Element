@@ -1,10 +1,11 @@
 package networking.packets;
 
 import engine.enums.Action;
+import networking.client.ClientNetworkDispatcher;
 
 import java.nio.ByteBuffer;
 
-public class BroadcastActionPacket extends Packet {
+public class BroadcastActionPacket extends Packet.PacketToClient {
 
     private Action playerActionState;
 
@@ -34,6 +35,10 @@ public class BroadcastActionPacket extends Packet {
         return id;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        dispatcher.receivePlayerActionBroadCast(this);
+    }
 
     @Override
     public byte[] getRawBytes() {

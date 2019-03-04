@@ -3,8 +3,9 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.PowerUpType;
+import networking.client.ClientNetworkDispatcher;
 
-public class BroadCastPowerUpPacket extends Packet {
+public class BroadCastPowerUpPacket extends Packet.PacketToClient {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -50,6 +51,11 @@ public class BroadCastPowerUpPacket extends Packet {
 
     public PowerUpType getPowerUpType() {
         return this.type;
+    }
+
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        dispatcher.receivePowerUpBroadcast(this);
     }
 
     @Override

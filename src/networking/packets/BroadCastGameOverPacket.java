@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class BroadCastGameOverPacket extends Packet {
+import networking.client.ClientNetworkDispatcher;
+
+public class BroadCastGameOverPacket extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -29,6 +31,12 @@ public class BroadCastGameOverPacket extends Packet {
         return this.gameOver;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         	//this identifier has been placed twice

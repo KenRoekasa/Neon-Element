@@ -3,8 +3,9 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.gameTypes.*;
+import networking.client.ClientNetworkDispatcher;
 
-public class HelloAckPacket extends Packet {
+public class HelloAckPacket extends Packet.PacketToClient {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -71,6 +72,11 @@ public class HelloAckPacket extends Packet {
             case Timed:
                 buffer.putLong(((TimedGame) gameType).getDuration());
         }
+    }
+
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        dispatcher.receiveHelloAck(this);
     }
 
     @Override

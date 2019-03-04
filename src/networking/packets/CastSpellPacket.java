@@ -3,8 +3,9 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Spell;
+import networking.server.ServerNetworkDispatcher;
 
-public class CastSpellPacket extends Packet {
+public class CastSpellPacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -31,6 +32,12 @@ public class CastSpellPacket extends Packet {
         return this.spell;
     }
 
+    @Override
+    public void handle(ServerNetworkDispatcher dispatcher) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         //this method getByteBuffer() already places the id of the spell into the first position of the buffer array.

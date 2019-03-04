@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class BroadCastConnectedUserPacket extends Packet {
+import networking.client.ClientNetworkDispatcher;
+
+public class BroadCastConnectedUserPacket extends Packet.PacketToClient {
 
 	private int playerId;
 
@@ -23,6 +25,11 @@ public class BroadCastConnectedUserPacket extends Packet {
 
 	public int getId() {
 	    return this.playerId;
+	}
+
+	@Override
+	public void handle(ClientNetworkDispatcher dispatcher) {
+		// TODO handle packet
 	}
 
 	@Override

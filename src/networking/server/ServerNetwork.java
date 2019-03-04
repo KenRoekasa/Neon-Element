@@ -75,29 +75,15 @@ public class ServerNetwork extends Thread {
         if (packet == null) {
             System.out.println("Invalid packet recieved");
             return;
+        } else if (!(packet instanceof Packet.PacketToServer)) {
+            System.out.println(packet.getPacketType() + " received by server which should not be sent to it.");
+            return;
         }
 
         if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE)) {
             System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
         }
 
-        switch(packet.getPacketType()) {
-            case HELLO:
-                this.dispatcher.receiveHello((HelloPacket) packet);
-                break;
-            case CONNECT:
-                this.dispatcher.receiveConnect((ConnectPacket) packet);
-                break;
-            case LOCATION_STATE:
-                this.dispatcher.receiveLocationState((LocationStatePacket) packet);
-                break;
-            case ACTION_STATE:
-                this.dispatcher.receiveActionState((ActionStatePacket) packet);
-                break;
-            case ELEMENT_STATE:
-                this.dispatcher.receiveElementState((ElementStatePacket) packet);
-            default:
-                // TODO: log invalid packet
-        }
+        ((Packet.PacketToServer) packet).handle(this.dispatcher);
     }
 }

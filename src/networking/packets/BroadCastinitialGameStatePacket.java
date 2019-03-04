@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
+import networking.client.ClientNetworkDispatcher;
 import networking.server.PlayerConnection;
 
-public class BroadCastinitialGameStatePacket extends Packet {
+public class BroadCastinitialGameStatePacket extends Packet.PacketToClient {
 
 	public GameType gameType;
 	public ArrayList<Integer> ids;
@@ -34,7 +35,12 @@ public class BroadCastinitialGameStatePacket extends Packet {
 
     public PacketType getPacketType() {
        return PacketType.INITIAL_STATE_BCAST;
-    }
+	}
+
+	@Override
+	public void handle(ClientNetworkDispatcher dispatcher) {
+		dispatcher.receiveInitialGameStartStateBroadcast(this);
+	}
 
 	@Override
 	public byte[] getRawBytes() {

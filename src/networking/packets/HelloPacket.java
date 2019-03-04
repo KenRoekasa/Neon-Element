@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class HelloPacket extends Packet {
+import networking.server.ServerNetworkDispatcher;
+
+public class HelloPacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -21,6 +23,12 @@ public class HelloPacket extends Packet {
        return PacketType.HELLO;
     }
 
+    @Override
+    public void handle(ServerNetworkDispatcher dispatcher) {
+        dispatcher.receiveHello(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         return Packet.getBytesFromBuffer(buffer);

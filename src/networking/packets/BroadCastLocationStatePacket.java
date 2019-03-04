@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class BroadCastLocationStatePacket extends Packet {
+import networking.client.ClientNetworkDispatcher;
+
+public class BroadCastLocationStatePacket extends Packet.PacketToClient {
 
 
     // Bytes required for packet data.
@@ -44,6 +46,12 @@ public class BroadCastLocationStatePacket extends Packet {
         return this.y;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        dispatcher.receiveLocationStateBroadcast(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.id);

@@ -49,6 +49,9 @@ public class ClientNetwork {
         if (packet == null) {
             System.out.println("Invalid packet recieved");
             return;
+        } else if (!(packet instanceof Packet.PacketToClient)) {
+            System.out.println(packet.getPacketType() + " received by client which should not be sent to it.");
+            return;
         }
 
         if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
@@ -59,47 +62,7 @@ public class ClientNetwork {
             }
         }
 
-        switch(packet.getPacketType()) {
-            case HELLO_ACK:
-                this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
-                break;
-            case CONNECT_ACK:
-                this.dispatcher.receiveConnectAck((ConnectAckPacket) packet);
-                break;
-            case GAME_START_BCAST:
-                this.dispatcher.receiveGameStart((BroadCastGameStartPacket) packet);
-                break;
-            case LOCATION_STATE_BCAST:
-                this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);
-                break;
-            case DISCONNECT_BCAST:
-                break;
-            case ELEMENT_STATE_BCAST:
-            		this.dispatcher.recieveElementBroadcast((BroadCastElementStatePacket)packet);
-                break;
-            case GAME_OVER_BCAST:
-                break;
-            case POWERUP_PICKUP_BCAST:
-                break;
-            case POWERUP_STATE_BCAST:
-                this.dispatcher.receivePowerUpBroadcast((BroadCastPowerUpPacket) packet);
-                break;
-            case READY_STATE_BCAST:
-                break;
-            case CONNECT_BCAST:
-            		break;
-            case ACTION_BCAST:
-            		this.dispatcher.recievePlayerActionBroadCast((BroadcastActionPacket) packet);
-            		break;
-            case INITIAL_STATE_BCAST:
-            		this.dispatcher.receiveInitialGameStartStateBroadcast((BroadCastinitialGameStatePacket) packet);
-            		break;
-            case CAST_SPELL_BCAST:
-                break;
-            default:
-                System.out.println("Unhandled packet " + packet.getPacketType());
-                break;
-        }
+        ((Packet.PacketToClient) packet).handle(this.dispatcher);
     }
 
 }

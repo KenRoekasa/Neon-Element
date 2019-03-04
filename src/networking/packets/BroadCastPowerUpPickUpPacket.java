@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class BroadCastPowerUpPickUpPacket extends Packet {
+import networking.client.ClientNetworkDispatcher;
+
+public class BroadCastPowerUpPickUpPacket extends Packet.PacketToClient {
 
 	 private int powerupPickupId;
 
@@ -24,6 +26,12 @@ public class BroadCastPowerUpPickUpPacket extends Packet {
 		return this.powerupPickupId;
 	}
 
+	@Override
+	public void handle(ClientNetworkDispatcher dispatcher) {
+		// TODO handle packet
+	}
+
+	@Override
 	public byte[] getRawBytes() {
 		ByteBuffer buffer = this.getByteBuffer();
 		buffer.putInt(this.powerupPickupId);

@@ -2,7 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-public class BroadCastDisconnectedUserPacket extends Packet {
+import networking.client.ClientNetworkDispatcher;
+
+public class BroadCastDisconnectedUserPacket extends Packet.PacketToClient {
 
 	 // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -21,10 +23,15 @@ public class BroadCastDisconnectedUserPacket extends Packet {
        return PacketType.DISCONNECT_BCAST;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         return Packet.getBytesFromBuffer(buffer);
     }
-
 
 }

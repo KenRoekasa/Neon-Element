@@ -2,10 +2,11 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
+import networking.client.ClientNetworkDispatcher;
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
-public class ConnectAckPacket extends Packet {
+public class ConnectAckPacket extends Packet.PacketToClient {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -68,6 +69,12 @@ public class ConnectAckPacket extends Packet {
         return this.status;
     }
 
+    @Override
+    public void handle(ClientNetworkDispatcher dispatcher) {
+        dispatcher.receiveConnectAck(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.playerId);

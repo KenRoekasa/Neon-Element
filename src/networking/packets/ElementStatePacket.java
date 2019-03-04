@@ -3,9 +3,10 @@ package networking.packets;
 import java.nio.ByteBuffer;
 
 import engine.enums.Elements;
+import networking.server.ServerNetworkDispatcher;
 import utils.InvalidEnumId;
 
-public class ElementStatePacket extends Packet {
+public class ElementStatePacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -32,6 +33,12 @@ public class ElementStatePacket extends Packet {
         return this.playerElementState;
     }
 
+    @Override
+    public void handle(ServerNetworkDispatcher dispatcher) {
+        dispatcher.receiveElementState(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.put(this.playerElementState.getId());

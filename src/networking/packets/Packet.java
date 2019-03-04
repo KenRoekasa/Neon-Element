@@ -3,6 +3,8 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
+import networking.client.ClientNetworkDispatcher;
+import networking.server.ServerNetworkDispatcher;
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
@@ -84,17 +86,41 @@ public abstract class Packet {
         }
     }
 
+    public static abstract class PacketToClient extends Packet {
+        protected PacketToClient(Sender sender) {
+            super(sender);
+        }
+
+        protected PacketToClient() {
+            super();
+        }
+
+        public abstract void handle(ClientNetworkDispatcher dispatcher);
+    }
+
+    public static abstract class PacketToServer extends Packet {
+        protected PacketToServer(Sender sender) {
+            super(sender);
+        }
+
+        protected PacketToServer() {
+            super();
+        }
+
+        public abstract void handle(ServerNetworkDispatcher dispatcher);
+    }
+
     private PacketDirection direction;
 
     // Only set for incoming packets
     private Sender sender;
 
-    protected Packet(Sender sender) {
+    private Packet(Sender sender) {
         this.direction = PacketDirection.INCOMING;
         this.sender = sender;
     }
 
-    protected Packet() {
+    private Packet() {
     	this.direction = PacketDirection.OUTGOING;
     }
 
