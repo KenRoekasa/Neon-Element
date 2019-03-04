@@ -73,7 +73,7 @@ public class PauseController extends UIController{
     @FXML
     // todo this needs to end the game thread somehow
     public void handleQuitBtn(){
-        String fxmlPath = "../fxmls/menu_new.fxml";
+        String fxmlPath = "../fxmls/menu.fxml";
         String stageTitle = "Menu";
         String fileException ="Menu";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);

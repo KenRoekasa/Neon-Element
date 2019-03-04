@@ -31,7 +31,7 @@ public class ModeController extends UIController{
     //back->mode board
     @FXML
     public void handleBackBtn(ActionEvent actionEvent){
-        String fxmlPath ="../fxmls/menu_new.fxml";
+        String fxmlPath ="../fxmls/menu.fxml";
         String stageTitle ="Menu" ;
         String fileException ="Menu";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
