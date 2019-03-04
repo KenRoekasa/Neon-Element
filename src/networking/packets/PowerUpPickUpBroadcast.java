@@ -4,16 +4,16 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastPowerUpPickUpPacket extends Packet.PacketToClient {
+public class PowerUpPickUpBroadcast extends Packet.PacketToClient {
 
 	 private int powerupPickupId;
 
-	protected BroadCastPowerUpPickUpPacket(ByteBuffer buffer, Sender sender) {
+	protected PowerUpPickUpBroadcast(ByteBuffer buffer, Sender sender) {
 		super(sender);
 		this.powerupPickupId = buffer.getInt();
 	}
 
-	public BroadCastPowerUpPickUpPacket(int powerupPickupId) {
+	public PowerUpPickUpBroadcast(int powerupPickupId) {
 		super();
 		this.powerupPickupId = powerupPickupId;
 	}

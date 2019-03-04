@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import engine.enums.PowerUpType;
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastPowerUpPacket extends Packet.PacketToClient {
+public class PowerUpBroadcast extends Packet.PacketToClient {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -17,7 +17,7 @@ public class BroadCastPowerUpPacket extends Packet.PacketToClient {
     private double y;
     private PowerUpType type;
 
-	protected BroadCastPowerUpPacket(ByteBuffer buffer, Sender sender) throws Exception {
+	protected PowerUpBroadcast(ByteBuffer buffer, Sender sender) throws Exception {
 		super(sender);
         this.powerUpId = buffer.getInt();
         this.x = buffer.getDouble();
@@ -25,7 +25,7 @@ public class BroadCastPowerUpPacket extends Packet.PacketToClient {
         this.type = PowerUpType.getById(buffer.get());
 	}
 
-	public BroadCastPowerUpPacket(int powerUpId, double x, double y, PowerUpType type) {
+	public PowerUpBroadcast(int powerUpId, double x, double y, PowerUpType type) {
         super();
         this.powerUpId = powerUpId;
         this.x = x;

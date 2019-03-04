@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastGameStartPacket extends Packet.PacketToClient {
+public class GameStartBroadcast extends Packet.PacketToClient {
 
 
 	// Bytes required for packet data.
@@ -15,13 +15,13 @@ public class BroadCastGameStartPacket extends Packet.PacketToClient {
     private boolean gameStarted;
     private int players;
 
-    protected BroadCastGameStartPacket(ByteBuffer buffer, Sender sender) {
+    protected GameStartBroadcast(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.gameStarted = getBooleanValue(buffer.get());
         this.players = buffer.getInt();
     }
 
-    public BroadCastGameStartPacket(boolean gameStarted, int players) {
+    public GameStartBroadcast(boolean gameStarted, int players) {
         super();
         this.gameStarted = gameStarted;
         this.players = players;

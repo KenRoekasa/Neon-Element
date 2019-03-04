@@ -4,17 +4,17 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastConnectedUserPacket extends Packet.PacketToClient {
+public class ConnectBroadcast extends Packet.PacketToClient {
 
 	private int playerId;
 
-	protected BroadCastConnectedUserPacket(ByteBuffer buffer, Sender sender) {
+	protected ConnectBroadcast(ByteBuffer buffer, Sender sender) {
 		super(sender);
 		this.playerId = buffer.getInt();
 
 	}
 
-	public BroadCastConnectedUserPacket(int playerId) {
+	public ConnectBroadcast(int playerId) {
 		super();
 		this.playerId = playerId;
 	}

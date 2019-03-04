@@ -33,18 +33,18 @@ public abstract class Packet {
         ACTION_STATE   ((byte) 0x10, ActionStatePacket::new),   // ACTION_STATE_ACK     ((byte) 0x11),
 
         // Broadcast from Server -> All Clients
-        CONNECT_BCAST        ((byte) 0xF0, BroadCastConnectedUserPacket::new),
-        DISCONNECT_BCAST     ((byte) 0xF1, BroadCastDisconnectedUserPacket::new),
-        READY_STATE_BCAST    ((byte) 0xF2, BroadCastReadyStatePacket::new),
-        LOCATION_STATE_BCAST ((byte) 0xF3, BroadCastLocationStatePacket::new),
-        ELEMENT_STATE_BCAST  ((byte) 0xF4, BroadCastElementStatePacket::new),
+        CONNECT_BCAST        ((byte) 0xF0, ConnectBroadcast::new),
+        DISCONNECT_BCAST     ((byte) 0xF1, DisconnectBroadcast::new),
+        READY_STATE_BCAST    ((byte) 0xF2, ReadyStateBroadcast::new),
+        LOCATION_STATE_BCAST ((byte) 0xF3, LocationStateBroadcast::new),
+        ELEMENT_STATE_BCAST  ((byte) 0xF4, ElementStateBroadcast::new),
 
-        POWERUP_PICKUP_BCAST ((byte) 0xF6, BroadCastPowerUpPickUpPacket::new),
-        POWERUP_STATE_BCAST  ((byte) 0xF7, BroadCastPowerUpPacket::new),
-        INITIAL_STATE_BCAST  ((byte) 0xF8, BroadCastinitialGameStatePacket::new),
-        ACTION_BCAST         ((byte) 0xF9, BroadcastActionPacket::new),
-        GAME_START_BCAST     ((byte) 0xFE, BroadCastGameStartPacket::new),
-        GAME_OVER_BCAST      ((byte) 0xFF, BroadCastGameOverPacket::new);
+        POWERUP_PICKUP_BCAST ((byte) 0xF6, PowerUpPickUpBroadcast::new),
+        POWERUP_STATE_BCAST  ((byte) 0xF7, PowerUpBroadcast::new),
+        INITIAL_STATE_BCAST  ((byte) 0xF8, InitialGameStateBroadcast::new),
+        ACTION_BCAST         ((byte) 0xF9, ActionStateBroadcast::new),
+        GAME_START_BCAST     ((byte) 0xFE, GameStartBroadcast::new),
+        GAME_OVER_BCAST      ((byte) 0xFF, GameOverBroadcast::new);
 
         private byte id;
         private PacketConstructor constructor;

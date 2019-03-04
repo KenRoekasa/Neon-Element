@@ -23,12 +23,12 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 
 	public void broadcastGameState() {
-		Packet packet = new BroadCastinitialGameStatePacket(gameState.getGameType(), connectedPlayers.getIds(), connectedPlayers.getLocations(), this.gameState.getMap());
+		Packet packet = new InitialGameStateBroadcast(gameState.getGameType(), connectedPlayers.getIds(), connectedPlayers.getLocations(), this.gameState.getMap());
         this.broadcast(packet);
 	}
 
 	public void broadcastGameStarted() {
-		Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
+		Packet packet = new GameStartBroadcast(true, this.gameState.getAllPlayers().size());
 		this.broadcast(packet);
 	}
 
@@ -40,27 +40,27 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
     public void broadcastNewPowerUp(PowerUp powerUp) {
         double x = powerUp.getLocation().getX();
         double y = powerUp.getLocation().getY();
-        Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y, powerUp.getType());
+        Packet packet = new PowerUpBroadcast(powerUp.getId(), x, y, powerUp.getType());
         this.broadcast(packet);
     }
 
     public void broadcastLocationState(int playerId, double x, double y, double playerAngle) {
-        Packet packet = new BroadCastLocationStatePacket(playerId, x, y, playerAngle);
+        Packet packet = new LocationStateBroadcast(playerId, x, y, playerAngle);
         this.broadcast(packet);
     }
 
     public void broadcastElementState(int playerId, Elements element) {
-    	Packet packet = new BroadCastElementStatePacket(playerId, element);
+    	Packet packet = new ElementStateBroadcast(playerId, element);
     	this.broadcast(packet);
 	}
 
 	public void broadcastActionState(int playerId, Action action) {
-		Packet packet = new BroadcastActionPacket(playerId, action);
+		Packet packet = new ActionStateBroadcast(playerId, action);
 		this.broadcast(packet);
 	}
 
 	public void broadcastConnectedUser(int playerId) {
-		Packet packet = new BroadCastConnectedUserPacket(playerId);
+		Packet packet = new ConnectBroadcast(playerId);
 		this.broadcast(packet);
 	}
 

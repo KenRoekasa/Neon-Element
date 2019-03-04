@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastLocationStatePacket extends Packet.PacketToClient {
+public class LocationStateBroadcast extends Packet.PacketToClient {
 
 
     // Bytes required for packet data.
@@ -17,7 +17,7 @@ public class BroadCastLocationStatePacket extends Packet.PacketToClient {
     private double y;
     private double playerAngle;
 
-    protected BroadCastLocationStatePacket(ByteBuffer buffer, Sender sender) {
+    protected LocationStateBroadcast(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.id = buffer.getInt();
         this.x = buffer.getDouble();
@@ -25,7 +25,7 @@ public class BroadCastLocationStatePacket extends Packet.PacketToClient {
         this.playerAngle = buffer.getDouble();
     }
 
-    public BroadCastLocationStatePacket(int id, double x, double y, double playerAngle) {
+    public LocationStateBroadcast(int id, double x, double y, double playerAngle) {
         super();
         this.id = id;
         this.x = x;

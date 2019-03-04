@@ -29,7 +29,7 @@ public class ClientNetworkHandler {
         this.gameState.setGameType(gameType);
     }
 
-    public void receiveGameStart(BroadCastGameStartPacket packet) {
+    public void receiveGameStart(GameStartBroadcast packet) {
         // todo include gamestate in this packet
         this.gameState.start();
     }
@@ -48,19 +48,19 @@ public class ClientNetworkHandler {
         }
     }
 
-    public void receiveConnectedUserBroadcast(BroadCastConnectedUserPacket packet) {
+    public void receiveConnectedUserBroadcast(ConnectBroadcast packet) {
         Player player = new Player(ObjectType.PLAYER, packet.getId());
         //todo this is probably broken
         this.gameState.getAllPlayers().add(player);
         this.gameState.getObjects().add(player);
     }
 
-    public void receivePowerUpBroadcast(BroadCastPowerUpPacket packet) {
+    public void receivePowerUpBroadcast(PowerUpBroadcast packet) {
         PowerUp powerUp = new PowerUp(packet.getPowerUpId(), packet.getX(), packet.getY(), packet.getPowerUpType());
         this.gameState.getObjects().add(powerUp);
     }
 
-    public void receiveInitialGameStartStateBroadcast(BroadCastinitialGameStatePacket packet) {
+    public void receiveInitialGameStartStateBroadcast(InitialGameStateBroadcast packet) {
         Player clientPlayer = new Player(ObjectType.PLAYER);
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         LinkedBlockingQueue<Player> deadPlayers = new LinkedBlockingQueue<Player>();
@@ -90,7 +90,7 @@ public class ClientNetworkHandler {
 
     }
 
-    public void receiveLocationStateBroadcast(BroadCastLocationStatePacket packet) {
+    public void receiveLocationStateBroadcast(LocationStateBroadcast packet) {
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
@@ -115,7 +115,7 @@ public class ClientNetworkHandler {
         }
     }
 
-	public void receivePlayerActionBroadCast(BroadcastActionPacket packet) {
+	public void receivePlayerActionBroadCast(ActionStateBroadcast packet) {
 		// TODO Auto-generated method stub
 		 if (packet.getId() != this.gameState.getPlayer().getId()) {
 	            int id = packet.getId();
@@ -136,7 +136,7 @@ public class ClientNetworkHandler {
 	        }
 	}
 
-	public void receiveElementBroadcast(BroadCastElementStatePacket packet) {
+	public void receiveElementBroadcast(ElementStateBroadcast packet) {
 		// TODO Auto-generated method stub
 		if (packet.getId()!= this.gameState.getPlayer().getId()) {
             int id = packet.getId();

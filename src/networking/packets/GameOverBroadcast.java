@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastGameOverPacket extends Packet.PacketToClient {
+public class GameOverBroadcast extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -13,12 +13,12 @@ public class BroadCastGameOverPacket extends Packet.PacketToClient {
 
     private boolean gameOver;
 
-    protected BroadCastGameOverPacket(ByteBuffer buffer, Sender sender) {
+    protected GameOverBroadcast(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.gameOver = getBooleanValue(buffer.get());
     }
 
-    public BroadCastGameOverPacket(boolean gameOver) {
+    public GameOverBroadcast(boolean gameOver) {
         super();
         this.gameOver = gameOver;
     }

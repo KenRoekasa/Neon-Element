@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import engine.enums.Elements;
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastElementStatePacket extends Packet.PacketToClient {
+public class ElementStateBroadcast extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -15,13 +15,13 @@ public class BroadCastElementStatePacket extends Packet.PacketToClient {
     private Elements playerElementState;
     private int id;
 
-    protected BroadCastElementStatePacket(ByteBuffer buffer, Sender sender) throws Exception {
+    protected ElementStateBroadcast(ByteBuffer buffer, Sender sender) throws Exception {
         super(sender);
         this.id = buffer.getInt();
         this.playerElementState = Elements.getById(buffer.get());
     }
 
-    public BroadCastElementStatePacket(int id, Elements playerElementState) {
+    public ElementStateBroadcast(int id, Elements playerElementState) {
         super();
         this.id = id;
         this.playerElementState = playerElementState;

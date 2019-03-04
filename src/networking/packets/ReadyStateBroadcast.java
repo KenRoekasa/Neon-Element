@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastReadyStatePacket extends Packet.PacketToClient {
+public class ReadyStateBroadcast extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -13,12 +13,12 @@ public class BroadCastReadyStatePacket extends Packet.PacketToClient {
 
     private boolean ready;
 
-    protected BroadCastReadyStatePacket(ByteBuffer buffer, Sender sender) {
+    protected ReadyStateBroadcast(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.ready = getBooleanValue(buffer.get());
     }
 
-    public BroadCastReadyStatePacket(boolean ready) {
+    public ReadyStateBroadcast(boolean ready) {
         super();
         this.ready = ready;
     }

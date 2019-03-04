@@ -4,18 +4,18 @@ import java.nio.ByteBuffer;
 
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastDisconnectedUserPacket extends Packet.PacketToClient {
+public class DisconnectBroadcast extends Packet.PacketToClient {
 
 	 // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
     //
     // = 0 bytes
 
-    protected BroadCastDisconnectedUserPacket(ByteBuffer buffer, Sender sender) {
+    protected DisconnectBroadcast(ByteBuffer buffer, Sender sender) {
         super(sender);
     }
 
-    public BroadCastDisconnectedUserPacket() {
+    public DisconnectBroadcast() {
         super();
     }
 

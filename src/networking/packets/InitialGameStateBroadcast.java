@@ -12,19 +12,19 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import networking.client.ClientNetworkHandler;
 
-public class BroadCastinitialGameStatePacket extends Packet.PacketToClient {
+public class InitialGameStateBroadcast extends Packet.PacketToClient {
 
 	public GameType gameType;
 	public ArrayList<Integer> ids;
 	public ArrayList<Point2D> locations;
 	public Rectangle map;
 
-	protected BroadCastinitialGameStatePacket(ByteBuffer buffer, Sender sender) {
+	protected InitialGameStateBroadcast(ByteBuffer buffer, Sender sender) {
 		super(sender);
 		// Todo convert from buffer and set attributes
 	}
 
-	public BroadCastinitialGameStatePacket(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
+	public InitialGameStateBroadcast(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
 		super();
 		this.gameType = gameType;
 		this.ids = ids;
