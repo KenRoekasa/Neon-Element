@@ -221,8 +221,7 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
 
             Player player;
             if (foundPlayer != null) {
-                player = foundPlayer;
-                player.setCurrentElement(packet.getPlayerElementState());
+                 foundPlayer.setCurrentElement(packet.getPlayerElementState());
             }else {
             		System.out.println("Player does not exists");
             }

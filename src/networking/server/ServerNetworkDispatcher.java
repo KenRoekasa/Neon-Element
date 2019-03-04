@@ -200,9 +200,16 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 
 
 	public void receiveElementState(ElementStatePacket packet) {
-
+		boolean isStarted = this.gameState.isStarted();
+		int numberOfPlayers = this.gameState.getAllPlayers().size();
+		
 		PlayerConnection playerConn = getPlayerConnection(packet);
 		playerConn.getPlayer().setCurrentElement(packet.getPlayerElementState());
+		
+		if(isStarted && (numberOfPlayers >= 2) ){
+			Packet elementState = new BroadCastElementStatePacket(playerConn.getId(),packet.getPlayerElementState());
+			this.broadcast(elementState);
+	    }
 	}
 
 
