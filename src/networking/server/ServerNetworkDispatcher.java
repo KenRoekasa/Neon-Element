@@ -44,8 +44,8 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
         this.broadcast(packet);
     }
 
-    public void broadcastLocationState(int playerId, double x, double y) {
-        Packet packet = new BroadCastLocationStatePacket(playerId, x, y);
+    public void broadcastLocationState(int playerId, double x, double y, double playerAngle) {
+        Packet packet = new BroadCastLocationStatePacket(playerId, x, y, playerAngle);
         this.broadcast(packet);
     }
 

@@ -15,19 +15,22 @@ public class BroadCastLocationStatePacket extends Packet.PacketToClient {
     private int id;
     private double x;
     private double y;
+    private double playerAngle;
 
     protected BroadCastLocationStatePacket(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.id = buffer.getInt();
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
+        this.playerAngle = buffer.getDouble();
     }
 
-    public BroadCastLocationStatePacket(int id, double x, double y) {
+    public BroadCastLocationStatePacket(int id, double x, double y, double playerAngle) {
         super();
         this.id = id;
         this.x = x;
         this.y = y;
+        this.playerAngle = playerAngle;
     }
 
     public PacketType getPacketType() {
@@ -46,6 +49,11 @@ public class BroadCastLocationStatePacket extends Packet.PacketToClient {
         return this.y;
     }
 
+    public double getPlayerAngle() {
+    		return playerAngle;
+    }
+
+
     @Override
     public void handle(ClientNetworkHandler handler) {
         handler.receiveLocationStateBroadcast(this);
@@ -57,6 +65,7 @@ public class BroadCastLocationStatePacket extends Packet.PacketToClient {
         buffer.putInt(this.id);
         buffer.putDouble(this.x);
         buffer.putDouble(this.y);
+        buffer.putDouble(this.playerAngle);
         return Packet.getBytesFromBuffer(buffer);
     }
 

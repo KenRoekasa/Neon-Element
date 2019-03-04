@@ -13,17 +13,20 @@ public class LocationStatePacket extends Packet.PacketToServer {
 
     private double x;
     private double y;
+	private double playerAngle;
 
     protected LocationStatePacket(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.x = buffer.getDouble();
         this.y = buffer.getDouble();
+        this.playerAngle = buffer.getDouble();
     }
 
-    public LocationStatePacket(double x, double y) {
+    public LocationStatePacket(double x, double y, double playerAngle) {
         super();
         this.x = x;
         this.y = y;
+        this.playerAngle = playerAngle;
     }
 
     public PacketType getPacketType() {
@@ -38,6 +41,10 @@ public class LocationStatePacket extends Packet.PacketToServer {
         return this.y;
     }
 
+    public double getPlayerAngle() {
+        return this.playerAngle;
+    }
+
     @Override
     public void handle(ServerNetworkHandler handler) {
         handler.receiveLocationState(this);
@@ -48,6 +55,7 @@ public class LocationStatePacket extends Packet.PacketToServer {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putDouble(this.x);
         buffer.putDouble(this.y);
+        buffer.putDouble(this.playerAngle);
         return Packet.getBytesFromBuffer(buffer);
     }
 

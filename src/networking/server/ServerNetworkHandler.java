@@ -2,6 +2,8 @@ package networking.server;
 
 import engine.entities.Player;
 import engine.enums.ObjectType;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import networking.packets.*;
 import server.ServerGameState;
 
@@ -75,19 +77,39 @@ public class ServerNetworkHandler {
 			// Just update the location for now
 			// TODO - validate if the location
 			player.setLocation(packet.getX(), packet.getY());
+			Rotate playerAngle = player.getPlayerAngle();
+			playerAngle.setAngle(packet.getPlayerAngle());
 		} else {
 			// Player connection not found
 		}
 	}
 
 	public void receiveActionState(ActionStatePacket packet) {
+		//currently set to broadcast if and only if there are currently more than 2 players
+		boolean isStarted = this.gameState.isStarted();
+		int numberOfPlayers = this.gameState.getAllPlayers().size();
+
+
 	    PlayerConnection playerConn = getPlayerConnection(packet);
 	    playerConn.getPlayer().doAction(packet.getAction());
+
+	    if(isStarted && (numberOfPlayers >= 2) ){
+			Packet actionState = new BroadcastActionPacket(playerConn.getId(), packet.getAction());
+			this.broadcast(actionState);
+	    }
 	}
 
 	public void receiveElementState(ElementStatePacket packet) {
+		boolean isStarted = this.gameState.isStarted();
+		int numberOfPlayers = this.gameState.getAllPlayers().size();
+
 		PlayerConnection playerConn = getPlayerConnection(packet);
 		playerConn.getPlayer().setCurrentElement(packet.getPlayerElementState());
+
+		if(isStarted && (numberOfPlayers >= 2) ){
+			Packet elementState = new BroadCastElementStatePacket(playerConn.getId(),packet.getPlayerElementState());
+			this.broadcast(elementState);
+	    }
 	}
 
 	private PlayerConnection getPlayerConnection(Packet packet) {

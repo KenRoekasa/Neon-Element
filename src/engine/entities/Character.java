@@ -251,6 +251,7 @@ public abstract class Character extends PhysicsObject {
     public void shield() {
 
         if (currentAction == Action.IDLE) {
+            currentActionStart = System.currentTimeMillis();
             actionHasSounded = false;
             currentAction = Action.BLOCK;
             isShielded = true;
