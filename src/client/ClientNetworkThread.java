@@ -42,8 +42,7 @@ public class ClientNetworkThread extends Thread {
         while (this.running) {
             this.doLocationState();
 
-
-            if((gameState.getPlayer().getCurrentAction() != Action.IDLE || gameState.getPlayer().getCurrentAction() != Action.HEAVY) && gameState.getPlayer().getCurrentActionStart() > lastActionSendTime) {
+            if((gameState.getPlayer().getCurrentAction() != Action.IDLE && gameState.getPlayer().getCurrentAction() != Action.HEAVY) && gameState.getPlayer().getCurrentActionStart() > lastActionSendTime) {
                 lastActionSendTime = gameState.getPlayer().getCurrentActionStart();
                 //todo sent action
 
