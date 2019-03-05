@@ -39,6 +39,11 @@ class DrawObjects {
         gc.save();
 
         gc.setFill(new ImagePattern(textures.get(Sprites.MAP)));
+
+
+
+        // below line is for testing things
+        //gc.setFill(Color.WHITE);
         gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), map.getWidth(), map.getHeight());
 
         // restore previous state

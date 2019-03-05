@@ -66,7 +66,10 @@ class DrawPlayers {
             gc.save();
             ISOConverter.applyAngleRotation(gc, angle, playerCenter);
 
-            gc.drawImage(Renderer.textures.get(Sprites.CURSOR),playerCenter.getX() - Renderer.textures.get(Sprites.CURSOR).getWidth()/2f, playerCenter.getY() - Renderer.textures.get(Sprites.CURSOR).getHeight()/2f - player.getWidth()/2f - 30 );
+            Effect glow = new Glow(0.8);
+            gc.setEffect(glow);
+
+            gc.drawImage(Renderer.textures.get(Sprites.POINTER),playerCenter.getX() - Renderer.textures.get(Sprites.POINTER).getWidth()/2f, playerCenter.getY() - Renderer.textures.get(Sprites.POINTER).getHeight()/2f - player.getWidth()/2f - 30 );
 
             //restore twice following applying the specific angle rotation
             gc.restore();

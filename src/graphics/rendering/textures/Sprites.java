@@ -1,8 +1,8 @@
 package graphics.rendering.textures;
 
 public enum Sprites {
-    MAP("graphics/rendering/textures/map2.png"),
-    CURSOR("graphics/rendering/textures/pointer.png"),
+    MAP("graphics/rendering/textures/map.png"),
+    POINTER("graphics/rendering/textures/bluepointer.png"),
     BLADE("graphics/rendering/textures/blade.png"),
     AIR("graphics/rendering/textures/air.png"),
     EARTH("graphics/rendering/textures/earth.png"),
