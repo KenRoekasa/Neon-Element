@@ -367,7 +367,6 @@ public abstract class Character extends PhysicsObject {
                 public void run() {
                     if (timerArray[speedBoostID] == speedBoostDuration) {
                         movementSpeed = DEFAULT_MOVEMENT_SPEED;
-                        System.out.println("speed boost has ended");
                         timer.cancel();
                     }
                     timerArray[speedBoostID]++;

@@ -1,7 +1,10 @@
 package client;
 
-
+import engine.MapGenerator;
+import engine.Map;
 import engine.ScoreBoard;
+import engine.ai.AiController;
+import engine.ai.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
@@ -14,9 +17,6 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import engine.ai.AiController;
-import engine.ai.AiControllersManager;
 
 public class GameStateGenerator {
 
@@ -51,7 +51,6 @@ public class GameStateGenerator {
         // Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-        System.out.println(objects);
         // generate a game state
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
         ScoreBoard scoreboard = new ScoreBoard();
@@ -109,10 +108,13 @@ public class GameStateGenerator {
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
+        //Create the first map
+        Map map1 = MapGenerator.createMap1();
 
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
+//        objects.addAll(map1.getWalls());
 
 
         ScoreBoard scoreboard = new ScoreBoard();
@@ -120,8 +122,8 @@ public class GameStateGenerator {
         GameType gameType = new FirstToXKillsGame(3);
         GameType gameType1 = new TimedGame(60000);
         GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
-        GameType gameType3 = new Regicide(player, 5000);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();

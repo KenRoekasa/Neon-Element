@@ -46,7 +46,6 @@ public class Player extends Character {
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
-                System.out.println("Player is Dead");
             }
         } else {
             isAlive = true;

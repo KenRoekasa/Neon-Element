@@ -28,7 +28,7 @@ public class Physics {
 
     public void clientLoop() {
         doCollisionDetection();
-        doHitDetection();
+        new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
@@ -82,11 +82,11 @@ public class Physics {
                 // Add to dead list
 
                 deadPlayers.offer(player);
-
-                // Add kills to scoreboard
+                // For any game mode add kills to scoreboard
+                scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
 
                 if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
-                    scoreBoard.addKill(player.getLastAttacker().getId());
+                    scoreBoard.addScore(player.getLastAttacker().getId(), 1);
                 } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
                     Regicide regicide = (Regicide) gameState.getGameType();
                     int baseScore = 5;
