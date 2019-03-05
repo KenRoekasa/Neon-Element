@@ -121,7 +121,7 @@ public class GameStateGenerator {
         GameType gameType1 = new TimedGame(60000);
         GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
         GameType gameType3 = new Regicide(player, 5000);
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType3);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();
