@@ -5,8 +5,8 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
 public class Map {
-    Rectangle ground;
-    ArrayList<Wall> walls;
+    private Rectangle ground;
+    private ArrayList<Wall> walls;
 
 
 
@@ -15,7 +15,11 @@ public class Map {
         this.walls = walls;
     }
 
+    public Rectangle getGround() {
+        return ground;
+    }
 
-
-
+    public ArrayList<Wall> getWalls() {
+        return walls;
+    }
 }

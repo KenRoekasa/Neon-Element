@@ -1,14 +1,49 @@
+package engine;
+
 import engine.Map;
+import engine.entities.Wall;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MapGenerator {
 
+
+    /**
+     * @return the default map of the game
+     */
+    public static Map createMap1() {
+
+        ArrayList<Wall> walls = new ArrayList<>();
+        walls.add(new Wall(100, 100, 700, 100));
+        walls.add(new Wall(100, 200, 100, 600));
+        walls.add(new Wall(100, 1200, 100, 600));
+        walls.add(new Wall(100, 1900, 700, 100));
+
+        walls.add(new Wall(1200, 100, 700, 100));
+        walls.add(new Wall(1800, 200, 100, 600));
+        walls.add(new Wall(1800, 1200, 100, 600));
+        walls.add(new Wall(1200, 1900, 600, 100));
+
+        walls.add(new Wall(400, 400, 300, 300));
+
+        walls.add(new Wall(400, 1200, 300, 300));
+
+        walls.add(new Wall(1300, 400, 300, 300));
+
+        walls.add(new Wall(800, 800, 400, 400));
+
+        return new Map(new Rectangle(2000, 2000), walls);
+    }
+
+
+    @Deprecated
     public Map mapFromImage() throws IOException {
         File file = new File("your_file.jpg");
         BufferedImage image = ImageIO.read(file);
@@ -33,17 +68,8 @@ public class MapGenerator {
         }
 
 
-
-
-
-
-
         return null;
     }
 
-
-    public void isSquare(){
-
-    }
 
 }
