@@ -109,11 +109,10 @@ public class LocalSetUpController extends UIController implements Initializable 
             case 3:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
-                enemy_3 = (String) diff_2.getSelectedToggle().getUserData();
+                enemy_3 = (String) diff_3.getSelectedToggle().getUserData();
                 enemyTypes.add(enemy_1);
                 enemyTypes.add(enemy_2);
                 enemyTypes.add(enemy_3);
-
 
         }
 

@@ -1,6 +1,5 @@
 package client;
 
-
 import client.audiomanager.AudioManager;
 import engine.Physics;
 import engine.controller.RespawnController;
@@ -77,7 +76,6 @@ public class GameClient {
         hudController.setScoreBoard(gameState.getScoreBoard());
         hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
         hudController.setPlayerId(gameState.getPlayer().getId());
-        System.out.println("Player Id: "+gameState.getPlayer().getId());
         hudController.setNum_player(gameState.getNum_player());
 
 
@@ -241,8 +239,4 @@ public class GameClient {
         });
     }
 
-    private void swapElement() {
-        InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
-
-    }
 }
