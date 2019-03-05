@@ -5,7 +5,6 @@ import java.net.InetAddress;
 
 import client.ClientGameState;
 import client.GameStateGenerator;
-import engine.GameState;
 import networking.Constants;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;

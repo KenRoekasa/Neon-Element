@@ -7,7 +7,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 
 import static graphics.rendering.Renderer.getRelativeLocation;
-import static graphics.rendering.Renderer.textures;
 
 /*
 Calculates the relative position of the enemy with regards to the player, then calls the related DrawPlayer method
