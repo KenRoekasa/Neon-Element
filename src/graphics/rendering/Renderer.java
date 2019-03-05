@@ -177,7 +177,7 @@ public class Renderer {
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
         if (o.getTag() == ObjectType.PLAYER) {
-            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer(), textures);
+            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
         } else if (o.getTag() == ObjectType.ENEMY) {
             DrawEnemies.drawEnemy(gc, stageSize, (Character) o, gameState.getPlayer());
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {

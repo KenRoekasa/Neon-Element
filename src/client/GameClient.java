@@ -7,6 +7,7 @@ import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.GameOverController;
+import graphics.userInterface.controllers.HUDController;
 import graphics.userInterface.controllers.PauseController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -56,7 +57,7 @@ public class GameClient {
         this.gameState = gameState;
 
         // load hud
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/game_board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
         //Pane hudPane = new Pane();
 
         try {
@@ -65,11 +66,20 @@ public class GameClient {
 
         } catch (Exception e) {
             // todo make this better
-            System.out.println("Crash in loading hud in map");
+            System.out.println("Crush in loading hud in map");
             e.printStackTrace();
             Platform.exit();
             System.exit(0);
         }
+
+        HUDController hudController = loader.getController();
+        hudController.setGameState(gameState);
+        hudController.setScoreBoard(gameState.getScoreBoard());
+        hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+        hudController.setPlayerId(gameState.getPlayer().getId());
+        System.out.println("Player Id: "+gameState.getPlayer().getId());
+        hudController.setNum_player(gameState.getNum_player());
+
 
         primaryStage.getScene().setRoot(hudPane);
 
@@ -104,7 +114,7 @@ public class GameClient {
 
         if (!online) {
             this.gameState.start();
-            beginClientLoop(renderer);
+            beginClientLoop(renderer,hudController);
         }
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
@@ -121,13 +131,14 @@ public class GameClient {
         return scene;
     }
 
-    private void beginClientLoop(Renderer renderer) {
+    private void beginClientLoop(Renderer renderer,HUDController hudController) {
 
         new AnimationTimer() {
             long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
                 renderer.render(primaryStage, gameState);
+                hudController.update();
 
                 // TODO: remove this when networking is added
                 physicsEngine.clientLoop();
@@ -174,16 +185,16 @@ public class GameClient {
             primaryStage.setTitle("Game Over!");
             gameState.stop();
 
-                    } catch (IOException e) {
-                        System.out.println("crush in loading menu board ");
-                        e.printStackTrace();
-                    }
-                }
+        } catch (IOException e) {
+            System.out.println("crush in loading menu board ");
+            e.printStackTrace();
+        }
+    }
 
     public void startNetwork() {
         this.clientNetworkThread.start();
         this.gameState.start();
-        beginClientLoop(renderer);
+        beginClientLoop(renderer, new HUDController());
     }
 
     private void initialiseInput(Scene theScene, Renderer renderer) {

@@ -105,11 +105,13 @@ public class HUDController extends UIController implements Initializable {
     }
 
     public void update() {
+
         if (gameState.getPlayer().getHealth() < 0) {
             healthValue.set("0");
         } else {
             healthValue.set(String.valueOf((int) (gameState.getPlayer().getHealth())));
         }
+
         System.out.println("Player:" +gameState.getPlayer().toString());
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
 
