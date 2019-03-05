@@ -2,12 +2,14 @@ package engine.ai;
 
 import java.util.Random;
 
+import engine.calculations.AiCalculations;
 import engine.entities.Player;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
+//low level actions used by state actions and in ai controller
 public class AiActions {
 	
 
@@ -45,10 +47,99 @@ public class AiActions {
 			break;
 		}
 	}
+	
+	public void assignDifferentRandomElement() {
+
+		Random r = new Random();
+		int rand = r.nextInt(3);
+		switch(aiPlayer.getCurrentElement()) {
+		case AIR:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToEarth();
+				break;
+			case 1:
+				aiPlayer.changeToFire();
+				break;
+			case 2:
+				aiPlayer.changeToWater();
+				break;
+			}
+			break;
+		case EARTH:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToAir();
+				break;
+			case 1:
+				aiPlayer.changeToFire();
+				break;
+			case 2:
+				aiPlayer.changeToWater();
+				break;
+			}
+			break;
+		case FIRE:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToEarth();
+				break;
+			case 1:
+				aiPlayer.changeToAir();
+				break;
+			case 2:
+				aiPlayer.changeToWater();
+				break;
+			}
+			break;
+		case WATER:
+			switch (rand) {
+			case 0:
+				aiPlayer.changeToEarth();
+				break;
+			case 1:
+				aiPlayer.changeToFire();
+				break;
+			case 2:
+				aiPlayer.changeToAir();
+				break;
+			}
+			break;
+		}
+	}
 
 	public void moveAway(Player player) {
+		
+		
 		if(calc.reachedAnEdge()) {
 			moveAwayFromEdge();
+		}
+		else {
+			Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
+			if(playerLoc.getX()>aiLoc.getX()) {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveUp();
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveLeft(map.getWidth());
+				else
+					aiPlayer.moveUpCartesian();
+			}
+			else if(playerLoc.getX()<aiLoc.getX()) {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveRight(map.getWidth(), map.getHeight());
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveDown(map.getWidth(), map.getHeight());
+				else
+					aiPlayer.moveDownCartestian(map.getHeight());
+			}
+			else {
+				if(playerLoc.getY()>aiLoc.getY())
+					aiPlayer.moveLeftCartesian();
+				else if(playerLoc.getY()<aiLoc.getY())
+					aiPlayer.moveRightCartesian(map.getWidth());
+				else
+					aiPlayer.moveDown(map.getWidth(), map.getHeight());
+			}
 		}
 		
 		if (calc.inAttackDistance(player) && player.getHealth()>0) {
@@ -56,34 +147,6 @@ public class AiActions {
 			aiPlayer.lightAttack();
 			aiPlayer.shield();
 		}
-			
-		
-		Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
-		if(playerLoc.getX()>aiLoc.getX()) {
-			if(playerLoc.getY()>aiLoc.getY())
-				aiPlayer.moveUp();
-			else if(playerLoc.getY()<aiLoc.getY())
-				aiPlayer.moveLeft(map.getWidth());
-			else
-				aiPlayer.moveUpCartesian();
-		}
-		else if(playerLoc.getX()<aiLoc.getX()) {
-			if(playerLoc.getY()>aiLoc.getY())
-				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-			else if(playerLoc.getY()<aiLoc.getY())
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-			else
-				aiPlayer.moveDownCartestian(map.getHeight());
-		}
-		else {
-			if(playerLoc.getY()>aiLoc.getY())
-				aiPlayer.moveLeftCartesian();
-			else if(playerLoc.getY()<aiLoc.getY())
-				aiPlayer.moveRightCartesian(map.getWidth());
-			else
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-		}
-		
 		
 	}
 	
@@ -171,15 +234,15 @@ public class AiActions {
 			}else if (calc.isRightOf(playerLoc)) {
 				//System.out.println("going right");
 				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-			}else if (calc.isAbove(playerLoc)) {	
+			}else if (calc.isAbove(playerLoc)) {
 				//System.out.println("going up");
 				aiPlayer.moveUp();
 			}else if (calc.higherY(playerLoc)) {
 //				System.out.println("going up cart");
-				aiPlayer.moveUpCartesian();
+				aiPlayer.moveDownCartestian(map.getWidth());
 			}else if (!calc.higherY(playerLoc)) {
 //				System.out.println("going down cart");
-				aiPlayer.moveDownCartestian(map.getWidth());
+				aiPlayer.moveUpCartesian();
 			}else if (calc.higherX(playerLoc)) {
 //				System.out.println("going left cart");
 				aiPlayer.moveLeftCartesian();
@@ -192,11 +255,17 @@ public class AiActions {
 		//}
 	}
 	
+	public void changeToRandomElementAfter(int seconds) {
+		if(calc.secondsElapsed() >= seconds) {
+			calc.setStartTime(System.nanoTime()/1000000000);
+			assignDifferentRandomElement();
+		}
+	}
 
 
-	public void wander() {
+	public void startWandering() {
 		
-		Player player = calc.findNearestPlayer();
+		Player player = calc.getNearestPlayer();
 		if(calc.inAttackDistance(player))
 			aiPlayer.lightAttack();
 
@@ -226,7 +295,7 @@ public class AiActions {
 	}
 	
 	public void changeToBefittingElement() {
-		Player player = calc.findNearestPlayer();
+		Player player = calc.getNearestPlayer();
 		switch(aiCon.activeState) {
 		
 		//when attacking, change element to maximize damage given

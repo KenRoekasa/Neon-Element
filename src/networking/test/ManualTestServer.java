@@ -1,12 +1,9 @@
 package networking.test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import client.ClientGameState;
 import client.GameStateGenerator;
-import engine.entities.PhysicsObject;
-import engine.entities.Player;
 import server.GameServer;
 import server.ServerGameState;
 

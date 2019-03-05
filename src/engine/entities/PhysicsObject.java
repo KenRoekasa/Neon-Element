@@ -7,6 +7,7 @@ import javafx.scene.shape.Shape;
 
 public abstract class PhysicsObject {
     protected int width;
+    protected int height;
     //Top left point of the object
     protected Point2D location;
     protected ObjectType tag;
@@ -24,11 +25,14 @@ public abstract class PhysicsObject {
     }
 
     public Shape getBounds() {
-        return new Rectangle(location.getX(), location.getY(), width, width);
+        return new Rectangle(location.getX(), location.getY(),width, height);
     }
 
-    public ObjectType getTag(){
+    public ObjectType getTag() {
         return tag;
-    };
+    }
 
+    public int getHeight() {
+        return height;
+    }
 }

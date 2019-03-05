@@ -2,7 +2,6 @@ package client;
 
 import java.net.InetAddress;
 
-import engine.GameTypeHandler;
 import javafx.geometry.Point2D;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;
@@ -25,7 +24,7 @@ public class ClientNetworkThread extends Thread {
         // Wait for game to start
         while (!this.gameState.getRunning()) {
             try {
-                Thread.sleep(1000l); // Every 1 second
+                Thread.sleep(1000L); // Every 1 second
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -37,7 +36,7 @@ public class ClientNetworkThread extends Thread {
             this.doLocationState();
 
             try {
-                Thread.sleep(1000l); // Every 1 second
+                Thread.sleep(1000L); // Every 1 second
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

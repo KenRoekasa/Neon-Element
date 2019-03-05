@@ -1,5 +1,5 @@
 package engine.enums;
 
 public enum AiType {
-	EASY, MEDIUM, HARD
+	EASY, NORMAL, HARD
 }

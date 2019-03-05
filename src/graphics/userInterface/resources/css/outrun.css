@@ -1,0 +1,70 @@
+#title{
+    -fx-font-family: "Outrun future Bold Italic";
+    -fx-font-size: 96px;
+}
+
+#background{
+    -fx-background-color: black;
+}
+
+.button-menu{
+    -fx-font-family:"911 Porscha 3D";
+    -fx-font-size: 45px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+/*For Menu styling*/
+.label-menu{
+    -fx-font-family:"911 Porscha 3D";
+    -fx-text-fill: white;
+}
+.button-menu:hover{
+    -fx-font-size: 55px;
+}
+
+/*For the rest */
+.button-page{
+    -fx-font-family:"911 Porscha 3D";
+    -fx-font-size: 30px;
+    -fx-pref-height: 150px;
+    -fx-pref-width: 350px;
+    -fx-border-color: transparent;
+    -fx-border-width:0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.button-page:hover{
+    -fx-font-size:35 px;
+}
+
+.label-title{
+    -fx-font-family: "911 Porscha 3D";
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+}
+.label-subtitle{
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+.label-page{
+    -fx-font-family: "911 Porscha 3D";
+    -fx-font-size:20px;
+    -fx-text-fill: white;
+}
+
+.pane{
+    -fx-pref-height: 768;
+    -fx-pref-width: 1024;
+}
+.radio-button{
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+}
+

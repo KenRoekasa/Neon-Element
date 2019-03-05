@@ -2,6 +2,7 @@ package engine.controller;
 
 import engine.GameState;
 import engine.entities.Player;
+import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -17,23 +18,27 @@ public class RespawnController implements Runnable {
 
     @Override
     public void run() {
-        //TODO: change when game has ended etc...
         while (gameState.getRunning()) {
-            //TODO: If statement based on game type to determine how respawns works based on the game mode
-            normalRespawn();
-            System.out.println("running" +
-                    "");
+            if(gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
+                normalRespawn(5000);
+            }else if(gameState.getGameType().getType() == GameType.Type.Timed){
+                normalRespawn(2500);
+            }else if(gameState.getGameType().getType() == GameType.Type.Hill){
+                normalRespawn(2500);
+            }else if(gameState.getGameType().getType() == GameType.Type.Regicide){
+                normalRespawn(1000);
+            }
         }
 
     }
 
     //Respawn every few seconds
-    private void normalRespawn() {
+    private void normalRespawn(long respawnTime) {
         //Remove the dead player from the list
         try {
             if (!deadPlayers.isEmpty()) {
                 Player player = deadPlayers.peek();
-                Thread.sleep(5000);
+                Thread.sleep(respawnTime);
                 //Adding health to player to resurrect them
 
                 int x = (int) (Math.random() * 2000);
