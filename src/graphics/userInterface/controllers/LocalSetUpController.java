@@ -24,8 +24,6 @@ import java.util.ResourceBundle;
 public class LocalSetUpController extends UIController implements Initializable {
     private ClientGameState gameState;
     @FXML
-    Label start,back;
-    @FXML
     public RadioButton num_1, num_2, num_3;
     @FXML
     public RadioButton easy_1, easy_2, easy_3, normal_1, normal_2, normal_3, hard_1, hard_2, hard_3;
@@ -140,33 +138,17 @@ public class LocalSetUpController extends UIController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        removeRadioCircle();
+
+        ToggleGroupSetUp.setToggleGroup(num_group,num_1,num_2,num_3);
+        ToggleGroupSetUp.setToggleGroup(diff_1,easy_1,normal_1,hard_1);
+        ToggleGroupSetUp.setToggleGroup(diff_2,easy_2,normal_2,hard_2);
+        ToggleGroupSetUp.setToggleGroup(diff_3,easy_3,normal_3,hard_3);
+        ToggleGroupSetUp.setToggleGroup(mode,life_mode,time_mode);
 
 
-
-        num_1.setToggleGroup(num_group);
-        num_2.setToggleGroup(num_group);
-        num_3.setToggleGroup(num_group);
-        num_3.setSelected(true);
-
-        easy_1.setToggleGroup(diff_1);
-        normal_1.setToggleGroup(diff_1);
-        hard_1.setToggleGroup(diff_1);
-        easy_1.setSelected(true);
-
-        easy_2.setToggleGroup(diff_2);
-        normal_2.setToggleGroup(diff_2);
-        hard_2.setToggleGroup(diff_2);
-        easy_2.setSelected(true);
-
-        easy_3.setToggleGroup(diff_3);
-        normal_3.setToggleGroup(diff_3);
-        hard_3.setToggleGroup(diff_3);
-        easy_3.setSelected(true);
-
-        time_mode.setToggleGroup(mode);
-        life_mode.setToggleGroup(mode);
-        time_mode.setSelected(true);
+        ToggleGroupSetUp.setUserData("Easy",easy_1,easy_2,easy_3);
+        ToggleGroupSetUp.setUserData("Normal",normal_1,normal_2,normal_3);
+        ToggleGroupSetUp.setUserData("Hard",hard_1,hard_2,hard_3);
 
         num_1.setUserData(1);
         num_2.setUserData(2);
@@ -175,69 +157,6 @@ public class LocalSetUpController extends UIController implements Initializable 
         life_mode.setUserData("life_based");
         time_mode.setUserData("time_based");
 
-        easy_1.setUserData("Easy");
-        easy_2.setUserData("Easy");
-        easy_3.setUserData("Easy");
-        normal_1.setUserData("Normal");
-        normal_2.setUserData("Normal");
-        normal_3.setUserData("Normal");
-        hard_1.setUserData("Hard");
-        hard_2.setUserData("Hard");
-        hard_3.setUserData("Hard");
-
     }
-
-    @SuppressWarnings("Duplicates")
-    private void removeRadioCircle() {
-        // there might be a less long way of doing this
-        num_1.getStyleClass().remove("radio-button");
-        num_1.getStyleClass().add("button");
-
-
-        num_2.getStyleClass().remove("radio-button");
-        num_2.getStyleClass().add("button");
-
-
-        num_3.getStyleClass().remove("radio-button");
-        num_3.getStyleClass().add("button");
-
-
-        easy_1.getStyleClass().remove("radio-button");
-        easy_1.getStyleClass().add("button");
-
-        easy_2.getStyleClass().remove("radio-button");
-        easy_2.getStyleClass().add("button");
-
-        easy_3.getStyleClass().remove("radio-button");
-        easy_3.getStyleClass().add("button");
-
-        normal_1.getStyleClass().remove("radio-button");
-        normal_1.getStyleClass().add("button");
-
-        normal_2.getStyleClass().remove("radio-button");
-        normal_2.getStyleClass().add("button");
-
-        normal_3.getStyleClass().remove("radio-button");
-        normal_3.getStyleClass().add("button");
-
-        hard_1.getStyleClass().remove("radio-button");
-        hard_1.getStyleClass().add("button");
-
-        hard_2.getStyleClass().remove("radio-button");
-        hard_2.getStyleClass().add("button");
-
-        hard_3.getStyleClass().remove("radio-button");
-        hard_3.getStyleClass().add("button");
-
-
-        time_mode.getStyleClass().remove("radio-button");
-        time_mode.getStyleClass().add("button");
-
-        life_mode.getStyleClass().remove("radio-button");
-        life_mode.getStyleClass().add("button");
-
-
-    }
-
 }
 
