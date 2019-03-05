@@ -68,7 +68,6 @@ public class PowerUp extends PhysicsObject {
 
     public void activatePowerUp(engine.entities.Character player) {
         if (isActive) {
-            System.out.println("Power up is picked up");
             switch (type) {
                 case HEAL:
                     player.addHealth(10);

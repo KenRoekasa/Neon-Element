@@ -51,7 +51,6 @@ public class GameStateGenerator {
         // Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-        System.out.println(objects);
         // generate a game state
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
         ScoreBoard scoreboard = new ScoreBoard();

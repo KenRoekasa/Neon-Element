@@ -21,17 +21,17 @@ public class GameTypeHandler {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
-            return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < typeObj.getKillsNeeded();
+            return currentGame.getScoreBoard().getPlayerScore(topPlayerId) < typeObj.getKillsNeeded();
         } else if (gameType.getType().equals(GameType.Type.Hill)) {
             HillGame h = (HillGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
-            return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < h.getScoreNeeded();
+            return currentGame.getScoreBoard().getPlayerScore(topPlayerId) < h.getScoreNeeded();
         } else if (gameType.getType().equals(GameType.Type.Regicide)) {
             Regicide r = (Regicide) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();
             int topPlayerId = score.get(0);
-            return currentGame.getScoreBoard().getPlayerKills(topPlayerId) < r.getScoreNeeded();
+            return currentGame.getScoreBoard().getPlayerScore(topPlayerId) < r.getScoreNeeded();
         }
 
         // return true to allow testing games to run infinitely
