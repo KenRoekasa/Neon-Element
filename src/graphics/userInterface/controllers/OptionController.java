@@ -38,7 +38,7 @@ public class OptionController extends UIController{
 
     @FXML
     public void handleBackBtn() {
-        String fxmlPath = "../fxmls/menu_new.fxml";
+        String fxmlPath = "../fxmls/menu.fxml";
         String stageTitle = "Menu";
         String fileException = "Menu";
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException);
@@ -46,11 +46,6 @@ public class OptionController extends UIController{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        back.setTextFill(outline);
-        ok.setTextFill(outline);
-        back.setEffect(blend);
-        ok.setEffect(blend);
-
 
         // Set slider properties
         // volume range:0 - 1.0
