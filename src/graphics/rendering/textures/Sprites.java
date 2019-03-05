@@ -3,7 +3,7 @@ package graphics.rendering.textures;
 public enum Sprites {
     MAP("graphics/rendering/textures/map.png"),
     POINTER("graphics/rendering/textures/bluepointer.png"),
-    BLADE("graphics/rendering/textures/blade.png"),
+    BLADE("graphics/rendering/textures/orangeblade.png"),
     AIR("graphics/rendering/textures/air.png"),
     EARTH("graphics/rendering/textures/earth.png"),
     FIRE("graphics/rendering/textures/fire.png"),
