@@ -6,7 +6,7 @@ public class HelpController extends UIController {
 
     @FXML
     public void handleBackBtn() {
-        String fxmlPath = "../fxmls/menu_new.fxml";
+        String fxmlPath = "../fxmls/menu.fxml";
         String stageTitle = "Menu";
         String fileException = "Menu";
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException);

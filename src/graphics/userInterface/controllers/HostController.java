@@ -46,12 +46,6 @@ public class HostController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        back.setTextFill(outline);
-        start.setTextFill(outline);
-        back.setEffect(blend);
-        start.setEffect(blend);
-    }
+    
 }
 

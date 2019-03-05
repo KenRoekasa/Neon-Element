@@ -1,19 +1,26 @@
 package graphics.userInterface.controllers;
 
 import client.ClientGameState;
+import graphics.enums.UIColour;
+import graphics.userInterface.resources.style.Shadow;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 /* Menu buttons:
 1. Play
 2. Options
@@ -21,13 +28,19 @@ import java.util.ResourceBundle;
 4. Exit
 */
 
-public class MenuController implements Initializable{
-    private Stage stage;
+public class MenuController extends UIController implements Initializable{
+    @FXML
+    public Text alien;
+    @FXML
+    public Button play,help,option,exit;
+    @FXML
+    public Label play_label,help_label,option_label,exit_label;
+    @FXML
+    VBox background;
+
+    private Color outline;
     private ClientGameState gameState;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     // play -> mode selection
     @FXML
@@ -35,63 +48,29 @@ public class MenuController implements Initializable{
 
         // create game rules
         // todo make this configurable
-        
-      //select mode
-
-        String fxmlPath;
-        String stageTitle;
-        String fileException;
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            ModeController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading mode board ");
-            e.printStackTrace();
-        }
+        //select mode
+        String fxmlPath = "../fxmls/mode.fxml";
+        String stageTitle = "Mode";
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @FXML
-    public void handleSettingBtn(ActionEvent actionEvent){
-        //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/option.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            OptionController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
-            e.printStackTrace();
-        }
+    public void handleOptionBtn(ActionEvent actionEvent){
+        String fxmlPath ="../fxmls/option.fxml";
+        String stageTitle ="Option Setup" ;
+        String fileException ="Option";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
 
 
     @FXML
     public void handleHelpBtn(ActionEvent actionEvent){
-        //select mode
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/help.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            OptionController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("GUIDE");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
-            e.printStackTrace();
-        }
+        String fxmlPath ="../fxmls/help.fxml";
+        String stageTitle ="Tutorial" ;
+        String fileException ="Help";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
 
     }
 
@@ -99,15 +78,10 @@ public class MenuController implements Initializable{
     public void handleExitBtn(ActionEvent actionEvent){
         stage.close();
 
-       // todo make this graceful
+        // todo make this graceful
 
         Platform.exit();
         System.exit(0);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
     }
 
 }

@@ -6,17 +6,10 @@ import engine.calculations.AttackTimes;
 import engine.enums.Action;
 import engine.enums.Directions;
 import engine.enums.Elements;
-import graphics.userInterface.controllers.MenuController;
-import graphics.userInterface.controllers.PauseController;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
