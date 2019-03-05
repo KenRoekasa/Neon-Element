@@ -21,6 +21,7 @@ public class RespawnController implements Runnable {
         while (gameState.getRunning()) {
             //TODO: If statement based on game type to determine how respawns works based on the game mode
             normalRespawn();
+
         }
 
     }
