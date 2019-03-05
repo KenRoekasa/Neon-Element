@@ -1,22 +1,23 @@
 package graphics.userInterface.controllers;
 
-import client.ClientGameState;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.control.RadioButton;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OnlineSetUpController extends UIController{
+public class OnlineSetUpController extends UIController implements Initializable{
 
+    public RadioButton easy, normal, hard, single, multiple, onePlayer, twoPlayer, threePlayer;
+    public Button back_btn;
+    public Button create_btn;
     @FXML
     Label create,back;
+
+
     @FXML
     public void handleCreateBtn(){
         String fxmlPath = "../fxmls/ip_host.fxml";
@@ -34,6 +35,37 @@ public class OnlineSetUpController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //removeRadioCircle();
+    }
 
+    @SuppressWarnings("Duplicates")
+    private void removeRadioCircle() {
+        // there might be a less long way of doing this
+        easy.getStyleClass().remove("radio-button");
+        easy.getStyleClass().add("button");
 
+        normal.getStyleClass().remove("radio-button");
+        normal.getStyleClass().add("button");
+
+        hard.getStyleClass().remove("radio-button");
+        hard.getStyleClass().add("button");
+
+        single.getStyleClass().remove("radio-button");
+        single.getStyleClass().add("button");
+
+        multiple.getStyleClass().remove("radio-button");
+        multiple.getStyleClass().add("button");
+
+        onePlayer.getStyleClass().remove("radio-button");
+        onePlayer.getStyleClass().add("button");
+
+        twoPlayer.getStyleClass().remove("radio-button");
+        twoPlayer.getStyleClass().add("button");
+
+        threePlayer.getStyleClass().remove("radio-button");
+        threePlayer.getStyleClass().add("button");
+
+    }
 }
