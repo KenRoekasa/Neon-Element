@@ -41,9 +41,10 @@ public class GameStateGenerator {
         // create enemies lists'
         ArrayList<Player> enemies = new ArrayList<>();
         ArrayList<AiController> aiConList = new ArrayList<>();
-        
+        GameType gameType = new FirstToXKillsGame(10);
+        ScoreBoard scoreboard = new ScoreBoard();
         // create an enemy and its ai controller
-        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player);
+        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player, AiType.EASY, scoreboard, gameType);
         aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
         enemies.get(0).setLocation(new Point2D(140, 100));
@@ -53,8 +54,7 @@ public class GameStateGenerator {
         objects.add(player);
         // generate a game state
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
-        ScoreBoard scoreboard = new ScoreBoard();
-        GameType gameType = new FirstToXKillsGame(10);
+
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
 
         //This will be initialised on start of the game
@@ -80,13 +80,21 @@ public class GameStateGenerator {
 
 
         //add the 1 power up to the objects list
-        ArrayList<PhysicsObject> objects = new ArrayList<>();
 
+        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        ScoreBoard scoreboard = new ScoreBoard();
+
+        // First to 10 kills
+
+        GameType gameType = new FirstToXKillsGame(3);
+        GameType gameType1 = new TimedGame(60000);
+        GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
+        GameType gameType3 = new Regicide(player, 5000);
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-       	AiControllersManager aiManager = new AiControllersManager(objects, map, player);
+       	AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType2);
 
         // Add the enemies to the objects list
 
@@ -116,13 +124,7 @@ public class GameStateGenerator {
         objects.add(player);
 //        objects.addAll(map1.getWalls());
 
-
-        ScoreBoard scoreboard = new ScoreBoard();
-        // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(3);
-        GameType gameType1 = new TimedGame(60000);
-        GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
 
         scoreboard.initialise(gameState.getAllPlayers());
 
