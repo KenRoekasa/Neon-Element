@@ -1,9 +1,8 @@
 package graphics.rendering;
 
-import engine.Physics;
-import engine.ScoreBoard;
 import engine.calculations.AttackTimes;
 import client.ClientGameState;
+import engine.gameTypes.HillGame;
 import graphics.debugger.Debugger;
 import engine.entities.Character;
 import engine.entities.PhysicsObject;
@@ -81,6 +80,12 @@ public class Renderer {
 
             // draw map to screen
             DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), textures);
+
+            if(Objects.equals(gameState.getGameType() .getClass(), HillGame.class)) {
+                DrawObjects.drawHill(gc, stageSize, gameState.getPlayer(), ((HillGame) gameState.getGameType()).getHill());
+            }
+
+
 
             //sort based on proximity to the view (greater y is later)
             ArrayList<PhysicsObject> objects = sortDistance(gameState.getObjects());
@@ -230,11 +235,10 @@ public class Renderer {
     }
 
     // get relative location of an object with regards to player - allows for player to be central
-    public static Point2D getRelativeLocation(Rectangle stage, PhysicsObject obj, Point2D playerLocation) {
-        Point2D enemyLocation = obj.getLocation();
+    public static Point2D getRelativeLocation(Rectangle stage, Point2D objectLocation, Point2D playerLocation) {
 
-        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();
-        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY();
+        double relativeX = stage.getWidth() / 2f - playerLocation.getX() + objectLocation.getX();
+        double relativeY = stage.getHeight() / 2f - playerLocation.getY() + objectLocation.getY();
 
         relativeX += xOffset;
         relativeY += yOffset;

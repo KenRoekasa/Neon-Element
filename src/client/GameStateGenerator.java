@@ -86,7 +86,7 @@ public class GameStateGenerator {
 
         GameType gameType = new FirstToXKillsGame(3);
         GameType gameType1 = new TimedGame(60000);
-        GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
+        GameType gameType2 = new HillGame(new Circle(500, 500, 500),100000);
         GameType gameType3 = new Regicide(player, 5000);
 
         // initialise enemies
@@ -117,7 +117,7 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-        objects.addAll(map1.getWalls());
+        //objects.addAll(map1.getWalls());
 
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
 
