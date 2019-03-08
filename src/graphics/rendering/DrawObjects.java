@@ -10,6 +10,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ class DrawObjects {
 
     static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player) {
 
-        Point2D relativeLocation = getRelativeLocation(stage, powerUp, player.getLocation());
+        Point2D relativeLocation = getRelativeLocation(stage, powerUp.getLocation(), player.getLocation());
 
         Color c = colourSwitch.getPowerUpColour(powerUp.getType());
         gc.save();
@@ -72,7 +73,6 @@ class DrawObjects {
     static void drawBackground(GraphicsContext gc, Rectangle stageSize, ArrayList<Point2D> stars) {
         gc.save();
         gc.setFill(UIColour.BACKGROUND.getColor());
-
 
 
         gc.setFill(lg1);
@@ -102,7 +102,7 @@ class DrawObjects {
 
     public static void drawObstacles(GraphicsContext gc, Rectangle stageSize, PhysicsObject obstacle, Player player) {
 
-        Point2D relativeLocation = getRelativeLocation(stageSize, obstacle , player.getLocation());
+        Point2D relativeLocation = getRelativeLocation(stageSize, obstacle.getLocation() , player.getLocation());
         //relativeLocation = relativeLocation.add(-obstacle.getWidth() / 2f, -obstacle.getHeight() / 2f);
 
 
@@ -112,5 +112,22 @@ class DrawObjects {
         gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), obstacle.getWidth(), obstacle.getHeight());
 
         gc.restore();
+    }
+
+    public static void drawHill(GraphicsContext gc, Rectangle stageSize, Player player, Circle hill) {
+        Point2D hillLocation = new Point2D(hill.getCenterX(), hill.getCenterY());
+        Point2D relativeLocation = getRelativeLocation(stageSize, hillLocation, player.getLocation());
+
+        // change based upon circle center location
+        relativeLocation = relativeLocation.add(- hill.getRadius(), - hill.getRadius());
+
+
+        gc.save();
+        gc.setFill(Color.AQUAMARINE);
+
+        gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), hill.getRadius()*2, hill.getRadius()*2);
+
+        gc.restore();
+
     }
 }
