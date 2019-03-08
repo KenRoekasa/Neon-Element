@@ -13,16 +13,12 @@ public class ClientNetworkThread extends Thread {
 
     private ClientGameState gameState;
     private ClientNetwork network;
-    private long lastActionSendTime;
-    private Elements playerElement;
 
     private boolean running = true;
 
     public ClientNetworkThread(ClientGameState gameState, InetAddress serverAddr) {
         this.gameState = gameState;
         this.network = new ClientNetwork(this.gameState, serverAddr);
-        lastActionSendTime = 0;
-        playerElement = gameState.getPlayer().getCurrentElement();
     }
 
     public void run() {
@@ -51,8 +47,10 @@ public class ClientNetworkThread extends Thread {
                 e.printStackTrace();
             }
         }
-        // Now we have been sent game started
 
+        // Now we have been sent game started
+        Elements playerElement = gameState.getPlayer().getCurrentElement();
+        long lastActionSendTime = 0;
         while (this.running) {
             this.doLocationState();
 
