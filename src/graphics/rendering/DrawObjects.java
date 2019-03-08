@@ -103,6 +103,7 @@ class DrawObjects {
     public static void drawObstacles(GraphicsContext gc, Rectangle stageSize, PhysicsObject obstacle, Player player) {
 
         Point2D relativeLocation = getRelativeLocation(stageSize, obstacle , player.getLocation());
+        //relativeLocation = relativeLocation.add(-obstacle.getWidth() / 2f, -obstacle.getHeight() / 2f);
 
 
         gc.save();
