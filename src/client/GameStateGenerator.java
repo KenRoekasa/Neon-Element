@@ -1,10 +1,8 @@
 package client;
 
-import engine.MapGenerator;
 import engine.Map;
+import engine.MapGenerator;
 import engine.ScoreBoard;
-import engine.ai.AiController;
-import engine.ai.AiControllersManager;
 import engine.ai.controller.AiController;
 import engine.ai.controller.AiControllersManager;
 import engine.ai.enums.AiType;
@@ -23,48 +21,48 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class GameStateGenerator {
 
     public static ClientGameState createDemoGamestate() {
-    	System.out.println("generating game state");
-        //initialise map location
-        Rectangle map = new Rectangle(2000, 2000);
-
-        // create player
-        Player player = new Player(ObjectType.PLAYER);
-        player.setId(100);
-        Point2D playerStartLocation = new Point2D(500, 500);
-        player.setLocation(playerStartLocation);
-        
-        // create object list
-        ArrayList<PhysicsObject> objects = new ArrayList<>();
-        
-        // create power up
-        PowerUp pu = new PowerUp();
-        objects.add(pu);
-        
-        // create enemies lists'
-        ArrayList<Player> enemies = new ArrayList<>();
-        ArrayList<AiController> aiConList = new ArrayList<>();
-        GameType gameType = new FirstToXKillsGame(10);
-        ScoreBoard scoreboard = new ScoreBoard();
-        // create an enemy and its ai controller
-        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player, AiType.EASY, scoreboard, gameType);
-        aiConList.add(aiCon);
-        enemies.add(aiCon.getAiPlayer() );
-        enemies.get(0).setLocation(new Point2D(140, 100));
-      
-        // Add the enemies to the objects list
-        objects.addAll(enemies);
-        objects.add(player);
-        // generate a game state
-        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
-
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
-
-        //This will be initialised on start of the game
-        scoreboard.initialise(gameState.getAllPlayers());
-        // start the engine.ai
-        //startAi(aiConList);
-        
-        return gameState;
+//    	System.out.println("generating game state");
+//        //initialise map location
+//        Rectangle map = new Rectangle(2000, 2000);
+//
+//        // create player
+//        Player player = new Player(ObjectType.PLAYER);
+//        player.setId(100);
+//        Point2D playerStartLocation = new Point2D(500, 500);
+//        player.setLocation(playerStartLocation);
+//
+//        // create object list
+//        ArrayList<PhysicsObject> objects = new ArrayList<>();
+//
+//        // create power up
+//        PowerUp pu = new PowerUp();
+//        objects.add(pu);
+//
+//        // create enemies lists'
+//        ArrayList<Player> enemies = new ArrayList<>();
+//        ArrayList<AiController> aiConList = new ArrayList<>();
+//        GameType gameType = new FirstToXKillsGame(10);
+//        ScoreBoard scoreboard = new ScoreBoard();
+//        // create an enemy and its ai controller
+//        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player, AiType.EASY, scoreboard, gameType);
+//        aiConList.add(aiCon);
+//        enemies.add(aiCon.getAiPlayer() );
+//        enemies.get(0).setLocation(new Point2D(140, 100));
+//
+//        // Add the enemies to the objects list
+//        objects.addAll(enemies);
+//        objects.add(player);
+//        // generate a game state
+//        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
+//
+//        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType,new AiControllersManager());
+//
+//        //This will be initialised on start of the game
+//        scoreboard.initialise(gameState.getAllPlayers());
+//        // start the engine.ai
+//        //startAi(aiConList);
+//
+        return null;
     }
 
     //receive the number of enemy from controller to initialise engine.ai enm
@@ -94,7 +92,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType2);
+        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -121,9 +119,9 @@ public class GameStateGenerator {
         objects.add(player);
         objects.addAll(map1.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType,aiManager);
         scoreboard.initialise(gameState.getAllPlayers());
-        aiManager.startAllAi();
+//        aiManager.startAllAi();
         
         return gameState;
     }

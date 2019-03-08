@@ -1,5 +1,6 @@
 package engine;
 
+import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.gameTypes.GameType;
@@ -27,10 +28,12 @@ public abstract class GameState {
     protected ScoreBoard scoreBoard;
     protected LinkedBlockingQueue deadPlayers;
     protected ArrayList<Player> allPlayers = new ArrayList<>();
+    protected AiControllersManager aiConMan;
 
-    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType){
+    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType,AiControllersManager aiConMan){
         this.objects = objects;
         this.gameType = gameType;
+        this.aiConMan = aiConMan;
         for(PhysicsObject o: objects){
             if(Objects.equals(o.getClass(), Player.class)){
                 allPlayers.add((Player) o);
@@ -121,5 +124,9 @@ public abstract class GameState {
 
     public boolean getRunning(){
         return isRunning ;
+    }
+
+    public AiControllersManager getAiConMan() {
+        return aiConMan;
     }
 }

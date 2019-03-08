@@ -1,6 +1,7 @@
 package client;
 
 import engine.GameState;
+import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.ScoreBoard;
@@ -17,8 +18,8 @@ public class ClientGameState extends GameState {
     private Player player;
     private int num_player;
 
-    public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType) {
-        super(map, objects, deadPlayers, scoreboard,gameType);
+    public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType, AiControllersManager aiConMan) {
+        super(map, objects, deadPlayers, scoreboard,gameType,aiConMan);
         this.player = player;
     }
 
