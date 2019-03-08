@@ -121,7 +121,7 @@ public class LocalSetUpController extends UIController implements Initializable 
         //g.getPlayer().getHealth();
         try {
             boolean networked = false;
-            GameClient gameBoard = new GameClient(stage, gameState, networked);
+            GameClient gameBoard = new GameClient(stage, gameState, networked, audioManager);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 
@@ -134,7 +134,7 @@ public class LocalSetUpController extends UIController implements Initializable 
         String fxmlPath ="../fxmls/mode.fxml";
         String stageTitle ="Mode" ;
         String fileException ="Mode";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     @Override

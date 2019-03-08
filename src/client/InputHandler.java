@@ -1,6 +1,7 @@
 package client;
 
 import engine.entities.Player;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+import static graphics.rendering.ISOConverter.getPlayerLocOnScreen;
+
 public class InputHandler {
 
 
@@ -16,9 +19,11 @@ public class InputHandler {
     // possibilities are:
     // threading, faster angle calculation, both
     static void mouseAngleCalc(Player player, Stage primaryStage, MouseEvent event) {
-        double opposite = primaryStage.getWidth()/2 - event.getX();
+        Point2D newLoc = getPlayerLocOnScreen(player, new Rectangle(primaryStage.getWidth(), primaryStage.getHeight()));
 
-        double adjacent = primaryStage.getHeight()/2 - event.getY();
+
+        double opposite = newLoc.getX() - event.getX();
+        double adjacent = newLoc.getY() - event.getY();
 
         double angle = Math.atan(Math.abs(opposite)/Math.abs(adjacent));
         angle = Math.toDegrees(angle);

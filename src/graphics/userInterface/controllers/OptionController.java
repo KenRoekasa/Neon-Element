@@ -30,7 +30,7 @@ public class OptionController extends UIController{
 
     @FXML
     public void handleOkBtn(){
-        AudioManager.setVolume(sound.getValue());
+        audioManager.setVolume(sound.getValue());
         System.out.println("sound value"+ sound.getValue());
 
     }
@@ -41,7 +41,7 @@ public class OptionController extends UIController{
         String fxmlPath = "../fxmls/menu.fxml";
         String stageTitle = "Menu";
         String fileException = "Menu";
-        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class OptionController extends UIController{
         // defalut value is 0.4
         sound.setMin(0);
         sound.setMax(1.0);
-        sound.setValue(0.4);
+        sound.setValue(1);
 
 
         DecimalFormat df = new DecimalFormat("0.0");
