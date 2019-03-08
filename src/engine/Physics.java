@@ -28,7 +28,7 @@ public class Physics {
 
     public void clientLoop() {
         doCollisionDetection();
-        new Thread(() -> doHitDetection()).start();
+        doHitDetection();
         doUpdates();
         deathHandler();
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
