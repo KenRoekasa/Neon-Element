@@ -62,8 +62,8 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 	public byte[] getRawBytes() {
 		ByteBuffer buffer = this.getByteBuffer();
 
-		buffer.putDouble(this.map.getX());
-		buffer.putDouble(this.map.getY());
+		buffer.putDouble(this.map.getWidth());
+		buffer.putDouble(this.map.getHeight());
 
 		int numPlayers = this.ids.size();
 		buffer.putInt(numPlayers);
