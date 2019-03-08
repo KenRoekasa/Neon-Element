@@ -25,7 +25,8 @@ public class DamageTest {
                     //Attack Collision
                     //if player is light attacking
                     if (player.getCurrentAction() == Action.LIGHT) {
-                        if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), enemy.getBounds().getBoundsInParent())) {
+                        if (CollisionDetection.checkCollision(player.getAttackHitbox(), enemy.getBounds())) {
+
                             // e takes damage
                             Player enemy1 = (Player) enemy;
                             // TODO: For now its takes 3 damage, change later
@@ -37,7 +38,8 @@ public class DamageTest {
 
                     }
                     if (player.getCurrentAction() == Action.HEAVY) {
-                        if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(), enemy.getBounds().getBoundsInParent())) {
+                        if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(), enemy.getBounds())) {
+
                             // e takes damage
                             Player enemy1 = (Player) enemy;
                             // TODO: For now its takes 10 damage, change later
@@ -70,7 +72,7 @@ public class DamageTest {
                 //if player is light attacking
                 synchronized (enemy) {
                     if (player.getCurrentAction() == Action.LIGHT) {
-                        if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), enemy.getBounds().getBoundsInParent())) {
+                        if (CollisionDetection.checkCollision(player.getAttackHitbox(), enemy.getBounds())) {
                             // e takes damage
                             Player enemy1 = (Player) enemy;
                             // TODO: For now its takes 3 damage, change later
@@ -82,7 +84,7 @@ public class DamageTest {
 
                     }
                     if (player.getCurrentAction() == Action.HEAVY) {
-                        if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(), enemy.getBounds().getBoundsInParent())) {
+                        if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(), enemy.getBounds())) {
                             // e takes damage
                             Player enemy1 = (Player) enemy;
                             // TODO: For now its takes 10 damage, change later
