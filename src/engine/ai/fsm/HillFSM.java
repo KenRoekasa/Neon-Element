@@ -1,25 +1,19 @@
-package engine.ai;
+package engine.ai.fsm;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
+import engine.ai.enums.AiStates;
 import engine.entities.Character;
 import engine.entities.Player;
-import engine.enums.AiStates;
 import engine.enums.PowerUpType;
 
-public class HillFSM {
-	
-	Player aiPlayer;
-	AiController aiCon;
-	AiCalculations calc;
-	float maxHP ;
+public class HillFSM extends FSM{
 	
 	public HillFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
-		this.aiPlayer = aiPlayer;
-		this.aiCon = aiCon;
-		this.calc = calc;
-		maxHP = aiPlayer.getMAX_HEALTH();
+		super(aiPlayer, aiCon, calc);
 	}
 	
+	@Override
 	public void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -41,13 +35,13 @@ public class HillFSM {
 			}
 		}
 		
-		//case 1, stay on hill
+		//case 2, stay on hill
 		
 		else if( !calc.onHill(aiPlayer.getLocation()) ) {//System.out.println("case 1");
 			aiCon.setState(AiStates.GO_TO_HILL);
 		}
 	
-		//case 2, look for health power up 
+		//case 3, look for health power up 
 		else if(aiPlayerHP < (maxHP/2)) {//System.out.println("case 2");
 			if(calc.getNearestPowerUp(PowerUpType.HEAL) != -1)
 				aiCon.setState(AiStates.FIND_HEALTH);
@@ -55,18 +49,18 @@ public class HillFSM {
 				aiCon.setState(AiStates.ESCAPE);
 		}
 		
-		//case 3, FINISH HIM
+		//case 4, FINISH HIM
 		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}		
 		
-		//case 4, normal attacking
+		//case 5, normal attacking
 		else if ( calc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
 			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
 			aiCon.setState(AiStates.ATTACK);
 		}
 	
-		//case5, take the power up on your way
+		//case 6, take the power up on your way
 		else if (calc.powerupIsTooClose()) {//System.out.println("case 5");
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
@@ -81,7 +75,7 @@ public class HillFSM {
 			}
 		}
 		
-		//case 6, 'random action', either fix on one player and attack, or wander for 5 seconds
+		//case 7, wander for 5 seconds
 		else {//System.out.println("case 6");
 			aiCon.setState(AiStates.WANDER_ON_HILL);
 		}
@@ -89,6 +83,7 @@ public class HillFSM {
 
 	}
 	
+	@Override
 	public void normalAiFetchAction() {
 		float aiPlayerHP = aiPlayer.getHealth();
 		Character nearestPlayer = calc.getNearestPlayer();
@@ -143,6 +138,7 @@ public class HillFSM {
 
 	}
 	
+	@Override
 	public void hardAiFetchAction() {
 		float aiPlayerHP = aiPlayer.getHealth();
 		Character nearestPlayer = calc.getNearestPlayer();

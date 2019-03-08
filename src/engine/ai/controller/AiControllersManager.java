@@ -1,12 +1,12 @@
-package engine.ai;
+package engine.ai.controller;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import engine.ScoreBoard;
+import engine.ai.enums.AiType;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;

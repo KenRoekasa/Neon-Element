@@ -3,12 +3,12 @@ package client;
 import engine.MapGenerator;
 import engine.Map;
 import engine.ScoreBoard;
-import engine.ai.AiController;
-import engine.ai.AiControllersManager;
+import engine.ai.controller.AiController;
+import engine.ai.controller.AiControllersManager;
+import engine.ai.enums.AiType;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.*;
 import javafx.geometry.Point2D;
@@ -92,7 +92,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType2);
+        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -117,9 +117,9 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-//        objects.addAll(map1.getWalls());
+        objects.addAll(map1.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
         aiManager.startAllAi();
         
