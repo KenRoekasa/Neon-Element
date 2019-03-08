@@ -15,7 +15,7 @@ public class FSMManager {
 	
 	public FSMManager(Player aiPlayer, AiController aiCon,AiCalculations calc, GameType gameType) {	
 		this.aiCon = aiCon; 
-		createProperFSM(aiPlayer, aiCon, calc, gameType);
+		initializeProperFSM(aiPlayer, aiCon, calc, gameType);
 	}
 	
 	public void fetchAction() {
@@ -33,11 +33,13 @@ public class FSMManager {
 		}
 	}
 	
-	private void createProperFSM(Player aiPlayer, AiController aiCon2, AiCalculations calc, GameType gameType) {
+	private void initializeProperFSM(Player aiPlayer, AiController aiCon2, AiCalculations calc, GameType gameType) {
 		switch(gameType.getType()) {
 		case Timed:
-		case FirstToXKills:
 			fsm = new TimedFSM(aiPlayer, aiCon, calc);
+			break;
+		case FirstToXKills:
+			fsm = new KillsFSM(aiPlayer, aiCon, calc);
 			break;
 		case Hill:
 			fsm = new HillFSM(aiPlayer, aiCon2, calc);

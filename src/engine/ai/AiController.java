@@ -27,7 +27,7 @@ public class AiController {
 		Player player;
 		AiType aiType;
 		AiStateActions stateActions;
-		FSMManager brain;
+		FSMManager fsmManager;
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType, ScoreBoard scoreboard, GameType gameType) {
 	    	
 			activeState = AiStates.IDLE;
@@ -40,7 +40,7 @@ public class AiController {
 	        AiActions actions = new AiActions(this, calc, map);
 	        
 	        stateActions = new AiStateActions(this, calc, actions);
-	        brain = new FSMManager (aiPlayer, this, calc, gameType);
+	        fsmManager = new FSMManager (aiPlayer, this, calc, gameType);
 	        
 	        //default random
 	        actions.assignRandomElement();
@@ -48,7 +48,7 @@ public class AiController {
 	    }
 		
 		public void update() {
-			brain.fetchAction();
+			fsmManager.fetchAction();
 			stateActions.executeAction();
 		}
 		
