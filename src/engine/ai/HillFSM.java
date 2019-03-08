@@ -6,20 +6,13 @@ import engine.entities.Player;
 import engine.enums.AiStates;
 import engine.enums.PowerUpType;
 
-public class HillFSM {
-	
-	Player aiPlayer;
-	AiController aiCon;
-	AiCalculations calc;
-	float maxHP ;
+public class HillFSM extends FSM{
 	
 	public HillFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
-		this.aiPlayer = aiPlayer;
-		this.aiCon = aiCon;
-		this.calc = calc;
-		maxHP = aiPlayer.getMAX_HEALTH();
+		super(aiPlayer, aiCon, calc);
 	}
 	
+	@Override
 	public void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -89,6 +82,7 @@ public class HillFSM {
 
 	}
 	
+	@Override
 	public void normalAiFetchAction() {
 		float aiPlayerHP = aiPlayer.getHealth();
 		Character nearestPlayer = calc.getNearestPlayer();
@@ -143,6 +137,7 @@ public class HillFSM {
 
 	}
 	
+	@Override
 	public void hardAiFetchAction() {
 		float aiPlayerHP = aiPlayer.getHealth();
 		Character nearestPlayer = calc.getNearestPlayer();
