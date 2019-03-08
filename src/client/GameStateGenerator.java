@@ -3,12 +3,12 @@ package client;
 import engine.MapGenerator;
 import engine.Map;
 import engine.ScoreBoard;
-import engine.ai.AiController;
-import engine.ai.AiControllersManager;
+import engine.ai.controller.AiController;
+import engine.ai.controller.AiControllersManager;
+import engine.ai.enums.AiType;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.*;
 import javafx.geometry.Point2D;
@@ -51,9 +51,10 @@ public class GameStateGenerator {
         // create enemies lists'
         ArrayList<Player> enemies = new ArrayList<>();
         ArrayList<AiController> aiConList = new ArrayList<>();
-
+        GameType gameType = new FirstToXKillsGame(10);
+        ScoreBoard scoreboard = new ScoreBoard();
         // create an enemy and its ai controller
-        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player);
+        AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player, AiType.EASY, scoreboard, gameType);
         aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
         enemies.get(0).setLocation(new Point2D(140, 100));
@@ -63,8 +64,7 @@ public class GameStateGenerator {
         objects.add(player);
         // generate a game state
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
-        ScoreBoard scoreboard = new ScoreBoard();
-        GameType gameType = new FirstToXKillsGame(10);
+
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
 
         //This will be initialised on start of the game
@@ -85,18 +85,24 @@ public class GameStateGenerator {
         // create player
         Player player = new Player(ObjectType.PLAYER);
         player.setId(4);
-        Point2D playerStartLocation = new Point2D(500, 500);
-        player.setLocation(playerStartLocation);
 
 
         //add the 1 power up to the objects list
-        ArrayList<PhysicsObject> objects = new ArrayList<>();
 
+        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        ScoreBoard scoreboard = new ScoreBoard();
+
+        // First to 10 kills
+
+        GameType gameType = new FirstToXKillsGame(3);
+        GameType gameType1 = new TimedGame(60000);
+        GameType gameType2 = new HillGame(new Circle(2000, 0, 500),100000);
+        GameType gameType3 = new Regicide(player.getId(), 5000);
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-       	AiControllersManager aiManager = new AiControllersManager(objects, map, player);
+        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -104,38 +110,27 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
         }
+        Map map1 = MapGenerator.createMap1();
+
+
+
+        player.setLocation(map1.getRespawnPoints().get(0));
+
         for (int i = 0; i < num_enm; i++) {
-
-            if(i == 0) {
-                enemies.get(i).setLocation(new Point2D(map.getWidth() - map.getWidth()/10, map.getHeight() - map.getHeight()/10));
-            } else if (i == 1) {
-                enemies.get(i).setLocation(new Point2D(0 +  map.getWidth()/10, map.getHeight() - map.getHeight()/10));
-            } else if (i == 2) {
-                enemies.get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
-            }
-
+            enemies.get(i).setLocation(map1.getRespawnPoints().get(i+1));
             enemies.get(i).setId(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
         //Create the first map
-        Map map1 = MapGenerator.createMap1();
 
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-//        objects.addAll(map1.getWalls());
+        objects.addAll(map1.getWalls());
 
-
-        ScoreBoard scoreboard = new ScoreBoard();
-        // First to 10 kills
-        GameType gameType = new FirstToXKillsGame(3);
-        GameType gameType1 = new TimedGame(60000);
-        GameType gameType2 = new HillGame(new Circle(500, 500, 50),100000);
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
-
         scoreboard.initialise(gameState.getAllPlayers());
-
         aiManager.startAllAi();
 
         return gameState;

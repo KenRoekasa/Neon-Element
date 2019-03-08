@@ -5,6 +5,7 @@ import engine.entities.Player;
 import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RespawnController implements Runnable {
@@ -43,7 +44,6 @@ public class RespawnController implements Runnable {
 
                 int x = (int) (Math.random() * 2000);
                 int y = (int) (Math.random() * 2000);
-
                 player.setLocation(new Point2D(x, y));
                 player.respawn();
                 // SO you don't respawn twice

@@ -13,6 +13,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
+import static graphics.rendering.ISOConverter.getPlayerLocOnScreen;
+
 /*
 * When created, this object allows for debug information to easily be added to the screen
 * */
@@ -60,12 +62,12 @@ public class Debugger {
 
 
     public void gameStateDebugger(ClientGameState gameState, Rectangle stage){
-        Point2D stageCenter = new Point2D(stage.getWidth()/2 - 15, stage.getHeight()/2 );
-        printPlayerHealth(gameState.getPlayer(), stageCenter);
+        Point2D playerLocationOnScreen = getPlayerLocOnScreen(gameState.getPlayer(), stage);
+        printPlayerHealth(gameState.getPlayer(), playerLocationOnScreen);
 
         for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
 
-            Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy, gameState.getPlayer().getLocation());
+            Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy.getLocation(), gameState.getPlayer().getLocation());
 
             Point2D newLoc = ISOConverter.getLocationOnScreen(relativeLocation, enemy, stage);
             newLoc = newLoc.add(-15, 0);
@@ -77,7 +79,11 @@ public class Debugger {
 
     private void printPlayerInfo(Character player, Point2D relativeLocation){
 
+        gc.save();
+
+        gc.setStroke(Color.WHITE);
         gc.strokeText(player.toString(), relativeLocation.getX(), relativeLocation.getY());
+        gc.restore();
     }
 
     private void printPlayerHealth(Character player, Point2D relativeLocation){

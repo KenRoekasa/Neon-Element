@@ -45,6 +45,8 @@ public class PauseController extends UIController{
     @FXML
     public void handleResumeBtn(){
         hudPane.getChildren().remove(node);
+        gameState.resume();
+
     }
 
     // todo this needs to return to the game, probably want an options menu thats transparent like the pause menu
@@ -61,6 +63,7 @@ public class PauseController extends UIController{
             subnode.setBackground(Background.EMPTY);
             SoundController controller = loader.getController();
             controller.setHudPane(hudPane);
+            controller.setGamestate(gameState);
             controller.setNode(subnode);
             controller.setStage(stage);
             stage.setTitle("Sound");
@@ -73,22 +76,11 @@ public class PauseController extends UIController{
     @FXML
     // todo this needs to end the game thread somehow
     public void handleQuitBtn(){
-        String fxmlPath = "../fxmls/menu_new.fxml";
+        String fxmlPath = "../fxmls/menu.fxml";
         String stageTitle = "Menu";
         String fileException ="Menu";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        resume.setTextFill(outline);
-        option.setTextFill(outline);
-        quit.setTextFill(outline);
-        resume.setEffect(blend);
-        option.setEffect(blend);
-        quit.setEffect(blend);
-    }
-
 }

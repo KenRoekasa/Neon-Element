@@ -1,14 +1,19 @@
-package engine.calculations;
+package engine.ai.calculations;
+
+import static engine.gameTypes.GameType.Type.Hill;
 
 import java.util.ArrayList;
 
-import engine.ai.AiController;
+import engine.ScoreBoard;
+import engine.ai.controller.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
+import engine.gameTypes.GameType;
+import engine.gameTypes.HillGame;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -21,18 +26,49 @@ public class AiCalculations {
 	private Rectangle map;	
 	private Player player;
 	private ArrayList<PowerUp> powerups;
-	float startTime;
+	private GameType gameType;
+	private ScoreBoard scoreboard;
+	private float startTime;
+	private double circleX;
+	private double circleY;
+	private Point2D circleCentre;
+	private double circleRadius;
 	
-	public AiCalculations(AiController aiCon,Rectangle map) {
+	public AiCalculations(AiController aiCon,Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		this.aiCon = aiCon;
 		this.map = map;
+		this.scoreboard = scoreboard;
+		this.gameType = gameType;
+		
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
 		powerups = new ArrayList<>();
 		startTime = System.nanoTime()/1000000000;
 		
+		setCircleCoordination();
 	}
 	
+	private void setCircleCoordination() {
+		if(gameType.getType().equals(Hill)) {
+			HillGame hillGame = (HillGame) gameType;
+			circleX = hillGame.getHill().getCenterX();
+			circleY = hillGame.getHill().getCenterY();
+			circleCentre = new Point2D(circleX,circleY);
+			circleRadius = hillGame.getHill().getRadius();
+		}
+	}
+	
+	public Point2D getHillCentreLocation() {
+		return circleCentre; 
+	}
+	
+	public boolean onHill(Point2D loc) {
+		double locX = loc.getX();
+		double locY = loc.getY();
+		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
+		return distance < circleRadius;
+	}
+
 	public float secondsElapsed() {
 		float endTime = System.nanoTime()/1000000000;
 		float elapsedTime = endTime - startTime;
@@ -44,7 +80,7 @@ public class AiCalculations {
 	}
 
 
-	public ArrayList<Player> getPlayers(){
+	public ArrayList<Player> getOtherPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
 		ArrayList<PhysicsObject> objects = new ArrayList<>();
 		objects.addAll(aiCon.getObjects());
@@ -57,6 +93,36 @@ public class AiCalculations {
 		return players;
 	}
 
+	public ArrayList<Player> getPlayers(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for(PhysicsObject object : objects) {
+			if( object.getTag() == (ObjectType.ENEMY) ) {
+				players.add((Player)object);
+			}
+		}
+		players.add(player);
+		return players;
+	}
+	
+	public Player getWinningPlayer() {
+		ArrayList<Player> players = getPlayers();
+		int  id =(scoreboard.getLeaderBoard().get(0));
+		Player winningPlayer = null;
+		for (Player player : players) {
+			if(player.getId() == id)
+				winningPlayer = player;
+		}
+		return winningPlayer;
+	}
+	
+	public boolean killDifferenceIsMoreThan(int kills) {
+		Player winner = getWinningPlayer();
+		int difference = scoreboard.getPlayerKills(winner.getId()) - scoreboard.getPlayerKills(aiPlayer.getId()) ;
+		return difference >= kills;
+	}
+	
 	
 	public void updatePowerups() {
 
@@ -103,15 +169,15 @@ public class AiCalculations {
 		return false;
 	}
 	
-	/*
-	 * 0 = down cart
-	 * 1 = right
-	 * 2 = down
-	 * 3 = right cart
-	 * 4 = up
-	 * 5 = left cart
-	 * 6 = left
-	 * 7 = up cart
+	/*returns integer value, between 0 and 7 inclusive, to indicate movement direction to move away from edge
+	 * 0 = down 
+	 * 1 = right cart
+	 * 2 = down cart
+	 * 3 = right 
+	 * 4 = up cart
+	 * 5 = left 
+	 * 6 = left cart
+	 * 7 = up 
 	 */
 	public int closestEdgeLocation() {
 		Point2D loc = aiPlayer.getLocation();
@@ -227,41 +293,6 @@ public class AiCalculations {
 		return dir;
 	}
 	
-
-	public boolean higherY(Point2D loc) {
-
-		return (aiPlayer.getLocation().getY() - loc.getY() < 0) ? true : false;
-	}
-
-	public boolean higherX(Point2D loc) {
-
-		return (aiPlayer.getLocation().getX() - loc.getX() < 0) ? true : false;
-	}
-
-	public boolean isRightOf(Point2D loc) {
-		if (loc.getX() > aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isLeftOf(Point2D loc) {
-		if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() > aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isUnder(Point2D loc) {
-		if (loc.getX() > aiPlayer.getLocation().getX() && loc.getY() > aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isAbove(Point2D loc) {
-		if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-	
 	public double calcAngle(Point2D loc1, Point2D loc2) {
 
 		double x = loc1.getX() - loc2.getX();
@@ -325,7 +356,7 @@ public class AiCalculations {
 
 	public Player getNearestPlayer() {
 		double minDis = Double.MAX_VALUE;
-		ArrayList<Player> players = getPlayers();
+		ArrayList<Player> players = getOtherPlayers();
 		int index = 0;
 		for (int i = 0; i < players.size(); i++) {
 			double tempDis = calcDistance(players.get(i).getLocation(), aiPlayer.getLocation());

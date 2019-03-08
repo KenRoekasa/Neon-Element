@@ -2,6 +2,7 @@ package engine.enums;
 
 import utils.InvalidEnumId;
 import utils.LookupableById;
+import graphics.rendering.textures.Sprites;
 
 public enum Elements implements LookupableById {
     //subject to change
@@ -20,4 +21,25 @@ public enum Elements implements LookupableById {
     public static Elements getById(byte id) throws InvalidEnumId {
         return LookupableById.lookup(Elements.class, id);
     }
+
+    public static Sprites getSprite(Elements element) {
+        switch (element) {
+            case FIRE:
+                return Sprites.FIRE;
+
+            case AIR:
+                return Sprites.AIR;
+
+            case EARTH:
+                return Sprites.EARTH;
+
+            case WATER:
+                return Sprites.WATER;
+
+                default:
+                    return Sprites.WATER;
+
+        }
+    }
+
 }

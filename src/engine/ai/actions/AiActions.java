@@ -1,8 +1,9 @@
-package engine.ai;
+package engine.ai.actions;
 
 import java.util.Random;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
 import engine.entities.Player;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
@@ -108,39 +109,12 @@ public class AiActions {
 		}
 	}
 
-	public void moveAway(Player player) {
+	public void moveAwayFromPlayer(Player player) {
 		
-		
-		if(calc.reachedAnEdge()) {
+		if(calc.reachedAnEdge()) 
 			moveAwayFromEdge();
-		}
-		else {
-			Point2D playerLoc = player.getLocation(), aiLoc = aiPlayer.getLocation();
-			if(playerLoc.getX()>aiLoc.getX()) {
-				if(playerLoc.getY()>aiLoc.getY())
-					aiPlayer.moveUp();
-				else if(playerLoc.getY()<aiLoc.getY())
-					aiPlayer.moveLeft(map.getWidth());
-				else
-					aiPlayer.moveUpCartesian();
-			}
-			else if(playerLoc.getX()<aiLoc.getX()) {
-				if(playerLoc.getY()>aiLoc.getY())
-					aiPlayer.moveRight(map.getWidth(), map.getHeight());
-				else if(playerLoc.getY()<aiLoc.getY())
-					aiPlayer.moveDown(map.getWidth(), map.getHeight());
-				else
-					aiPlayer.moveDownCartestian(map.getHeight());
-			}
-			else {
-				if(playerLoc.getY()>aiLoc.getY())
-					aiPlayer.moveLeftCartesian();
-				else if(playerLoc.getY()<aiLoc.getY())
-					aiPlayer.moveRightCartesian(map.getWidth());
-				else
-					aiPlayer.moveDown(map.getWidth(), map.getHeight());
-			}
-		}
+		else 
+			simpleMovement(player.getLocation(),aiPlayer.getLocation());
 		
 		if (calc.inAttackDistance(player) && player.getHealth()>0) {
 			aiPlayer.unShield();
@@ -152,64 +126,73 @@ public class AiActions {
 	
 	
 	public void moveAwayFromEdge() {
-		double width = map.getWidth();
-		double height = map.getHeight();
 		int i = calc.closestEdgeLocation();
-		if(i == 0)
-			i = 2;
-		else if(i == 2)
-			i = 0;
-		if(i == 1)
-			i = 3;
-		else if(i == 3)
-			i = 1;
-		if(i == 4)
-			i = 7;
-		else if(i == 7)
-			i = 4;
-		if(i == 5)
-			i = 6;
-		else if(i == 6)
-			i = 5;
 		switch(i) {
-		case 0:aiPlayer.moveDownCartestian(height);break;
-		case 1:aiPlayer.moveRight(width, height);break;
-		case 2:aiPlayer.moveDown(width, height);break;
-		case 3:aiPlayer.moveRightCartesian(width);break;
-		case 4:aiPlayer.moveUp();break;
-		case 5:aiPlayer.moveLeftCartesian();break;
-		case 6:aiPlayer.moveLeft(width);break;
-		case 7:aiPlayer.moveUpCartesian();break;
+		case 0:down();break;
+		case 1:rightcart();break;
+		case 2:downcart();break;
+		case 3:right();break;
+		case 4:upcart();break;
+		case 5:left();break;
+		case 6:leftcart();break;
+		case 7:up();break;
 		}
 	}
 	
 
 	public void moveTo(int powerupIndex, Point2D loc) {
+		
+		Player player = calc.getNearestPlayer();
+		if(calc.inAttackDistance(player)) {
+			aiPlayer.unShield();
+			aiPlayer.lightAttack();
+			aiPlayer.shield();
+		}
 
 		double distance = calc.calcDistance(aiPlayer.getLocation(), loc);
 
 		if(!((int) distance > 2 || powerupIndex == -1))
 			return;
-
-			if (calc.isAbove(loc))
-				aiPlayer.moveUp();
-			else if (calc.isUnder(loc))
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-			if (calc.isLeftOf(loc))
-				aiPlayer.moveLeft(map.getWidth());
-			else if (calc.isRightOf(loc))
-				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-			else if (calc.higherY(loc))
-				aiPlayer.moveDownCartestian(map.getWidth());
-			else if (!calc.higherY(loc))
-				aiPlayer.moveUpCartesian();
-			else if (calc.higherX(loc))
-				aiPlayer.moveLeftCartesian();
-			else if (!calc.higherX(loc))
-				aiPlayer.moveRightCartesian(map.getWidth());
+		simpleMovement(aiPlayer.getLocation(), loc);
 
 	}
-
+	
+	public void simpleMovement(Point2D myLoc, Point2D theirLoc) {
+		double myX = myLoc.getX();
+		double myY = myLoc.getY();
+		double theirX = theirLoc.getX();
+		double theirY = theirLoc.getY();
+		
+		if( myX > theirX && myY > theirY )
+			up();
+		else if( myX > theirX && (int)myY == (int)theirY )
+			leftcart();
+		else if( myX > theirX && myY < theirY )
+			left();
+		
+		else if( (int)myX == (int)theirX && myY > theirY )
+			upcart();
+		else if( (int)myX == (int)theirX && myY < theirY )
+			downcart();
+		
+		else if( myX < theirX && (int)myY == (int)theirY )
+			rightcart();
+		else if( myX < theirX && myY > theirY )
+			right();
+		else if( myX < theirX && myY < theirY )
+			down();
+		
+	}
+	
+	void up() {aiPlayer.moveUp();}
+	void down() {aiPlayer.moveDownCartestian(map.getWidth());}
+	void left() {aiPlayer.moveLeft(map.getWidth());}
+	void right() {aiPlayer.moveRight(map.getWidth(), map.getHeight());}
+	void upcart() {aiPlayer.moveUpCartesian();}
+	void downcart() {aiPlayer.moveDownCartestian(map.getWidth());};
+	void leftcart() {aiPlayer.moveLeftCartesian();};
+	void rightcart() {aiPlayer.moveRightCartesian(map.getWidth());};
+	
 	public void moveTo(Player player) {
 
 		Point2D playerLoc = player.getLocation();
@@ -220,39 +203,10 @@ public class AiActions {
 		if( player.getTag().equals(ObjectType.ENEMY) && distance <= 2) 
 			return;
 			
-			aiPlayer.setPlayerAngle(new Rotate(calc.calcAngle(aiPlayer.getLocation(),player.getLocation())));
+		aiPlayer.setPlayerAngle(new Rotate(calc.calcAngle(aiPlayer.getLocation(),player.getLocation())));
+		
+		simpleMovement(aiPlayer.getLocation(), playerLoc);
 
-			if (calc.isAbove(playerLoc)) {
-				aiPlayer.moveUp();
-			}
-			else if (calc.isUnder(playerLoc)) {
-			//	System.out.println("going down");
-				aiPlayer.moveDown(map.getWidth(), map.getHeight());
-			}if (calc.isLeftOf(playerLoc)) {
-				//System.out.println("going left");
-				aiPlayer.moveLeft(map.getWidth());
-			}else if (calc.isRightOf(playerLoc)) {
-				//System.out.println("going right");
-				aiPlayer.moveRight(map.getWidth(), map.getHeight());
-			}else if (calc.isAbove(playerLoc)) {
-				//System.out.println("going up");
-				aiPlayer.moveUp();
-			}else if (calc.higherY(playerLoc)) {
-//				System.out.println("going up cart");
-				aiPlayer.moveDownCartestian(map.getWidth());
-			}else if (!calc.higherY(playerLoc)) {
-//				System.out.println("going down cart");
-				aiPlayer.moveUpCartesian();
-			}else if (calc.higherX(playerLoc)) {
-//				System.out.println("going left cart");
-				aiPlayer.moveLeftCartesian();
-			}else if (!calc.higherX(playerLoc)) {
-//				System.out.println("going right cart");
-				aiPlayer.moveRightCartesian(map.getWidth());
-			}
-		//	playerLoc = player.getLocation();
-			//distance = calcDistance(aiPlayer.getLocation(), playerLoc);
-		//}
 	}
 	
 	public void changeToRandomElementAfter(int seconds) {
@@ -283,24 +237,25 @@ public class AiActions {
 		}
 
 		switch(wanderingDirection) {
-		case 0:aiPlayer.moveDown(map.getWidth(), map.getHeight());break;
-		case 1:aiPlayer.moveUp();break;
-		case 2:aiPlayer.moveLeft(map.getWidth());break;
-		case 3:aiPlayer.moveRight(map.getWidth(), map.getHeight());break;
-		case 4:aiPlayer.moveDownCartestian(map.getHeight());break;
-		case 5:aiPlayer.moveUpCartesian();break;
-		case 6:aiPlayer.moveLeftCartesian();break;
-		case 7:aiPlayer.moveRightCartesian(map.getWidth());break;
+		case 0:down();break;
+		case 1:up();break;
+		case 2:left();break;
+		case 3:right();break;
+		case 4:downcart();break;
+		case 5:upcart();break;
+		case 6:leftcart();break;
+		case 7:rightcart();break;
 		}
 	}
 	
 	public void changeToBefittingElement() {
 		Player player = calc.getNearestPlayer();
-		switch(aiCon.activeState) {
+		switch(aiCon.getActiveState()) {
 		
 		//when attacking, change element to maximize damage given
 		case AGGRESSIVE_ATTACK:
 		case ATTACK:
+		case ATTACK_WINNER:
 			switch(player.getCurrentElement()) {
 			case WATER:
 			case AIR:
@@ -320,6 +275,9 @@ public class AiActions {
 		case FIND_SPEED:
 		case WANDER:
 		case IDLE:
+		case ESCAPE_ON_HILL:
+		case GO_TO_HILL:
+		case WANDER_ON_HILL:
 			switch(player.getCurrentElement()) {
 			case EARTH:
 			case FIRE:
@@ -332,6 +290,8 @@ public class AiActions {
 				aiPlayer.changeToAir();
 				break;
 			}
+			break;
+		default:
 			break;
 		}
 	}
