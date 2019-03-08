@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.Physics;
 import engine.ScoreBoard;
 import engine.calculations.AttackTimes;
 import client.ClientGameState;
@@ -150,6 +151,8 @@ public class Renderer {
             DrawEnemies.drawEnemy(gc, stageSize, (Character) o, gameState.getPlayer());
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
+        } else if (o.getTag() == ObjectType.OBSTACLE) {
+            DrawObjects.drawObstacles(gc, stageSize, (PhysicsObject) o, gameState.getPlayer());
         }
     }
 

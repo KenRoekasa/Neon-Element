@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import graphics.enumSwitches.colourSwitch;
@@ -97,5 +98,18 @@ class DrawObjects {
 
         }
         return stars;
+    }
+
+    public static void drawObstacles(GraphicsContext gc, Rectangle stageSize, PhysicsObject obstacle, Player player) {
+
+        Point2D relativeLocation = getRelativeLocation(stageSize, obstacle , player.getLocation());
+
+
+        gc.save();
+
+        gc.setFill(Color.PURPLE);
+        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), obstacle.getWidth(), obstacle.getHeight());
+
+        gc.restore();
     }
 }
