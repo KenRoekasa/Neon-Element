@@ -1,10 +1,8 @@
 package networking.client;
 
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import client.ClientGameState;
-import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
@@ -23,8 +21,6 @@ public class ClientNetworkHandler {
     }
 
     public void receiveHelloAck(HelloAckPacket packet) {
-        int players = packet.getPlayers();
-        int maxPlayers = packet.getMaxPlayers();
         GameType gameType = packet.getGameType();
         this.gameState.setGameType(gameType);
     }

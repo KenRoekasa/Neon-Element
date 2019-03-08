@@ -1,6 +1,5 @@
 package engine;
 
-import client.ClientGameState;
 import client.GameClient;
 import engine.calculations.DamageCalculation;
 import engine.entities.CollisionDetection;
