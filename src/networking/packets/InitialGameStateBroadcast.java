@@ -14,7 +14,6 @@ import networking.client.ClientNetworkHandler;
 
 public class InitialGameStateBroadcast extends Packet.PacketToClient {
 
-	public GameType gameType;
 	public ArrayList<Integer> ids;
 	public ArrayList<Point2D> locations;
 	public Rectangle map;
@@ -24,9 +23,8 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 		// Todo convert from buffer and set attributes
 	}
 
-	public InitialGameStateBroadcast(GameType gameType, ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
+	public InitialGameStateBroadcast(ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
 		super();
-		this.gameType = gameType;
 		this.ids = ids;
 		this.locations = locations;
 		this.map = map;
@@ -45,23 +43,13 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 	public byte[] getRawBytes() {
 		ByteBuffer buffer = this.getByteBuffer();
 		// this identifier has been placed twice
-		byte[] gTypeInIDs = convertGTypeToBytes(gameType);
 		byte[] idsInByte = convertArrayToBytes(ids);
 		byte[] locationsInByte = convertArrayToBytes(locations);
 		byte[] mapInBytes = convertMapToBytes(map);
-		buffer.put(gTypeInIDs);
 		buffer.put(idsInByte);
 		buffer.put(locationsInByte);
 		buffer.put(mapInBytes);
 		return Packet.getBytesFromBuffer(buffer);
-	}
-
-	public GameType getGameType() {
-		return gameType;
-	}
-
-	public void setGameType(GameType gameType) {
-		this.gameType = gameType;
 	}
 
 	public ArrayList<Integer> getIds() {
@@ -109,29 +97,6 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 			out.writeObject(object);
 			out.flush();
 			 yourBytes = bos.toByteArray();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				bos.close();
-			} catch (IOException ex) {
-				// ignore close exception
-			}
-		}
-		return yourBytes;
-	}
-
-	public byte[] convertGTypeToBytes(GameType object) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		byte[] yourBytes = null;
-
-		try {
-			out = new ObjectOutputStream(bos);
-			out.writeObject(object);
-			out.flush();
-			yourBytes = bos.toByteArray();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

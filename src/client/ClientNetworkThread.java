@@ -26,8 +26,22 @@ public class ClientNetworkThread extends Thread {
     }
 
     public void run() {
+        // Send hello
+        this.getDispatcher().sendHello();
+
+        // Wait for gameType to be recieved from server
+        while (this.gameState.getGameType() == null) {
+            try {
+                Thread.sleep(1000L); // Every 1 second
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        // Send connect
         this.getDispatcher().sendConnect();
-        
+
         // Wait for game to start
         while (!this.gameState.getRunning()) {
             try {
@@ -81,8 +95,8 @@ public class ClientNetworkThread extends Thread {
         double x = location.getX();
         double y = location.getY();
         Rotate playerAngle = this.gameState.getPlayer().getPlayerAngle();
-        
-        
+
+
 
         this.getDispatcher().sendLocationState(x, y, playerAngle.getAngle());
     }
