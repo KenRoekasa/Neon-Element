@@ -27,6 +27,7 @@ public class Player extends Character {
         currentElement = Elements.FIRE;
         tag = type;
         width = tag.getSize();
+        height = width;
         actionHasSounded = false;
         lightAttackRange = width * 4;
 
@@ -45,7 +46,6 @@ public class Player extends Character {
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
-                System.out.println("Player is Dead");
             }
         } else {
             isAlive = true;
@@ -73,7 +73,8 @@ public class Player extends Character {
 
     public String toString() {
         return "Player: " + this.id +
-                "\nHealth: " + health;
+                "\nHealth: " + health +
+                "\nx: "+ location.getX()+ " y: " + location.getY();
     }
 
 

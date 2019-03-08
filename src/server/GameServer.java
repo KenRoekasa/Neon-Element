@@ -148,7 +148,7 @@ public class GameServer extends Thread {
                         //Attack Collision
                         //if player is light attacking
                         if (player.getCurrentAction() == Action.LIGHT) {
-                            if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                            if (CollisionDetection.checkCollision(player.getAttackHitbox(), e.getBounds())) {
                                 // e takes damage
                                 // this will have to change due to Player being other controlled player when Enemy is when the player is an engine.ai
                                 Player enemy = (Player) e;
@@ -161,7 +161,8 @@ public class GameServer extends Thread {
 
                         }
                         if (player.getCurrentAction() == Action.HEAVY) {
-                            if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                            if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(), e.getBounds())) {
+
                                 // e takes damage
                                 Player enemy = (Player) e;
                                 // TODO: For now its takes 10 damage, change later

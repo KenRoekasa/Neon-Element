@@ -9,7 +9,11 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.Action;
 import engine.enums.ObjectType;
+import engine.gameTypes.GameType;
+import engine.gameTypes.HillGame;
+import engine.gameTypes.Regicide;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,13 +28,17 @@ public class Physics {
 
     public void clientLoop() {
         doCollisionDetection();
-        doHitDetection();
+        new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
+        if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
+            kingOfHillHandler();
+        }
         if (!GameTypeHandler.checkRunning(gameState)) {
             gameState.stop();
         }
     }
+
 
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
@@ -41,6 +49,29 @@ public class Physics {
             }
         }
     }
+
+    private void kingOfHillHandler() {
+        HillGame hillGame = (HillGame) gameState.getGameType();
+        Circle hill = hillGame.getHill();
+//        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
+//        System.out.println("hill : " + hill);
+        ArrayList<Player> allPlayers = gameState.getAllPlayers();
+        ArrayList<Player> playersInside = new ArrayList<>();
+        ScoreBoard scoreBoard = gameState.getScoreBoard();
+        for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
+            Player player = itr.next();
+            if (CollisionDetection.checkCollision(hill, player.getBounds())) {
+                playersInside.add(player);
+            }
+        }
+        // if only one player is inside the circle/hill count score
+        if (playersInside.size() == 1) {
+            Player onlyPlayer = playersInside.get(0);
+            int onlyPlayerId = onlyPlayer.getId();
+            scoreBoard.addScore(onlyPlayerId, (int) (1 * GameClient.deltaTime));
+        }
+    }
+
 
     private void deathHandler() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
@@ -53,9 +84,23 @@ public class Physics {
                 // Add to dead list
 
                 deadPlayers.offer(player);
+                // For any game mode add kills to scoreboard
+                scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
 
-                // Add kills to scoreboard
-                scoreBoard.addKill(player.getLastAttacker().getId());
+                if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
+                    scoreBoard.addScore(player.getLastAttacker().getId(), 1);
+                } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
+                    Regicide regicide = (Regicide) gameState.getGameType();
+                    int baseScore = 5;
+                    // if the player dead is the king the killer gets more points
+                    if (regicide.getKing().equals(player)) {
+                        scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
+                        // Make the attacker the king now
+                        regicide.setKing(player.getLastAttacker());
+                    } else {
+                        scoreBoard.addScore(player.getLastAttacker().getId(), baseScore);
+                    }
+                }
                 //if dead teleport player off screen
                 player.setLocation(new Point2D(5000, 5000));
 
@@ -186,12 +231,12 @@ public class Physics {
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 Player e = itr1.next();
                 // Check light attack
-                if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                if (CollisionDetection.checkCollision(player.getAttackHitbox(), e.getBounds())) {
                     lightHittablePlayers.add(e);
                 }
                 //Check heavy attack
-                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
-                        e.getBounds().getBoundsInParent())) {
+                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(),
+                        e.getBounds())) {
                     heavyHittablePlayer.add(e);
                 }
             }

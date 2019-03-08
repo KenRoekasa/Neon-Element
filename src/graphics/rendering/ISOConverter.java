@@ -2,12 +2,16 @@ package graphics.rendering;
 
 
 import engine.entities.PhysicsObject;
+import engine.entities.Player;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 
+import static graphics.rendering.Renderer.xOffset;
+import static graphics.rendering.Renderer.yOffset;
 import static javafx.scene.transform.Rotate.X_AXIS;
 
 public class ISOConverter {
@@ -34,13 +38,20 @@ public class ISOConverter {
         return  newLoc;
     }
 
+    public static Point2D getPlayerLocOnScreen(Player player, Rectangle primaryStage) {
+        Point2D playerLocation = new Point2D(primaryStage.getWidth()/2 + xOffset, primaryStage.getHeight()/2 + yOffset);
+        Rectangle r = new Rectangle(playerLocation.getX(), playerLocation.getY(), player.getWidth(), player.getWidth());
+        r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(primaryStage.getWidth()/2f, primaryStage.getHeight()/2f)));
+        return r.localToParent(playerLocation.getX(), playerLocation.getY());
+    }
+
 
     static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter) {
         Affine a = getTransformationAffine(playerCenter);
         gc.transform(a);
     }
 
-    private static Affine getTransformationAffine(Point2D playerCenter){
+    public static Affine getTransformationAffine(Point2D playerCenter){
         Affine affine = new Affine();
 
         Rotate rotateX = new Rotate(45, playerCenter.getX(), playerCenter.getY());

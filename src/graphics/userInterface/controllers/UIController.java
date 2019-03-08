@@ -1,9 +1,7 @@
 package graphics.userInterface.controllers;
 
-import graphics.userInterface.resources.style.Shadow;
+import client.audiomanager.AudioManager;
 import javafx.fxml.Initializable;
-import javafx.scene.effect.Blend;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -11,14 +9,11 @@ import java.util.ResourceBundle;
 
 public class UIController implements Initializable{
     protected Stage stage;
-    protected Blend blend;
-    protected Color outline;
+    protected AudioManager audioManager;
 
     UIController(){
         //javafx8 doesn't support to define shadow in css while javafx11 supports
-        Shadow shadow = new Shadow();
-        blend = shadow.loadShadow();
-        outline = Color.WHITE;
+
     }
 
     public Stage getStage() {
@@ -27,6 +22,14 @@ public class UIController implements Initializable{
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setAudioManager(AudioManager audioManager) {
+        this.audioManager = audioManager;
+    }
+
+    public AudioManager getAudioManager(){
+        return this.audioManager;
     }
 
     @Override
