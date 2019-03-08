@@ -101,4 +101,9 @@ public class Player extends Character {
     public int getId() {
         return id;
     }
+
+	public void setHealth(float playerCurrentHealth) {
+		// TODO Auto-generated method stub
+		this.health  = playerCurrentHealth;
+	}
 }

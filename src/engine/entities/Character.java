@@ -346,7 +346,7 @@ public abstract class Character extends PhysicsObject {
 
     // adds Health to the player
 
-    public void addHealth(int amount) {
+    public void addHealth(float amount) {
 
         health += amount;
         if (health > MAX_HEALTH) {

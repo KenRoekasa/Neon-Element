@@ -40,9 +40,9 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
     }
 
 
-    public void sendLocationState(double x, double y, double playerAngle) {
+    public void sendLocationState(double x, double y, double playerAngle, float playerHealth) {
         try {
-            Packet packet = new LocationStatePacket(x, y, playerAngle);
+            Packet packet = new LocationStatePacket(x, y, playerAngle, playerHealth);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
