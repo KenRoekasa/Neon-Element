@@ -8,13 +8,13 @@ public class LocationStatePacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // double + double
-    // 8      + 8      = 16 bytes
+    // double + double + float
+    // 8      + 8      + 4     = 20 bytes
 
     private double x;
     private double y;
-	private double playerAngle;
-	private float playerHealth;
+    private double playerAngle;
+    private float playerHealth;
 
     protected LocationStatePacket(ByteBuffer buffer, Sender sender) {
         super(sender);
@@ -29,11 +29,11 @@ public class LocationStatePacket extends Packet.PacketToServer {
         this.x = x;
         this.y = y;
         this.playerAngle = playerAngle;
-        this.playerHealth =playerHealth;
+        this.playerHealth = playerHealth;
     }
 
     public PacketType getPacketType() {
-       return PacketType.LOCATION_STATE;
+        return PacketType.LOCATION_STATE;
     }
 
     public double getX() {
@@ -48,6 +48,10 @@ public class LocationStatePacket extends Packet.PacketToServer {
         return this.playerAngle;
     }
 
+    public float getPlayerHealth() {
+        return this.playerHealth;
+    }
+
     @Override
     public void handle(ServerNetworkHandler handler) {
         handler.receiveLocationState(this);
@@ -59,16 +63,8 @@ public class LocationStatePacket extends Packet.PacketToServer {
         buffer.putDouble(this.x);
         buffer.putDouble(this.y);
         buffer.putDouble(this.playerAngle);
-        buffer.putFloat(playerHealth);
+        buffer.putFloat(this.playerHealth);
         return Packet.getBytesFromBuffer(buffer);
     }
-
-	public float getPlayerHealth() {
-		return playerHealth;
-	}
-
-	public void setPlayerHealth(float playerHealth) {
-		this.playerHealth = playerHealth;
-	}
 
 }
