@@ -1,8 +1,9 @@
-package engine.ai;
+package engine.ai.actions;
 
 import java.util.Random;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
 import engine.entities.Player;
 import engine.enums.ObjectType;
 import javafx.geometry.Point2D;
@@ -249,7 +250,7 @@ public class AiActions {
 	
 	public void changeToBefittingElement() {
 		Player player = calc.getNearestPlayer();
-		switch(aiCon.activeState) {
+		switch(aiCon.getActiveState()) {
 		
 		//when attacking, change element to maximize damage given
 		case AGGRESSIVE_ATTACK:

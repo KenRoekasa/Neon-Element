@@ -1,11 +1,12 @@
-package engine.ai;
+package engine.ai.actions;
 
 import java.util.Random;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
+import engine.ai.enums.AiStates;
+import engine.ai.enums.AiType;
 import engine.entities.Player;
-import engine.enums.AiStates;
-import engine.enums.AiType;
 import engine.enums.PowerUpType;
 //high level actions, based on ai states 
 public class AiStateActions {

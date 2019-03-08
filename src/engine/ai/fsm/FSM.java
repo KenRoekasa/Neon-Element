@@ -1,6 +1,7 @@
-package engine.ai;
+package engine.ai.fsm;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
 import engine.entities.Player;
 
 public abstract class FSM {

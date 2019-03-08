@@ -1,11 +1,11 @@
-package engine.calculations;
+package engine.ai.calculations;
 
 import static engine.gameTypes.GameType.Type.Hill;
 
 import java.util.ArrayList;
 
 import engine.ScoreBoard;
-import engine.ai.AiController;
+import engine.ai.controller.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;

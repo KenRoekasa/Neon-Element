@@ -1,16 +1,18 @@
-package engine.ai;
+package engine.ai.controller;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import engine.ScoreBoard;
-import engine.calculations.AiCalculations;
+import engine.ai.actions.AiActions;
+import engine.ai.actions.AiStateActions;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.enums.AiStates;
+import engine.ai.enums.AiType;
+import engine.ai.fsm.FSMManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.AiStates;
-
-import engine.enums.AiType;
 import engine.enums.PowerUpType;
 import engine.gameTypes.GameType;
 import engine.gameTypes.HillGame;

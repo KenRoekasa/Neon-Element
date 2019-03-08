@@ -1,9 +1,10 @@
-package engine.ai;
+package engine.ai.fsm;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
+import engine.ai.enums.AiStates;
 import engine.entities.Character;
 import engine.entities.Player;
-import engine.enums.AiStates;
 import engine.enums.PowerUpType;
 
 public class HillFSM extends FSM{

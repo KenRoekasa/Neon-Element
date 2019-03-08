@@ -2,10 +2,12 @@ package client;
 
 
 import engine.ScoreBoard;
+import engine.ai.controller.AiController;
+import engine.ai.controller.AiControllersManager;
+import engine.ai.enums.AiType;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.AiType;
 import engine.enums.ObjectType;
 import engine.gameTypes.*;
 import javafx.geometry.Point2D;
@@ -14,9 +16,6 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import engine.ai.AiController;
-import engine.ai.AiControllersManager;
 
 public class GameStateGenerator {
 
