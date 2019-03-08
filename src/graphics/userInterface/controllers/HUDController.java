@@ -116,17 +116,17 @@ public class HUDController extends UIController implements Initializable {
 
         deathTimes.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerDeaths(playerId))));
 
-        String s1 = String.format(TEMP, leaderBoard.get(0).toString(), scoreBoard.getPlayerKills(leaderBoard.get(0)));
-        String s2 = String.format(TEMP, leaderBoard.get(1).toString(), scoreBoard.getPlayerKills(leaderBoard.get(1)));
+        String s1 = String.format(TEMP, leaderBoard.get(0).toString(), scoreBoard.getPlayerScore(leaderBoard.get(0)));
+        String s2 = String.format(TEMP, leaderBoard.get(1).toString(), scoreBoard.getPlayerScore(leaderBoard.get(1)));
         player1Property.set(s1);
         player2Property.set(s2);
 
         if (num_player == 3) {
-            String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerKills(leaderBoard.get(2)));
+            String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerScore(leaderBoard.get(2)));
             player3Property.set(s3);
         } else if (num_player == 4) {
-            String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerKills(leaderBoard.get(2)));
-            String s4 = String.format(TEMP, leaderBoard.get(3).toString(), scoreBoard.getPlayerKills(leaderBoard.get(3)));
+            String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerScore(leaderBoard.get(2)));
+            String s4 = String.format(TEMP, leaderBoard.get(3).toString(), scoreBoard.getPlayerScore(leaderBoard.get(3)));
             player3Property.set(s3);
             player4Property.set(s4);
         }
