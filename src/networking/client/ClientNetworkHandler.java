@@ -62,19 +62,17 @@ public class ClientNetworkHandler {
     }
 
     public void receiveInitialGameStartStateBroadcast(InitialGameStateBroadcast packet) {
-        Player clientPlayer = new Player(ObjectType.PLAYER);
+        Player clientPlayer = new Player(ObjectType.PLAYER, clientID);
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
 
         for (int i = 0; i < packet.getIds().size(); i++) {
             if (packet.getIds().get(i) == clientID) {
                 clientPlayer.setLocation(packet.getLocations().get(i));
-                clientPlayer.setId(packet.getIds().get(i));
                 objects.add(clientPlayer);
                 tempScoreboardPlayers.add(clientPlayer);
             } else {
-                Player enemy = new Player(ObjectType.ENEMY);
-                enemy.setId(packet.getIds().get(i));
+                Player enemy = new Player(ObjectType.ENEMY, packet.getIds().get(i));
                 enemy.setLocation(packet.getLocations().get(i));
                 objects.add(enemy);
                 tempScoreboardPlayers.add(enemy);
