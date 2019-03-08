@@ -1,16 +1,21 @@
-package engine.ai;
+package engine.ai.fsm;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
+import engine.ai.enums.AiStates;
 import engine.entities.Character;
 import engine.entities.Player;
-import engine.enums.AiStates;
 import engine.enums.PowerUpType;
 
-public class AiFSM {
+public class TimedFSM extends FSM{
+	
+	public TimedFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
+		super(aiPlayer, aiCon, calc);
+	}
+	
+	@Override
+	public void easyAiFetchAction() {
 
-	public static void easyAiFetchAction(Player aiPlayer, AiController aiCon,AiCalculations calc) {
-
-		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
 		Character nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
@@ -60,16 +65,16 @@ public class AiFSM {
 
 	}
 	
-	public static void normalAiFetchAction(Player aiPlayer, AiController aiCon, AiCalculations calc) {
+	@Override
+	public void normalAiFetchAction() {
 
-		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
 		Character nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up
-		if( calc.powerupIsTooClose() || calc.powerupCloserThanPlayer() ) {
-			System.out.println("case 1");
+		if( ( calc.powerupIsTooClose() && calc.powerupCloserThanPlayer() ) || calc.powerupCloserThanPlayer() ) {
+		//	System.out.println("case 1");
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
@@ -87,25 +92,25 @@ public class AiFSM {
 		
 		//case 2, escape when health is less than third
 		else if(aiPlayerHP < (maxHP/3) && aiPlayerHP<playerHP) {
-			System.out.println("case 2");
+		//	System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
 		//case 3, attack aggressively when the nearest enemy's hp is less than 33%
 		else if (playerHP < (maxHP/3)) {
-			System.out.println("case 3");
+		//	System.out.println("case 3");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
 		//case 4, attack when you got the advantage
-		else if (aiPlayerHP > playerHP) {
-			System.out.println("case 4");
+		else if (calc.playerIsTooClose() || aiPlayerHP > playerHP) {
+		//	System.out.println("case 4");
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
 		//case 5, wander, or attack, when nothing else is triggered
 		else {
-		 System.out.println("case 5");
+		// System.out.println("case 5");
 			aiCon.setState(AiStates.WANDER);
 		}
 		
@@ -113,9 +118,9 @@ public class AiFSM {
 
 	}
 	
-	public static void hardAiFetchAction(Player aiPlayer, AiController aiCon, AiCalculations calc) {
+	@Override
+	public void hardAiFetchAction() {
 
-		float maxHP = aiPlayer.getMAX_HEALTH();
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
@@ -136,8 +141,6 @@ public class AiFSM {
 			case SPEED:
 				aiCon.setState(AiStates.FIND_SPEED);
 				break;
-			default:
-				break;
 			}
 		}
 		
@@ -150,7 +153,7 @@ public class AiFSM {
 		
 		//case 5, there exist a damage power up
 		
-		else if( calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
+		else if(  calc.powerupCloserThanPlayer() && calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 		//	System.out.println("case 5");
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
@@ -164,11 +167,16 @@ public class AiFSM {
 		
 		//case 4, the nearest enemy's hp is less than 33%
 		
-		else if ( playerHP < (maxHP/3) || aiPlayer.activeDamagePowerup()) {
+		else if ( playerHP < (maxHP/2) || aiPlayer.activeDamagePowerup()) {
 		//	System.out.println("case 4");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
-
+		
+		else if(calc.killDifferenceIsMoreThan(2)) {
+//			System.out.println("attack winner");
+			aiCon.setState(AiStates.ATTACK_WINNER);
+		}
+		
 		//case 7, the nearest enemy's hp is less than ai player's hp
 		
 		else if (aiPlayerHP > playerHP) {
@@ -192,5 +200,5 @@ public class AiFSM {
 		//System.out.println("ai health: "+aiPlayer.getHealth());
 
 	}
-	
+
 }

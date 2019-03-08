@@ -25,7 +25,7 @@ public abstract class PhysicsObject {
     }
 
     public Shape getBounds() {
-        return new Rectangle(location.getX(), location.getY(),width, height);
+        return new Rectangle(location.getX()-width/2f, location.getY()-height/2f,width, height);
     }
 
     public ObjectType getTag() {

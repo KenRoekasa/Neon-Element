@@ -40,7 +40,7 @@ public class JoinController extends UIController {
         //g.getPlayer().getHealth();
         try {
             String addr = ip.getText();
-            GameClient gameBoard = new GameClient(stage, gameState, addr);
+            GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
             Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();
         } catch (Exception e) {
@@ -54,15 +54,10 @@ public class JoinController extends UIController {
         String fxmlPath ="../fxmls/online_mode.fxml";
         String stageTitle ="Online Mode";
         String fileException ="Online Mode";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        back.setTextFill(outline);
-        ok.setTextFill(outline);
-        back.setEffect(blend);
-        ok.setEffect(blend);
-    }
+
+
 }
 

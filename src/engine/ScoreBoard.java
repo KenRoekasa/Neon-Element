@@ -15,8 +15,6 @@ public class ScoreBoard {
         board = new HashMap<>();
         totalScore = 0;
         leaderBoard = new ArrayList<>();
-
-
     }
 
     public ArrayList<Integer> getLeaderBoard() {
@@ -37,10 +35,14 @@ public class ScoreBoard {
         }
     }
 
+    /** Add 1 kill to the killers score and add 1 death to the victim score
+     * @param killerID
+     * @param victimID
+     */
     public void addKill(int killerID, int victimID) {
         int oldKills = board.get(killerID).getKills();
         //Add kill to the killer
-        board.get(killerID).setKills(oldKills+1);
+        board.get(killerID).setKills(oldKills + 1);
         //Add death to the victim
         int oldDeaths = board.get(victimID).getDeaths();
         board.get(killerID).setDeaths(oldDeaths++);
@@ -56,6 +58,9 @@ public class ScoreBoard {
         updateLeaderBoard();
     }
 
+    /**
+     * Updates the leaderboard so its in the order of the score high to low
+     */
     private void updateLeaderBoard() {
         leaderBoard.sort((o1, o2) -> {
             if (board.get(o1).getScore() > board.get(o2).getScore()) {
@@ -76,7 +81,7 @@ public class ScoreBoard {
         return board.get(playerID).getScore();
     }
 
-    public Integer getPlayerDeaths(int playerID){
+    public Integer getPlayerDeaths(int playerID) {
         return board.get(playerID).getDeaths();
     }
 
@@ -86,5 +91,38 @@ public class ScoreBoard {
 
     public String toString() {
         return board.toString();
+    }
+}
+
+/**
+ * The class that scores all the information about the player stats in the current game e.g. score, kills, deaths
+ */
+class Score {
+    private int score = 0;
+    private int kills = 0;
+    private int deaths = 0;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
     }
 }
