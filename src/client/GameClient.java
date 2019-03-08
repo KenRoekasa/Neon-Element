@@ -49,8 +49,7 @@ public class GameClient {
 
     private AudioManager audioManager;
 
-
-    public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
+    private GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
@@ -108,6 +107,17 @@ public class GameClient {
         // ClientNetworkThread.run();
     }
 
+    /**
+     * Local Game.
+     */
+    public GameClient(Stage primaryStage, ClientGameState gameState) throws Exception {
+        this(primaryStage, gameState, false);
+    }
+
+
+    /**
+     * Networked Game.
+     */
     public GameClient(Stage primaryStage, ClientGameState gameState, String addr) throws Exception {
         this(primaryStage, gameState, true);
 
