@@ -1,37 +1,91 @@
-package engine.ai;
+package engine.calculations;
+
+import static engine.gameTypes.GameType.Type.Hill;
 
 import java.util.ArrayList;
 
+import engine.ScoreBoard;
+import engine.ai.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.enums.Action;
 import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
+import engine.gameTypes.GameType;
+import engine.gameTypes.HillGame;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 public class AiCalculations {
 	
-	final int DELAY_TIME = 28;
+	public final int DELAY_TIME = 28;
 	private AiController aiCon;
 	private Player aiPlayer;
 	private Rectangle map;	
 	private Player player;
+	private ArrayList<PowerUp> powerups;
+	private GameType gameType;
+	private ScoreBoard scoreboard;
+	private float startTime;
+	private double circleX;
+	private double circleY;
+	private Point2D circleCentre;
+	private double circleRadius;
 	
-	public AiCalculations(AiController aiCon,Rectangle map) {
+	public AiCalculations(AiController aiCon,Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		this.aiCon = aiCon;
 		this.map = map;
+		this.scoreboard = scoreboard;
+		this.gameType = gameType;
+		
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
+		powerups = new ArrayList<>();
+		startTime = System.nanoTime()/1000000000;
 		
+		setCircleCoordination();
+	}
+	
+	private void setCircleCoordination() {
+		if(gameType.getType().equals(Hill)) {
+			HillGame hillGame = (HillGame) gameType;
+			circleX = hillGame.getHill().getCenterX();
+			circleY = hillGame.getHill().getCenterY();
+			circleCentre = new Point2D(circleX,circleY);
+			circleRadius = hillGame.getHill().getRadius();
+		}
+	}
+	
+	public Point2D getHillCentreLocation() {
+		return circleCentre; 
+	}
+	
+	public boolean onHill(Point2D loc) {
+		double locX = loc.getX();
+		double locY = loc.getY();
+		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
+		return distance < circleRadius;
+	}
+
+	public float secondsElapsed() {
+		float endTime = System.nanoTime()/1000000000;
+		float elapsedTime = endTime - startTime;
+		return elapsedTime;
+	}
+	
+	public void setStartTime(float time) {
+		startTime = time;
 	}
 
 
-	public ArrayList<Player> getPlayers(){
+	public ArrayList<Player> getOtherPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(PhysicsObject object : aiCon.objects) {
-			if( object.getTag().equals(ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for(PhysicsObject object : objects) {
+			if( object.getTag() == (ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
 				players.add((Player)object);
 			}
 		}
@@ -39,34 +93,69 @@ public class AiCalculations {
 		return players;
 	}
 
-	
-	public ArrayList<PowerUp> getPowerups() {
-
-		ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
-		for (int i = 0; i < aiCon.objects.size(); i++) {
-			if (!aiCon.objects.get(i).equals(null)) {
-				if (ObjectType.POWERUP.equals(aiCon.objects.get(i).getTag()))
-					if (!powerups.contains(aiCon.objects.get(i)))
-						powerups.add((PowerUp) aiCon.objects.get(i));
+	public ArrayList<Player> getPlayers(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for(PhysicsObject object : objects) {
+			if( object.getTag() == (ObjectType.ENEMY) ) {
+				players.add((Player)object);
 			}
 		}
-		return powerups;
+		players.add(player);
+		return players;
+	}
+	
+	public Player getWinningPlayer() {
+		ArrayList<Player> players = getPlayers();
+		int  id =(scoreboard.getLeaderBoard().get(0));
+		Player winningPlayer = null;
+		for (Player player : players) {
+			if(player.getId() == id)
+				winningPlayer = player;
+		}
+		return winningPlayer;
+	}
+	
+	public boolean killDifferenceIsMoreThan(int kills) {
+		Player winner = getWinningPlayer();
+		int difference = scoreboard.getPlayerKills(winner.getId()) - scoreboard.getPlayerKills(aiPlayer.getId()) ;
+		return difference >= kills;
+	}
+	
+	
+	public void updatePowerups() {
+
+		powerups.clear();
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for (int i = 0; i < objects.size(); i++) {
+			if (!objects.get(i).equals(null)) {
+				if ( (objects.get(i).getTag()) ==  ObjectType.POWERUP)
+					if (!powerups.contains(objects.get(i)))
+						powerups.add((PowerUp) objects.get(i));
+			}
+		}
+	}
+	
+	public boolean isCharging(Player player) {
+		return player.getCurrentAction().equals(Action.CHARGE);
 	}
 
 	public boolean playerIsTooClose() {
-		Point2D playerLoc = findNearestPlayer().getLocation();
+		Point2D playerLoc = getNearestPlayer().getLocation();
 		return isTooClose(playerLoc);
 	}
 	
 	public boolean powerupIsTooClose() {
-		int index = findNearestPowerUp();
-		if(index != -1 && isTooClose(getPowerups().get(index).getLocation())) {
+		int index = getNearestPowerUp();
+		if(index != -1 && isTooClose(powerups.get(index).getLocation())) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isTooClose(Point2D playerLoc ) {
+	private boolean isTooClose(Point2D playerLoc ) {
 		Point2D aiLoc = aiPlayer.getLocation();
 		return (aiLoc.distance(playerLoc)<(map.getWidth()*0.2));
 	}
@@ -80,15 +169,15 @@ public class AiCalculations {
 		return false;
 	}
 	
-	/*
-	 * 0 = down cart
-	 * 1 = right
-	 * 2 = down
-	 * 3 = right cart
-	 * 4 = up
-	 * 5 = left cart
-	 * 6 = left
-	 * 7 = up cart
+	/*returns integer value, between 0 and 7 inclusive, to indicate movement direction to move away from edge
+	 * 0 = down 
+	 * 1 = right cart
+	 * 2 = down cart
+	 * 3 = right 
+	 * 4 = up cart
+	 * 5 = left 
+	 * 6 = left cart
+	 * 7 = up 
 	 */
 	public int closestEdgeLocation() {
 		Point2D loc = aiPlayer.getLocation();
@@ -204,41 +293,6 @@ public class AiCalculations {
 		return dir;
 	}
 	
-
-	public boolean higherY(Point2D loc) {
-
-		return (aiPlayer.getLocation().getY() - loc.getY() < 0) ? true : false;
-	}
-
-	public boolean higherX(Point2D loc) {
-
-		return (aiPlayer.getLocation().getX() - loc.getX() < 0) ? true : false;
-	}
-
-	public boolean isRightOf(Point2D loc) {
-		if (loc.getX() > aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isLeftOf(Point2D loc) {
-		if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() > aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isUnder(Point2D loc) {
-		if (loc.getX() > aiPlayer.getLocation().getX() && loc.getY() > aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-
-	public boolean isAbove(Point2D loc) {
-		if (loc.getX() < aiPlayer.getLocation().getX() && loc.getY() < aiPlayer.getLocation().getY())
-			return true;
-		return false;
-	}
-	
 	public double calcAngle(Point2D loc1, Point2D loc2) {
 
 		double x = loc1.getX() - loc2.getX();
@@ -252,11 +306,11 @@ public class AiCalculations {
 	}
 	
 	public boolean powerupCloserThanPlayer() {
-		int puIndex = findNearestPowerUp();
+		int puIndex = getNearestPowerUp();
 		if(puIndex == -1)
 			return false;
-		double disToPu = getPowerups().get(puIndex).getLocation().distance(aiPlayer.getLocation());
-		double disToPlayer = findNearestPlayer().getLocation().distance(aiPlayer.getLocation());
+		double disToPu = powerups.get(puIndex).getLocation().distance(aiPlayer.getLocation());
+		double disToPlayer = getNearestPlayer().getLocation().distance(aiPlayer.getLocation());
 		
 		return disToPu<disToPlayer;
 	}
@@ -268,7 +322,7 @@ public class AiCalculations {
 		return false;
 	}
 	
-	public int findNearestPowerUp() {
+	public int getNearestPowerUp() {
 		ArrayList<PowerUp> powerups = getPowerups();
 		int index = -1;
 		double distance = Double.MAX_VALUE;
@@ -283,7 +337,7 @@ public class AiCalculations {
 		return index;
 	}
 
-	public int findNearestPowerUp(PowerUpType pu) {
+	public int getNearestPowerUp(PowerUpType pu) {
 		ArrayList<PowerUp> powerups = getPowerups();
 		int index = -1;
 		double distance = Double.MAX_VALUE;
@@ -300,9 +354,9 @@ public class AiCalculations {
 		return index;
 	}
 
-	public Player findNearestPlayer() {
+	public Player getNearestPlayer() {
 		double minDis = Double.MAX_VALUE;
-		ArrayList<Player> players = getPlayers();
+		ArrayList<Player> players = getOtherPlayers();
 		int index = 0;
 		for (int i = 0; i < players.size(); i++) {
 			double tempDis = calcDistance(players.get(i).getLocation(), aiPlayer.getLocation());
@@ -319,6 +373,11 @@ public class AiCalculations {
 		return players.get(index);
 	}
 	
+	
+	public ArrayList<PowerUp> getPowerups(){
+		updatePowerups();
+		return powerups;
+	}
 	
 
 

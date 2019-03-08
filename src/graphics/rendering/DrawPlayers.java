@@ -11,9 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.MotionBlur;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 
 class DrawPlayers {
 
@@ -47,7 +45,7 @@ class DrawPlayers {
             gc.save();
             ISOConverter.applyAngleRotation(gc, angle, playerCenter);
 
-            gc.drawImage(Renderer.textures.get(Sprites.CURSOR),playerCenter.getX() - Renderer.textures.get(Sprites.CURSOR).getWidth()/2f, playerCenter.getY() - Renderer.textures.get(Sprites.CURSOR).getHeight()/2f - player.getWidth()/2f - 30 );
+            gc.drawImage(Renderer.textures.get(Sprites.POINTER),playerCenter.getX() - Renderer.textures.get(Sprites.POINTER).getWidth()/2f, playerCenter.getY() - Renderer.textures.get(Sprites.POINTER).getHeight()/2f - player.getWidth()/2f - 30 );
 
             //restore twice following applying the specific angle rotation
             gc.restore();

@@ -4,15 +4,19 @@ import client.ClientGameState;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 //Press space to pause the game
-public class PauseController {
-    private Stage stage;
+public class PauseController extends UIController{
+    @FXML
+    Label resume,option,quit;
     private Rectangle stageSize;
     private Pane hudPane;
 
@@ -21,7 +25,6 @@ public class PauseController {
     }
 
     private  Pane node;
-
 
     public void setStageSize(Rectangle stageSize) {
         this.stageSize = stageSize;
@@ -34,10 +37,9 @@ public class PauseController {
     private ClientGameState gameState;
 
     @FXML
-
     public void setStage(Stage stage, ClientGameState gameState) {
         this.gameState = gameState;
-        this.stage = stage;
+        super.stage = stage;
     }
 
     @FXML
@@ -45,7 +47,6 @@ public class PauseController {
         hudPane.getChildren().remove(node);
     }
 
-    //back to menu or game?
     // todo this needs to return to the game, probably want an options menu thats transparent like the pause menu
     @FXML
     public void handleSettingBtn(){
@@ -62,9 +63,9 @@ public class PauseController {
             controller.setHudPane(hudPane);
             controller.setNode(subnode);
             controller.setStage(stage);
-            stage.setTitle("Setting");
+            stage.setTitle("Sound");
         } catch (IOException e) {
-            System.out.println("crush in loading setting board ");
+            System.out.println("Crush in loading setting board ");
             e.printStackTrace();
         }
     }
@@ -72,22 +73,11 @@ public class PauseController {
     @FXML
     // todo this needs to end the game thread somehow
     public void handleQuitBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/menu.fxml"));
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            MenuController controller = loader.getController();
-            controller.setStage(stage);
-
-            stage.getScene().setCursor(Cursor.DEFAULT);
-
-            stage.setTitle("Menu");
-            gameState.stop();
-
-        } catch (IOException e) {
-            System.out.println("crush in loading menu board ");
-            e.printStackTrace();
-        }
+        String fxmlPath = "../fxmls/menu.fxml";
+        String stageTitle = "Menu";
+        String fileException ="Menu";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        super.stage.getScene().setCursor(Cursor.DEFAULT);
+        gameState.stop();
     }
-
 }

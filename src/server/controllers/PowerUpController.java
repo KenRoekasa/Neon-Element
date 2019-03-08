@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class PowerUpController implements Runnable {
 
     private GameState gamestate;
-    ArrayList<PhysicsObject> objects;
-    ServerNetworkDispatcher dispatcher;
+    private ArrayList<PhysicsObject> objects;
+    private ServerNetworkDispatcher dispatcher;
 
     public PowerUpController(GameState gameState) {
         this.objects = gameState.getObjects();

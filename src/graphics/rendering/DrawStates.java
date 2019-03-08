@@ -5,12 +5,8 @@ import graphics.enumSwitches.colourSwitch;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
 import javafx.scene.effect.MotionBlur;
-import javafx.scene.image.Image;
 import javafx.scene.paint.*;
-
-import java.util.HashMap;
 
 import static graphics.rendering.Renderer.textures;
 

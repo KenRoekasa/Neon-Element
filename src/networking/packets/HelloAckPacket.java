@@ -41,21 +41,21 @@ public class HelloAckPacket extends Packet {
     public GameType getGameType() {
         return this.gameType;
     }
-    
+
     private static GameType bufferToGameType(ByteBuffer buffer) {
         byte id = buffer.get();
         GameType.Type type = GameType.Type.getById(id);
-        
+
         switch (type) {
             case FirstToXKills:
                 return new FirstToXKillsGame(buffer.getInt());
-            case TimedGame:
+            case Timed:
                 return new TimedGame(buffer.getLong());
             default:
                 return null;
         }
     }
-    
+
     private static void gameTypeToBuffer(GameType gameType, ByteBuffer buffer) {
         GameType.Type type = gameType.getType();
 
@@ -65,7 +65,7 @@ public class HelloAckPacket extends Packet {
         switch (type) {
             case FirstToXKills:
                 buffer.putInt(((FirstToXKillsGame) gameType).getKillsNeeded());
-            case TimedGame:
+            case Timed:
                 buffer.putLong(((TimedGame) gameType).getDuration());
         }
     }

@@ -4,24 +4,19 @@ import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 //For local_setup scene
-public class JoinController {
+public class JoinController extends UIController {
+    @FXML
+    Label ok,back;
     private ClientGameState gameState;
-    private Stage stage;
-    
     public TextField ip;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     @FXML
     public void handleOkBtn(){
@@ -42,20 +37,13 @@ public class JoinController {
 
     @FXML
     public void handleBackBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/online_mode.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            OnlineModeController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setTitle("Online Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading online mode board ");
-            e.printStackTrace();
-        }
+        String fxmlPath ="../fxmls/online_mode.fxml";
+        String stageTitle ="Online Mode";
+        String fileException ="Online Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
+
+
 
 }
 

@@ -4,15 +4,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../resources/css/test01.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.SettingController">
+<BorderPane id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HelpController">
    <bottom>
       <BorderPane prefHeight="97.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <center>
-            <Button fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button_small" text="BACK" BorderPane.alignment="CENTER" />
+            <Button fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button-text" text="Back" BorderPane.alignment="CENTER">
+               <graphic>
+                  <Label />
+               </graphic></Button>
          </center>
       </BorderPane>
    </bottom>
    <top>
-      <Label styleClass="label_big" text="GUIDE" BorderPane.alignment="CENTER" />
+      <Label styleClass="standard-text-big" text="GUIDE" BorderPane.alignment="CENTER" />
    </top>
 </BorderPane>

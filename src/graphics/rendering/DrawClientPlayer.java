@@ -1,13 +1,12 @@
 package graphics.rendering;
 
 import engine.entities.Player;
-import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
-import java.util.HashMap;
+import static graphics.rendering.Renderer.xOffset;
+import static graphics.rendering.Renderer.yOffset;
 
 
 /*
@@ -56,6 +55,13 @@ class DrawClientPlayer {
 
     // returns the center of the stage - this is the location of the client player
     private static Point2D getStageCenter(Rectangle stageSize) {
-        return new Point2D(stageSize.getWidth() / 2, stageSize.getHeight() / 2);
+
+
+        Point2D playerCenter = new Point2D(stageSize.getWidth() / 2, stageSize.getHeight() / 2);
+        // add offset
+        playerCenter = playerCenter.add(xOffset, yOffset);
+
+
+        return playerCenter;
     }
 }

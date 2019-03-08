@@ -1,5 +1,6 @@
 package engine.entities;
 
+import client.GameClient;
 import engine.enums.Directions;
 import engine.enums.Elements;
 import engine.enums.ObjectType;
@@ -10,9 +11,9 @@ import javafx.scene.transform.Rotate;
 public class Player extends Character {
 
     private int id;
-    
+
     private static int nextId = 1;
-    
+
     public Player(ObjectType type, int id) {
         super();
         this.id = id;
@@ -20,14 +21,15 @@ public class Player extends Character {
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
         characterDirection = Directions.UP;
-        canUp = canDown = canLeft = canRight = canUpCart = canDownCart = canLeftCart = canRightCart = true;
         movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
         currentElement = Elements.FIRE;
         tag = type;
         width = tag.getSize();
+        height = width;
         actionHasSounded = false;
+        lightAttackRange = width * 4;
 
 
         for (int i = 0; i < timerArray.length; i++) {
@@ -42,13 +44,20 @@ public class Player extends Character {
     @Override
     public void update() { // Called every game tick, put location updates server sending etc... here
         if (health <= 0) {
-        	if(isAlive) {
-        		isAlive = false;
-            	System.out.println("Player is Dead");
-        	}
+            if (isAlive) {
+                isAlive = false;
+            }
         } else {
             isAlive = true;
         }
+
+        location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
+        horizontalMove = 0;
+        verticalMove = 0;
+
+        //decrease iframes every frame
+        iframes--;
+
     }
 
     public void setLocation(double x, double y) {
@@ -62,10 +71,9 @@ public class Player extends Character {
         this.id = i;
     }
 
-    public String toString(){
-        String s = "Player: " + this.id +
+    public String toString() {
+        return "Player: " + this.id +
                 "\nHealth: " + health;
-        return s;
     }
 
 

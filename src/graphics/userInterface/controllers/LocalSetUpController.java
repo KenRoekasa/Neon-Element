@@ -4,27 +4,27 @@ import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 
+import engine.enums.AiType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+
 
 import javafx.event.ActionEvent;
+import javafx.scene.layout.GridPane;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 //For local_setup scene
 
-public class LocalSetUpController implements Initializable {
+public class LocalSetUpController extends UIController implements Initializable {
     private ClientGameState gameState;
-    private Stage stage;
     @FXML
     public RadioButton num_1, num_2, num_3;
     @FXML
@@ -40,15 +40,12 @@ public class LocalSetUpController implements Initializable {
     final ToggleGroup diff_3 = new ToggleGroup();
     final ToggleGroup mode = new ToggleGroup();
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     private int enemy_num;
     private String enemy_1;
     private String enemy_2;
     private String enemy_3;
     private String selected_mode;
+    ArrayList<String> enemyTypes = new ArrayList<>();
 
     public int getEnemy_num() {
         return enemy_num;
@@ -95,34 +92,33 @@ public class LocalSetUpController implements Initializable {
     public void handleStartBtn(ActionEvent actionEvent) {
         //get selected properties
         enemy_num = (int) num_group.getSelectedToggle().getUserData();
-        System.out.println("@localController Number of enemies: " + enemy_num);
 
         selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
-        System.out.println("@localController Selected mode: " + selected_mode);
 
         switch (enemy_num) {
             case 1:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
-                System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
+                enemyTypes.add(enemy_1);
                 break;
             case 2:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
-                System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
-                System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
+                enemyTypes.add(enemy_1);
+                enemyTypes.add(enemy_2);
                 break;
             case 3:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
-                enemy_3 = (String) diff_2.getSelectedToggle().getUserData();
-                System.out.println("@localController Difficulty of Enemy 1: " + enemy_1);
-                System.out.println("@localController Difficulty of Enemy 2: " + enemy_2);
-                System.out.println("@localController Difficulty of Enemy 3: " + enemy_3);
+                enemy_3 = (String) diff_3.getSelectedToggle().getUserData();
+                enemyTypes.add(enemy_1);
+                enemyTypes.add(enemy_2);
+                enemyTypes.add(enemy_3);
+
         }
 
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num);
+        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num,enemyTypes);
         //g.getPlayer().getHealth();
         try {
             boolean networked = false;
@@ -136,46 +132,25 @@ public class LocalSetUpController implements Initializable {
 
     @FXML
     public void handleBackBtn(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/mode_board.fxml"));
-
-        try {
-            Pane root = loader.load();
-            stage.getScene().setRoot(root);
-            ModeController modeController = loader.getController();
-            modeController.setStage(stage);
-            stage.setTitle("Local Mode");
-
-        } catch (IOException e) {
-            System.out.println("crush in loading mode board ");
-            e.printStackTrace();
-        }
+        String fxmlPath ="../fxmls/mode.fxml";
+        String stageTitle ="Mode" ;
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        num_1.setToggleGroup(num_group);
-        num_2.setToggleGroup(num_group);
-        num_3.setToggleGroup(num_group);
-        num_3.setSelected(true);
 
-        easy_1.setToggleGroup(diff_1);
-        normal_1.setToggleGroup(diff_1);
-        hard_1.setToggleGroup(diff_1);
-        easy_1.setSelected(true);
+        ToggleGroupSetUp.setToggleGroup(num_group,num_1,num_2,num_3);
+        ToggleGroupSetUp.setToggleGroup(diff_1,easy_1,normal_1,hard_1);
+        ToggleGroupSetUp.setToggleGroup(diff_2,easy_2,normal_2,hard_2);
+        ToggleGroupSetUp.setToggleGroup(diff_3,easy_3,normal_3,hard_3);
+        ToggleGroupSetUp.setToggleGroup(mode,life_mode,time_mode);
 
-        easy_2.setToggleGroup(diff_2);
-        normal_2.setToggleGroup(diff_2);
-        hard_2.setToggleGroup(diff_2);
-        easy_2.setSelected(true);
 
-        easy_3.setToggleGroup(diff_3);
-        normal_3.setToggleGroup(diff_3);
-        hard_3.setToggleGroup(diff_3);
-        easy_3.setSelected(true);
-
-        time_mode.setToggleGroup(mode);
-        life_mode.setToggleGroup(mode);
-        time_mode.setSelected(true);
+        ToggleGroupSetUp.setUserData("Easy",easy_1,easy_2,easy_3);
+        ToggleGroupSetUp.setUserData("Normal",normal_1,normal_2,normal_3);
+        ToggleGroupSetUp.setUserData("Hard",hard_1,hard_2,hard_3);
 
         num_1.setUserData(1);
         num_2.setUserData(2);
@@ -184,16 +159,6 @@ public class LocalSetUpController implements Initializable {
         life_mode.setUserData("life_based");
         time_mode.setUserData("time_based");
 
-        easy_1.setUserData("Easy");
-        easy_2.setUserData("Easy");
-        easy_3.setUserData("Easy");
-        normal_1.setUserData("Normal");
-        normal_2.setUserData("Normal");
-        normal_3.setUserData("Normal");
-        hard_1.setUserData("Hard");
-        hard_2.setUserData("Hard");
-        hard_3.setUserData("Hard");
     }
-
 }
 
