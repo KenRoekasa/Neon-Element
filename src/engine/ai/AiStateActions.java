@@ -28,30 +28,6 @@ public class AiStateActions {
 	}
 
 	public void executeAction() {
-		switch(aiCon.getAiType()) {
-		case EASY:
-			easyAIExecuteAction();
-			break;
-		case NORMAL:
-			normalAIExecuteAction();
-			break;
-		case HARD:
-			hardAIExecuteAction();
-			break;
-		}
-		
-	}
-	
-	public void setWandering(boolean bool) {
-		wandering = bool;
-	}
-	
-	public boolean isWandering() {
-		return wandering;
-	}
-	
-	private void easyAIExecuteAction() {
-		
 		updateElement();
 		updateWandering();
 		
@@ -84,81 +60,6 @@ public class AiStateActions {
 			break;
 		case ESCAPE_ON_HILL:
 			escapeOnHill();
-		case IDLE:
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void normalAIExecuteAction() {
-		
-		updateElement();
-		updateWandering();
-		
-		switch (aiCon.getActiveState()) {
-		case ATTACK:
-			attack();
-			break;
-		case AGGRESSIVE_ATTACK:
-			aggressiveAttack();
-			break;
-		case FIND_HEALTH:
-			findHealth();
-			break;
-		case FIND_DAMAGE:
-			findDamage();
-			break;
-		case FIND_SPEED:
-			findSpeed();
-			break;
-		case ESCAPE:
-			aiPlayer.shield();
-			escape();
-			break;
-		case WANDER:
-			aiPlayer.unShield();
-			wander();
-		case IDLE:
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void hardAIExecuteAction() {
-		
-		updateElement();
-		updateWandering();
-		
-		switch (aiCon.getActiveState()) {
-		case ATTACK:
-			aiPlayer.unShield();
-			attack();
-			break;
-		case AGGRESSIVE_ATTACK:
-			aiPlayer.unShield();
-			aggressiveAttack();
-			break;
-		case FIND_HEALTH:
-			aiPlayer.shield();
-			findHealth();
-			break;
-		case FIND_DAMAGE:
-			aiPlayer.shield();
-			findDamage();
-			break;
-		case FIND_SPEED:
-			aiPlayer.shield();
-			findSpeed();
-			break;
-		case ESCAPE:
-			aiPlayer.shield();
-			escape();
-			break;
-		case WANDER:
-			aiPlayer.unShield();
-			wander();
 		case ATTACK_WINNER:
 			aiPlayer.unShield();
 			attackWinner();
@@ -167,8 +68,16 @@ public class AiStateActions {
 		default:
 			break;
 		}
+		
 	}
 	
+	public void setWandering(boolean bool) {
+		wandering = bool;
+	}
+	
+	public boolean isWandering() {
+		return wandering;
+	}
 	
 	private void escapeOnHill() {
 		if(!calc.onHill(aiPlayer.getLocation()))
@@ -185,8 +94,10 @@ public class AiStateActions {
 	}
 
 	private void goToHill() {
+		aiPlayer.shield();
 		Player player = calc.getNearestPlayer();
 		if (calc.inAttackDistance(player) && player.getHealth()>0) {
+			aiPlayer.unShield();
 			aiPlayer.lightAttack();
 		}
 		if( aiPlayer.getLocation().distance(calc.getHillCentreLocation()) > 10 )
@@ -225,6 +136,7 @@ public class AiStateActions {
 		Player player = calc.getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
+		
 		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();
 		}
@@ -233,7 +145,7 @@ public class AiStateActions {
 	private void escape() {
 		aiPlayer.shield();
 		Player player = calc.getNearestPlayer();
-		actions.moveAway(player);
+		actions.moveAwayFromPlayer(player);
 	}	
 	
 	private void attack() {
@@ -247,10 +159,11 @@ public class AiStateActions {
 	}
 
 	private void attackWinner() {
+		aiPlayer.unShield();
 		Player player = calc.getWinningPlayer();
-		actions.moveTo(player);
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
+		
 		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();
 		}

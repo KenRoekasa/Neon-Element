@@ -108,7 +108,7 @@ public class AiActions {
 		}
 	}
 
-	public void moveAway(Player player) {
+	public void moveAwayFromPlayer(Player player) {
 		
 		if(calc.reachedAnEdge()) 
 			moveAwayFromEdge();
@@ -254,6 +254,7 @@ public class AiActions {
 		//when attacking, change element to maximize damage given
 		case AGGRESSIVE_ATTACK:
 		case ATTACK:
+		case ATTACK_WINNER:
 			switch(player.getCurrentElement()) {
 			case WATER:
 			case AIR:
@@ -273,6 +274,9 @@ public class AiActions {
 		case FIND_SPEED:
 		case WANDER:
 		case IDLE:
+		case ESCAPE_ON_HILL:
+		case GO_TO_HILL:
+		case WANDER_ON_HILL:
 			switch(player.getCurrentElement()) {
 			case EARTH:
 			case FIRE:
@@ -285,6 +289,8 @@ public class AiActions {
 				aiPlayer.changeToAir();
 				break;
 			}
+			break;
+		default:
 			break;
 		}
 	}
