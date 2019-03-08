@@ -69,10 +69,6 @@ public class Renderer {
         DrawObjects.drawBackground(gc, stageSize, stars);
 
 
-
-        // apply screenshake
-        // unsure about this
-        //applyScreenshake(gameState);
         gc.save();
 
         if ( gameState.getPlayer().isAlive()) {
@@ -122,7 +118,6 @@ public class Renderer {
             gc.restore();
         }
 
-        printScoreBoard(gc, gameState.getScoreBoard());
 
         debugger.print();
     }
@@ -146,33 +141,6 @@ public class Renderer {
 
 
     }
-
-
-    private void printScoreBoard(GraphicsContext gc,  ScoreBoard scoreboard) {
-        gc.save();
-        ArrayList<Integer> leaderboard = scoreboard.getLeaderBoard();
-        gc.setStroke(Color.WHITE);
-        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 25));
-
-        int startY = 140;
-
-        gc.strokeText("Leaderboard:", 25, startY - 40);
-
-
-        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
-        for(int i = 0; i < leaderboard.size(); i++) {
-
-            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerScore(leaderboard.get(i)) + " score & " + scoreboard.getPlayerKills(leaderboard.get(i)) + " kills";
-
-            gc.strokeText(string, 25, startY + i * 40);
-        }
-
-        gc.restore();
-    }
-
-
-
-
 
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
