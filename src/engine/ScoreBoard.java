@@ -15,8 +15,6 @@ public class ScoreBoard {
         board = new HashMap<>();
         totalScore = 0;
         leaderBoard = new ArrayList<>();
-
-
     }
 
     public ArrayList<Integer> getLeaderBoard() {

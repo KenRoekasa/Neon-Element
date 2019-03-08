@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HostController">
+<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HostController">
    <center>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1023.0" styleClass="pane">
         <columnConstraints>
@@ -38,7 +39,7 @@
                <children>
                   <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="88.0" prefWidth="189.0" styleClass="button-page" GridPane.columnIndex="1">
                      <graphic>
-                        <Label fx:id="back" prefHeight="68.0" prefWidth="190.0" styleClass="button-page" text="BACK" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="BACK" />
                      </graphic></Button>
                </children>
             </GridPane>
@@ -53,15 +54,15 @@
               </rowConstraints>
                <children>
                   <ButtonBar prefHeight="40.0" prefWidth="200.0" />
-                  <Label fx:id="loading" styleClass="label-subtitle" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="loading" styleClass="standard-text" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Button mnemonicParsing="false" onAction="#handleStartBtn" styleClass="button-page" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <graphic>
-                  <Label fx:id="start" styleClass="button-page" text="START" />
+                  <Label fx:id="start" styleClass="button-text" text="START" />
                </graphic>
             </Button>
-            <Label prefHeight="28.0" prefWidth="206.0" styleClass="label-subtitle" text="Current IP address:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="Current IP address:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </center>

@@ -37,14 +37,6 @@ public class OnlineModeController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        host.setTextFill(outline);
-        host.setEffect(blend);
-        join.setTextFill(outline);
-        join.setEffect(blend);
-        back.setTextFill(outline);
-        back.setEffect(blend);
-    }
+
 
 }

@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.Physics;
 import engine.ScoreBoard;
 import engine.calculations.AttackTimes;
 import client.ClientGameState;
@@ -37,6 +38,9 @@ public class Renderer {
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
     static HashMap<Sprites, Image> textures;
+    public static float xOffset;
+    public static float yOffset;
+
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
@@ -46,6 +50,9 @@ public class Renderer {
         textures = TextureLoader.loadTextures();
 
         stars = DrawObjects.loadStars(stageSize);
+        xOffset = 0;
+        yOffset = 0;
+
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
@@ -53,6 +60,9 @@ public class Renderer {
         this.stageSize = stageSize;
         textures = TextureLoader.loadTextures();
         stars = DrawObjects.loadStars(stageSize);
+        xOffset = 0;
+        yOffset = 0;
+
     }
 
     public void render(Stage primaryStage, ClientGameState gameState) {
@@ -60,13 +70,12 @@ public class Renderer {
         DrawObjects.drawBackground(gc, stageSize, stars);
 
 
-
-        // apply screenshake
-        // unsure about this
-        //applyScreenshake(gameState);
         gc.save();
 
         if ( gameState.getPlayer().isAlive()) {
+
+            calculateOffset(gameState);
+
             rotationCenter = new Point2D(primaryStage.getWidth()/2, primaryStage.getHeight()/2);
             ISOConverter.applyRotationTransform(gc, rotationCenter);
 
@@ -100,6 +109,9 @@ public class Renderer {
             debugger.gameStateDebugger(gameState, stageSize);
             //debugger.simpleGSDebugger(gameState, debugger);
         } else {
+            // reset render offset
+            xOffset = 0;
+            yOffset = 0;
 
             gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
             gc.setStroke(Color.WHITE);
@@ -107,37 +119,29 @@ public class Renderer {
             gc.restore();
         }
 
-        printScoreBoard(gc, gameState.getScoreBoard());
 
         debugger.print();
     }
 
+    private void calculateOffset(ClientGameState gameState) {
+        // todo make this exponential
+        int maxAllowedDistance = 300;
 
-    private void printScoreBoard(GraphicsContext gc,  ScoreBoard scoreboard) {
-        gc.save();
-        ArrayList<Integer> leaderboard = scoreboard.getLeaderBoard();
-        gc.setStroke(Color.WHITE);
-        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 25));
+        if(gameState.getPlayer().getLocation().getX() <= maxAllowedDistance ) {
+            xOffset = -(maxAllowedDistance - (float) gameState.getPlayer().getLocation().getX());
 
-        int startY = 140;
-
-        gc.strokeText("Leaderboard:", 25, startY - 40);
-
-
-        gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
-        for(int i = 0; i < leaderboard.size(); i++) {
-
-            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerScore(leaderboard.get(i)) + " score & " + scoreboard.getPlayerKills(leaderboard.get(i)) + " kills";
-
-            gc.strokeText(string, 25, startY + i * 40);
+        } else if(gameState.getMap().getWidth() - maxAllowedDistance <= gameState.getPlayer().getLocation().getX()) {
+            xOffset = -(float) (gameState.getMap().getWidth() - gameState.getPlayer().getLocation().getX() - maxAllowedDistance);
         }
 
-        gc.restore();
+        if(gameState.getPlayer().getLocation().getY() <= maxAllowedDistance ) {
+            yOffset = -(maxAllowedDistance - (float) gameState.getPlayer().getLocation().getY());
+        } else if(gameState.getMap().getHeight() - maxAllowedDistance <= gameState.getPlayer().getLocation().getY()) {
+            yOffset = -(float) (gameState.getMap().getHeight() - gameState.getPlayer().getLocation().getY() - maxAllowedDistance);
+        }
+
+
     }
-
-
-
-
 
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
@@ -147,6 +151,8 @@ public class Renderer {
             DrawEnemies.drawEnemy(gc, stageSize, (Character) o, gameState.getPlayer());
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
+        } else if (o.getTag() == ObjectType.OBSTACLE) {
+            DrawObjects.drawObstacles(gc, stageSize, (PhysicsObject) o, gameState.getPlayer());
         }
     }
 
@@ -229,6 +235,22 @@ public class Renderer {
 
         double relativeX = stage.getWidth() / 2f - playerLocation.getX() + enemyLocation.getX();
         double relativeY = stage.getHeight() / 2f - playerLocation.getY() + enemyLocation.getY();
+
+        relativeX += xOffset;
+        relativeY += yOffset;
+
+
+        return new Point2D(relativeX, relativeY);
+    }
+
+    public static Point2D getRelativeLocation(Rectangle stage, Point2D playerLocation) {
+
+
+        double relativeX = stage.getWidth() / 2f - playerLocation.getX();
+        double relativeY = stage.getHeight() / 2f - playerLocation.getY();
+
+        relativeX += xOffset;
+        relativeY += yOffset;
 
 
         return new Point2D(relativeX, relativeY);

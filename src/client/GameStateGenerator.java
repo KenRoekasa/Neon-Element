@@ -75,8 +75,6 @@ public class GameStateGenerator {
         // create player
         Player player = new Player(ObjectType.PLAYER);
         player.setId(4);
-        Point2D playerStartLocation = new Point2D(500, 500);
-        player.setLocation(playerStartLocation);
 
 
         //add the 1 power up to the objects list
@@ -94,7 +92,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-       	AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType2);
+        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType2);
 
         // Add the enemies to the objects list
 
@@ -102,27 +100,24 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
         }
+        Map map1 = MapGenerator.createMap1();
+
+
+
+        player.setLocation(map1.getRespawnPoints().get(0));
+
         for (int i = 0; i < num_enm; i++) {
-
-            if(i == 0) {
-                enemies.get(i).setLocation(new Point2D(map.getWidth() - map.getWidth()/10, map.getHeight() - map.getHeight()/10));
-            } else if (i == 1) {
-                enemies.get(i).setLocation(new Point2D(0 +  map.getWidth()/10, map.getHeight() - map.getHeight()/10));
-            } else if (i == 2) {
-                enemies.get(i).setLocation(new Point2D(0 + map.getWidth()/10, 0 + map.getHeight()/10));
-            }
-
+            enemies.get(i).setLocation(map1.getRespawnPoints().get(i+1));
             enemies.get(i).setId(i);
         }
         LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
         //Create the first map
-        Map map1 = MapGenerator.createMap1();
 
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-//        objects.addAll(map1.getWalls());
+        objects.addAll(map1.getWalls());
 
         ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
 

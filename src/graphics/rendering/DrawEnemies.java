@@ -17,7 +17,7 @@ class DrawEnemies {
         Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
         // subtract the width of the player to allow it to be centered
         relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
-        DrawPlayers.drawPlayer(gc, relativeLocation, enemy );
+        DrawPlayers.drawPlayer(gc, relativeLocation, enemy);
 
     }
 

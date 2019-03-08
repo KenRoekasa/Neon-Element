@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.HashMap;
 
 public class AudioManager {
+    //todo Range of volume? In opitonController is set from 0 to 1.0;default value is 0.4
     private static double volume;
     private HashMap<Sound, AudioClip> effects;
 

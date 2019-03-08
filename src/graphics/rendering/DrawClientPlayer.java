@@ -5,6 +5,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 
+import static graphics.rendering.Renderer.xOffset;
+import static graphics.rendering.Renderer.yOffset;
+
 
 /*
     Calculates the relative location of the player and then calls the relative DrawPlayer class function
@@ -52,6 +55,13 @@ class DrawClientPlayer {
 
     // returns the center of the stage - this is the location of the client player
     private static Point2D getStageCenter(Rectangle stageSize) {
-        return new Point2D(stageSize.getWidth() / 2, stageSize.getHeight() / 2);
+
+
+        Point2D playerCenter = new Point2D(stageSize.getWidth() / 2, stageSize.getHeight() / 2);
+        // add offset
+        playerCenter = playerCenter.add(xOffset, yOffset);
+
+
+        return playerCenter;
     }
 }

@@ -37,7 +37,7 @@
                <children>
                   <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleQuitBtn" styleClass="button-page" stylesheets="@../resources/css/outrun.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <graphic>
-                        <Label fx:id="back" text="Back" />
+                        <Label fx:id="back" styleClass="button-text" text="Back" />
                      </graphic></Button>
                </children>
             </GridPane>
@@ -45,7 +45,7 @@
                <center>
                   <Label styleClass="label_large" text="GAME OVER!" textFill="RED" BorderPane.alignment="CENTER">
                      <font>
-                        <Font size="40.0" />
+                        <Font size="85.0" />
                      </font>
                   </Label>
                </center>

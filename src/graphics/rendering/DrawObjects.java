@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import graphics.enumSwitches.colourSwitch;
@@ -28,16 +29,22 @@ class DrawObjects {
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D playerLocation = player.getLocation();
 
-        double relativeX = stageCenter.getX() - playerLocation.getX() ;
-        double relativeY = stageCenter.getY() - playerLocation.getY();
-        Point2D boardPosition = new Point2D(relativeX, relativeY);
+//        double relativeX = stageCenter.getX() - playerLocation.getX() ;
+//        double relativeY = stageCenter.getY() - playerLocation.getY();
+//        Point2D boardPosition = new Point2D(relativeX, relativeY);
+
+        Point2D relativeLocation = getRelativeLocation(stage,player.getLocation());
+
         // draw map
         gc.save();
 
-        // todo remove string compare
         gc.setFill(new ImagePattern(textures.get(Sprites.MAP)));
-        gc.fillRect(boardPosition.getX(), boardPosition.getY(), map.getWidth(), map.getHeight());
 
+
+
+        // below line is for testing things
+        //gc.setFill(Color.WHITE);
+        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), map.getWidth(), map.getHeight());
 
         // restore previous state
         gc.restore();
@@ -91,5 +98,19 @@ class DrawObjects {
 
         }
         return stars;
+    }
+
+    public static void drawObstacles(GraphicsContext gc, Rectangle stageSize, PhysicsObject obstacle, Player player) {
+
+        Point2D relativeLocation = getRelativeLocation(stageSize, obstacle , player.getLocation());
+        //relativeLocation = relativeLocation.add(-obstacle.getWidth() / 2f, -obstacle.getHeight() / 2f);
+
+
+        gc.save();
+
+        gc.setFill(Color.PURPLE);
+        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), obstacle.getWidth(), obstacle.getHeight());
+
+        gc.restore();
     }
 }

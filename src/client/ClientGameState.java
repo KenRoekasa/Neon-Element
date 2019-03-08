@@ -15,6 +15,7 @@ public class ClientGameState extends GameState {
 
 
     private Player player;
+    private int num_player;
 
     public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType) {
         super(map, objects, deadPlayers, scoreboard,gameType);
@@ -27,6 +28,15 @@ public class ClientGameState extends GameState {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+
+    public int getNum_player() {
+        return num_player;
+    }
+
+    public void setNum_player(int num_player) {
+        this.num_player = num_player;
     }
 
 

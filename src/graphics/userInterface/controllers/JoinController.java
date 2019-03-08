@@ -43,12 +43,7 @@ public class JoinController extends UIController {
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        back.setTextFill(outline);
-        ok.setTextFill(outline);
-        back.setEffect(blend);
-        ok.setEffect(blend);
-    }
+
+
 }
 

@@ -31,20 +31,10 @@ public class ModeController extends UIController{
     //back->mode board
     @FXML
     public void handleBackBtn(ActionEvent actionEvent){
-        String fxmlPath ="../fxmls/menu_new.fxml";
+        String fxmlPath ="../fxmls/menu.fxml";
         String stageTitle ="Menu" ;
         String fileException ="Menu";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //can't not fill colour by css since label is in button
-        online.setTextFill(outline);
-        online.setEffect(blend);
-        local.setTextFill(outline);
-        local.setEffect(blend);
-        back.setTextFill(outline);
-        back.setEffect(blend);
-    }
 }
