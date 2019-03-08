@@ -1,14 +1,12 @@
 package engine.gameTypes;
 
-import engine.entities.Player;
-
 public class Regicide extends GameType {
     int scoreNeeded;
-    Player king;
+    int kingId;
 
-    public Regicide(Player king, int scoreNeeded) {
+    public Regicide(int kingId, int scoreNeeded) {
         super(Type.Regicide);
-        this.king = king;
+        this.kingId = kingId;
         this.scoreNeeded = scoreNeeded;
     }
 
@@ -17,11 +15,11 @@ public class Regicide extends GameType {
         return scoreNeeded;
     }
 
-    public Player getKing() {
-        return king;
+    public int getKingId() {
+        return kingId;
     }
 
-    public void setKing(Player king) {
-        this.king = king;
+    public void setKingId(int kingId) {
+        this.kingId = kingId;
     }
 }

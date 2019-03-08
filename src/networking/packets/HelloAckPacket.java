@@ -9,8 +9,16 @@ public class HelloAckPacket extends Packet.PacketToClient {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // int + int + byte + long/int
-    // 4   + 4   + 1    + 8        = 17 bytes
+    // Common to all game types:
+    // int + int + byte
+    // 4   + 4   + 1    = 9 bytes
+    // Additional bytes for each type:
+    // FirstToXKills: int
+    // Timed:         long                           = 8             = 8
+    // Hill:          double + double + double + int = 8 + 8 + 8 + 4 = 28
+    // Regicide:      int + int                      = 4 + 4         = 8
+    //
+    // Maximum size = 9 + 28 = 37 bytes
 
     private int players;
     private int maxPlayers;
@@ -55,6 +63,10 @@ public class HelloAckPacket extends Packet.PacketToClient {
                 return new FirstToXKillsGame(buffer.getInt());
             case Timed:
                 return new TimedGame(buffer.getLong());
+            case Hill:
+                return new HillGame(buffer.getDouble(), buffer.getDouble(), buffer.getDouble(), buffer.getInt());
+            case Regicide:
+                return new Regicide(buffer.getInt(), buffer.getInt());
             default:
                 return null;
         }
@@ -69,8 +81,20 @@ public class HelloAckPacket extends Packet.PacketToClient {
         switch (type) {
             case FirstToXKills:
                 buffer.putInt(((FirstToXKillsGame) gameType).getKillsNeeded());
+                break;
             case Timed:
                 buffer.putLong(((TimedGame) gameType).getDuration());
+                break;
+            case Hill:
+                buffer.putDouble(((HillGame) gameType).getHill().getCenterX());
+                buffer.putDouble(((HillGame) gameType).getHill().getCenterY());
+                buffer.putDouble(((HillGame) gameType).getHill().getRadius());
+                buffer.putInt(((HillGame) gameType).getScoreNeeded());
+                break;
+            case Regicide:
+                buffer.putInt(((Regicide) gameType).getKingId());
+                buffer.putInt(((Regicide) gameType).getScoreNeeded());
+                break;
         }
     }
 

@@ -91,10 +91,10 @@ public class Physics {
                     Regicide regicide = (Regicide) gameState.getGameType();
                     int baseScore = 5;
                     // if the player dead is the king the killer gets more points
-                    if (regicide.getKing().equals(player)) {
+                    if (regicide.getKingId() == player.getId()) {
                         scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
                         // Make the attacker the king now
-                        regicide.setKing(player.getLastAttacker());
+                        regicide.setKingId(player.getLastAttacker().getId());
                     } else {
                         scoreBoard.addScore(player.getLastAttacker().getId(), baseScore);
                     }
