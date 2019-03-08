@@ -192,7 +192,18 @@ public class GameClient {
 
     public void startNetwork() {
         this.clientNetworkThread.start();
-        this.gameState.start();
+        // TODO lobby screen
+
+        // Wait for game to start
+        while (!this.gameState.getRunning()) {
+            try {
+                Thread.sleep(1000L); // Every 1 second
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
         beginClientLoop(renderer);
     }
 
