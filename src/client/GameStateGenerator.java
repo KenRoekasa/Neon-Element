@@ -117,9 +117,9 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-//        objects.addAll(map1.getWalls());
+        objects.addAll(map1.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType);
         scoreboard.initialise(gameState.getAllPlayers());
         aiManager.startAllAi();
         

@@ -18,20 +18,20 @@ public class MapGenerator {
         walls.add(new Wall(100, 100, 700, 100));
         walls.add(new Wall(100, 200, 100, 600));
         walls.add(new Wall(100, 1200, 100, 600));
-        walls.add(new Wall(100, 1900, 700, 100));
+        walls.add(new Wall(100, 1800, 700, 100));
 
         walls.add(new Wall(1200, 100, 700, 100));
         walls.add(new Wall(1800, 200, 100, 600));
         walls.add(new Wall(1800, 1200, 100, 600));
-        walls.add(new Wall(1200, 1900, 600, 100));
-
-        walls.add(new Wall(400, 400, 300, 300));
-
-        walls.add(new Wall(400, 1200, 300, 300));
-
-        walls.add(new Wall(1300, 400, 300, 300));
-
-        walls.add(new Wall(800, 800, 400, 400));
+        walls.add(new Wall(1200, 1800, 600, 100));
+//
+//        walls.add(new Wall(400, 400, 300, 300));
+//
+//        walls.add(new Wall(400, 1200, 300, 300));
+//
+//        walls.add(new Wall(1300, 400, 300, 300));
+//
+//        walls.add(new Wall(800, 800, 400, 400));
 
         //Creation of respawn points
         ArrayList<Point2D> respawnPoints = new ArrayList<Point2D>();
