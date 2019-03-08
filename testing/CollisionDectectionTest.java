@@ -38,14 +38,14 @@ public class CollisionDectectionTest {
         // Rotation with axis on centre of Player
         Rotate rotate = new Rotate(player.getPlayerAngle().getAngle(), player.getLocation().getX(), player.getLocation().getY());
         attackHitbox.getTransforms().addAll(rotate);
-        assertTrue(CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(), enemy.getBounds().getBoundsInParent()));
+        assertTrue(CollisionDetection.checkCollision(attackHitbox, enemy.getBounds()));
         player.setPlayerAngle(new Rotate(45));
         enemy.setLocation(new Point2D(270, 230));
         attackHitbox.setX(player.getLocation().getX());
         attackHitbox.setY(player.getLocation().getY()-player.getWidth());
         rotate = new Rotate(player.getPlayerAngle().getAngle(), player.getLocation().getX()+(player.getWidth()/2), player.getLocation().getY()+(player.getWidth()/2));
         attackHitbox.getTransforms().add(rotate);
-        assertTrue(CollisionDetection.checkCollision(attackHitbox.getBoundsInParent(), enemy.getBounds().getBoundsInParent()));
+        assertTrue(CollisionDetection.checkCollision(attackHitbox, enemy.getBounds()));
     }
 
 
