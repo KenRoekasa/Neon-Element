@@ -43,7 +43,8 @@ public class ClientNetworkHandler {
                 break;
             case SUC_CONNECTED:
                 System.out.println("Successfully connected.  My id: " + packet.getId());
-                this.gameState.getPlayer().setId(packet.getId());
+                this.gameState.setPlayer(new Player(ObjectType.PLAYER, packet.getId()));
+                this.clientID = packet.getId();
                 break;
         }
     }
@@ -61,33 +62,27 @@ public class ClientNetworkHandler {
     }
 
     public void receiveInitialGameStartStateBroadcast(InitialGameStateBroadcast packet) {
-        Player clientPlayer = new Player(ObjectType.PLAYER);
+        Player clientPlayer = new Player(ObjectType.PLAYER, clientID);
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
-        LinkedBlockingQueue<Player> deadPlayers = new LinkedBlockingQueue<Player>();
-        ScoreBoard scoreboard = new ScoreBoard();
         ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
 
         for (int i = 0; i < packet.getIds().size(); i++) {
             if (packet.getIds().get(i) == clientID) {
                 clientPlayer.setLocation(packet.getLocations().get(i));
-                clientPlayer.setId(packet.getIds().get(i));
                 objects.add(clientPlayer);
                 tempScoreboardPlayers.add(clientPlayer);
             } else {
-                Player enemy = new Player(ObjectType.ENEMY);
-                enemy.setId(packet.getIds().get(i));
+                Player enemy = new Player(ObjectType.ENEMY, packet.getIds().get(i));
                 enemy.setLocation(packet.getLocations().get(i));
                 objects.add(enemy);
                 tempScoreboardPlayers.add(enemy);
-
             }
-
         }
-        scoreboard.initialise(tempScoreboardPlayers);
 
-        this.gameState = new ClientGameState(clientPlayer, packet.getMap(), objects, deadPlayers,
-                scoreboard, packet.getGameType());
-
+        this.gameState.setPlayer(clientPlayer);
+        this.gameState.setMap(packet.getMap());
+        this.gameState.setObjects(objects);
+        this.gameState.getScoreBoard().initialise(tempScoreboardPlayers);
     }
 
     public void receiveLocationStateBroadcast(LocationStateBroadcast packet) {

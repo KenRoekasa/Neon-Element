@@ -20,13 +20,11 @@ public class ServerNetworkHandler {
 
 	public void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
-		// int players = this.gameState.getAllPlayers().size();
-		// int maxPlayers = this.gameState.getMaxPlayers();
-		//
-		// Packet response = new HelloAckPacket(players, maxPlayers,
-		// packet.getIpAddress(), packet.getPort());
-		// System.out.println("respond");
-		// this.send(response);
+		int players = this.gameState.getAllPlayers().size();
+		int maxPlayers = this.gameState.getMaxPlayers();
+
+		Packet response = new HelloAckPacket(players, maxPlayers, this.gameState.getGameType());
+		this.dispatcher.send(response, packet.getIpAddress(), packet.getPort());
 	}
 
 	public void receiveConnect(ConnectPacket packet) {

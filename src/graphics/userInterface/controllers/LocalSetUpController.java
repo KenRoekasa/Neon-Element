@@ -98,7 +98,7 @@ public class LocalSetUpController extends UIController implements Initializable 
         System.out.println("@localController Selected mode: " + selected_mode);
 
         ArrayList<String> enemyTypes = new ArrayList<>();
-        
+
         switch (enemy_num) {
             case 1:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
@@ -130,8 +130,7 @@ public class LocalSetUpController extends UIController implements Initializable 
         gameState = GameStateGenerator.createDemoGamestateSample(enemy_num, enemyTypes);
         //g.getPlayer().getHealth();
         try {
-            boolean networked = false;
-            GameClient gameBoard = new GameClient(stage, gameState, networked);
+            GameClient gameBoard = new GameClient(stage, gameState);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 

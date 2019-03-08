@@ -2,8 +2,13 @@ package graphics.userInterface.controllers;
 
 import client.GameClient;
 
+import client.GameStateGenerator;
 import client.ClientGameState;
+import server.GameServer;
+import server.ServerGameState;
+import server.ServerGameStateGenerator;
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -15,19 +20,24 @@ public class HostController extends UIController{
     @FXML
     Label back,start;
     private ClientGameState gameState;
+    private ServerGameState serverState;
 
     // directly go to local mode map
     @FXML
     public void handleStartBtn(ActionEvent event){
         // create game rules
         // todo make this configurable
-            //gameState = GameStateGenerator.createDemoGamestate();
-        //g.getPlayer().getHealth();
+        gameState = GameStateGenerator.createEmptyState();
+        serverState = ServerGameStateGenerator.createEmptyState();
         try {
-            boolean networked = false;
-            GameClient gameBoard = new GameClient(stage, gameState, networked);
-            //Scene scene = gameBoard.getScene();
+            // Create server
+            GameServer server = new GameServer(serverState);
+            server.start();
 
+            String addr = "localhost";
+            GameClient gameBoard = new GameClient(stage, gameState, addr);
+            Scene scene = gameBoard.getScene();
+            gameBoard.startNetwork();
         } catch (Exception e) {
             e.printStackTrace();
         }

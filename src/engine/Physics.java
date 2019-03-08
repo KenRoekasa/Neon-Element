@@ -221,52 +221,54 @@ public class Physics {
     private void doHitDetection() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            Player player = itr.next();
-            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
-            ArrayList<Player> lightHittablePlayers = new ArrayList<>();
-            ArrayList<Player> heavyHittablePlayer = new ArrayList<>();
-            // Loop through all enemies to detect hit detection
-            for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
-                Player e = itr1.next();
-                // Check light attack
-                if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
-                    lightHittablePlayers.add(e);
-                }
-                //Check heavy attack
-                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
-                        e.getBounds().getBoundsInParent())) {
-                    heavyHittablePlayer.add(e);
-                }
-            }
-            // Attack Collision
-            // if player is light attacking
-            if (player.getCurrentAction() == Action.LIGHT) {
-                for (Player e : lightHittablePlayers) {
-                    if (e.getLastAttacker() != null) {
-                        // If the player isn't invulnerable and attack by the same person
-                        if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
-                            float damage = DamageCalculation.calculateDealtDamage(player, e);
-                            e.takeDamage(damage, player);
-                        }
-                    } else {
-                        float damage = DamageCalculation.calculateDealtDamage(player, e);
-                        e.takeDamage(damage, player);
+            synchronized (itr) {
+                Player player = itr.next();
+                ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
+                ArrayList<Player> lightHittablePlayers = new ArrayList<>();
+                ArrayList<Player> heavyHittablePlayer = new ArrayList<>();
+                // Loop through all enemies to detect hit detection
+                for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
+                    Player e = itr1.next();
+                    // Check light attack
+                    if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                        lightHittablePlayers.add(e);
+                    }
+                    //Check heavy attack
+                    if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
+                            e.getBounds().getBoundsInParent())) {
+                        heavyHittablePlayer.add(e);
                     }
                 }
-            }
-
-            // if player is heavy attacking
-            if (player.getCurrentAction() == Action.HEAVY) {
-                for (Player e : heavyHittablePlayer) {
-                    if (e.getLastAttacker() != null) {
-                        // If the player isn't invulnerable and attack by the same person
-                        if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
+                // Attack Collision
+                // if player is light attacking
+                if (player.getCurrentAction() == Action.LIGHT) {
+                    for (Player e : lightHittablePlayers) {
+                        if (e.getLastAttacker() != null) {
+                            // If the player isn't invulnerable and attack by the same person
+                            if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
+                                float damage = DamageCalculation.calculateDealtDamage(player, e);
+                                e.takeDamage(damage, player);
+                            }
+                        } else {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
                         }
-                    } else {
-                        float damage = DamageCalculation.calculateDealtDamage(player, e);
-                        e.takeDamage(damage, player);
+                    }
+                }
+
+                // if player is heavy attacking
+                if (player.getCurrentAction() == Action.HEAVY) {
+                    for (Player e : heavyHittablePlayer) {
+                        if (e.getLastAttacker() != null) {
+                            // If the player isn't invulnerable and attack by the same person
+                            if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
+                                float damage = DamageCalculation.calculateDealtDamage(player, e);
+                                e.takeDamage(damage, player);
+                            }
+                        } else {
+                            float damage = DamageCalculation.calculateDealtDamage(player, e);
+                            e.takeDamage(damage, player);
+                        }
                     }
                 }
             }

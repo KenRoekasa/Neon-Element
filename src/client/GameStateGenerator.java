@@ -20,6 +20,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameStateGenerator {
 
+    public static ClientGameState createEmptyState() {
+        ArrayList<PhysicsObject> objects = new ArrayList<>();
+        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
+        ScoreBoard scoreboard = new ScoreBoard();
+
+        ClientGameState gameState = new ClientGameState(null, null, objects, deadPlayers, scoreboard, null);
+
+        return gameState;
+    }
+
     public static ClientGameState createDemoGamestate() {
     	System.out.println("generating game state");
         //initialise map location
@@ -30,24 +40,24 @@ public class GameStateGenerator {
         player.setId(100);
         Point2D playerStartLocation = new Point2D(500, 500);
         player.setLocation(playerStartLocation);
-        
+
         // create object list
         ArrayList<PhysicsObject> objects = new ArrayList<>();
-        
+
         // create power up
         PowerUp pu = new PowerUp();
         objects.add(pu);
-        
+
         // create enemies lists'
         ArrayList<Player> enemies = new ArrayList<>();
         ArrayList<AiController> aiConList = new ArrayList<>();
-        
+
         // create an enemy and its ai controller
         AiController aiCon = new AiController( new Player(ObjectType.ENEMY), objects, map ,player);
         aiConList.add(aiCon);
         enemies.add(aiCon.getAiPlayer() );
         enemies.get(0).setLocation(new Point2D(140, 100));
-      
+
         // Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
@@ -61,7 +71,7 @@ public class GameStateGenerator {
         scoreboard.initialise(gameState.getAllPlayers());
         // start the engine.ai
         //startAi(aiConList);
-        
+
         return gameState;
     }
 
@@ -127,10 +137,10 @@ public class GameStateGenerator {
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();
-        
+
         return gameState;
     }
-    
+
     private static AiType getType(String type) {
     	switch(type.toLowerCase().trim()) {
     		default:
@@ -140,7 +150,7 @@ public class GameStateGenerator {
     			return AiType.NORMAL;
     		case "hard":
     			return AiType.HARD;
-    	
+
     	}
     }
 }
