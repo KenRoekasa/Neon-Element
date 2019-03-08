@@ -50,10 +50,12 @@ public class GameClient {
     private AudioManager audioManager;
 
 
-    public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
+
+    public GameClient(Stage primaryStage, ClientGameState gameState, boolean online, AudioManager audioManager) throws Exception {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
+        this.audioManager = audioManager;
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
@@ -77,7 +79,7 @@ public class GameClient {
         hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
         hudController.setPlayerId(gameState.getPlayer().getId());
         hudController.setNum_player(gameState.getNum_player());
-
+        hudController.setAudioManager(audioManager);
 
         primaryStage.getScene().setRoot(hudPane);
 
@@ -102,7 +104,6 @@ public class GameClient {
 
         renderer = new Renderer(gc, stageSize, debugger);
 
-        audioManager = new AudioManager();
 
         //Creates the physics engine
         physicsEngine = new Physics(gameState);
@@ -119,8 +120,8 @@ public class GameClient {
         // ClientNetworkThread.run();
     }
 
-    public GameClient(Stage primaryStage, ClientGameState gameState, String addr) throws Exception {
-        this(primaryStage, gameState, true);
+    public GameClient(Stage primaryStage, ClientGameState gameState, String addr, AudioManager audioManager) throws Exception {
+        this(primaryStage, gameState, true, audioManager);
 
         this.clientNetworkThread = new ClientNetworkThread(gameState, InetAddress.getByName(addr));
     }
@@ -177,6 +178,7 @@ public class GameClient {
             root.setPrefWidth(stageSize.getWidth());
             GameOverController controller = loader.getController();
             controller.setStage(primaryStage);
+            controller.setAudioManager(audioManager);
 
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
 
@@ -199,43 +201,64 @@ public class GameClient {
         // set input controls
         input = new ArrayList<>();
 
+        gameState.resume();
+
         theScene.setOnKeyReleased(e -> {
-            String code = e.getCode().toString();
-            input.remove(code);
+            if(!gameState.getPaused()) {
+                String code = e.getCode().toString();
+                input.remove(code);
+
+            }
         });
 
-        theScene.setOnMouseClicked(e -> InputHandler.handleClick(gameState.getPlayer(), e));
+        theScene.setOnMouseClicked(e -> {
+            if(!gameState.getPaused()) {
+                InputHandler.handleClick(gameState.getPlayer(), e);
+            }
+        });
 
         // when the mouse is moved around the screen calculate new angle
-        theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
-        theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
+        theScene.setOnMouseMoved(e -> {
+            if(!gameState.getPaused()) {
+                InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e);
+            }
+        });
+        theScene.setOnMouseDragged(e -> {
+            if(!gameState.getPaused()) {
+                InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e);
+            }
+        });
 
         theScene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.P) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
-                try {
-                    Pane node = loader.load();
-                    node.setPrefHeight(stageSize.getHeight());
-                    node.setPrefWidth(stageSize.getWidth());
-                    hudPane.getChildren().add(node);
-                    node.setBackground(Background.EMPTY);
-                    PauseController controller = loader.getController();
-                    controller.setHudPane(hudPane);
-                    controller.setNode(node);
-                    controller.setStageSize(stageSize);
-                    controller.setStage(primaryStage, gameState);
-                    primaryStage.setTitle("Pause");
+            if(!gameState.getPaused()) {
+                if (e.getCode() == KeyCode.P) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
+                    try {
+                        Pane node = loader.load();
+                        node.setPrefHeight(stageSize.getHeight());
+                        node.setPrefWidth(stageSize.getWidth());
+                        hudPane.getChildren().add(node);
+                        node.setBackground(Background.EMPTY);
+                        PauseController controller = loader.getController();
+                        controller.setHudPane(hudPane);
+                        controller.setNode(node);
+                        controller.setStageSize(stageSize);
+                        controller.setStage(primaryStage, gameState);
+                        controller.setAudioManager(audioManager);
+                        gameState.pause();
+                        primaryStage.setTitle("Pause");
 
-                } catch (IOException ex) {
-                    System.out.println("crush in loading pause board ");
-                    ex.printStackTrace();
+                    } catch (IOException ex) {
+                        System.out.println("crush in loading pause board ");
+                        ex.printStackTrace();
+                    }
                 }
-            }
 
-            String code = e.getCode().toString();
-            // only add each input command once
-            if (!input.contains(code))
-                input.add(code);
+                String code = e.getCode().toString();
+                // only add each input command once
+                if (!input.contains(code))
+                    input.add(code);
+            }
         });
     }
 

@@ -9,7 +9,7 @@ public class HelpController extends UIController {
         String fxmlPath = "../fxmls/menu.fxml";
         String stageTitle = "Menu";
         String fileException = "Menu";
-        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
 }

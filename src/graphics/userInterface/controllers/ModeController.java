@@ -16,7 +16,7 @@ public class ModeController extends UIController{
         String fxmlPath = "../fxmls/local_setup.fxml";
         String stageTitle = "Local Mode Configuration";
         String fileException ="Local Setup";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     //online->choose host/ join
@@ -25,7 +25,7 @@ public class ModeController extends UIController{
         String fxmlPath ="../fxmls/online_mode.fxml";
         String stageTitle ="Online Mode Selection" ;
         String fileException ="Online Mode";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     //back->mode board
@@ -34,7 +34,7 @@ public class ModeController extends UIController{
         String fxmlPath ="../fxmls/menu.fxml";
         String stageTitle ="Menu" ;
         String fileException ="Menu";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
 }

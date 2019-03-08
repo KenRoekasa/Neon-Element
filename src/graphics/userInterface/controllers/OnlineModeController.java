@@ -17,7 +17,7 @@ public class OnlineModeController extends UIController{
         String fxmlPath = "../fxmls/online_setup.fxml";
         String stageTitle = "Online Mode Configuration";
         String fileException ="Online Setup";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     @FXML
@@ -25,7 +25,7 @@ public class OnlineModeController extends UIController{
         String fxmlPath = "../fxmls/ip_join.fxml";
         String stageTitle = "Join a game";
         String fileException = "IP Join ";
-        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
 
@@ -34,7 +34,7 @@ public class OnlineModeController extends UIController{
         String fxmlPath ="../fxmls/mode.fxml";
         String stageTitle = "Mode";
         String fileException ="Mode";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
 
