@@ -54,7 +54,7 @@ public class OnlineSetUpController extends UIController implements Initializable
         String fxmlPath = "../fxmls/ip_host.fxml";
         String stageTitle ="Host a Game" ;
         String fileException ="IP Host";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     @FXML
@@ -63,7 +63,7 @@ public class OnlineSetUpController extends UIController implements Initializable
         String fxmlPath = "../fxmls/online_mode.fxml";
         String stageTitle = "Online Configuration";
         String fileException ="Online Setup";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     @Override

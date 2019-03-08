@@ -52,7 +52,7 @@ public class MenuController extends UIController implements Initializable{
         String fxmlPath = "../fxmls/mode.fxml";
         String stageTitle = "Mode";
         String fileException ="Mode";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     @FXML
@@ -60,7 +60,7 @@ public class MenuController extends UIController implements Initializable{
         String fxmlPath ="../fxmls/option.fxml";
         String stageTitle ="Option Setup" ;
         String fileException ="Option";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
 
@@ -70,7 +70,7 @@ public class MenuController extends UIController implements Initializable{
         String fxmlPath ="../fxmls/help.fxml";
         String stageTitle ="Tutorial" ;
         String fileException ="Help";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
 
     }
 
