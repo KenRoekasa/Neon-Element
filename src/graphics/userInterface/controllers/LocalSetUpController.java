@@ -4,6 +4,7 @@ import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 
+import engine.enums.AiType;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 //For local_setup scene
@@ -43,6 +45,7 @@ public class LocalSetUpController extends UIController implements Initializable 
     private String enemy_2;
     private String enemy_3;
     private String selected_mode;
+    ArrayList<String> enemyTypes = new ArrayList<>();
 
     public int getEnemy_num() {
         return enemy_num;
@@ -95,21 +98,27 @@ public class LocalSetUpController extends UIController implements Initializable 
         switch (enemy_num) {
             case 1:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
+                enemyTypes.add(enemy_1);
                 break;
             case 2:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
+                enemyTypes.add(enemy_1);
+                enemyTypes.add(enemy_2);
                 break;
             case 3:
                 enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                 enemy_2 = (String) diff_2.getSelectedToggle().getUserData();
-                enemy_3 = (String) diff_2.getSelectedToggle().getUserData();
+                enemy_3 = (String) diff_3.getSelectedToggle().getUserData();
+                enemyTypes.add(enemy_1);
+                enemyTypes.add(enemy_2);
+                enemyTypes.add(enemy_3);
 
         }
 
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num);
+        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num,enemyTypes);
         //g.getPlayer().getHealth();
         try {
             boolean networked = false;

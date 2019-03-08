@@ -1,6 +1,5 @@
 package client;
 
-
 import client.audiomanager.AudioManager;
 import engine.Physics;
 import engine.controller.RespawnController;
@@ -31,6 +30,11 @@ import java.util.ArrayList;
 
 public class GameClient {
 
+    /**
+     * Time since the last frame
+     */
+    public static float deltaTime;
+
     private Physics physicsEngine;
     private Renderer renderer;
     private Debugger debugger;
@@ -39,12 +43,12 @@ public class GameClient {
     private Scene scene;
     private Rectangle stageSize;
     private ArrayList<String> input;
-
     private ClientGameState gameState;
     private ClientNetworkThread clientNetworkThread;
     private Pane hudPane;
 
     private AudioManager audioManager;
+
 
     public GameClient(Stage primaryStage, ClientGameState gameState, boolean online) throws Exception {
         // initial setup
@@ -56,32 +60,30 @@ public class GameClient {
         //Pane hudPane = new Pane();
 
         try {
-            hudPane = (Pane) loader.load();
-
+            hudPane = loader.load();
             //get player attribute
 
         } catch (Exception e) {
             // todo make this better
-            System.out.println("Crash in loading hud in map");
+            System.out.println("Crush in loading hud in map");
             e.printStackTrace();
             Platform.exit();
             System.exit(0);
         }
 
+        HUDController hudController = loader.getController();
+        hudController.setGameState(gameState);
+        hudController.setScoreBoard(gameState.getScoreBoard());
+        hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+        hudController.setPlayerId(gameState.getPlayer().getId());
+        hudController.setNum_player(gameState.getNum_player());
 
-        HUDController HUDController = loader.getController();
-        HUDController.setGameState(gameState);
-        HUDController.setScoreBoard(gameState.getScoreBoard());
-        HUDController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
-        HUDController.setPlayerId(gameState.getPlayer().getId());
-        System.out.println("Player Id: "+gameState.getPlayer().getId());
-        HUDController.setNum_player(gameState.getNum_player());
 
         primaryStage.getScene().setRoot(hudPane);
 
         scene = primaryStage.getScene();
 
-		// change cursor
+        // change cursor
         Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
         ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
         scene.setCursor(iC);
@@ -102,22 +104,21 @@ public class GameClient {
 
         audioManager = new AudioManager();
 
-        //Create the physics engine 
+        //Creates the physics engine
         physicsEngine = new Physics(gameState);
-
 
         // initialise input controls
         initialiseInput(scene, renderer);
 
-        if(!online) {
+        if (!online) {
             this.gameState.start();
-            beginClientLoop(renderer, HUDController);
+            beginClientLoop(renderer,hudController);
         }
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
     }
-    
+
     public GameClient(Stage primaryStage, ClientGameState gameState, String addr) throws Exception {
         this(primaryStage, gameState, true);
 
@@ -128,43 +129,34 @@ public class GameClient {
         return scene;
     }
 
-    private void beginClientLoop(Renderer renderer, HUDController hudController) {
+    private void beginClientLoop(Renderer renderer,HUDController hudController) {
+
         new AnimationTimer() {
+            long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
-                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(),primaryStage);
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
                 renderer.render(primaryStage, gameState);
                 hudController.update();
 
                 // TODO: remove this when networking is added
                 physicsEngine.clientLoop();
+                audioManager.clientLoop(gameState);
 
-                if(!gameState.getRunning()) {
+                //calculate deltaTime
+                long time = System.nanoTime();
+                deltaTime = (int) ((time - lastTime) / 1000000);
+                lastTime = time;
+
+                if (!gameState.getRunning()) {
                     stop();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
-                    try {
-                        Pane root = loader.load();
-                        primaryStage.getScene().setRoot(root);
-                        root.setPrefHeight(stageSize.getHeight());
-                        root.setPrefWidth(stageSize.getWidth());
-                        GameOverController controller = loader.getController();
-                        controller.setStage(primaryStage);
-
-                        primaryStage.getScene().setCursor(Cursor.DEFAULT);
-
-                        primaryStage.setTitle("Game Over!");
-                        gameState.stop();
-
-                    } catch (IOException e) {
-                        System.out.println("crush in loading menu board ");
-                        e.printStackTrace();
-                    }
+                    showGameOver();
                 }
 
-
             }
-        }.start();
 
+
+        }.start();
 
         // todo move to server
         Thread puController = new Thread(new PowerUpController(gameState));
@@ -173,13 +165,33 @@ public class GameClient {
         Thread respawnController = new Thread(new RespawnController(gameState));
         respawnController.start();
 
+    }
 
+
+    private void showGameOver() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
+        try {
+            Pane root = loader.load();
+            primaryStage.getScene().setRoot(root);
+            root.setPrefHeight(stageSize.getHeight());
+            root.setPrefWidth(stageSize.getWidth());
+            GameOverController controller = loader.getController();
+            controller.setStage(primaryStage);
+
+            primaryStage.getScene().setCursor(Cursor.DEFAULT);
+
+            primaryStage.setTitle("Game Over!");
+            gameState.stop();
+
+        } catch (IOException e) {
+            System.out.println("crush in loading menu board ");
+            e.printStackTrace();
+        }
     }
 
     public void startNetwork() {
         this.clientNetworkThread.start();
         this.gameState.start();
-        // todo talk to jordan about what this does
         beginClientLoop(renderer, new HUDController());
     }
 
@@ -192,16 +204,14 @@ public class GameClient {
             input.remove(code);
         });
 
-        theScene.setOnMouseClicked(e -> {
-            InputHandler.handleClick(gameState.getPlayer(), e, audioManager);
-        });
+        theScene.setOnMouseClicked(e -> InputHandler.handleClick(gameState.getPlayer(), e));
 
-		// when the mouse is moved around the screen calculate new angle
+        // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
         theScene.setOnMouseDragged(e -> InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e));
 
         theScene.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.P) {
+            if (e.getCode() == KeyCode.P) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
                 try {
                     Pane node = loader.load();
@@ -209,7 +219,6 @@ public class GameClient {
                     node.setPrefWidth(stageSize.getWidth());
                     hudPane.getChildren().add(node);
                     node.setBackground(Background.EMPTY);
-
                     PauseController controller = loader.getController();
                     controller.setHudPane(hudPane);
                     controller.setNode(node);

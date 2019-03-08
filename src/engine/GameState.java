@@ -13,7 +13,7 @@ public abstract class GameState {
     protected Rectangle map;
 
 
-    private boolean isRunning;
+    protected boolean isRunning;
 
     /**
      * All Physics objects
@@ -93,8 +93,7 @@ public abstract class GameState {
      * @return an array list of other players other than chosen player
      */
     public ArrayList<Player> getOtherPlayers(Player player){
-        ArrayList<Player> otherPlayers = new ArrayList<>();
-        otherPlayers.addAll(allPlayers);
+        ArrayList<Player> otherPlayers = new ArrayList<>(allPlayers);
         otherPlayers.remove(player);
         return otherPlayers;
     }
@@ -112,6 +111,7 @@ public abstract class GameState {
     }
 
     public void start() {
+        startTime = System.currentTimeMillis();
         isRunning = true;
     }
 

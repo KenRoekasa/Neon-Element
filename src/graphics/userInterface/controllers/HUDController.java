@@ -44,10 +44,12 @@ public class HUDController extends UIController implements Initializable {
     private Text health;
     private StringProperty healthValue;
 
-
     @FXML
     private Text kills;
     private StringProperty totalKills;
+
+    @FXML Text death;
+    private StringProperty deathTimes;
 
     @FXML
     private Label player1, player2, player3, player4;
@@ -61,24 +63,22 @@ public class HUDController extends UIController implements Initializable {
 
     public HUDController() {
         healthValue = new SimpleStringProperty();
-        healthValue.set("100");
         totalKills = new SimpleStringProperty();
-        totalKills.set("0");
+        deathTimes = new SimpleStringProperty();
         player1Property = new SimpleStringProperty();
-        player1Property.set("0");
         player2Property = new SimpleStringProperty();
-        player2Property.set("0");
         player3Property = new SimpleStringProperty();
-        player3Property.set("0");
         player4Property = new SimpleStringProperty();
-        player4Property.set("0");
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
         health.textProperty().bind(healthValue);
         kills.textProperty().bind(totalKills);
+        death.textProperty().bind(deathTimes);
 
         player1.textProperty().bind(player1Property);
         player2.textProperty().bind(player2Property);
@@ -105,13 +105,16 @@ public class HUDController extends UIController implements Initializable {
     }
 
     public void update() {
+
         if (gameState.getPlayer().getHealth() < 0) {
             healthValue.set("0");
         } else {
             healthValue.set(String.valueOf((int) (gameState.getPlayer().getHealth())));
         }
-        //System.out.println("Player:" +gameState.getPlayer().toString());
+
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
+
+        deathTimes.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerDeaths(playerId))));
 
         String s1 = String.format(TEMP, leaderBoard.get(0).toString(), scoreBoard.getPlayerKills(leaderBoard.get(0)));
         String s2 = String.format(TEMP, leaderBoard.get(1).toString(), scoreBoard.getPlayerKills(leaderBoard.get(1)));
@@ -121,7 +124,7 @@ public class HUDController extends UIController implements Initializable {
         if (num_player == 3) {
             String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerKills(leaderBoard.get(2)));
             player3Property.set(s3);
-        } else {
+        } else if (num_player == 4) {
             String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerKills(leaderBoard.get(2)));
             String s4 = String.format(TEMP, leaderBoard.get(3).toString(), scoreBoard.getPlayerKills(leaderBoard.get(3)));
             player3Property.set(s3);

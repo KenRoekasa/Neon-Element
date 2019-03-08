@@ -7,7 +7,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 
 import static graphics.rendering.Renderer.getRelativeLocation;
-import static graphics.rendering.Renderer.textures;
 
 /*
 Calculates the relative position of the enemy with regards to the player, then calls the related DrawPlayer method
@@ -18,7 +17,7 @@ class DrawEnemies {
         Point2D relativeLocation = getRelativeLocation(stage, enemy, player.getLocation());
         // subtract the width of the player to allow it to be centered
         relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
-        DrawPlayers.drawPlayer(gc, relativeLocation, enemy, textures);
+        DrawPlayers.drawPlayer(gc, relativeLocation, enemy);
 
     }
 

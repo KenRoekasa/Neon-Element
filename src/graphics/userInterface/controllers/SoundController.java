@@ -1,11 +1,7 @@
 package graphics.userInterface.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SoundController extends UIController{
     private Pane hudPane;

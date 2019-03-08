@@ -26,7 +26,7 @@ public class Debugger {
 
     public Debugger(GraphicsContext gc){
         this.gc = gc;
-        output = new  ArrayList<Pair<String, Integer>>();
+        output = new ArrayList<>();
     }
 
     // prints all items added to graphics.debugger to screen

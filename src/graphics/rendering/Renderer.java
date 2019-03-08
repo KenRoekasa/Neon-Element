@@ -162,7 +162,8 @@ public class Renderer {
         gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
         for(int i = 0; i < leaderboard.size(); i++) {
 
-            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerKills(leaderboard.get(i));
+            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerScore(leaderboard.get(i)) + " score & " + scoreboard.getPlayerKills(leaderboard.get(i)) + " kills";
+
             gc.strokeText(string, 25, startY + i * 40);
         }
 
@@ -176,7 +177,7 @@ public class Renderer {
     // render physics objects (players/pickups)
     private void renderObject(PhysicsObject o, ClientGameState gameState) {
         if (o.getTag() == ObjectType.PLAYER) {
-            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer(), textures);
+            DrawClientPlayer.drawPlayer(gc, stageSize, gameState.getPlayer());
         } else if (o.getTag() == ObjectType.ENEMY) {
             DrawEnemies.drawEnemy(gc, stageSize, (Character) o, gameState.getPlayer());
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
