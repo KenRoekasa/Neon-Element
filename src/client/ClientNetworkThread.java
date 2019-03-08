@@ -81,10 +81,10 @@ public class ClientNetworkThread extends Thread {
         double x = location.getX();
         double y = location.getY();
         Rotate playerAngle = this.gameState.getPlayer().getPlayerAngle();
-        
+        float playerHealth = this.gameState.getPlayer().getHealth();
         
 
-        this.getDispatcher().sendLocationState(x, y, playerAngle.getAngle());
+        this.getDispatcher().sendLocationState(x, y, playerAngle.getAngle(),playerHealth);
     }
 
     private ClientNetworkDispatcher getDispatcher() {
