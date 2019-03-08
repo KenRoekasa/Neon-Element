@@ -45,6 +45,7 @@ public class FSMManager {
 			fsm = new HillFSM(aiPlayer, aiCon2, calc);
 			break;
 		case Regicide:
+			fsm = new RegicideFSM(aiPlayer, aiCon2, calc);
 			break;
 		default:
 			break;
