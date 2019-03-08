@@ -56,6 +56,7 @@ public abstract class AiStateActions {
 		case ATTACK_WINNER:
 			attackWinner();
 		case IDLE:
+			idle();
 			break;
 		default:
 			break;
@@ -63,6 +64,16 @@ public abstract class AiStateActions {
 		
 	}
 	
+	protected void idle() {
+		Player player = calc.getNearestPlayer();
+		if (calc.inAttackDistance(player) && player.getHealth()>0) {
+			aiPlayer.unShield();
+			aiPlayer.lightAttack();
+		}
+		else
+			aiPlayer.shield();
+	}
+
 	public void setWandering(boolean bool) {
 		wandering = bool;
 	}

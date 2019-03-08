@@ -4,6 +4,8 @@ import static engine.gameTypes.GameType.Type.Hill;
 
 import java.util.ArrayList;
 
+import com.sun.prism.paint.RadialGradient;
+
 import engine.ScoreBoard;
 import engine.ai.controller.AiController;
 import engine.entities.PhysicsObject;
@@ -115,6 +117,20 @@ public class AiCalculations {
 				winningPlayer = player;
 		}
 		return winningPlayer;
+	}
+	
+	public Player getOnHillPlayer() {
+		ArrayList<Player> players = getPlayers();
+		Player onHillPlayer = null;
+		for (Player player : players) {
+			if(player.getLocation().distance(circleCentre) < (map.getWidth()*0.01)) {
+				onHillPlayer = player;
+				break;
+			}
+		}
+		if(onHillPlayer == null)
+			return getNearestPlayer();
+		return onHillPlayer;
 	}
 	
 	public boolean killDifferenceIsMoreThan(int kills) {
@@ -377,6 +393,15 @@ public class AiCalculations {
 	public ArrayList<PowerUp> getPowerups(){
 		updatePowerups();
 		return powerups;
+	}
+
+	public boolean onHillEdge() {
+		double locX = aiPlayer.getLocation().getX();
+		double locY = aiPlayer.getLocation().getY();
+		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
+		if( (distance - circleRadius) < map.getHeight()*0.05 )
+			return true;
+		return false;
 	}
 	
 

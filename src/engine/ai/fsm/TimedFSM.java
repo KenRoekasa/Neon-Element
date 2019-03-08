@@ -3,7 +3,6 @@ package engine.ai.fsm;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
-import engine.entities.Character;
 import engine.entities.Player;
 import engine.enums.PowerUpType;
 
@@ -17,7 +16,7 @@ public class TimedFSM extends FSM{
 	public void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take a heal power up
@@ -69,7 +68,7 @@ public class TimedFSM extends FSM{
 	public void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up

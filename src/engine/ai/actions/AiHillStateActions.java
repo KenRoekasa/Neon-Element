@@ -2,6 +2,7 @@ package engine.ai.actions;
 
 import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
+import engine.ai.enums.AiType;
 import engine.entities.Player;
 
 public class AiHillStateActions extends AiStateActions {
@@ -47,12 +48,45 @@ public class AiHillStateActions extends AiStateActions {
 		case ATTACK_WINNER:
 			attackWinner();
 		case IDLE:
+			idle();
 			break;
 		default:
 			break;
 		}
 		
 	}
+	
+	@Override
+	protected void attack() {
+		aiPlayer.unShield();
+		Player player;
+		if(aiCon.getAiType().equals(AiType.HARD))
+			player = calc.getOnHillPlayer();
+		else
+			player = calc.getNearestPlayer();
+		actions.moveTo(player);
+
+		if (calc.inAttackDistance(player) && player.getHealth()>0) {
+			aiPlayer.lightAttack();
+		}
+	}
+	
+	@Override
+	protected void aggressiveAttack() {
+		aiPlayer.unShield();
+		Player player;
+		if(aiCon.getAiType().equals(AiType.HARD))
+			player = calc.getOnHillPlayer();
+		else
+			player = calc.getNearestPlayer();
+		aiPlayer.chargeHeavyAttack();
+		actions.moveTo(player);
+		
+		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+			aiPlayer.lightAttack();
+		}
+	}
+
 	
 	private void escapeOnHill() {
 		if(!calc.onHill(aiPlayer.getLocation()))
@@ -75,7 +109,7 @@ public class AiHillStateActions extends AiStateActions {
 			aiPlayer.unShield();
 			aiPlayer.lightAttack();
 		}
-		if( aiPlayer.getLocation().distance(calc.getHillCentreLocation()) > 10 )
+		if( !calc.onHill(aiPlayer.getLocation()))
 			actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
 	}
 
