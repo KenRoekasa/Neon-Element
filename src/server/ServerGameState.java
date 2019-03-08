@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerGameState extends GameState {
 
-    private final int MAX_PLAYERS = 10;
+    private final int MAX_PLAYERS = 4;
 
     private boolean isStarted;
 
