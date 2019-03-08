@@ -99,9 +99,6 @@ public class GameClient {
         //Creates the physics engine
         physicsEngine = new Physics(gameState);
 
-        // initialise input controls
-        initialiseInput(scene, renderer);
-
         if (!online) {
             this.gameState.start();
             beginClientLoop(renderer);
@@ -122,6 +119,9 @@ public class GameClient {
     }
 
     private void beginClientLoop(Renderer renderer) {
+
+        // initialise input controls
+        initialiseInput(scene, renderer);
 
         new AnimationTimer() {
             long lastTime = System.nanoTime();
