@@ -43,7 +43,7 @@ public class ClientNetworkHandler {
                 break;
             case SUC_CONNECTED:
                 System.out.println("Successfully connected.  My id: " + packet.getId());
-                this.gameState.getPlayer().setId(packet.getId());
+                this.gameState.setPlayer(new Player(ObjectType.PLAYER, packet.getId()));
                 this.clientID = packet.getId();
                 break;
         }
