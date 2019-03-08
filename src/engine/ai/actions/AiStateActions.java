@@ -9,7 +9,7 @@ import engine.ai.enums.AiType;
 import engine.entities.Player;
 import engine.enums.PowerUpType;
 //high level actions, based on ai states 
-public class AiStateActions {
+public abstract class AiStateActions {
 	
 	Player aiPlayer;
 	Player player;
@@ -53,16 +53,7 @@ public class AiStateActions {
 			break;
 		case WANDER:
 			wander();
-		case GO_TO_HILL:
-			goToHill();
-			break;
-		case WANDER_ON_HILL:
-			wanderOnHill();
-			break;
-		case ESCAPE_ON_HILL:
-			escapeOnHill();
 		case ATTACK_WINNER:
-			aiPlayer.unShield();
 			attackWinner();
 		case IDLE:
 			break;
@@ -79,60 +70,35 @@ public class AiStateActions {
 	public boolean isWandering() {
 		return wandering;
 	}
-	
-	private void escapeOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			escape();
-	}
 
-	private void wanderOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			wander();
-	}
-
-	private void goToHill() {
-		aiPlayer.shield();
-		Player player = calc.getNearestPlayer();
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.unShield();
-			aiPlayer.lightAttack();
-		}
-		if( aiPlayer.getLocation().distance(calc.getHillCentreLocation()) > 10 )
-			actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
-	}
-
-	private void wander() {
+	protected void wander() {
 		aiPlayer.unShield();
 		updateWandering();
 		actions.startWandering();
 	}
 	
-	private void findSpeed() {
+	protected void findSpeed() {
 		aiPlayer.shield();
 		int index = calc.getNearestPowerUp(PowerUpType.SPEED);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
-	private void findDamage() {
+	protected void findDamage() {
 		aiPlayer.shield();
 		int index = calc.getNearestPowerUp(PowerUpType.DAMAGE);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
-	private void findHealth() {
+	protected void findHealth() {
 		aiPlayer.shield();
 		int index = calc.getNearestPowerUp(PowerUpType.HEAL);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
-	private void aggressiveAttack() {
+	protected void aggressiveAttack() {
 		aiPlayer.unShield();
 		Player player = calc.getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
@@ -143,13 +109,13 @@ public class AiStateActions {
 		}
 	}
 	
-	private void escape() {
+	protected void escape() {
 		aiPlayer.shield();
 		Player player = calc.getNearestPlayer();
 		actions.moveAwayFromPlayer(player);
 	}	
 	
-	private void attack() {
+	protected void attack() {
 		aiPlayer.unShield();
 		Player player = calc.getNearestPlayer();
 		actions.moveTo(player);
@@ -159,7 +125,7 @@ public class AiStateActions {
 		}
 	}
 
-	private void attackWinner() {
+	protected void attackWinner() {
 		aiPlayer.unShield();
 		Player player = calc.getWinningPlayer();
 		aiPlayer.chargeHeavyAttack();
@@ -171,14 +137,14 @@ public class AiStateActions {
 				
 	}
 	
-	private void updateElement() {
+	protected void updateElement() {
 		if(aiCon.getAiType().equals(AiType.EASY))
 			actions.changeToRandomElementAfter(15);
 		else
 			actions.changeToBefittingElement();
 	}
 
-	private void updateWandering() {
+	protected void updateWandering() {
 		if(isWandering() && !aiCon.getActiveState().equals(AiStates.WANDER))
 			setWandering(false);
 		else if(!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) {
