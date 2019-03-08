@@ -127,7 +127,8 @@ public class Renderer {
         gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 45));
         for(int i = 0; i < leaderboard.size(); i++) {
 
-            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerKills(leaderboard.get(i));
+            String string = "Player " + leaderboard.get(i).toString() + " with " + scoreboard.getPlayerScore(leaderboard.get(i)) + " score & " + scoreboard.getPlayerKills(leaderboard.get(i)) + " kills";
+
             gc.strokeText(string, 25, startY + i * 40);
         }
 
