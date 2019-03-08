@@ -4,7 +4,6 @@ import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 
-import engine.enums.AiType;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;

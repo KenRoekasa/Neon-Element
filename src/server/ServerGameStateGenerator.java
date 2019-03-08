@@ -4,8 +4,6 @@ import engine.ScoreBoard;
 import engine.entities.PhysicsObject;
 import engine.gameTypes.*;
 
-import javafx.geometry.Point2D;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
