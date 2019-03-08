@@ -7,27 +7,46 @@ import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import engine.gameTypes.GameType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import networking.client.ClientNetworkHandler;
 
 public class InitialGameStateBroadcast extends Packet.PacketToClient {
 
+    // Bytes required for packet data.
+    // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
+    // Common:
+    // double + double + int
+    // 8      + 8      + 4   = 20 bytes
+    // Additional bytes for each player:
+	// int + double + double
+	// 4   + 8      + 8      = 20 bytes
+    //
+    // Maximum size = 20 + 4*20 = 100 bytes
+
+	public Rectangle map;
 	public ArrayList<Integer> ids;
 	public ArrayList<Point2D> locations;
-	public Rectangle map;
 
 	protected InitialGameStateBroadcast(ByteBuffer buffer, Sender sender) {
 		super(sender);
-		// Todo convert from buffer and set attributes
+		this.map = new Rectangle(buffer.getDouble(), buffer.getDouble());
+		this.ids = new ArrayList<>();
+		this.locations = new ArrayList<>();
+		int numPlayers = buffer.getInt();
+		for (int i = 0; i < numPlayers; i++) {
+			this.ids.add(i, buffer.getInt());
+			double x = buffer.getDouble();
+			double y = buffer.getDouble();
+			this.locations.add(i, new Point2D(x, y));
+		}
 	}
 
-	public InitialGameStateBroadcast(ArrayList<Integer> ids, ArrayList<Point2D> locations, Rectangle map) {
+	public InitialGameStateBroadcast(Rectangle map, ArrayList<Integer> ids, ArrayList<Point2D> locations) {
 		super();
+		this.map = map;
 		this.ids = ids;
 		this.locations = locations;
-		this.map = map;
 	}
 
     public PacketType getPacketType() {
@@ -42,13 +61,18 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 	@Override
 	public byte[] getRawBytes() {
 		ByteBuffer buffer = this.getByteBuffer();
-		// this identifier has been placed twice
-		byte[] idsInByte = convertArrayToBytes(ids);
-		byte[] locationsInByte = convertArrayToBytes(locations);
-		byte[] mapInBytes = convertMapToBytes(map);
-		buffer.put(idsInByte);
-		buffer.put(locationsInByte);
-		buffer.put(mapInBytes);
+
+		buffer.putDouble(this.map.getX());
+		buffer.putDouble(this.map.getY());
+
+		int numPlayers = this.ids.size();
+		buffer.putInt(numPlayers);
+		for (int i = 0; i < numPlayers; i++) {
+			buffer.putInt(this.ids.get(i));
+			buffer.putDouble(this.locations.get(i).getX());
+			buffer.putDouble(this.locations.get(i).getY());
+		}
+
 		return Packet.getBytesFromBuffer(buffer);
 	}
 
@@ -56,79 +80,12 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 		return ids;
 	}
 
-	public void setIds(ArrayList<Integer> ids) {
-		this.ids = ids;
-	}
-
 	public ArrayList<Point2D> getLocations() {
 		return locations;
-	}
-
-	public void setLocations(ArrayList<Point2D> locations) {
-		this.locations = locations;
 	}
 
 	public Rectangle getMap() {
 		return map;
 	}
 
-	public void setMap(Rectangle map) {
-		this.map = map;
-	}
-
-//	public static <E> byte[] toByteArray(ArrayList<E> in) {
-//		byte[] result = new byte[in.size()];
-//		for (int i = 0; i < in.size(); i++) {
-//			result[i] = ((byte) in.get(i));
-//
-//		}
-//		return result;
-//	}
-
-
-
-	public <E> byte[] convertArrayToBytes(ArrayList<E> object) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		byte[] yourBytes = null;
-
-		try {
-			out = new ObjectOutputStream(bos);
-			out.writeObject(object);
-			out.flush();
-			 yourBytes = bos.toByteArray();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				bos.close();
-			} catch (IOException ex) {
-				// ignore close exception
-			}
-		}
-		return yourBytes;
-	}
-
-	public byte[] convertMapToBytes(Rectangle object) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		byte[] yourBytes = null;
-		try {
-			out = new ObjectOutputStream(bos);
-			out.writeObject(object);
-			out.flush();
-			yourBytes = bos.toByteArray();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				bos.close();
-			} catch (IOException ex) {
-				// ignore close exception
-			}
-		}
-		return yourBytes;
-	}
 }

@@ -23,7 +23,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 	}
 
 	public void broadcastGameState() {
-		Packet packet = new InitialGameStateBroadcast(connectedPlayers.getIds(), connectedPlayers.getLocations(), this.gameState.getMap());
+		Packet packet = new InitialGameStateBroadcast(this.gameState.getMap(), connectedPlayers.getIds(), connectedPlayers.getLocations());
         this.broadcast(packet);
 	}
 
