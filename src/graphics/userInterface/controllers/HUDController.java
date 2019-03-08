@@ -110,7 +110,7 @@ public class HUDController extends UIController implements Initializable {
         } else {
             healthValue.set(String.valueOf((int) (gameState.getPlayer().getHealth())));
         }
-        System.out.println("Player:" +gameState.getPlayer().toString());
+        //System.out.println("Player:" +gameState.getPlayer().toString());
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
 
         String s1 = String.format(TEMP, leaderBoard.get(0).toString(), scoreBoard.getPlayerKills(leaderBoard.get(0)));
