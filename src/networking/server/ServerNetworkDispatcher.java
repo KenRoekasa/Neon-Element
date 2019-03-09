@@ -86,25 +86,9 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 	 * @param packet
 	 */
     private void broadcast(Packet packet) {
-        if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
-            byte[] data = packet.getRawBytes();
-
-            for (PlayerConnection conn : this.connectedPlayers.getConnections()) {
-                DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
-
-                if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
-                    System.out.println("Sent " + packet.getPacketType() + " to " + conn.getIpAddress() + ":" +conn.getPort() + " (" + conn.getId() + ")");
-                }
-
-                try {
-                    this.socket.send(datagram);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            System.out.println("Attempted to send a received packet.");
-        }
+		for (PlayerConnection conn : this.connectedPlayers.getConnections()) {
+			this.send(packet, conn.getIpAddress(), conn.getPort());
+		}
     }
 
 }
