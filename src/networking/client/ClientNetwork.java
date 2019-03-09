@@ -1,16 +1,20 @@
 package networking.client;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 import client.ClientGameState;
 import networking.packets.*;
 
-public class ClientNetwork {
+public class ClientNetwork extends Thread {
+    /** True if the ClientNetwork is running and receiving Packets. */
+    private boolean running;
+
     protected DatagramSocket socket;
 
-    private ClientNetworkConnection conn;
     private ClientNetworkDispatcher dispatcher;
     private ClientNetworkHandler handler;
 
@@ -21,13 +25,16 @@ public class ClientNetwork {
      * @param serverAddr The server's remote IP address.
      */
     public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
-        this.conn = new ClientNetworkConnection(this);
-        this.socket = conn.getSocket();
+        try {
+            this.socket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
 
         this.dispatcher = new ClientNetworkDispatcher(gameState, this.socket, serverAddr);
         this.handler = new ClientNetworkHandler(gameState);
 
-        this.conn.start();
+        this.start();
     }
 
     /**
@@ -39,9 +46,28 @@ public class ClientNetwork {
         return this.dispatcher;
     }
 
+    /**
+     * Ends the ClientNetwork and closes the listening port.
+     */
     public void close() {
-        this.conn.close();
+        this.running = false;
         this.dispatcher.close();
+    }
+
+    public void run() {
+        this.running = true;
+        while (this.running) {
+            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
+            DatagramPacket packet = new DatagramPacket(data, data.length);
+
+            try {
+                this.socket.receive(packet);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            this.parse(packet);
+        }
     }
 
     /**

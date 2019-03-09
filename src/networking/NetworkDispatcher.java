@@ -24,7 +24,7 @@ public abstract class NetworkDispatcher {
     }
 
     /**
-     * Close the socket.
+     * Close the socket used by the dispatcher.
      */
     public void close() {
         this.socket.close();
