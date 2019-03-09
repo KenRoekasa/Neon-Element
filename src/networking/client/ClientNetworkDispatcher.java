@@ -67,6 +67,11 @@ public class ClientNetworkDispatcher extends NetworkDispatcher {
         }
     }
 
+    /**
+     * Send a Packet to the server.
+     *
+     * @param packet The packet to send.
+     */
     private void send(Packet packet) {
         super.send(packet, serverAddr, Constants.SERVER_LISTENING_PORT);
     }

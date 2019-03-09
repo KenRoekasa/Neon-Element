@@ -108,6 +108,12 @@ public class ServerNetworkHandler {
 	    }
 	}
 
+	/**
+	 * Get the {@link PlayerConnection} for the sender of the Packet.
+	 *
+	 * @param packet The received packet.
+	 * @return The {@link PlayerConnection} the packet was received from.
+	 */
 	private PlayerConnection getPlayerConnection(Packet packet) {
 		return this.connectedPlayers.getPlayerConnection(packet.getIpAddress(), packet.getPort());
     }

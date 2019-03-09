@@ -9,6 +9,7 @@ import server.ServerGameState;
 import networking.Constants;
 
 public class ServerNetwork extends Thread {
+    /** True if the ServerNetwork is running and receiving Packets */
     protected boolean running;
 
     protected DatagramSocket socket;
@@ -18,6 +19,11 @@ public class ServerNetwork extends Thread {
 
     private ConnectedPlayers connectedPlayers;
 
+    /**
+     * Create a ServerNetwork.
+     *
+     * @param gameState The server's game state.
+     */
     public ServerNetwork(ServerGameState gameState) {
         try {
             socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
@@ -32,19 +38,35 @@ public class ServerNetwork extends Thread {
         this.handler = new ServerNetworkHandler(gameState, connectedPlayers, this.dispatcher);
     }
 
+    /**
+     * Get the ServerNetworkDispatcher.
+     *
+     * @return The ServerNetworkDispatcher.
+     */
     public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
+    /**
+     * Get the connected players.
+     *
+     * @return The ConnectedPlayers.
+     */
     public ConnectedPlayers getConnectedPlayers() {
         return this.connectedPlayers;
     }
 
+    /**
+     * Ends the ServerNetwork and closes the listening port.
+     */
     public void close() {
         this.running = false;
         this.dispatcher.close();
     }
 
+    /**
+     * Start the ServerNetwork and begin receiving packets.
+     */
     public void run() {
         this.running = true;
         while (this.running) {
@@ -62,11 +84,18 @@ public class ServerNetwork extends Thread {
         }
     }
 
+    /**
+     * Parse the incoming DatagramPacket into a {@link Packet} and handle it.
+     *
+     * After parsing the {@link Packet.PacketToServer#handle(ServerNetworkHandler) method is called.
+     *
+     * @param datagram The incoming packet.
+     */
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
 
         if (packet == null) {
-            System.out.println("Invalid packet recieved");
+            System.out.println("Invalid packet received");
             return;
         } else if (!(packet instanceof Packet.PacketToServer)) {
             System.out.println(packet.getPacketType() + " received by server which should not be sent to it.");

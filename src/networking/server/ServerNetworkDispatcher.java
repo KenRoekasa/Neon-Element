@@ -70,10 +70,21 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
 		this.send(response, packet.getIpAddress(), packet.getPort());
 	}
 
+	/**
+	 * Get the {@link PlayerConnection} for the sender of the Packet.
+	 *
+	 * @param packet The received packet.
+	 * @return The {@link PlayerConnection} the packet was received from.
+	 */
 	private PlayerConnection getPlayerConnection(Packet packet) {
 		return this.connectedPlayers.getPlayerConnection(packet.getIpAddress(), packet.getPort());
 	}
 
+	/**
+	 * Broadcast the Packet to all connected clients.
+	 *
+	 * @param packet
+	 */
     private void broadcast(Packet packet) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
@@ -92,7 +103,7 @@ public class ServerNetworkDispatcher extends NetworkDispatcher {
                 }
             }
         } else {
-            System.out.println("Attempted to send a recived packet.");
+            System.out.println("Attempted to send a received packet.");
         }
     }
 

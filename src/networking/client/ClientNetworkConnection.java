@@ -10,10 +10,16 @@ import networking.packets.Packet;
 public class ClientNetworkConnection extends Thread {
     
     private ClientNetwork net;
+    /** True if the ClientNetwork is running and receiving Packets. */
     private boolean running;
 
     protected DatagramSocket socket;
 
+    /**
+     * Create a thread to handle the network connection.
+     *
+     * @param net The ClientNetwork to use.
+     */
     public ClientNetworkConnection(ClientNetwork net) {
         super();
         this.net = net;

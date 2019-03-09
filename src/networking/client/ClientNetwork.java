@@ -14,6 +14,12 @@ public class ClientNetwork {
     private ClientNetworkDispatcher dispatcher;
     private ClientNetworkHandler handler;
 
+    /**
+     * Create a ClientNetwork.
+     *
+     * @param gameState The client's game state.
+     * @param serverAddr The server's remote IP address.
+     */
     public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
         this.conn = new ClientNetworkConnection(this);
         this.socket = conn.getSocket();
@@ -24,6 +30,11 @@ public class ClientNetwork {
         this.conn.start();
     }
 
+    /**
+     * Get the ClientNetworkDispatcher.
+     *
+     * @return The ClientNetworkDispatcher.
+     */
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
@@ -33,11 +44,18 @@ public class ClientNetwork {
         this.dispatcher.close();
     }
 
+    /**
+     * Parse the incoming DatagramPacket into a {@link Packet} and handle it.
+     *
+     * After parsing the {@link Packet.PacketToClient#handle(ClientNetworkHandler) method is called.
+     *
+     * @param datagram The incoming packet.
+     */
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
 
         if (packet == null) {
-            System.out.println("Invalid packet recieved");
+            System.out.println("Invalid packet received");
             return;
         } else if (!(packet instanceof Packet.PacketToClient)) {
             System.out.println(packet.getPacketType() + " received by client which should not be sent to it.");

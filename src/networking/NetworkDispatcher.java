@@ -23,11 +23,21 @@ public abstract class NetworkDispatcher {
         */
     }
 
+    /**
+     * Close the socket.
+     */
     public void close() {
         this.socket.close();
         // this.multicastSocket.close();
     }
 
+    /**
+     * Send a Packet to the specified IP address and port.
+     *
+     * @param packet The packet to send.
+     * @param ipAddress The destination IP address.
+     * @param port The destination port.
+     */
     public void send(Packet packet, InetAddress ipAddress, int port) {
         if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
             byte[] data = packet.getRawBytes();
@@ -44,7 +54,7 @@ public abstract class NetworkDispatcher {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Attempted to send a recived packet.");
+            System.out.println("Attempted to send a received packet.");
         }
     }
 }

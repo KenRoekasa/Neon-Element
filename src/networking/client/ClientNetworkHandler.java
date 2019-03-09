@@ -14,6 +14,7 @@ public class ClientNetworkHandler {
 
     private ClientGameState gameState;
 
+    /** The unique player identifier of this client */
     private int clientID;
 
     ClientNetworkHandler(ClientGameState gameState) {
