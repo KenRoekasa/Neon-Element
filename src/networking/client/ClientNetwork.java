@@ -7,13 +7,12 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 import client.ClientGameState;
+import networking.AbstractNetwork;
 import networking.packets.*;
 
-public class ClientNetwork extends Thread {
+public class ClientNetwork extends AbstractNetwork {
     /** True if the ClientNetwork is running and receiving Packets. */
     private boolean running;
-
-    protected DatagramSocket socket;
 
     private ClientNetworkDispatcher dispatcher;
     private ClientNetworkHandler handler;
@@ -25,13 +24,9 @@ public class ClientNetwork extends Thread {
      * @param serverAddr The server's remote IP address.
      */
     public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
-        try {
-            this.socket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+        super();
 
-        this.dispatcher = new ClientNetworkDispatcher(gameState, this.socket, serverAddr);
+        this.dispatcher = new ClientNetworkDispatcher(gameState, this.getSocket(), serverAddr);
         this.handler = new ClientNetworkHandler(gameState);
 
         this.start();
@@ -49,34 +44,16 @@ public class ClientNetwork extends Thread {
     /**
      * Ends the ClientNetwork and closes the listening port.
      */
+    @Override
     public void close() {
-        this.running = false;
+        super.close();
         this.dispatcher.close();
     }
 
-    public void run() {
-        this.running = true;
-        while (this.running) {
-            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-
-            try {
-                this.socket.receive(packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            this.parse(packet);
-        }
-    }
-
     /**
-     * Parse the incoming DatagramPacket into a {@link Packet} and handle it.
-     *
      * After parsing the {@link Packet.PacketToClient#handle(ClientNetworkHandler) method is called.
-     *
-     * @param datagram The incoming packet.
      */
+    @Override
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
 

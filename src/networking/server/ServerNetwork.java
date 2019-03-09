@@ -8,11 +8,7 @@ import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
 
-public class ServerNetwork extends Thread {
-    /** True if the ServerNetwork is running and receiving Packets */
-    protected boolean running;
-
-    protected DatagramSocket socket;
+public class ServerNetwork extends networking.AbstractNetwork {
 
     protected ServerNetworkDispatcher dispatcher;
     private ServerNetworkHandler handler;
@@ -25,16 +21,11 @@ public class ServerNetwork extends Thread {
      * @param gameState The server's game state.
      */
     public ServerNetwork(ServerGameState gameState) {
-        try {
-            socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        super();
 
         this.connectedPlayers = new ConnectedPlayers();
 
-        this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.socket);
+        this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.getSocket());
         this.handler = new ServerNetworkHandler(gameState, connectedPlayers, this.dispatcher);
     }
 
@@ -59,38 +50,18 @@ public class ServerNetwork extends Thread {
     /**
      * Ends the ServerNetwork and closes the listening port.
      */
+    @Override
     public void close() {
-        this.running = false;
+        super.close();
         this.dispatcher.close();
     }
 
     /**
-     * Start the ServerNetwork and begin receiving packets.
-     */
-    public void run() {
-        this.running = true;
-        while (this.running) {
-            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
-
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-
-            try {
-                this.socket.receive(packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            this.parse(packet);
-        }
-    }
-
-    /**
-     * Parse the incoming DatagramPacket into a {@link Packet} and handle it.
+     * {@inheritDoc}
      *
      * After parsing the {@link Packet.PacketToServer#handle(ServerNetworkHandler) method is called.
-     *
-     * @param datagram The incoming packet.
      */
+    @Override
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
 
