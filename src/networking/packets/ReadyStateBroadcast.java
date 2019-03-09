@@ -23,6 +23,7 @@ public class ReadyStateBroadcast extends Packet.PacketToClient {
         this.ready = ready;
     }
 
+    @Override
     public PacketType getPacketType() {
         return PacketType.READY_STATE_BCAST;
     }

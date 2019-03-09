@@ -19,6 +19,7 @@ public class HelloPacket extends Packet.PacketToServer {
         super();
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.HELLO;
     }

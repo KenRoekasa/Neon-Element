@@ -38,6 +38,7 @@ public class HelloAckPacket extends Packet.PacketToClient {
         this.gameType = gameType;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.HELLO_ACK;
     }

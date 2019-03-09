@@ -18,6 +18,7 @@ public class ConnectPacket extends Packet.PacketToServer {
         super();
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.CONNECT;
     }

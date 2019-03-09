@@ -19,6 +19,7 @@ public class DisconnectPacket extends Packet.PacketToServer {
         super();
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.DISCONNECT;
     }

@@ -23,6 +23,7 @@ public class ActionStateBroadcast extends Packet.PacketToClient {
         this.playerActionState = playerActionState;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.ACTION_BCAST;
     }

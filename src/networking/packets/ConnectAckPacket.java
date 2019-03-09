@@ -53,6 +53,7 @@ public class ConnectAckPacket extends Packet.PacketToClient {
         this.status = status;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.CONNECT_ACK;
     }

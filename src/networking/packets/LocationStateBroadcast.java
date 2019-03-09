@@ -33,6 +33,7 @@ public class LocationStateBroadcast extends Packet.PacketToClient {
         this.playerAngle = playerAngle;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.LOCATION_STATE_BCAST;
     }

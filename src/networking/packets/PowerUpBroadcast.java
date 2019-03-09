@@ -33,6 +33,7 @@ public class PowerUpBroadcast extends Packet.PacketToClient {
         this.type = type;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.POWERUP_STATE_BCAST;
     }

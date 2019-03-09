@@ -19,6 +19,7 @@ public class DisconnectBroadcast extends Packet.PacketToClient {
         super();
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.DISCONNECT_BCAST;
     }

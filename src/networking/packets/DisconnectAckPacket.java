@@ -23,6 +23,7 @@ public class DisconnectAckPacket extends Packet.PacketToClient {
         this.allowed = allowed;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.DISCONNECT_ACK;
     }

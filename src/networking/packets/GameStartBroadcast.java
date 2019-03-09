@@ -27,6 +27,7 @@ public class GameStartBroadcast extends Packet.PacketToClient {
         this.players = players;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.GAME_START_BCAST;
     }

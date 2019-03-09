@@ -45,6 +45,7 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 		this.locations = locations;
 	}
 
+	@Override
     public PacketType getPacketType() {
        return PacketType.INITIAL_STATE_BCAST;
 	}

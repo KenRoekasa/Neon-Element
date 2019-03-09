@@ -23,6 +23,7 @@ public class ReadyStatePacket extends Packet.PacketToServer {
         this.ready = ready;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.READY_STATE;
     }

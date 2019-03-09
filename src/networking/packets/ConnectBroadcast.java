@@ -19,6 +19,7 @@ public class ConnectBroadcast extends Packet.PacketToClient {
 		this.playerId = playerId;
 	}
 
+	@Override
     public PacketType getPacketType() {
        return PacketType.CONNECT_BCAST;
     }

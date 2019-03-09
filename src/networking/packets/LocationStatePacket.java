@@ -32,6 +32,7 @@ public class LocationStatePacket extends Packet.PacketToServer {
         this.playerHealth = playerHealth;
     }
 
+    @Override
     public PacketType getPacketType() {
         return PacketType.LOCATION_STATE;
     }

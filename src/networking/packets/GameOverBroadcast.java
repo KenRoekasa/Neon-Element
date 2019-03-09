@@ -23,6 +23,7 @@ public class GameOverBroadcast extends Packet.PacketToClient {
         this.gameOver = gameOver;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.GAME_OVER_BCAST;
     }

@@ -18,6 +18,7 @@ public class PowerUpPickUpBroadcast extends Packet.PacketToClient {
 		this.powerupPickupId = powerupPickupId;
 	}
 
+	@Override
     public PacketType getPacketType() {
        return PacketType.POWERUP;
     }

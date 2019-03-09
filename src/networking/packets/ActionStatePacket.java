@@ -24,6 +24,7 @@ public class ActionStatePacket extends Packet.PacketToServer {
         this.action = action;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.ACTION_STATE;
     }

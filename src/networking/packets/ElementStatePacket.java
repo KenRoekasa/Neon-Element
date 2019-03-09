@@ -24,6 +24,7 @@ public class ElementStatePacket extends Packet.PacketToServer {
         this.playerElementState = playerElementState;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.ELEMENT_STATE;
     }

@@ -23,6 +23,7 @@ public class PowerUpPacket extends Packet.PacketToServer {
         this.powerupPickupId = powerupPickupId;
     }
 
+    @Override
     public PacketType getPacketType() {
        return PacketType.POWERUP;
     }
