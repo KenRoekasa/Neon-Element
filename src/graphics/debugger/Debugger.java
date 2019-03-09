@@ -63,7 +63,7 @@ public class Debugger {
 
     public void gameStateDebugger(ClientGameState gameState, Rectangle stage){
         Point2D playerLocationOnScreen = getPlayerLocOnScreen(gameState.getPlayer(), stage);
-        printPlayerHealth(gameState.getPlayer(), playerLocationOnScreen);
+        printPlayerInfo(gameState.getPlayer(), playerLocationOnScreen);
 
         for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
 
@@ -72,14 +72,18 @@ public class Debugger {
             Point2D newLoc = ISOConverter.getLocationOnScreen(relativeLocation, enemy, stage);
             newLoc = newLoc.add(-15, 0);
 
-            printPlayerHealth(enemy, newLoc);
+            printPlayerInfo(enemy, newLoc);
 
         }
     }
 
     private void printPlayerInfo(Character player, Point2D relativeLocation){
 
+        gc.save();
+
+        gc.setStroke(Color.WHITE);
         gc.strokeText(player.toString(), relativeLocation.getX(), relativeLocation.getY());
+        gc.restore();
     }
 
     private void printPlayerHealth(Character player, Point2D relativeLocation){

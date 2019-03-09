@@ -1,4 +1,5 @@
 
+import client.audiomanager.AudioManager;
 import graphics.userInterface.controllers.MenuController;
 import graphics.userInterface.controllers.UIController;
 import javafx.application.Application;
@@ -38,6 +39,10 @@ public class Menu extends Application {
 
         Scene scene = new Scene(root, width, height);
         primaryStage.setScene(scene);
+
+        AudioManager audioManager = new AudioManager();
+        controller.setAudioManager(audioManager);
+
 
         // stops all game threads on close
         primaryStage.setOnCloseRequest(e -> {

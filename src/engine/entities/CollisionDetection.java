@@ -1,15 +1,18 @@
 package engine.entities;
 
-import javafx.geometry.Bounds;
+import javafx.scene.shape.Shape;
 
 public class CollisionDetection {
 
     public static boolean checkCollision(PhysicsObject object1, PhysicsObject object2) {
-        return object1.getBounds().intersects(object2.getBounds().getBoundsInParent());
+        Shape intersect = Shape.intersect(object1.getBounds(), object2.getBounds());
+        return intersect.getBoundsInLocal().getWidth() != -1;
     }
 
-    public static boolean checkCollision(Bounds object1, Bounds object2) {
-        return object1.intersects(object2);
+    public static boolean checkCollision(Shape object1, Shape object2) {
+        Shape intersect = Shape.intersect(object1, object2);
+        return intersect.getBoundsInLocal().getWidth() != -1;
     }
+
 
 }

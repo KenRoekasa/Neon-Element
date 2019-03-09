@@ -30,6 +30,7 @@ public class AudioManager {
 
     public void playSound(Sound s){
         effects.get(s).play(volume);
+        System.out.println(volume);
     }
 
     public void playSound(Sound s, double volumeDistance) {
@@ -39,11 +40,9 @@ public class AudioManager {
     public double getVolume() {
         return volume;
     }
-    public static void setVolume(double volume) {
+    public void setVolume(double volume) {
         AudioManager.volume = volume;
     }
-
-
 
 
     // todo improve this
@@ -68,7 +67,6 @@ public class AudioManager {
                     func = func * 100;
 
                     // calculate distance
-                    
 
                     playSound(Sound.switchSound(enemy.getCurrentAction()), func);
                     enemy.setActionHasSounded(true);

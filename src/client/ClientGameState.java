@@ -16,6 +16,7 @@ public class ClientGameState extends GameState {
 
     private Player player;
     private int num_player;
+    private Boolean paused;
 
     public ClientGameState(Player player, Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType) {
         super(map, objects, deadPlayers, scoreboard,gameType);
@@ -40,4 +41,15 @@ public class ClientGameState extends GameState {
     }
 
 
+    public void resume() {
+        paused = false;
+    }
+
+    public void pause(){
+        paused = true;
+    }
+
+    public Boolean getPaused() {
+        return paused;
+    }
 }

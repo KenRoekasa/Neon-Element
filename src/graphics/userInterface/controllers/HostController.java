@@ -10,9 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 //For local_setup scene
 public class HostController extends UIController{
     private ClientGameState gameState;
@@ -29,7 +26,7 @@ public class HostController extends UIController{
         //g.getPlayer().getHealth();
         try {
             boolean networked = false;
-            GameClient gameBoard = new GameClient(stage, gameState, networked);
+            GameClient gameBoard = new GameClient(stage, gameState, networked, audioManager);
             //Scene scene = gameBoard.getScene();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +39,7 @@ public class HostController extends UIController{
         String fxmlPath ="../fxmls/online_setup.fxml";
         String stageTitle ="Online configuration";
         String fileException ="Online Setup";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
     //TODO: load the ip address here
