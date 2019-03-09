@@ -10,17 +10,9 @@ import networking.packets.Packet;
 public abstract class AbstractNetworkDispatcher {
 
     protected DatagramSocket socket;
-    /*
-    protected MulticastSocket multicastSocket;
-    protected InetAddress groupAddress;
-    */
 
-    protected AbstractNetworkDispatcher(DatagramSocket socket/*, MulticastSocket multicastSocket, InetAddress groupAddress*/) {
+    protected AbstractNetworkDispatcher(DatagramSocket socket) {
         this.socket = socket;
-        /*
-        this.multicastSocket = multicastSocket;
-        this.groupAddress = groupAddress;
-        */
     }
 
     /**
@@ -28,7 +20,6 @@ public abstract class AbstractNetworkDispatcher {
      */
     public void close() {
         this.socket.close();
-        // this.multicastSocket.close();
     }
 
     /**
