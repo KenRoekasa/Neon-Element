@@ -3,21 +3,25 @@ package graphics.userInterface.controllers;
 import client.GameClient;
 
 import client.ClientGameState;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 //For local_setup scene
 public class HostController extends UIController{
-    @FXML
-    Label back,start;
     private ClientGameState gameState;
 
     // directly go to local mode map
     @FXML
+    Text ip_address;
+    StringProperty ip_value = new SimpleStringProperty();
+
     public void handleStartBtn(ActionEvent event){
         // create game rules
         // todo make this configurable
@@ -27,7 +31,6 @@ public class HostController extends UIController{
             boolean networked = false;
             GameClient gameBoard = new GameClient(stage, gameState, networked);
             //Scene scene = gameBoard.getScene();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,6 +45,11 @@ public class HostController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException);
     }
 
+    //TODO: load the ip address here
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ip_address.textProperty().bind(ip_value);
+    }
     
 }
 

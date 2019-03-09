@@ -13,13 +13,11 @@ import java.util.ResourceBundle;
 
 //For local_setup scene
 public class JoinController extends UIController {
-    @FXML
-    Label ok,back;
     private ClientGameState gameState;
     public TextField ip;
 
     @FXML
-    public void handleOkBtn(){
+    public void handleStartBtn(){
         // create game rules
         // todo make this configurable
             gameState = GameStateGenerator.createDemoGamestate();
