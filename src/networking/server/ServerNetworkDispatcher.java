@@ -9,9 +9,9 @@ import engine.enums.Action;
 import engine.enums.Elements;
 import networking.packets.*;
 import server.ServerGameState;
-import networking.NetworkDispatcher;
+import networking.AbstractNetworkDispatcher;
 
-public class ServerNetworkDispatcher extends NetworkDispatcher {
+public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 
 	private ServerGameState gameState;
 	private ConnectedPlayers connectedPlayers;

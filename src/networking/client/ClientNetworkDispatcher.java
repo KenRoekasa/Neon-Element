@@ -8,9 +8,9 @@ import engine.enums.Action;
 import engine.enums.Elements;
 import networking.packets.*;
 import networking.Constants;
-import networking.NetworkDispatcher;
+import networking.AbstractNetworkDispatcher;
 
-public class ClientNetworkDispatcher extends NetworkDispatcher {
+public class ClientNetworkDispatcher extends AbstractNetworkDispatcher {
 
     private InetAddress serverAddr;
     private ClientGameState gameState;

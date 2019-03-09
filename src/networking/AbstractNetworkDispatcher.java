@@ -7,7 +7,7 @@ import java.net.InetAddress;
 
 import networking.packets.Packet;
 
-public abstract class NetworkDispatcher {
+public abstract class AbstractNetworkDispatcher {
 
     protected DatagramSocket socket;
     /*
@@ -15,7 +15,7 @@ public abstract class NetworkDispatcher {
     protected InetAddress groupAddress;
     */
 
-    protected NetworkDispatcher(DatagramSocket socket/*, MulticastSocket multicastSocket, InetAddress groupAddress*/) {
+    protected AbstractNetworkDispatcher(DatagramSocket socket/*, MulticastSocket multicastSocket, InetAddress groupAddress*/) {
         this.socket = socket;
         /*
         this.multicastSocket = multicastSocket;
