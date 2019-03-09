@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 //For local_setup scene
 public class HostController extends UIController{
     private ClientGameState gameState;
