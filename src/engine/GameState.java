@@ -25,11 +25,11 @@ public abstract class GameState {
      * The ScoreBoard
      */
     protected ScoreBoard scoreBoard;
-    protected LinkedBlockingQueue deadPlayers;
+    protected LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
     protected ArrayList<Player> allPlayers = new ArrayList<>();
     protected AiControllersManager aiConMan;
 
-    public GameState(Map map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
+    public GameState(Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
         this.objects = objects;
         this.gameType = gameType;
         this.aiConMan = aiConMan;
@@ -41,7 +41,7 @@ public abstract class GameState {
         }
         //        System.out.println(allPlayers);
         this.map = map;
-        this.deadPlayers = deadPlayers;
+
         this.scoreBoard = scoreboard;
     }
 

@@ -3,15 +3,12 @@ package client;
 import engine.Map;
 import engine.MapGenerator;
 import engine.ScoreBoard;
-import engine.ai.controller.AiController;
 import engine.ai.controller.AiControllersManager;
 import engine.ai.enums.AiType;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
 import engine.enums.ObjectType;
 import engine.gameTypes.*;
-import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -110,7 +107,6 @@ public class GameStateGenerator {
             enemies.get(i).setLocation(map1.getRespawnPoints().get(i+1));
             enemies.get(i).setId(i);
         }
-        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
 
         //Create the first map
 
@@ -119,7 +115,7 @@ public class GameStateGenerator {
         objects.add(player);
         objects.addAll(map1.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map1, objects,deadPlayers, scoreboard, gameType,aiManager);
+        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager);
         scoreboard.initialise(gameState.getAllPlayers());
 //        aiManager.startAllAi();
         

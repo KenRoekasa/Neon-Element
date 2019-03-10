@@ -7,11 +7,9 @@ import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.ScoreBoard;
 import engine.gameTypes.GameType;
-import javafx.scene.shape.Rectangle;
 
 
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientGameState extends GameState {
 
@@ -20,8 +18,8 @@ public class ClientGameState extends GameState {
     private int num_player;
     private Boolean paused;
 
-    public ClientGameState(Player player, Map map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard , GameType gameType, AiControllersManager aiConMan) {
-        super(map, objects, deadPlayers, scoreboard,gameType,aiConMan);
+    public ClientGameState(Player player, Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
+        super(map, objects, scoreboard,gameType,aiConMan);
         this.player = player;
     }
 
