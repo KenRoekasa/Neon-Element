@@ -8,6 +8,19 @@ import java.util.ArrayList;
 
 public class MapGenerator {
 
+    /**
+     * @return a map of size 2000 * 2000
+     */
+    public static Map createEmptyMap(){
+        //Creation of respawn points
+        ArrayList<Point2D> respawnPoints = new ArrayList<Point2D>();
+        respawnPoints.add(new Point2D(50,50));
+        respawnPoints.add(new Point2D(50,1950));
+        respawnPoints.add(new Point2D(1950, 50));
+        respawnPoints.add(new Point2D(1950, 1950));
+        return new Map(new Rectangle(2000, 2000), new ArrayList<>(), respawnPoints);
+    }
+
 
     /**
      * @return the default map of the game
