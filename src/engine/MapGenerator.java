@@ -27,11 +27,11 @@ public class MapGenerator {
 
         walls.add(new Wall(400, 400, 300, 300));
 
-        walls.add(new Wall(400, 1200, 300, 300));
+        walls.add(new Wall(400, 1300, 300, 300));
 
         walls.add(new Wall(1300, 400, 300, 300));
 
-        walls.add(new Wall(1300, 1200, 300, 300));
+        walls.add(new Wall(1300, 1300, 300, 300));
 
         walls.add(new Wall(800, 800, 400, 400));
 
