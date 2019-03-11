@@ -415,10 +415,14 @@ public class AiCalculations {
 	}
 
 	public boolean closeToHill() {
-		double locX = aiPlayer.getLocation().getX();
-		double locY = aiPlayer.getLocation().getY();
+		return closeToHill(aiPlayer);
+	}
+
+	public boolean closeToHill(Player player) {
+		double locX = player.getLocation().getX();
+		double locY = player.getLocation().getY();
 		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
-		return distance < circleRadius*2;
+		return distance < circleRadius*4;
 	}
 	
 
