@@ -3,8 +3,6 @@ package graphics.userInterface.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /*Mode board: online/local*/
 public class ModeController extends UIController{

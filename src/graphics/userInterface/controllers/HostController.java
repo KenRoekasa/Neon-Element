@@ -1,29 +1,35 @@
 package graphics.userInterface.controllers;
 
-import client.GameClient;
-
 import client.ClientGameState;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-//For local_setup scene
 public class HostController extends UIController{
     private ClientGameState gameState;
+    private String iP;
+    //TODO: call this function in the networking part
+    public void setiP(String iP) {
+        this.iP = iP;
+        ip_value.set(iP);
+    }
 
-    // directly go to local mode map
     @FXML
     Text ip_address;
     StringProperty ip_value = new SimpleStringProperty();
 
     public void handleStartBtn(ActionEvent event){
-        // create game rules
+        String fxmlPath ="../fxmls/lobby.fxml";
+        String stageTitle ="Game Lobby";
+        String fileException ="lobby";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+
+      /*  // create game rules
         // todo make this configurable
             //gameState = GameStateGenerator.createDemoGamestate();
         //g.getPlayer().getHealth();
@@ -34,7 +40,7 @@ public class HostController extends UIController{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+*/
     }
 
     @FXML
@@ -45,10 +51,13 @@ public class HostController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
+
     //TODO: load the ip address here
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         ip_address.textProperty().bind(ip_value);
+
     }
     
 }

@@ -6,9 +6,7 @@ import client.GameStateGenerator;
 
 import javafx.fxml.FXML;
 
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -20,9 +18,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-//For local_setup scene
 
-public class LocalSetUpController extends UIController implements Initializable {
+public class LocalSetUpController extends UIController {
     private ClientGameState gameState;
     @FXML
     public RadioButton num_1, num_2, num_3;

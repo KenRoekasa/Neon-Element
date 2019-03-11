@@ -6,6 +6,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+/**
+ * A template for loading the fxml file and setting up its controller
+ * */
 /*Extract duplicate process on loading fxml file and its configuration*/
 public class FxmlLoader {
 

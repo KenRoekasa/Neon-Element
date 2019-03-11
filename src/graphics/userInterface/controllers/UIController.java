@@ -11,11 +11,6 @@ public class UIController implements Initializable{
     protected Stage stage;
     protected AudioManager audioManager;
 
-    UIController(){
-        //javafx8 doesn't support to define shadow in css while javafx11 supports
-
-    }
-
     public Stage getStage() {
         return stage;
     }

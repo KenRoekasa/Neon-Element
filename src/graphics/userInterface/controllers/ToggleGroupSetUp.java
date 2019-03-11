@@ -5,6 +5,16 @@ import javafx.scene.control.ToggleGroup;
 
 public class ToggleGroupSetUp {
     // for 3 radio button toggle group
+    public static void setToggleGroup(ToggleGroup group, RadioButton rB1, RadioButton rB2, RadioButton rB3,RadioButton rB4){
+        rB1.setToggleGroup(group);
+        rB2.setToggleGroup(group);
+        rB3.setToggleGroup(group);
+        rB4.setToggleGroup(group);
+        rB4.setSelected(true);
+        removeGroupRadioCircle(rB1,rB2,rB3,rB4);
+    }
+
+    // for 3 radio button toggle group
     public static void setToggleGroup(ToggleGroup group, RadioButton rB1, RadioButton rB2, RadioButton rB3){
         rB1.setToggleGroup(group);
         rB2.setToggleGroup(group);
@@ -21,12 +31,20 @@ public class ToggleGroupSetUp {
         removeGroupRadioCircle(rB1,rB2);
     }
 
+
     //remove single radio circle
     public static void removeRadioCircle(RadioButton radioButton){
         radioButton.getStyleClass().remove("radio-button");
         radioButton.getStyleClass().add("button");
     }
 
+
+    public static void removeGroupRadioCircle(RadioButton rb1,RadioButton rb2, RadioButton rb3,RadioButton rb4) {
+        removeRadioCircle(rb1);
+        removeRadioCircle(rb2);
+        removeRadioCircle(rb3);
+        removeRadioCircle(rb4);
+    }
     // remove same toggle group radio circle
     public static void removeGroupRadioCircle(RadioButton rb1,RadioButton rb2, RadioButton rb3) {
         removeRadioCircle(rb1);

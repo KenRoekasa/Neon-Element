@@ -4,28 +4,23 @@ import client.ClientGameState;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-//Press space to pause the game
+
+//Press 'P' to pause the game
 public class PauseController extends UIController{
-    @FXML
-    Label resume,option,quit;
     private Rectangle stageSize;
     private Pane hudPane;
+    private  Pane node;
+    private ClientGameState gameState;
 
     public void setNode(Pane node) {
         this.node = node;
     }
-
-    private  Pane node;
-
     public void setStageSize(Rectangle stageSize) {
         this.stageSize = stageSize;
     }
@@ -34,9 +29,6 @@ public class PauseController extends UIController{
         this.hudPane = hudPane;
     }
 
-    private ClientGameState gameState;
-
-    @FXML
     public void setStage(Stage stage, ClientGameState gameState) {
         this.gameState = gameState;
         super.stage = stage;
@@ -46,10 +38,8 @@ public class PauseController extends UIController{
     public void handleResumeBtn(){
         hudPane.getChildren().remove(node);
         gameState.resume();
-
     }
 
-    // todo this needs to return to the game, probably want an options menu thats transparent like the pause menu
     @FXML
     public void handleSettingBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/sound.fxml"));
@@ -67,8 +57,9 @@ public class PauseController extends UIController{
             controller.setNode(subnode);
             controller.setStage(stage);
             stage.setTitle("Sound");
+
         } catch (IOException e) {
-            System.out.println("Crush in loading setting board ");
+            System.out.println("Crush in loading sound board ");
             e.printStackTrace();
         }
     }

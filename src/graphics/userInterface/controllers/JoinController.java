@@ -5,13 +5,9 @@ import client.ClientGameState;
 import client.GameStateGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
-//For local_setup scene
 public class JoinController extends UIController {
     private ClientGameState gameState;
     public TextField ip;

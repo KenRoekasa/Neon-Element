@@ -5,12 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class OnlineModeController extends UIController{
-    @FXML
-    Label host,join,back;
 
     @FXML
     public void handleHostGame(ActionEvent actionEvent){
