@@ -31,6 +31,10 @@ public class Physics {
         new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
+
+
+        gameState.getAiConMan().updateAllAi();
+
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
             kingOfHillHandler();
         }

@@ -13,7 +13,7 @@ public class Wall extends PhysicsObject {
         this();
         this.height = height;
         this.width = width;
-        this.location = location;
+        this.location = location.add(width/2f,height/2f);
 
     }
 
@@ -21,7 +21,7 @@ public class Wall extends PhysicsObject {
         this();
         this.height = height;
         this.width = width;
-        this.location = new Point2D(x, y);
+        this.location = new Point2D(x+width/2f, y+height/2f);
     }
 
 

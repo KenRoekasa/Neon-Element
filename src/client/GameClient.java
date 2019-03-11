@@ -135,7 +135,7 @@ public class GameClient {
         new AnimationTimer() {
             long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
-                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap().getGround(), primaryStage);
                 renderer.render(primaryStage, gameState);
                 hudController.update();
 

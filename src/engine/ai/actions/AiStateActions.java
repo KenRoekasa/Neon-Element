@@ -1,14 +1,15 @@
-package engine.ai;
+package engine.ai.actions;
 
 import java.util.Random;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
+import engine.ai.enums.AiStates;
+import engine.ai.enums.AiType;
 import engine.entities.Player;
-import engine.enums.AiStates;
-import engine.enums.AiType;
 import engine.enums.PowerUpType;
 //high level actions, based on ai states 
-public class AiStateActions {
+public abstract class AiStateActions {
 	
 	Player aiPlayer;
 	Player player;
@@ -28,15 +29,35 @@ public class AiStateActions {
 	}
 
 	public void executeAction() {
-		switch(aiCon.getAiType()) {
-		case EASY:
-			easyAIExecuteAction();
+		updateElement();
+		updateWandering();
+		
+		switch (aiCon.getActiveState()) {
+		case ATTACK:
+			attack();
 			break;
-		case NORMAL:
-			normalAIExecuteAction();
+		case AGGRESSIVE_ATTACK:
+			aggressiveAttack();
 			break;
-		case HARD:
-			hardAIExecuteAction();
+		case FIND_HEALTH:
+			findHealth();
+			break;
+		case FIND_DAMAGE:
+			findDamage();
+			break;
+		case FIND_SPEED:
+			findSpeed();
+			break;
+		case ESCAPE:
+			escape();
+			break;
+		case WANDER:
+			wander();
+		case ATTACK_WINNER:
+			attackWinner();
+		case IDLE:
+			break;
+		default:
 			break;
 		}
 		
@@ -49,194 +70,52 @@ public class AiStateActions {
 	public boolean isWandering() {
 		return wandering;
 	}
-	
-	private void easyAIExecuteAction() {
-		
-		updateElement();
-		updateWandering();
-		
-		switch (aiCon.getActiveState()) {
-		case ATTACK:
-			attack();
-			break;
-		case AGGRESSIVE_ATTACK:
-			aggressiveAttack();
-			break;
-		case FIND_HEALTH:
-			findHealth();
-			break;
-		case FIND_DAMAGE:
-			findDamage();
-			break;
-		case FIND_SPEED:
-			findSpeed();
-			break;
-		case ESCAPE:
-			escape();
-			break;
-		case WANDER:
-			wander();
-		case GO_TO_HILL:
-			goToHill();
-			break;
-		case WANDER_ON_HILL:
-			wanderOnHill();
-			break;
-		case ESCAPE_ON_HILL:
-			escapeOnHill();
-		case IDLE:
-			break;
-		default:
-			break;
-		}
-	}
 
-	private void normalAIExecuteAction() {
-		
-		updateElement();
-		updateWandering();
-		
-		switch (aiCon.getActiveState()) {
-		case ATTACK:
-			attack();
-			break;
-		case AGGRESSIVE_ATTACK:
-			aggressiveAttack();
-			break;
-		case FIND_HEALTH:
-			findHealth();
-			break;
-		case FIND_DAMAGE:
-			findDamage();
-			break;
-		case FIND_SPEED:
-			findSpeed();
-			break;
-		case ESCAPE:
-			aiPlayer.shield();
-			escape();
-			break;
-		case WANDER:
-			aiPlayer.unShield();
-			wander();
-		case IDLE:
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void hardAIExecuteAction() {
-		
-		updateElement();
-		updateWandering();
-		
-		switch (aiCon.getActiveState()) {
-		case ATTACK:
-			aiPlayer.unShield();
-			attack();
-			break;
-		case AGGRESSIVE_ATTACK:
-			aiPlayer.unShield();
-			aggressiveAttack();
-			break;
-		case FIND_HEALTH:
-			aiPlayer.shield();
-			findHealth();
-			break;
-		case FIND_DAMAGE:
-			aiPlayer.shield();
-			findDamage();
-			break;
-		case FIND_SPEED:
-			aiPlayer.shield();
-			findSpeed();
-			break;
-		case ESCAPE:
-			aiPlayer.shield();
-			escape();
-			break;
-		case WANDER:
-			aiPlayer.unShield();
-			wander();
-		case ATTACK_WINNER:
-			aiPlayer.unShield();
-			attackWinner();
-		case IDLE:
-			break;
-		default:
-			break;
-		}
-	}
-	
-	
-	private void escapeOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			escape();
-	}
-
-	private void wanderOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			wander();
-	}
-
-	private void goToHill() {
-		Player player = calc.getNearestPlayer();
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.lightAttack();
-		}
-		if( aiPlayer.getLocation().distance(calc.getHillCentreLocation()) > 10 )
-			actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
-	}
-
-	private void wander() {
+	protected void wander() {
 		aiPlayer.unShield();
 		updateWandering();
 		actions.startWandering();
 	}
 	
-	private void findSpeed() {
+	protected void findSpeed() {
 		aiPlayer.shield();
 		int index = calc.getNearestPowerUp(PowerUpType.SPEED);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
-	private void findDamage() {
+	protected void findDamage() {
 		aiPlayer.shield();
 		int index = calc.getNearestPowerUp(PowerUpType.DAMAGE);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
-	private void findHealth() {
+	protected void findHealth() {
 		aiPlayer.shield();
 		int index = calc.getNearestPowerUp(PowerUpType.HEAL);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
-	private void aggressiveAttack() {
+	protected void aggressiveAttack() {
 		aiPlayer.unShield();
 		Player player = calc.getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
+		
 		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();
 		}
 	}
 	
-	private void escape() {
+	protected void escape() {
 		aiPlayer.shield();
 		Player player = calc.getNearestPlayer();
-		actions.moveAway(player);
+		actions.moveAwayFromPlayer(player);
 	}	
 	
-	private void attack() {
+	protected void attack() {
 		aiPlayer.unShield();
 		Player player = calc.getNearestPlayer();
 		actions.moveTo(player);
@@ -246,25 +125,26 @@ public class AiStateActions {
 		}
 	}
 
-	private void attackWinner() {
+	protected void attackWinner() {
+		aiPlayer.unShield();
 		Player player = calc.getWinningPlayer();
-		actions.moveTo(player);
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
+		
 		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();
 		}
 				
 	}
 	
-	private void updateElement() {
+	protected void updateElement() {
 		if(aiCon.getAiType().equals(AiType.EASY))
 			actions.changeToRandomElementAfter(15);
 		else
 			actions.changeToBefittingElement();
 	}
 
-	private void updateWandering() {
+	protected void updateWandering() {
 		if(isWandering() && !aiCon.getActiveState().equals(AiStates.WANDER))
 			setWandering(false);
 		else if(!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) {
