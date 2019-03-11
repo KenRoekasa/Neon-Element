@@ -325,6 +325,22 @@ public class AiActions {
 			aiPlayer.unShield();
 	}
 
+	public void moveToAndKeepDistance(Player player) {
+	
+		if(calc.isCharging(aiPlayer)) {
+			if(calc.calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
+				moveTo(player);
+			}
+			else {
+				moveAwayFromPlayer(player);
+			}
+		}
+		else {
+			moveTo(player);
+		}
+		
+	}
+
 
 	
 	//	public void spam(int time) {

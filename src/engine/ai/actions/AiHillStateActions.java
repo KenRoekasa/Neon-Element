@@ -79,12 +79,13 @@ public class AiHillStateActions extends AiStateActions {
 	protected void aggressiveAttack() {
 		aiPlayer.unShield();
 		Player player;
-		if(aiCon.getAiType().equals(AiType.HARD))
-			player = calc.getOnHillPlayer();
-		else
-			player = calc.getNearestPlayer();
+
+		player = calc.getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
-		actions.moveTo(player);
+		if(aiCon.getAiType().equals(AiType.HARD))
+			actions.moveToAndKeepDistance(player);
+		else
+			actions.moveTo(player);
 		
 		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();

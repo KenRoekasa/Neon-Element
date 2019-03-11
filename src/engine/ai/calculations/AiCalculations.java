@@ -148,6 +148,9 @@ public class AiCalculations {
 		return difference >= score;
 	}
 	
+	public double getScore(Player player) {
+		return scoreboard.getPlayerKills(player.getId());
+	}
 	
 	public void updatePowerups() {
 

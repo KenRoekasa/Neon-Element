@@ -107,8 +107,10 @@ public abstract class AiStateActions {
 		aiPlayer.unShield();
 		Player player = calc.getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
-		actions.moveTo(player);
-		
+		if(aiCon.getAiType().equals(AiType.HARD))
+			actions.moveToAndKeepDistance(player);
+		else
+			actions.moveTo(player);
 		actions.attackIfInDistance(player);
 	}
 	

@@ -94,7 +94,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-       	AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType2);
+       	AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType1);
 
         // Add the enemies to the objects list
 
@@ -123,7 +123,7 @@ public class GameStateGenerator {
 
 
        
-        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType2);
+        ClientGameState gameState = new ClientGameState(player, map, objects,deadPlayers, scoreboard, gameType1);
         scoreboard.initialise(gameState.getAllPlayers());
 
         aiManager.startAllAi();
