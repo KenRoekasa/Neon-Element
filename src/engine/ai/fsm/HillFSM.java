@@ -12,6 +12,13 @@ public class HillFSM extends FSM{
 		super(aiPlayer, aiCon, calc);
 	}
 	
+	//easy AI:
+	/**
+	 *prioritise taking power ups
+	 *attacks players that get close to the hill
+	 *when HP is low, it wanders around the map, looking for health power up
+	 *if the closest player's HP is less than a third, it attacks aggressively
+	 */
 	@Override
 	public void easyAiFetchAction() {
 		
@@ -99,12 +106,12 @@ public class HillFSM extends FSM{
 	
 	
 	//difference between normal and easy AI, 
-	/*normal ai:
-	runs away from heavy attacks, 
-	runs away if hp gap with nearest player is more than 50
-	does not prioritize powerups on going to hill
-	changes to appropriate elements when attacking and defending
-	wanders close to hill area when hp is low
+	/**normal AI:
+	* runs away from heavy attacks, 
+	* runs away if HP gap with nearest player is more than 50
+	* prioritises going to hill on going to pick power ups
+	* changes to appropriate elements when attacking and defending
+	* wanders close to hill area when HP is low, looking for health power up
 	*/
 	@Override
 	public void normalAiFetchAction() {
@@ -203,14 +210,15 @@ public class HillFSM extends FSM{
 		}
 	}
 	
-	//difference between norma and hard AI
-	/* hard ai:
-	 * does not leave the hill to kill players with less than 1/3 hp
-	 * runs away if hp gap with nearest player is more than 30
+	//difference between normal and hard AI
+	/* hard AI:
+	 * does not leave the hill to kill players with less than 1/3 HP
+	 * runs away if HP gap with nearest player is more than 30
 	 * does not leave the hill to scare players off
-	 * wanders even closer to hill area when hp is low
+	 * wanders very close to hill area when HP is low; looks for health power up
 	 * attacks the one with higher score if score difference is more than 3000
-	 * does not run away when its health is low only but rather when hp is low and hp difference compared to nearest player is high
+	 * does not run away when its health is low only but rather when HP is low and HP difference compared to nearest player is high
+	 * keeps distance, 150, from opponents when charge a heavy attack, so they receive damage but cannot reach it to attack while charging
 	 */
 	@Override
 	public void hardAiFetchAction() {
