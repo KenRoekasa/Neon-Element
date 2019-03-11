@@ -272,7 +272,6 @@ public class AiActions {
 		case FIND_SPEED:
 		case WANDER:
 		case IDLE:
-		case ESCAPE_ON_HILL:
 		case GO_TO_HILL:
 		case WANDER_ON_HILL:
 			switch(player.getCurrentElement()) {

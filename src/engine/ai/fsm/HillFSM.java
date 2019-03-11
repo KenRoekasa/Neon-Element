@@ -22,13 +22,10 @@ public class HillFSM extends FSM{
 	@Override
 	public void easyAiFetchAction() {
 		
-		boolean debug = false;
-
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
-		
-		System.out.println(aiCon.getAiType()+" scoring at "+ calc.getScore(aiPlayer));
+		boolean debug = false;
 		
 		//if there is a power up take it
 		if (calc.powerupIsTooClose()) {
@@ -115,14 +112,12 @@ public class HillFSM extends FSM{
 	*/
 	@Override
 	public void normalAiFetchAction() {
+		
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = calc.getNearestPlayer();
 		float nearestPlayerHP = nearestPlayer.getHealth();
-		
 		boolean debug = false;
-		System.out.println(aiCon.getAiType()+" scoring at "+ calc.getScore(aiPlayer));
-		
-		
+	
 		//case 1, go to hill
 		if(calc.playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3) &&
 				!( nearestPlayerHP - aiPlayerHP > 50 ) && !calc.someoneCloseIsCharging() &&
@@ -222,13 +217,12 @@ public class HillFSM extends FSM{
 	 */
 	@Override
 	public void hardAiFetchAction() {
+		
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = calc.getNearestPlayer();
 		Player winningPlayer = calc.getWinningPlayer();
 		float nearestPlayerHP = nearestPlayer.getHealth();
-		
 		boolean debug = false;
-		System.out.println(aiCon.getAiType()+" scoring at "+ calc.getScore(aiPlayer));
 		
 		//case 1, go to hill
 		if(calc.playerIsTooClose() && calc.onHillEdge() && !( aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) &&
