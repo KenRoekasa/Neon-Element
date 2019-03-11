@@ -74,11 +74,6 @@ public class HillFSM extends FSM{
 					System.out.println("\tfind health");
 				aiCon.setState(AiStates.FIND_HEALTH);
 			}
-			else if(calc.playerIsTooClose() &&  (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer))) {
-				if(debug)
-					System.out.println("\twander");
-				aiCon.setState(AiStates.WANDER);
-			}
 			else if(calc.playerIsTooClose()) {
 				if(debug)
 					System.out.println("\tplayer is too close");
@@ -87,7 +82,7 @@ public class HillFSM extends FSM{
 			else {
 				if(debug)
 					System.out.println("\tescape on hill");
-				aiCon.setState(AiStates.WANDER_ON_HILL);
+				aiCon.setState(AiStates.WANDER);
 			}
 		}
 
@@ -107,6 +102,7 @@ public class HillFSM extends FSM{
 	runs away if hp gap with nearest player is more than 50
 	does not prioritize powerups on going to hill
 	changes to appropriate elements when attacking and defending
+	wanders close to hill area when hp is low
 	*/
 	@Override
 	public void normalAiFetchAction() {
@@ -211,6 +207,7 @@ public class HillFSM extends FSM{
 	 * does not leave the hill to kill players with less than 1/3 hp
 	 * runs away if hp gap with nearest player is more than 30
 	 * does not leave the hill to scare players off
+	 * wanders even closer to hill area when hp is low
 	 */
 	@Override
 	public void hardAiFetchAction() {

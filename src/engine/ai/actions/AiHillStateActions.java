@@ -92,10 +92,19 @@ public class AiHillStateActions extends AiStateActions {
 	}
 	
 	private void wanderOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			wander();
+		if(aiCon.getAiType().equals(AiType.HARD)) {
+			if(!calc.onHill(aiPlayer.getLocation()))
+				goToHill();
+			else
+				wander();
+		}
+		else if(aiCon.getAiType().equals(AiType.NORMAL)) {
+			if(!calc.closeToHill())
+				goToHill();
+			else
+				wander();
+		}
+		
 	}
 
 	private void goToHill() {
