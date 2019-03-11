@@ -1,12 +1,14 @@
 package engine.ai.actions;
 
+import java.util.Random;
+
 import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiType;
 import engine.entities.Player;
 
 public class AiHillStateActions extends AiStateActions {
-
+	
 	public AiHillStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
 		super(aiCon, calc, actions);
 	}
@@ -37,16 +39,19 @@ public class AiHillStateActions extends AiStateActions {
 			break;
 		case WANDER:
 			wander();
+			break;
 		case GO_TO_HILL:
 			goToHill();
 			break;
 		case WANDER_ON_HILL:
 			wanderOnHill();
 			break;
-		case ESCAPE_ON_HILL:
-			escapeOnHill();
+//		case ESCAPE_ON_HILL:
+//			escapeOnHill();
+//			break;
 		case ATTACK_WINNER:
 			attackWinner();
+			break;
 		case IDLE:
 			idle();
 			break;
@@ -64,11 +69,10 @@ public class AiHillStateActions extends AiStateActions {
 			player = calc.getOnHillPlayer();
 		else
 			player = calc.getNearestPlayer();
+		
 		actions.moveTo(player);
 
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.lightAttack();
-		}
+		actions.attackIfInDistance(player);
 	}
 	
 	@Override
@@ -86,15 +90,7 @@ public class AiHillStateActions extends AiStateActions {
 			aiPlayer.lightAttack();
 		}
 	}
-
 	
-	private void escapeOnHill() {
-		if(!calc.onHill(aiPlayer.getLocation()))
-			goToHill();
-		else
-			escape();
-	}
-
 	private void wanderOnHill() {
 		if(!calc.onHill(aiPlayer.getLocation()))
 			goToHill();
@@ -103,14 +99,13 @@ public class AiHillStateActions extends AiStateActions {
 	}
 
 	private void goToHill() {
-		aiPlayer.shield();
+		actions.shieldWhenAlone();
 		Player player = calc.getNearestPlayer();
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.unShield();
-			aiPlayer.lightAttack();
-		}
+		actions.attackIfInDistanceWithShield(player);
 		if( !calc.onHill(aiPlayer.getLocation()))
 			actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
+		else 
+			idle();
 	}
 
 

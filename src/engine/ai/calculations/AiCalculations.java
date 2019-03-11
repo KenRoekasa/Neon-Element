@@ -353,6 +353,16 @@ public class AiCalculations {
 		return index;
 	}
 
+	public boolean powerUpExist(PowerUpType pu) {
+		ArrayList<PowerUp> powerups = getPowerups();
+		for (int i = 0; i < powerups.size(); i++) {
+			if (powerups.get(i).getType().equals(pu)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int getNearestPowerUp(PowerUpType pu) {
 		ArrayList<PowerUp> powerups = getPowerups();
 		int index = -1;
@@ -402,6 +412,13 @@ public class AiCalculations {
 		if( (distance - circleRadius) < map.getHeight()*0.05 )
 			return true;
 		return false;
+	}
+
+	public boolean closeToHill() {
+		double locX = aiPlayer.getLocation().getX();
+		double locY = aiPlayer.getLocation().getY();
+		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
+		return distance < circleRadius*2;
 	}
 	
 

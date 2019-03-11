@@ -17,7 +17,6 @@ public abstract class AiStateActions {
 	AiCalculations calc;
 	AiActions actions;
 	boolean wandering = false;
-	
 	public AiStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
 
 		this.aiCon = aiCon;
@@ -66,12 +65,7 @@ public abstract class AiStateActions {
 	
 	protected void idle() {
 		Player player = calc.getNearestPlayer();
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.unShield();
-			aiPlayer.lightAttack();
-		}
-		else
-			aiPlayer.shield();
+		actions.attackIfInDistanceWithShield(player);
 	}
 
 	public void setWandering(boolean bool) {
@@ -89,21 +83,21 @@ public abstract class AiStateActions {
 	}
 	
 	protected void findSpeed() {
-		aiPlayer.shield();
+		actions.shieldWhenAlone();
 		int index = calc.getNearestPowerUp(PowerUpType.SPEED);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
 	protected void findDamage() {
-		aiPlayer.shield();
+		actions.shieldWhenAlone();
 		int index = calc.getNearestPowerUp(PowerUpType.DAMAGE);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
 	}
 
 	protected void findHealth() {
-		aiPlayer.shield();
+		actions.shieldWhenAlone();
 		int index = calc.getNearestPowerUp(PowerUpType.HEAL);
 		if (index != -1)
 			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
@@ -115,13 +109,11 @@ public abstract class AiStateActions {
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
 		
-		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
-			aiPlayer.lightAttack();
-		}
+		actions.attackIfInDistance(player);
 	}
 	
 	protected void escape() {
-		aiPlayer.shield();
+		actions.shieldWhenAlone();
 		Player player = calc.getNearestPlayer();
 		actions.moveAwayFromPlayer(player);
 	}	
@@ -130,10 +122,7 @@ public abstract class AiStateActions {
 		aiPlayer.unShield();
 		Player player = calc.getNearestPlayer();
 		actions.moveTo(player);
-
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.lightAttack();
-		}
+		actions.attackIfInDistance(player);
 	}
 
 	protected void attackWinner() {
@@ -142,9 +131,7 @@ public abstract class AiStateActions {
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
 		
-		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
-			aiPlayer.lightAttack();
-		}
+		actions.attackIfInDistance(player);
 				
 	}
 	

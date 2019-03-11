@@ -20,13 +20,13 @@ public class AiActions {
 	AiCalculations calc;
 	Player aiPlayer;
 	Rectangle map;
-	
+	Random r;
 	public AiActions(AiController aiCon, AiCalculations calc, Rectangle map) {
 		this.calc = calc;
 		this.aiCon = aiCon;
 		this.map = map;
 		aiPlayer = aiCon.getAiPlayer();
-		
+		r = new Random();
 	}
 
 	public void assignRandomElement() {
@@ -111,17 +111,12 @@ public class AiActions {
 
 	public void moveAwayFromPlayer(Player player) {
 		
+		attackIfInDistanceWithShield(player);
+		
 		if(calc.reachedAnEdge()) 
 			moveAwayFromEdge();
 		else 
 			simpleMovement(player.getLocation(),aiPlayer.getLocation());
-		
-		if (calc.inAttackDistance(player) && player.getHealth()>0) {
-			aiPlayer.unShield();
-			aiPlayer.lightAttack();
-			aiPlayer.shield();
-		}
-		
 	}
 	
 	
@@ -143,11 +138,7 @@ public class AiActions {
 	public void moveTo(int powerupIndex, Point2D loc) {
 		
 		Player player = calc.getNearestPlayer();
-		if(calc.inAttackDistance(player)) {
-			aiPlayer.unShield();
-			aiPlayer.lightAttack();
-			aiPlayer.shield();
-		}
+		attackIfInDistanceWithShield(player);
 
 		double distance = calc.calcDistance(aiPlayer.getLocation(), loc);
 
@@ -156,7 +147,7 @@ public class AiActions {
 		simpleMovement(aiPlayer.getLocation(), loc);
 
 	}
-	
+
 	public void simpleMovement(Point2D myLoc, Point2D theirLoc) {
 		double myX = myLoc.getX();
 		double myY = myLoc.getY();
@@ -209,6 +200,13 @@ public class AiActions {
 
 	}
 	
+
+	public void moveToOnHill(Player player) {
+		if(calc.closeToHill() && calc.onHill(aiPlayer.getLocation()))
+			moveTo(player);
+		
+	}
+	
 	public void changeToRandomElementAfter(int seconds) {
 		if(calc.secondsElapsed() >= seconds) {
 			calc.setStartTime(System.nanoTime()/1000000000);
@@ -220,8 +218,7 @@ public class AiActions {
 	public void startWandering() {
 		
 		Player player = calc.getNearestPlayer();
-		if(calc.inAttackDistance(player))
-			aiPlayer.lightAttack();
+		attackIfInDistance(player);
 
 		if(calc.reachedAnEdge()) {
 			switch(wanderingDirection) {
@@ -295,6 +292,39 @@ public class AiActions {
 			break;
 		}
 	}
+
+	public void attackIfInDistance(Player player) {
+		
+		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+			int i = r.nextInt(10);
+			if(i>7)
+				aiPlayer.chargeHeavyAttack();
+			else 
+				aiPlayer.lightAttack();
+		}
+	}
+	
+	
+	public void attackIfInDistanceWithShield(Player player) {
+		
+		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+			int i = r.nextInt(10);
+			aiPlayer.unShield();
+			if(i>7)
+				aiPlayer.chargeHeavyAttack();
+			else 
+				aiPlayer.lightAttack();
+			aiPlayer.shield();
+		}
+	}
+	
+	public void shieldWhenAlone() {
+		if(calc.playerIsTooClose())
+			aiPlayer.shield();
+		else 
+			aiPlayer.unShield();
+	}
+
 	
 	//	public void spam(int time) {
 	//	
