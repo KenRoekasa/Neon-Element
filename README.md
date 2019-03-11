@@ -7,7 +7,6 @@ https://git-teaching.cs.bham.ac.uk/mod-team-proj-2018/alien8
 ## Tasks
 - Cooldown is not very polished apparently
   - cooldown is wayyyy to slow for light attacks
-- Stop attacks from going through walls
 - Respawn on top of player bug
 
 ## Ideas

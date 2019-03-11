@@ -97,7 +97,7 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
         }
-        Map map1 = MapGenerator.createMap1();
+        Map map1 = MapGenerator.createEmptyMap();
 
 
 
