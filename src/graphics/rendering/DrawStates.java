@@ -27,16 +27,18 @@ class DrawStates {
         gc.setEffect(new MotionBlur(0, 3));
 
         ISOConverter.applyAngleRotation(gc, angle, playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+        gc.drawImage(textures.get(Sprites.BLADE), playerCenter.getX() - textures.get(Sprites.BLADE).getWidth(), playerCenter.getY() - textures.get(Sprites.BLADE).getHeight());
+
 
         ISOConverter.applyAngleRotation(gc, 90, playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+        gc.drawImage(textures.get(Sprites.BLADE), playerCenter.getX() - textures.get(Sprites.BLADE).getWidth(), playerCenter.getY() - textures.get(Sprites.BLADE).getHeight());
+
 
         ISOConverter.applyAngleRotation(gc, 90, playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+        gc.drawImage(textures.get(Sprites.BLADE), playerCenter.getX() - textures.get(Sprites.BLADE).getWidth(), playerCenter.getY() - textures.get(Sprites.BLADE).getHeight());
 
         ISOConverter.applyAngleRotation(gc, 90, playerCenter);
-        gc.strokeLine(playerCenter.getX() - 20, playerCenter.getY() - 20, playerCenter.getX() - 100, playerCenter.getY() - 100);
+        gc.drawImage(textures.get(Sprites.BLADE), playerCenter.getX() - textures.get(Sprites.BLADE).getWidth(), playerCenter.getY() - textures.get(Sprites.BLADE).getHeight());
 
 
         gc.restore();
@@ -47,7 +49,7 @@ class DrawStates {
         long finishAlphaValue = 80;
         float percentCharged = (Renderer.mapInRange(remainingAnimDuration, 0, animationDuration, finishAlphaValue, startAlphaValue)) / 100f;
         //todo get this from player class
-        double attackRadius = 300;
+        double attackRadius = player.getHeavyAttackHitbox().getRadius();
 
         gc.save();
         gc.setFill(colourSwitch.getElementColour(player.getCurrentElement()));
