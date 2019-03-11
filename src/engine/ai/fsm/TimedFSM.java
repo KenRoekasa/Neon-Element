@@ -171,7 +171,7 @@ public class TimedFSM extends FSM{
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
-		else if(calc.killDifferenceIsMoreThan(2)) {
+		else if(calc.scoreDifferenceIsMoreThan(2)) {
 //			System.out.println("attack winner");
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}

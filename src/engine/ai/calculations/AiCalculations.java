@@ -119,6 +119,15 @@ public class AiCalculations {
 		return winningPlayer;
 	}
 	
+	public boolean someoneCloseIsCharging() {
+		ArrayList<Player> players = getOtherPlayers();
+		for (Player player : players) {
+			if(isCharging(player) && calcDistance(aiPlayer.getLocation(), player.getLocation()) < map.getWidth()*0.1)
+				return true;
+		}
+		return false;
+	}
+	
 	public Player getOnHillPlayer() {
 		ArrayList<Player> players = getPlayers();
 		Player onHillPlayer = null;
@@ -133,10 +142,10 @@ public class AiCalculations {
 		return onHillPlayer;
 	}
 	
-	public boolean killDifferenceIsMoreThan(int kills) {
+	public boolean scoreDifferenceIsMoreThan(int score) {
 		Player winner = getWinningPlayer();
 		int difference = scoreboard.getPlayerKills(winner.getId()) - scoreboard.getPlayerKills(aiPlayer.getId()) ;
-		return difference >= kills;
+		return difference >= score;
 	}
 	
 	
@@ -424,8 +433,9 @@ public class AiCalculations {
 		double distance = Math.sqrt( Math.pow((locX-circleX), 2) + Math.pow((locY-circleY), 2) );
 		return distance < circleRadius*4;
 	}
-	
 
-
+	public boolean isNearestPlayer(Player player) {
+		return (player.equals(getNearestPlayer()));
+	}
 	
 }
