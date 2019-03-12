@@ -19,19 +19,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The physics engine and more
+ */
 public class Physics {
     private ClientGameState gameState;
 
+    /** Constructor
+     * @param gameState the game state of the current game
+     */
     public Physics(ClientGameState gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * Call this method every game tick as it controls the game
+     */
     public void clientLoop() {
         doCollisionDetection();
         new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
-
 
         gameState.getAiConMan().updateAllAi();
 
@@ -44,6 +52,9 @@ public class Physics {
     }
 
 
+    /**
+     * Run the update method for all objects
+     */
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
             // Call update function for all physics objects
@@ -54,6 +65,9 @@ public class Physics {
         }
     }
 
+    /**
+     * Handles the points system in the game mode king of the hill
+     */
     private void kingOfHillHandler() {
         HillGame hillGame = (HillGame) gameState.getGameType();
         Circle hill = hillGame.getHill();
@@ -77,6 +91,9 @@ public class Physics {
     }
 
 
+    /**
+     * Handles the deaths of a player
+     */
     private void deathHandler() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         LinkedBlockingQueue deadPlayers = gameState.getDeadPlayers();
@@ -115,6 +132,9 @@ public class Physics {
 
     }
 
+    /**
+     * The detection of collision between a player and other objects
+     */
     private void doCollisionDetection() {
 
         ArrayList<PhysicsObject> objects = gameState.getObjects();
@@ -224,6 +244,9 @@ public class Physics {
         }
     }
 
+    /**
+     * To detect hits when a player attacks another player
+     */
     private void doHitDetection() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
