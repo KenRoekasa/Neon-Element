@@ -3,7 +3,7 @@ package engine;
 import client.ClientGameState;
 import client.GameClient;
 import engine.calculations.DamageCalculation;
-import engine.entities.CollisionDetection;
+import engine.entities.CollisionDetector;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
@@ -78,7 +78,7 @@ public class Physics {
         ScoreBoard scoreBoard = gameState.getScoreBoard();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
             Player player = itr.next();
-            if (CollisionDetection.checkCollision(hill, player.getBounds())) {
+            if (CollisionDetector.checkCollision(hill, player.getBounds())) {
                 playersInside.add(player);
             }
         }
@@ -152,7 +152,7 @@ public class Physics {
                     // Check if the moving in a certain direction will cause a collision
                     // The player has collided with e do something
                     if (e.getTag() == ObjectType.POWERUP) {
-                        if (CollisionDetection.checkCollision(player, e)) {
+                        if (CollisionDetector.checkCollision(player, e)) {
                             PowerUp powerUp = (PowerUp) e;
                             powerUp.activatePowerUp(player);
                             // remove power up from objects array list
@@ -182,21 +182,21 @@ public class Physics {
                         switch (player.getCharacterDirection()) {
                             case UP:
                                 projectedPlayer.setLocation(checkUp);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
                                 break;
                             case DOWN:
                                 projectedPlayer.setLocation(checkDown);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
                                 break;
                             case LEFT:
                                 projectedPlayer.setLocation(checkLeft);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
@@ -204,35 +204,35 @@ public class Physics {
 
                             case RIGHT:
                                 projectedPlayer.setLocation(checkRight);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
                                 break;
                             case UPCART:
                                 projectedPlayer.setLocation(checkUpCart);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
                                 break;
                             case DOWNCART:
                                 projectedPlayer.setLocation(checkDownCart);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
                                 break;
                             case LEFTCART:
                                 projectedPlayer.setLocation(checkLeftCart);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
                                 break;
                             case RIGHTCART:
                                 projectedPlayer.setLocation(checkRightCart);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                     player.setVerticalMove(0);
                                     player.setHorizontalMove(0);
                                 }
@@ -258,11 +258,11 @@ public class Physics {
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 Player e = itr1.next();
                 // Check light attack
-                if (CollisionDetection.checkCollision(player.getAttackHitbox(), e.getBounds())) {
+                if (CollisionDetector.checkCollision(player.getAttackHitbox(), e.getBounds())) {
                     lightHittablePlayers.add(e);
                 }
                 //Check heavy attack
-                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(),
+                if (CollisionDetector.checkCollision(player.getHeavyAttackHitbox(),
                         e.getBounds())) {
                     heavyHittablePlayer.add(e);
                 }

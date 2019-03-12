@@ -5,7 +5,7 @@ import javafx.scene.shape.Shape;
 /**
  * Collision detector between to objects
  */
-public class CollisionDetection {
+public class CollisionDetector {
 
     /**
      * Check if 2 objects have collided with each other
