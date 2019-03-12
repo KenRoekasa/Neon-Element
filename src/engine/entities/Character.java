@@ -14,6 +14,9 @@ import java.util.TimerTask;
 
 import static engine.entities.CooldownValues.*;
 
+/**
+ * All characters in this game
+ */
 public abstract class Character extends PhysicsObject {
     public static final float DEFAULT_MOVEMENT_SPEED = 0.35f;
     protected static final float MAX_HEALTH = 100;
