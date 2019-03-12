@@ -11,7 +11,6 @@ import javafx.scene.transform.Rotate;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import static engine.entities.CooldownValues.*;
 
@@ -27,28 +26,48 @@ public abstract class Character extends PhysicsObject {
     protected float movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
+    /**
+     * Is the character damaged boosted or not
+     */
     protected boolean damagePowerup = false;
     /**
      * The number of frames the character is invulnerable for
      */
     protected int iframes = 0;
-    // Used in damage boost buffs
+    /**
+     * The amount of times the base damage is multiplied by
+     * Used in damage boost buffs.
+     */
     protected float damageMultiplier = 1;
     // The time the ability was last used System.time
+    /**
+     * An array of the last time a certain action was used. Using Static Id from CooldownValues
+     */
     protected long[] timerArray = new long[10]; //TODO: Change the array length
 
     protected boolean actionHasSounded;
 
+    /**
+     * The players effective velocity (pixel per frame) in the vertical component
+     */
     protected float verticalMove = 0;
+    /**
+     * The players effective velocity (pixel per frame) in the horizontal component
+     */
     protected float horizontalMove = 0;
+    /**
+     * The last Character to inflict damage on this Character
+     */
     protected Player lastAttacker = null;
-    private long currentActionStart;
     protected double lightAttackRange = 300;
+    /**
+     * The time in milliseconds at when the current action started
+     */
+    private long currentActionStart;
 
-    public Player getLastAttacker() {
-        return lastAttacker;
-    }
-
+    /**
+     * Move the Character up isometrically based off its movement speed
+     */
     public void moveUp() {
         characterDirection = Directions.UP;
 
@@ -63,6 +82,12 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Move the Character down isometrically based off its movement speed
+     *
+     * @param boardWidth  the width of the map/board
+     * @param boardHeight the height of the map/board
+     */
     public void moveDown(double boardWidth, double boardHeight) {
         characterDirection = Directions.DOWN;
 
@@ -77,6 +102,11 @@ public abstract class Character extends PhysicsObject {
     }
 
 
+    /**
+     * Move the Character left isometrically based off its movement speed
+     *
+     * @param boardWidth the width of the map/board
+     */
     public void moveLeft(double boardWidth) {
         characterDirection = Directions.LEFT;
 
@@ -90,6 +120,12 @@ public abstract class Character extends PhysicsObject {
     }
 
 
+    /**
+     * Move the Character right isometrically based off its movement speed
+     *
+     * @param boardWidth  the width of the map/board
+     * @param boardHeight the height of the map/board
+     */
     public void moveRight(double boardWidth, double boardHeight) {
         characterDirection = Directions.RIGHT;
 
@@ -107,6 +143,9 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Move the Character right using cartesian coordinate system based off its movement speed
+     */
     public void moveUpCartesian() {
         characterDirection = Directions.UPCART;
 
@@ -122,6 +161,11 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Move the Character down using cartesian coordinate system based off its movement speed
+     *
+     * @param boardHeight the height of the map/board
+     */
     public void moveDownCartestian(double boardHeight) {
         characterDirection = Directions.DOWNCART;
 
@@ -136,6 +180,9 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Move the Character left using cartesian coordinate system based off its movement speed
+     */
     public void moveLeftCartesian() {
         characterDirection = Directions.LEFTCART;
 
@@ -150,6 +197,11 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Move the Character right using cartesian coordinate system based off its movement speed
+     *
+     * @param boardWidth width of the map/board
+     */
     public void moveRightCartesian(double boardWidth) {
         characterDirection = Directions.RIGHTCART;
 
@@ -164,6 +216,9 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Attack the character in front of this character
+     */
     public void lightAttack() {
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
@@ -214,6 +269,9 @@ public abstract class Character extends PhysicsObject {
         this.iframes = 15;
     }
 
+    /**
+     * Charge up a heavy attack for this player
+     */
     public void chargeHeavyAttack() {
         // TODO handle charging
         if (checkCD(heavyAttackID, heavyAttackCD)) {
@@ -236,6 +294,9 @@ public abstract class Character extends PhysicsObject {
     }
 
 
+    /**
+     * Heavy attack that deals AOE around this character
+     */
     private void heavyAttack() {
 
         actionHasSounded = false;
@@ -249,6 +310,9 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Creates a shield around this character to allow this character to take less damage
+     */
     public void shield() {
         if (currentAction == Action.IDLE) {
             actionHasSounded = false;
@@ -260,6 +324,9 @@ public abstract class Character extends PhysicsObject {
 
     }
 
+    /**
+     * Stop the character from shielding
+     */
     public void unShield() {
         if (currentAction == Action.BLOCK) {
             currentAction = Action.IDLE;
@@ -268,6 +335,9 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
+    /**
+     * Change the character current element to fire
+     */
     public void changeToFire() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
@@ -276,6 +346,9 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
+    /**
+     * Change the character current element to water
+     */
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
@@ -284,6 +357,9 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
+    /**
+     * Change the character current element to earth
+     */
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
@@ -292,6 +368,9 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
+    /**
+     * Change the character current element to air
+     */
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
             if (checkCD(changeStateID, changeStateCD)) {
@@ -338,14 +417,21 @@ public abstract class Character extends PhysicsObject {
         return isAlive;
     }
 
+    /**
+     * Causes a dead player to respawn. Its back to full health is now alive
+     */
     public void respawn() {
         isAlive = true;
         health = MAX_HEALTH;
         iframes = 120;
     }
 
-    // adds Health to the player
 
+    /**
+     * Adding health to the player
+     *
+     * @param amount the amount of health to add
+     */
     public void addHealth(int amount) {
 
         health += amount;
@@ -354,8 +440,9 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-    // Increase movement speed
-
+    /**
+     * Increase movement speed
+     */
     public void speedBoost() {
         Timer timer = new Timer();
 
@@ -378,8 +465,9 @@ public abstract class Character extends PhysicsObject {
         }
     }
 
-    // Doubles the players damage
-
+    /**
+     * Doubles the players damage
+     */
     public void damageBoost() {
         Timer timer = new Timer();
         damageMultiplier = 2;
@@ -455,7 +543,13 @@ public abstract class Character extends PhysicsObject {
         this.actionHasSounded = actionHasSounded;
     }
 
-    //check if the action is off cooldown
+    /**
+     * Check if the action is off cooldown.
+     *
+     * @param id       the id of the cooldown based of the cooldown values static class
+     * @param cooldown the duration of the cooldown
+     * @returnTrue if the action is off cooldown; false otherwise
+     */
     private boolean checkCD(int id, float cooldown) {
         // get the time it was last used and add the cooldown
         long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000));
@@ -467,17 +561,6 @@ public abstract class Character extends PhysicsObject {
         return false;
     }
 
-
-    public void delay(int time) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(time);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-
     public int getIframes() {
         return iframes;
     }
@@ -488,5 +571,9 @@ public abstract class Character extends PhysicsObject {
 
     public void setVerticalMove(float verticalMove) {
         this.verticalMove = verticalMove;
+    }
+
+    public Player getLastAttacker() {
+        return lastAttacker;
     }
 }
