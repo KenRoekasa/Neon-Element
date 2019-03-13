@@ -1,5 +1,9 @@
 package engine.enums;
 
+/**
+ * The different types of action that a player can do
+ */
 public enum Action {
-    IDLE, LIGHT, HEAVY, BLOCK, CHARGE
+    BLOCK, CHARGE, HEAVY, IDLE, LIGHT
+
 }
