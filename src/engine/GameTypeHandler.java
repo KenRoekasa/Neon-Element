@@ -4,9 +4,18 @@ import engine.gameTypes.*;
 
 import java.util.ArrayList;
 
+/**
+ * Handles the different game types to end game based on win condition
+ */
 public class GameTypeHandler {
 
 
+    /**
+     * Check if the game has to end or not based of the win condition
+     *
+     * @param currentGame the game state of the game you want to check
+     * @return True if a player hasn't reached the win condition; false otherwise
+     */
     public static boolean checkRunning(GameState currentGame) {
 
         GameType gameType = currentGame.gameType;
