@@ -13,7 +13,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameStateGenerator {
 
@@ -64,6 +63,13 @@ public class GameStateGenerator {
 
     //receive the number of enemy from controller to initialise engine.ai enm
 
+    /**
+     * Generates a game state for testin
+     *
+     * @param num_enm the number ais
+     * @param aiTypes A list of ais diffculty
+     * @return a gamestate for testing
+     */
     public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
 
         //initialise map location
@@ -76,7 +82,7 @@ public class GameStateGenerator {
 
         //add the 1 power up to the objects list
 
-        ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
+        ArrayList<PhysicsObject> objects = new ArrayList<>();
         ScoreBoard scoreboard = new ScoreBoard();
 
         // First to 10 kills
@@ -100,7 +106,6 @@ public class GameStateGenerator {
         Map map1 = MapGenerator.createEmptyMap();
 
 
-
         player.setLocation(map1.getRespawnPoints().get(0));
 
         for (int i = 0; i < num_enm; i++) {
@@ -118,7 +123,7 @@ public class GameStateGenerator {
         ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager);
         scoreboard.initialise(gameState.getAllPlayers());
 //        aiManager.startAllAi();
-        
+
         return gameState;
     }
     
