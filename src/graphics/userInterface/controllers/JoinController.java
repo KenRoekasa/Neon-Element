@@ -8,10 +8,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 
 
+/**
+ * Controller for join.fxml
+ */
 public class JoinController extends UIController {
+    /**
+     * Current game state
+     */
     private ClientGameState gameState;
+    /**
+     * The text field for entering ip address
+     */
     public TextField ip;
 
+    /**Handle the action of pressing start button which will go to game board
+     */
     @FXML
     public void handleStartBtn(){
         // create game rules
@@ -29,6 +40,9 @@ public class JoinController extends UIController {
 
     }
 
+    /**
+     *Handle the action of pressing back button which will be back to online_mode.fxml
+     */
     @FXML
     public void handleBackBtn(){
         String fxmlPath ="../fxmls/online_mode.fxml";

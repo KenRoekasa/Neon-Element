@@ -7,11 +7,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 /**
- * A template for loading the fxml file and setting up its controller
+ * A template for loading the fxml file and setting up corresponding controller
  * */
-/*Extract duplicate process on loading fxml file and its configuration*/
 public class FxmlLoader {
 
+    /** A constructor for FxmlLoader to initialise and configure the scene
+     * @param fxmlPath the relative path of fxml which is going to be loading
+     * @param stage the stage of the application
+     * @param stageTitle the stage title of current scene
+     * @param fileException the custom string in exception to indicate where the exception is
+     * @param audioManager the whole game's audio manger for controller the audio
+     */
     protected FxmlLoader(String fxmlPath, Stage stage,String stageTitle,String fileException, AudioManager audioManager){
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         try {

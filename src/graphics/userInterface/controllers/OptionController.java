@@ -1,33 +1,34 @@
 package graphics.userInterface.controllers;
 
-import client.audiomanager.AudioManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for option.fxml
+ */
 public class OptionController extends UIController{
 
+    /**
+     * Slider to adjust sound's volume
+     */
     @FXML
     public Slider sound;
 
-    @FXML
-    Label ok,back;
-
+    /**
+     * Text which shows the volume between 0-1.o
+     */
     @FXML
     Text volume;
 
-
+    /** Handle the action of pressing ok button which will set the volume.
+     */
     @FXML
     public void handleOkBtn(){
         audioManager.setVolume(sound.getValue());
@@ -35,7 +36,8 @@ public class OptionController extends UIController{
 
     }
 
-
+    /**Handle the action of pressing back button which will go back to menu.fxml
+     */
     @FXML
     public void handleBackBtn() {
         String fxmlPath = "../fxmls/menu.fxml";
@@ -44,6 +46,10 @@ public class OptionController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
+    /** Initialise the set up of slider and add listener to slider
+     * @param location  url location
+     * @param resources resource bundled
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

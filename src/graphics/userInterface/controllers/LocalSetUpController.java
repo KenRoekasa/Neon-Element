@@ -9,83 +9,153 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-
-
-import javafx.event.ActionEvent;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller of local_setup.fxml
+ */
 public class LocalSetUpController extends UIController {
+    /**
+     * The game state of current game
+     */
     private ClientGameState gameState;
+    /**
+     * Radio buttons of one ai bot,two ai bots,three ai bots
+     */
     @FXML
     public RadioButton num_1, num_2, num_3;
+    /**
+     * Radio buttons for three different difficulties of three different number of ai bots
+     */
     @FXML
     public RadioButton easy_1, easy_2, easy_3, normal_1, normal_2, normal_3, hard_1, hard_2, hard_3;
+    /**
+     * Radio buttons of time mode game and life mode game
+     */
     @FXML
     public RadioButton time_mode, life_mode;
 
+    /**
+     * Grid Panes of the second ai bot setting and the third ai bot setting
+     */
     @FXML
     GridPane enemy2, enemy3;
+    /**
+     * Toggle group of the number of ai bots
+     */
     final ToggleGroup num_group = new ToggleGroup();
+    /**
+     * Toggle group of the difficulties for the first ai bot
+     */
     final ToggleGroup diff_1 = new ToggleGroup();
+    /**
+     * Toggle group of the difficulties for the second ai bot
+     */
     final ToggleGroup diff_2 = new ToggleGroup();
+    /**
+     * Toggle group of the difficulties for the third ai bot
+     */
     final ToggleGroup diff_3 = new ToggleGroup();
+    /**
+     * Toggle group of game modes
+     */
     final ToggleGroup mode = new ToggleGroup();
 
+    /**
+     * The number of ai bots
+     */
     private int enemy_num;
+    /**
+     * The difficulty selected for the first ai bot
+     */
     private String enemy_1;
+    /**
+     * The difficulty selected for the second ai bot
+     */
     private String enemy_2;
+    /**
+     * The difficulty selected for the third ai bot
+     */
     private String enemy_3;
+    /**
+     * The mode selected for the game
+     */
     private String selected_mode;
+
+    /**
+     * A list for storing the selected difficulties of the ai bots
+     */
     ArrayList<String> enemyTypes = new ArrayList<>();
 
+    /** Get the number of ai bots
+     * @return number of ai bots
+     */
     public int getEnemy_num() {
         return enemy_num;
     }
 
+    /** Get the difficulty of the first ai bot
+     * @return the difficulty of the first ai bot
+     */
     public String getEnemy_1() {
         return enemy_1;
     }
 
+    /** Get the difficulty of the second ai bot
+     * @return the difficulty of the second ai bot
+     */
     public String getEnemy_2() {
         return enemy_2;
     }
 
+    /** Get the difficulty of the third ai bot
+     * @return the difficulty of the third ai bot
+     */
     public String getEnemy_3() {
         return enemy_3;
     }
 
+    /** Get the selected game mode
+     * @return selected game mode
+     */
     public String getSelected_mode() {
         return selected_mode;
     }
 
+    /** Handle the action when select the number of one ai bot
+     */
     // directly go to local mode map
     @FXML
-
-    public void handleOneEnemy(ActionEvent event) {
+    public void handleOneEnemy() {
         enemy2.setVisible(false);
         enemy3.setVisible(false);
     }
 
+    /** Handle the action when select the number of two ai bots
+     */
     @FXML
-    public void handleTwoEnemies(ActionEvent event) {
+    public void handleTwoEnemies() {
         enemy2.setVisible(true);
         enemy3.setVisible(false);
     }
 
+    /** Handle the action when select the number of three ai bots
+     */
     @FXML
-    public void handleThreeEnemies(ActionEvent event) {
+    public void handleThreeEnemies() {
         enemy2.setVisible(true);
         enemy3.setVisible(true);
     }
 
 
+    /** Handle the action of pressing the start button
+     */
     @FXML
-    public void handleStartBtn(ActionEvent actionEvent) {
+    public void handleStartBtn() {
         //get selected properties
         enemy_num = (int) num_group.getSelectedToggle().getUserData();
 
@@ -126,14 +196,20 @@ public class LocalSetUpController extends UIController {
         }
     }
 
+    /**Handle the action of pressing back button which will direct to mode.fxml
+     */
     @FXML
-    public void handleBackBtn(ActionEvent actionEvent) {
+    public void handleBackBtn() {
         String fxmlPath ="../fxmls/mode.fxml";
         String stageTitle ="Mode" ;
         String fileException ="Mode";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
+    /** Initialise the set up of toggle groups
+     * @param location  url location
+     * @param resources resource bundled
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
