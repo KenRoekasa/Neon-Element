@@ -2,24 +2,42 @@ package client;
 
 import engine.GameState;
 import engine.Map;
+import engine.ScoreBoard;
 import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.ScoreBoard;
 import engine.gameTypes.GameType;
-
 
 import java.util.ArrayList;
 
+/**
+ * The game state on the client side
+ */
 public class ClientGameState extends GameState {
 
 
     private Player player;
+    /**
+     * The number of players
+     */
     private int num_player;
+    /**
+     * The state of paused or not in the current game
+     */
     private Boolean paused;
 
+    /**
+     * Constructor
+     *
+     * @param player     the player that this client controls
+     * @param map        the map of the current match
+     * @param objects    all array list of all objects
+     * @param scoreboard the scoreboard of the current game
+     * @param gameType   the game mode of the current game
+     * @param aiConMan   the ai controller manager for the ais in this current game
+     */
     public ClientGameState(Player player, Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
-        super(map, objects, scoreboard,gameType,aiConMan);
+        super(map, objects, scoreboard, gameType, aiConMan);
         this.player = player;
     }
 
@@ -41,11 +59,17 @@ public class ClientGameState extends GameState {
     }
 
 
+    /**
+     * Resume the game state so its no longer paused
+     */
     public void resume() {
         paused = false;
     }
 
-    public void pause(){
+    /**
+     * Pause the game
+     */
+    public void pause() {
         paused = true;
     }
 
