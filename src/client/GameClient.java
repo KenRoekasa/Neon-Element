@@ -35,23 +35,49 @@ public class GameClient {
      */
     public static float deltaTime;
 
+    /**
+     * The physics engine that runs in this current game/match
+     */
     private Physics physicsEngine;
+    /**
+     * The renderer that renders the this game/match
+     */
     private Renderer renderer;
+    /**
+     * The debugger that allows text to be displayed on screen for debugging
+     */
     private Debugger debugger;
     private GraphicsContext gc;
     private Stage primaryStage;
     private Scene scene;
     private Rectangle stageSize;
+    /**
+     * The array list of inputs that the user has inputted
+     */
     private ArrayList<String> input;
+    /**
+     * The game state of the current game
+     */
     private ClientGameState gameState;
+    /**
+     * The thread that connects to the server and controls what it sends and recieves
+     */
     private ClientNetworkThread clientNetworkThread;
+
     private Pane hudPane;
 
     private AudioManager audioManager;
 
 
-
-    public GameClient(Stage primaryStage, ClientGameState gameState, boolean online, AudioManager audioManager) throws Exception {
+    /**
+     * Constructor
+     *
+     * @param primaryStage the stage at which the game is rendered on
+     * @param gameState    the game state of this current game/match
+     * @param online       if the current game is online or offline
+     * @param audioManager the audio manager that controls sounds in this current match/game
+     */
+    public GameClient(Stage primaryStage, ClientGameState gameState, boolean online, AudioManager audioManager) {
         // initial setup
         this.primaryStage = primaryStage;
         this.gameState = gameState;
@@ -113,7 +139,7 @@ public class GameClient {
 
         if (!online) {
             this.gameState.start();
-            beginClientLoop(renderer,hudController);
+            beginClientLoop(renderer, hudController);
         }
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
@@ -130,10 +156,17 @@ public class GameClient {
         return scene;
     }
 
-    private void beginClientLoop(Renderer renderer,HUDController hudController) {
+    /**
+     * Start a loop controls the game
+     *
+     * @param renderer      the renderer
+     * @param hudController the hud
+     */
+    private void beginClientLoop(Renderer renderer, HUDController hudController) {
 
         new AnimationTimer() {
             long lastTime = System.nanoTime();
+
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap().getGround(), primaryStage);
                 renderer.render(primaryStage, gameState);
@@ -169,6 +202,9 @@ public class GameClient {
     }
 
 
+    /**
+     * Called when the game ends to swjitch to the game over screen
+     */
     private void showGameOver() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
         try {
@@ -191,6 +227,9 @@ public class GameClient {
         }
     }
 
+    /**
+     * Start a connection to the server
+     */
     public void startNetwork() {
         this.clientNetworkThread.start();
         this.gameState.start();
@@ -204,7 +243,7 @@ public class GameClient {
         gameState.resume();
 
         theScene.setOnKeyReleased(e -> {
-            if(!gameState.getPaused()) {
+            if (!gameState.getPaused()) {
                 String code = e.getCode().toString();
                 input.remove(code);
 
@@ -212,25 +251,25 @@ public class GameClient {
         });
 
         theScene.setOnMouseClicked(e -> {
-            if(!gameState.getPaused()) {
+            if (!gameState.getPaused()) {
                 InputHandler.handleClick(gameState.getPlayer(), e);
             }
         });
 
         // when the mouse is moved around the screen calculate new angle
         theScene.setOnMouseMoved(e -> {
-            if(!gameState.getPaused()) {
+            if (!gameState.getPaused()) {
                 InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e);
             }
         });
         theScene.setOnMouseDragged(e -> {
-            if(!gameState.getPaused()) {
+            if (!gameState.getPaused()) {
                 InputHandler.mouseAngleCalc(gameState.getPlayer(), primaryStage, e);
             }
         });
 
         theScene.setOnKeyPressed(e -> {
-            if(!gameState.getPaused()) {
+            if (!gameState.getPaused()) {
                 if (e.getCode() == KeyCode.P) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/pause.fxml"));
                     try {
