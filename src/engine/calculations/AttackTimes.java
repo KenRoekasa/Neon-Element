@@ -2,6 +2,9 @@ package engine.calculations;
 
 import engine.enums.Action;
 
+/**
+ * Store the times for how long an attack(animation) last
+ */
 public class AttackTimes {
     public static long getActionTime(Action a) {
         switch (a) {

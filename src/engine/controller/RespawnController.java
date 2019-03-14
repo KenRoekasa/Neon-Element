@@ -9,10 +9,21 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Controls how the players in the game respawns
+ */
 public class RespawnController implements Runnable {
-    GameState gameState;
-    LinkedBlockingQueue<Player> deadPlayers;
+    private GameState gameState;
+    /**
+     * A queue of the dead players in the current game
+     */
+    private LinkedBlockingQueue<Player> deadPlayers;
 
+    /**
+     * Constructor
+     *
+     * @param gameState the game state of the current game
+     */
     public RespawnController(GameState gameState) {
         this.gameState = gameState;
         this.deadPlayers = gameState.getDeadPlayers();
@@ -34,7 +45,11 @@ public class RespawnController implements Runnable {
 
     }
 
-    //Respawn every few seconds
+    /**
+     * Causes dead players to respawn after a certain amount of time
+     *
+     * @param respawnTime the duration a character is dead for before respawning
+     */
     private void normalRespawn(long respawnTime) {
         //Remove the dead player from the list
         try {

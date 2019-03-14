@@ -9,26 +9,56 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The current state of the game including the entities/objects/maps in the game
+ */
 public abstract class GameState {
+    /**
+     * The map of this current game
+     */
     protected Map map;
-
-
-    protected boolean isRunning;
-
     /**
      * All Physics objects
      */
     protected ArrayList<PhysicsObject> objects;
+    /**
+     * The game mode of this match
+     */
     protected GameType gameType;
+    /**
+     * The time when the game starts
+     */
     protected long startTime;
+    /**
+     * A list of all players in the game
+     */
+    protected ArrayList<Player> allPlayers = new ArrayList<>();
+    /**
+     * Is the game on going or has it ended
+     */
+    private boolean isRunning;
     /**
      * The ScoreBoard
      */
-    protected ScoreBoard scoreBoard;
-    protected LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
-    protected ArrayList<Player> allPlayers = new ArrayList<>();
-    protected AiControllersManager aiConMan;
+    private ScoreBoard scoreBoard;
+    /**
+     * A queue of players that are dead
+     */
+    private LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
+    /**
+     * The Ai controller manager in this game
+     */
+    private AiControllersManager aiConMan;
 
+    /**
+     * Constructor
+     *
+     * @param map        the map
+     * @param objects    all the physics object in the game
+     * @param scoreboard the scoreboard
+     * @param gameType   the game mode
+     * @param aiConMan   the ai controller manager
+     **/
     public GameState(Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
         this.objects = objects;
         this.gameType = gameType;
@@ -106,17 +136,22 @@ public abstract class GameState {
      * @return an array list of other physics objects other than chosen object
      */
     public ArrayList<PhysicsObject> getOtherObjects(PhysicsObject object) {
-        ArrayList<PhysicsObject> otherObjects = new ArrayList<>();
-        otherObjects.addAll(objects);
+        ArrayList<PhysicsObject> otherObjects = new ArrayList<>(objects);
         otherObjects.remove(object);
         return otherObjects;
     }
 
+    /**
+     * Start the game
+     */
     public void start() {
         startTime = System.currentTimeMillis();
         isRunning = true;
     }
 
+    /**
+     * End the game
+     */
     public void stop() {
         isRunning = false;
     }

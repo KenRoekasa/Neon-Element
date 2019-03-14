@@ -1,10 +1,13 @@
 package engine.enums;
 
+/**
+ * The type that a physic object can be
+ */
 public enum ObjectType {
-    PLAYER(60),
     ENEMY(60),
-    POWERUP(20),
-    OBSTACLE(100);
+    OBSTACLE(100),
+    PLAYER(60),
+    POWERUP(20);
 
     private final int size;
 

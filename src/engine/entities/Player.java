@@ -8,12 +8,23 @@ import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
 
+/**
+ * A Character that is a player in the game
+ */
 public class Player extends Character {
 
+    private static int nextId = 1;
+    /**
+     * The unique identify of each player in the game
+     */
     private int id;
 
-    private static int nextId = 1;
-
+    /**
+     * Constructor
+     *
+     * @param type the type of player it is Enemy or the client's player
+     * @param id   The unique identify of this player
+     */
     public Player(ObjectType type, int id) {
         super();
         this.id = id;
@@ -37,12 +48,20 @@ public class Player extends Character {
         }
     }
 
+    /**
+     * Constructor
+     *
+     * @param type the type of player it is Enemy or the client's player
+     */
     public Player(ObjectType type) {
         this(type, (type.equals(ObjectType.PLAYER) ? nextId++ : 0));
     }
 
+    /**
+     * Called every frame
+     */
     @Override
-    public void update() { // Called every game tick, put location updates server sending etc... here
+    public void update() {
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
@@ -67,18 +86,20 @@ public class Player extends Character {
         this.location.add(x - X, y - Y);
     }
 
-    public void setId(int i) {
-        this.id = i;
-    }
-
+    /**
+     * @return the player's id health and location
+     */
     public String toString() {
         return "Player: " + this.id +
                 "\nHealth: " + health +
-                "\nx: "+ location.getX()+ " y: " + location.getY();
+                "\nx: " + location.getX() + " y: " + location.getY();
     }
-
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int i) {
+        this.id = i;
     }
 }

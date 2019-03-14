@@ -5,9 +5,19 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
+/**
+ * The map that contains the ground,walls and respawn points
+ */
 public class Map {
+    /**
+     * A area the player can traverse
+     */
     private Rectangle ground;
+
     private ArrayList<Wall> walls;
+    /**
+     * The points where the player will spawn and respawn from
+     */
     private ArrayList<Point2D> respawnPoints;
 
 

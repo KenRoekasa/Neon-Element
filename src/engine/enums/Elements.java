@@ -2,13 +2,17 @@ package engine.enums;
 
 import graphics.rendering.textures.Sprites;
 
+/**
+ * The Elements that the player can change into
+ */
 public enum Elements {
     //subject to change
     FIRE(0), WATER(1), EARTH(2), AIR(3);
 
     private byte id;
 
-    private Elements(int id) {
+
+    Elements(int id) {
         this.id = (byte) id;
     }
 
@@ -39,8 +43,8 @@ public enum Elements {
             case WATER:
                 return Sprites.WATER;
 
-                default:
-                    return Sprites.WATER;
+            default:
+                return Sprites.WATER;
 
         }
     }

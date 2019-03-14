@@ -1,10 +1,22 @@
 package engine.gameTypes;
 
+/**
+ * A general game type
+ */
 public abstract class GameType {
 
     private Type type;
 
-    public static enum Type {
+    /**
+     * Constructor
+     *
+     * @param type the type of gametype object
+     */
+    GameType(Type type) {
+        this.type = type;
+    }
+
+    public enum Type {
         FirstToXKills(1), Timed(2), Hill(3),Regicide(4);
 
         private byte id;
@@ -25,10 +37,6 @@ public abstract class GameType {
             }
             return null;
         }
-    }
-
-    GameType(Type type) {
-        this.type = type;
     }
 
     public Type getType() {

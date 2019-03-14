@@ -1,4 +1,4 @@
-import engine.entities.CollisionDetection;
+import engine.entities.CollisionDetector;
 import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.enums.ObjectType;
@@ -15,7 +15,7 @@ public class PowerUpTest {
         player.setLocation(new Point2D(250, 250));
         PowerUp powerUp = new PowerUp();
         powerUp.setLocation(new Point2D(250, 250));
-        if (CollisionDetection.checkCollision(player, powerUp)) {
+        if (CollisionDetector.checkCollision(player, powerUp)) {
             powerUp.activatePowerUp(player);
             if (powerUp.getType() == PowerUpType.SPEED) {
                 assertEquals(8, player.getMovementSpeed());

@@ -1,6 +1,9 @@
 package engine.enums;
 
+/**
+ * The current direction the player is moving in
+ */
 public enum Directions {
+    DOWN, DOWNCART, LEFT, LEFTCART, RIGHT, RIGHTCART, UP, UPCART
 
-	UP,DOWN,LEFT, UPCART, DOWNCART, LEFTCART, RIGHTCART, RIGHT
 }
