@@ -45,7 +45,7 @@ public class ScoreBoard {
         board.get(killerID).setKills(oldKills + 1);
         //Add death to the victim
         int oldDeaths = board.get(victimID).getDeaths();
-        board.get(killerID).setDeaths(oldDeaths++);
+        board.get(victimID).setDeaths(oldDeaths+1);
         totalScore++;
         updateLeaderBoard();
     }
