@@ -113,7 +113,7 @@ public class AiActions {
 		
 		attackIfInDistanceWithShield(player);
 		
-		if(calc.reachedAnEdge()) 
+		if(calc.getMoveCalc().reachedAnEdge()) 
 			moveAwayFromEdge();
 		else 
 			simpleMovement(player.getLocation(),aiPlayer.getLocation());
@@ -121,7 +121,7 @@ public class AiActions {
 	
 	
 	public void moveAwayFromEdge() {
-		int i = calc.closestEdgeLocation();
+		int i = calc.getMoveCalc().closestEdgeLocation();
 		switch(i) {
 		case 0:down();break;
 		case 1:rightcart();break;
@@ -137,10 +137,10 @@ public class AiActions {
 
 	public void moveTo(int powerupIndex, Point2D loc) {
 		
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		attackIfInDistanceWithShield(player);
 
-		double distance = calc.calcDistance(aiPlayer.getLocation(), loc);
+		double distance = calc.getMoveCalc().calcDistance(aiPlayer.getLocation(), loc);
 
 		if(!((int) distance > 2 || powerupIndex == -1))
 			return;
@@ -187,29 +187,22 @@ public class AiActions {
 	public void moveTo(Player player) {
 
 		Point2D playerLoc = player.getLocation();
-		double distance = calc.calcDistance(aiPlayer.getLocation(), playerLoc);
+		double distance = calc.getMoveCalc().calcDistance(aiPlayer.getLocation(), playerLoc);
 		
 		if( player.getTag().equals(ObjectType.PLAYER) && distance <= 2*aiPlayer.getWidth()) 
 			return;
 		if( player.getTag().equals(ObjectType.ENEMY) && distance <= 2) 
 			return;
 			
-		aiPlayer.setPlayerAngle(new Rotate(calc.calcAngle(aiPlayer.getLocation(),player.getLocation())));
+		aiPlayer.setPlayerAngle(new Rotate(calc.getMoveCalc().calcAngle(aiPlayer.getLocation(),player.getLocation())));
 		
 		simpleMovement(aiPlayer.getLocation(), playerLoc);
 
 	}
 	
-
-	public void moveToOnHill(Player player) {
-		if(calc.closeToHill() && calc.onHill(aiPlayer.getLocation()))
-			moveTo(player);
-		
-	}
-	
 	public void changeToRandomElementAfter(int seconds) {
-		if(calc.secondsElapsed() >= seconds) {
-			calc.setStartTime(System.nanoTime()/1000000000);
+		if(calc.getTimeCalc().secondsElapsed() >= seconds) {
+			calc.getTimeCalc().setStartTime(System.nanoTime()/1000000000);
 			assignDifferentRandomElement();
 		}
 	}
@@ -217,10 +210,10 @@ public class AiActions {
 
 	public void startWandering() {
 		
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		attackIfInDistance(player);
 
-		if(calc.reachedAnEdge()) {
+		if(calc.getMoveCalc().reachedAnEdge()) {
 			switch(wanderingDirection) {
 			case 0:wanderingDirection = 1;break;
 			case 1:wanderingDirection = 0;break;
@@ -246,7 +239,7 @@ public class AiActions {
 	}
 	
 	public void changeToBefittingElement() {
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		switch(aiCon.getActiveState()) {
 		
 		//when attacking, change element to maximize damage given
@@ -294,7 +287,7 @@ public class AiActions {
 
 	public void attackIfInDistance(Player player) {
 		
-		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+		if (calc.getPlayerCalc().inAttackDistance(player) && player.getHealth()>0 && !calc.getPlayerCalc().isCharging(aiPlayer)) {
 			int i = r.nextInt(10);
 			if(i>7)
 				aiPlayer.chargeHeavyAttack();
@@ -306,7 +299,7 @@ public class AiActions {
 	
 	public void attackIfInDistanceWithShield(Player player) {
 		
-		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+		if (calc.getPlayerCalc().inAttackDistance(player) && player.getHealth()>0 && !calc.getPlayerCalc().isCharging(aiPlayer)) {
 			int i = r.nextInt(10);
 			aiPlayer.unShield();
 			if(i>7)
@@ -318,7 +311,7 @@ public class AiActions {
 	}
 	
 	public void shieldWhenAlone() {
-		if(calc.playerIsTooClose())
+		if(calc.getPlayerCalc().playerIsTooClose())
 			aiPlayer.shield();
 		else 
 			aiPlayer.unShield();
@@ -326,8 +319,8 @@ public class AiActions {
 
 	public void moveToAndKeepDistance(Player player) {
 	
-		if(calc.isCharging(aiPlayer)) {
-			if(calc.calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
+		if(calc.getPlayerCalc().isCharging(aiPlayer)) {
+			if(calc.getMoveCalc().calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
 				moveTo(player);
 			}
 			else {
@@ -339,65 +332,6 @@ public class AiActions {
 		}
 		
 	}
-
-
-	
-	//	public void spam(int time) {
-	//	
-	//	spammingTimer(time);
-	//	while (spamming) {
-	//		aiPlayer.delay(DELAY_TIME);
-	//		switch (activeState) {
-	//		case ATTACK:
-	//			aiPlayer.unShield();
-	//			attack();
-	//			break;
-	//		case AGGRESSIVE_ATTACK:
-	//			aiPlayer.unShield();
-	//			aggressiveAttack();
-	//			break;
-	//		case FIND_HEALTH:
-	//			aiPlayer.shield();
-	//			findHealth();
-	//			break;
-	//		case FIND_DAMAGE:
-	//			aiPlayer.shield();
-	//			findDamage();
-	//			break;
-	//		case FIND_SPEED:
-	//			aiPlayer.shield();
-	//			findSpeed();
-	//			break;
-	//		case ESCAPE:
-	//			aiPlayer.shield();
-	//			escape();
-	//			break;
-	//		case WANDER:
-	//			aiPlayer.unShield();
-	//			startWandering();
-	//		case IDLE:
-	//			break;
-	//		default:
-	//			break;
-	//		}
-	//	}
-	//	
-	//}
-	//
-	//private void spammingTimer(int time) {
-	//	spamming = true;
-	//	Thread t = new Thread(new Runnable() {
-	//		@Override
-	//		public void run() {
-	//		aiPlayer.delay(time);
-	//		spamming = false;
-	//		}
-	//
-	//	});
-	//	t.start();
-	//}
-
-
 
 
 }

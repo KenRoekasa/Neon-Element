@@ -25,11 +25,11 @@ public class KillsFSM extends FSM {
 	public void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take a heal power up
-		if(  calc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getNearestPowerUp(PowerUpType.HEAL) != -1 ) {
+		if(  calc.getPowerupCalc().powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getPowerupCalc().getNearestPowerUp(PowerUpType.HEAL) != -1 ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		
@@ -44,13 +44,13 @@ public class KillsFSM extends FSM {
 		}	
 		
 		//case 4, normal attacking
-		else if ( calc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
+		else if ( calc.getPlayerCalc().playerIsTooClose() || aiPlayerHP > playerHP  ) {
 			aiCon.setState(AiStates.ATTACK);
 		}
 	
 		//case5, take the power up on your way
-		else if (calc.powerupIsTooClose()) {
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+		else if (calc.getPowerupCalc().powerupIsTooClose()) {
+			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -80,12 +80,12 @@ public class KillsFSM extends FSM {
 	public void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up
-		if( ( calc.powerupIsTooClose() && calc.powerupCloserThanPlayer() ) || calc.powerupCloserThanPlayer() ) {
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+		if( ( calc.getPowerupCalc().powerupIsTooClose() && calc.getPowerupCalc().powerupCloserThanPlayer() ) || calc.getPowerupCalc().powerupCloserThanPlayer() ) {
+			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -111,7 +111,7 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 4, attack when you got the advantage
-		else if (calc.playerIsTooClose() || aiPlayerHP > playerHP) {
+		else if (calc.getPlayerCalc().playerIsTooClose() || aiPlayerHP > playerHP) {
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
@@ -136,12 +136,12 @@ public class KillsFSM extends FSM {
 	public void hardAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, a power up is closer than an enemy
-		if( calc.powerupCloserThanPlayer() ) {
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+		if( calc.getPowerupCalc().powerupCloserThanPlayer() ) {
+			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -155,18 +155,18 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 2, the ai player's hp is less than maxHP and a health power up is available
-		else if (aiPlayerHP<(maxHP) && calc.powerUpExist(PowerUpType.HEAL) ) {
+		else if (aiPlayerHP<(maxHP) && calc.getPowerupCalc().powerUpExist(PowerUpType.HEAL) ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		
 		//case 3, there exist a damage power up
-		else if(  calc.powerupCloserThanPlayer() && calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
+		else if(  calc.getPowerupCalc().powerupCloserThanPlayer() && calc.getPowerupCalc().getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
 		//case 4, the engine.ai player's hp is less than 33% and a health power up is not available
 		
-		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.someoneCloseIsCharging() || calc.isCharging(nearestPlayer) || (calc.getWinningPlayer().equals(aiPlayer) && playerHP-aiPlayerHP > 20)  ) {
+		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.getPlayerCalc().someoneCloseIsCharging() || calc.getPlayerCalc().isCharging(nearestPlayer) || (calc.getPlayerCalc().getWinningPlayer().equals(aiPlayer) && playerHP-aiPlayerHP > 20)  ) {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
@@ -176,7 +176,7 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 6, attacks winner if score gap is higher than 2
-		else if(calc.scoreDifferenceIsMoreThan(2)) {
+		else if(calc.getPlayerCalc().scoreDifferenceIsMoreThan(2)) {
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}
 		
@@ -187,7 +187,7 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 8, there exist a speed power up
-		else if( calc.getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
+		else if( calc.getPowerupCalc().getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 			aiCon.setState(AiStates.FIND_SPEED);
 		}
 		

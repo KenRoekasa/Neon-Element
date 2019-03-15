@@ -66,7 +66,7 @@ public abstract class AiStateActions {
 	}
 	
 	protected void idle() {
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		actions.attackIfInDistanceWithShield(player);
 	}
 
@@ -86,28 +86,28 @@ public abstract class AiStateActions {
 	
 	protected void findSpeed() {
 		actions.shieldWhenAlone();
-		int index = calc.getNearestPowerUp(PowerUpType.SPEED);
+		int index = calc.getPowerupCalc().getNearestPowerUp(PowerUpType.SPEED);
 		if (index != -1)
-			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
+			actions.moveTo(index, calc.getPowerupCalc().getPowerups().get(index).getLocation());
 	}
 
 	protected void findDamage() {
 		actions.shieldWhenAlone();
-		int index = calc.getNearestPowerUp(PowerUpType.DAMAGE);
+		int index = calc.getPowerupCalc().getNearestPowerUp(PowerUpType.DAMAGE);
 		if (index != -1)
-			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
+			actions.moveTo(index, calc.getPowerupCalc().getPowerups().get(index).getLocation());
 	}
 
 	protected void findHealth() {
 		actions.shieldWhenAlone();
-		int index = calc.getNearestPowerUp(PowerUpType.HEAL);
+		int index = calc.getPowerupCalc().getNearestPowerUp(PowerUpType.HEAL);
 		if (index != -1)
-			actions.moveTo(index, calc.getPowerups().get(index).getLocation());
+			actions.moveTo(index, calc.getPowerupCalc().getPowerups().get(index).getLocation());
 	}
 
 	protected void aggressiveAttack() {
 		aiPlayer.unShield();
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
 		if(aiCon.getAiType().equals(AiType.HARD))
 			actions.moveToAndKeepDistance(player);
@@ -118,20 +118,20 @@ public abstract class AiStateActions {
 	
 	protected void escape() {
 		actions.shieldWhenAlone();
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		actions.moveAwayFromPlayer(player);
 	}	
 	
 	protected void attack() {
 		aiPlayer.unShield();
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		actions.moveTo(player);
 		actions.attackIfInDistance(player);
 	}
 
 	protected void attackWinner() {
 		aiPlayer.unShield();
-		Player player = calc.getWinningPlayer();
+		Player player = calc.getPlayerCalc().getWinningPlayer();
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
 		
@@ -149,7 +149,7 @@ public abstract class AiStateActions {
 	protected void updateWandering() {
 		if(isWandering() && !aiCon.getActiveState().equals(AiStates.WANDER))
 			setWandering(false);
-		else if( (!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) || calc.hasBeenWanderingFor(5) ) {
+		else if( (!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) || calc.getTimeCalc().hasBeenWanderingFor(5) ) {
 			setWandering(true);
 			Random r = new Random();
 			actions.wanderingDirection = r.nextInt(8);

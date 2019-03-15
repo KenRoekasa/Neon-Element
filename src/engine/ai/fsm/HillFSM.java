@@ -1,6 +1,7 @@
 package engine.ai.fsm;
 
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.HillCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
 import engine.entities.Player;
@@ -8,8 +9,11 @@ import engine.enums.PowerUpType;
 
 public class HillFSM extends FSM{
 	
+	HillCalculations calc;
+	
 	public HillFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
 		super(aiPlayer, aiCon, calc);
+		this.calc = (HillCalculations)calc;
 	}
 	
 	//easy AI:
@@ -23,15 +27,15 @@ public class HillFSM extends FSM{
 	public void easyAiFetchAction() {
 		
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		boolean debug = false;
 		
 		//if there is a power up take it
-		if (calc.powerupIsTooClose()) {
+		if (calc.getPowerupCalc().powerupIsTooClose()) {
 			if(debug)
 				System.out.println("case 1");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -48,14 +52,14 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 2, normal attacking
-		else if ( calc.playerIsTooClose() && aiPlayerHP > playerHP && calc.closeToHill()) {
+		else if ( calc.getPlayerCalc().playerIsTooClose() && aiPlayerHP > playerHP && calc.closeToHill()) {
 			if(debug)
 				System.out.println("case 2");
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
 		//case 3, go to hill
-		else if(calc.playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3)) {
+		else if(calc.getPlayerCalc().playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3)) {
 			if(debug)
 				System.out.println("case 3");
 			if(calc.onHill(aiPlayer.getLocation()))
@@ -75,12 +79,12 @@ public class HillFSM extends FSM{
 		else if(aiPlayerHP < (maxHP/3) &&  aiPlayerHP < playerHP ) {
 			if(debug)
 				System.out.println("case 5");
-			if(calc.powerUpExist(PowerUpType.HEAL)) {
+			if(calc.getPowerupCalc().powerUpExist(PowerUpType.HEAL)) {
 				if(debug)
 					System.out.println("\tfind health");
 				aiCon.setState(AiStates.FIND_HEALTH);
 			}
-			else if(calc.playerIsTooClose()) {
+			else if(calc.getPlayerCalc().playerIsTooClose()) {
 				if(debug)
 					System.out.println("\tplayer is too close");
 				aiCon.setState(AiStates.ESCAPE);
@@ -114,13 +118,13 @@ public class HillFSM extends FSM{
 	public void normalAiFetchAction() {
 		
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
 		float nearestPlayerHP = nearestPlayer.getHealth();
 		boolean debug = false;
 	
 		//case 1, go to hill
-		if(calc.playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3) &&
-				!( nearestPlayerHP - aiPlayerHP > 50 ) && !calc.someoneCloseIsCharging() &&
+		if(calc.getPlayerCalc().playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3) &&
+				!( nearestPlayerHP - aiPlayerHP > 50 ) && !calc.getPlayerCalc().someoneCloseIsCharging() &&
 				!(nearestPlayerHP < (maxHP/3) && aiPlayerHP > maxHP/3)) {
 			if(debug)
 				System.out.println("case 1");
@@ -131,7 +135,7 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 2, run from heavy attack
-		else if (calc.isCharging(nearestPlayer)) {
+		else if (calc.getPlayerCalc().isCharging(nearestPlayer)) {
 			if(debug)
 				System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
@@ -141,17 +145,17 @@ public class HillFSM extends FSM{
 		else if( (aiPlayerHP < (maxHP/3) &&  aiPlayerHP < nearestPlayerHP) || nearestPlayerHP - aiPlayerHP > 50) {
 			if(debug)
 				System.out.println("case 3");
-			if(calc.powerUpExist(PowerUpType.HEAL)) {
+			if(calc.getPowerupCalc().powerUpExist(PowerUpType.HEAL)) {
 				if(debug)
 					System.out.println("\tfind health");
 				aiCon.setState(AiStates.FIND_HEALTH);
 			}
-			else if(calc.playerIsTooClose() && (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer)) ) {
+			else if(calc.getPlayerCalc().playerIsTooClose() && (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer)) ) {
 				if(debug)
 					System.out.println("\twander");
 				aiCon.setState(AiStates.WANDER);
 			}
-			else if(calc.playerIsTooClose()) {
+			else if(calc.getPlayerCalc().playerIsTooClose()) {
 				if(debug)
 					System.out.println("\tplayer is too close");
 				aiCon.setState(AiStates.ESCAPE);
@@ -164,10 +168,10 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 4, take a power up
-		else if (calc.powerupIsTooClose()) {
+		else if (calc.getPowerupCalc().powerupIsTooClose()) {
 			if(debug)
 				System.out.println("case 4");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -184,7 +188,7 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 5, normal attacking
-		else if ( calc.playerIsTooClose() && aiPlayerHP > nearestPlayerHP && calc.closeToHill()) {
+		else if ( calc.getPlayerCalc().playerIsTooClose() && aiPlayerHP > nearestPlayerHP && calc.closeToHill()) {
 			if(debug)
 				System.out.println("case 5");
 			aiCon.setState(AiStates.ATTACK);
@@ -219,14 +223,14 @@ public class HillFSM extends FSM{
 	public void hardAiFetchAction() {
 		
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getNearestPlayer();
-		Player winningPlayer = calc.getWinningPlayer();
+		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
+		Player winningPlayer = calc.getPlayerCalc().getWinningPlayer();
 		float nearestPlayerHP = nearestPlayer.getHealth();
 		boolean debug = false;
 		
 		//case 1, go to hill
-		if(calc.playerIsTooClose() && calc.onHillEdge() && !( aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) &&
-				calc.someoneCloseIsCharging() && !(calc.scoreDifferenceIsMoreThan(3000) && calc.isNearestPlayer(winningPlayer)) ) {
+		if(calc.getPlayerCalc().playerIsTooClose() && calc.onHillEdge() && !( aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) &&
+				calc.getPlayerCalc().someoneCloseIsCharging() && !(calc.getPlayerCalc().scoreDifferenceIsMoreThan(3000) && calc.getPlayerCalc().isNearestPlayer(winningPlayer)) ) {
 			if(debug)
 				System.out.println("case 1");
 			if(calc.onHill(aiPlayer.getLocation()))
@@ -236,7 +240,7 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 2, run from heavy attack
-		else if (calc.someoneCloseIsCharging()) {
+		else if (calc.getPlayerCalc().someoneCloseIsCharging()) {
 			if(debug)
 				System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
@@ -246,17 +250,17 @@ public class HillFSM extends FSM{
 		else if( aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) {
 			if(debug)
 				System.out.println("case 3");
-			if(calc.powerUpExist(PowerUpType.HEAL)) {
+			if(calc.getPowerupCalc().powerUpExist(PowerUpType.HEAL)) {
 				if(debug)
 					System.out.println("\tfind health");
 				aiCon.setState(AiStates.FIND_HEALTH);
 			}
-			else if(calc.playerIsTooClose() && (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer)) ) {
+			else if(calc.getPlayerCalc().playerIsTooClose() && (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer)) ) {
 				if(debug)
 					System.out.println("\twander");
 				aiCon.setState(AiStates.WANDER);
 			}
-			else if(calc.playerIsTooClose()) {
+			else if(calc.getPlayerCalc().playerIsTooClose()) {
 				if(debug)
 					System.out.println("\tplayer is too close");
 				aiCon.setState(AiStates.ESCAPE);
@@ -269,10 +273,10 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 4, take a power up
-		else if (calc.powerupIsTooClose()) {
+		else if (calc.getPowerupCalc().powerupIsTooClose()) {
 			if(debug)
 				System.out.println("case 4");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -289,21 +293,21 @@ public class HillFSM extends FSM{
 		}
 		
 		//case 5, stay on hill
-		else if( !calc.onHill(aiPlayer.getLocation()) && !(aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) && !(calc.scoreDifferenceIsMoreThan(3000) && calc.isNearestPlayer(winningPlayer)) ) {
+		else if( !calc.onHill(aiPlayer.getLocation()) && !(aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) && !(calc.getPlayerCalc().scoreDifferenceIsMoreThan(3000) && calc.getPlayerCalc().isNearestPlayer(winningPlayer)) ) {
 			if(debug)
 				System.out.println("case 5");
 			aiCon.setState(AiStates.GO_TO_HILL);
 		}
 
 		//case 6, attack winning player
-		else if (calc.scoreDifferenceIsMoreThan(3000)) {
+		else if (calc.getPlayerCalc().scoreDifferenceIsMoreThan(3000)) {
 			if(debug)
 				System.out.println("case 6");
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}
 		
 		//case 7, normal attacking
-		else if ( calc.playerIsTooClose() && aiPlayerHP > nearestPlayerHP && calc.closeToHill()) {
+		else if ( calc.getPlayerCalc().playerIsTooClose() && aiPlayerHP > nearestPlayerHP && calc.closeToHill()) {
 			if(debug)
 				System.out.println("case 7");
 			aiCon.setState(AiStates.ATTACK);

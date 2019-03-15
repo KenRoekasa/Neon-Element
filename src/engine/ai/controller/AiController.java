@@ -11,6 +11,8 @@ import engine.ai.actions.AiRegicideStateActions;
 import engine.ai.actions.AiStateActions;
 import engine.ai.actions.AiTimedStateActions;
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.HillCalculations;
+import engine.ai.calculations.RegicideCalculations;
 import engine.ai.enums.AiStates;
 import engine.ai.enums.AiType;
 import engine.ai.fsm.FSMManager;
@@ -33,19 +35,19 @@ public class AiController {
 		Player player;
 		AiType aiType;
 		AiStateActions stateActions;
+		AiCalculations calc;
 		FSMManager fsmManager;
 		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType, ScoreBoard scoreboard, GameType gameType) {
 	    	
-			activeState = AiStates.IDLE;
+			this.activeState = AiStates.IDLE;
 	        this.objects = objects;
 	        this.player = player;
 	        this.aiPlayer = aiPlayer;
 	        this.aiType = aiType;
-	        
-	        AiCalculations calc = new AiCalculations(this, map, scoreboard, gameType);
+
+	        initializeCalculations(gameType, map, scoreboard, gameType);
 	        AiActions actions = new AiActions(this, calc, map);
-	        
-	        initializeProperStateActions(calc, actions, gameType);
+	        initializeStateActions(calc, actions, gameType);
 	        fsmManager = new FSMManager (aiPlayer, this, calc, gameType);
 	        
 	        //default random
@@ -82,7 +84,7 @@ public class AiController {
 			return aiType;
 		}
 		
-		private void initializeProperStateActions(AiCalculations calc, AiActions actions, GameType gt) {
+		private void initializeStateActions(AiCalculations calc, AiActions actions, GameType gt) {
 			switch(gt.getType()) {
 			case FirstToXKills:
 				stateActions = new AiKillsStateActions(this, calc, actions);
@@ -95,6 +97,26 @@ public class AiController {
 				break;
 			case Timed:
 				stateActions = new AiTimedStateActions(this, calc, actions);
+				break;
+			default:
+				break;
+			
+			}
+		}
+		
+		private void initializeCalculations(GameType gt, Rectangle map, ScoreBoard scoreboard, GameType gameType) {
+			switch(gt.getType()) {
+			case FirstToXKills:
+				calc = new AiCalculations(this, map, scoreboard, gameType);
+				break;
+			case Hill:
+				calc = new HillCalculations(this, map, scoreboard, gameType);
+				break;
+			case Regicide:
+				calc =  new RegicideCalculations(this, map, scoreboard, gameType);
+				break;
+			case Timed:
+				calc = new AiCalculations(this, map, scoreboard, gameType);
 				break;
 			default:
 				break;

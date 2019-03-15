@@ -1,16 +1,16 @@
 package engine.ai.actions;
 
-import java.util.Random;
-
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.HillCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiType;
 import engine.entities.Player;
 
 public class AiHillStateActions extends AiStateActions {
-	
+	HillCalculations calc;
 	public AiHillStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
 		super(aiCon, calc, actions);
+		this.calc = (HillCalculations)calc;
 	}
 	
 	@Override
@@ -46,9 +46,6 @@ public class AiHillStateActions extends AiStateActions {
 		case WANDER_ON_HILL:
 			wanderOnHill();
 			break;
-//		case ESCAPE_ON_HILL:
-//			escapeOnHill();
-//			break;
 		case ATTACK_WINNER:
 			attackWinner();
 			break;
@@ -68,7 +65,7 @@ public class AiHillStateActions extends AiStateActions {
 		if(aiCon.getAiType().equals(AiType.HARD))
 			player = calc.getOnHillPlayer();
 		else
-			player = calc.getNearestPlayer();
+			player = calc.getPlayerCalc().getNearestPlayer();
 		
 		actions.moveTo(player);
 
@@ -80,14 +77,14 @@ public class AiHillStateActions extends AiStateActions {
 		aiPlayer.unShield();
 		Player player;
 
-		player = calc.getNearestPlayer();
+		player = calc.getPlayerCalc().getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
 		if(aiCon.getAiType().equals(AiType.HARD))
 			actions.moveToAndKeepDistance(player);
 		else
 			actions.moveTo(player);
 		
-		if (calc.inAttackDistance(player) && player.getHealth()>0 && !calc.isCharging(aiPlayer)) {
+		if (calc.getPlayerCalc().inAttackDistance(player) && player.getHealth()>0 && !calc.getPlayerCalc().isCharging(aiPlayer)) {
 			aiPlayer.lightAttack();
 		}
 	}
@@ -110,13 +107,12 @@ public class AiHillStateActions extends AiStateActions {
 
 	private void goToHill() {
 		actions.shieldWhenAlone();
-		Player player = calc.getNearestPlayer();
+		Player player = calc.getPlayerCalc().getNearestPlayer();
 		actions.attackIfInDistanceWithShield(player);
 		if( !calc.onHill(aiPlayer.getLocation()))
 			actions.simpleMovement(aiPlayer.getLocation(), calc.getHillCentreLocation());
 		else 
 			idle();
 	}
-
-
+	
 }

@@ -1,13 +1,17 @@
 package engine.ai.actions;
 
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.RegicideCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
 
 public class AiRegicideStateActions extends AiStateActions {
 
+	RegicideCalculations calc;
+	
 	public AiRegicideStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
 		super(aiCon, calc, actions);
+		this.calc = (RegicideCalculations) calc;
 	}
 
 	@Override
