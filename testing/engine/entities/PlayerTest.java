@@ -152,20 +152,20 @@ public class PlayerTest {
     @Test
     public void speedBoost() {
         player.speedBoost();
-        assertEquals(player.DEFAULT_MOVEMENT_SPEED*2,player.movementSpeed,0);
+        assertEquals(player.DEFAULT_MOVEMENT_SPEED * 2, player.movementSpeed, 0);
     }
 
     @Test
     public void damageBoostCauseDamagePowerToBeActivated() {
         player.damageBoost();
         assertTrue(player.damagePowerup);
-
     }
+
     @Test
     public void damageBoostSetsDamageMultiplierToTwo() {
         player.damageBoost();
-        assertEquals(2,player.damageMultiplier,0);
+        assertEquals(2, player.damageMultiplier, 0);
 
     }
-    
+
 }
