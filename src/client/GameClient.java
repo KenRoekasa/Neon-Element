@@ -8,7 +8,10 @@ import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.GameOverController;
 import graphics.userInterface.controllers.HUDController;
 import graphics.userInterface.controllers.PauseController;
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -22,6 +25,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import server.controllers.PowerUpController;
 
 import java.io.IOException;
@@ -184,15 +188,12 @@ public class GameClient {
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
             primaryStage.setTitle("Game Over!");
             gameState.stop();
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            controller.jumpToLeaderboard();
-                        }
-                    },
-                    3000
-            );
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ev -> {
+                controller.jumpToLeaderboard();
+            }));
+            timeline.setCycleCount(1);
+            timeline.play();
 
         } catch (IOException e) {
             System.out.println("crush in loading menu board ");

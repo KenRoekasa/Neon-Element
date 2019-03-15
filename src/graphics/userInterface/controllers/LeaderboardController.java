@@ -4,10 +4,7 @@ import engine.ScoreBoard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 
 public class LeaderboardController extends UIController {
@@ -59,8 +56,8 @@ public class LeaderboardController extends UIController {
             showInfo(player3,player3_id,player3_deaths,player3_kills,player3_score);
             rank_4.setVisible(false);
         }else if (num_players==4){
-            player4 = leaderBoard.get(3);
             player3 = leaderBoard.get(2);
+            player4 = leaderBoard.get(3);
             showInfo(player3,player3_id,player3_deaths,player3_kills,player3_score);
             showInfo(player4,player4_id,player4_deaths,player4_kills,player4_score);
         }
@@ -73,8 +70,20 @@ public class LeaderboardController extends UIController {
         score.setText(scoreBoard.getPlayerScore(id).toString());
     }
     @FXML
-    public void handleQuitBtn(){}
+    public void handleQuitBtn(){
+        String fxmlPath = "../fxmls/menu.fxml";
+        String stageTitle = "Mode";
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+    }
 
+    @FXML
+    public void handlePlayAgainBtn(){
+        String fxmlPath = "../fxmls/mode.fxml";
+        String stageTitle = "Mode";
+        String fileException ="Mode";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+    }
 
 
 }
