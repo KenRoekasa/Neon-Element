@@ -33,7 +33,7 @@ public class JoinController extends UIController {
     public void handleOkBtn(){
         // create game rules
         // todo make this configurable
-            gameState = GameStateGenerator.createDemoGamestate();
+            gameState = GameStateGenerator.createEmptyState();
         //g.getPlayer().getHealth();
         try {
             String addr = ip.getText();
