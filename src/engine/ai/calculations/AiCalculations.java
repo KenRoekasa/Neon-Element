@@ -31,6 +31,7 @@ public class AiCalculations {
 	private GameType gameType;
 	private ScoreBoard scoreboard;
 	private float startTime;
+	private float wanderingTime;
 	private double circleX;
 	private double circleY;
 	private Point2D circleCentre;
@@ -46,7 +47,7 @@ public class AiCalculations {
 		aiPlayer = aiCon.getAiPlayer();
 		powerups = new ArrayList<>();
 		startTime = System.nanoTime()/1000000000;
-		
+		wanderingTime = 0;
 		setCircleCoordination();
 	}
 	
@@ -62,6 +63,17 @@ public class AiCalculations {
 	
 	public Point2D getHillCentreLocation() {
 		return circleCentre; 
+	}
+	
+	public boolean hasBeenWanderingFor(int time) {
+		if (wanderingTime == 0)
+			wanderingTime = System.nanoTime()/1000000000;
+		float endTime = System.nanoTime()/1000000000;
+		if(endTime-wanderingTime>=time) {
+			wanderingTime = endTime;
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean onHill(Point2D loc) {

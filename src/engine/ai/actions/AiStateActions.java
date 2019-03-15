@@ -149,7 +149,7 @@ public abstract class AiStateActions {
 	protected void updateWandering() {
 		if(isWandering() && !aiCon.getActiveState().equals(AiStates.WANDER))
 			setWandering(false);
-		else if(!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) {
+		else if( (!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) || calc.hasBeenWanderingFor(5) ) {
 			setWandering(true);
 			Random r = new Random();
 			actions.wanderingDirection = r.nextInt(8);
