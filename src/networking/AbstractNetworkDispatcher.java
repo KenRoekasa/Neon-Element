@@ -40,6 +40,7 @@ public abstract class AbstractNetworkDispatcher {
             }
 
             try {
+            	
                 this.socket.send(datagram);
             } catch (IOException e) {
                 e.printStackTrace();

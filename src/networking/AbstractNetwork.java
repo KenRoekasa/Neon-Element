@@ -13,7 +13,16 @@ public abstract class AbstractNetwork extends Thread {
 
     protected AbstractNetwork() {
         try {
-            this.socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
+            this.socket = new DatagramSocket();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    protected AbstractNetwork(int port) {
+        try {
+            this.socket = new DatagramSocket(port);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
