@@ -64,7 +64,7 @@ public class GameStateGenerator {
     //receive the number of enemy from controller to initialise engine.ai enm
 
     /**
-     * Generates a game state for testin
+     * Generates a game state for testing
      *
      * @param num_enm the number ais
      * @param aiTypes A list of ais diffculty
