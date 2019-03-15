@@ -1,6 +1,5 @@
 package engine.physics;
 
-import client.GameClient;
 import engine.controller.GameTypeHandler;
 import engine.model.GameState;
 import engine.model.ScoreBoard;
@@ -15,6 +14,8 @@ import engine.model.gametypes.HillGame;
 import engine.model.gametypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
+import server.GameServer;
+import server.ServerGameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +53,6 @@ public class PhysicsController {
         }
     }
 
-
     /**
      * Run the update method for all objects
      */
@@ -87,7 +87,7 @@ public class PhysicsController {
         if (playersInside.size() == 1) {
             Player onlyPlayer = playersInside.get(0);
             int onlyPlayerId = onlyPlayer.getId();
-            scoreBoard.addScore(onlyPlayerId, (int) (1 * GameClient.deltaTime));
+            scoreBoard.addScore(onlyPlayerId, (int) (1 * DeltaTime.deltaTime));
         }
     }
 
@@ -162,7 +162,7 @@ public class PhysicsController {
                         }
                     } else {
 
-                        float movementSpeed = player.getMovementSpeed() * GameClient.deltaTime;
+                        float movementSpeed = player.getMovementSpeed() * DeltaTime.deltaTime;
 
                         Point2D checkUp = player.getLocation().add(-movementSpeed, -movementSpeed);
 

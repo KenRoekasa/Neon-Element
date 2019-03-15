@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import engine.controller.GameTypeHandler;
 import engine.physics.CollisionDetector;
+import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
@@ -47,6 +48,7 @@ public class GameServer extends Thread {
         powerUpController.start();
 
         this.running = true;
+        long lastTime = System.nanoTime();
         while (this.running) {
             // Server logic
             physicsController.clientLoop();
@@ -55,6 +57,11 @@ public class GameServer extends Thread {
 
             Thread.yield();
             this.sendLocations();
+
+            //calculate deltaTime
+            long time = System.nanoTime();
+            DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
+            lastTime = time;
 
             try {
                 Thread.sleep(25); // Every second
