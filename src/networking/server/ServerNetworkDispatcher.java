@@ -5,8 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.Elements;
+import engine.model.enums.*;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.AbstractNetworkDispatcher;

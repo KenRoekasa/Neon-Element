@@ -1,8 +1,7 @@
-import engine.entities.CollisionDetection;
-import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.ObjectType;
-import engine.enums.PowerUpType;
+package engine.entities;
+import engine.physics.CollisionDetector;
+import engine.model.enums.ObjectType;
+import engine.model.enums.PowerUpType;
 import javafx.geometry.Point2D;
 import org.junit.Test;
 
@@ -15,10 +14,10 @@ public class PowerUpTest {
         player.setLocation(new Point2D(250, 250));
         PowerUp powerUp = new PowerUp();
         powerUp.setLocation(new Point2D(250, 250));
-        if (CollisionDetection.checkCollision(player, powerUp)) {
+        if (CollisionDetector.checkCollision(player, powerUp)) {
             powerUp.activatePowerUp(player);
             if (powerUp.getType() == PowerUpType.SPEED) {
-                assertEquals(8, player.getMovementSpeed());
+                assertEquals(8, player.getMovementSpeed(),0);
 
             }
         }

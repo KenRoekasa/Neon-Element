@@ -1,13 +1,13 @@
 package server;
 
-import engine.GameState;
-import engine.ScoreBoard;
+import engine.model.GameState;
+import engine.model.Map;
+import engine.model.ScoreBoard;
+import engine.ai.controller.AiControllersManager;
 import engine.entities.*;
-import engine.gameTypes.GameType;
-import javafx.scene.shape.Rectangle;
+import engine.model.GameType;
 
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerGameState extends GameState {
 
@@ -15,8 +15,8 @@ public class ServerGameState extends GameState {
 
     private boolean isStarted;
 
-    public ServerGameState(Rectangle map, LinkedBlockingQueue<Player> deadPlayers, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard,GameType gameType){
-        super(map,objects,deadPlayers,scoreBoard, gameType);
+    public ServerGameState(Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard, GameType gameType, AiControllersManager aiConMan){
+        super(map,objects, scoreBoard, gameType,aiConMan);
         this.startTime = System.currentTimeMillis();
     }
 

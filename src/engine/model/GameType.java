@@ -1,11 +1,23 @@
-package engine.gameTypes;
+package engine.model;
 
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
+/**
+ * A general game type
+ */
 public abstract class GameType {
 
     private Type type;
+
+    /**
+     * Constructor
+     *
+     * @param type the type of gametype object
+     */
+    public GameType(Type type) {
+        this.type = type;
+    }
 
     public static enum Type implements LookupableById {
         FirstToXKills(1), Timed(2), Hill(3), Regicide(4);
@@ -23,10 +35,6 @@ public abstract class GameType {
         public static Type getById(byte id) throws InvalidEnumId {
             return LookupableById.lookup(Type.class, id);
         }
-    }
-
-    GameType(Type type) {
-        this.type = type;
     }
 
     public Type getType() {

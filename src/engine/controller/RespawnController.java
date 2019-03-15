@@ -1,17 +1,29 @@
 package engine.controller;
 
-import engine.GameState;
+import engine.model.GameState;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
 import javafx.geometry.Point2D;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Controls how the players in the game respawns
+ */
 public class RespawnController implements Runnable {
-    GameState gameState;
-    LinkedBlockingQueue<Player> deadPlayers;
+    private GameState gameState;
+    /**
+     * A queue of the dead players in the current game
+     */
+    private LinkedBlockingQueue<Player> deadPlayers;
 
+    /**
+     * Constructor
+     *
+     * @param gameState the game state of the current game
+     */
     public RespawnController(GameState gameState) {
         this.gameState = gameState;
         this.deadPlayers = gameState.getDeadPlayers();
@@ -33,7 +45,11 @@ public class RespawnController implements Runnable {
 
     }
 
-    //Respawn every few seconds
+    /**
+     * Causes dead players to respawn after a certain amount of time
+     *
+     * @param respawnTime the duration a character is dead for before respawning
+     */
     private void normalRespawn(long respawnTime) {
         //Remove the dead player from the list
         try {
@@ -41,10 +57,10 @@ public class RespawnController implements Runnable {
                 Player player = deadPlayers.peek();
                 Thread.sleep(respawnTime);
                 //Adding health to player to resurrect them
-
-                int x = (int) (Math.random() * 2000);
-                int y = (int) (Math.random() * 2000);
-                player.setLocation(new Point2D(x, y));
+                Random rand = new Random();
+                ArrayList<Point2D> respawnPoints = gameState.getMap().getRespawnPoints();
+                int index = rand.nextInt(3);
+                player.setLocation(respawnPoints.get(index));
                 player.respawn();
                 // SO you don't respawn twice
                 deadPlayers.take();

@@ -3,25 +3,28 @@ package server;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import engine.GameTypeHandler;
-import engine.Physics;
-import engine.entities.CollisionDetection;
+import engine.controller.GameTypeHandler;
+import engine.physics.CollisionDetector;
+import engine.physics.PhysicsController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import networking.server.ConnectedPlayers;
 import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
 import server.controllers.PowerUpController;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class GameServer extends Thread {
 
     private ServerGameState gameState;
     private ServerNetwork network;
-    private Physics physicsEngine;
+    private PhysicsController physicsController;
 
     private boolean running;
 
@@ -30,7 +33,7 @@ public class GameServer extends Thread {
     public GameServer(ServerGameState gameState) {
         this.gameState = gameState;
         this.network = new ServerNetwork(this.gameState);
-        this.physicsEngine = new Physics(gameState);
+        this.physicsController = new PhysicsController(gameState);
     }
 
     public void run() {
@@ -46,7 +49,7 @@ public class GameServer extends Thread {
         this.running = true;
         while (this.running) {
             // Server logic
-            physicsEngine.clientLoop();
+            physicsController.clientLoop();
 
             this.running = GameTypeHandler.checkRunning(gameState);
 
@@ -94,7 +97,7 @@ public class GameServer extends Thread {
                     // Check if the moving in a certain direction will cause a collision
                     // The player has collided with e do something
                     if (e.getTag() == ObjectType.POWERUP) {
-                        if (CollisionDetection.checkCollision(player, e)) {
+                        if (CollisionDetector.checkCollision(player, e)) {
                             PowerUp powerUp = (PowerUp) e;
                             powerUp.activatePowerUp(player);
                             // remove power up from objects array list
@@ -120,45 +123,45 @@ public class GameServer extends Thread {
                         switch (player.getCharacterDirection()) {
                             case UP:
                                 projectedPlayer.setLocation(checkUp);
-                                if (CollisionDetection.checkCollision(projectedPlayer, e)) {
+                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                                 }
 
                                 break;
                             case DOWN:
                                 projectedPlayer.setLocation(checkDown);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
                                 }
                                 break;
                             case LEFT:
                                 projectedPlayer.setLocation(checkLeft);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
 
                                 }
 
                                 break;
                             case UPCART:
                                 projectedPlayer.setLocation(checkUpCart);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
                                 }
                                 break;
                             case DOWNCART:
                                 projectedPlayer.setLocation(checkDownCart);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
                                 }
                                 break;
                             case LEFTCART:
                                 projectedPlayer.setLocation(checkLeftCart);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
                                 }
                                 break;
                             case RIGHTCART:
                                 projectedPlayer.setLocation(checkRightCart);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
                                 }
                                 break;
                             case RIGHT:
                                 projectedPlayer.setLocation(checkRight);
-                                if ((CollisionDetection.checkCollision(projectedPlayer, e))) {
+                                if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
                                 }
                                 break;
                         }
@@ -174,7 +177,7 @@ public class GameServer extends Thread {
                         //Attack Collision
                         //if player is light attacking
                         if (player.getCurrentAction() == Action.LIGHT) {
-                            if (CollisionDetection.checkCollision(player.getAttackHitbox(), e.getBounds())) {
+                            if (CollisionDetector.checkCollision(player.getAttackHitbox(), e.getBounds())) {
                                 // e takes damage
                                 // this will have to change due to Player being other controlled player when Enemy is when the player is an engine.ai
                                 Player enemy = (Player) e;
@@ -187,7 +190,7 @@ public class GameServer extends Thread {
 
                         }
                         if (player.getCurrentAction() == Action.HEAVY) {
-                            if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(), e.getBounds())) {
+                            if (CollisionDetector.checkCollision(player.getHeavyAttackHitbox(), e.getBounds())) {
 
                                 // e takes damage
                                 Player enemy = (Player) e;

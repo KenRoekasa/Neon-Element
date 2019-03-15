@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import client.ClientGameState;
-import client.GameStateGenerator;
+import engine.model.generator.GameStateGenerator;
 import networking.Constants;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;

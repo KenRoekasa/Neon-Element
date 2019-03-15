@@ -2,13 +2,12 @@ package graphics.userInterface.controllers;
 
 import client.GameClient;
 import client.ClientGameState;
-import client.GameStateGenerator;
+import engine.model.generator.GameStateGenerator;
 
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 

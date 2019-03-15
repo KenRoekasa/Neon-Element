@@ -1,45 +1,76 @@
-package engine;
+package engine.model;
 
+import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The current state of the game including the entities/objects/maps in the game
+ */
 public abstract class GameState {
-    protected Rectangle map;
-
-
-    protected boolean isRunning;
-
     /**
-     * All Physics objects
+     * The map of this current game
+     */
+    protected Map map;
+    /**
+     * All PhysicsController objects
      */
     protected ArrayList<PhysicsObject> objects;
+    /**
+     * The game mode of this match
+     */
     protected GameType gameType;
+    /**
+     * The time when the game starts
+     */
     protected long startTime;
+    /**
+     * A list of all players in the game
+     */
+    protected ArrayList<Player> allPlayers = new ArrayList<>();
+    /**
+     * Is the game on going or has it ended
+     */
+    private boolean isRunning;
     /**
      * The ScoreBoard
      */
-    protected ScoreBoard scoreBoard;
-    protected LinkedBlockingQueue deadPlayers;
-    protected ArrayList<Player> allPlayers = new ArrayList<>();
+    private ScoreBoard scoreBoard;
+    /**
+     * A queue of players that are dead
+     */
+    private LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
+    /**
+     * The Ai controller manager in this game
+     */
+    private AiControllersManager aiConMan;
 
-    public GameState(Rectangle map, ArrayList<PhysicsObject> objects, LinkedBlockingQueue deadPlayers, ScoreBoard scoreboard, GameType gameType){
+    /**
+     * Constructor
+     *
+     * @param map        the map
+     * @param objects    all the physics object in the game
+     * @param scoreboard the scoreboard
+     * @param gameType   the game mode
+     * @param aiConMan   the ai controller manager
+     **/
+    public GameState(Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
         this.objects = objects;
         this.gameType = gameType;
-        for(PhysicsObject o: objects){
-            if(Objects.equals(o.getClass(), Player.class)){
+        this.aiConMan = aiConMan;
+        for (PhysicsObject o : objects) {
+            if (Objects.equals(o.getClass(), Player.class)) {
                 allPlayers.add((Player) o);
 
             }
         }
-//        System.out.println(allPlayers);
+        //        System.out.println(allPlayers);
         this.map = map;
-        this.deadPlayers = deadPlayers;
+
         this.scoreBoard = scoreboard;
     }
 
@@ -59,11 +90,11 @@ public abstract class GameState {
         return deadPlayers;
     }
 
-    public Rectangle getMap() {
+    public Map getMap() {
         return map;
     }
 
-    public void setMap(Rectangle map) {
+    public void setMap(Map map) {
         this.map = map;
     }
 
@@ -92,7 +123,7 @@ public abstract class GameState {
      * @param player the player you want to excluded from the array list of players
      * @return an array list of other players other than chosen player
      */
-    public ArrayList<Player> getOtherPlayers(Player player){
+    public ArrayList<Player> getOtherPlayers(Player player) {
         ArrayList<Player> otherPlayers = new ArrayList<>(allPlayers);
         otherPlayers.remove(player);
         return otherPlayers;
@@ -104,22 +135,31 @@ public abstract class GameState {
      * @return an array list of other physics objects other than chosen object
      */
     public ArrayList<PhysicsObject> getOtherObjects(PhysicsObject object) {
-        ArrayList<PhysicsObject> otherObjects = new ArrayList<>();
-        otherObjects.addAll(objects);
+        ArrayList<PhysicsObject> otherObjects = new ArrayList<>(objects);
         otherObjects.remove(object);
         return otherObjects;
     }
 
+    /**
+     * Start the game
+     */
     public void start() {
         startTime = System.currentTimeMillis();
         isRunning = true;
     }
 
-    public void stop(){
+    /**
+     * End the game
+     */
+    public void stop() {
         isRunning = false;
     }
 
-    public boolean getRunning(){
-        return isRunning ;
+    public boolean getRunning() {
+        return isRunning;
+    }
+
+    public AiControllersManager getAiConMan() {
+        return aiConMan;
     }
 }

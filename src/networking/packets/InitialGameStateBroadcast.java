@@ -3,6 +3,7 @@ package networking.packets;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import engine.model.Map;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import networking.client.ClientNetworkHandler;
@@ -20,7 +21,7 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
     //
     // Maximum size = 20 + 4*20 = 100 bytes
 
-	public Rectangle map;
+	public Map map;
 	public ArrayList<Integer> ids;
 	public ArrayList<Point2D> locations;
 
@@ -38,7 +39,7 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 		}
 	}
 
-	public InitialGameStateBroadcast(Rectangle map, ArrayList<Integer> ids, ArrayList<Point2D> locations) {
+	public InitialGameStateBroadcast(Map map, ArrayList<Integer> ids, ArrayList<Point2D> locations) {
 		super();
 		this.map = map;
 		this.ids = ids;
@@ -81,7 +82,7 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 		return locations;
 	}
 
-	public Rectangle getMap() {
+	public Map getMap() {
 		return map;
 	}
 

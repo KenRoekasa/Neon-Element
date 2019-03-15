@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import engine.enums.PowerUpType;
+import engine.model.enums.PowerUpType;
 import networking.client.ClientNetworkHandler;
 
 public class PowerUpBroadcast extends Packet.PacketToClient {

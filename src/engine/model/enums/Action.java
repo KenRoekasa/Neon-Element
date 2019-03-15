@@ -1,8 +1,11 @@
-package engine.enums;
+package engine.model.enums;
 
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
+/**
+ * The different types of action that a player can do
+ */
 public enum Action implements LookupableById {
     IDLE(0), LIGHT(1), HEAVY(2), BLOCK(3), CHARGE(4);
 

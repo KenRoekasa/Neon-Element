@@ -1,6 +1,6 @@
 package server.controllers;
 
-import engine.GameState;
+import engine.model.GameState;
 import engine.entities.PhysicsObject;
 import engine.entities.PowerUp;
 import networking.server.ServerNetworkDispatcher;

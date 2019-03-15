@@ -1,6 +1,6 @@
 package client.audiomanager;
 
-import engine.enums.Action;
+import engine.model.enums.Action;
 
 public enum Sound {
     LIGHT_ATTACK("audio/light_attack.mp3"),

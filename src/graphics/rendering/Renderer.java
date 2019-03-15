@@ -1,15 +1,15 @@
 package graphics.rendering;
 
-import engine.calculations.AttackTimes;
+import engine.model.AttackTimes;
 import client.ClientGameState;
-import engine.gameTypes.HillGame;
+import engine.model.gametypes.HillGame;
 import graphics.debugger.Debugger;
 import engine.entities.Character;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -79,7 +79,7 @@ public class Renderer {
             ISOConverter.applyRotationTransform(gc, rotationCenter);
 
             // draw map to screen
-            DrawObjects.drawMap(gc, stageSize, gameState.getMap(), gameState.getPlayer(), textures);
+            DrawObjects.drawMap(gc, stageSize, gameState.getMap().getGround(), gameState.getPlayer(), textures);
 
             if(Objects.equals(gameState.getGameType() .getClass(), HillGame.class)) {
                 DrawObjects.drawHill(gc, stageSize, gameState.getPlayer(), ((HillGame) gameState.getGameType()).getHill());
@@ -135,14 +135,14 @@ public class Renderer {
         if(gameState.getPlayer().getLocation().getX() <= maxAllowedDistance ) {
             xOffset = -(maxAllowedDistance - (float) gameState.getPlayer().getLocation().getX());
 
-        } else if(gameState.getMap().getWidth() - maxAllowedDistance <= gameState.getPlayer().getLocation().getX()) {
-            xOffset = -(float) (gameState.getMap().getWidth() - gameState.getPlayer().getLocation().getX() - maxAllowedDistance);
+        } else if(gameState.getMap().getGround().getWidth() - maxAllowedDistance <= gameState.getPlayer().getLocation().getX()) {
+            xOffset = -(float) (gameState.getMap().getGround().getWidth() - gameState.getPlayer().getLocation().getX() - maxAllowedDistance);
         }
 
         if(gameState.getPlayer().getLocation().getY() <= maxAllowedDistance ) {
             yOffset = -(maxAllowedDistance - (float) gameState.getPlayer().getLocation().getY());
-        } else if(gameState.getMap().getHeight() - maxAllowedDistance <= gameState.getPlayer().getLocation().getY()) {
-            yOffset = -(float) (gameState.getMap().getHeight() - gameState.getPlayer().getLocation().getY() - maxAllowedDistance);
+        } else if(gameState.getMap().getGround().getHeight() - maxAllowedDistance <= gameState.getPlayer().getLocation().getY()) {
+            yOffset = -(float) (gameState.getMap().getGround().getHeight() - gameState.getPlayer().getLocation().getY() - maxAllowedDistance);
         }
 
 

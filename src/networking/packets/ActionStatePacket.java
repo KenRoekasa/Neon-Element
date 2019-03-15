@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import engine.enums.Action;
+import engine.model.enums.Action;
 import networking.server.ServerNetworkHandler;
 
 public class ActionStatePacket extends Packet.PacketToServer {

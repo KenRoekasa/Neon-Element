@@ -1,22 +1,22 @@
-import engine.entities.CollisionDetection;
-import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.ObjectType;
+package engine.entities;
+
+import engine.model.enums.ObjectType;
+import engine.physics.CollisionDetector;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-public class CollisionDectectionTest {
+public class CollisionDetectorTest {
     @Test
     public void playerCollidingWithEnemy() {
         Player player1 = new Player(ObjectType.PLAYER);
         player1.setLocation(new Point2D(100, 100));
         Player player2 = new Player(ObjectType.PLAYER);
         player2.setLocation(new Point2D(100, 100));
-        assertTrue(CollisionDetection.checkCollision(player1, player2));
+        assertTrue(CollisionDetector.checkCollision(player1, player2));
     }
 
     @Test
@@ -25,7 +25,7 @@ public class CollisionDectectionTest {
         player.setLocation(new Point2D(250, 250));
         PowerUp powerUp = new PowerUp();
         powerUp.setLocation(new Point2D(250, 250));
-        assertTrue(CollisionDetection.checkCollision(player, powerUp));
+        assertTrue(CollisionDetector.checkCollision(player, powerUp));
     }
 
     @Test
@@ -38,15 +38,14 @@ public class CollisionDectectionTest {
         // Rotation with axis on centre of Player
         Rotate rotate = new Rotate(player.getPlayerAngle().getAngle(), player.getLocation().getX(), player.getLocation().getY());
         attackHitbox.getTransforms().addAll(rotate);
-        assertTrue(CollisionDetection.checkCollision(attackHitbox, enemy.getBounds()));
+        assertTrue(CollisionDetector.checkCollision(attackHitbox, enemy.getBounds()));
         player.setPlayerAngle(new Rotate(45));
         enemy.setLocation(new Point2D(270, 230));
         attackHitbox.setX(player.getLocation().getX());
         attackHitbox.setY(player.getLocation().getY()-player.getWidth());
         rotate = new Rotate(player.getPlayerAngle().getAngle(), player.getLocation().getX()+(player.getWidth()/2), player.getLocation().getY()+(player.getWidth()/2));
         attackHitbox.getTransforms().add(rotate);
-        assertTrue(CollisionDetection.checkCollision(attackHitbox, enemy.getBounds()));
+        assertTrue(CollisionDetector.checkCollision(attackHitbox, enemy.getBounds()));
     }
-
 
 }

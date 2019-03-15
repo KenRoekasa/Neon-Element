@@ -4,8 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import client.ClientGameState;
-import engine.enums.Action;
-import engine.enums.Elements;
+import engine.model.enums.*;
 import networking.packets.*;
 import networking.Constants;
 import networking.AbstractNetworkDispatcher;

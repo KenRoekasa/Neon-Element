@@ -2,7 +2,8 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import engine.gameTypes.*;
+import engine.model.GameType;
+import engine.model.gametypes.*;
 import networking.client.ClientNetworkHandler;
 
 public class HelloAckPacket extends Packet.PacketToClient {

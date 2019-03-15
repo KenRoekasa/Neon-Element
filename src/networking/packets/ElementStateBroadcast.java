@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import engine.enums.Elements;
+import engine.model.enums.Elements;
 import networking.client.ClientNetworkHandler;
 
 public class ElementStateBroadcast extends Packet.PacketToClient {

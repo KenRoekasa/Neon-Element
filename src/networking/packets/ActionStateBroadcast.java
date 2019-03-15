@@ -1,6 +1,6 @@
 package networking.packets;
 
-import engine.enums.Action;
+import engine.model.enums.Action;
 import networking.client.ClientNetworkHandler;
 
 import java.nio.ByteBuffer;

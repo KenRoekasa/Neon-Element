@@ -5,7 +5,7 @@ import java.util.Random;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
-import engine.enums.ObjectType;
+import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;

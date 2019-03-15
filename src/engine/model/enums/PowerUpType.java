@@ -1,8 +1,11 @@
-package engine.enums;
+package engine.model.enums;
 
 import utils.InvalidEnumId;
 import utils.LookupableById;
 
+/**
+ * The type that a powerup can be
+ */
 public enum PowerUpType implements LookupableById {
     HEAL(1), SPEED(2), DAMAGE(3);
 
