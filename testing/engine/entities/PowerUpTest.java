@@ -1,9 +1,7 @@
 package engine.entities;
-import engine.entities.CollisionDetector;
-import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.ObjectType;
-import engine.enums.PowerUpType;
+import engine.physics.CollisionDetector;
+import engine.model.enums.ObjectType;
+import engine.model.enums.PowerUpType;
 import javafx.geometry.Point2D;
 import org.junit.Test;
 

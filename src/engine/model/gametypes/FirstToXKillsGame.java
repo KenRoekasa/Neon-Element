@@ -1,9 +1,11 @@
-package engine.gameTypes;
+package engine.model.gametypes;
+
+import engine.model.GameType;
 
 /**
  * A game mode; win condition: get X number of kills
  */
-public class FirstToXKillsGame extends GameType{
+public class FirstToXKillsGame extends GameType {
     private int killsNeeded;
 
     /**

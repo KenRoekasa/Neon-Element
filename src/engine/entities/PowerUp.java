@@ -1,8 +1,8 @@
 package engine.entities;
 
 
-import engine.enums.ObjectType;
-import engine.enums.PowerUpType;
+import engine.model.enums.ObjectType;
+import engine.model.enums.PowerUpType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;

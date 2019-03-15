@@ -1,8 +1,8 @@
 package engine.entities;
 
-import engine.enums.Action;
-import engine.enums.Elements;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.Elements;
+import engine.model.enums.ObjectType;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,14 +1,15 @@
-package client;
+package engine.model.generator;
 
-import engine.Map;
-import engine.MapGenerator;
-import engine.ScoreBoard;
+import client.ClientGameState;
 import engine.ai.controller.AiControllersManager;
 import engine.ai.enums.AiType;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.enums.ObjectType;
-import engine.gameTypes.*;
+import engine.model.GameType;
+import engine.model.gametypes.*;
+import engine.model.Map;
+import engine.model.ScoreBoard;
+import engine.model.enums.ObjectType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 

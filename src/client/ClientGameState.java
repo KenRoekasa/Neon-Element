@@ -1,12 +1,12 @@
 package client;
 
-import engine.GameState;
-import engine.Map;
-import engine.ScoreBoard;
+import engine.model.GameState;
+import engine.model.Map;
+import engine.model.ScoreBoard;
 import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,11 @@
-package engine;
+package engine.controller;
 
-import engine.gameTypes.*;
+import engine.model.GameState;
+import engine.model.GameType;
+import engine.model.gametypes.FirstToXKillsGame;
+import engine.model.gametypes.HillGame;
+import engine.model.gametypes.Regicide;
+import engine.model.gametypes.TimedGame;
 
 import java.util.ArrayList;
 
@@ -18,14 +23,14 @@ public class GameTypeHandler {
      */
     public static boolean checkRunning(GameState currentGame) {
 
-        GameType gameType = currentGame.gameType;
+        GameType gameType = currentGame.getGameType();
 
 
         if (gameType.getType().equals(GameType.Type.Timed)) {
             // check whether game time is less
             TimedGame t = (TimedGame) gameType;
             long duration = t.getDuration();
-            return currentGame.startTime + duration > System.currentTimeMillis();
+            return currentGame.getStartTime() + duration > System.currentTimeMillis();
         } else if (gameType.getType().equals(GameType.Type.FirstToXKills)) {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();

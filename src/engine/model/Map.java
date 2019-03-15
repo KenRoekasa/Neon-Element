@@ -1,4 +1,4 @@
-package engine;
+package engine.model;
 import engine.entities.Wall;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;

@@ -1,4 +1,4 @@
-package engine.gameTypes;
+package engine.model;
 
 /**
  * A general game type
@@ -12,7 +12,7 @@ public abstract class GameType {
      *
      * @param type the type of gametype object
      */
-    GameType(Type type) {
+    public GameType(Type type) {
         this.type = type;
     }
 

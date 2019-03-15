@@ -1,9 +1,9 @@
 package engine.entities;
 
 import client.GameClient;
-import engine.enums.Directions;
-import engine.enums.Elements;
-import engine.enums.ObjectType;
+import engine.model.enums.Directions;
+import engine.model.enums.Elements;
+import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 

@@ -1,8 +1,8 @@
 package engine.calculations;
 
 import engine.entities.Player;
-import engine.enums.Action;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 
 /**
  * The calculator for the amount of damage a player inflicts on another player

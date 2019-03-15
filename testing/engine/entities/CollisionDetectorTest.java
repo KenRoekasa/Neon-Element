@@ -1,6 +1,7 @@
 package engine.entities;
 
-import engine.enums.ObjectType;
+import engine.model.enums.ObjectType;
+import engine.physics.CollisionDetector;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;

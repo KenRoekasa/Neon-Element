@@ -1,6 +1,6 @@
-package engine.calculations;
+package engine.model;
 
-import engine.enums.Action;
+import engine.model.enums.Action;
 
 /**
  * Store the times for how long an attack(animation) last

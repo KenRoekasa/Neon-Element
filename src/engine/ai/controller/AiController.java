@@ -1,9 +1,8 @@
 package engine.ai.controller;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import engine.ScoreBoard;
+import engine.model.ScoreBoard;
 import engine.ai.actions.AiActions;
 import engine.ai.actions.AiHillStateActions;
 import engine.ai.actions.AiKillsStateActions;
@@ -16,14 +15,8 @@ import engine.ai.enums.AiType;
 import engine.ai.fsm.FSMManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.PowerUpType;
-import engine.gameTypes.GameType;
-import engine.gameTypes.HillGame;
+import engine.model.GameType;
 import javafx.scene.shape.Rectangle;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class AiController {
 

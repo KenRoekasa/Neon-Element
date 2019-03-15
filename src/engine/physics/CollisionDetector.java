@@ -1,5 +1,6 @@
-package engine.entities;
+package engine.physics;
 
+import engine.entities.PhysicsObject;
 import javafx.scene.shape.Shape;
 
 /**

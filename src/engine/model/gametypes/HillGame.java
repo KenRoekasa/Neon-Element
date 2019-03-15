@@ -1,5 +1,6 @@
-package engine.gameTypes;
+package engine.model.gametypes;
 
+import engine.model.GameType;
 import javafx.scene.shape.Circle;
 
 /**

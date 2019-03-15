@@ -1,6 +1,7 @@
-package engine.gameTypes;
+package engine.model.gametypes;
 
 import engine.entities.Player;
+import engine.model.GameType;
 
 /**
  * A game mode where there's is a King

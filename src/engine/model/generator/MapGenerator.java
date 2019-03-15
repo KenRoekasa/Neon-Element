@@ -1,6 +1,7 @@
-package engine;
+package engine.model.generator;
 
 import engine.entities.Wall;
+import engine.model.Map;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 

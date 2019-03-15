@@ -1,4 +1,6 @@
-package engine.gameTypes;
+package engine.model.gametypes;
+
+import engine.model.GameType;
 
 /**
  * A gamemode when the time limit is reach the game ends

@@ -1,15 +1,15 @@
 package graphics.rendering;
 
-import engine.calculations.AttackTimes;
+import engine.model.AttackTimes;
 import client.ClientGameState;
-import engine.gameTypes.HillGame;
+import engine.model.gametypes.HillGame;
 import graphics.debugger.Debugger;
 import engine.entities.Character;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;

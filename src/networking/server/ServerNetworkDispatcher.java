@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.ObjectType;
+import engine.model.enums.ObjectType;
 import networking.packets.*;
 import server.ServerGameState;
 import networking.NetworkDispatcher;

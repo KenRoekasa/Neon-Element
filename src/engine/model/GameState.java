@@ -1,9 +1,8 @@
-package engine;
+package engine.model;
 
 import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -18,7 +17,7 @@ public abstract class GameState {
      */
     protected Map map;
     /**
-     * All Physics objects
+     * All PhysicsController objects
      */
     protected ArrayList<PhysicsObject> objects;
     /**

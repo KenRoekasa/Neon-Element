@@ -1,8 +1,8 @@
 package engine.controller;
 
-import engine.GameState;
+import engine.model.GameState;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;

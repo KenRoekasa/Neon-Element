@@ -1,4 +1,4 @@
-package engine.enums;
+package engine.model.enums;
 
 /**
  * The current direction the player is moving in

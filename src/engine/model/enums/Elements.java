@@ -1,4 +1,4 @@
-package engine.enums;
+package engine.model.enums;
 
 import graphics.rendering.textures.Sprites;
 

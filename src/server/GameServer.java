@@ -1,12 +1,12 @@
 package server;
 
-import engine.GameTypeHandler;
-import engine.entities.CollisionDetector;
+import engine.controller.GameTypeHandler;
+import engine.physics.CollisionDetector;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import networking.server.ServerNetwork;
 import server.controllers.PowerUpController;

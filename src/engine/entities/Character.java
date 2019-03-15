@@ -1,9 +1,9 @@
 package engine.entities;
 
-import engine.calculations.AttackTimes;
-import engine.enums.Action;
-import engine.enums.Directions;
-import engine.enums.Elements;
+import engine.model.AttackTimes;
+import engine.model.enums.Action;
+import engine.model.enums.Directions;
+import engine.model.enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;

@@ -1,4 +1,4 @@
-package engine.enums;
+package engine.model.enums;
 
 /**
  * The type that a powerup can be

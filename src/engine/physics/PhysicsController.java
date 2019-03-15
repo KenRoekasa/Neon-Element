@@ -1,17 +1,18 @@
-package engine;
+package engine.physics;
 
 import client.ClientGameState;
 import client.GameClient;
+import engine.controller.GameTypeHandler;
+import engine.model.ScoreBoard;
 import engine.calculations.DamageCalculation;
-import engine.entities.CollisionDetector;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.Action;
-import engine.enums.ObjectType;
-import engine.gameTypes.GameType;
-import engine.gameTypes.HillGame;
-import engine.gameTypes.Regicide;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
+import engine.model.GameType;
+import engine.model.gametypes.HillGame;
+import engine.model.gametypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 
@@ -22,13 +23,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * The physics engine and more
  */
-public class Physics {
+public class PhysicsController {
     private ClientGameState gameState;
 
     /** Constructor
      * @param gameState the game state of the current game
      */
-    public Physics(ClientGameState gameState) {
+    public PhysicsController(ClientGameState gameState) {
         this.gameState = gameState;
     }
 

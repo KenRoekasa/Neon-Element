@@ -1,4 +1,4 @@
-package engine.enums;
+package engine.model.enums;
 
 /**
  * The different types of action that a player can do

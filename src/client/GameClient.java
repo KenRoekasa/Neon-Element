@@ -1,7 +1,7 @@
 package client;
 
 import client.audiomanager.AudioManager;
-import engine.Physics;
+import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
@@ -38,7 +38,7 @@ public class GameClient {
     /**
      * The physics engine that runs in this current game/match
      */
-    private Physics physicsEngine;
+    private PhysicsController physicsEngine;
     /**
      * The renderer that renders the this game/match
      */
@@ -132,7 +132,7 @@ public class GameClient {
 
 
         //Creates the physics engine
-        physicsEngine = new Physics(gameState);
+        physicsEngine = new PhysicsController(gameState);
 
         // initialise input controls
         initialiseInput(scene, renderer);
