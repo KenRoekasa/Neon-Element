@@ -1,3 +1,4 @@
+package engine.entities;
 import engine.entities.CollisionDetector;
 import engine.entities.Player;
 import engine.entities.PowerUp;
@@ -18,7 +19,7 @@ public class PowerUpTest {
         if (CollisionDetector.checkCollision(player, powerUp)) {
             powerUp.activatePowerUp(player);
             if (powerUp.getType() == PowerUpType.SPEED) {
-                assertEquals(8, player.getMovementSpeed());
+                assertEquals(8, player.getMovementSpeed(),0);
 
             }
         }
