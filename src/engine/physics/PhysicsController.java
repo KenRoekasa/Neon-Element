@@ -267,6 +267,7 @@ public class PhysicsController {
                     if (CollisionDetector.checkCollision(player.getHeavyAttackHitbox(),
                             e.getBounds())) {
                         heavyHittablePlayer.add(e);
+                    }
                 }
                 // Attack Collision
                 // if player is light attacking
