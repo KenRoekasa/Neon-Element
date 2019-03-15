@@ -16,6 +16,7 @@ public class KillsFSM extends FSM {
 	 * easy AI:
 	 * random element every 15 seconds
 	 * prioritise killing over evading death
+	 * escapes when losing or HP gap is more than 20
 	 * takes a power up if it is close to it
 	 * starts the game wandering around
 	 * attacks aggressively if nearest player's HP is less than a third
@@ -38,7 +39,7 @@ public class KillsFSM extends FSM {
 		}	
 	
 		//case 3, run for your life
-		else if(aiPlayerHP < (maxHP/10) || aiPlayerHP < playerHP) {
+		else if(aiPlayerHP < (maxHP/10) || playerHP - aiPlayerHP > 20) {
 			aiCon.setState(AiStates.ESCAPE);
 		}	
 		
@@ -100,7 +101,7 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 2, escape when health is less than third
-		else if(aiPlayerHP < (maxHP/3) && aiPlayerHP<playerHP) {
+		else if(aiPlayerHP < (maxHP/3) && playerHP - aiPlayerHP > 20 ) {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
