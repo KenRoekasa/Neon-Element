@@ -1,11 +1,8 @@
 package engine.ai.calculations;
 
 import static engine.gameTypes.GameType.Type.Hill;
-
+import static engine.gameTypes.GameType.Type.Regicide;
 import java.util.ArrayList;
-
-import com.sun.prism.paint.RadialGradient;
-
 import engine.ScoreBoard;
 import engine.ai.controller.AiController;
 import engine.entities.PhysicsObject;
@@ -16,6 +13,7 @@ import engine.enums.ObjectType;
 import engine.enums.PowerUpType;
 import engine.gameTypes.GameType;
 import engine.gameTypes.HillGame;
+import engine.gameTypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -36,29 +34,48 @@ public class AiCalculations {
 	private double circleY;
 	private Point2D circleCentre;
 	private double circleRadius;
+	private Regicide regicide;
 	
 	public AiCalculations(AiController aiCon,Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		this.aiCon = aiCon;
 		this.map = map;
 		this.scoreboard = scoreboard;
 		this.gameType = gameType;
-		
 		player = aiCon.getPlayer();
 		aiPlayer = aiCon.getAiPlayer();
 		powerups = new ArrayList<>();
 		startTime = System.nanoTime()/1000000000;
 		wanderingTime = 0;
-		setCircleCoordination();
+		setupProperGameType();		
 	}
 	
+	private void setupProperGameType() {
+		if(gameType.getType().equals(Regicide))
+			setRegicideGame();
+		else if(gameType.getType().equals(Hill)) 
+			setCircleCoordination();
+	}
+
+	private void setRegicideGame() {
+		regicide = (Regicide) gameType;
+	}
+
 	private void setCircleCoordination() {
-		if(gameType.getType().equals(Hill)) {
-			HillGame hillGame = (HillGame) gameType;
-			circleX = hillGame.getHill().getCenterX();
-			circleY = hillGame.getHill().getCenterY();
-			circleCentre = new Point2D(circleX,circleY);
-			circleRadius = hillGame.getHill().getRadius();
-		}
+		HillGame hillGame = (HillGame) gameType;
+		circleX = hillGame.getHill().getCenterX();
+		circleY = hillGame.getHill().getCenterY();
+		circleCentre = new Point2D(circleX,circleY);
+		circleRadius = hillGame.getHill().getRadius();
+	}
+	
+	public Player getKing() {
+		return regicide.getKing();
+	}
+	
+	public boolean kingIsClose() {
+		if(aiPlayer.equals(getKing()))
+			return false;
+		return isTooClose(getKing().getLocation());
 	}
 	
 	public Point2D getHillCentreLocation() {

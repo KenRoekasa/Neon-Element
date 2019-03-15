@@ -8,5 +8,8 @@ public enum AiStates {
 	ATTACK_WINNER, 
 	
 	//used in Hill game type
-	GO_TO_HILL, WANDER_ON_HILL
+	GO_TO_HILL, WANDER_ON_HILL, 
+	
+	//used in regicide
+	ATTACK_KING
 }
