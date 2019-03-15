@@ -28,7 +28,6 @@ public class KillsFSM extends FSM {
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take a heal power up
-		
 		if(  calc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getNearestPowerUp(PowerUpType.HEAL) != -1 ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
@@ -124,7 +123,10 @@ public class KillsFSM extends FSM {
 	/*
 	 * features added to hard AI:
 	 * prioritises taking a health power up even if an enemy is close
-	 * escapes if health is less than half or if a player close by is charging 
+	 * escapes when
+	 * 	 health is less than half 
+	 * 	 or if a player close by is charging 
+	 * 	 or if it is winning and the closest player's HP is more than the AI's
 	 * attacks aggressively while damage power up is active 
 	 * attacks winning player if score gap is high
 	 * starts the game attacking nearest player
@@ -152,25 +154,22 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 2, the ai player's hp is less than maxHP and a health power up is available
-		
 		else if (aiPlayerHP<(maxHP) && calc.powerUpExist(PowerUpType.HEAL) ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		
 		//case 3, there exist a damage power up
-		
 		else if(  calc.powerupCloserThanPlayer() && calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
 		//case 4, the engine.ai player's hp is less than 33% and a health power up is not available
 		
-		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.someoneCloseIsCharging() || calc.isCharging(nearestPlayer) ) {
+		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.someoneCloseIsCharging() || calc.isCharging(nearestPlayer) || (calc.getWinningPlayer().equals(aiPlayer) && aiPlayerHP<playerHP)  ) {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
 		//case 5, the nearest enemy's hp is less than 33%
-		
 		else if ( playerHP < (maxHP/2) || aiPlayer.activeDamagePowerup()) {
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
@@ -192,7 +191,6 @@ public class KillsFSM extends FSM {
 		}
 		
 		//else 'when the enemy's hp is more than the ai player's or equal to it"
-		
 		else {
 			aiCon.setState(AiStates.ATTACK);
 		}
