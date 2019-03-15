@@ -21,7 +21,7 @@ public class ServerNetwork extends networking.AbstractNetwork {
      * @param gameState The server's game state.
      */
     public ServerNetwork(ServerGameState gameState) {
-        super();
+        super(Constants.SERVER_LISTENING_PORT);
 
         this.connectedPlayers = new ConnectedPlayers();
 
