@@ -52,8 +52,10 @@ public abstract class AiStateActions {
 			break;
 		case WANDER:
 			wander();
+			break;
 		case ATTACK_WINNER:
 			attackWinner();
+			break;
 		case IDLE:
 			idle();
 			break;
