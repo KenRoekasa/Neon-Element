@@ -1,7 +1,7 @@
 package networking.server;
 
 import engine.entities.Player;
-import engine.enums.ObjectType;
+import engine.model.enums.ObjectType;
 import javafx.scene.transform.Rotate;
 import networking.packets.*;
 import server.ServerGameState;

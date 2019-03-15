@@ -580,6 +580,10 @@ public abstract class Character extends PhysicsObject {
         this.verticalMove = verticalMove;
     }
 
+    public void setCurrentElement(Elements element) {
+        currentElement = element;
+    }
+
     public Player getLastAttacker() {
         return lastAttacker;
     }

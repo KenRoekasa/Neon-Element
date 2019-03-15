@@ -2,7 +2,7 @@ package graphics.userInterface.controllers;
 
 import client.GameClient;
 
-import client.GameStateGenerator;
+import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
 import server.GameServer;
 import server.ServerGameState;

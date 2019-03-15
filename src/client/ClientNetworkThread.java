@@ -2,8 +2,8 @@ package client;
 
 import java.net.InetAddress;
 
-import engine.enums.Action;
-import engine.enums.Elements;
+import engine.model.enums.Action;
+import engine.model.enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 import networking.client.ClientNetwork;

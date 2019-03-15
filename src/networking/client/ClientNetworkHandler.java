@@ -6,8 +6,8 @@ import client.ClientGameState;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.ObjectType;
-import engine.gameTypes.GameType;
+import engine.model.enums.ObjectType;
+import engine.model.GameType;
 import networking.packets.*;
 
 public class ClientNetworkHandler {
