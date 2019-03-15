@@ -12,7 +12,14 @@ public class KillsFSM extends FSM {
 		super(aiPlayer, aiCon, calc);
 	}
 
-
+	/*
+	 * easy AI:
+	 * random element every 15 seconds
+	 * prioritise killing over evading death
+	 * takes a power up if it is close to it
+	 * starts the game wandering around
+	 * attacks aggressively if nearest player's HP is less than a third
+	 */
 	@Override
 	public void easyAiFetchAction() {
 
@@ -22,28 +29,27 @@ public class KillsFSM extends FSM {
 		
 		//case 1, take a heal power up
 		
-		if(  calc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getNearestPowerUp(PowerUpType.HEAL) != -1 ) {//System.out.println("case 1");
+		if(  calc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getNearestPowerUp(PowerUpType.HEAL) != -1 ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
-	
-		//case 2, run for your life
-		else if(aiPlayerHP < (maxHP/10) || aiPlayerHP < playerHP) {//System.out.println("case 2");
-			aiCon.setState(AiStates.ESCAPE);
-		}
 		
-		//case 3, FINISH HIM
-		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
+		//case 2, FINISH HIM
+		else if (playerHP < (maxHP/3) && aiPlayerHP > playerHP ) {
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
-		}		
+		}	
+	
+		//case 3, run for your life
+		else if(aiPlayerHP < (maxHP/10) || aiPlayerHP < playerHP) {
+			aiCon.setState(AiStates.ESCAPE);
+		}	
 		
 		//case 4, normal attacking
 		else if ( calc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
-			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
 			aiCon.setState(AiStates.ATTACK);
 		}
 	
 		//case5, take the power up on your way
-		else if (calc.powerupIsTooClose()) {//System.out.println("case 5");
+		else if (calc.powerupIsTooClose()) {
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
@@ -58,13 +64,18 @@ public class KillsFSM extends FSM {
 		}
 		
 		//case 6, 'random action', either fix on one player and attack, or wander for 5 seconds
-		else {//System.out.println("case 6");
+		else {
 			aiCon.setState(AiStates.WANDER);
 		}
-		//element gets changed randomly every 15 seconds
-
 	}
 	
+	
+	/*
+	 * features added to normal AI:
+	 * element is changed based on whether it is on an offensive or a defensive mode
+	 * prioritises taking a power up if it is close or if it is the closest object
+	 * prioritises escaping when health is low than attack
+	 */
 	@Override
 	public void normalAiFetchAction() {
 
@@ -74,7 +85,6 @@ public class KillsFSM extends FSM {
 		
 		//case 1, take any type of power up
 		if( ( calc.powerupIsTooClose() && calc.powerupCloserThanPlayer() ) || calc.powerupCloserThanPlayer() ) {
-		//	System.out.println("case 1");
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
@@ -92,32 +102,33 @@ public class KillsFSM extends FSM {
 		
 		//case 2, escape when health is less than third
 		else if(aiPlayerHP < (maxHP/3) && aiPlayerHP<playerHP) {
-		//	System.out.println("case 2");
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
 		//case 3, attack aggressively when the nearest enemy's hp is less than 33%
 		else if (playerHP < (maxHP/3)) {
-		//	System.out.println("case 3");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
 		//case 4, attack when you got the advantage
 		else if (calc.playerIsTooClose() || aiPlayerHP > playerHP) {
-		//	System.out.println("case 4");
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
 		//case 5, wander, or attack, when nothing else is triggered
 		else {
-		// System.out.println("case 5");
 			aiCon.setState(AiStates.WANDER);
 		}
-		
-		//switches elements to maximize damage given and minimize damage received
-
 	}
 	
+	/*
+	 * features added to hard AI:
+	 * prioritises taking a health power up even if an enemy is close
+	 * escapes if health is less than half or if a player close by is charging 
+	 * attacks aggressively while damage power up is active 
+	 * attacks winning player if score gap is high
+	 * starts the game attacking nearest player
+	 */
 	@Override
 	public void hardAiFetchAction() {
 
@@ -125,12 +136,8 @@ public class KillsFSM extends FSM {
 		Player nearestPlayer = calc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
-//		System.out.println("decide what case");
-		
 		//case 1, a power up is closer than an enemy
-		
 		if( calc.powerupCloserThanPlayer() ) {
-		//	System.out.println("case 1");
 			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
@@ -146,59 +153,49 @@ public class KillsFSM extends FSM {
 		
 		//case 2, the ai player's hp is less than maxHP and a health power up is available
 		
-		else if (aiPlayerHP<(maxHP) && calc.getNearestPowerUp(PowerUpType.HEAL) != -1) {
-		//	System.out.println("case 2");
+		else if (aiPlayerHP<(maxHP) && calc.powerUpExist(PowerUpType.HEAL) ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		
-		//case 5, there exist a damage power up
+		//case 3, there exist a damage power up
 		
 		else if(  calc.powerupCloserThanPlayer() && calc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
-		//	System.out.println("case 5");
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
-		//case 3, the engine.ai player's hp is less than 33% and a health power up is not available
+		//case 4, the engine.ai player's hp is less than 33% and a health power up is not available
 		
-		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.isCharging(nearestPlayer) ) {
-//			System.out.println("case 3");
+		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.someoneCloseIsCharging() || calc.isCharging(nearestPlayer) ) {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
-		//case 4, the nearest enemy's hp is less than 33%
+		//case 5, the nearest enemy's hp is less than 33%
 		
 		else if ( playerHP < (maxHP/2) || aiPlayer.activeDamagePowerup()) {
-		//	System.out.println("case 4");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
+		//case 6, attacks winner if score gap is higher than 2
 		else if(calc.scoreDifferenceIsMoreThan(2)) {
-//			System.out.println("attack winner");
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}
 		
 		//case 7, the nearest enemy's hp is less than ai player's hp
 		
 		else if (aiPlayerHP > playerHP) {
-		//	System.out.println("case 7");
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
-		//case 6, there exist a speed power up
-		
+		//case 8, there exist a speed power up
 		else if( calc.getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
-		//	System.out.println("case 6");
 			aiCon.setState(AiStates.FIND_SPEED);
 		}
 		
 		//else 'when the enemy's hp is more than the ai player's or equal to it"
 		
 		else {
-		// System.out.println("case 8");
 			aiCon.setState(AiStates.ATTACK);
 		}
-		//System.out.println("ai health: "+aiPlayer.getHealth());
-
 	}
 
 }
