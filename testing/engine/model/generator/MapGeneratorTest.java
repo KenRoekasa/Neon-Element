@@ -2,7 +2,6 @@ package engine.model.generator;
 
 import engine.entities.Wall;
 import engine.model.Map;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
