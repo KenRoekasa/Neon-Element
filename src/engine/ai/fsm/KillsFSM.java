@@ -165,7 +165,7 @@ public class KillsFSM extends FSM {
 		
 		//case 4, the engine.ai player's hp is less than 33% and a health power up is not available
 		
-		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.someoneCloseIsCharging() || calc.isCharging(nearestPlayer) || (calc.getWinningPlayer().equals(aiPlayer) && aiPlayerHP<playerHP)  ) {
+		else if( (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.someoneCloseIsCharging() || calc.isCharging(nearestPlayer) || (calc.getWinningPlayer().equals(aiPlayer) && playerHP-aiPlayerHP > 20)  ) {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
