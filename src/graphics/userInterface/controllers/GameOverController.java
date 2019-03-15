@@ -38,6 +38,7 @@ public class GameOverController extends UIController{
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
+            stage.setTitle("Leader Board");
             LeaderboardController controller = loader.getController();
             controller.setStage(stage);
             controller.setAudioManager(audioManager);

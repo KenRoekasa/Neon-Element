@@ -11,15 +11,16 @@
 
 <BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.OnlineSetUpController">
    <bottom>
-      <BorderPane prefHeight="41.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="80.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <center>
-              <Text fx:id="alert" fill="#ff1212" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-alert" text="THE MAXIMUM NUMBER OF PLAYERS IS 4!" wrappingWidth="307.90283203125" BorderPane.alignment="CENTER" />
+              <Text fx:id="alert" fill="#ff1212" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-alert" text="THE MAXIMUM NUMBER OF PLAYERS IS 4!" wrappingWidth="363.59161376953125" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </bottom>
    <center>
         <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="1300.0" minHeight="-Infinity" minWidth="600.0" prefHeight="491.0" prefWidth="1020.0" BorderPane.alignment="CENTER">
             <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="10.0" prefWidth="750.0" />
             </columnConstraints>
             <rowConstraints>
@@ -34,7 +35,7 @@
             <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="89.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <GridPane fx:id="one" maxWidth="800.0" prefHeight="64.0" prefWidth="800.0" GridPane.rowIndex="2">
+                <GridPane fx:id="one" maxWidth="800.0" prefHeight="64.0" prefWidth="800.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="240.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="0.0" prefWidth="100.0" />
@@ -60,7 +61,7 @@
                         <Label prefHeight="30.0" prefWidth="306.0" styleClass="standard-text-normal" text="Number of enemies" />
                     </children>
                 </GridPane>
-                <GridPane prefHeight="32.0" prefWidth="173.0" GridPane.rowIndex="6">
+                <GridPane prefHeight="32.0" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="240.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="130.0" />
@@ -81,7 +82,7 @@
                         <Label prefHeight="30.0" prefWidth="110.0" styleClass="standard-text-normal" text="Mode" />
                     </children>
                 </GridPane>
-                <GridPane GridPane.rowIndex="8">
+                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="8">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
@@ -102,7 +103,7 @@
                             </graphic></Button>
                     </children>
                 </GridPane>
-                <GridPane GridPane.rowIndex="4">
+                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                     </columnConstraints>
@@ -204,7 +205,7 @@
                         </GridPane>
                     </children>
                 </GridPane>
-                <GridPane>
+                <GridPane GridPane.columnIndex="1">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="240.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="100.0" />
@@ -239,7 +240,7 @@
                   </RadioButton>
                     </children>
                 </GridPane>
-                <GridPane GridPane.rowIndex="3">
+                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -252,4 +253,14 @@
             </children>
         </GridPane>
    </center>
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </top>
 </BorderPane>

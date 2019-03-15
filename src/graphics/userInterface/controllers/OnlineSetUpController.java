@@ -157,7 +157,6 @@ public class OnlineSetUpController extends UIController {
                 throw new OutOfBoundException("The number of maximum player is 4 ");
             } else {
                 selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
-                System.out.println("REACH HERE");
                 switch (enemy_num) {
                     case 1:
                         enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
@@ -182,6 +181,7 @@ public class OnlineSetUpController extends UIController {
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";
                 FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
+                break;
 
             }
         }

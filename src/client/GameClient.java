@@ -8,7 +8,6 @@ import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.GameOverController;
 import graphics.userInterface.controllers.HUDController;
 import graphics.userInterface.controllers.PauseController;
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -184,9 +183,8 @@ public class GameClient {
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
             controller.setScoreBoard(gameState.getScoreBoard());
-
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
-            primaryStage.setTitle("Game Over!");
+            primaryStage.setTitle("Game Over");
             gameState.stop();
 
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ev -> {
