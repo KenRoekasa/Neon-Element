@@ -11,19 +11,22 @@ import engine.model.Map;
 import engine.model.ScoreBoard;
 import engine.model.enums.ObjectType;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameStateGenerator {
 
     public static ClientGameState createEmptyState() {
         ArrayList<PhysicsObject> objects = new ArrayList<>();
-        LinkedBlockingQueue deadPlayers = new LinkedBlockingQueue();
         ScoreBoard scoreboard = new ScoreBoard();
 
-        ClientGameState gameState = new ClientGameState(null, null, objects, deadPlayers, scoreboard, null);
+        Map map = MapGenerator.createEmptyMap();
+        GameType gameType = new FirstToXKillsGame(3);
+
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, scoreboard, gameType);
+
+        ClientGameState gameState = new ClientGameState(null, map, objects, scoreboard, gameType, aiManager);
+        scoreboard.initialise(gameState.getAllPlayers());
 
         return gameState;
     }
@@ -84,8 +87,7 @@ public class GameStateGenerator {
      */
     public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
 
-        //initialise map location
-        Rectangle map = new Rectangle(2000, 2000);
+        Map map = MapGenerator.createEmptyMap();
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
@@ -107,7 +109,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), player, scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -115,13 +117,12 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
         }
-        Map map1 = MapGenerator.createEmptyMap();
 
 
-        player.setLocation(map1.getRespawnPoints().get(0));
+        player.setLocation(map.getRespawnPoints().get(0));
 
         for (int i = 0; i < num_enm; i++) {
-            enemies.get(i).setLocation(map1.getRespawnPoints().get(i+1));
+            enemies.get(i).setLocation(map.getRespawnPoints().get(i+1));
             enemies.get(i).setId(i);
         }
 
@@ -130,9 +131,9 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-        objects.addAll(map1.getWalls());
+        objects.addAll(map.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager);
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gameType,aiManager);
         scoreboard.initialise(gameState.getAllPlayers());
 //        aiManager.startAllAi();
 
