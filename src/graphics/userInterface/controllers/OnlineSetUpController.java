@@ -230,6 +230,4 @@ public class OnlineSetUpController extends UIController {
         life_mode.setUserData("life_based");
         time_mode.setUserData("time_based");
     }
-
-
 }

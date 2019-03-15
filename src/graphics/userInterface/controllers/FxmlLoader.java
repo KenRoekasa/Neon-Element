@@ -34,6 +34,4 @@ public class FxmlLoader {
             e.printStackTrace();
         }
     }
-
-
 }

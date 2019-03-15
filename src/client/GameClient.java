@@ -179,11 +179,20 @@ public class GameClient {
             GameOverController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
+            controller.setScoreBoard(gameState.getScoreBoard());
 
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
-
             primaryStage.setTitle("Game Over!");
             gameState.stop();
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            controller.jumpToLeaderboard();
+                        }
+                    },
+                    3000
+            );
 
         } catch (IOException e) {
             System.out.println("crush in loading menu board ");
