@@ -27,7 +27,9 @@ public class InitialGameStateBroadcast extends Packet.PacketToClient {
 
 	protected InitialGameStateBroadcast(ByteBuffer buffer, Sender sender) {
 		super(sender);
-		this.map = new Rectangle(buffer.getDouble(), buffer.getDouble());
+		Rectangle rect = new Rectangle(buffer.getDouble(), buffer.getDouble());
+		// TODO send Walls and respawn points
+		this.map = new Map(rect, new ArrayList<>(), new ArrayList<>());
 		this.ids = new ArrayList<>();
 		this.locations = new ArrayList<>();
 		int numPlayers = buffer.getInt();
