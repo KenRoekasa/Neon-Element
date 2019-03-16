@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 import client.ClientGameState;
+import client.audiomanager.Music;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -82,5 +83,6 @@ public class PauseController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
+        audioManager.setGameMusic(Music.MENU);
     }
 }

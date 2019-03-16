@@ -4,37 +4,57 @@ import client.ClientGameState;
 import engine.entities.Player;
 import engine.enums.Action;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 
 public class AudioManager {
-    //todo Range of volume? In opitonController is set from 0 to 1.0;default value is 0.4
     private static double volume;
-    private HashMap<Sound, AudioClip> effects;
+    private HashMap<Sound, AudioClip> gameEffects;
+    private HashMap<Music, Media> gameMusic;
+    private MediaPlayer mediaPlayer;
 
     public AudioManager(){
         volume = 100;
-        effects = new HashMap<>();
+        gameEffects = new HashMap<>();
+        gameMusic = new HashMap<>();
 
         for(Sound sound: Sound.values()){
             String location = sound.getPath();
 
-            System.out.println(location);
             AudioClip audioClip = new AudioClip(new File(location).toURI().toString());
 
-            effects.put(sound, audioClip);
+            gameEffects.put(sound, audioClip);
         }
+
+        for(Music music: Music.values()) {
+            String location = music.getPath();
+//            URL resource = getClass().getResource(location);
+            Media media = new Media(new File(location).toURI().toString());
+
+            gameMusic.put(music, media);
+
+        }
+
+        mediaPlayer = new MediaPlayer(gameMusic.get(Music.MENU));
+        // set mediaplayer to loop at the end of the music
+        startMusic(mediaPlayer);
+
+
 
     }
 
-    public void playSound(Sound s){
-        effects.get(s).play(volume);
+    private void playSound(Sound s){
+        gameEffects.get(s).play(volume);
         System.out.println(volume);
     }
 
-    public void playSound(Sound s, double volumeDistance) {
-        effects.get(s).play(volumeDistance * volume);
+    private void playSound(Sound s, double volumeDistance) {
+        gameEffects.get(s).play(volumeDistance * volume);
     }
 
     public double getVolume() {
@@ -42,11 +62,31 @@ public class AudioManager {
     }
     public void setVolume(double volume) {
         AudioManager.volume = volume;
+        mediaPlayer.setVolume(volume);
+    }
+
+    public void setGameMusic(Music music){
+        mediaPlayer.setOnEndOfMedia(() -> {
+            mediaPlayer = new MediaPlayer(gameMusic.get(music));
+            startMusic(mediaPlayer);
+        });
+
+    }
+
+    private void startMusic(MediaPlayer mediaPlayer){
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+        mediaPlayer.play();
     }
 
 
     // todo improve this
     public void clientLoop(ClientGameState gameState) {
+
 
         if(gameState.getPlayer().isAlive()) {
             if(gameState.getPlayer().getCurrentAction() != Action.IDLE && !gameState.getPlayer().hasActionSounded()) {

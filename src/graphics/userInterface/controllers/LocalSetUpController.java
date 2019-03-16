@@ -4,6 +4,7 @@ import client.GameClient;
 import client.ClientGameState;
 import client.GameStateGenerator;
 
+import client.audiomanager.Music;
 import engine.enums.AiType;
 import javafx.fxml.FXML;
 
@@ -123,6 +124,7 @@ public class LocalSetUpController extends UIController implements Initializable 
         try {
             boolean networked = false;
             GameClient gameBoard = new GameClient(stage, gameState, networked, audioManager);
+            audioManager.setGameMusic(Music.GAME);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 
