@@ -2,7 +2,6 @@ package engine.entities;
 
 import engine.model.AttackTimes;
 import engine.model.enums.Action;
-import engine.model.enums.Directions;
 import engine.model.enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
@@ -24,7 +23,6 @@ public abstract class Character extends PhysicsObject {
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
-    protected Directions characterDirection;
     protected boolean isShielded;
     protected float movementSpeed;
     protected boolean isAlive = true;
@@ -72,7 +70,6 @@ public abstract class Character extends PhysicsObject {
      * Move the Character up isometrically based off its movement speed
      */
     public void moveUp() {
-        characterDirection = Directions.UP;
 
         double yCheck = location.getY() - movementSpeed - width / 2f;
         double xCheck = location.getX() - movementSpeed - width / 2f;
@@ -92,7 +89,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardHeight the height of the map/board
      */
     public void moveDown(double boardWidth, double boardHeight) {
-        characterDirection = Directions.DOWN;
 
 
         double yCheck = location.getY() + movementSpeed + width / 2f;
@@ -111,7 +107,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardWidth the width of the map/board
      */
     public void moveLeft(double boardWidth) {
-        characterDirection = Directions.LEFT;
 
         double xCheck = location.getX() - movementSpeed - width / 2f;
         double yCheck = location.getY() + movementSpeed + width / 2f;
@@ -130,7 +125,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardHeight the height of the map/board
      */
     public void moveRight(double boardWidth, double boardHeight) {
-        characterDirection = Directions.RIGHT;
 
         //check within bounds
 
@@ -150,7 +144,6 @@ public abstract class Character extends PhysicsObject {
      * Move the Character right using cartesian coordinate system based off its movement speed
      */
     public void moveUpCartesian() {
-        characterDirection = Directions.UPCART;
 
 
         if ((location.getY() - movementSpeed - width / 2f) >= 0) {
@@ -170,7 +163,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardHeight the height of the map/board
      */
     public void moveDownCartestian(double boardHeight) {
-        characterDirection = Directions.DOWNCART;
 
 
         if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
@@ -187,7 +179,6 @@ public abstract class Character extends PhysicsObject {
      * Move the Character left using cartesian coordinate system based off its movement speed
      */
     public void moveLeftCartesian() {
-        characterDirection = Directions.LEFTCART;
 
         //check within bounds
         if ((location.getX() - movementSpeed - width / 2f) >= 0) {
@@ -206,7 +197,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardWidth width of the map/board
      */
     public void moveRightCartesian(double boardWidth) {
-        characterDirection = Directions.RIGHTCART;
 
 
         //check within bounds
@@ -533,10 +523,6 @@ public abstract class Character extends PhysicsObject {
         return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange);
     }
 
-    public Directions getCharacterDirection() {
-        return characterDirection;
-    }
-
 
     public boolean hasActionSounded() {
         return actionHasSounded;
@@ -578,5 +564,13 @@ public abstract class Character extends PhysicsObject {
 
     public Player getLastAttacker() {
         return lastAttacker;
+    }
+
+    public float getVerticalMove() {
+        return verticalMove;
+    }
+
+    public float getHorizontalMove() {
+        return horizontalMove;
     }
 }

@@ -2,15 +2,15 @@ package engine.physics;
 
 import client.ClientGameState;
 import client.GameClient;
-import engine.controller.GameTypeHandler;
-import engine.model.ScoreBoard;
 import engine.calculations.DamageCalculation;
+import engine.controller.GameTypeHandler;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
 import engine.model.enums.Action;
 import engine.model.enums.ObjectType;
-import engine.model.GameType;
 import engine.model.gametypes.HillGame;
 import engine.model.gametypes.Regicide;
 import javafx.geometry.Point2D;
@@ -26,7 +26,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class PhysicsController {
     private ClientGameState gameState;
 
-    /** Constructor
+    /**
+     * Constructor
+     *
      * @param gameState the game state of the current game
      */
     public PhysicsController(ClientGameState gameState) {
@@ -72,8 +74,8 @@ public class PhysicsController {
     private void kingOfHillHandler() {
         HillGame hillGame = (HillGame) gameState.getGameType();
         Circle hill = hillGame.getHill();
-//        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
-//        System.out.println("hill : " + hill);
+        //        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
+        //        System.out.println("hill : " + hill);
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         ArrayList<Player> playersInside = new ArrayList<>();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
@@ -137,7 +139,6 @@ public class PhysicsController {
      * The detection of collision between a player and other objects
      */
     private void doCollisionDetection() {
-
         ArrayList<PhysicsObject> objects = gameState.getObjects();
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
 
@@ -161,89 +162,18 @@ public class PhysicsController {
                             objects.remove(e);
                         }
                     } else {
-
-                        float movementSpeed = player.getMovementSpeed() * GameClient.deltaTime;
-
-                        Point2D checkUp = player.getLocation().add(-movementSpeed, -movementSpeed);
-
-                        Point2D checkDown = player.getLocation().add(movementSpeed, movementSpeed);
-
-                        Point2D checkLeft = player.getLocation().add(-movementSpeed, +movementSpeed);
-
-                        Point2D checkRight = player.getLocation().add(movementSpeed, -movementSpeed);
-
-                        Point2D checkUpCart = player.getLocation().add(0, -movementSpeed);
-
-                        Point2D checkDownCart = player.getLocation().add(0, movementSpeed);
-
-                        Point2D checkLeftCart = player.getLocation().add(-movementSpeed, 0);
-
-                        Point2D checkRightCart = player.getLocation().add(movementSpeed, 0);
-
-                        switch (player.getCharacterDirection()) {
-                            case UP:
-                                projectedPlayer.setLocation(checkUp);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case DOWN:
-                                projectedPlayer.setLocation(checkDown);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case LEFT:
-                                projectedPlayer.setLocation(checkLeft);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-
-                            case RIGHT:
-                                projectedPlayer.setLocation(checkRight);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case UPCART:
-                                projectedPlayer.setLocation(checkUpCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case DOWNCART:
-                                projectedPlayer.setLocation(checkDownCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case LEFTCART:
-                                projectedPlayer.setLocation(checkLeftCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case RIGHTCART:
-                                projectedPlayer.setLocation(checkRightCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
+                        Point2D checkNext = player.getLocation().add(player.getHorizontalMove() * GameClient.deltaTime, player.getVerticalMove() * GameClient.deltaTime);
+                        projectedPlayer.setLocation(checkNext);
+                        if (CollisionDetector.checkCollision(projectedPlayer, e)) {
+                            player.setVerticalMove(0);
+                            player.setHorizontalMove(0);
                         }
                     }
                 }
             }
         }
     }
+
 
     /**
      * To detect hits when a player attacks another player

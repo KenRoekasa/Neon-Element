@@ -1,7 +1,6 @@
 package engine.entities;
 
 import client.GameClient;
-import engine.model.enums.Directions;
 import engine.model.enums.Elements;
 import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
@@ -31,7 +30,6 @@ public class Player extends Character {
         location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
-        characterDirection = Directions.UP;
         movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
