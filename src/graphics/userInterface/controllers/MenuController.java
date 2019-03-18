@@ -1,5 +1,6 @@
 package graphics.userInterface.controllers;
 
+import client.audiomanager.Sound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

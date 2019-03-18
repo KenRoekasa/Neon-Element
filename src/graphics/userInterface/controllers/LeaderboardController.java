@@ -2,20 +2,21 @@ package graphics.userInterface.controllers;
 
 import engine.ScoreBoard;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 
 
 public class LeaderboardController extends UIController {
     @FXML
-    Label player1_id,player2_id,player3_id,player4_id;
+    Text player1_id,player2_id,player3_id,player4_id;
     @FXML
-    Label player1_kills,player2_kills,player3_kills,player4_kills;
+    Text player1_kills,player2_kills,player3_kills,player4_kills;
     @FXML
-    Label player1_deaths,player2_deaths,player3_deaths,player4_deaths;
+    Text player1_deaths,player2_deaths,player3_deaths,player4_deaths;
     @FXML
-    Label player1_score,player2_score,player3_score,player4_score;
+    Text player1_score,player2_score,player3_score,player4_score;
     @FXML
     GridPane rank_3,rank_4;
 
@@ -63,7 +64,7 @@ public class LeaderboardController extends UIController {
         }
     }
 
-    public void showInfo(int id,Label player_id,Label death,Label kills,Label score){
+    public void showInfo(int id,Text player_id,Text death,Text kills,Text score){
         player_id.setText(String.valueOf(id));
         death.setText(scoreBoard.getPlayerDeaths(id).toString());
         kills.setText(scoreBoard.getPlayerKills(id).toString());

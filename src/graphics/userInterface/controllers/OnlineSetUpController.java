@@ -18,7 +18,7 @@ public class OnlineSetUpController extends UIController {
      * Radio buttons of different number of player and different number of ai bots
      */
     @FXML
-    public RadioButton player_1, player_2, player_3, player_4, num_1, num_2, num_3;
+    public RadioButton player_2, player_3,player_4,num_0,num_1, num_2, num_3;
 
     /**
      * Radio buttons of three difficulties of three different number of ai bots
@@ -34,7 +34,7 @@ public class OnlineSetUpController extends UIController {
      * Grid pane for ai bot2 and ai bot3 difficulty selection line
      */
     @FXML
-    public GridPane enemy2, enemy3;
+    public GridPane enemy1,enemy2, enemy3;
     /**
      * Text for alert the user once the selection is invalid
      */
@@ -114,6 +114,17 @@ public class OnlineSetUpController extends UIController {
         return enemyTypes;
     }
 
+    /** Handle the action when select the number of zero ai bot
+     */
+    @FXML
+    public void handleZeroEnemy(ActionEvent event) {
+        enemy1.setVisible(false);
+        enemy2.setVisible(false);
+        enemy3.setVisible(false);
+    }
+
+
+
     /** Handle the action when select the number of one ai bot
      */
     @FXML
@@ -158,6 +169,8 @@ public class OnlineSetUpController extends UIController {
             } else {
                 selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
                 switch (enemy_num) {
+                    case 0:
+                        break;
                     case 1:
                         enemy_1 = (String) diff_1.getSelectedToggle().getUserData();
                         enemyTypes.add(enemy_1);
@@ -207,15 +220,14 @@ public class OnlineSetUpController extends UIController {
     public void initialize(URL location, ResourceBundle resources) {
         alert.setVisible(false);
 
-        ToggleGroupSetUp.setToggleGroup(num_player, player_1, player_2, player_3, player_4);
-        ToggleGroupSetUp.setToggleGroup(num_group, num_1, num_2, num_3);
+        ToggleGroupSetUp.setToggleGroup(num_player,player_2, player_3, player_4);
+        ToggleGroupSetUp.setToggleGroup(num_group,num_0, num_1, num_2, num_3);
         ToggleGroupSetUp.setToggleGroup(diff_1, easy_1, normal_1, hard_1);
         ToggleGroupSetUp.setToggleGroup(diff_2, easy_2, normal_2, hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3, easy_3, normal_3, hard_3);
         ToggleGroupSetUp.setToggleGroup(mode, life_mode, time_mode);
 
 
-        player_1.setUserData(1);
         player_2.setUserData(2);
         player_3.setUserData(3);
         player_4.setUserData(4);
@@ -223,6 +235,7 @@ public class OnlineSetUpController extends UIController {
         ToggleGroupSetUp.setUserData("Normal", normal_1, normal_2, normal_3);
         ToggleGroupSetUp.setUserData("Hard", hard_1, hard_2, hard_3);
 
+        num_0.setUserData(0);
         num_1.setUserData(1);
         num_2.setUserData(2);
         num_3.setUserData(3);

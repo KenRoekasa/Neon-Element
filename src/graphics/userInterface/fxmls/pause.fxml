@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="396.0" prefWidth="623.0" spacing="5.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.PauseController">
    <children>
-      <Button fx:id="resume_btn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleResumeBtn" prefHeight="45.0" prefWidth="155.0" styleClass="button-page" textAlignment="CENTER">
+      <Button fx:id="resume_btn" contentDisplay="CENTER" mnemonicParsing="false" onMouseEntered="#playHoverSound"  onAction="#handleResumeBtn" prefHeight="45.0" prefWidth="155.0" styleClass="button-page" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -19,7 +19,7 @@
             <Text styleClass="button-text" text="RESUME" />
          </graphic>
       </Button>
-      <Button fx:id="option_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSettingBtn" prefHeight="45.0" prefWidth="155.0" styleClass="button-page" textAlignment="CENTER">
+      <Button fx:id="option_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleSettingBtn" prefHeight="45.0" prefWidth="155.0" styleClass="button-page" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
@@ -30,7 +30,7 @@
             <Text styleClass="button-text" text="OPTION" />
          </graphic>
       </Button>
-      <Button fx:id="quit_btn" alignment="CENTER" mnemonicParsing="false" onAction="#handleQuitBtn" prefHeight="49.0" prefWidth="156.0" styleClass="button-page" textAlignment="CENTER">
+      <Button fx:id="quit_btn" alignment="CENTER" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleQuitBtn" prefHeight="49.0" prefWidth="156.0" styleClass="button-page" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>

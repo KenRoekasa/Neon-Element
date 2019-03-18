@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.LeaderboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.LeaderboardController">
    <top>
       <BorderPane maxHeight="200.0" prefHeight="200.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <center>
-            <Text fill="#ff0b0b" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME OVER!" BorderPane.alignment="CENTER">
+            <Text fill="#ff0b0b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-big" text="GAME OVER!" BorderPane.alignment="CENTER">
                <font>
                   <Font size="80.0" />
                </font>
@@ -36,12 +36,12 @@
          <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <center>
-                  <Button fx:id="play_again_btn" mnemonicParsing="false" onAction="#handlePlayAgainBtn" styleClass="button-text" text="PLAY AGAIN" BorderPane.alignment="CENTER" />
+                  <Button fx:id="play_again_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handlePlayAgainBtn" styleClass="button-text" text="PLAY AGAIN" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                <center>
-                  <Button fx:id="quit_btn" mnemonicParsing="false" onAction="#handleQuitBtn" styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="QUIT" BorderPane.alignment="CENTER" />
+                  <Button fx:id="quit_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleQuitBtn" styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="QUIT" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </children>
@@ -115,26 +115,11 @@
                               <Insets left="40.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="player1_id" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="1">
-                           <padding>
-                              <Insets left="50.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player1_kills" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="2">
-                           <padding>
-                              <Insets left="65.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player1_deaths" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="3">
-                           <padding>
-                              <Insets left="90.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player1_score" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="4">
-                           <padding>
-                              <Insets left="70.0" />
-                           </padding>
-                        </Label>
+
+                        <Text fx:id="player1_kills" styleClass="standard-text-normal" text="kills" textAlignment="CENTER" wrappingWidth="130" GridPane.columnIndex="2" />
+                        <Text fx:id="player1_deaths" styleClass="standard-text-normal" text="deaths" textAlignment="CENTER" wrappingWidth="180" GridPane.columnIndex="3" />
+                        <Text fx:id="player1_score" styleClass="standard-text-normal" text="score" textAlignment="CENTER" wrappingWidth="150" GridPane.columnIndex="4" />
+                        <Text fx:id="player1_id" styleClass="standard-text-normal" text="id" textAlignment="CENTER" wrappingWidth="100" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane GridPane.rowIndex="2">
@@ -154,26 +139,10 @@
                               <Insets left="40.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="player2_id" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="1">
-                           <padding>
-                              <Insets left="50.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player2_kills" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="2">
-                           <padding>
-                              <Insets left="65.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player2_deaths" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="3">
-                           <padding>
-                              <Insets left="90.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player2_score" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="4">
-                           <padding>
-                              <Insets left="70.0" />
-                           </padding>
-                        </Label>
+                         <Text fx:id="player2_kills" styleClass="standard-text-normal" text="kills" textAlignment="CENTER" wrappingWidth="130" GridPane.columnIndex="2" />
+                         <Text fx:id="player2_deaths" styleClass="standard-text-normal" text="deaths" textAlignment="CENTER" wrappingWidth="180" GridPane.columnIndex="3" />
+                         <Text fx:id="player2_score" styleClass="standard-text-normal" text="score" textAlignment="CENTER" wrappingWidth="150" GridPane.columnIndex="4" />
+                         <Text fx:id="player2_id" styleClass="standard-text-normal" text="id" textAlignment="CENTER" wrappingWidth="100" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="rank_3" GridPane.rowIndex="3">
@@ -193,26 +162,10 @@
                               <Insets left="40.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="player3_id" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="1">
-                           <padding>
-                              <Insets left="50.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player3_kills" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="2">
-                           <padding>
-                              <Insets left="65.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player3_deaths" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="3">
-                           <padding>
-                              <Insets left="90.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player3_score" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="4">
-                           <padding>
-                              <Insets left="70.0" />
-                           </padding>
-                        </Label>
+                         <Text fx:id="player3_kills" styleClass="standard-text-normal" text="kills" textAlignment="CENTER" wrappingWidth="130" GridPane.columnIndex="2" />
+                         <Text fx:id="player3_deaths" styleClass="standard-text-normal" text="deaths" textAlignment="CENTER" wrappingWidth="180" GridPane.columnIndex="3" />
+                         <Text fx:id="player3_score" styleClass="standard-text-normal" text="score" textAlignment="CENTER" wrappingWidth="150" GridPane.columnIndex="4" />
+                         <Text fx:id="player3_id" styleClass="standard-text-normal" text="id" textAlignment="CENTER" wrappingWidth="100" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane fx:id="rank_4" GridPane.rowIndex="4">
@@ -232,26 +185,11 @@
                               <Insets left="40.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="player4_id" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="1">
-                           <padding>
-                              <Insets left="50.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player4_kills" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="2">
-                           <padding>
-                              <Insets left="65.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player4_deaths" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="3">
-                           <padding>
-                              <Insets left="90.0" />
-                           </padding>
-                        </Label>
-                        <Label fx:id="player4_score" styleClass="standard-text-normal" text="Label" GridPane.columnIndex="4">
-                           <padding>
-                              <Insets left="70.0" />
-                           </padding>
-                        </Label>
+
+                         <Text fx:id="player4_kills" styleClass="standard-text-normal" text="kills" textAlignment="CENTER" wrappingWidth="130" GridPane.columnIndex="2" />
+                         <Text fx:id="player4_deaths" styleClass="standard-text-normal" text="deaths" textAlignment="CENTER" wrappingWidth="180" GridPane.columnIndex="3" />
+                         <Text fx:id="player4_score" styleClass="standard-text-normal" text="score" textAlignment="CENTER" wrappingWidth="150" GridPane.columnIndex="4" />
+                         <Text fx:id="player4_id" styleClass="standard-text-normal" text="id" textAlignment="CENTER" wrappingWidth="100" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </children>

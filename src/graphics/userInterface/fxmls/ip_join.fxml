@@ -32,14 +32,14 @@
                 <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn">
+                  <Button fx:id="back_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="BACK" />
                      </graphic>
                   </Button>
                </children>
             </GridPane>
-            <Button fx:id="start_btn" mnemonicParsing="false" onAction="#handleStartBtn" styleClass="button-text" text="START" GridPane.columnIndex="2" />
+            <Button fx:id="start_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleStartBtn" styleClass="button-text" text="START" GridPane.columnIndex="2" />
          </children>
       </GridPane>
    </center>

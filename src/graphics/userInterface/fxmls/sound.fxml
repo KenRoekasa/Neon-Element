@@ -52,12 +52,12 @@
                                 <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" styleClass="button-page" stylesheets="@../resources/css/outrun.css" textAlignment="CENTER">
+                                <Button fx:id="ok_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleOkBtn" styleClass="button-page" stylesheets="@../resources/css/outrun.css" textAlignment="CENTER">
                                     <graphic>
                                         <Label styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="  OK   " />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button-page" stylesheets="@../resources/css/outrun.css" GridPane.columnIndex="1">
+                                <Button fx:id="back_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" styleClass="button-page" stylesheets="@../resources/css/outrun.css" GridPane.columnIndex="1">
                                     <graphic>
                                         <Label styleClass="button-text" stylesheets="@../resources/css/outrun.css" text=" Back " />
                                     </graphic>
