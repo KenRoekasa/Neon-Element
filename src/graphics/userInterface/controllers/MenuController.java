@@ -21,26 +21,6 @@ public class MenuController extends UIController implements Initializable{
      */
     // play -> mode selection
     @FXML
-    public void hoverPlay(){
-        playHoverSound();
-    }
-
-    @FXML
-    public void hoverHelp(){
-        playHoverSound();
-
-    }
-    @FXML
-    public void hoverExit(){
-        playHoverSound();
-    }
-
-    @FXML
-    public void hoverOption(){
-        playHoverSound();
-    }
-
-    @FXML
     public void handlePlayBtn() {
 
         // create game rules

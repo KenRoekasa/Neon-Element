@@ -36,12 +36,12 @@
          <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <center>
-                  <Button fx:id="play_again_btn" mnemonicParsing="false" onAction="#handlePlayAgainBtn" styleClass="button-text" text="PLAY AGAIN" BorderPane.alignment="CENTER" />
+                  <Button fx:id="play_again_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handlePlayAgainBtn" styleClass="button-text" text="PLAY AGAIN" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                <center>
-                  <Button fx:id="quit_btn" mnemonicParsing="false" onAction="#handleQuitBtn" styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="QUIT" BorderPane.alignment="CENTER" />
+                  <Button fx:id="quit_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleQuitBtn" styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="QUIT" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </children>

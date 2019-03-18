@@ -21,7 +21,7 @@
           <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#handleStartBtn" styleClass="button-page" GridPane.columnIndex="2">
+            <Button mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleStartBtn" styleClass="button-page" GridPane.columnIndex="2">
                <graphic>
                   <Label fx:id="start" styleClass="button-text" text="START" />
                </graphic>
@@ -32,7 +32,7 @@
                   <Text fx:id="ip_address" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="127.0.0.1" wrappingWidth="288.3388671875" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
-            <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="131.0" prefWidth="253.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="back_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="131.0" prefWidth="253.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <graphic>
                   <Label styleClass="button-text" text="BACK" />
                </graphic>

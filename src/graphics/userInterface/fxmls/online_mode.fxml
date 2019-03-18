@@ -24,17 +24,17 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="host_btn" mnemonicParsing="false" onAction="#handleHostGame" prefHeight="83.0" prefWidth="400.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="host_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleHostGame" prefHeight="83.0" prefWidth="400.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <graphic>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="HOST" />
                </graphic></Button>
-            <Button fx:id="join_btn" mnemonicParsing="false" onAction="#handleJoinGame" prefHeight="83.0" prefWidth="361.0" styleClass="button-page" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button fx:id="join_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleJoinGame" prefHeight="83.0" prefWidth="361.0" styleClass="button-page" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <graphic>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="JOIN" />
                </graphic></Button>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="back_btn" layoutX="56.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button-page">
+                  <Button fx:id="back_btn" layoutX="56.0" layoutY="49.0" mnemonicParsing="false" onMouseEntered="#playHoverSound"  onAction="#handleBackBtn" styleClass="button-page">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="BACK" />
                      </graphic></Button>

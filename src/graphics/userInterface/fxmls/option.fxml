@@ -34,12 +34,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" styleClass="button-page" textAlignment="CENTER" GridPane.rowIndex="1">
+                        <Button fx:id="ok_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleOkBtn" styleClass="button-page" textAlignment="CENTER" GridPane.rowIndex="1">
                            <graphic>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="OK" />
                            </graphic>
                         </Button>
-                        <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="83.0" prefWidth="177.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Button fx:id="back_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="83.0" prefWidth="177.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <graphic>
                               <Text styleClass="button-text" text=" Back " />
                            </graphic>
