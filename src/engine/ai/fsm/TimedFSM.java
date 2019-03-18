@@ -1,25 +1,19 @@
-package engine.ai;
+package engine.ai.fsm;
 
-import engine.calculations.AiCalculations;
+import engine.ai.calculations.AiCalculations;
+import engine.ai.controller.AiController;
+import engine.ai.enums.AiStates;
 import engine.entities.Character;
 import engine.entities.Player;
-import engine.enums.AiStates;
 import engine.enums.PowerUpType;
 
-public class TimedFSM {
-	
-	Player aiPlayer;
-	AiController aiCon;
-	AiCalculations calc;
-	float maxHP ;
+public class TimedFSM extends FSM{
 	
 	public TimedFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
-		this.aiPlayer = aiPlayer;
-		this.aiCon = aiCon;
-		this.calc = calc;
-		maxHP = aiPlayer.getMAX_HEALTH();
+		super(aiPlayer, aiCon, calc);
 	}
 	
+	@Override
 	public void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -71,6 +65,7 @@ public class TimedFSM {
 
 	}
 	
+	@Override
 	public void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
@@ -123,6 +118,7 @@ public class TimedFSM {
 
 	}
 	
+	@Override
 	public void hardAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();

@@ -5,10 +5,10 @@ import engine.Physics;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.GameOverController;
-import graphics.userInterface.controllers.HUDController;
-import graphics.userInterface.controllers.PauseController;
+import graphics.userInterface.controllers.*;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -22,6 +22,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import server.controllers.PowerUpController;
 
 import java.io.IOException;
@@ -78,7 +79,7 @@ public class GameClient {
         hudController.setScoreBoard(gameState.getScoreBoard());
         hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
         hudController.setPlayerId(gameState.getPlayer().getId());
-        hudController.setNum_player(gameState.getNum_player());
+        hudController.setNum_player(gameState.getScoreBoard().getLeaderBoard().size());
         hudController.setAudioManager(audioManager);
 
         primaryStage.getScene().setRoot(hudPane);
@@ -135,7 +136,7 @@ public class GameClient {
         new AnimationTimer() {
             long lastTime = System.nanoTime();
             public void handle(long currentNanoTime) {
-                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap(), primaryStage);
+                InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap().getGround(), primaryStage);
                 renderer.render(primaryStage, gameState);
                 hudController.update();
 
@@ -170,19 +171,23 @@ public class GameClient {
 
 
     private void showGameOver() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
         try {
             Pane root = loader.load();
             primaryStage.getScene().setRoot(root);
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
-            GameOverController controller = loader.getController();
+
+
+            LeaderboardController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
-
+            controller.setScoreBoard(gameState.getScoreBoard());
+            controller.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+            controller.setNum_players(gameState.getScoreBoard().getLeaderBoard().size());
+            controller.showLeaderBoard();
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
-
-            primaryStage.setTitle("Game Over!");
+            primaryStage.setTitle("Game Over");
             gameState.stop();
 
         } catch (IOException e) {

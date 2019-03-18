@@ -18,6 +18,7 @@ import static engine.entities.CooldownValues.*;
 public abstract class Character extends PhysicsObject {
     public static final float DEFAULT_MOVEMENT_SPEED = 0.35f;
     protected static final float MAX_HEALTH = 100;
+    private final int heavyAttackRange = 500;
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
@@ -42,7 +43,7 @@ public abstract class Character extends PhysicsObject {
     protected float horizontalMove = 0;
     protected Player lastAttacker = null;
     private long currentActionStart;
-    protected double lightAttackRange = width * 4;
+    protected double lightAttackRange = 300;
 
     public Player getLastAttacker() {
         return lastAttacker;
@@ -438,7 +439,7 @@ public abstract class Character extends PhysicsObject {
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, 300);
+        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange);
     }
 
     public Directions getCharacterDirection() {

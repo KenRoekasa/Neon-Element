@@ -79,7 +79,11 @@ public class Debugger {
 
     private void printPlayerInfo(Character player, Point2D relativeLocation){
 
+        gc.save();
+
+        gc.setStroke(Color.WHITE);
         gc.strokeText(player.toString(), relativeLocation.getX(), relativeLocation.getY());
+        gc.restore();
     }
 
     private void printPlayerHealth(Character player, Point2D relativeLocation){

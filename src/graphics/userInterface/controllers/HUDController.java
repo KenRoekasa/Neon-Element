@@ -14,53 +14,116 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of hud.fxml which mainly controls the properties of the game state
+ */
 //To get players' health and speed in top-left hud
 public class HUDController extends UIController implements Initializable {
 
+    /**
+     * The game state
+     */
     private ClientGameState gameState;
+    /**
+     * The score board of current game
+     */
     private ScoreBoard scoreBoard;
+    /**
+     * Client player id
+     */
     private int playerId;
+    /**
+     * The leader board of current game
+     */
     private ArrayList<Integer> leaderBoard;
 
+    /**
+     * Output string template of leader board
+     */
     private final static String TEMP = "Player %s with %s ";
 
+    /** Set the client player id
+     * @param playerId client player id
+     */
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
 
+    /** Set the score board
+     * @param scoreBoard current score board
+     */
     public void setScoreBoard(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
     }
 
+    /** Set the leader board
+     * @param leaderBoard current leader board information
+     */
     public void setLeaderBoard(ArrayList<Integer> leaderBoard) {
         this.leaderBoard = leaderBoard;
     }
 
+    /** Set the current game state
+     * @param gameState current game state
+     */
     public void setGameState(ClientGameState gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * The text of health shown on the user interface
+     */
     @FXML
     private Text health;
+    /**
+     * The string property of the health value
+     */
     private StringProperty healthValue;
 
+    /**
+     * The text of number of kills shown on the player's information section
+     */
     @FXML
     private Text kills;
+    /**
+     * The string property of number of kills on the player's information section
+     */
     private StringProperty totalKills;
 
+    /**
+     * The text of death times shown on the player's information section
+     */
     @FXML Text death;
+    /**
+     * The string property of the death times
+     */
     private StringProperty deathTimes;
 
+    /**
+     * The labels of players shown on the leader board section
+     */
     @FXML
     private Label player1, player2, player3, player4;
+    /**
+     * The string properties of players's leading information
+     */
     private StringProperty player1Property, player2Property, player3Property, player4Property;
 
+    /**
+     * Number of the total players in the game
+     */
     private int num_player;
 
+    /** Set the total players number of the game
+     * @param num_player
+     */
     public void setNum_player(int num_player) {
         this.num_player = num_player;
     }
 
+    /**
+     * Constructor for initialising the string property's fields;
+     */
     public HUDController() {
         healthValue = new SimpleStringProperty();
         totalKills = new SimpleStringProperty();
@@ -72,6 +135,10 @@ public class HUDController extends UIController implements Initializable {
     }
 
 
+    /** Initialise the controller setting, implement the user interface value binding
+     * @param location  url location
+     * @param resources resource bundled
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -104,6 +171,9 @@ public class HUDController extends UIController implements Initializable {
         }
     }
 
+    /**
+     * Update the all string properties in this controller when every call this function
+     */
     public void update() {
 
         if (gameState.getPlayer().getHealth() < 0) {

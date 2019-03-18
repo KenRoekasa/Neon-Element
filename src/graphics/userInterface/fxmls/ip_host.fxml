@@ -1,68 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HostController">
+<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HostController">
    <center>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1023.0" styleClass="pane">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="85.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="250.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="382.0" minWidth="10.0" prefWidth="309.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="427.0" minWidth="10.0" prefWidth="366.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="375.0" minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="385.0" minHeight="10.0" prefHeight="295.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="242.0" minHeight="10.0" prefHeight="87.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="202.0" minHeight="10.0" prefHeight="199.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="250.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <GridPane prefHeight="88.0" prefWidth="326.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-              <columnConstraints>
-                  <ColumnConstraints maxWidth="700.0" minWidth="42.0" prefWidth="550.0" />
-                  <ColumnConstraints maxWidth="700.0" minWidth="42.0" prefWidth="700.0" />
-                  <ColumnConstraints maxWidth="350.0" minWidth="7.0" prefWidth="350.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints maxHeight="100.0" prefHeight="100.0" />
-              </rowConstraints>
-               <children>
-                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="88.0" prefWidth="189.0" styleClass="button-page" GridPane.columnIndex="1">
-                     <graphic>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="BACK" />
-                     </graphic></Button>
-               </children>
-            </GridPane>
-            <GridPane prefHeight="253.0" prefWidth="384.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="10.0" prefWidth="550.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="500.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="148.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <ButtonBar prefHeight="40.0" prefWidth="200.0" />
-                  <Label fx:id="loading" styleClass="standard-text" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-            <Button mnemonicParsing="false" onAction="#handleStartBtn" styleClass="button-page" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onAction="#handleStartBtn" styleClass="button-page" GridPane.columnIndex="2">
                <graphic>
                   <Label fx:id="start" styleClass="button-text" text="START" />
                </graphic>
             </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="Current IP address:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="CURRENT IP ADDRESS:" />
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <center>
+                  <Text fx:id="ip_address" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="127.0.0.1" wrappingWidth="288.3388671875" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="131.0" prefWidth="253.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <graphic>
+                  <Label styleClass="button-text" text="BACK" />
+               </graphic>
+            </Button>
          </children>
       </GridPane>
    </center>

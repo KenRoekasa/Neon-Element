@@ -1,4 +1,4 @@
-package engine.enums;
+package engine.ai.enums;
 
 public enum AiStates {
 	//used by basic and advanced enemies

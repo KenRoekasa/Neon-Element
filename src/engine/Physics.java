@@ -31,6 +31,10 @@ public class Physics {
         new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
+
+
+        gameState.getAiConMan().updateAllAi();
+
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
             kingOfHillHandler();
         }
@@ -53,12 +57,14 @@ public class Physics {
     private void kingOfHillHandler() {
         HillGame hillGame = (HillGame) gameState.getGameType();
         Circle hill = hillGame.getHill();
+//        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
+//        System.out.println("hill : " + hill);
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         ArrayList<Player> playersInside = new ArrayList<>();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
             Player player = itr.next();
-            if (CollisionDetection.checkCollision(player.getBounds().getBoundsInParent(), hill.getBoundsInParent())) {
+            if (CollisionDetection.checkCollision(hill, player.getBounds())) {
                 playersInside.add(player);
             }
         }
@@ -229,12 +235,12 @@ public class Physics {
             for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
                 Player e = itr1.next();
                 // Check light attack
-                if (CollisionDetection.checkCollision(player.getAttackHitbox().getBoundsInParent(), e.getBounds().getBoundsInParent())) {
+                if (CollisionDetection.checkCollision(player.getAttackHitbox(), e.getBounds())) {
                     lightHittablePlayers.add(e);
                 }
                 //Check heavy attack
-                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox().getBoundsInParent(),
-                        e.getBounds().getBoundsInParent())) {
+                if (CollisionDetection.checkCollision(player.getHeavyAttackHitbox(),
+                        e.getBounds())) {
                     heavyHittablePlayer.add(e);
                 }
             }
