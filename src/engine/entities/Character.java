@@ -9,7 +9,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.Timer;
 import java.util.TimerTask;
 
