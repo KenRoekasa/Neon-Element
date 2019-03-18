@@ -35,22 +35,22 @@
                <children>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <center>
-                        <Button id="play_btn" fx:id="play" mnemonicParsing="false" onAction="#handlePlayBtn" prefHeight="86.0" prefWidth="326.0" styleClass="button-text" text="PLAY" BorderPane.alignment="CENTER" />
+                        <Button id="play_btn" fx:id="play" mnemonicParsing="false" onAction="#handlePlayBtn" onMouseEntered="#hoverPlay" prefHeight="86.0" prefWidth="326.0" styleClass="button-text" text="PLAY" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                      <center>
-                        <Button id="help_btn" fx:id="help" mnemonicParsing="false" onAction="#handleHelpBtn" prefHeight="86.0" prefWidth="319.0" styleClass="button-text" text="HELP" BorderPane.alignment="CENTER" />
+                        <Button id="help_btn" fx:id="help" mnemonicParsing="false" onMouseEntered="#hoverHelp" onAction="#handleHelpBtn" prefHeight="86.0" prefWidth="319.0" styleClass="button-text" text="HELP" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                      <center>
-                        <Button id="option_btn" fx:id="option" mnemonicParsing="false" onAction="#handleOptionBtn" prefHeight="86.0" prefWidth="321.0" styleClass="button-text" text="SETTING" BorderPane.alignment="CENTER" />
+                        <Button id="option_btn" fx:id="option" mnemonicParsing="false" onMouseEntered="#hoverOption" onAction="#handleOptionBtn" prefHeight="86.0" prefWidth="321.0" styleClass="button-text" text="SETTING" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                      <center>
-                        <Button id="exit_btn" fx:id="exit" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="86.0" prefWidth="331.0" styleClass="button-text" text="EXIT" BorderPane.alignment="CENTER" />
+                        <Button id="exit_btn" fx:id="exit" mnemonicParsing="false" onMouseEntered="#hoverExit"  onAction="#handleExitBtn" prefHeight="86.0" prefWidth="331.0" styleClass="button-text" text="EXIT" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </children>

@@ -1,5 +1,6 @@
 package graphics.userInterface.controllers;
 
+import client.audiomanager.Sound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +20,26 @@ public class MenuController extends UIController implements Initializable{
     /** Handle the action when pressing play button which direct to mode.fxml
      */
     // play -> mode selection
+    @FXML
+    public void hoverPlay(){
+        playHoverSound();
+    }
+
+    @FXML
+    public void hoverHelp(){
+        playHoverSound();
+
+    }
+    @FXML
+    public void hoverExit(){
+        playHoverSound();
+    }
+
+    @FXML
+    public void hoverOption(){
+        playHoverSound();
+    }
+
     @FXML
     public void handlePlayBtn() {
 

@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
@@ -52,8 +53,14 @@ public class UIController implements Initializable{
      * @param resources resource bundled
      */
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    public void playHoverSound(){
+        audioManager.playSound(Sound.LIGHT_HIT);
+    }
+
 }
