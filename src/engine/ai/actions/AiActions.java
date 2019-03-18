@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 //Low level actions, that includes movement, attacks, shielding, and elements control.
-//Used in state action classes to build state actions
+//Used in state action classes to build state action methods
 public class AiActions {
 	
 	//The AI controller object
