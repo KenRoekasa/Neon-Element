@@ -85,5 +85,4 @@ public class LeaderboardController extends UIController {
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
-
 }

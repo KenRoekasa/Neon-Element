@@ -11,7 +11,7 @@ import java.io.IOException;
  * */
 public class FxmlLoader {
 
-    /** A constructor for FxmlLoader to initialise and configure the scene
+    /** Constructor for FxmlLoader to initialise and configure the scene
      * @param fxmlPath the relative path of fxml which is going to be loading
      * @param stage the stage of the application
      * @param stageTitle the stage title of current scene

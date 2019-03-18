@@ -5,9 +5,7 @@ import engine.Physics;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.GameOverController;
-import graphics.userInterface.controllers.HUDController;
-import graphics.userInterface.controllers.PauseController;
+import graphics.userInterface.controllers.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -173,25 +171,24 @@ public class GameClient {
 
 
     private void showGameOver() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
         try {
             Pane root = loader.load();
             primaryStage.getScene().setRoot(root);
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
-            GameOverController controller = loader.getController();
+
+
+            LeaderboardController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
             controller.setScoreBoard(gameState.getScoreBoard());
+            controller.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+            controller.setNum_players(gameState.getScoreBoard().getLeaderBoard().size());
+            controller.showLeaderBoard();
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
             primaryStage.setTitle("Game Over");
             gameState.stop();
-
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ev -> {
-                controller.jumpToLeaderboard();
-            }));
-            timeline.setCycleCount(1);
-            timeline.play();
 
         } catch (IOException e) {
             System.out.println("crush in loading menu board ");

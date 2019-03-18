@@ -51,6 +51,7 @@ public class UIController implements Initializable{
      * @param location url location
      * @param resources resource bundled
      */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
