@@ -13,20 +13,35 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-//low level actions used by state actions and in AI controller
+//Low level actions, that includes movement, attacks, shielding, and elements control.
+//Used in state action classes to build state actions
 public class AiActions {
 	
+	//The AI controller object
 	protected AiController aiCon;
+	//Object of the Player being controlled
 	protected Player aiPlayer;
+	//Game map object  
 	protected Rectangle map;
+	//Object of AI calculations used to access more specific AI calculation objects
 	protected AiCalculations calc;
+	//Time calculation object, used to calculate time for things like changing element every X seconds
 	protected TimeCalculations timeCalc;
+	//Movement calculations object, used to calculate distance and angles.
 	protected MovementCalculations moveCalc;
+	//Player calculations object, used to know stuff like, if player is: charging, too close, in attack distance. And to access players objects.
 	protected PlayersCalculations playerCalc;
+	//Wandering direction variable, used to determine which of the 8 possible movements to use when in Wandering state 
 	protected int wanderingDirection ;
-	protected boolean spamming = false;
+	//Random object, used to calculate the wandering direction randomly
 	protected Random r;
 	
+	/**
+	 * Initialises an AiActions object
+	 * @param aiCon the AI controller object
+	 * @param calc AI calculation object
+	 * @param map Game map 
+	 */
 	public AiActions(AiController aiCon, AiCalculations calc, Rectangle map) {
 		
 		this.calc = calc;
@@ -39,6 +54,9 @@ public class AiActions {
 		r = new Random();
 	}
 
+	/**
+	 * Assigns the AI player an element at random
+	 */
 	public void assignRandomElement() {
 
 		Random r = new Random();
@@ -59,6 +77,10 @@ public class AiActions {
 		}
 	}
 	
+	/**
+	 * Assigns the AI player a random element that is different than the current one
+	 * For example, if the current element is Fire, then this method will assign either Water, Air or Earth.
+	 */
 	public void assignDifferentRandomElement() {
 
 		Random r = new Random();
@@ -118,7 +140,12 @@ public class AiActions {
 			break;
 		}
 	}
-
+	
+	/**
+	 * Moves away from the player.
+	 * Tries to maximise distance from the player given as parameter.
+	 * @param player the player to move away from
+	 */
 	public void moveAwayFromPlayer(Player player) {
 		
 		attackIfInDistanceWithShield(player);
@@ -129,7 +156,10 @@ public class AiActions {
 			simpleMovement(player.getLocation(),aiPlayer.getLocation());
 	}
 	
-	
+	/**
+	 * This method should be called when an AI player has reached an edge either wandering or running away from someone.
+	 * It finds out where the edge is an moves in opposite direction.
+	 */
 	public void moveAwayFromEdge() {
 		int i = moveCalc.closestEdgeLocation();
 		switch(i) {
@@ -144,7 +174,11 @@ public class AiActions {
 		}
 	}
 	
-
+	/**
+	 * Moves the AI player to the power up given its index in 'objects' and its location. 
+	 * @param powerupIndex The index of the power up in objects, uses it to make sure the power up exist
+	 * @param loc the location of the power up given as a Point2D object
+	 */
 	public void moveTo(int powerupIndex, Point2D loc) {
 		
 		Player player = playerCalc.getNearestPlayer();
@@ -158,6 +192,13 @@ public class AiActions {
 
 	}
 
+	/**
+	 * Abstract movement method given two locations.
+	 * Can be give the AI's location as the first argument and the destination as the second to move the player to the destination.
+	 * Or can be given an oppnent's location as the first argument and the AI's location as the second to move away from an opponent.
+	 * @param myLoc First location given as a Point2D object
+	 * @param theirLoc Second location given as a Point2D object
+	 */
 	public void simpleMovement(Point2D myLoc, Point2D theirLoc) {
 		double myX = myLoc.getX();
 		double myY = myLoc.getY();
@@ -185,15 +226,28 @@ public class AiActions {
 		
 	}
 	
-	void up() {aiPlayer.moveUp();}
-	void down() {aiPlayer.moveDownCartestian(map.getWidth());}
-	void left() {aiPlayer.moveLeft(map.getWidth());}
-	void right() {aiPlayer.moveRight(map.getWidth(), map.getHeight());}
-	void upcart() {aiPlayer.moveUpCartesian();}
-	void downcart() {aiPlayer.moveDownCartestian(map.getWidth());};
-	void leftcart() {aiPlayer.moveLeftCartesian();};
-	void rightcart() {aiPlayer.moveRightCartesian(map.getWidth());};
+	//Moves the AI player up
+	private void up() {aiPlayer.moveUp();}
+	//Moves the AI player down
+	private void down() {aiPlayer.moveDownCartestian(map.getWidth());}
+	//Moves the AI player left
+	private void left() {aiPlayer.moveLeft(map.getWidth());}
+	//Moves the AI player right
+	private void right() {aiPlayer.moveRight(map.getWidth(), map.getHeight());}
+	//Moves the AI player up cartesian
+	private void upcart() {aiPlayer.moveUpCartesian();}
+	//Moves the AI player down cartesian
+	private void downcart() {aiPlayer.moveDownCartestian(map.getWidth());};
+	//Moves the AI player left cartesian
+	private void leftcart() {aiPlayer.moveLeftCartesian();};
+	//Moves the AI player right cartesian
+	private void rightcart() {aiPlayer.moveRightCartesian(map.getWidth());};
 	
+	/**
+	 * Moves the AI player to a player given its Player object, and keeps reasonable distance when it gets close to the player so they do not collide.
+	 * Sets attack angle to that player.
+	 * @param player The player to move to
+	 */
 	public void moveTo(Player player) {
 
 		Point2D playerLoc = player.getLocation();
@@ -210,6 +264,30 @@ public class AiActions {
 
 	}
 	
+	/**
+	 * Moves to a player and keeps distance if they are charging a heavy attack, so the AI is not affected.
+	 * @param player The player to move to
+	 */
+	public void moveToAndKeepDistance(Player player) {
+	
+		if(playerCalc.isCharging(aiPlayer)) {
+			if(moveCalc.calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
+				moveTo(player);
+			}
+			else {
+				moveAwayFromPlayer(player);
+			}
+		}
+		else {
+			moveTo(player);
+		}
+		
+	}
+	
+	/**
+	 * Changes AI player's element if the number of seconds have passed since last time element changed.
+	 * @param seconds Number of seconds after which element changes.
+	 */
 	public void changeToRandomElementAfter(int seconds) {
 		if(timeCalc.secondsElapsed() >= seconds) {
 			timeCalc.setStartTime(System.nanoTime()/1000000000);
@@ -217,7 +295,10 @@ public class AiActions {
 		}
 	}
 
-
+	/**
+	 * Makes AI player wander in a random direction 
+	 * Used by easy mode AI, and sometimes normal mode as well.
+	 */
 	public void startWandering() {
 		
 		Player player = playerCalc.getNearestPlayer();
@@ -248,6 +329,11 @@ public class AiActions {
 		}
 	}
 	
+	/**
+	 * Changes AI element to a one that maximises damage given if it is in an attacking state, or 
+	 * to an element that minimises damage taken if it is in a non-attacking state.
+	 * Mainly uses by hard mode enemies, but normal mode enemies uses it in some game types.
+	 */
 	public void changeToBefittingElement() {
 		Player player = playerCalc.getNearestPlayer();
 		switch(aiCon.getActiveState()) {
@@ -295,6 +381,10 @@ public class AiActions {
 		}
 	}
 
+	/**
+	 * Attacks the player given as an argument if that player is in attacking distance from the AI.
+	 * @param player The player to attack if they were in attackable distance.
+	 */
 	public void attackIfInDistance(Player player) {
 		
 		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(aiPlayer)) {
@@ -306,7 +396,11 @@ public class AiActions {
 		}
 	}
 	
-	
+	/**
+	 * Attacks the player given as an argument if that player is in attacking distance from AI.
+	 * This method is used when the AI is in defence mode, and has its shield on. So it attacks the player and puts the shield back on
+	 * @param player The player to attack if they were in attackable distance.
+	 */
 	public void attackIfInDistanceWithShield(Player player) {
 		
 		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(aiPlayer)) {
@@ -320,27 +414,14 @@ public class AiActions {
 		}
 	}
 	
+	/**
+	 * Puts shield on if and only if another player is nearby, otherwise, remove shield
+	 */
 	public void shieldWhenAlone() {
 		if(playerCalc.playerIsTooClose())
 			aiPlayer.shield();
 		else 
 			aiPlayer.unShield();
-	}
-
-	public void moveToAndKeepDistance(Player player) {
-	
-		if(playerCalc.isCharging(aiPlayer)) {
-			if(moveCalc.calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
-				moveTo(player);
-			}
-			else {
-				moveAwayFromPlayer(player);
-			}
-		}
-		else {
-			moveTo(player);
-		}
-		
 	}
 
 
