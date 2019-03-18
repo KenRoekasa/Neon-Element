@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -27,8 +28,7 @@ public class FxmlLoader {
             controller.setStage(stage);
             controller.setAudioManager(audioManager);
             stage.setTitle(stageTitle);
-
-
+            audioManager.playSound(Sound.SHIELD);//set the sound to button
         } catch (IOException e) {
             System.out.println("Crush in loading" +fileException+".fxml file.");
             e.printStackTrace();
