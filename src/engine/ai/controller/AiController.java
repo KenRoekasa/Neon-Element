@@ -1,4 +1,4 @@
-package engine.ai.controller;
+ package engine.ai.controller;
 
 import java.util.ArrayList;
 import engine.ScoreBoard;
@@ -43,6 +43,10 @@ public class AiController {
 	        actions.assignRandomElement();
 	        System.out.println("started ai\n difficulty: "+String.valueOf(aiType)+"\n\n");
 	    }
+		
+		public void pause() {
+			calc.getTimeCalc().setPaused(true);
+		}
 		
 		public void update() {
 			fsmManager.fetchAction();

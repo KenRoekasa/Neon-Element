@@ -32,11 +32,26 @@ public class AiControllersManager {
 		return controllers.get(controllers.size()-1).getAiPlayer();
 	}
 	
+	/**
+	 *use this method if you have your own game loop to update everything about AI's
+	 */
 	public void updateAllAi() {
 		for(AiController con : controllers) 
 			con.update();
 	}
 	
+	/**
+	 * use this method when pausing your game to notify AI that the game is paused, this is necessary for AI time calculations
+	 */
+	public void pauseAllAi() {
+		for(AiController con : controllers) 
+			con.pause();
+	}
+	
+	/**
+	 * use this method to let the AI controller manager have it is own loop
+	 * this is a bit inefficient to have a separate loop when you can just call updateAllAi() in your game loop
+	 */
 	public void startAllAi() {
 		(new Thread(new Runnable() {
 			@Override

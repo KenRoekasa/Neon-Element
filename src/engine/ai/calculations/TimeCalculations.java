@@ -4,16 +4,21 @@ public class TimeCalculations {
 
 	protected float startTime;
 	protected float wanderingTime;
+	protected float pausingTime;
+	protected boolean paused;
 	
 	public TimeCalculations() {
-		startTime = System.nanoTime()/1000000000;
+		startTime = currentTime();
 		wanderingTime = 0;
 	}
 
 	public boolean hasBeenWanderingFor(int time) {
+		if(paused) {
+			resetStartingTimes();
+		}
 		if (wanderingTime == 0)
-			wanderingTime = System.nanoTime()/1000000000;
-		float endTime = System.nanoTime()/1000000000;
+			wanderingTime = currentTime();
+		float endTime = currentTime();
 		if(endTime-wanderingTime>=time) {
 			wanderingTime = endTime;
 			return true;
@@ -21,9 +26,11 @@ public class TimeCalculations {
 		return false;
 	}
 
-
 	public float secondsElapsed() {
-		float endTime = System.nanoTime()/1000000000;
+		if(paused) {
+			resetStartingTimes();
+		}
+		float endTime = currentTime();
 		float elapsedTime = endTime - startTime;
 		return elapsedTime;
 	}
@@ -31,5 +38,27 @@ public class TimeCalculations {
 	public void setStartTime(float time) {
 		startTime = time;
 	}
+
+	public void setPaused(boolean b) {
+		if(b)
+			pausingTime = currentTime();
+		paused = b;
+	}
+	/**
+	 * @return current time in seconds
+	 */
+	private float currentTime() {
+		return  System.nanoTime()/1000000000;
+	}
+
+	/**
+	 * deducts pausing time from starting time and wandering time, so the pausing does not affect calculations
+	 */
+	private void resetStartingTimes() {
+		setPaused(false);
+		wanderingTime -= pausingTime;
+		startTime -=pausingTime;
+	}
+
 
 }
