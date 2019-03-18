@@ -83,6 +83,10 @@ public class GameClient {
         this.primaryStage = primaryStage;
         this.gameState = gameState;
         this.audioManager = audioManager;
+        
+        if(online) {
+        	 FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
+        }
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
