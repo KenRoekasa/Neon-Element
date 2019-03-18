@@ -27,6 +27,11 @@ public class AiControllersManager {
         this.scoreboard = scoreboard;
 	}
 	
+	/**
+	 * Adds an AI with type, level of difficulty of the parameter Type
+	 * @param type The type of the AI to create
+	 * @return The player object controller by AI
+	 */
 	public Player addAi(AiType type) {
 		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, type, scoreboard, gameType));
 		return controllers.get(controllers.size()-1).getAiPlayer();
