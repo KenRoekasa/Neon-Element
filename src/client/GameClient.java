@@ -173,7 +173,9 @@ public class GameClient {
                 hudController.update();
 
                 // TODO: remove this when networking is added
-                physicsEngine.clientLoop();
+                if(!gameState.getPaused()) {
+                    physicsEngine.clientLoop();
+                }
                 audioManager.clientLoop(gameState);
 
                 //calculate deltaTime
