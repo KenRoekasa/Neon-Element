@@ -1,5 +1,6 @@
 package engine.entities;
 
+import client.GameClient;
 import engine.model.AttackTimes;
 import engine.model.enums.Action;
 import engine.model.enums.Elements;
@@ -8,6 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -213,6 +215,7 @@ public abstract class Character extends PhysicsObject {
      * Attack the character in front of this character
      */
     public void lightAttack() {
+        System.out.println("hello");
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
@@ -541,10 +544,12 @@ public abstract class Character extends PhysicsObject {
      */
     private boolean checkCD(int id, float cooldown) {
         // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000));
+
+        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000000000) + GameClient.pauseDuration);
         //check if the time calculated has passed
-        if (System.currentTimeMillis() > nextAvailableTime) {
-            timerArray[id] = System.currentTimeMillis();
+        if (System.nanoTime() > nextAvailableTime) {
+            timerArray[id] = System.nanoTime();
+            GameClient.pauseDuration = 0;
             return true;
         }
         return false;

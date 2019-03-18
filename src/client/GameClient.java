@@ -30,6 +30,8 @@ import java.util.ArrayList;
 
 public class GameClient {
 
+    public static long pauseStart;
+    public static long pauseDuration =0;
     /**
      * Time since the last frame
      */
@@ -142,6 +144,10 @@ public class GameClient {
             beginClientLoop(renderer, hudController);
         }
 
+        if(gameState.getPaused()){
+            pauseDuration = System.nanoTime() - pauseStart;
+        }
+
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
     }
@@ -177,6 +183,12 @@ public class GameClient {
                     physicsEngine.clientLoop();
                 }
                 audioManager.clientLoop(gameState);
+                if (gameState.getPaused()) {
+                    //calculate pause duration
+                    long now = System.nanoTime();
+                    pauseDuration = (now - pauseStart);
+                }
+
 
                 //calculate deltaTime
                 long time = System.nanoTime();
@@ -287,6 +299,8 @@ public class GameClient {
                         controller.setStage(primaryStage, gameState);
                         controller.setAudioManager(audioManager);
                         gameState.pause();
+                        pauseStart = System.nanoTime();
+                        input.clear();
                         primaryStage.setTitle("Pause");
 
                     } catch (IOException ex) {
