@@ -1,8 +1,12 @@
 package engine.ai.actions;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.PlayersCalculations;
+import engine.ai.calculations.PowerupCalculations;
+import engine.ai.calculations.TimeCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
 import engine.ai.enums.AiType;
@@ -11,18 +15,26 @@ import engine.enums.PowerUpType;
 //high level actions, based on ai states 
 public abstract class AiStateActions {
 	
-	Player aiPlayer;
-	Player player;
-	AiController aiCon;
-	AiCalculations calc;
-	AiActions actions;
-	boolean wandering = false;
+	protected Player aiPlayer;
+	protected ArrayList<Player> realPlayers;
+	protected AiController aiCon;
+	protected AiCalculations calc;
+	protected AiActions actions;
+	protected PowerupCalculations puCalc;
+	protected PlayersCalculations playerCalc;
+	protected TimeCalculations timeCalc;
+	protected boolean wandering = false;
+	
 	public AiStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
-
+		
+		this.calc = calc;
+		puCalc = calc.getPowerupCalc();
+		playerCalc = calc.getPlayerCalc();
+		timeCalc = calc.getTimeCalc();
+		
 		this.aiCon = aiCon;
 		this.aiPlayer = aiCon.getAiPlayer();
-		this.player = aiCon.getPlayer();
-		this.calc = calc;
+		this.realPlayers = playerCalc.getRealPlayers();
 		this.actions = actions;
 		
 	}
@@ -66,7 +78,7 @@ public abstract class AiStateActions {
 	}
 	
 	protected void idle() {
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		actions.attackIfInDistanceWithShield(player);
 	}
 
@@ -86,28 +98,28 @@ public abstract class AiStateActions {
 	
 	protected void findSpeed() {
 		actions.shieldWhenAlone();
-		int index = calc.getPowerupCalc().getNearestPowerUp(PowerUpType.SPEED);
+		int index = puCalc.getNearestPowerUp(PowerUpType.SPEED);
 		if (index != -1)
-			actions.moveTo(index, calc.getPowerupCalc().getPowerups().get(index).getLocation());
+			actions.moveTo(index, puCalc.getPowerups().get(index).getLocation());
 	}
 
 	protected void findDamage() {
 		actions.shieldWhenAlone();
-		int index = calc.getPowerupCalc().getNearestPowerUp(PowerUpType.DAMAGE);
+		int index = puCalc.getNearestPowerUp(PowerUpType.DAMAGE);
 		if (index != -1)
-			actions.moveTo(index, calc.getPowerupCalc().getPowerups().get(index).getLocation());
+			actions.moveTo(index, puCalc.getPowerups().get(index).getLocation());
 	}
 
 	protected void findHealth() {
 		actions.shieldWhenAlone();
-		int index = calc.getPowerupCalc().getNearestPowerUp(PowerUpType.HEAL);
+		int index = puCalc.getNearestPowerUp(PowerUpType.HEAL);
 		if (index != -1)
-			actions.moveTo(index, calc.getPowerupCalc().getPowerups().get(index).getLocation());
+			actions.moveTo(index, puCalc.getPowerups().get(index).getLocation());
 	}
 
 	protected void aggressiveAttack() {
 		aiPlayer.unShield();
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		aiPlayer.chargeHeavyAttack();
 		if(aiCon.getAiType().equals(AiType.HARD))
 			actions.moveToAndKeepDistance(player);
@@ -118,20 +130,20 @@ public abstract class AiStateActions {
 	
 	protected void escape() {
 		actions.shieldWhenAlone();
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		actions.moveAwayFromPlayer(player);
 	}	
 	
 	protected void attack() {
 		aiPlayer.unShield();
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		actions.moveTo(player);
 		actions.attackIfInDistance(player);
 	}
 
 	protected void attackWinner() {
 		aiPlayer.unShield();
-		Player player = calc.getPlayerCalc().getWinningPlayer();
+		Player player = playerCalc.getWinningPlayer();
 		aiPlayer.chargeHeavyAttack();
 		actions.moveTo(player);
 		
@@ -149,7 +161,7 @@ public abstract class AiStateActions {
 	protected void updateWandering() {
 		if(isWandering() && !aiCon.getActiveState().equals(AiStates.WANDER))
 			setWandering(false);
-		else if( (!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) || calc.getTimeCalc().hasBeenWanderingFor(5) ) {
+		else if( (!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) || timeCalc.hasBeenWanderingFor(5) ) {
 			setWandering(true);
 			Random r = new Random();
 			actions.wanderingDirection = r.nextInt(8);

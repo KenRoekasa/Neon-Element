@@ -44,7 +44,7 @@ public class HillCalculations extends AiCalculations {
 	}
 	
 	public Player getOnHillPlayer() {
-		ArrayList<Player> players = getPlayerCalc().getPlayers();
+		ArrayList<Player> players = getPlayerCalc().getAllPlayers();
 		Player onHillPlayer = null;
 		for (Player player : players) {
 			if(player.getLocation().distance(circleCentre) < (map.getWidth()*0.01)) {

@@ -1,8 +1,6 @@
 package engine.ai.controller;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import engine.ScoreBoard;
 import engine.ai.actions.AiActions;
 import engine.ai.actions.AiHillStateActions;
@@ -18,30 +16,22 @@ import engine.ai.enums.AiType;
 import engine.ai.fsm.FSMManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.enums.PowerUpType;
 import engine.gameTypes.GameType;
-import engine.gameTypes.HillGame;
 import javafx.scene.shape.Rectangle;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class AiController {
 
 		AiStates activeState;
 		ArrayList<PhysicsObject> objects;
-		Player aiPlayer ;
-		Player player;
+		Player aiPlayer;
 		AiType aiType;
 		AiStateActions stateActions;
 		AiCalculations calc;
 		FSMManager fsmManager;
-		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType, ScoreBoard scoreboard, GameType gameType) {
+		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, AiType aiType, ScoreBoard scoreboard, GameType gameType) {
 	    	
 			this.activeState = AiStates.IDLE;
 	        this.objects = objects;
-	        this.player = player;
 	        this.aiPlayer = aiPlayer;
 	        this.aiType = aiType;
 	        initializeCalculations(gameType, map, scoreboard, gameType);
@@ -74,11 +64,7 @@ public class AiController {
 		public Player getAiPlayer() {
 			return aiPlayer;
 		}
-		
-		public Player getPlayer() {
-			return player;
-		}
-		
+
 		public AiType getAiType() {
 			return aiType;
 		}

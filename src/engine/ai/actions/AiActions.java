@@ -3,6 +3,9 @@ package engine.ai.actions;
 import java.util.Random;
 
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.MovementCalculations;
+import engine.ai.calculations.PlayersCalculations;
+import engine.ai.calculations.TimeCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
 import engine.enums.ObjectType;
@@ -10,21 +13,28 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-//low level actions used by state actions and in ai controller
+//low level actions used by state actions and in AI controller
 public class AiActions {
 	
-
-	int wanderingDirection ;
-	boolean spamming = false;
-	AiController aiCon;
-	AiCalculations calc;
-	Player aiPlayer;
-	Rectangle map;
-	Random r;
+	protected AiController aiCon;
+	protected Player aiPlayer;
+	protected Rectangle map;
+	protected AiCalculations calc;
+	protected TimeCalculations timeCalc;
+	protected MovementCalculations moveCalc;
+	protected PlayersCalculations playerCalc;
+	protected int wanderingDirection ;
+	protected boolean spamming = false;
+	protected Random r;
+	
 	public AiActions(AiController aiCon, AiCalculations calc, Rectangle map) {
+		
 		this.calc = calc;
 		this.aiCon = aiCon;
 		this.map = map;
+		timeCalc = calc.getTimeCalc();
+		moveCalc = calc.getMoveCalc();
+		playerCalc = calc.getPlayerCalc();
 		aiPlayer = aiCon.getAiPlayer();
 		r = new Random();
 	}
@@ -113,7 +123,7 @@ public class AiActions {
 		
 		attackIfInDistanceWithShield(player);
 		
-		if(calc.getMoveCalc().reachedAnEdge()) 
+		if(moveCalc.reachedAnEdge()) 
 			moveAwayFromEdge();
 		else 
 			simpleMovement(player.getLocation(),aiPlayer.getLocation());
@@ -121,7 +131,7 @@ public class AiActions {
 	
 	
 	public void moveAwayFromEdge() {
-		int i = calc.getMoveCalc().closestEdgeLocation();
+		int i = moveCalc.closestEdgeLocation();
 		switch(i) {
 		case 0:down();break;
 		case 1:rightcart();break;
@@ -137,10 +147,10 @@ public class AiActions {
 
 	public void moveTo(int powerupIndex, Point2D loc) {
 		
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		attackIfInDistanceWithShield(player);
 
-		double distance = calc.getMoveCalc().calcDistance(aiPlayer.getLocation(), loc);
+		double distance = moveCalc.calcDistance(aiPlayer.getLocation(), loc);
 
 		if(!((int) distance > 2 || powerupIndex == -1))
 			return;
@@ -187,22 +197,22 @@ public class AiActions {
 	public void moveTo(Player player) {
 
 		Point2D playerLoc = player.getLocation();
-		double distance = calc.getMoveCalc().calcDistance(aiPlayer.getLocation(), playerLoc);
+		double distance = moveCalc.calcDistance(aiPlayer.getLocation(), playerLoc);
 		
 		if( player.getTag().equals(ObjectType.PLAYER) && distance <= 2*aiPlayer.getWidth()) 
 			return;
 		if( player.getTag().equals(ObjectType.ENEMY) && distance <= 2) 
 			return;
 			
-		aiPlayer.setPlayerAngle(new Rotate(calc.getMoveCalc().calcAngle(aiPlayer.getLocation(),player.getLocation())));
+		aiPlayer.setPlayerAngle(new Rotate(moveCalc.calcAngle(aiPlayer.getLocation(),player.getLocation())));
 		
 		simpleMovement(aiPlayer.getLocation(), playerLoc);
 
 	}
 	
 	public void changeToRandomElementAfter(int seconds) {
-		if(calc.getTimeCalc().secondsElapsed() >= seconds) {
-			calc.getTimeCalc().setStartTime(System.nanoTime()/1000000000);
+		if(timeCalc.secondsElapsed() >= seconds) {
+			timeCalc.setStartTime(System.nanoTime()/1000000000);
 			assignDifferentRandomElement();
 		}
 	}
@@ -210,10 +220,10 @@ public class AiActions {
 
 	public void startWandering() {
 		
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		attackIfInDistance(player);
 
-		if(calc.getMoveCalc().reachedAnEdge()) {
+		if(moveCalc.reachedAnEdge()) {
 			switch(wanderingDirection) {
 			case 0:wanderingDirection = 1;break;
 			case 1:wanderingDirection = 0;break;
@@ -239,7 +249,7 @@ public class AiActions {
 	}
 	
 	public void changeToBefittingElement() {
-		Player player = calc.getPlayerCalc().getNearestPlayer();
+		Player player = playerCalc.getNearestPlayer();
 		switch(aiCon.getActiveState()) {
 		
 		//when attacking, change element to maximize damage given
@@ -287,7 +297,7 @@ public class AiActions {
 
 	public void attackIfInDistance(Player player) {
 		
-		if (calc.getPlayerCalc().inAttackDistance(player) && player.getHealth()>0 && !calc.getPlayerCalc().isCharging(aiPlayer)) {
+		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(aiPlayer)) {
 			int i = r.nextInt(10);
 			if(i>7)
 				aiPlayer.chargeHeavyAttack();
@@ -299,7 +309,7 @@ public class AiActions {
 	
 	public void attackIfInDistanceWithShield(Player player) {
 		
-		if (calc.getPlayerCalc().inAttackDistance(player) && player.getHealth()>0 && !calc.getPlayerCalc().isCharging(aiPlayer)) {
+		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(aiPlayer)) {
 			int i = r.nextInt(10);
 			aiPlayer.unShield();
 			if(i>7)
@@ -311,7 +321,7 @@ public class AiActions {
 	}
 	
 	public void shieldWhenAlone() {
-		if(calc.getPlayerCalc().playerIsTooClose())
+		if(playerCalc.playerIsTooClose())
 			aiPlayer.shield();
 		else 
 			aiPlayer.unShield();
@@ -319,8 +329,8 @@ public class AiActions {
 
 	public void moveToAndKeepDistance(Player player) {
 	
-		if(calc.getPlayerCalc().isCharging(aiPlayer)) {
-			if(calc.getMoveCalc().calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
+		if(playerCalc.isCharging(aiPlayer)) {
+			if(moveCalc.calcDistance(aiPlayer.getLocation(), player.getLocation()) > map.getWidth()*0.075) {
 				moveTo(player);
 			}
 			else {

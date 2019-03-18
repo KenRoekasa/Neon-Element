@@ -16,21 +16,19 @@ public class AiControllersManager {
 	private ArrayList<AiController> controllers;
 	private ArrayList<PhysicsObject> objects;
 	private Rectangle map;
-	private Player player;
 	private ScoreBoard scoreboard;
 	private GameType gameType;
 
-	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, Player player, ScoreBoard sb, GameType gameType) {
+	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		controllers = new ArrayList<>();
 		this.objects = objects;
         this.map = map;
-        this.player = player;
         this.gameType = gameType;
-        scoreboard = sb;
+        this.scoreboard = scoreboard;
 	}
 	
 	public Player addAi(AiType type) {
-		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, player,type, scoreboard, gameType));
+		controllers.add(new AiController(new Player(ObjectType.ENEMY),objects, map, type, scoreboard, gameType));
 		return controllers.get(controllers.size()-1).getAiPlayer();
 	}
 	

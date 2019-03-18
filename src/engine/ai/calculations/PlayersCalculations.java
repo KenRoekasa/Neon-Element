@@ -18,7 +18,7 @@ public class PlayersCalculations {
 	protected AiController aiCon;
 	protected Player aiPlayer;
 	protected Rectangle map;	
-	protected Player player;
+	protected ArrayList<Player> realPlayer;
 	protected ScoreBoard scoreboard;
 	protected MovementCalculations moveCalc;
 	
@@ -27,7 +27,6 @@ public class PlayersCalculations {
 		this.aiCon = aiCon;
 		this.aiPlayer = aiCon.getAiPlayer();
 		this.map = map;
-		this.player = aiCon.getPlayer();
 		this.moveCalc = moveCalc;
 	}
 
@@ -75,6 +74,7 @@ public class PlayersCalculations {
 		return (player.equals(getNearestPlayer()));
 	}
 	
+	
 	public Player getNearestPlayer() {
 		double minDis = Double.MAX_VALUE;
 		ArrayList<Player> players = getOtherPlayers();
@@ -94,34 +94,47 @@ public class PlayersCalculations {
 		return players.get(index);
 	}
 	
+	//returns all players except the player it is controlling, the AI player
 	public ArrayList<Player> getOtherPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
 		ArrayList<PhysicsObject> objects = new ArrayList<>();
 		objects.addAll(aiCon.getObjects());
 		for(PhysicsObject object : objects) {
-			if( object.getTag() == (ObjectType.ENEMY) && !object.equals(aiPlayer)  ) {
+			if( object.getTag() == (ObjectType.PLAYER) || ( object.getTag() == (ObjectType.ENEMY) && !object.equals(aiPlayer) )  ) {
 				players.add((Player)object);
 			}
 		}
-		players.add(player);
 		return players;
 	}
 
-	public ArrayList<Player> getPlayers(){
+	//returns all players AI and real
+	public ArrayList<Player> getAllPlayers(){
 		ArrayList<Player> players = new ArrayList<Player>();
 		ArrayList<PhysicsObject> objects = new ArrayList<>();
 		objects.addAll(aiCon.getObjects());
 		for(PhysicsObject object : objects) {
-			if( object.getTag() == (ObjectType.ENEMY) ) {
+			if( object.getTag() == (ObjectType.ENEMY) || object.getTag() == (ObjectType.PLAYER) ) {
 				players.add((Player)object);
 			}
 		}
-		players.add(player);
+		return players;
+	}
+	
+	//returns only real players, not AI
+	public ArrayList<Player> getRealPlayers(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<PhysicsObject> objects = new ArrayList<>();
+		objects.addAll(aiCon.getObjects());
+		for(PhysicsObject object : objects) {
+			if( object.getTag() == (ObjectType.PLAYER) ) {
+				players.add((Player)object);
+			}
+		}
 		return players;
 	}
 	
 	public Player getWinningPlayer() {
-		ArrayList<Player> players = getPlayers();
+		ArrayList<Player> players = getAllPlayers();
 		int  id =(scoreboard.getLeaderBoard().get(0));
 		Player winningPlayer = null;
 		for (Player player : players) {
