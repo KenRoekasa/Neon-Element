@@ -31,11 +31,11 @@ public class RegicideFSM extends FSM{
 	public void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
+		Player nearestPlayer = playerCalc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take a heal power up
-		if(  calc.getPowerupCalc().powerupCloserThanPlayer() && aiPlayerHP<maxHP && calc.getPowerupCalc().getNearestPowerUp(PowerUpType.HEAL) != -1 ) {
+		if(  puCalc.powerupCloserThanPlayer() && aiPlayerHP<maxHP && puCalc.getNearestPowerUp(PowerUpType.HEAL) != -1 ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		
@@ -55,13 +55,13 @@ public class RegicideFSM extends FSM{
 		}
 		
 		//case 5, normal attacking
-		else if ( calc.getPlayerCalc().playerIsTooClose() || aiPlayerHP > playerHP  ) {
+		else if ( playerCalc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
 			aiCon.setState(AiStates.ATTACK);
 		}
 	
 		//case 6, take the power up on your way
-		else if (calc.getPowerupCalc().powerupIsTooClose()) {
-			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
+		else if (puCalc.powerupIsTooClose()) {
+			switch(puCalc.getPowerups().get(puCalc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -91,12 +91,12 @@ public class RegicideFSM extends FSM{
 	public void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
+		Player nearestPlayer = playerCalc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, take any type of power up
-		if( ( calc.getPowerupCalc().powerupIsTooClose() && calc.getPowerupCalc().powerupCloserThanPlayer() ) || calc.getPowerupCalc().powerupCloserThanPlayer() ) {
-			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
+		if( ( puCalc.powerupIsTooClose() && puCalc.powerupCloserThanPlayer() ) || puCalc.powerupCloserThanPlayer() ) {
+			switch(puCalc.getPowerups().get(puCalc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -127,7 +127,7 @@ public class RegicideFSM extends FSM{
 		}
 		
 		//case 4, attack when you got the advantage
-		else if (calc.getPlayerCalc().playerIsTooClose() || aiPlayerHP > playerHP) {
+		else if (playerCalc.playerIsTooClose() || aiPlayerHP > playerHP) {
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
@@ -153,12 +153,12 @@ public class RegicideFSM extends FSM{
 	public void hardAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
-		Player nearestPlayer = calc.getPlayerCalc().getNearestPlayer();
+		Player nearestPlayer = playerCalc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
 		
 		//case 1, a power up is closer than an enemy
-		if( calc.getPowerupCalc().powerupCloserThanPlayer() ) {
-			switch(calc.getPowerupCalc().getPowerups().get(calc.getPowerupCalc().getNearestPowerUp()).getType()) {
+		if( puCalc.powerupCloserThanPlayer() ) {
+			switch(puCalc.getPowerups().get(puCalc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
@@ -172,18 +172,18 @@ public class RegicideFSM extends FSM{
 		}
 		
 		//case 2, the ai player's hp is less than maxHP and a health power up is available
-		else if (aiPlayerHP<(maxHP) && calc.getPowerupCalc().powerUpExist(PowerUpType.HEAL) ) {
+		else if (aiPlayerHP<(maxHP) && puCalc.powerUpExist(PowerUpType.HEAL) ) {
 			aiCon.setState(AiStates.FIND_HEALTH);
 		}
 		
 		//case 3, there exist a damage power up
-		else if(  calc.getPowerupCalc().powerupCloserThanPlayer() && calc.getPowerupCalc().getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
+		else if(  puCalc.powerupCloserThanPlayer() && puCalc.getNearestPowerUp(PowerUpType.DAMAGE) != -1 ) {
 			aiCon.setState(AiStates.FIND_DAMAGE);
 		}
 		
 		//case 4, the engine.ai player's hp is less than 33% and a health power up is not available
 		
-		else if(  calc.getKing().equals(aiPlayer) || (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || calc.getPlayerCalc().someoneCloseIsCharging() || calc.getPlayerCalc().isCharging(nearestPlayer) || (calc.getPlayerCalc().getWinningPlayer().equals(aiPlayer) && playerHP-aiPlayerHP > 20)  ) {
+		else if(  calc.getKing().equals(aiPlayer) || (aiPlayerHP < (maxHP/2) && aiPlayerHP<playerHP) || playerCalc.someoneCloseIsCharging() || playerCalc.isCharging(nearestPlayer) || (playerCalc.getWinningPlayer().equals(aiPlayer) && playerHP-aiPlayerHP > 20)  ) {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
@@ -198,7 +198,7 @@ public class RegicideFSM extends FSM{
 		}
 		
 		//case 6, attacks winner if score gap is higher than 2
-		else if(calc.getPlayerCalc().scoreDifferenceIsMoreThan(2)) {
+		else if(playerCalc.scoreDifferenceIsMoreThan(2)) {
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}
 		
@@ -209,7 +209,7 @@ public class RegicideFSM extends FSM{
 		}
 		
 		//case 8, there exist a speed power up
-		else if( calc.getPowerupCalc().getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
+		else if( puCalc.getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 			aiCon.setState(AiStates.FIND_SPEED);
 		}
 		

@@ -44,11 +44,10 @@ public class AiController {
 	        this.player = player;
 	        this.aiPlayer = aiPlayer;
 	        this.aiType = aiType;
-
 	        initializeCalculations(gameType, map, scoreboard, gameType);
+	        fsmManager = new FSMManager (aiPlayer, this, calc, gameType);
 	        AiActions actions = new AiActions(this, calc, map);
 	        initializeStateActions(calc, actions, gameType);
-	        fsmManager = new FSMManager (aiPlayer, this, calc, gameType);
 	        
 	        //default random
 	        actions.assignRandomElement();
