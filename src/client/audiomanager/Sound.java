@@ -8,7 +8,11 @@ public enum Sound {
     CHARGE("audio/charge.mp3"),
     LIGHT_HIT("audio/light_hit.mp3"),
     HEAVY_HIT("audio/heavy_hit.mp3"),
-    SHIELD("audio/shield.mp3");
+    SHIELD("audio/shield.mp3"),
+    BUTTON1("audio/button_1.mp3"),
+    BUTTON2("audio/button_2.mp3"),
+    BUTTON3("audio/button_3.mp3"),
+    BUTTON4("audio/button_4.mp3");
 
     private final String path;
 

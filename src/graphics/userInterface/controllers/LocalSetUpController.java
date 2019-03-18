@@ -5,7 +5,6 @@ import client.ClientGameState;
 import client.GameStateGenerator;
 
 import client.audiomanager.Music;
-import engine.enums.AiType;
 import javafx.fxml.FXML;
 
 import javafx.scene.Scene;

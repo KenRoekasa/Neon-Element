@@ -9,17 +9,18 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.net.URL;
 import java.util.HashMap;
 
 public class AudioManager {
-    private static double volume;
+    private static double effectVolume;
+    private static double musicVolume;
     private HashMap<Sound, AudioClip> gameEffects;
     private HashMap<Music, Media> gameMusic;
     private MediaPlayer mediaPlayer;
 
     public AudioManager(){
-        volume = 100;
+        effectVolume = 100;
+        musicVolume = 80;
         gameEffects = new HashMap<>();
         gameMusic = new HashMap<>();
 
@@ -48,22 +49,27 @@ public class AudioManager {
 
     }
 
-    private void playSound(Sound s){
-        gameEffects.get(s).play(volume);
-        System.out.println(volume);
+    public void playSound(Sound s){
+        gameEffects.get(s).play(effectVolume);
     }
 
     private void playSound(Sound s, double volumeDistance) {
-        gameEffects.get(s).play(volumeDistance * volume);
+        double sound_volume = volumeDistance * effectVolume;
+        gameEffects.get(s).play(sound_volume);
     }
 
     public double getVolume() {
-        return volume;
+        return effectVolume;
     }
-    public void setVolume(double volume) {
-        AudioManager.volume = volume;
+    public void setEffectVolume(double volume) {
+        AudioManager.effectVolume = volume;
+
+    }
+
+    public void setMusicVolume(double volume) {
         mediaPlayer.setVolume(volume);
     }
+
 
     public void setGameMusic(Music music){
         mediaPlayer.setOnEndOfMedia(() -> {
@@ -104,7 +110,7 @@ public class AudioManager {
 
                     double distance = gameState.getPlayer().getLocation().distance(enemy.getLocation());
                     double func = 1 / (distance);
-                    func = func * 100;
+
 
                     // calculate distance
 
