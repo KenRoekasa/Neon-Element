@@ -543,7 +543,6 @@ public abstract class Character extends PhysicsObject {
      */
     private boolean checkCD(int id, float cooldown) {
         // get the time it was last used and add the cooldown
-
         long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000000000) + GameClient.pauseDuration);
         //check if the time calculated has passed
         if (System.nanoTime() > nextAvailableTime) {
