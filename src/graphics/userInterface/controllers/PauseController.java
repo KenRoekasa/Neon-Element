@@ -114,5 +114,6 @@ public class PauseController extends UIController{
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
         audioManager.setGameMusic(Music.MENU);
+        audioManager.setNeonVolume(audioManager.getEffectVolume());
     }
 }

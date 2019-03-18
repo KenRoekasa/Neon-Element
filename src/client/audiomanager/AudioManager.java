@@ -13,14 +13,13 @@ import java.util.HashMap;
 
 public class AudioManager {
     private static double effectVolume;
-    private static double musicVolume;
+
     private HashMap<Sound, AudioClip> gameEffects;
     private HashMap<Music, Media> gameMusic;
-    private MediaPlayer mediaPlayer;
-
+    private MediaPlayer musicMediaPlayer;
+    private MediaPlayer fxMediaPlayer;
     public AudioManager(){
         effectVolume = 100;
-        musicVolume = 80;
         gameEffects = new HashMap<>();
         gameMusic = new HashMap<>();
 
@@ -41,9 +40,12 @@ public class AudioManager {
 
         }
 
-        mediaPlayer = new MediaPlayer(gameMusic.get(Music.MENU));
+        musicMediaPlayer = new MediaPlayer(gameMusic.get(Music.MENU));
         // set mediaplayer to loop at the end of the music
-        startMusic(mediaPlayer);
+        startMusic(musicMediaPlayer);
+
+        fxMediaPlayer = new MediaPlayer(gameMusic.get(Music.NEON));
+        startMusic(fxMediaPlayer);
 
 
 
@@ -58,23 +60,30 @@ public class AudioManager {
         gameEffects.get(s).play(sound_volume);
     }
 
-    public double getVolume() {
-        return effectVolume;
-    }
     public void setEffectVolume(double volume) {
         AudioManager.effectVolume = volume;
-
+        fxMediaPlayer.setVolume(volume);
     }
 
+    public void setNeonVolume(double volume) {
+        fxMediaPlayer.setVolume(volume);
+    }
+
+    public double getEffectVolume() {
+        return effectVolume;
+    }
+
+
+
     public void setMusicVolume(double volume) {
-        mediaPlayer.setVolume(volume);
+        musicMediaPlayer.setVolume(volume);
     }
 
 
     public void setGameMusic(Music music){
-        mediaPlayer.setOnEndOfMedia(() -> {
-            mediaPlayer = new MediaPlayer(gameMusic.get(music));
-            startMusic(mediaPlayer);
+        musicMediaPlayer.setOnEndOfMedia(() -> {
+            musicMediaPlayer = new MediaPlayer(gameMusic.get(music));
+            startMusic(musicMediaPlayer);
         });
 
     }

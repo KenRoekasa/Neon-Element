@@ -191,6 +191,7 @@ public class LocalSetUpController extends UIController {
             boolean networked = false;
             GameClient gameBoard = new GameClient(stage, gameState, networked, audioManager);
             audioManager.setGameMusic(Music.GAME);
+            audioManager.setNeonVolume(0);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 

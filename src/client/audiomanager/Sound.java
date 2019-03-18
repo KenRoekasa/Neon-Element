@@ -12,7 +12,9 @@ public enum Sound {
     BUTTON1("audio/button_1.mp3"),
     BUTTON2("audio/button_2.mp3"),
     BUTTON3("audio/button_3.mp3"),
-    BUTTON4("audio/button_4.mp3");
+    BUTTON4("audio/button_4.mp3"),
+    HOVER1("audio/hover_1.mp3"),
+    HOVER2("audio/hover_2.mp3");
 
     private final String path;
 

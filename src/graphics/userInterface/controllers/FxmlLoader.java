@@ -40,7 +40,7 @@ public class FxmlLoader {
 
     public void playButtonSound(AudioManager audioManager) {
         // pick a random button pitch
-        int sound = new Random().nextInt(3);
+        int sound = new Random().nextInt(4);
 
         switch (sound) {
             case 0:
@@ -52,7 +52,7 @@ public class FxmlLoader {
             case 2:
                 audioManager.playSound(Sound.BUTTON3);
                 break;
-            case 4:
+            case 3:
                 audioManager.playSound(Sound.BUTTON4);
                 break;
         }
