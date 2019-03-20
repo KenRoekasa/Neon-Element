@@ -129,6 +129,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleOneEnemy(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(false);
         enemy3.setVisible(false);
     }
@@ -137,6 +138,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleTwoEnemies(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(true);
         enemy3.setVisible(false);
     }
@@ -145,6 +147,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleThreeEnemies(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(true);
         enemy3.setVisible(true);
     }
