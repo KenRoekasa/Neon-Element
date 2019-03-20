@@ -78,6 +78,13 @@
     -fx-font-size: 50px;
 }
 
+.standard-text-nm{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 30px;
+}
+
 .standard-text-normal{
     -fx-font-family: Audiowide;
     -fx-text-fill: rgba(120, 0, 50, .5);
@@ -112,10 +119,14 @@
 }
 /*todo need to look at that
 */
+
 .text-field {
-    -fx-background-color: -fx-text-box-border, -fx-background ;
-    -fx-background-insets: 0, 0 0 1 0 ;
-    -fx-background-radius: 0 ;
+    -fx-opacity: 0.2;
+    -fx-border-color: linear-gradient(to right, #C06C84, #6C5B7B, #355C7D);
+    -fx-background-radius: 5 ;
+    -fx-text-fill:rgb(230, 0, 120);
+    -fx-font-family: Audiowide;
+    -fx-font-size: 20px;
 }
 .text-field:focused {
     -fx-background-color: -fx-focus-color, -fx-background ;
