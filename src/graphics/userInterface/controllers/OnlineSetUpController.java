@@ -168,6 +168,8 @@ public class OnlineSetUpController extends UIController {
         while (true) {
             if ((enemy_num + player_num) > 4) {
                 alert.setVisible(true);
+                // todo this really needs to be changed - can't have the client throw an uncaught exception
+                // should just be handled in the ui
                 throw new OutOfBoundException("The number of maximum player is 4 ");
             } else {
                 selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
