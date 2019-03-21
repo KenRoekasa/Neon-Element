@@ -17,13 +17,14 @@ public class OnlineModeController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
-    /** Handle the action of pressing join button which will direct to ip_join.fxml
+    /** Handle the action of pressing join button which will direct to ip_host.fxml
      */
+    //todo create game client and go to game lobby
     @FXML
     public void handleJoinGame() {
-        String fxmlPath = "../fxmls/ip_join.fxml";
-        String stageTitle = "Join a game";
-        String fileException = "IP Join ";
+        String fxmlPath = "../fxmls/lobby.fxml";
+        String stageTitle = "Game Lobby";
+        String fileException = "Game Lobby ";
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 

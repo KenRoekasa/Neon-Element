@@ -4,6 +4,7 @@ import client.ClientGameState;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -20,6 +21,8 @@ public class HostController extends UIController{
     /**
      * The host IP address of the game
      */
+    @FXML
+    public TextField ip;
     private String iP;
     //TODO: call this function in the networking part
 
@@ -49,19 +52,6 @@ public class HostController extends UIController{
         String stageTitle ="Game Lobby";
         String fileException ="lobby";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
-
-      /*  // create game rules
-        // todo make this configurable
-            //gameState = GameStateGenerator.createDemoGamestate();
-        //g.getPlayer().getHealth();
-        try {
-            boolean networked = false;
-            GameClient gameBoard = new GameClient(stage, gameState, networked, audioManager);
-            //Scene scene = gameBoard.getScene();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
     }
 
     /**Handle the action of pressing back button which will direct to online_setup.fxml
@@ -73,19 +63,5 @@ public class HostController extends UIController{
         String fileException ="Online Setup";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
-
-
-    /** Initialise the ip address binding
-     * @param location  url location
-     * @param resources resource bundled
-     */
-    //TODO: load the ip address here
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        ip_address.textProperty().bind(ip_value);
-
-    }
-    
 }
 

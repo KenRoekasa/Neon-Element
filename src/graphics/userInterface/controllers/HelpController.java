@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 public class HelpController extends UIController {
 
     /**
-     * Handle the action of pressing join button which will direct to ip_join.fxml
+     * Handle the action of pressing help button which will direct to help.fxml
      */
     @FXML
     public void handleBackBtn() {
