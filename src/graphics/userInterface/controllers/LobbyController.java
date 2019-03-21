@@ -20,9 +20,7 @@ public class LobbyController extends UIController{
 	private ArrayList<Integer> playerIds;
 	private ConnectedPlayers conn;
 	private boolean startGame = false;
-	
-	
-	
+
 	
     public boolean isStartGame() {
 		return startGame;
