@@ -65,7 +65,7 @@ public class GameClient {
      */
     private ClientNetworkThread clientNetworkThread;
 
-    private Pane hudPane;
+    private Pane hudPane, lobbyPane;
 
     private AudioManager audioManager;
 
@@ -85,7 +85,16 @@ public class GameClient {
         this.audioManager = audioManager;
         
         if(online) {
-        	 FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
+        	 FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/lobby.fxml"));
+        	 try {
+        		 lobbyPane = loader1.load();
+        		 gameState.getAllPlayers();
+        		// LobbyController controller = loader1.getController();
+        		 
+ 
+        	 }catch(Exception e ) {
+        		 e.printStackTrace();
+        	 }
         }
 
         // load hud

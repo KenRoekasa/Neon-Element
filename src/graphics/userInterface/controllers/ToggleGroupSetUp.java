@@ -44,4 +44,14 @@ public class ToggleGroupSetUp {
         rB2.setUserData(s);
         rB3.setUserData(s);
     }
+    
+    public static void setToggleGroup(ToggleGroup group, RadioButton rB1, RadioButton rB2, RadioButton rB3, RadioButton rB4){
+        rB1.setToggleGroup(group);
+        rB2.setToggleGroup(group);
+        rB3.setToggleGroup(group);
+        rB4.setToggleGroup(group);
+        rB3.setSelected(true);
+        removeGroupRadioCircle(rB1,rB2,rB3);
+    }
+
 }

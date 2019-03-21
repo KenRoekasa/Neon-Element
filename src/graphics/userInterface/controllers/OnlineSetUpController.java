@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import networking.Constants;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -189,6 +190,8 @@ public class OnlineSetUpController extends UIController {
                         enemyTypes.add(enemy_2);
                         enemyTypes.add(enemy_3);
                 }
+                
+                Constants.NUM_PLAYER = enemy_num+player_num;
 
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";

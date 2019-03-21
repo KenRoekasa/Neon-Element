@@ -11,9 +11,14 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import networking.Constants;
 
 //For local_setup scene
 public class HostController extends UIController{
+	
+	@FXML
+	TextField ip_host;
     @FXML
     Label back,start;
     private ClientGameState gameState;
@@ -31,10 +36,22 @@ public class HostController extends UIController{
             GameServer server = new GameServer(serverState);
             server.start();
 
-            String addr = "localhost";
-            GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
-            Scene scene = gameBoard.getScene();
-            gameBoard.startNetwork();
+            String addr = ip_host.getText();
+            if(addr.equals("") && !addr.isEmpty()) {
+            		//to-do user needs to be asked to enter a valid ip adddress
+            }else {
+	            Constants.SERVER_ADDRESS = addr;
+	            GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
+	            Scene scene = gameBoard.getScene();
+	            gameBoard.startNetwork();
+	            String fxmlPath ="../fxmls/lobby.fxml";
+	            String stageTitle ="Game Lobby";
+	            String fileException ="Game Lobby";
+	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+	            LobbyController controller = (LobbyController) loader.getController();
+	            server.setLobbyController(controller);
+	            controller.setServer(server);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

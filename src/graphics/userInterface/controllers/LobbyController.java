@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import networking.server.ConnectedPlayers;
+import server.GameServer;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,7 +15,32 @@ import java.util.ResourceBundle;
  * Controller for lobby.fxml for setting game lobby
  */
 public class LobbyController extends UIController{
-    /**
+	
+	private GameServer server;
+	private ArrayList<Integer> playerIds;
+	private ConnectedPlayers conn;
+	private boolean startGame = false;
+	
+	
+	
+	
+    public boolean isStartGame() {
+		return startGame;
+	}
+
+	public void setStartGame(boolean startGame) {
+		this.startGame = startGame;
+	}
+
+	public GameServer getServer() {
+		return server;
+	}
+
+	public void setServer(GameServer server) {
+		this.server = server;
+	}
+
+	/**
      * Texts of the connections
      */
     @FXML
