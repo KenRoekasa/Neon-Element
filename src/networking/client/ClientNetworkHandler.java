@@ -59,7 +59,7 @@ public class ClientNetworkHandler {
         ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
 
         for (int i = 0; i < packet.getIds().size(); i++) {
-            if (packet.getIds().get(i) == clientID) {
+            if (packet.getIds().get(i) == clientId) {
                 clientPlayer.setLocation(packet.getLocations().get(i));
                 objects.add(clientPlayer);
                 tempScoreboardPlayers.add(clientPlayer);
