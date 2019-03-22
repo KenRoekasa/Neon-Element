@@ -1,17 +1,15 @@
 package server;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import engine.controller.GameTypeHandler;
+import engine.entities.PowerUp;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 import engine.physics.CollisionDetector;
+import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import graphics.userInterface.controllers.LobbyController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.model.enums.Action;
-import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import networking.Constants;
 import networking.server.ConnectedPlayers;
@@ -111,7 +109,7 @@ public class GameServer extends Thread {
 			this.gameState.setStarted(true);
 			this.network.getDispatcher().broadcastGameStarted();
 			isGameStart = true;
-		
+
 		}
 	}
 
@@ -153,49 +151,49 @@ public class GameServer extends Thread {
 						// System.out.println(player.getCharacterDirection());
 
 						switch (player.getCharacterDirection()) {
-						case UP:
-							projectedPlayer.setLocation(checkUp);
-							if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-							}
+							case UP:
+								projectedPlayer.setLocation(checkUp);
+								if (CollisionDetector.checkCollision(projectedPlayer, e)) {
+								}
 
-							break;
-						case DOWN:
-							projectedPlayer.setLocation(checkDown);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
-							}
-							break;
-						case LEFT:
-							projectedPlayer.setLocation(checkLeft);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								break;
+							case DOWN:
+								projectedPlayer.setLocation(checkDown);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								}
+								break;
+							case LEFT:
+								projectedPlayer.setLocation(checkLeft);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
 
-							}
+								}
 
-							break;
-						case UPCART:
-							projectedPlayer.setLocation(checkUpCart);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
-							}
-							break;
-						case DOWNCART:
-							projectedPlayer.setLocation(checkDownCart);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
-							}
-							break;
-						case LEFTCART:
-							projectedPlayer.setLocation(checkLeftCart);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
-							}
-							break;
-						case RIGHTCART:
-							projectedPlayer.setLocation(checkRightCart);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
-							}
-							break;
-						case RIGHT:
-							projectedPlayer.setLocation(checkRight);
-							if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
-							}
-							break;
+								break;
+							case UPCART:
+								projectedPlayer.setLocation(checkUpCart);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								}
+								break;
+							case DOWNCART:
+								projectedPlayer.setLocation(checkDownCart);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								}
+								break;
+							case LEFTCART:
+								projectedPlayer.setLocation(checkLeftCart);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								}
+								break;
+							case RIGHTCART:
+								projectedPlayer.setLocation(checkRightCart);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								}
+								break;
+							case RIGHT:
+								projectedPlayer.setLocation(checkRight);
+								if ((CollisionDetector.checkCollision(projectedPlayer, e))) {
+								}
+								break;
 						}
 					}
 				}
@@ -255,5 +253,4 @@ public class GameServer extends Thread {
 	public ServerNetwork getNetwork() {
 		return network;
 	}
-
 }

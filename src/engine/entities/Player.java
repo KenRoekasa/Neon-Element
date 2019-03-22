@@ -2,6 +2,7 @@ package engine.entities;
 
 import client.GameClient;
 import engine.model.enums.*;
+import engine.physics.DeltaTime;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
@@ -77,7 +78,7 @@ public class Player extends Character {
         }
 //        System.out.println(currentAction);
 
-        location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
+        location = location.add(horizontalMove * DeltaTime.deltaTime, verticalMove * DeltaTime.deltaTime);
         horizontalMove = 0;
         verticalMove = 0;
 

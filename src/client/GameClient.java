@@ -2,6 +2,7 @@ package client;
 
 
 import client.audiomanager.AudioManager;
+import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -32,11 +33,6 @@ import java.util.ArrayList;
 public class GameClient {
 
     public boolean isNetworked = false;
-    /**
-     * Time since the last frame
-     */
-    public static float deltaTime;
-
     /**
      * The physics engine that runs in this current game/match
      */
@@ -156,7 +152,7 @@ public class GameClient {
 
                 //calculate deltaTime
                 long time = System.nanoTime();
-                deltaTime = (int) ((time - lastTime) / 1000000);
+                DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
                 lastTime = time;
 
                 if (!gameState.getRunning()) {

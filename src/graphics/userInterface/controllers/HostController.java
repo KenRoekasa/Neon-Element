@@ -4,9 +4,7 @@ import client.GameClient;
 
 import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
-import server.GameServer;
 import server.ServerGameState;
-import server.ServerGameStateGenerator;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.fxml.FXML;
@@ -14,9 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import networking.Constants;
 
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 //For local_setup scene
 public class HostController extends UIController{
-	
+
 	@FXML
 	TextField ip_host;
 
@@ -28,7 +30,6 @@ public class HostController extends UIController{
     public void handleStartBtn(ActionEvent event){
         // create game rules
         // todo make this configurable
-        serverState = ServerGameStateGenerator.createEmptyState();
         gameState = GameStateGenerator.createEmptyState();
 
         try {
@@ -48,22 +49,43 @@ public class HostController extends UIController{
 
 	            LobbyController controller = (LobbyController) loader.getController();
 	            controller.setIp(addr);
-	            
+
 	            GameClient gameBoard = null;
                 try {
                     gameBoard = new GameClient(stage, gameState, addr, audioManager);
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-               GameServer server = new GameServer(serverState);
-               controller.setGameClient(gameBoard);
+                try {
+                    // Create server
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                // create the custom class loader
+                                ClassLoader cl = new URLClassLoader(new URL[0]);
 
-                server.setLobbyController(controller);
-                server.start();
+                                // load the class
+                                Class<?> classToLoad = cl.loadClass("networking.test.ManualTestServer");
 
-              
+                                String[] args = new String[0];
+
+                                // get the main method
+                                Method main = classToLoad.getMethod("main", args.getClass());
+
+                                // and invoke it
+                                main.invoke(null, (Object) args);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
                 //gameBoard.startNetwork();
