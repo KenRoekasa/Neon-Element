@@ -14,13 +14,8 @@ import java.util.ResourceBundle;
 /**
  * Controller for lobby.fxml for setting game lobby
  */
-public class LobbyController extends UIController{
+public class LobbyHostController extends AbstractLobbyController {
 
-    public void setGameClient(GameClient gameClient) {
-        this.gameClient = gameClient;
-    }
-
-    private GameClient gameClient;
 	private boolean startGame = false;
 
 
@@ -98,6 +93,7 @@ public class LobbyController extends UIController{
     }
 
     public void showConnections(ArrayList<Integer> playerIds){
+        GameClient gameClient = getGameClient();
         if(!gameClient.isNetworked){
             gameClient.startNetwork();
             gameClient.isNetworked = true ;
@@ -124,15 +120,6 @@ public class LobbyController extends UIController{
                 connect(playerIds.get(3),conn_4,conn4Property);
                 break;
         }
-        //once players are all connected, start the game
-        if(size == Constants.NUM_PLAYER) {
-            startGame = true;
-            startGame();
-        }
-    }
-
-    public void startGame(){
-        gameClient.initialiseGame();
     }
 
 }

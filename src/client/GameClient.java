@@ -86,7 +86,7 @@ public class GameClient {
 //        	 try {
 //        		 lobbyPane = loader1.load();
 //        		 gameState.getAllPlayers();
-//        		// LobbyController controller = loader1.getController();
+//        		// LobbyHostController controller = loader1.getController();
 //
 //
 //        	 }catch(Exception e ) {

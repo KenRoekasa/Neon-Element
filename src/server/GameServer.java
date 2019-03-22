@@ -3,7 +3,7 @@ package server;
 import engine.controller.GameTypeHandler;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
-import graphics.userInterface.controllers.LobbyController;
+import graphics.userInterface.controllers.LobbyHostController;
 import engine.entities.Player;
 import javafx.geometry.Point2D;
 import networking.Constants;
@@ -17,15 +17,6 @@ public class GameServer extends Thread {
 	private ServerGameState gameState;
 	private ServerNetwork network;
 	private PhysicsController physicsController;
-	private LobbyController lobbyController;
-
-	public LobbyController getLobbyController() {
-		return lobbyController;
-	}
-
-	public void setLobbyController(LobbyController lobbyController) {
-		this.lobbyController = lobbyController;
-	}
 
 	private boolean running;
 
@@ -78,11 +69,8 @@ public class GameServer extends Thread {
 		ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
 		//todo can't get the connected player : how and where player added
 
-		if(connectedPlayers != null) {
-			lobbyController.showConnections(connectedPlayers.getPlayerIds());
-		}
-
-		if (lobbyController.isStartGame()) {
+        // once players are all connected, start the game
+        if(connectedPlayers != null && connectedPlayers.count() == Constants.NUM_PLAYER) {
 			// Start the game
 			connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
 			this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());

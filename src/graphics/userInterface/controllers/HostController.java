@@ -4,12 +4,12 @@ import client.GameClient;
 
 import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
+import graphics.userInterface.LobbyThread;
 import server.GameServer;
 import server.ServerGameState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import networking.Constants;
 import server.ServerGameStateGenerator;
 
 //For local_setup scene
@@ -43,8 +43,6 @@ public class HostController extends UIController{
 	            String fileException ="Game Lobby";
 	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
 
-	            LobbyController controller = (LobbyController) loader.getController();
-
 	            GameClient gameBoard = null;
                 try {
                     gameBoard = new GameClient(stage, gameState, addr, audioManager);
@@ -53,9 +51,14 @@ public class HostController extends UIController{
                     e.printStackTrace();
                 }
 
-                GameServer server =new GameServer(serverState);
-                server.setLobbyController(controller);
+                AbstractLobbyController controller = (AbstractLobbyController) loader.getController();
                 controller.setGameClient(gameBoard);
+
+                LobbyThread lobbyThread = new LobbyThread(gameState, controller);
+                lobbyThread.start();
+
+                GameServer server =new GameServer(serverState);
+                server.setLobbyHostController((LobbyHostController) controller);
                 server.start();
                 /*try {
                     // Create server
