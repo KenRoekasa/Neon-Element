@@ -24,7 +24,6 @@ public class ServerNetwork extends networking.AbstractNetwork {
         super(Constants.SERVER_LISTENING_PORT);
 
         this.connectedPlayers = new ConnectedPlayers();
-
         this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.getSocket());
         this.handler = new ServerNetworkHandler(gameState, connectedPlayers, this.dispatcher);
     }

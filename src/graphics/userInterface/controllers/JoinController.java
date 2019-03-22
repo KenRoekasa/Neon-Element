@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import networking.Constants;
 
 //For local_setup scene
 public class JoinController extends UIController {
@@ -36,7 +37,10 @@ public class JoinController extends UIController {
             gameState = GameStateGenerator.createEmptyState();
         //g.getPlayer().getHealth();
         try {
-            String addr = ip.getText();
+           String addr = ip.getText();
+          //  String addr =addr ;
+            System.out.println("------------Server address:"+addr+" serCons: ");
+            //to-do figure out the server listining port
             GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
             Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();

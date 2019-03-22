@@ -35,7 +35,7 @@ public abstract class GameState {
     /**
      * Is the game on going or has it ended
      */
-    private boolean isRunning;
+    private boolean isRunning= false;
     /**
      * The ScoreBoard
      */

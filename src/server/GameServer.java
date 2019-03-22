@@ -3,8 +3,11 @@ package server;
 import engine.controller.GameTypeHandler;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
+import graphics.userInterface.controllers.LobbyController;
+import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import javafx.geometry.Point2D;
+import networking.Constants;
 import networking.server.ConnectedPlayers;
 import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
@@ -15,9 +18,20 @@ public class GameServer extends Thread {
     private ServerGameState gameState;
     private ServerNetwork network;
     private PhysicsController physicsController;
+    private LobbyController lobbyController;
+    private boolean isGameStart = false;
+
+    public LobbyController getLobbyController() {
+        return lobbyController;
+    }
+
+    public void setLobbyController(LobbyController lobbyController) {
+        this.lobbyController = lobbyController;
+    }
+
     private boolean running;
 
-    private int expectedPlayersToJoin = 2;
+    private int expectedPlayersToJoin = Constants.NUM_PLAYER;
 
     public GameServer(ServerGameState gameState) {
         this.gameState = gameState;
@@ -28,8 +42,6 @@ public class GameServer extends Thread {
     public void run() {
         this.network.start();
 
-        this.waitForPlayersToConnect();
-
         System.out.println("Game started.");
 
         Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
@@ -39,23 +51,29 @@ public class GameServer extends Thread {
         long lastTime = System.nanoTime();
         while (this.running) {
             // Server logic
-            physicsController.clientLoop();
+            if (!isGameStart) {
+                this.waitForPlayersToConnect();
+                System.out.println("Waiting for connection!");
+            } else {
 
-            this.running = GameTypeHandler.checkRunning(gameState);
+                physicsController.clientLoop();
 
-            Thread.yield();
-            this.sendLocations();
+                this.running = GameTypeHandler.checkRunning(gameState);
 
-            //calculate deltaTime
-            long time = System.nanoTime();
-            DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
-            lastTime = time;
+                Thread.yield();
+                this.sendLocations();
 
-            try {
-                Thread.sleep(25); // Every second
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                //calculate deltaTime
+                long time = System.nanoTime();
+                DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
+                lastTime = time;
+
+                try {
+                    Thread.sleep(25); // Every second
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -64,19 +82,29 @@ public class GameServer extends Thread {
 
     private void waitForPlayersToConnect() {
         ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
+        //todo can't get the connected player : how and where player added
 
-        // Wait for enough players to start the game
-        while (connectedPlayers.count() < expectedPlayersToJoin) {
-            Thread.yield();
+        if(connectedPlayers != null) {
+            lobbyController.showConnections(connectedPlayers.getPlayerIds());
         }
 
-        // Start the game
-        connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
-        this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
-        this.network.getDispatcher().broadcastGameState();
+        // Wait for enough players to start the game
+        /*
+         * while (connectedPlayers.count() < expectedPlayersToJoin) {
+         * lobbyController.update(); }
+         */
+        if (lobbyController.isStartGame()) {
 
-        this.gameState.setStarted(true);
-        this.network.getDispatcher().broadcastGameStarted();
+            // Start the game
+            connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
+            this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
+            this.network.getDispatcher().broadcastGameState();
+
+            this.gameState.setStarted(true);
+            this.network.getDispatcher().broadcastGameStarted();
+            isGameStart = true;
+
+        }
     }
 
     private void sendLocations() {
@@ -90,6 +118,10 @@ public class GameServer extends Thread {
                 this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
             }
         }
+    }
+
+    public ServerNetwork getNetwork() {
+        return network;
     }
 
 }

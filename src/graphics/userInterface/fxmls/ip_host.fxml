@@ -26,7 +26,7 @@
           <RowConstraints maxHeight="202.0" minHeight="10.0" prefHeight="199.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="ip_host" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <GridPane prefHeight="88.0" prefWidth="326.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
               <columnConstraints>
                   <ColumnConstraints maxWidth="700.0" minWidth="42.0" prefWidth="550.0" />
