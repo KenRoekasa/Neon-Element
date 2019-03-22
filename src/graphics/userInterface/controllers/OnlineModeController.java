@@ -9,6 +9,7 @@ public class OnlineModeController extends UIController{
 
     /** Handle the action of pressing host button which will direct to online_setup.fxml
      */
+
     @FXML
     public void handleHostGame(){
         String fxmlPath = "../fxmls/online_setup.fxml";
@@ -22,9 +23,9 @@ public class OnlineModeController extends UIController{
     //todo create game client and go to game lobby
     @FXML
     public void handleJoinGame() {
-        String fxmlPath = "../fxmls/lobby.fxml";
-        String stageTitle = "Game Lobby";
-        String fileException = "Game Lobby ";
+        String fxmlPath = "../fxmls/ip_join.fxml";
+        String stageTitle = "Join";
+        String fileException = "ip_join ";
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 

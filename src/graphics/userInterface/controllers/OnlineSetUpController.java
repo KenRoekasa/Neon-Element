@@ -194,7 +194,7 @@ public class OnlineSetUpController extends UIController {
                         enemyTypes.add(enemy_2);
                         enemyTypes.add(enemy_3);
                 }
-
+                //todo delete ip_host and take the code from start method in host to here
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";
@@ -226,7 +226,11 @@ public class OnlineSetUpController extends UIController {
         alert.setVisible(false);
 
         ToggleGroupSetUp.setToggleGroup(num_player,player_2, player_3, player_4);
+        player_2.setSelected(true);
         ToggleGroupSetUp.setToggleGroup(num_group,num_0, num_1, num_2, num_3);
+        num_1.setSelected(true);
+        enemy2.setVisible(false);
+        enemy3.setVisible(false);
         ToggleGroupSetUp.setToggleGroup(diff_1, easy_1, normal_1, hard_1);
         ToggleGroupSetUp.setToggleGroup(diff_2, easy_2, normal_2, hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3, easy_3, normal_3, hard_3);
