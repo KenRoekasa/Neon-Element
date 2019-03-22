@@ -58,7 +58,7 @@ public class LobbyHostController extends AbstractLobbyController {
     /**
      * The string template of show that user connect to the game
      */
-    private final static String TEMP = "Player %d connects ";
+    private final static String TEMP = "Player %d is connected";
 
 
     /** When player connects to the game, let the controller knows
@@ -99,7 +99,6 @@ public class LobbyHostController extends AbstractLobbyController {
             gameClient.isNetworked = true ;
         }
         int size = playerIds.size();
-        System.out.println("Connected player's number : "+size);
         switch (size){
             case 1:
                 connect(playerIds.get(0),conn_1,conn1Property);
