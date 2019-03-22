@@ -23,9 +23,13 @@ public class LobbyThread extends Thread {
             if (controller instanceof LobbyHostController) {
                 // If host, update lobby screen
                 ArrayList<Player> players = gameState.getAllPlayers();
-                ArrayList<Integer> playerIds = players.stream()
-                        .map(x -> x.getId())
-                        .collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<Integer> playerIds;
+
+                synchronized (players) {
+                    playerIds = players.stream()
+                            .map(x -> x.getId())
+                            .collect(Collectors.toCollection(ArrayList::new));
+                }
 
                 ((LobbyHostController) controller).showConnections(playerIds);
             }
