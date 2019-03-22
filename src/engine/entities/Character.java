@@ -214,7 +214,6 @@ public abstract class Character extends PhysicsObject {
      * Attack the character in front of this character
      */
     public void lightAttack() {
-        System.out.println("hello");
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
