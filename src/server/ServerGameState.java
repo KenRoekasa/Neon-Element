@@ -6,12 +6,13 @@ import engine.model.ScoreBoard;
 import engine.ai.controller.AiControllersManager;
 import engine.entities.*;
 import engine.model.GameType;
+import networking.Constants;
 
 import java.util.ArrayList;
 
 public class ServerGameState extends GameState {
 
-    private final int MAX_PLAYERS = 4;
+    private final int MAX_PLAYERS = Constants.NUM_PLAYER;
 
     private boolean isStarted;
 
