@@ -4,6 +4,7 @@ import client.GameClient;
 
 import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
+import server.GameServer;
 import server.ServerGameState;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import networking.Constants;
+import server.ServerGameStateGenerator;
 
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -31,6 +33,7 @@ public class HostController extends UIController{
         // create game rules
         // todo make this configurable
         gameState = GameStateGenerator.createEmptyState();
+        serverState = ServerGameStateGenerator.createEmptyState();
 
         try {
             // Create server
@@ -58,7 +61,12 @@ public class HostController extends UIController{
                     e.printStackTrace();
                 }
 
-                try {
+                GameServer server =new GameServer(serverState);
+                server.setLobbyController(controller);
+                controller.setGameClient(gameBoard);
+                controller.setServer(server);
+                server.start();
+                /*try {
                     // Create server
                     new Thread(new Runnable() {
                         public void run() {
@@ -84,7 +92,7 @@ public class HostController extends UIController{
                     }).start();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
