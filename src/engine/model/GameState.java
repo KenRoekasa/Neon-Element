@@ -103,7 +103,7 @@ public abstract class GameState {
     }
 
     public void setObjects(ArrayList<PhysicsObject> objects) {
-
+        this.allPlayers = new ArrayList<>();
         this.objects = objects;
         for (PhysicsObject o : objects) {
             if (Objects.equals(o.getClass(), Player.class)) {
