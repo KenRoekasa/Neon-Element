@@ -8,13 +8,22 @@ import engine.entities.Player;
 
 public class AiRegicideStateActions extends AiStateActions {
 
-	RegicideCalculations calc;
-	
+	//AI regicide calculations object
+	private RegicideCalculations calc;
+
+	/**
+	 * @param aiCon AI controller object
+	 * @param calc AI calculations object
+	 * @param actions AI actions used to make state actions
+	 */
 	public AiRegicideStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
 		super(aiCon, calc, actions);
 		this.calc = (RegicideCalculations) calc;
 	}
 
+	/**
+	 * Executes a state action relevant to current AI state. Also updates AI element in an AI type relevant matter.
+	 */
 	@Override
 	public void executeAction() {
 		updateElement();
@@ -56,7 +65,10 @@ public class AiRegicideStateActions extends AiStateActions {
 		}
 		
 	}
-
+	
+	/**
+	 * Implements actions for attack king AI state 
+	 */
 	private void attackKing() {
 		aiPlayer.unShield();
 		Player king = calc.getKing();

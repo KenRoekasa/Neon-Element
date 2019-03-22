@@ -17,8 +17,8 @@ public class RegicideFSM extends FSM{
 	}
 
 
-	/*
-	 * easy AI:
+	/** Sets AI state given everything going on in the game. 
+	 * easy AI features:
 	 * random element every 15 seconds
 	 * prioritises killing over evading death
 	 * escapes when losing or HP gap is more than 20
@@ -81,8 +81,8 @@ public class RegicideFSM extends FSM{
 	}
 	
 	
-	/*
-	 * features added to normal AI:
+	/** Sets AI state given everything going on in the game. 
+	 *  features added/changed in normal AI compared to easy:
 	 * element is changed based on whether it is on an offensive or a defensive mode
 	 * prioritises taking a power up if it is close or if it is the closest object
 	 * prioritises escaping when health is low than attack
@@ -137,8 +137,8 @@ public class RegicideFSM extends FSM{
 		}
 	}
 	
-	/*
-	 * features added to hard AI:
+	/** Sets AI state given everything going on in the game. 
+	 *  features added/changed in hard AI compared to normal:
 	 * prioritises taking a health power up even if an enemy is close
 	 * escapes when
 	 * 	 health is less than half 

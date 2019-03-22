@@ -9,22 +9,38 @@ import engine.gameTypes.GameType;
 
 public abstract class FSM {
 
+	//player object being controlled
 	protected Player aiPlayer;
+	//AI controller object
 	protected AiController aiCon;
-	protected AiCalculations calc;
+	//Maximum possible HP
 	protected float maxHP ;
+	//PowerupCalculations object
 	protected PowerupCalculations puCalc;
+	//PlayersCalculations object
 	protected PlayersCalculations playerCalc;
 	
+	/**
+	 * @param aiPlayer Player object being controlled
+	 * @param aiCon AI controller object
+	 * @param calc AI calculations object
+	 */
 	public FSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
 		this.aiPlayer = aiPlayer;
 		this.aiCon = aiCon;
-		this.calc = calc;
 		puCalc = calc.getPowerupCalc();
 		playerCalc = calc.getPlayerCalc();
 		maxHP = aiPlayer.getMAX_HEALTH();
 	}
 	
+	/**
+	 * Initialises and returns FSM sub class relevant to game type
+	 * @param aiPlayer Player object being controlled
+	 * @param calc AI calculations object
+	 * @param gameType Game type object
+	 * @param aiCon AI controller object
+	 * @return FSM sub class relevant to game type
+	 */
 	public static FSM initializeFSM(Player aiPlayer, AiCalculations calc, GameType gameType, AiController aiCon) {
 		switch(gameType.getType()) {
 		case Timed:
@@ -39,7 +55,10 @@ public abstract class FSM {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Calls fetch action method relevant to AI type
+	 */
 	public void fetchAction() {
 		
 		switch(aiCon.getAiType()) {
@@ -55,7 +74,16 @@ public abstract class FSM {
 		}
 	}
 	
+	/**
+	 * Fetch actions for easy level AI. Sets AI state given everything going on in the game
+	 */
 	protected abstract void easyAiFetchAction() ;
+	/**
+	 * Fetch actions for normal level AI. Sets AI state given everything going on in the game
+	 */
 	protected abstract void normalAiFetchAction() ;
+	/**
+	 * Fetch actions for hard level AI. Sets AI state given everything going on in the game
+	 */
 	protected abstract void hardAiFetchAction() ;
 }

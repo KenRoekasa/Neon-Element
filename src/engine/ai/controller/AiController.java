@@ -24,12 +24,11 @@ public class AiController {
 		protected AiType aiType;
 		//AI calculations object, used to calculate everything needed to make a decision or an action
 		protected AiCalculations calc;
-		//FSM , directs traffic to correct FSM method relevant to AI and game type
+		//FSM , sets AI state to a one relevant to game situation
 		protected FSM fsm;
-		//state actions manager, directs traffic to correct state actions class relevant to game type
+		//state actions, executes state actions 
 		protected AiStateActions stateActions; 
 		/**
-		 * 
 		 * @param aiPlayer Player object that is controlled by AI
 		 * @param objects  list of objects in game
 		 * @param map map of game

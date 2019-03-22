@@ -8,12 +8,23 @@ import engine.ai.enums.AiType;
 import engine.entities.Player;
 
 public class AiHillStateActions extends AiStateActions {
-	HillCalculations calc;
+	
+	//AI hill calculations object
+	private HillCalculations calc;
+	
+	/**
+	 * @param aiCon AI controller object
+	 * @param calc AI calculations object
+	 * @param actions AI actions used to make state actions
+	 */
 	public AiHillStateActions(AiController aiCon, AiCalculations calc, AiActions actions) {
 		super(aiCon, calc, actions);
 		this.calc = (HillCalculations)calc;
 	}
 	
+	/**
+	 * Executes a state action relevant to current AI state. Also updates AI element in an AI type relevant matter.
+	 */
 	@Override
 	public void executeAction() {
 		updateElement();
@@ -58,7 +69,10 @@ public class AiHillStateActions extends AiStateActions {
 		}
 		
 	}
-	
+
+	/**
+	 * Implements actions for attack AI state 
+	 */
 	@Override
 	protected void attack() {
 		aiPlayer.unShield();
@@ -72,7 +86,10 @@ public class AiHillStateActions extends AiStateActions {
 
 		actions.attackIfInDistance(player);
 	}
-	
+
+	/**
+	 * Implements actions for aggressive attack AI state 
+	 */
 	@Override
 	protected void aggressiveAttack() {
 		aiPlayer.unShield();
@@ -89,7 +106,10 @@ public class AiHillStateActions extends AiStateActions {
 			aiPlayer.lightAttack();
 		}
 	}
-	
+
+	/**
+	 * Implements actions for wander on hill AI state 
+	 */
 	private void wanderOnHill() {
 		if(aiCon.getAiType().equals(AiType.HARD)) {
 			if(!calc.onHill(aiPlayer.getLocation()))
@@ -106,6 +126,9 @@ public class AiHillStateActions extends AiStateActions {
 		
 	}
 
+	/**
+	 * Implements actions for go to hill AI state 
+	 */
 	private void goToHill() {
 		actions.shieldWhenAlone();
 		Player player = calc.getPlayerCalc().getNearestPlayer();

@@ -12,7 +12,7 @@ public class TimedFSM extends FSM{
 		super(aiPlayer, aiCon, calc);
 	}
 	
-	/*
+	/** Sets AI state given everything going on in the game. 
 	 * easy AI features:
 	 * changes element randomly every 15 seconds
 	 * goes for a health power up if it is close
@@ -69,8 +69,8 @@ public class TimedFSM extends FSM{
 		}
 	}
 	
-	/*
-	 * features added/changed in normal AI:
+	/** Sets AI state given everything going on in the game. 
+	 *  features added/changed in normal AI compared to easy:
 	 * element is changed depending on whether the AI is on the offensive or defensive
 	 * prioritises taking power ups if they are close
 	 * attacks winning player if score gap is high
@@ -124,8 +124,8 @@ public class TimedFSM extends FSM{
 		}
 	}
 	
-	/*
-	 *  features added/changed in hard AI:
+	/** Sets AI state given everything going on in the game. 
+	 *  features added/changed in hard AI compared to normal:
 	 *  goes for health power up if they exist and AI's HP is not full
 	 *  escapes if someone close is charging a heavy attack
 	 *  starts off the game attacking the nearest player

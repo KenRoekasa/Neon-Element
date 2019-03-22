@@ -20,7 +20,6 @@ public class AiControllersManager {
 	private GameType gameType;
 
 	/**
-	 * 
 	 * @param objects list of objects in game
 	 * @param map map of game
 	 * @param scoreboard score board object

@@ -9,19 +9,27 @@ import engine.enums.PowerUpType;
 
 public class HillFSM extends FSM{
 	
+	//HillCalculations object
 	HillCalculations calc;
 	
+	/**
+	 * @param aiPlayer Player object being controlled
+	 * @param aiCon AI controller object
+	 * @param calc AI calculations object
+	 */
 	public HillFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
 		super(aiPlayer, aiCon, calc);
 		this.calc = (HillCalculations)calc;
 	}
 	
-	//easy AI:
+
 	/**
-	 *prioritise taking power ups
-	 *attacks players that get close to the hill
-	 *when HP is low, it wanders around the map, looking for health power up
-	 *if the closest player's HP is less than a third, it attacks aggressively
+	 * Sets AI state given everything going on in the game. 
+	 * easy AI features:
+	 * prioritise taking power ups
+	 * attacks players that get close to the hill
+	 * when HP is low, it wanders around the map, looking for health power up
+	 * if the closest player's HP is less than a third, it attacks aggressively
 	 */
 	@Override
 	protected void easyAiFetchAction() {
@@ -106,8 +114,8 @@ public class HillFSM extends FSM{
 	}
 	
 	
-	//difference between normal and easy AI, 
-	/**normal AI:
+	/** Sets AI state given everything going on in the game. 
+	*  features added/changed in normal AI compared to easy:
 	* runs away from heavy attacks, 
 	* runs away if HP gap with nearest player is more than 50
 	* prioritises going to hill on going to pick power ups
@@ -209,8 +217,8 @@ public class HillFSM extends FSM{
 		}
 	}
 	
-	//difference between normal and hard AI
-	/* hard AI:
+	/** Sets AI state given everything going on in the game. 
+	 *  features added/changed in hard AI compared to normal:
 	 * does not leave the hill to kill players with less than 1/3 HP
 	 * runs away if HP gap with nearest player is more than 30
 	 * does not leave the hill to scare players off

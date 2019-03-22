@@ -8,6 +8,12 @@ import javafx.scene.shape.Rectangle;
 
 public class TimedCalculations extends AiCalculations {
 
+	/**
+	 * @param aiCon AI controller object
+	 * @param map Map of game
+	 * @param scoreboard score board object
+	 * @param gameType Game type
+	 */
 	public TimedCalculations(AiController aiCon, Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		super(aiCon, map, scoreboard, gameType);
 	}

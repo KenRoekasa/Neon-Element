@@ -6,16 +6,25 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
 public class MovementCalculations {
-
+	
+	//player object being controlled
 	protected Player aiPlayer;
+	//Map of game
 	protected Rectangle map;	
 	
+	/**
+	 * @param aiCon AI controller object
+	 * @param map Map of game
+	 */
 	public MovementCalculations(AiController aiCon, Rectangle map) {
 		this.aiPlayer = aiCon.getAiPlayer();
 		this.map = map;
 	}
 
-
+	/**
+	 * Calculates if AI player has reached edge of map
+	 * @return true if AI have reached edge of map, false otherwise
+	 */
 	public boolean reachedAnEdge() {
 		double x = aiPlayer.getLocation().getX();
 		double y = aiPlayer.getLocation().getY();
@@ -24,7 +33,8 @@ public class MovementCalculations {
 		return false;
 	}
 	
-	/*returns integer value, between 0 and 7 inclusive, to indicate movement direction to move away from edge
+	/**
+	 * returns integer value, between 0 and 7 inclusive, to indicate movement direction to move away from edge
 	 * 0 = down 
 	 * 1 = right cart
 	 * 2 = down cart
@@ -33,6 +43,7 @@ public class MovementCalculations {
 	 * 5 = left 
 	 * 6 = left cart
 	 * 7 = up 
+	 * @return integer from 0 to 7 inclusive, each number refers movement direction
 	 */
 	public int closestEdgeLocation() {
 		Point2D loc = aiPlayer.getLocation();
@@ -148,6 +159,12 @@ public class MovementCalculations {
 		return dir;
 	}
 	
+	/**
+	 * Calculates angle between two points, location 1 and location 2
+	 * @param loc1 location 1, usually this is the location of AI player using this method
+	 * @param loc2 location 2, usually this is the location of a player the AI wants to attack
+	 * @return the angle between the two points
+	 */
 	public double calcAngle(Point2D loc1, Point2D loc2) {
 
 		double x = loc1.getX() - loc2.getX();
@@ -155,7 +172,13 @@ public class MovementCalculations {
 		double angle = Math.toDegrees(Math.atan2(y, x)) - 90.0;
 		return angle;
 	}
-
+	
+	/**
+	 * Calculates distance between two points
+	 * @param a The first point 
+	 * @param b The second point
+	 * @return distance between point a and b
+	 */
 	public double calcDistance(Point2D a, Point2D b) {
 		return a.distance(b);
 	}
