@@ -77,7 +77,7 @@ public class PauseController extends UIController{
      * Handle the action of pressing setting button which will go to options_game.fxml
      */
     @FXML
-    public void handleSettingBtn(){
+    public void handleOptionsBtn(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/options_game.fxml"));
 
         try {

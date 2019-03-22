@@ -19,7 +19,7 @@
             <Text styleClass="button-text" text="RESUME" />
          </graphic>
       </Button>
-      <Button fx:id="option_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleSettingBtn" prefHeight="45.0" prefWidth="155.0" styleClass="button-page" textAlignment="CENTER">
+      <Button fx:id="option_btn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleOptionsBtn" prefHeight="45.0" prefWidth="155.0" styleClass="button-page" textAlignment="CENTER">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
