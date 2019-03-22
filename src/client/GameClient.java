@@ -178,7 +178,7 @@ public class GameClient {
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
 
-
+            gameState.stop();
             LeaderboardController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
@@ -188,7 +188,7 @@ public class GameClient {
             controller.showLeaderBoard();
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
             primaryStage.setTitle("Game Over");
-            gameState.stop();
+
 
         } catch (IOException e) {
             System.out.println("crush in loading menu board ");
