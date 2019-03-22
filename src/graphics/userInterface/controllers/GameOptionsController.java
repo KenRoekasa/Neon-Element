@@ -80,9 +80,10 @@ public class GameOptionsController extends UIController{
     public void handleOkBtn(){
         audioManager.setEffectVolume(sound.getValue());
         audioManager.setMusicVolume(music.getValue());
-
         audioManager.playSound(Sound.BUTTON4);
-        System.out.println("sound value"+ sound.getValue());
+
+        hudPane.getChildren().remove(node);
+        gamestate.resume();
 
     }
     /** Initialise the set up of slider and add listener to slider
@@ -112,7 +113,7 @@ public class GameOptionsController extends UIController{
 
     void updateVolume(){
         sound.setValue(audioManager.getEffectVolume());
-        //sound.setValue(audioManager.getMusicVolume());
+        music.setValue(audioManager.getMusicVolume());
     }
 }
 

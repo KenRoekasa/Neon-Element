@@ -141,6 +141,17 @@ public class AudioManager {
         return effectVolume;
     }
 
+
+
+    /**
+     *  Returns the volume of the music
+     * @return The volume of the music
+     */
+    public static double getMusicVolume() {
+        return musicVolume;
+    }
+
+
     /**
      * Sets the volume of the music tracks
      * @param volume The desired volume

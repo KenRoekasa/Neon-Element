@@ -60,12 +60,9 @@ public class MenuOptionsController extends UIController{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Set slider properties
-        // volume range:0 - 1.0
-        // defalut value is 0.4
         sound.setMin(0);
         sound.setMax(100);
-        sound.setValue(50);
+
 
 
         DecimalFormat df = new DecimalFormat("0.0");
@@ -75,9 +72,6 @@ public class MenuOptionsController extends UIController{
 
         music.setMin(0);
         music.setMax(100);
-        music.setValue(50);
-
-
 
         DecimalFormat df2 = new DecimalFormat("0.0");
         music.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> musicVolume.textProperty().setValue(
@@ -85,8 +79,9 @@ public class MenuOptionsController extends UIController{
 
     }
 
-    void updateSlider(){
+
+    public void updateSlider(){
         sound.setValue(audioManager.getEffectVolume());
-        //sound.setValue(audioManager.getMusicVolume());
+        music.setValue(audioManager.getMusicVolume());
     }
 }
