@@ -20,10 +20,7 @@ public class ClientGameState extends GameState {
     private int clientId;
 
     private Player player;
-    /**
-     * The number of players
-     */
-    private int num_player;
+
     /**
      * The state of paused or not in the current game
      */
@@ -60,13 +57,7 @@ public class ClientGameState extends GameState {
         this.clientId = id;
     }
 
-    public int getNum_player() {
-        return num_player;
-    }
 
-    public void setNum_player(int num_player) {
-        this.num_player = num_player;
-    }
 
 
     /**
