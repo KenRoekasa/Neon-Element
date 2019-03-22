@@ -37,8 +37,8 @@ public class JoinController extends UIController {
             gameState = GameStateGenerator.createEmptyState();
         //g.getPlayer().getHealth();
         try {
-           // String addr = Constants.SERVER_ADDRESS;
-            String addr = "172.20.10.1";
+           String addr = ip.getText();
+          //  String addr =addr ;
             System.out.println("------------Server address:"+addr+" serCons: ");
             //to-do figure out the server listining port
             GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
