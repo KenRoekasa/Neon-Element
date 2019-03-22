@@ -22,7 +22,7 @@ public class TimedFSM extends FSM{
 	 * starts the game wandering around
 	 */
 	@Override
-	public void easyAiFetchAction() {
+	protected void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -76,7 +76,7 @@ public class TimedFSM extends FSM{
 	 * attacks winning player if score gap is high
 	 */
 	@Override
-	public void normalAiFetchAction() {
+	protected void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -131,7 +131,7 @@ public class TimedFSM extends FSM{
 	 *  starts off the game attacking the nearest player
 	 */
 	@Override
-	public void hardAiFetchAction() {
+	protected void hardAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();

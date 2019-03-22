@@ -22,7 +22,7 @@ public class KillsFSM extends FSM {
 	 * attacks aggressively if nearest player's HP is less than a third
 	 */
 	@Override
-	public void easyAiFetchAction() {
+	protected void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -77,7 +77,7 @@ public class KillsFSM extends FSM {
 	 * prioritises escaping when health is low than attack
 	 */
 	@Override
-	public void normalAiFetchAction() {
+	protected void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -133,7 +133,7 @@ public class KillsFSM extends FSM {
 	 * starts the game attacking nearest player
 	 */
 	@Override
-	public void hardAiFetchAction() {
+	protected void hardAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();

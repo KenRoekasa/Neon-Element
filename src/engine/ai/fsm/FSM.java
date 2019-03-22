@@ -55,7 +55,7 @@ public abstract class FSM {
 		}
 	}
 	
-	public abstract void easyAiFetchAction() ;
-	public abstract void normalAiFetchAction() ;
-	public abstract void hardAiFetchAction() ;
+	protected abstract void easyAiFetchAction() ;
+	protected abstract void normalAiFetchAction() ;
+	protected abstract void hardAiFetchAction() ;
 }

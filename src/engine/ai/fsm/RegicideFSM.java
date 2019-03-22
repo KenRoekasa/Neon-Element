@@ -28,7 +28,7 @@ public class RegicideFSM extends FSM{
 	 * prioritise attacking the king if it and other players are close 
 	 */
 	@Override
-	public void easyAiFetchAction() {
+	protected void easyAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -88,7 +88,7 @@ public class RegicideFSM extends FSM{
 	 * prioritises escaping when health is low than attack
 	 */
 	@Override
-	public void normalAiFetchAction() {
+	protected void normalAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -150,7 +150,7 @@ public class RegicideFSM extends FSM{
 	 * starts the game attacking nearest player
 	 */
 	@Override
-	public void hardAiFetchAction() {
+	protected void hardAiFetchAction() {
 
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();

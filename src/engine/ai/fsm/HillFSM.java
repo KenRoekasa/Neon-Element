@@ -24,7 +24,7 @@ public class HillFSM extends FSM{
 	 *if the closest player's HP is less than a third, it attacks aggressively
 	 */
 	@Override
-	public void easyAiFetchAction() {
+	protected void easyAiFetchAction() {
 		
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -115,7 +115,7 @@ public class HillFSM extends FSM{
 	* wanders close to hill area when HP is low, looking for health power up
 	*/
 	@Override
-	public void normalAiFetchAction() {
+	protected void normalAiFetchAction() {
 		
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
@@ -220,7 +220,7 @@ public class HillFSM extends FSM{
 	 * keeps distance, 150, from opponents when charge a heavy attack, so they receive damage but cannot reach it to attack while charging
 	 */
 	@Override
-	public void hardAiFetchAction() {
+	protected void hardAiFetchAction() {
 		
 		float aiPlayerHP = aiPlayer.getHealth();
 		Player nearestPlayer = playerCalc.getNearestPlayer();
