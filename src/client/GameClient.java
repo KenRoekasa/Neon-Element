@@ -320,14 +320,15 @@ public class GameClient {
 			@Override
 			public void run() {
 		        hudPane.getChildren().add(canvas);
+		        int index = hudPane.getChildren().indexOf(canvas);
+		        hudPane.getChildren().get(index).toBack();
+
 				
 			}
 		});
 
         // forces the game to be rendered behind the gui
-        int index = hudPane.getChildren().indexOf(canvas);
-        hudPane.getChildren().get(index).toBack();
-
+        
         gc = canvas.getGraphicsContext2D();
         debugger = new Debugger(gc);
 
