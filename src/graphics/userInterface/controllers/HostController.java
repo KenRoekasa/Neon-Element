@@ -4,14 +4,12 @@ import client.GameClient;
 
 import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
+import graphics.userInterface.LobbyThread;
 import server.GameServer;
 import server.ServerGameState;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import networking.Constants;
 import server.ServerGameStateGenerator;
 
 import java.lang.reflect.Method;
@@ -43,30 +41,23 @@ public class HostController extends UIController{
                 System.out.println("Invalid ip address!");
             		//todo user needs to be asked to enter a valid ip adddress
             }else {
-	            Constants.SERVER_ADDRESS = addr;
 	            //loading lobby
 	            String fxmlPath ="../fxmls/lobby_host.fxml";
 	            String stageTitle ="Game Lobby";
 	            String fileException ="Game Lobby";
 	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
 
-	            LobbyController controller = (LobbyController) loader.getController();
-	            controller.setIp(addr);
-
 	            GameClient gameBoard = null;
                 try {
                     gameBoard = new GameClient(stage, gameState, addr, audioManager);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                GameServer server =new GameServer(serverState);
-                server.setLobbyController(controller);
+                AbstractLobbyController controller = (AbstractLobbyController) loader.getController();
                 controller.setGameClient(gameBoard);
-                controller.setServer(server);
-                server.start();
-                /*try {
+
+                try {
                     // Create server
                     new Thread(new Runnable() {
                         public void run() {
@@ -92,7 +83,10 @@ public class HostController extends UIController{
                     }).start();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
+
+                LobbyThread lobbyThread = new LobbyThread(gameState, controller);
+                lobbyThread.start();
 
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly

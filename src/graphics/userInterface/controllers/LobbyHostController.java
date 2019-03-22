@@ -1,18 +1,11 @@
 package graphics.userInterface.controllers;
 
-import client.ClientGameState;
 import client.GameClient;
-import engine.model.generator.GameStateGenerator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import networking.Constants;
-
-import server.GameServer;
-import server.ServerGameState;
-import server.ServerGameStateGenerator;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,41 +14,17 @@ import java.util.ResourceBundle;
 /**
  * Controller for lobby_host.fxml for setting game lobby
  */
-public class LobbyController extends UIController{
-	
-	private GameServer server;
+public class LobbyHostController extends AbstractLobbyController {
 
-    private ClientGameState gameState;
-    private ServerGameState serverState;
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    private String ip;
-
-    public void setGameClient(GameClient gameClient) {
-        this.gameClient = gameClient;
-    }
-
-    private GameClient gameClient;
 	private boolean startGame = false;
 
-	
+
     public boolean isStartGame() {
 		return startGame;
 	}
 
 	public void setStartGame(boolean startGame) {
 		this.startGame = startGame;
-	}
-
-	public GameServer getServer() {
-		return server;
-	}
-
-	public void setServer(GameServer server) {
-		this.server = server;
 	}
 
 	/**
@@ -89,7 +58,7 @@ public class LobbyController extends UIController{
     /**
      * The string template of show that user connect to the game
      */
-    private final static String TEMP = "Player %d connects ";
+    private final static String TEMP = "Player %d is connected";
 
 
     /** When player connects to the game, let the controller knows
@@ -124,14 +93,12 @@ public class LobbyController extends UIController{
     }
 
     public void showConnections(ArrayList<Integer> playerIds){
+        GameClient gameClient = getGameClient();
         if(!gameClient.isNetworked){
-            System.out.println("HIIIIIIIIIIIIIIIIIIIi");
             gameClient.startNetwork();
-            System.out.println("Game client hiiiiiiiiiiiiiiiiiiiii");
             gameClient.isNetworked = true ;
         }
         int size = playerIds.size();
-        System.out.println("Connected player's number : "+size);
         switch (size){
             case 1:
                 connect(playerIds.get(0),conn_1,conn1Property);
@@ -150,22 +117,8 @@ public class LobbyController extends UIController{
                 connect(playerIds.get(1),conn_2,conn2Property);
                 connect(playerIds.get(2),conn_3,conn3Property);
                 connect(playerIds.get(3),conn_4,conn4Property);
+                break;
         }
-        //once players are all connected, start the game
-        if(size == Constants.NUM_PLAYER){
-        	try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            startGame = true;
-            startGame();
-        }
-    }
-
-    public void startGame(){
-        gameClient.initialiseGame();
     }
 
 }

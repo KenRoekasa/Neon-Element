@@ -46,11 +46,9 @@ public class ClientNetworkHandler {
         }
     }
 
-    public void receiveConnectedUserBroadcast(ConnectBroadcast packet) {
+    public void receiveConnectBroadcast(ConnectBroadcast packet) {
         Player player = new Player(ObjectType.PLAYER, packet.getId());
-        //todo this is probably broken
         this.gameState.getAllPlayers().add(player);
-        this.gameState.getObjects().add(player);
     }
 
     public void receivePowerUpBroadcast(PowerUpBroadcast packet) {

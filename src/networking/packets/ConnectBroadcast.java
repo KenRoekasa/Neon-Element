@@ -11,7 +11,6 @@ public class ConnectBroadcast extends Packet.PacketToClient {
 	protected ConnectBroadcast(ByteBuffer buffer, Sender sender) {
 		super(sender);
 		this.playerId = buffer.getInt();
-
 	}
 
 	public ConnectBroadcast(int playerId) {
@@ -30,7 +29,7 @@ public class ConnectBroadcast extends Packet.PacketToClient {
 
 	@Override
 	public void handle(ClientNetworkHandler handler) {
-		// TODO handle packet
+		handler.receiveConnectBroadcast(this);
 	}
 
 	@Override
