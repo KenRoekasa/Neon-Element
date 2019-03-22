@@ -103,7 +103,14 @@ public abstract class GameState {
     }
 
     public void setObjects(ArrayList<PhysicsObject> objects) {
+
         this.objects = objects;
+        for (PhysicsObject o : objects) {
+            if (Objects.equals(o.getClass(), Player.class)) {
+                allPlayers.add((Player) o);
+            }
+        }
+
     }
 
     public long getStartTime() {
