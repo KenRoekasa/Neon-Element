@@ -23,6 +23,9 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import graphics.rendering.textures.TextureLoader;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class Renderer {
     static HashMap<Sprites, Image> textures;
     public static float xOffset;
     public static float yOffset;
-
+    private Font deathFont;
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
@@ -52,6 +55,12 @@ public class Renderer {
         xOffset = 0;
         yOffset = 0;
 
+        try {
+            deathFont = Font.loadFont(new FileInputStream(new File("src/graphics/userInterface/resources/fonts/Audiowide.ttf")), 50);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
@@ -62,6 +71,12 @@ public class Renderer {
         xOffset = 0;
         yOffset = 0;
 
+        try {
+            deathFont = Font.loadFont(new FileInputStream(new File("src/graphics/userInterface/resources/fonts/Audiowide.ttf")), 50);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void render(Stage primaryStage, ClientGameState gameState) {
@@ -71,7 +86,7 @@ public class Renderer {
 
         gc.save();
 
-        if ( gameState.getPlayer().isAlive()) {
+        if (gameState.getPlayer().isAlive()) {
 
             calculateOffset(gameState);
 
@@ -118,9 +133,9 @@ public class Renderer {
             xOffset = 0;
             yOffset = 0;
 
-            gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
+            gc.setFont(deathFont);
             gc.setStroke(Color.WHITE);
-            gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
+            gc.strokeText("you are dead!", stageSize.getWidth()/2 - 170, stageSize.getHeight()/2);
             gc.restore();
         }
 
