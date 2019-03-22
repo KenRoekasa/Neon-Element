@@ -4,7 +4,7 @@ import engine.entities.Character;
 
 import engine.entities.Player;
 import graphics.enumSwitches.colourSwitch;
-import engine.enums.Action;
+import engine.model.enums.Action;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;

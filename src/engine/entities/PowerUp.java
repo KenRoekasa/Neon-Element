@@ -1,8 +1,8 @@
 package engine.entities;
 
 
-import engine.enums.ObjectType;
-import engine.enums.PowerUpType;
+import engine.model.enums.ObjectType;
+import engine.model.enums.PowerUpType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -11,13 +11,23 @@ import java.util.Random;
 
 public class PowerUp extends PhysicsObject {
 
-    private int id;
-    private PowerUpType type;
-
-    private boolean isActive = true;
-    
     private static int nextId = 0;
+    /**
+     * The unique identifier of this powerup
+     */
+    private int id;
+    /**
+     * The type of the power heal,damage or speed
+     */
+    private PowerUpType type;
+    /**
+     * If the powerup can be picked up or not
+     */
+    private boolean isActive = true;
 
+    /**
+     * Constructor
+     */
     public PowerUp() {
         id = nextId++;
         tag = ObjectType.POWERUP;
@@ -48,25 +58,37 @@ public class PowerUp extends PhysicsObject {
 
         location = new Point2D(randX, randY);
     }
-    
+
+    /**
+     * Constructor
+     *
+     * @param id the id of the power up
+     * @param x  x coordinate of the power up
+     * @param y  y coordinate of the power up
+     */
     public PowerUp(int id, double x, double y) {
         this.id = id;
         this.location = new Point2D(x, y);
     }
-    
+
     public int getId() {
         return this.id;
     }
 
     public Point2D getLocation() {
-       return this.location;
+        return this.location;
     }
 
     public void setLocation(Point2D location) {
         this.location = location;
     }
 
-    public void activatePowerUp(engine.entities.Character player) {
+    /**
+     * Activate the power and cause an effect on the player
+     *
+     * @param player The player you want to be effected by the powerup
+     */
+    public void activatePowerUp(Character player) {
         if (isActive) {
             switch (type) {
                 case HEAL:

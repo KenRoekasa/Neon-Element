@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 import client.ClientGameState;
+import client.audiomanager.Music;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -90,6 +91,7 @@ public class PauseController extends UIController{
             SoundController controller = loader.getController();
             controller.setHudPane(hudPane);
             controller.setGamestate(gameState);
+            controller.setAudioManager(audioManager);
             controller.setNode(subnode);
             controller.setStage(stage);
             stage.setTitle("Sound");
@@ -112,5 +114,7 @@ public class PauseController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
+        audioManager.setMenuMusic();
+        audioManager.setNeonVolume(audioManager.getEffectVolume());
     }
 }

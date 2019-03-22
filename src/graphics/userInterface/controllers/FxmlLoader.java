@@ -7,6 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Random;
+
 /**
  * A template for loading the fxml file and setting up corresponding controller
  * */
@@ -28,10 +30,31 @@ public class FxmlLoader {
             controller.setStage(stage);
             controller.setAudioManager(audioManager);
             stage.setTitle(stageTitle);
-            audioManager.playSound(Sound.SHIELD);//set the sound to button
+            playButtonSound(audioManager);
+
         } catch (IOException e) {
             System.out.println("Crush in loading" +fileException+".fxml file.");
             e.printStackTrace();
+        }
+    }
+
+    public void playButtonSound(AudioManager audioManager) {
+        // pick a random button pitch
+        int sound = new Random().nextInt(4);
+
+        switch (sound) {
+            case 0:
+                audioManager.playSound(Sound.BUTTON1);
+                break;
+            case 1:
+                audioManager.playSound(Sound.BUTTON2);
+                break;
+            case 2:
+                audioManager.playSound(Sound.BUTTON3);
+                break;
+            case 3:
+                audioManager.playSound(Sound.BUTTON4);
+                break;
         }
     }
 }

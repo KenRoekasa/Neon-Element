@@ -1,7 +1,7 @@
 package graphics.enumSwitches;
 
-import engine.enums.Elements;
-import engine.enums.PowerUpType;
+import engine.model.enums.Elements;
+import engine.model.enums.PowerUpType;
 import javafx.scene.paint.Color;
 
 public class colourSwitch {
