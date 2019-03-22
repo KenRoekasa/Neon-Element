@@ -1,6 +1,5 @@
 package graphics.userInterface.controllers;
 
-import client.audiomanager.Sound;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,14 +31,16 @@ public class MenuController extends UIController implements Initializable{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
-    /** Handle the action when pressing option button which direct to option.fxml
+    /** Handle the action when pressing option button which direct to options_menu.fxml
      */
     @FXML
     public void handleOptionBtn(){
-        String fxmlPath ="../fxmls/option.fxml";
+        String fxmlPath ="../fxmls/options_menu.fxml";
         String stageTitle ="Option Setup" ;
         String fileException ="Option";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+        MenuOptionsController controller = (MenuOptionsController) loader.getController();
+        controller.updateSlider();
     }
 
 

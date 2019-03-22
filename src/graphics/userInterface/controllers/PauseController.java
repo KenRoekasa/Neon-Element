@@ -1,7 +1,6 @@
 package graphics.userInterface.controllers;
 
 import client.ClientGameState;
-import client.audiomanager.Music;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -75,11 +74,11 @@ public class PauseController extends UIController{
     }
 
     /**
-     * Handle the action of pressing setting button which will go to sound.fxml
+     * Handle the action of pressing setting button which will go to options_game.fxml
      */
     @FXML
     public void handleSettingBtn(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/sound.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxmls/options_game.fxml"));
 
         try {
             hudPane.getChildren().remove(node);
@@ -88,12 +87,13 @@ public class PauseController extends UIController{
             subnode.setPrefWidth(stageSize.getWidth());
             hudPane.getChildren().add(subnode);
             subnode.setBackground(Background.EMPTY);
-            SoundController controller = loader.getController();
+            GameOptionsController controller = loader.getController();
             controller.setHudPane(hudPane);
             controller.setGamestate(gameState);
             controller.setAudioManager(audioManager);
             controller.setNode(subnode);
             controller.setStage(stage);
+            controller.updateVolume();
             stage.setTitle("Sound");
 
         } catch (IOException e) {

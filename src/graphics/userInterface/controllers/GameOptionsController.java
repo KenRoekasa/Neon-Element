@@ -1,33 +1,78 @@
 package graphics.userInterface.controllers;
 
+import client.ClientGameState;
 import client.audiomanager.AudioManager;
 import client.audiomanager.Sound;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 /**
- * Controller for option.fxml
+ * Controller for options_game.fxml which in the options of pause
  */
-public class OptionController extends UIController{
+public class GameOptionsController extends UIController{
 
     /**
      * Slider to adjust sound's volume
      */
     @FXML
     public Slider sound, music;
-
     /**
      * Text which shows the volume between 0-1.o
      */
     @FXML
     Text volume, musicVolume;
+    /**
+     * The hud pane
+     */
+    private Pane hudPane;
+    /**
+     * The node pane
+     */
+    private Pane node;
+    /**
+     * The current game state
+     */
+    private ClientGameState gamestate;
+
+    /** Set the hud pane
+     * @param hudPane
+     */
+    public void setHudPane(Pane hudPane) {
+        this.hudPane = hudPane;
+    }
+
+    /** Set the subnode pane
+     * @param node
+     */
+    public void setNode(Pane node) {
+        this.node = node;
+    }
+
+    /** Set the game state
+     * @param gameState the game state of the game
+     */
+    public void setGamestate(ClientGameState gameState) {
+        this.gamestate = gameState;
+    }
+
+    /**
+    /**
+     * Handle the action of pressing back button which will go to game board
+     */
+    @FXML
+    public void handleBackBtn(){
+        hudPane.getChildren().remove(node);
+        gamestate.resume();
+
+    }
+
 
     /** Handle the action of pressing ok button which will set the volume.
      */
@@ -40,17 +85,6 @@ public class OptionController extends UIController{
         System.out.println("sound value"+ sound.getValue());
 
     }
-
-    /**Handle the action of pressing back button which will go back to menu.fxml
-     */
-    @FXML
-    public void handleBackBtn() {
-        String fxmlPath = "../fxmls/menu.fxml";
-        String stageTitle = "Menu";
-        String fileException = "Menu";
-        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
-    }
-
     /** Initialise the set up of slider and add listener to slider
      * @param location  url location
      * @param resources resource bundled
@@ -58,27 +92,27 @@ public class OptionController extends UIController{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Set slider properties
-        // volume range:0 - 1.0
-        // defalut value is 0.4
         sound.setMin(0);
         sound.setMax(100);
         sound.setValue(50);
-
 
         DecimalFormat df = new DecimalFormat("0.0");
         sound.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> volume.textProperty().setValue(
                 String.valueOf(df.format(sound.getValue()))));
 
-
         music.setMin(0);
         music.setMax(100);
         music.setValue(50);
-
 
         DecimalFormat df2 = new DecimalFormat("0.0");
         music.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> musicVolume.textProperty().setValue(
                 String.valueOf(df2.format(music.getValue()))));
 
     }
+
+    void updateVolume(){
+        sound.setValue(audioManager.getEffectVolume());
+        //sound.setValue(audioManager.getMusicVolume());
+    }
 }
+

@@ -14,6 +14,12 @@ import java.util.Random;
  * */
 public class FxmlLoader {
 
+    public UIController getController() {
+        return controller;
+    }
+
+    private UIController controller;
+
     /** Constructor for FxmlLoader to initialise and configure the scene
      * @param fxmlPath the relative path of fxml which is going to be loading
      * @param stage the stage of the application
@@ -26,7 +32,7 @@ public class FxmlLoader {
         try {
             Pane root = loader.load();
             stage.getScene().setRoot(root);
-            UIController controller = loader.getController();
+            controller = loader.getController();
             controller.setStage(stage);
             controller.setAudioManager(audioManager);
             stage.setTitle(stageTitle);
@@ -37,6 +43,8 @@ public class FxmlLoader {
             e.printStackTrace();
         }
     }
+
+
 
     public void playButtonSound(AudioManager audioManager) {
         // pick a random button pitch
