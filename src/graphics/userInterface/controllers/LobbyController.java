@@ -1,18 +1,11 @@
 package graphics.userInterface.controllers;
 
-import client.ClientGameState;
 import client.GameClient;
-import engine.model.generator.GameStateGenerator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import networking.Constants;
-
-import server.GameServer;
-import server.ServerGameState;
-import server.ServerGameStateGenerator;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,17 +15,6 @@ import java.util.ResourceBundle;
  * Controller for lobby.fxml for setting game lobby
  */
 public class LobbyController extends UIController{
-	
-	private GameServer server;
-
-    private ClientGameState gameState;
-    private ServerGameState serverState;
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    private String ip;
 
     public void setGameClient(GameClient gameClient) {
         this.gameClient = gameClient;
@@ -41,21 +23,13 @@ public class LobbyController extends UIController{
     private GameClient gameClient;
 	private boolean startGame = false;
 
-	
+
     public boolean isStartGame() {
 		return startGame;
 	}
 
 	public void setStartGame(boolean startGame) {
 		this.startGame = startGame;
-	}
-
-	public GameServer getServer() {
-		return server;
-	}
-
-	public void setServer(GameServer server) {
-		this.server = server;
 	}
 
 	/**

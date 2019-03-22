@@ -51,7 +51,6 @@ public class HostController extends UIController{
 	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
 
 	            LobbyController controller = (LobbyController) loader.getController();
-	            controller.setIp(addr);
 
 	            GameClient gameBoard = null;
                 try {
@@ -64,7 +63,6 @@ public class HostController extends UIController{
                 GameServer server =new GameServer(serverState);
                 server.setLobbyController(controller);
                 controller.setGameClient(gameBoard);
-                controller.setServer(server);
                 server.start();
                 /*try {
                     // Create server
