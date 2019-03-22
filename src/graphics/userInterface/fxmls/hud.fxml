@@ -6,20 +6,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
    <children>
-      <Text fx:id="kills" fill="#f8f5f5" layoutX="55.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="30.0" />
+      <Text fx:id="kills" fill="#f8f5f5" layoutX="55.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="30.0" />
       <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="BLOOD : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0" />
-      <Text fill="#f8f5f5" layoutX="9.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="KILLS    : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0" />
-      <Text fx:id="health" fill="#f8f5f5" layoutX="55.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="10.0" />
-      <Text fill="#f8f5f5" layoutX="20.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="DEATH  : " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
-      <Text fx:id="death" fill="#f8f5f5" layoutX="65.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="50.0" />
-      <AnchorPane layoutX="714.0" prefHeight="200.0" prefWidth="224.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+      <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="BLOOD  " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0" />
+      <Text fill="#f8f5f5" layoutX="9.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="KILLS     " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0" />
+      <Text fx:id="health" fill="#f8f5f5" layoutX="55.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="10.0" />
+      <Text fill="#f8f5f5" layoutX="20.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="DEATH   " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
+      <Text fx:id="death" fill="#f8f5f5" layoutX="65.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="50.0" />
+      <AnchorPane layoutX="651.0" prefHeight="260.0" prefWidth="272.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="130.0" />
-            <Label styleClass="standard-text-normal" stylesheets="@../resources/css/outrun.css" text="LeaderBoard" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="10.0" />
-            <Label fx:id="player1" styleClass="standard-text-hud" text="1" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="50.0" />
-            <Label fx:id="player2" styleClass="standard-text-hud" text="2" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="90.0" />
-            <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="170.0" />
+            <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="140.0" />
+            <Label layoutX="60.0" layoutY="14.0" styleClass="standard-text-normal" stylesheets="@../resources/css/outrun.css" text="LeaderBoard" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="20.0" />
+            <Label fx:id="player1" layoutX="40.0" layoutY="51.0" styleClass="standard-text-hud" text="1" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="60.0" />
+            <Label fx:id="player2" layoutX="54.0" layoutY="90.0" styleClass="standard-text-hud" text="2" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
+            <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="180.0" />
          </children>
       </AnchorPane>
    </children>
