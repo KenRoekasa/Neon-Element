@@ -87,7 +87,9 @@ public class GameServer extends Thread {
 		ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
 		//todo can't get the connected player : how and where player added
 
-		lobbyController.showConnections(connectedPlayers.getPlayerIds());
+		if(connectedPlayers != null) {
+			lobbyController.showConnections(connectedPlayers.getPlayerIds());
+		}
 
 		// Wait for enough players to start the game
 		/*

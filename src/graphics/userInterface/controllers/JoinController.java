@@ -38,6 +38,7 @@ public class JoinController extends UIController {
         //g.getPlayer().getHealth();
         try {
             String addr = Constants.SERVER_ADDRESS;
+            System.out.println("------------Server address:"+addr+" serCons: "+Constants.SERVER_ADDRESS);
             GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
             Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();

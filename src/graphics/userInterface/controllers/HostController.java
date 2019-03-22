@@ -48,19 +48,22 @@ public class HostController extends UIController{
 
 	            LobbyController controller = (LobbyController) loader.getController();
 	            controller.setIp(addr);
+	            
+	            GameClient gameBoard = null;
+                try {
+                    gameBoard = new GameClient(stage, gameState, addr, audioManager);
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                GameServer server = new GameServer(serverState);
+               controller.setGameClient(gameBoard);
 
                 server.setLobbyController(controller);
                 server.start();
 
-                GameClient gameBoard = null;
-                try {
-                    gameBoard = new GameClient(stage, gameState, addr, audioManager);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                controller.setGameClient(gameBoard);
+               
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
                 //gameBoard.startNetwork();
