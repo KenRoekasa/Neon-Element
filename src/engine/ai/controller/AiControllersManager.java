@@ -13,10 +13,15 @@ import javafx.scene.shape.Rectangle;
 
 public class AiControllersManager {
 	
+	//AI controllers objects
 	private ArrayList<AiController> controllers;
+	//Objects in game
 	private ArrayList<PhysicsObject> objects;
+	//Map of game
 	private Rectangle map;
+	//Score board
 	private ScoreBoard scoreboard;
+	//Game type
 	private GameType gameType;
 
 	/**
