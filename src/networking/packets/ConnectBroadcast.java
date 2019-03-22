@@ -29,7 +29,7 @@ public class ConnectBroadcast extends Packet.PacketToClient {
 
 	@Override
 	public void handle(ClientNetworkHandler handler) {
-		// TODO handle packet
+		handler.receiveConnectBroadcast(this);
 	}
 
 	@Override
