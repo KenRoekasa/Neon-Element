@@ -26,7 +26,6 @@ public class GameServer extends Thread {
 	private ServerNetwork network;
 	private PhysicsController physicsController;
 	private LobbyController lobbyController;
-	private boolean isGameStart = false;
 
 	public LobbyController getLobbyController() {
 		return lobbyController;
@@ -60,10 +59,8 @@ public class GameServer extends Thread {
 		while (this.running) {
 			// Server logic
 
-			if (!isGameStart) {
-				System.out.println("Game server: "+!isGameStart);
+			if (!this.gameState.isStarted()) {
 				this.waitForPlayersToConnect();
-				System.out.println("Waiting for connection!");
 			} else {
 
 				physicsController.clientLoop();
@@ -99,12 +96,6 @@ public class GameServer extends Thread {
 			lobbyController.showConnections(connectedPlayers.getPlayerIds());
 		}
 
-		/*if(connectedPlayers.count() ==expectedPlayersToJoin) {
-			isGameStart = true;
-		}*/
-
-		System.out.println("------Game start"+lobbyController.isStartGame());
-
 		if (lobbyController.isStartGame()) {
 			System.out.println("Game server start the game!");
 			// Start the game
@@ -114,7 +105,6 @@ public class GameServer extends Thread {
 
 			this.gameState.setStarted(true);
 			this.network.getDispatcher().broadcastGameStarted();
-			isGameStart = true;
 
 		}
 	}
