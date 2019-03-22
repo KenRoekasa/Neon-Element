@@ -91,6 +91,7 @@ public class PauseController extends UIController{
             SoundController controller = loader.getController();
             controller.setHudPane(hudPane);
             controller.setGamestate(gameState);
+            controller.setAudioManager(audioManager);
             controller.setNode(subnode);
             controller.setStage(stage);
             stage.setTitle("Sound");
