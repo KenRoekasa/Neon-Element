@@ -7,16 +7,10 @@ import client.ClientGameState;
 import server.GameServer;
 import server.ServerGameState;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import networking.Constants;
 import server.ServerGameStateGenerator;
-
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 //For local_setup scene
 public class HostController extends UIController{

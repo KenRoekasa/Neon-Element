@@ -1,14 +1,9 @@
 package server;
 
 import engine.controller.GameTypeHandler;
-import engine.entities.PowerUp;
-import engine.model.enums.Action;
-import engine.model.enums.ObjectType;
-import engine.physics.CollisionDetector;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import graphics.userInterface.controllers.LobbyController;
-import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import javafx.geometry.Point2D;
 import networking.Constants;
@@ -16,9 +11,6 @@ import networking.server.ConnectedPlayers;
 import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
 import server.controllers.PowerUpController;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class GameServer extends Thread {
 
