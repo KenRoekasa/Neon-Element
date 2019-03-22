@@ -1,9 +1,11 @@
 package graphics.userInterface.controllers;
 
+import client.audiomanager.AudioManager;
+import client.audiomanager.Sound;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import java.net.URL;
@@ -19,19 +21,22 @@ public class OptionController extends UIController{
      * Slider to adjust sound's volume
      */
     @FXML
-    public Slider sound;
+    public Slider sound, music;
 
     /**
      * Text which shows the volume between 0-1.o
      */
     @FXML
-    Text volume;
+    Text volume, musicVolume;
 
     /** Handle the action of pressing ok button which will set the volume.
      */
     @FXML
     public void handleOkBtn(){
-        audioManager.setVolume(sound.getValue());
+        audioManager.setEffectVolume(sound.getValue());
+        audioManager.setMusicVolume(music.getValue());
+
+        audioManager.playSound(Sound.BUTTON4);
         System.out.println("sound value"+ sound.getValue());
 
     }
@@ -57,19 +62,23 @@ public class OptionController extends UIController{
         // volume range:0 - 1.0
         // defalut value is 0.4
         sound.setMin(0);
-        sound.setMax(1.0);
-        sound.setValue(1);
+        sound.setMax(100);
+        sound.setValue(50);
 
 
         DecimalFormat df = new DecimalFormat("0.0");
-        sound.valueProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-                volume.textProperty().setValue(
-                        String.valueOf(df.format(sound.getValue())));
+        sound.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> volume.textProperty().setValue(
+                String.valueOf(df.format(sound.getValue()))));
 
-            }
-        });
+
+        music.setMin(0);
+        music.setMax(100);
+        music.setValue(50);
+
+
+        DecimalFormat df2 = new DecimalFormat("0.0");
+        music.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> musicVolume.textProperty().setValue(
+                String.valueOf(df2.format(music.getValue()))));
 
     }
 }

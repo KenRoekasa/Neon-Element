@@ -2,7 +2,7 @@ package graphics.userInterface.controllers;
 
 
 import client.ClientGameState;
-import engine.ScoreBoard;
+import engine.model.ScoreBoard;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;

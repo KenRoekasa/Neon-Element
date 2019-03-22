@@ -3,7 +3,7 @@ package networking.test;
 import java.io.IOException;
 
 import client.ClientGameState;
-import client.GameStateGenerator;
+import engine.model.generator.GameStateGenerator;
 import server.GameServer;
 import server.ServerGameState;
 

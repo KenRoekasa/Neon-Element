@@ -1,19 +1,25 @@
 package engine.entities;
 
-import engine.enums.ObjectType;
+import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+/**
+ * Any in game object that can be collided with
+ */
 public abstract class PhysicsObject {
     protected int width;
     protected int height;
-    //Top left point of the object
     protected Point2D location;
+    /**
+     * The type of object this object is
+     */
     protected ObjectType tag;
 
-    // Update function will run on all physics object in the game, will constantly be called.
-    // Add like send to server / location update in here
+    /**
+     * Is called every frame
+     */
     public abstract void update();
 
     public Point2D getLocation() {
@@ -25,7 +31,7 @@ public abstract class PhysicsObject {
     }
 
     public Shape getBounds() {
-        return new Rectangle(location.getX()-width/2f, location.getY()-height/2f,width, height);
+        return new Rectangle(location.getX() - width / 2f, location.getY() - height / 2f, width, height);
     }
 
     public ObjectType getTag() {

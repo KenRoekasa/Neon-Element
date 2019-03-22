@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import engine.enums.Spell;
+import engine.model.enums.Spell;
 
 //This is a way to hold the information
 public class BroadCastCastSpellPacket extends Packet {

@@ -2,7 +2,7 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import engine.enums.Elements;
+import engine.model.enums.Elements;
 
 public class BroadCastElementStatePacket extends Packet {
 
