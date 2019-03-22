@@ -55,7 +55,7 @@ public class AudioManager {
         gameEffects.get(s).play(effectVolume);
     }
 
-    private void playSound(Sound s, double volumeDistance) {
+    private void    playSound(Sound s, double volumeDistance) {
         double sound_volume = volumeDistance * effectVolume;
         gameEffects.get(s).play(sound_volume);
     }
@@ -118,8 +118,10 @@ public class AudioManager {
 
 
                     double distance = gameState.getPlayer().getLocation().distance(enemy.getLocation());
-                    double func = 1 / (distance);
+                    double func = 1 / (distance) * 100;
 
+
+                    System.out.println(func);
 
                     // calculate distance
 
