@@ -99,9 +99,7 @@ public class LobbyController extends UIController{
 
     public void showConnections(ArrayList<Integer> playerIds){
         if(!gameClient.isNetworked){
-            System.out.println("HIIIIIIIIIIIIIIIIIIIi");
             gameClient.startNetwork();
-            System.out.println("Game client hiiiiiiiiiiiiiiiiiiiii");
             gameClient.isNetworked = true ;
         }
         int size = playerIds.size();

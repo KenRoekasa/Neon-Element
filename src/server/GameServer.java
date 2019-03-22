@@ -47,11 +47,8 @@ public class GameServer extends Thread {
 
 	public void run() {
 		this.network.start();
-		System.out.println("Constants in server"+Constants.NUM_PLAYER);
 
-		System.out.println("Game started.");
-
-		Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
+        Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
 		powerUpController.start();
 
         this.running = true;
@@ -92,12 +89,10 @@ public class GameServer extends Thread {
 		//todo can't get the connected player : how and where player added
 
 		if(connectedPlayers != null) {
-			System.out.println("connected players");
 			lobbyController.showConnections(connectedPlayers.getPlayerIds());
 		}
 
 		if (lobbyController.isStartGame()) {
-			System.out.println("Game server start the game!");
 			// Start the game
 			connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
 			this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
