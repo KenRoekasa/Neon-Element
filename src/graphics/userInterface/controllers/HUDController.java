@@ -2,7 +2,6 @@ package graphics.userInterface.controllers;
 
 
 import client.ClientGameState;
-import engine.model.ScoreBoard;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -11,34 +10,14 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 //To get players' health and speed in top-left hud
 public class HUDController extends UIController implements Initializable {
 
     private ClientGameState gameState;
-    private ScoreBoard scoreBoard;
-    private int playerId;
-    private ArrayList<Integer> leaderBoard;
 
     private final static String TEMP = "Player %s with %s ";
-
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
-    }
-
-    public void setScoreBoard(ScoreBoard scoreBoard) {
-        this.scoreBoard = scoreBoard;
-    }
-
-    public void setLeaderBoard(ArrayList<Integer> leaderBoard) {
-        this.leaderBoard = leaderBoard;
-    }
-
-    public void setGameState(ClientGameState gameState) {
-        this.gameState = gameState;
-    }
 
     @FXML
     private Text health;
@@ -57,10 +36,6 @@ public class HUDController extends UIController implements Initializable {
 
     private int num_player;
 
-    public void setNum_player(int num_player) {
-        this.num_player = num_player;
-    }
-
     public HUDController() {
         healthValue = new SimpleStringProperty();
         totalKills = new SimpleStringProperty();
@@ -69,6 +44,11 @@ public class HUDController extends UIController implements Initializable {
         player2Property = new SimpleStringProperty();
         player3Property = new SimpleStringProperty();
         player4Property = new SimpleStringProperty();
+    }
+
+    public void setGameState(ClientGameState gameState) {
+        this.gameState = gameState;
+        this.num_player = gameState.getScoreBoard().getLeaderBoard().size();
     }
 
 
@@ -104,6 +84,10 @@ public class HUDController extends UIController implements Initializable {
         }
     }
 
+    private Integer getPlayerIdAtPosition(int index) {
+        return this.gameState.getScoreBoard().getLeaderBoard().get(index);
+    }
+
     public void update() {
 
         if (gameState.getPlayer().getHealth() < 0) {
@@ -112,21 +96,21 @@ public class HUDController extends UIController implements Initializable {
             healthValue.set(String.valueOf((int) (gameState.getPlayer().getHealth())));
         }
 
-        totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
+        totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(this.gameState.getClientId()))));
 
-        deathTimes.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerDeaths(playerId))));
+        deathTimes.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerDeaths(this.gameState.getClientId()))));
 
-        String s1 = String.format(TEMP, leaderBoard.get(0).toString(), scoreBoard.getPlayerScore(leaderBoard.get(0)));
-        String s2 = String.format(TEMP, leaderBoard.get(1).toString(), scoreBoard.getPlayerScore(leaderBoard.get(1)));
+        String s1 = String.format(TEMP, getPlayerIdAtPosition(0).toString(), this.gameState.getScoreBoard().getPlayerScore(getPlayerIdAtPosition(0)));
+        String s2 = String.format(TEMP, getPlayerIdAtPosition(1).toString(), this.gameState.getScoreBoard().getPlayerScore(getPlayerIdAtPosition(1)));
         player1Property.set(s1);
         player2Property.set(s2);
 
         if (num_player == 3) {
-            String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerScore(leaderBoard.get(2)));
+            String s3 = String.format(TEMP, getPlayerIdAtPosition(2).toString(), this.gameState.getScoreBoard().getPlayerScore(getPlayerIdAtPosition(2)));
             player3Property.set(s3);
         } else if (num_player == 4) {
-            String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerScore(leaderBoard.get(2)));
-            String s4 = String.format(TEMP, leaderBoard.get(3).toString(), scoreBoard.getPlayerScore(leaderBoard.get(3)));
+            String s3 = String.format(TEMP, getPlayerIdAtPosition(2).toString(), this.gameState.getScoreBoard().getPlayerScore(getPlayerIdAtPosition(2)));
+            String s4 = String.format(TEMP, getPlayerIdAtPosition(3).toString(), this.gameState.getScoreBoard().getPlayerScore(getPlayerIdAtPosition(3)));
             player3Property.set(s3);
             player4Property.set(s4);
         }
