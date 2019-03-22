@@ -14,9 +14,6 @@ public class ClientNetworkHandler {
 
     private ClientGameState gameState;
 
-    /** The unique player identifier of this client */
-    private int clientID;
-
     ClientNetworkHandler(ClientGameState gameState) {
         this.gameState = gameState;
     }
@@ -40,8 +37,7 @@ public class ClientNetworkHandler {
                 break;
             case SUC_CONNECTED:
                 System.out.println("Successfully connected.  My id: " + packet.getId());
-                this.gameState.setPlayer(new Player(ObjectType.PLAYER, packet.getId()));
-                this.clientID = packet.getId();
+                this.gameState.setClientId(packet.getId());
                 break;
         }
     }
@@ -57,7 +53,8 @@ public class ClientNetworkHandler {
     }
 
     public void receiveInitialGameStartStateBroadcast(InitialGameStateBroadcast packet) {
-        Player clientPlayer = new Player(ObjectType.PLAYER, clientID);
+        int clientId = this.gameState.getClientId();
+        Player clientPlayer = new Player(ObjectType.PLAYER, clientId);
         ArrayList<PhysicsObject> objects = new ArrayList<PhysicsObject>();
         ArrayList<Player> tempScoreboardPlayers = new ArrayList<Player>();
 

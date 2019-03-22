@@ -16,6 +16,9 @@ import java.util.ArrayList;
 public class ClientGameState extends GameState {
 
 
+    /** The unique player identifier of this client */
+    private int clientId;
+
     private Player player;
     /**
      * The number of players
@@ -49,6 +52,13 @@ public class ClientGameState extends GameState {
         this.player = player;
     }
 
+    public int getClientId() {
+        return this.clientId;
+    }
+
+    public void setClientId(int id) {
+        this.clientId = id;
+    }
 
     public int getNum_player() {
         return num_player;
