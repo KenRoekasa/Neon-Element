@@ -27,7 +27,7 @@ public class LobbyThread extends Thread {
 
                 synchronized (players) {
                     playerIds = players.stream()
-                            .map(x -> x.getId())
+                            .map(x -> { synchronized (x) { return x.getId(); }})
                             .collect(Collectors.toCollection(ArrayList::new));
                 }
 
