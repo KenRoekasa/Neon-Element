@@ -122,7 +122,7 @@ public class LobbyController extends UIController{
                 connect(playerIds.get(3),conn_4,conn4Property);
         }
         //once players are all connected, start the game
-        if(size == Constants.NUM_PLAYER){
+        if(size == Constants.NUM_PLAYER) {
             startGame = true;
             startGame();
         }

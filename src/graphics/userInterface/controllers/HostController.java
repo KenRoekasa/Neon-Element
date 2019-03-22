@@ -37,7 +37,6 @@ public class HostController extends UIController{
                 System.out.println("Invalid ip address!");
             		//todo user needs to be asked to enter a valid ip adddress
             }else {
-	            Constants.SERVER_ADDRESS = addr;
 	            //loading lobby
 	            String fxmlPath ="../fxmls/lobby.fxml";
 	            String stageTitle ="Game Lobby";

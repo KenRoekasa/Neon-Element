@@ -29,8 +29,6 @@ public class GameServer extends Thread {
 
 	private boolean running;
 
-	private int expectedPlayersToJoin = Constants.NUM_PLAYER;
-
 	public GameServer(ServerGameState gameState) {
 		this.gameState = gameState;
 		this.network = new ServerNetwork(this.gameState);
