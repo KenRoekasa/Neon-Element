@@ -109,16 +109,17 @@ public class TimedFSM extends FSM{
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
+		//case 4, attack winner
 		else if(playerCalc.scoreDifferenceIsMoreThan(2)) {
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}
 		
-		//case 4, attack when you got the advantage
+		//case 5, attack when you got the advantage
 		else if (playerCalc.playerIsTooClose() || aiPlayerHP > playerHP) {
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
-		//case 5, wander, or attack, when nothing else is triggered
+		//case 6, wander, or attack, when nothing else is triggered
 		else {
 			aiCon.setState(AiStates.WANDER);
 		}
@@ -172,16 +173,17 @@ public class TimedFSM extends FSM{
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}
 		
+		//case 5, attack winner
 		else if(playerCalc.scoreDifferenceIsMoreThan(2)) {
 			aiCon.setState(AiStates.ATTACK_WINNER);
 		}
 		
-		//case 7, the nearest enemy's hp is less than ai player's hp
+		//case 6, the nearest enemy's hp is less than ai player's hp
 		else if (aiPlayerHP > playerHP) {
 			aiCon.setState(AiStates.ATTACK);
 		}
 		
-		//case 6, there exist a speed power up
+		//case 7, there exist a speed power up
 		else if( puCalc.getNearestPowerUp(PowerUpType.SPEED) != -1 ) {
 			aiCon.setState(AiStates.FIND_SPEED);
 		}
