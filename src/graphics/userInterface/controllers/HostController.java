@@ -38,7 +38,7 @@ public class HostController extends UIController{
             		//todo user needs to be asked to enter a valid ip adddress
             }else {
 	            //loading lobby
-	            String fxmlPath ="../fxmls/lobby.fxml";
+	            String fxmlPath ="../fxmls/lobby_host.fxml";
 	            String stageTitle ="Game Lobby";
 	            String fileException ="Game Lobby";
 	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);

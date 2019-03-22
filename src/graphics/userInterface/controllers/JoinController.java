@@ -37,12 +37,22 @@ public class JoinController extends UIController {
             gameState = GameStateGenerator.createEmptyState();
         //g.getPlayer().getHealth();
         try {
+
            String addr = ip.getText();
           //  String addr =addr ;
+
+            String fxmlPath ="../fxmls/lobby_join.fxml";
+            String stageTitle ="Game Lobby";
+            String fileException ="Game Lobby";
+            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+            LobbyJoinController controller = (LobbyJoinController) loader.getController();
+
+
             System.out.println("------------Server address:"+addr+" serCons: ");
             //to-do figure out the server listining port
             GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
-            Scene scene = gameBoard.getScene();
+            controller.setGameClient(gameBoard);
+            //Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();
         } catch (Exception e) {
             e.printStackTrace();

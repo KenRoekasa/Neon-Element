@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * Controller for lobby.fxml for setting game lobby
+ * Controller for lobby_host.fxml for setting game lobby
  */
 public class LobbyHostController extends AbstractLobbyController {
 
