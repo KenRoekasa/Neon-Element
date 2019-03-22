@@ -45,7 +45,7 @@ public class HostController extends UIController{
             }else {
 	            Constants.SERVER_ADDRESS = addr;
 	            //loading lobby
-	            String fxmlPath ="../fxmls/lobby.fxml";
+	            String fxmlPath ="../fxmls/lobby_host.fxml";
 	            String stageTitle ="Game Lobby";
 	            String fileException ="Game Lobby";
 	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);

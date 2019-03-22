@@ -82,7 +82,7 @@ public class GameClient {
         this.audioManager = audioManager;
 
 //        if(online) {
-//        	 FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/lobby.fxml"));
+//        	 FXMLLoader loader1 = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/lobby_host.fxml"));
 //        	 try {
 //        		 lobbyPane = loader1.load();
 //        		 gameState.getAllPlayers();

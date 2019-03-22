@@ -150,7 +150,7 @@ public class OnlineSetUpController extends UIController {
         enemy3.setVisible(true);
     }
 
-    /**Handle the action of pressing create button which will go to lobby.fxml
+    /**Handle the action of pressing create button which will go to lobby_host.fxml
      * @throws OutOfBoundException the exception which alerts the invalid selection of total number of players and ai bots
      */
     @FXML
