@@ -1,9 +1,12 @@
 package engine.calculations;
 
 import engine.entities.Player;
-import engine.enums.Action;
-import engine.enums.ObjectType;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 
+/**
+ * The calculator for the amount of damage a player inflicts on another player
+ */
 public class DamageCalculation {
 
     /**
@@ -14,15 +17,15 @@ public class DamageCalculation {
     public static float calculateDealtDamage(Player player, engine.entities.Character victim) {
         // Deal damage base on what kind of attack it is
         if (player.getCurrentAction() == Action.LIGHT) {
-        	if(victim.getTag() == ObjectType.ENEMY) {
-        		return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier()*5;
-        	}
+            if (victim.getTag() == ObjectType.ENEMY) {
+                return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier() * 5;
+            }
             return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
         }
         if (player.getCurrentAction() == Action.HEAVY) {
-        	if(victim.getTag() == ObjectType.ENEMY) {
-        		return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier()*4;
-        	}
+            if (victim.getTag() == ObjectType.ENEMY) {
+                return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier() * 4;
+            }
             return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
         }
         return 0;
@@ -81,7 +84,14 @@ public class DamageCalculation {
         }
     }
 
-    //The amount the damaged is reduced by, due to the shields in percentage
+    /**
+     * The amount the damaged is reduced by, due to the shields in percentage
+     *
+     * @param attackingPlayer the player attacking
+     * @param victim          the player being attack/taking damage
+     * @return the reduction of incoming damage in percentage
+     */
+
     private static float calculateMitgation(Player attackingPlayer, engine.entities.Character victim) {
         if (victim.isShielded()) {
             switch (attackingPlayer.getCurrentElement()) {

@@ -3,7 +3,8 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-import engine.gameTypes.*;
+import engine.model.GameType;
+import engine.model.gametypes.*;
 
 public class HelloAckPacket extends Packet {
 

@@ -1,6 +1,6 @@
 package graphics.userInterface.controllers;
 
-import engine.ScoreBoard;
+import engine.model.ScoreBoard;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;

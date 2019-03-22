@@ -2,8 +2,9 @@ package graphics.userInterface.controllers;
 
 import client.GameClient;
 import client.ClientGameState;
-import client.GameStateGenerator;
+import engine.model.generator.GameStateGenerator;
 
+import client.audiomanager.Music;
 import javafx.fxml.FXML;
 
 import javafx.scene.Scene;
