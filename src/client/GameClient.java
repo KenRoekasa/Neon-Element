@@ -315,7 +315,14 @@ public class GameClient {
         stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
 
         Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
-        hudPane.getChildren().add(canvas);
+        Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+		        hudPane.getChildren().add(canvas);
+				
+			}
+		});
 
         // forces the game to be rendered behind the gui
         int index = hudPane.getChildren().indexOf(canvas);
