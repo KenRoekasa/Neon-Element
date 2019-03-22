@@ -12,6 +12,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import server.ServerGameStateGenerator;
 
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 //For local_setup scene
 public class HostController extends UIController{
 
@@ -46,7 +50,6 @@ public class HostController extends UIController{
 	            GameClient gameBoard = null;
                 try {
                     gameBoard = new GameClient(stage, gameState, addr, audioManager);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -54,12 +57,7 @@ public class HostController extends UIController{
                 AbstractLobbyController controller = (AbstractLobbyController) loader.getController();
                 controller.setGameClient(gameBoard);
 
-                LobbyThread lobbyThread = new LobbyThread(gameState, controller);
-                lobbyThread.start();
-
-                GameServer server =new GameServer(serverState);
-                server.start();
-                /*try {
+                try {
                     // Create server
                     new Thread(new Runnable() {
                         public void run() {
@@ -85,7 +83,10 @@ public class HostController extends UIController{
                     }).start();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
+
+                LobbyThread lobbyThread = new LobbyThread(gameState, controller);
+                lobbyThread.start();
 
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
