@@ -19,8 +19,7 @@ public class HostController extends UIController{
 	
 	@FXML
 	TextField ip_host;
-    @FXML
-    Label back,start;
+
     private ClientGameState gameState;
     private ServerGameState serverState;
 
@@ -29,28 +28,44 @@ public class HostController extends UIController{
     public void handleStartBtn(ActionEvent event){
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createEmptyState();
         serverState = ServerGameStateGenerator.createEmptyState();
+        gameState = GameStateGenerator.createEmptyState();
+
         try {
             // Create server
-            GameServer server = new GameServer(serverState);
-            server.start();
-
             String addr = ip_host.getText();
+
             if(addr.equals("") && !addr.isEmpty()) {
-            		//to-do user needs to be asked to enter a valid ip adddress
+                System.out.println("Invalid ip address!");
+            		//todo user needs to be asked to enter a valid ip adddress
             }else {
 	            Constants.SERVER_ADDRESS = addr;
-	            GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
-	            Scene scene = gameBoard.getScene();
-	            gameBoard.startNetwork();
+	            //loading lobby
 	            String fxmlPath ="../fxmls/lobby.fxml";
 	            String stageTitle ="Game Lobby";
 	            String fileException ="Game Lobby";
 	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+
 	            LobbyController controller = (LobbyController) loader.getController();
-	            server.setLobbyController(controller);
-	            controller.setServer(server);
+	            controller.setIp(addr);
+
+               GameServer server = new GameServer(serverState);
+
+                server.setLobbyController(controller);
+                server.start();
+
+                GameClient gameBoard = null;
+                try {
+                    gameBoard = new GameClient(stage, gameState, addr, audioManager);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                controller.setGameClient(gameBoard);
+                //Scene scene = gameBoard.getScene();
+                //todo add gameclient properly
+                //gameBoard.startNetwork();
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();

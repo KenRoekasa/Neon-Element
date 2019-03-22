@@ -43,7 +43,6 @@
    <bottom>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <Button fx:id="start_btn" mnemonicParsing="false" onAction="#handleStartBtn" styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="START" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </bottom>

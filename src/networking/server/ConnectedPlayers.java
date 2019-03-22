@@ -22,6 +22,7 @@ public class ConnectedPlayers {
 
 	ConnectedPlayers() {
         this.connections = new ArrayList<>();
+        this.playerIds = new ArrayList<>();
     }
 
     /**
@@ -33,8 +34,8 @@ public class ConnectedPlayers {
      */
     void addConnection(Player player, InetAddress ipAddress, int port) {
         PlayerConnection conn = new PlayerConnection(player, ipAddress, port);
-
         this.connections.add(conn);
+        System.out.println("Add new player ");
         this.playerIds.add(player.getId());
     }
 

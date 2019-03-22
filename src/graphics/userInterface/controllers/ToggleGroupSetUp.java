@@ -34,6 +34,13 @@ public class ToggleGroupSetUp {
         removeRadioCircle(rb3);
     }
 
+    public static void removeGroupRadioCircle(RadioButton rb1,RadioButton rb2, RadioButton rb3,RadioButton rb4) {
+        removeRadioCircle(rb1);
+        removeRadioCircle(rb2);
+        removeRadioCircle(rb3);
+        removeRadioCircle(rb4);
+    }
+
     public static void removeGroupRadioCircle(RadioButton rb1,RadioButton rb2) {
         removeRadioCircle(rb1);
         removeRadioCircle(rb2);
@@ -50,8 +57,8 @@ public class ToggleGroupSetUp {
         rB2.setToggleGroup(group);
         rB3.setToggleGroup(group);
         rB4.setToggleGroup(group);
-        rB3.setSelected(true);
-        removeGroupRadioCircle(rB1,rB2,rB3);
+        rB1.setSelected(true);
+        removeGroupRadioCircle(rB1,rB2,rB3,rB4);
     }
 
 }

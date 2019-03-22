@@ -61,6 +61,7 @@ public class GameServer extends Thread {
 			// Server logic
 			if (!isGameStart) {
 				this.waitForPlayersToConnect();
+				System.out.println("Waiting for connection!");
 			} else {
 
 				physicsController.clientLoop();
@@ -84,8 +85,10 @@ public class GameServer extends Thread {
 
 	private void waitForPlayersToConnect() {
 		ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
-		
-		lobbyController.setPlayerIds(connectedPlayers.getPlayerIds());
+		//todo can't get the connected player : how and where player added
+
+		lobbyController.showConnections(connectedPlayers.getPlayerIds());
+
 		// Wait for enough players to start the game
 		/*
 		 * while (connectedPlayers.count() < expectedPlayersToJoin) {
