@@ -29,7 +29,7 @@ public class OnlineSetUpController extends UIController {
      * Radio buttons of modes
      */
     @FXML
-    public RadioButton time_mode, life_mode;
+    public RadioButton FirstToXKills,Timed,Hill,Regicide;
     /**
      * Grid pane for ai bot2 and ai bot3 difficulty selection line
      */
@@ -230,8 +230,7 @@ public class OnlineSetUpController extends UIController {
         ToggleGroupSetUp.setToggleGroup(diff_1, easy_1, normal_1, hard_1);
         ToggleGroupSetUp.setToggleGroup(diff_2, easy_2, normal_2, hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3, easy_3, normal_3, hard_3);
-        ToggleGroupSetUp.setToggleGroup(mode, life_mode, time_mode);
-
+        ToggleGroupSetUp.setToggleGroup(mode,FirstToXKills,Hill,Timed,Regicide);
 
         player_2.setUserData(2);
         player_3.setUserData(3);
@@ -245,7 +244,10 @@ public class OnlineSetUpController extends UIController {
         num_2.setUserData(2);
         num_3.setUserData(3);
 
-        life_mode.setUserData("life_based");
-        time_mode.setUserData("time_based");
+        FirstToXKills.setUserData("FirstToXKills");
+        Hill.setUserData("Hill");
+        Timed.setUserData("Timed");
+        Regicide.setUserData("Regicide");
+
     }
 }
