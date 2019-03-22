@@ -37,9 +37,8 @@ public class MenuOptionsController extends UIController{
     public void handleOkBtn(){
         audioManager.setEffectVolume(sound.getValue());
         audioManager.setMusicVolume(music.getValue());
-
         audioManager.playSound(Sound.BUTTON4);
-        System.out.println("sound value"+ sound.getValue());
+
 
     }
 
