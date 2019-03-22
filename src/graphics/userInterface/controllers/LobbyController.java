@@ -153,6 +153,12 @@ public class LobbyController extends UIController{
         }
         //once players are all connected, start the game
         if(size == Constants.NUM_PLAYER){
+        	try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             startGame = true;
             startGame();
         }
