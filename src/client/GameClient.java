@@ -213,16 +213,8 @@ public class GameClient {
         // TODO lobby screen
 
         // Wait for game to start
-        while (!this.gameState.getRunning()) {
-            try {
-                Thread.sleep(1000L); // Every 1 second
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
 
-        beginClientLoop(renderer, new HUDController());
+
     }
 
     private void initialiseInput(Scene theScene, Renderer renderer) {
@@ -344,7 +336,8 @@ public class GameClient {
         physicsEngine = new PhysicsController(gameState);
 
         // initialise input controls
-        initialiseInput(scene, renderer);
+        beginClientLoop(renderer, new HUDController());
+
     }
 
 }

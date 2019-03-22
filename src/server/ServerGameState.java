@@ -23,6 +23,7 @@ public class ServerGameState extends GameState {
 
     public int getMaxPlayers() {
         // TODO - use a variable from game setup to choose number
+        System.out.println("MAX_PLAYER in Server game state "+ MAX_PLAYERS);
         return MAX_PLAYERS;
     }
 

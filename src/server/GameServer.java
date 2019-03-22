@@ -60,7 +60,9 @@ public class GameServer extends Thread {
 		this.running = true;
 		while (this.running) {
 			// Server logic
+
 			if (!isGameStart) {
+				System.out.println("Game server: "+!isGameStart);
 				this.waitForPlayersToConnect();
 				System.out.println("Waiting for connection!");
 			} else {
@@ -89,14 +91,16 @@ public class GameServer extends Thread {
 		//todo can't get the connected player : how and where player added
 
 		if(connectedPlayers != null) {
+			System.out.println("connected players");
 			lobbyController.showConnections(connectedPlayers.getPlayerIds());
 		}
 
-		// Wait for enough players to start the game
-		/*
-		 * while (connectedPlayers.count() < expectedPlayersToJoin) {
-		 * lobbyController.update(); }
-		 */
+		/*if(connectedPlayers.count() ==expectedPlayersToJoin) {
+			isGameStart = true;
+		}*/
+
+		System.out.println("------Game start"+lobbyController.isStartGame());
+
 		if (lobbyController.isStartGame()) {
 			System.out.println("Game server start the game!");
 			// Start the game
