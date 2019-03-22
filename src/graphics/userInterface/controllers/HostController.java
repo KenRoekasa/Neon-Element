@@ -58,7 +58,6 @@ public class HostController extends UIController{
                 lobbyThread.start();
 
                 GameServer server =new GameServer(serverState);
-                server.setLobbyHostController((LobbyHostController) controller);
                 server.start();
                 /*try {
                     // Create server
