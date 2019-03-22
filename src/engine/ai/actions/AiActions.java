@@ -52,6 +52,8 @@ public class AiActions {
 		playerCalc = calc.getPlayerCalc();
 		aiPlayer = aiCon.getAiPlayer();
 		r = new Random();
+		//default random
+        assignRandomElement();
 	}
 
 	/**

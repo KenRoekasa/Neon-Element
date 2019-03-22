@@ -2,7 +2,6 @@
 
 import java.util.ArrayList;
 import engine.ScoreBoard;
-import engine.ai.actions.AiActions;
 import engine.ai.actions.stateactions.AiStateActions;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.enums.AiStates;
@@ -46,12 +45,9 @@ public class AiController {
 	        this.aiType = aiType;
 	        
 	        calc = AiCalculations.initializeAiCalculations(map, scoreboard, gameType, this);
-	        AiActions actions = new AiActions(this, calc, map);
+	        stateActions = AiStateActions.initializeStateActions(calc, map, gameType, this);
 	        fsm = FSM.initializeFSM(aiPlayer, calc, gameType, this);
-	        stateActions = AiStateActions.initializeStateActions(calc, actions, gameType, this);
 	        
-	        //default random
-	        actions.assignRandomElement();
 	        System.out.println("started ai\n difficulty: "+String.valueOf(aiType)+"\n\n");
 	    }
 		

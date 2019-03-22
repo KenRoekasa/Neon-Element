@@ -14,6 +14,7 @@ import engine.ai.enums.AiType;
 import engine.entities.Player;
 import engine.enums.PowerUpType;
 import engine.gameTypes.GameType;
+import javafx.scene.shape.Rectangle;
 //high level actions, based on ai states 
 public abstract class AiStateActions {
 	
@@ -41,7 +42,10 @@ public abstract class AiStateActions {
 		
 	}
 	
-	public static AiStateActions  initializeStateActions(AiCalculations calc, AiActions actions, GameType gameType, AiController aiCon) {
+	public static AiStateActions  initializeStateActions(AiCalculations calc, Rectangle map, GameType gameType, AiController aiCon) {
+		
+		AiActions actions = new AiActions(aiCon, calc, map);
+		
 		switch(gameType.getType()) {
 		case FirstToXKills:
 			return new AiKillsStateActions(aiCon, calc, actions);
