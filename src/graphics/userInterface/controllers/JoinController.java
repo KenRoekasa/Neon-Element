@@ -34,11 +34,13 @@ public class JoinController extends UIController {
     public void handleOkBtn(){
         // create game rules
         // todo make this configurable
-            gameState = GameStateGenerator.createDemoGamestate();
+            gameState = GameStateGenerator.createEmptyState();
         //g.getPlayer().getHealth();
         try {
-            String addr = Constants.SERVER_ADDRESS;
-            System.out.println("------------Server address:"+addr+" serCons: "+Constants.SERVER_ADDRESS);
+           // String addr = Constants.SERVER_ADDRESS;
+            String addr = "172.20.10.1";
+            System.out.println("------------Server address:"+addr+" serCons: ");
+            //to-do figure out the server listining port
             GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
             Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();

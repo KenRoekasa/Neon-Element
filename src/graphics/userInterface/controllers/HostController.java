@@ -63,7 +63,7 @@ public class HostController extends UIController{
                 server.setLobbyController(controller);
                 server.start();
 
-               
+              
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
                 //gameBoard.startNetwork();

@@ -26,6 +26,8 @@ public class ClientNetworkThread extends Thread {
         this.getDispatcher().sendHello();
 
         // Wait for gameType to be recieved from server
+        if(gameState == null)
+        		System.out.println("gameState is null");
         while (this.gameState.getGameType() == null) {
             try {
                 Thread.sleep(1000L); // Every 1 second
