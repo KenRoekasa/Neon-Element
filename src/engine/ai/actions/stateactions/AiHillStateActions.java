@@ -1,7 +1,8 @@
-package engine.ai.actions;
+package engine.ai.actions.stateactions;
 
+import engine.ai.actions.AiActions;
 import engine.ai.calculations.AiCalculations;
-import engine.ai.calculations.HillCalculations;
+import engine.ai.calculations.statecalculations.HillCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiType;
 import engine.entities.Player;

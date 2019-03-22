@@ -5,6 +5,7 @@ import engine.ai.calculations.PlayersCalculations;
 import engine.ai.calculations.PowerupCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
+import engine.gameTypes.GameType;
 
 public abstract class FSM {
 
@@ -23,6 +24,37 @@ public abstract class FSM {
 		playerCalc = calc.getPlayerCalc();
 		maxHP = aiPlayer.getMAX_HEALTH();
 	}
+	
+	public static FSM initializeFSM(Player aiPlayer, AiCalculations calc, GameType gameType, AiController aiCon) {
+		switch(gameType.getType()) {
+		case Timed:
+			return new TimedFSM(aiPlayer, aiCon, calc);
+		case FirstToXKills:
+			return new KillsFSM(aiPlayer, aiCon, calc);
+		case Hill:
+			return new HillFSM(aiPlayer, aiCon, calc);
+		case Regicide:
+			return new RegicideFSM(aiPlayer, aiCon, calc);
+		default:
+			return null;
+		}
+	}
+	
+	public void fetchAction() {
+		
+		switch(aiCon.getAiType()) {
+		case EASY:
+			easyAiFetchAction();
+			break;
+		case NORMAL:
+			normalAiFetchAction();
+			break;
+		case HARD:
+			hardAiFetchAction();
+			break;
+		}
+	}
+	
 	public abstract void easyAiFetchAction() ;
 	public abstract void normalAiFetchAction() ;
 	public abstract void hardAiFetchAction() ;

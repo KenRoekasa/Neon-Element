@@ -1,7 +1,7 @@
 package engine.ai.fsm;
 
 import engine.ai.calculations.AiCalculations;
-import engine.ai.calculations.RegicideCalculations;
+import engine.ai.calculations.statecalculations.RegicideCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
 import engine.entities.Player;

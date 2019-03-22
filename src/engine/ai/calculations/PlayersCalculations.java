@@ -65,7 +65,7 @@ public class PlayersCalculations {
 		return player.getCurrentAction().equals(Action.CHARGE);
 	}
 	
-	protected boolean isTooClose(Point2D playerLoc ) {
+	public boolean isTooClose(Point2D playerLoc ) {
 		Point2D aiLoc = aiPlayer.getLocation();
 		return (aiLoc.distance(playerLoc)<(map.getWidth()*0.2));
 	}

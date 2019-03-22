@@ -1,8 +1,9 @@
-package engine.ai.calculations;
+package engine.ai.calculations.statecalculations;
 
 import java.util.ArrayList;
 
 import engine.ScoreBoard;
+import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
 import engine.gameTypes.GameType;

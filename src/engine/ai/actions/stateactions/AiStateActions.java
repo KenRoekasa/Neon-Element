@@ -1,8 +1,9 @@
-package engine.ai.actions;
+package engine.ai.actions.stateactions;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import engine.ai.actions.AiActions;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.calculations.PlayersCalculations;
 import engine.ai.calculations.PowerupCalculations;
@@ -12,6 +13,7 @@ import engine.ai.enums.AiStates;
 import engine.ai.enums.AiType;
 import engine.entities.Player;
 import engine.enums.PowerUpType;
+import engine.gameTypes.GameType;
 //high level actions, based on ai states 
 public abstract class AiStateActions {
 	
@@ -37,6 +39,21 @@ public abstract class AiStateActions {
 		this.realPlayers = playerCalc.getRealPlayers();
 		this.actions = actions;
 		
+	}
+	
+	public static AiStateActions  initializeStateActions(AiCalculations calc, AiActions actions, GameType gameType, AiController aiCon) {
+		switch(gameType.getType()) {
+		case FirstToXKills:
+			return new AiKillsStateActions(aiCon, calc, actions);
+		case Hill:
+			return new AiHillStateActions(aiCon, calc, actions);
+		case Regicide:
+			return new AiRegicideStateActions(aiCon, calc, actions);
+		case Timed:
+			return new AiTimedStateActions(aiCon, calc, actions);
+		default:
+			return null;
+		}
 	}
 
 	public void executeAction() {
@@ -164,7 +181,7 @@ public abstract class AiStateActions {
 		else if( (!isWandering() && aiCon.getActiveState().equals(AiStates.WANDER)) || timeCalc.hasBeenWanderingFor(5) ) {
 			setWandering(true);
 			Random r = new Random();
-			actions.wanderingDirection = r.nextInt(8);
+			actions.setWanderingDirection(r.nextInt(8));
 		}
 	}
 	

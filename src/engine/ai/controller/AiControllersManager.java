@@ -19,6 +19,13 @@ public class AiControllersManager {
 	private ScoreBoard scoreboard;
 	private GameType gameType;
 
+	/**
+	 * 
+	 * @param objects list of objects in game
+	 * @param map map of game
+	 * @param scoreboard score board object
+	 * @param gameType game type object
+	 */
 	public AiControllersManager(ArrayList<PhysicsObject> objects, Rectangle map, ScoreBoard scoreboard, GameType gameType) {
 		controllers = new ArrayList<>();
 		this.objects = objects;
@@ -38,7 +45,8 @@ public class AiControllersManager {
 	}
 	
 	/**
-	 *use this method if you have your own game loop to update everything about AI's
+	 * Updates all AI once
+	 *use this method if you have your own game loop to update all AI's 
 	 */
 	public void updateAllAi() {
 		for(AiController con : controllers) 
@@ -46,6 +54,8 @@ public class AiControllersManager {
 	}
 	
 	/**
+	 * Notifies AI that the game was paused, does not cause AI to actually be paused.
+	 * To pause AI just stop calling updateAllAi method
 	 * use this method when pausing your game to notify AI that the game is paused, this is necessary for AI time calculations
 	 */
 	public void pauseAllAi() {
@@ -54,8 +64,10 @@ public class AiControllersManager {
 	}
 	
 	/**
+	 * Starts a thread that updates all AI every second.
 	 * use this method to let the AI controller manager have it is own loop
-	 * this is a bit inefficient to have a separate loop when you can just call updateAllAi() in your game loop
+	 * it is not encouraged to use this method, use updateAllAi in your own loop instead.
+	 * This method does not implement the pause function.
 	 */
 	public void startAllAi() {
 		(new Thread(new Runnable() {

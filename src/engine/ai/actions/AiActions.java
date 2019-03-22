@@ -424,5 +424,9 @@ public class AiActions {
 			aiPlayer.unShield();
 	}
 
+	public void setWanderingDirection(int dir) {
+		wanderingDirection = dir;
+	}
+
 
 }

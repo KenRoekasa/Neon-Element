@@ -2,12 +2,16 @@ package engine.ai.calculations;
 
 
 import engine.ScoreBoard;
+import engine.ai.calculations.statecalculations.HillCalculations;
+import engine.ai.calculations.statecalculations.KillsCalculations;
+import engine.ai.calculations.statecalculations.RegicideCalculations;
+import engine.ai.calculations.statecalculations.TimedCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
 import engine.gameTypes.GameType;
 import javafx.scene.shape.Rectangle;
 
-public class AiCalculations {
+public abstract class AiCalculations {
 	
 	protected GameType gameType;
 	protected ScoreBoard scoreboard;
@@ -27,6 +31,27 @@ public class AiCalculations {
 		this.aiPlayer = aiCon.getAiPlayer();
 	}
 	
+	/**
+	 * initialises AI calculations object relevant to game type 
+	 * @param map map of game
+	 * @param scoreboard score board 
+	 * @param gameType game type
+	 */
+	public static AiCalculations initializeAiCalculations(Rectangle map, ScoreBoard scoreboard, GameType gameType, AiController aiCon) {
+		switch(gameType.getType()) {
+		case FirstToXKills:
+			return new KillsCalculations(aiCon, map, scoreboard, gameType);
+		case Hill:
+			return new HillCalculations(aiCon, map, scoreboard, gameType);
+		case Regicide:
+			return new RegicideCalculations(aiCon, map, scoreboard, gameType);
+		case Timed:
+			return new TimedCalculations(aiCon, map, scoreboard, gameType);
+		default:
+			return null;
+		}
+	}
+
 	public PlayersCalculations getPlayerCalc() {
 		return playerCalc;
 	}
