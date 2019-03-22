@@ -41,6 +41,7 @@ public class GameServer extends Thread {
 
     public void run() {
         this.network.start();
+        System.out.println("Constants in server"+Constants.NUM_PLAYER);
 
         System.out.println("Game started.");
 
@@ -94,7 +95,7 @@ public class GameServer extends Thread {
          * lobbyController.update(); }
          */
         if (lobbyController.isStartGame()) {
-
+            System.out.println("Game server start the game!");
             // Start the game
             connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
             this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
