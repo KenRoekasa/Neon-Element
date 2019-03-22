@@ -111,10 +111,12 @@ public class LobbyController extends UIController{
             case 2:
                 connect(playerIds.get(0),conn_1,conn1Property);
                 connect(playerIds.get(1),conn_2,conn2Property);
+                break;
             case 3:
                 connect(playerIds.get(0),conn_1,conn1Property);
                 connect(playerIds.get(1),conn_2,conn2Property);
                 connect(playerIds.get(2),conn_3,conn3Property);
+                break;
             case 4:
                 connect(playerIds.get(0),conn_1,conn1Property);
                 connect(playerIds.get(1),conn_2,conn2Property);
