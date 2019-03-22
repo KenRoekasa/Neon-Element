@@ -3,6 +3,9 @@ package client.audiomanager;
 import client.ClientGameState;
 import engine.entities.Player;
 import engine.enums.Action;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -13,15 +16,15 @@ import java.util.HashMap;
 
 public class AudioManager {
     private static double effectVolume;
-
+    private static double musicVolume;
     private HashMap<Sound, AudioClip> gameEffects;
-    private HashMap<Music, Media> gameMusic;
-    private MediaPlayer musicMediaPlayer;
+    private MediaPlayer menuMusicMediaPlayer;
+    private MediaPlayer gameMusicMediaPlayer;
     private MediaPlayer fxMediaPlayer;
     public AudioManager(){
         effectVolume = 100;
+        musicVolume = 100;
         gameEffects = new HashMap<>();
-        gameMusic = new HashMap<>();
 
         for(Sound sound: Sound.values()){
             String location = sound.getPath();
@@ -31,23 +34,36 @@ public class AudioManager {
             gameEffects.put(sound, audioClip);
         }
 
-        for(Music music: Music.values()) {
-            String location = music.getPath();
-//            URL resource = getClass().getResource(location);
-            Media media = new Media(new File(location).toURI().toString());
 
-            gameMusic.put(music, media);
-
-        }
-
-        musicMediaPlayer = new MediaPlayer(gameMusic.get(Music.MENU));
-        // set mediaplayer to loop at the end of the music
-        startMusic(musicMediaPlayer);
-
-        fxMediaPlayer = new MediaPlayer(gameMusic.get(Music.NEON));
-        startMusic(fxMediaPlayer);
+        initialiseGameMusic();
 
 
+
+    }
+
+    private void initialiseGameMusic() {
+        String menuMusicLocation = Music.MENU.getPath();
+        Media menuMedia = new Media(new File(menuMusicLocation).toURI().toString());
+        menuMusicMediaPlayer = new MediaPlayer(menuMedia);
+        // set to loop at end of track
+        menuMusicMediaPlayer.setOnEndOfMedia(() -> menuMusicMediaPlayer.seek(Duration.ZERO));
+
+
+
+        String gameMusicLocation = Music.GAME.getPath();
+        Media gameMedia = new Media(new File(gameMusicLocation).toURI().toString());
+        gameMusicMediaPlayer = new MediaPlayer(gameMedia);
+        gameMusicMediaPlayer.setOnEndOfMedia(() -> gameMusicMediaPlayer.seek(Duration.ZERO));
+
+
+        String fxMediaLocation = Music.NEON.getPath();
+        Media fxMedia = new Media(new File(fxMediaLocation).toURI().toString());
+        fxMediaPlayer = new MediaPlayer(fxMedia);
+        fxMediaPlayer.setOnEndOfMedia(() -> fxMediaPlayer.seek(Duration.ZERO));
+
+
+        menuMusicMediaPlayer.play();
+        fxMediaPlayer.play();
 
     }
 
@@ -76,26 +92,30 @@ public class AudioManager {
 
 
     public void setMusicVolume(double volume) {
-        musicMediaPlayer.setVolume(volume);
+        musicVolume = volume;
+        menuMusicMediaPlayer.setVolume(volume);
+        gameMusicMediaPlayer.setVolume(volume);
     }
 
 
-    public void setGameMusic(Music music){
-        musicMediaPlayer.setOnEndOfMedia(() -> {
-            musicMediaPlayer = new MediaPlayer(gameMusic.get(music));
-            startMusic(musicMediaPlayer);
-        });
+    public void setGameMusic(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(2), new KeyValue(menuMusicMediaPlayer.volumeProperty(), 0)),
+                new KeyFrame(Duration.seconds(3), e -> menuMusicMediaPlayer.stop()));
+        timeline.play();
 
+        gameMusicMediaPlayer.setVolume(musicVolume);
+        gameMusicMediaPlayer.play();
     }
 
-    private void startMusic(MediaPlayer mediaPlayer){
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-        });
-        mediaPlayer.play();
+    public void setMenuMusic(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(2), new KeyValue(gameMusicMediaPlayer.volumeProperty(), 0)),
+                new KeyFrame(Duration.seconds(3), e -> gameMusicMediaPlayer.stop()));
+        timeline.play();
+
+        menuMusicMediaPlayer.setVolume(musicVolume);
+        menuMusicMediaPlayer.play();
     }
 
 

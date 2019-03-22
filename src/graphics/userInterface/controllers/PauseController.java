@@ -113,7 +113,7 @@ public class PauseController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
         super.stage.getScene().setCursor(Cursor.DEFAULT);
         gameState.stop();
-        audioManager.setGameMusic(Music.MENU);
+        audioManager.setMenuMusic();
         audioManager.setNeonVolume(audioManager.getEffectVolume());
     }
 }

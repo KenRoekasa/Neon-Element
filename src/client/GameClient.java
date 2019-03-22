@@ -105,6 +105,8 @@ public class GameClient {
 
         renderer = new Renderer(gc, stageSize, debugger);
 
+        audioManager.setGameMusic();
+        audioManager.setNeonVolume(0);
 
         //Creates the physics engine
         physicsEngine = new Physics(gameState);
@@ -188,6 +190,8 @@ public class GameClient {
             controller.showLeaderBoard();
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
             primaryStage.setTitle("Game Over");
+            audioManager.setMenuMusic();
+            audioManager.setNeonVolume(audioManager.getEffectVolume());
             gameState.stop();
 
         } catch (IOException e) {
