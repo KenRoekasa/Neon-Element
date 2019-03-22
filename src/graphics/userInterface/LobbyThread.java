@@ -23,12 +23,14 @@ public class LobbyThread extends Thread {
             if (controller instanceof LobbyHostController) {
                 // If host, update lobby screen
                 ArrayList<Player> players = gameState.getAllPlayers();
-                ArrayList<Integer> playerIds;
+                ArrayList<Integer> playerIds = new ArrayList<>();
 
                 synchronized (players) {
-                    playerIds = players.stream()
-                            .map(x -> { synchronized (x) { return x.getId(); }})
-                            .collect(Collectors.toCollection(ArrayList::new));
+                    for (Player p : players) {
+                        synchronized (p) {
+                            playerIds.add(p.getId());
+                        }
+                    }
                 }
 
                 ((LobbyHostController) controller).showConnections(playerIds);
