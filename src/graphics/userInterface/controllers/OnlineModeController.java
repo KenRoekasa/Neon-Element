@@ -1,27 +1,26 @@
 package graphics.userInterface.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
+/**
+ * Controller for online_mode.fxml
+ */
 public class OnlineModeController extends UIController{
-    @FXML
-    Label host,join,back;
 
+    /** Handle the action of pressing host button which will direct to online_setup.fxml
+     */
     @FXML
-    public void handleHostGame(ActionEvent actionEvent){
+    public void handleHostGame(){
         String fxmlPath = "../fxmls/online_setup.fxml";
         String stageTitle = "Online Mode Configuration";
         String fileException ="Online Setup";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
+    /** Handle the action of pressing join button which will direct to ip_join.fxml
+     */
     @FXML
-    public void handleJoinGame(ActionEvent event) {
+    public void handleJoinGame() {
         String fxmlPath = "../fxmls/ip_join.fxml";
         String stageTitle = "Join a game";
         String fileException = "IP Join ";
@@ -29,8 +28,10 @@ public class OnlineModeController extends UIController{
     }
 
 
+    /** Handle the action of pressing back button which will go back to mode.fxml
+     */
     @FXML
-    public void handleBackBtn(ActionEvent actionEvent){
+    public void handleBackBtn(){
         String fxmlPath ="../fxmls/mode.fxml";
         String stageTitle = "Mode";
         String fileException ="Mode";

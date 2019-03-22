@@ -8,7 +8,7 @@
    <bottom>
       <BorderPane prefHeight="97.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <center>
-            <Button fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button-text" text="Back" BorderPane.alignment="CENTER">
+            <Button fx:id="back" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" styleClass="button-text" text="Back" BorderPane.alignment="CENTER">
                <graphic>
                   <Label />
                </graphic></Button>

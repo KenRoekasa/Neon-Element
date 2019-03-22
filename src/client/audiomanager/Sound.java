@@ -2,25 +2,109 @@ package client.audiomanager;
 
 import engine.model.enums.Action;
 
+/**
+ *  The available spot effects
+ *  <li>{@link #LIGHT_ATTACK}</li>
+ *  <li>{@link #HEAVY_ATTACK}</li>
+ *  <li>{@link #CHARGE}</li>
+ *  <li>{@link #LIGHT_HIT}</li>
+ *  <li>{@link #HEAVY_HIT}</li>
+ *  <li>{@link #SHIELD}</li>
+ *  <li>{@link #BUTTON1}</li>
+ *  <li>{@link #BUTTON2}</li>
+ *  <li>{@link #BUTTON3}</li>
+ *  <li>{@link #BUTTON4}</li>
+ *  <li>{@link #HOVER1}</li>
+ *  <li>{@link #HOVER2}</li>
+ */
 public enum Sound {
-    LIGHT_ATTACK("audio/light_attack.mp3"),
-    HEAVY_ATTACK("audio/heavy_attack.mp3"),
-    CHARGE("audio/charge.mp3"),
-    LIGHT_HIT("audio/light_hit.mp3"),
-    HEAVY_HIT("audio/heavy_hit.mp3"),
-    SHIELD("audio/shield.mp3");
 
+    /**
+     *  Light attack sound
+     */
+    LIGHT_ATTACK("audio/light_attack.mp3"),
+
+    /**
+     *  Heavy attack sound
+     */
+    HEAVY_ATTACK("audio/heavy_attack.mp3"),
+
+    /**
+     *  Attack charge sound
+     */
+    CHARGE("audio/charge.mp3"),
+
+    /**
+     *  Light attack successful hit sound
+     */
+    LIGHT_HIT("audio/light_hit.mp3"),
+
+    /**
+     *  Heavy attack successful hit sound
+     */
+    HEAVY_HIT("audio/heavy_hit.mp3"),
+
+    /**
+     *  Shield sound
+     */
+    SHIELD("audio/shield.mp3"),
+
+    /**
+     *  First button sound
+     */
+    BUTTON1("audio/button_1.mp3"),
+
+    /**
+     *  Second button sound
+     */
+    BUTTON2("audio/button_2.mp3"),
+
+    /**
+     *  Third button sound
+     */
+    BUTTON3("audio/button_3.mp3"),
+
+    /**
+     *  Fourth button sound
+     */
+    BUTTON4("audio/button_4.mp3"),
+
+    /**
+     *  First hover sound
+     */
+    HOVER1("audio/hover_1.mp3"),
+
+    /**
+     *  Second hover sound
+     */
+    HOVER2("audio/hover_2.mp3");
+
+    /**
+     *  The path of the effects mp3 file
+     */
     private final String path;
 
-    Sound(String s) {
-        path = s;
+    /**
+     *  Sound enum constructor
+     * @param location The location of the effects mp3 file
+     */
+    Sound(String location) {
+        path = location;
     }
 
+    /**
+     * Gets the path to the mp3 file
+     * @return The path to the mp3 file
+     */
     public String getPath() {
         return path;
     }
 
-
+    /**
+     *  Gets the sound value for a provided action
+     * @param action The action provided
+     * @return  The sound for provided action
+     */
     // todo expand
     public static Sound switchSound(Action action){
         switch (action){
@@ -32,9 +116,8 @@ public enum Sound {
                 return Sound.SHIELD;
             case CHARGE:
                 return Sound.CHARGE;
+                default:
+                    return Sound.BUTTON1;
         }
-        return null;
     }
-
-
 }

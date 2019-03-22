@@ -91,6 +91,11 @@
     -fx-fill: rgba(120, 0, 50, .5);
     -fx-font-size: 100px;
 }
+.standard-text-alert{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: Red;
+    -fx-font-size: 15px;
+}
 
 .button-text{
     -fx-font-family: Audiowide;
@@ -105,4 +110,18 @@
     -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
 
 }
+/*todo need to look at that
+*/
+.text-field {
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 0 ;
+}
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}
+
+
+
+
 

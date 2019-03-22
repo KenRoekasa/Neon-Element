@@ -1,50 +1,27 @@
 package graphics.userInterface.controllers;
 
-import client.ClientGameState;
-import graphics.enums.UIColour;
-import graphics.userInterface.resources.style.Shadow;
+import client.audiomanager.Sound;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.effect.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-/* Menu buttons:
-1. Play
-2. Options
-3. Help
-4. Exit
-*/
 
+/**
+ *
+ */
 public class MenuController extends UIController implements Initializable{
-    @FXML
-    public Text alien;
+    /**
+     * Buttons of play, help, option and exit
+     */
     @FXML
     public Button play,help,option,exit;
-    @FXML
-    public Label play_label,help_label,option_label,exit_label;
-    @FXML
-    VBox background;
 
-    private Color outline;
-    private ClientGameState gameState;
-
-
+    /** Handle the action when pressing play button which direct to mode.fxml
+     */
     // play -> mode selection
     @FXML
-    public void handlePlayBtn(ActionEvent actionEvent) {
+    public void handlePlayBtn() {
 
         // create game rules
         // todo make this configurable
@@ -55,8 +32,10 @@ public class MenuController extends UIController implements Initializable{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
+    /** Handle the action when pressing option button which direct to option.fxml
+     */
     @FXML
-    public void handleOptionBtn(ActionEvent actionEvent){
+    public void handleOptionBtn(){
         String fxmlPath ="../fxmls/option.fxml";
         String stageTitle ="Option Setup" ;
         String fileException ="Option";
@@ -64,9 +43,10 @@ public class MenuController extends UIController implements Initializable{
     }
 
 
-
+    /** Handle the action when pressing help button which direct to help.fxml
+     */
     @FXML
-    public void handleHelpBtn(ActionEvent actionEvent){
+    public void handleHelpBtn(){
         String fxmlPath ="../fxmls/help.fxml";
         String stageTitle ="Tutorial" ;
         String fileException ="Help";
@@ -74,8 +54,10 @@ public class MenuController extends UIController implements Initializable{
 
     }
 
+    /** Handle the action when pressing exit button which shut down the game
+     */
     @FXML
-    public void handleExitBtn(ActionEvent actionEvent){
+    public void handleExitBtn(){
         stage.close();
 
         // todo make this graceful

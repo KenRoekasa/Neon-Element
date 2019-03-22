@@ -1,7 +1,5 @@
-
 import client.audiomanager.AudioManager;
 import graphics.userInterface.controllers.MenuController;
-import graphics.userInterface.controllers.UIController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +9,16 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+
+/**
+ * Menu of the game. Start the game from this class.
+ */
 public class Menu extends Application {
 
+    /** Start the whole game application
+     * @param primaryStage the stage of the game
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -52,6 +58,7 @@ public class Menu extends Application {
 
         primaryStage.show();
     }
+
 
     public static void main(String[] args) {
         launch(args);
