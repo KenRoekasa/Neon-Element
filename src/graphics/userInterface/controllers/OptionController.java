@@ -62,8 +62,8 @@ public class OptionController extends UIController{
         // volume range:0 - 1.0
         // defalut value is 0.4
         sound.setMin(0);
-        sound.setMax(1.0);
-        sound.setValue(1);
+        sound.setMax(100);
+        sound.setValue(50);
 
 
         DecimalFormat df = new DecimalFormat("0.0");
@@ -72,8 +72,8 @@ public class OptionController extends UIController{
 
 
         music.setMin(0);
-        music.setMax(1.0);
-        music.setValue(1);
+        music.setMax(100);
+        music.setValue(50);
 
 
         DecimalFormat df2 = new DecimalFormat("0.0");
