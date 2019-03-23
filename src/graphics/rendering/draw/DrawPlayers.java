@@ -1,10 +1,12 @@
-package graphics.rendering;
+package graphics.rendering.draw;
 
 import engine.entities.Character;
 
 import engine.entities.Player;
-import graphics.enumSwitches.colourSwitch;
 import engine.model.enums.Action;
+import graphics.rendering.ISOConverter;
+import graphics.rendering.Renderer;
+import graphics.rendering.colourSwitch;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;

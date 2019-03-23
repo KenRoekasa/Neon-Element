@@ -10,6 +10,9 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.model.enums.Action;
 import engine.model.enums.ObjectType;
+import graphics.rendering.draw.DrawClientPlayer;
+import graphics.rendering.draw.DrawEnemies;
+import graphics.rendering.draw.DrawObjects;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -39,7 +42,7 @@ public class Renderer {
     private Rectangle stageSize;
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
-    static HashMap<Sprites, Image> textures;
+    public static HashMap<Sprites, Image> textures;
     public static float xOffset;
     public static float yOffset;
     private Font deathFont;
@@ -245,7 +248,7 @@ public class Renderer {
     // this function takes a value and the range that value could be in, and maps it to its relevant position between two other values
 
     // see this https://www.arduino.cc/reference/en/language/functions/math/map/
-    static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
+    public static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
 

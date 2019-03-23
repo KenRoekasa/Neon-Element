@@ -1,7 +1,9 @@
-package graphics.rendering;
+package graphics.rendering.draw;
 
 import engine.entities.Character;
-import graphics.enumSwitches.colourSwitch;
+import graphics.rendering.ISOConverter;
+import graphics.rendering.Renderer;
+import graphics.rendering.colourSwitch;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;

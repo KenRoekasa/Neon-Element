@@ -1,10 +1,9 @@
-package graphics.rendering;
+package graphics.rendering.draw;
 
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import graphics.enumSwitches.colourSwitch;
-import graphics.enums.UIColour;
+import graphics.rendering.colourSwitch;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,13 +18,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static graphics.rendering.Renderer.getRelativeLocation;
 
-class DrawObjects {
+public class DrawObjects {
 
     private static Stop[] stops1 = new Stop[]{new Stop(0.2, Color.web("060419")), new Stop(0.4, Color.web("041830")), new Stop(0.7, Color.ORCHID), new Stop(1, Color.ORANGE)};
     private static RadialGradient lg1 = new RadialGradient(0, 0, 0.5, 0.5, 0.8, true, CycleMethod.NO_CYCLE, stops1);
 
 
-    static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player, HashMap<Sprites, Image> textures) {
+    public static void drawMap(GraphicsContext gc, Rectangle stage, Rectangle map, Player player, HashMap<Sprites, Image> textures) {
 
         Point2D stageCenter = new Point2D(stage.getWidth() / 2, stage.getHeight() / 2);
         Point2D playerLocation = player.getLocation();
@@ -52,7 +51,7 @@ class DrawObjects {
 
     }
 
-    static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player) {
+    public static void drawPowerUp(GraphicsContext gc, Rectangle stage, PowerUp powerUp, Player player) {
 
         Point2D relativeLocation = getRelativeLocation(stage, powerUp.getLocation(), player.getLocation());
 
@@ -70,11 +69,8 @@ class DrawObjects {
         gc.strokeLine(0, stage.getHeight() / 2, stage.getWidth(), stage.getHeight() / 2);
     }
 
-    static void drawBackground(GraphicsContext gc, Rectangle stageSize, ArrayList<Point2D> stars) {
+    public static void drawBackground(GraphicsContext gc, Rectangle stageSize, ArrayList<Point2D> stars) {
         gc.save();
-        gc.setFill(UIColour.BACKGROUND.getColor());
-
-
         gc.setFill(lg1);
 
         gc.fillRect(0, 0, stageSize.getWidth(), stageSize.getHeight());
@@ -88,7 +84,7 @@ class DrawObjects {
         gc.restore();
     }
 
-    static ArrayList<Point2D> loadStars(Rectangle stageSize) {
+    public static ArrayList<Point2D> loadStars(Rectangle stageSize) {
         ArrayList<Point2D> stars = new ArrayList<>();
         for (int i = 0; i <= 40; i++) {
             int x = ThreadLocalRandom.current().nextInt(0, (int) (stageSize.getWidth() + 1));
