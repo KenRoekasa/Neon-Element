@@ -175,7 +175,7 @@ public class Renderer {
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
         } else if (o.getTag() == ObjectType.OBSTACLE) {
-            DrawObjects.drawObstacles(gc, stageSize, (PhysicsObject) o, gameState.getPlayer());
+            DrawObjects.drawWalls(gc, stageSize, (PhysicsObject) o, gameState.getPlayer());
         }
     }
 
