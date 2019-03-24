@@ -60,8 +60,8 @@
 
 .standard-text-hud{
     -fx-font-family: Audiowide;
-    -fx-text-fill: rgba(120, 0, 50, .5);
-    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
     -fx-font-size: 20px;
 }
 
@@ -102,6 +102,12 @@
     -fx-font-family: Audiowide;
     -fx-text-fill: Red;
     -fx-font-size: 15px;
+}
+.standard-text-help{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 20px;
 }
 
 .button-text{
