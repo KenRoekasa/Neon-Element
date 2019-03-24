@@ -14,7 +14,7 @@
    <top>
       <BorderPane maxHeight="200.0" prefHeight="200.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <center>
-            <Text fill="#ff0b0b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-big" text="GAME OVER!" BorderPane.alignment="CENTER">
+            <Text fill="#ff0b0b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-alert-big" text="GAME OVER!" BorderPane.alignment="CENTER">
                <font>
                   <Font size="80.0" />
                </font>

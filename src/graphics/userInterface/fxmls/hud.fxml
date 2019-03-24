@@ -13,11 +13,11 @@
       <Text fx:id="health" fill="#f8f5f5" layoutX="55.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="10.0" />
       <Text fill="#f8f5f5" layoutX="20.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="DEATH   " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
       <Text fx:id="death" fill="#f8f5f5" layoutX="65.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="50.0" />
-      <AnchorPane layoutX="651.0" prefHeight="260.0" prefWidth="272.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane layoutX="651.0" prefHeight="245.0" prefWidth="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="140.0" />
-            <Label layoutX="60.0" layoutY="14.0" styleClass="standard-text-hud-title" stylesheets="@../resources/css/outrun.css" text="LeaderBoard" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="20.0" />
-            <Label fx:id="player1" layoutX="40.0" layoutY="51.0" styleClass="standard-text-hud" text="1" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="60.0" />
+            <Label layoutX="31.0" layoutY="16.0" styleClass="standard-text-hud-title" stylesheets="@../resources/css/outrun.css" text="LeaderBoard" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="16.0" />
+            <Label fx:id="player1" layoutX="39.0" layoutY="60.0" styleClass="standard-text-hud" text="1" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="60.0" />
             <Label fx:id="player2" layoutX="54.0" layoutY="90.0" styleClass="standard-text-hud" text="2" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="100.0" />
             <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="180.0" />
          </children>
