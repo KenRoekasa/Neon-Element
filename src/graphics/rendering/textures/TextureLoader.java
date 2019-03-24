@@ -4,8 +4,15 @@ import javafx.scene.image.Image;
 
 import java.util.HashMap;
 
+/**
+ * Contains a method for loading textures
+ */
 public class TextureLoader {
 
+    /**
+     * Loads the textures into a HashMap
+     * @return The HashMap of textures
+     */
     public static HashMap<Sprites, Image> loadTextures() {
         HashMap<Sprites, Image> values = new HashMap<>();
 
