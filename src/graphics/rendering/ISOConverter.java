@@ -14,48 +14,62 @@ import static graphics.rendering.Renderer.xOffset;
 import static graphics.rendering.Renderer.yOffset;
 import static javafx.scene.transform.Rotate.X_AXIS;
 
+/**
+ * Contains a number of methods used for converting between cartesian and isometric coordinates
+ */
 public class ISOConverter {
 
-    public static Point2D isoTo2D(Point2D point) {
-        double x = (2 * point.getY() + point.getX()) / 2;
-        double y = (2 * point.getY()- point.getX()) / 2;
-        return new Point2D(x, y);
-    }
 
-    public static Point2D twoDToIso(Point2D point) {
-        double x = point.getX()- point.getY();
-        double y = (point.getX() + point.getY()) / 2;
-
-        return new Point2D(x,y);
-    }
-
-    public static Point2D getLocationOnScreen(Point2D relativeLocation, PhysicsObject object, Rectangle stage){
+    /**
+     * Gets the location of an object on the screen
+     * @param relativeLocation The objects location in regards to the client player
+     * @param object    The object
+     * @param stageSize The size of the stage being drawn on
+     * @return  The location of the object on the screen
+     */
+    public static Point2D getLocationOnScreen(Point2D relativeLocation, PhysicsObject object, Rectangle stageSize){
         Rectangle r = new Rectangle(relativeLocation.getX(), relativeLocation.getY(), object.getWidth(), object.getWidth());
-        r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(stage.getWidth()/2f, stage.getHeight()/2f)));
+        r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(stageSize.getWidth()/2f, stageSize.getHeight()/2f)));
 
         Point2D newLoc = r.localToParent(relativeLocation.getX(), relativeLocation.getY());
 
         return  newLoc;
     }
 
-    public static Point2D getPlayerLocOnScreen(Player player, Rectangle primaryStage) {
-        Point2D playerLocation = new Point2D(primaryStage.getWidth()/2 + xOffset, primaryStage.getHeight()/2 + yOffset);
+    /**
+     * Gets the location of the client player on the screen
+     * @param player The client player
+     * @param stageSize The size of the stage being drawn on
+     * @return  The location of the player on the screen
+     */
+    public static Point2D getPlayerLocOnScreen(Player player, Rectangle stageSize) {
+        Point2D playerLocation = new Point2D(stageSize.getWidth()/2 + xOffset, stageSize.getHeight()/2 + yOffset);
         Rectangle r = new Rectangle(playerLocation.getX(), playerLocation.getY(), player.getWidth(), player.getWidth());
-        r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(primaryStage.getWidth()/2f, primaryStage.getHeight()/2f)));
+        r.getTransforms().add(ISOConverter.getTransformationAffine(new Point2D(stageSize.getWidth()/2f, stageSize.getHeight()/2f)));
         return r.localToParent(playerLocation.getX(), playerLocation.getY());
     }
 
 
-    static void applyRotationTransform(GraphicsContext gc, Point2D playerCenter) {
-        Affine a = getTransformationAffine(playerCenter);
+    /**
+     * Applies the isometric transformation to the graphics context
+     * @param gc The graphics context
+     * @param rotationCenter  The point around which the transform takes place
+     */
+    static void applyRotationTransform(GraphicsContext gc, Point2D rotationCenter) {
+        Affine a = getTransformationAffine(rotationCenter);
         gc.transform(a);
     }
 
-    public static Affine getTransformationAffine(Point2D playerCenter){
+    /**
+     * Returns the isometric transformation
+     * @param rotationCenter The center of rotation
+     * @return  The isometric conversion affine Affine
+     */
+    private static Affine getTransformationAffine(Point2D rotationCenter){
         Affine affine = new Affine();
 
-        Rotate rotateX = new Rotate(45, playerCenter.getX(), playerCenter.getY());
-        Rotate rotateZ = new Rotate(60.0, playerCenter.getX(), playerCenter.getY(), 0, X_AXIS);
+        Rotate rotateX = new Rotate(45, rotationCenter.getX(), rotationCenter.getY());
+        Rotate rotateZ = new Rotate(60.0, rotationCenter.getX(), rotationCenter.getY(), 0, X_AXIS);
 
         affine.prepend(rotateX);
         affine.prepend(rotateZ);
@@ -64,6 +78,12 @@ public class ISOConverter {
     }
 
 
+    /**
+     * Applies a specific rotation to the GraphicsContext
+     * @param gc The GraphicsContext to transform
+     * @param angle The angle to rotate by
+     * @param rotationCenter    The center of rotation
+     */
     public static void applyAngleRotation(GraphicsContext gc, long angle, Point2D rotationCenter) {
 
         Affine affine = new Affine();

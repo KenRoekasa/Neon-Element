@@ -4,8 +4,16 @@ import engine.model.enums.Elements;
 import engine.model.enums.PowerUpType;
 import javafx.scene.paint.Color;
 
+/**
+ * Contains methods for switching enums with relative colours
+ */
 public class colourSwitch {
 
+    /**
+     * Returns the color of a given element state
+     * @param currentElement The element
+     * @return  The color
+     */
     public static Color getElementColour(Elements currentElement){
         switch(currentElement){
             case FIRE:
@@ -22,7 +30,11 @@ public class colourSwitch {
     }
 
 
-
+    /**
+     * Returns the color of a given PowerUp type
+     * @param powerUp The PowerUp
+     * @return  The color
+     */
     public static Color getPowerUpColour(PowerUpType powerUp){
         switch(powerUp){
             case SPEED:
@@ -31,7 +43,6 @@ public class colourSwitch {
                 return Color.PURPLE;
             case DAMAGE:
                 return Color.FUCHSIA;
-
             default:
                 return Color.BLACK;
         }
