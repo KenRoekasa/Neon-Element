@@ -1,0 +1,91 @@
+@startuml
+skinparam componentStyle uml2
+
+
+cloud {
+    [Server]
+}
+
+[Client]
+[UI]
+[UIController]
+
+
+
+() SpawnPowerups
+() HandleGametype
+() respawn
+() "GameState" as GS1
+
+() AIControl
+
+() PhysicsUpdate
+() Sound
+() "UserInput" as input1
+() "UserInput" as input2
+
+
+
+package "Engine"{
+    [DamageCalculation]
+    [Physics]
+    [AI]
+    [Player]
+    [Audio]
+    [Gamemode]
+    [RespawnController]
+    [PowerUpController]
+    [FiniteStateMachine]
+}
+
+Physics -up->  PhysicsUpdate
+
+AI -up-> AIControl
+AIControl --> Player
+
+Client -- Physics
+Client ..> RespawnController:has
+Client ..> PowerUpController:has
+
+Client -up-- Packet
+Server --- Packet
+
+UI --> Draw
+
+Server -- Physics
+Server ..> RespawnController:has
+Server ..> PowerUpController:has
+
+
+
+AI -- FiniteStateMachine
+
+Client --> GS1
+GS1 --> UI
+
+
+DamageCalculation -- Client
+
+Server -- DamageCalculation
+
+Audio -> Sound
+
+Sound -> Client
+
+
+UI <-- input1
+
+input1 <-- UIController
+
+Gamemode -up-> HandleGametype
+
+FiniteStateMachine --> CalculateState
+
+RespawnController -up-> respawn
+
+PowerUpController -up-> SpawnPowerups
+
+Client <- input2
+
+
+@enduml

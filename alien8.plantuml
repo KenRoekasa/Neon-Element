@@ -1,0 +1,1216 @@
+@startuml
+
+title __ALIEN8's Class Diagram__\n
+
+  package  {
+    package networking {
+      class AESCBCSymmetricKey {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.enums {
+        enum Action {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.actions {
+      class AiActions {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.calculations {
+      class AiCalculations {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.controller {
+      class AiController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.controller {
+      class AiControllersManager {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.actions {
+      class AiHillStateActions {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.actions {
+      class AiKillsStateActions {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.actions {
+      class AiRegicideStateActions {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.actions {
+      abstract class AiStateActions {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.enums {
+      enum AiStates {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.actions {
+      class AiTimedStateActions {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.enums {
+      enum AiType {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      class AttackTimes {
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      package client.audiomanager {
+        class AudioManager {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastCastSpellPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastConnectedUserPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastDisconnectedUserPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastElementStatePacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastGameOverPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastGameStartPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastLocationStatePacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastPowerUpPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastPowerUpPickUpPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastReadyStatePacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class CastSpellPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.entities {
+      abstract class Character {
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      class ClientGameState {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.client {
+        class ClientNetwork {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.client {
+        class ClientNetworkConnection {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.client {
+        class ClientNetworkDispatcher {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.client {
+        class ClientNetworkMulticastConnection {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      class ClientNetworkThread {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.physics {
+      class CollisionDetector {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ConnectAckPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ConnectPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      class Constants {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.entities {
+      class CooldownValues {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.calculations {
+      class DamageCalculation {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.debugger {
+      class Debugger {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.enums {
+        enum Directions {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class DisconnectAckPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class DisconnectPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class DrawClientPlayer {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class DrawElements {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class DrawEnemies {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class DrawObjects {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class DrawPlayers {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class DrawStates {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ElementStatePacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.enums {
+        enum Elements {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.fsm {
+      abstract class FSM {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.fsm {
+      class FSMManager {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.gametypes {
+        class FirstToXKillsGame {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class FxmlLoader {
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      class GameClient {
+      }
+    }
+  }
+  
+
+  package  {
+    package server {
+      class GameServer {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      abstract class GameState {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.generator {
+        class GameStateGenerator {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      abstract class GameType {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.controller {
+      class GameTypeHandler {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class HUDController {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class HelloAckPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class HelloPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class HelpController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.fsm {
+      class HillFSM {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.gametypes {
+        class HillGame {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class HostController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class ISOConverter {
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      class InputHandler {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class JoinController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.fsm {
+      class KillsFSM {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class LeaderboardController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class LobbyController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class LocalSetUpController {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class LocationStatePacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      class Map {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.generator {
+        class MapGenerator {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    class Menu {
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class MenuController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class ModeController {
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      package client.audiomanager {
+        enum Music {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      abstract class NetworkDispatcher {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.enums {
+        enum ObjectType {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OnlineModeController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OnlineSetUpController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OptionController {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OutOfBoundException {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        abstract class Packet {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.debugger {
+      class Pair {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class PauseController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.physics {
+      class PhysicsController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.entities {
+      abstract class PhysicsObject {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.entities {
+      class Player {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.server {
+        class PlayerConnection {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.entities {
+      class PowerUp {
+      }
+    }
+  }
+  
+
+  package  {
+    package server {
+      package server.controllers {
+        class PowerUpController {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class PowerUpPacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.enums {
+        enum PowerUpType {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ReadyStatePacket {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.gametypes {
+        class Regicide {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.fsm {
+      class RegicideFSM {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      class Renderer {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.controller {
+      class RespawnController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      class Score {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      class ScoreBoard {
+      }
+    }
+  }
+  
+
+  package  {
+    package server {
+      class ServerGameState {
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.server {
+        class ServerNetwork {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.server {
+        class ServerNetworkDispatcher {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package client {
+      package client.audiomanager {
+        enum Sound {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class SoundController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.enums {
+        enum Spell {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      package graphics.rendering.textures {
+        enum Sprites {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.rendering {
+      package graphics.rendering.textures {
+        class TextureLoader {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.ai.fsm {
+      class TimedFSM {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.model {
+      package engine.model.gametypes {
+        class TimedGame {
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class ToggleGroupSetUp {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.enums {
+      enum UIColour {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class UIController {
+      }
+    }
+  }
+  
+
+  package  {
+    package engine.entities {
+      class Wall {
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.enumSwitches {
+      class colourSwitch {
+      }
+    }
+  }
+  
+
+  AiActions o-- AiController : aiCon
+  AiActions o-- AiCalculations : calc
+  AiActions o-- Player : aiPlayer
+  AiCalculations o-- AiController : aiCon
+  AiCalculations o-- Player : aiPlayer
+  AiCalculations o-- Player : player
+  AiCalculations o-- GameType : gameType
+  AiCalculations o-- ScoreBoard : scoreboard
+  AiController o-- AiStates : activeState
+  AiController o-- Player : aiPlayer
+  AiController o-- Player : player
+  AiController o-- AiType : aiType
+  AiController o-- AiStateActions : stateActions
+  AiController o-- FSMManager : fsmManager
+  AiControllersManager o-- Player : player
+  AiControllersManager o-- ScoreBoard : scoreboard
+  AiControllersManager o-- GameType : gameType
+  AiHillStateActions -up-|> AiStateActions
+  AiKillsStateActions -up-|> AiStateActions
+  AiRegicideStateActions -up-|> AiStateActions
+  AiStateActions o-- Player : aiPlayer
+  AiStateActions o-- Player : player
+  AiStateActions o-- AiController : aiCon
+  AiStateActions o-- AiCalculations : calc
+  AiStateActions o-- AiActions : actions
+  AiTimedStateActions -up-|> AiStateActions
+  BroadCastCastSpellPacket -up-|> Packet
+  BroadCastCastSpellPacket o-- Spell : spell
+  BroadCastConnectedUserPacket -up-|> Packet
+  BroadCastDisconnectedUserPacket -up-|> Packet
+  BroadCastElementStatePacket -up-|> Packet
+  BroadCastElementStatePacket o-- Elements : playerElementState
+  BroadCastGameOverPacket -up-|> Packet
+  BroadCastGameStartPacket -up-|> Packet
+  BroadCastLocationStatePacket -up-|> Packet
+  BroadCastPowerUpPacket -up-|> Packet
+  BroadCastPowerUpPickUpPacket -up-|> Packet
+  BroadCastReadyStatePacket -up-|> Packet
+  CastSpellPacket -up-|> Packet
+  CastSpellPacket o-- Spell : spell
+  Character -up-|> PhysicsObject
+  Character o-- Elements : currentElement
+  Character o-- Action : currentAction
+  Character o-- Player : lastAttacker
+  ClientGameState -up-|> GameState
+  ClientGameState o-- Player : player
+  ClientNetwork o-- ClientNetworkConnection : conn
+  ClientNetwork o-- ClientNetworkDispatcher : dispatcher
+  ClientNetworkConnection o-- ClientNetwork : net
+  ClientNetworkDispatcher -up-|> NetworkDispatcher
+  ClientNetworkDispatcher o-- ClientGameState : gameState
+  ClientNetworkMulticastConnection o-- ClientNetwork : net
+  ClientNetworkThread o-- ClientGameState : gameState
+  ClientNetworkThread o-- ClientNetwork : network
+  ConnectAckPacket -up-|> Packet
+  ConnectAckPacket o-- Status : status
+  ConnectPacket -up-|> Packet
+  DisconnectAckPacket -up-|> Packet
+  DisconnectPacket -up-|> Packet
+  ElementStatePacket -up-|> Packet
+  ElementStatePacket o-- Elements : playerElementState
+  FSM o-- Player : aiPlayer
+  FSM o-- AiController : aiCon
+  FSM o-- AiCalculations : calc
+  FSMManager o-- AiController : aiCon
+  FSMManager o-- FSM : fsm
+  FirstToXKillsGame -up-|> GameType
+  GameClient o-- PhysicsController : physicsEngine
+  GameClient o-- Renderer : renderer
+  GameClient o-- Debugger : debugger
+  GameClient o-- ClientGameState : gameState
+  GameClient o-- ClientNetworkThread : clientNetworkThread
+  GameClient o-- AudioManager : audioManager
+  GameServer o-- ServerGameState : gameState
+  GameServer o-- ServerNetwork : network
+  GameState o-- Map : map
+  GameState o-- GameType : gameType
+  GameState o-- ScoreBoard : scoreBoard
+  GameState o-- AiControllersManager : aiConMan
+  GameType o-- Type : type
+  HUDController -up-|> Initializable
+  HUDController -up-|> UIController
+  HUDController o-- ClientGameState : gameState
+  HUDController o-- ScoreBoard : scoreBoard
+  HelloAckPacket -up-|> Packet
+  HelloAckPacket o-- GameType : gameType
+  HelloPacket -up-|> Packet
+  HelpController -up-|> UIController
+  HillFSM -up-|> FSM
+  HillGame -up-|> GameType
+  HostController -up-|> UIController
+  HostController o-- ClientGameState : gameState
+  JoinController -up-|> UIController
+  JoinController o-- ClientGameState : gameState
+  KillsFSM -up-|> FSM
+  LeaderboardController -up-|> UIController
+  LeaderboardController o-- ScoreBoard : scoreBoard
+  LobbyController -up-|> UIController
+  LocalSetUpController -up-|> UIController
+  LocalSetUpController o-- ClientGameState : gameState
+  LocationStatePacket -up-|> Packet
+  Menu -up-|> Application
+  MenuController -up-|> Initializable
+  MenuController -up-|> UIController
+  ModeController -up-|> UIController
+  OnlineModeController -up-|> UIController
+  OnlineSetUpController -up-|> UIController
+  OptionController -up-|> UIController
+  Packet o-- PacketDirection : direction
+  Packet o-- PacketType : type
+  Pair o-- L : left
+  Pair o-- R : right
+  PauseController -up-|> UIController
+  PauseController o-- ClientGameState : gameState
+  PhysicsController o-- ClientGameState : gameState
+  PhysicsObject o-- ObjectType : tag
+  Player -up-|> Character
+  PlayerConnection o-- Player : player
+  PowerUp -up-|> PhysicsObject
+  PowerUp o-- PowerUpType : type
+  PowerUpController -up-|> Runnable
+  PowerUpController o-- GameState : gamestate
+  PowerUpController o-- ServerNetworkDispatcher : dispatcher
+  PowerUpPacket -up-|> Packet
+  ReadyStatePacket -up-|> Packet
+  Regicide -up-|> GameType
+  Regicide o-- Player : king
+  RegicideFSM -up-|> FSM
+  Renderer o-- Debugger : debugger
+  RespawnController -up-|> Runnable
+  RespawnController o-- GameState : gameState
+  ServerGameState -up-|> GameState
+  ServerNetwork o-- ServerNetworkDispatcher : dispatcher
+  ServerNetworkDispatcher -up-|> NetworkDispatcher
+  ServerNetworkDispatcher o-- ServerGameState : gameState
+  SoundController -up-|> UIController
+  SoundController o-- ClientGameState : gamestate
+  TimedFSM -up-|> FSM
+  TimedGame -up-|> GameType
+  UIController -up-|> Initializable
+  UIController o-- AudioManager : audioManager
+  Wall -up-|> PhysicsObject
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

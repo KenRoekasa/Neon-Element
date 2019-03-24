@@ -1,0 +1,405 @@
+@startuml
+
+title __CONTROLLERS's Class Diagram__\n
+
+  package  {
+    package graphics.userInterface.controllers {
+      class FxmlLoader {
+          # FxmlLoader()
+          + playButtonSound()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class HUDController {
+          - playerId : int
+          - leaderBoard : ArrayList<Integer>
+          {static} - TEMP : String
+          - health : Text
+          - healthValue : StringProperty
+          - kills : Text
+          - totalKills : StringProperty
+          ~ death : Text
+          - deathTimes : StringProperty
+          - player1 : Label
+          - player2 : Label
+          - player3 : Label
+          - player4 : Label
+          - player1Property : StringProperty
+          - player2Property : StringProperty
+          - player3Property : StringProperty
+          - player4Property : StringProperty
+          - num_player : int
+          + setPlayerId()
+          + setScoreBoard()
+          + setLeaderBoard()
+          + setGameState()
+          + setNum_player()
+          + HUDController()
+          + initialize()
+          + update()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class HelpController {
+          + handleBackBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class HostController {
+          - iP : String
+          ~ ip_address : Text
+          ~ ip_value : StringProperty
+          + setiP()
+          + handleStartBtn()
+          + handleBackBtn()
+          + initialize()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class JoinController {
+          + ip : TextField
+          + handleStartBtn()
+          + handleBackBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class LeaderboardController {
+          ~ player1_id : Text
+          ~ player2_id : Text
+          ~ player3_id : Text
+          ~ player4_id : Text
+          ~ player1_kills : Text
+          ~ player2_kills : Text
+          ~ player3_kills : Text
+          ~ player4_kills : Text
+          ~ player1_deaths : Text
+          ~ player2_deaths : Text
+          ~ player3_deaths : Text
+          ~ player4_deaths : Text
+          ~ player1_score : Text
+          ~ player2_score : Text
+          ~ player3_score : Text
+          ~ player4_score : Text
+          ~ rank_3 : GridPane
+          ~ rank_4 : GridPane
+          ~ player1 : int
+          ~ player2 : int
+          ~ player3 : int
+          ~ player4 : int
+          - leaderBoard : ArrayList<Integer>
+          ~ num_players : int
+          + setScoreBoard()
+          + setNum_players()
+          + setLeaderBoard()
+          + showLeaderBoard()
+          + showInfo()
+          + handleQuitBtn()
+          + handlePlayAgainBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class LobbyController {
+          ~ conn_1 : Text
+          ~ conn_2 : Text
+          ~ conn_3 : Text
+          ~ conn_4 : Text
+          - textList : ArrayList<Text>
+          - conn1Property : StringProperty
+          - conn2Property : StringProperty
+          - conn3Property : StringProperty
+          - conn4Property : StringProperty
+          {static} - TEMP : String
+          + handleStartBtn()
+          + connect()
+          + initialize()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class LocalSetUpController {
+          + num_1 : RadioButton
+          + num_2 : RadioButton
+          + num_3 : RadioButton
+          + easy_1 : RadioButton
+          + easy_2 : RadioButton
+          + easy_3 : RadioButton
+          + normal_1 : RadioButton
+          + normal_2 : RadioButton
+          + normal_3 : RadioButton
+          + hard_1 : RadioButton
+          + hard_2 : RadioButton
+          + hard_3 : RadioButton
+          + time_mode : RadioButton
+          + life_mode : RadioButton
+          ~ enemy2 : GridPane
+          ~ enemy3 : GridPane
+          ~ num_group : ToggleGroup
+          ~ diff_1 : ToggleGroup
+          ~ diff_2 : ToggleGroup
+          ~ diff_3 : ToggleGroup
+          ~ mode : ToggleGroup
+          - enemy_num : int
+          - enemy_1 : String
+          - enemy_2 : String
+          - enemy_3 : String
+          - selected_mode : String
+          ~ enemyTypes : ArrayList<String>
+          + getEnemy_num()
+          + getEnemy_1()
+          + getEnemy_2()
+          + getEnemy_3()
+          + getSelected_mode()
+          + handleOneEnemy()
+          + handleTwoEnemies()
+          + handleThreeEnemies()
+          + handleStartBtn()
+          + handleBackBtn()
+          + initialize()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class MenuController {
+          + play : Button
+          + help : Button
+          + option : Button
+          + exit : Button
+          + handlePlayBtn()
+          + handleOptionBtn()
+          + handleHelpBtn()
+          + handleExitBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class ModeController {
+          + handleLocalBtn()
+          + handleOnlineBtn()
+          + handleBackBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OnlineModeController {
+          + handleHostGame()
+          + handleJoinGame()
+          + handleBackBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OnlineSetUpController {
+          + player_2 : RadioButton
+          + player_3 : RadioButton
+          + player_4 : RadioButton
+          + num_0 : RadioButton
+          + num_1 : RadioButton
+          + num_2 : RadioButton
+          + num_3 : RadioButton
+          + easy_1 : RadioButton
+          + easy_2 : RadioButton
+          + easy_3 : RadioButton
+          + normal_1 : RadioButton
+          + normal_2 : RadioButton
+          + normal_3 : RadioButton
+          + hard_1 : RadioButton
+          + hard_2 : RadioButton
+          + hard_3 : RadioButton
+          + time_mode : RadioButton
+          + life_mode : RadioButton
+          + enemy1 : GridPane
+          + enemy2 : GridPane
+          + enemy3 : GridPane
+          + alert : Text
+          + back_btn : Button
+          + create_btn : Button
+          - enemy_num : int
+          - player_num : int
+          - enemy_1 : String
+          - enemy_2 : String
+          - enemy_3 : String
+          - selected_mode : String
+          - enemyTypes : ArrayList<String>
+          ~ num_group : ToggleGroup
+          ~ num_player : ToggleGroup
+          ~ diff_1 : ToggleGroup
+          ~ diff_2 : ToggleGroup
+          ~ diff_3 : ToggleGroup
+          ~ mode : ToggleGroup
+          + getPlayer_num()
+          + getEnemyTypes()
+          + handleZeroEnemy()
+          + handleOneEnemy()
+          + handleTwoEnemies()
+          + handleThreeEnemies()
+          + handleCreateBtn()
+          + handleBackBtn()
+          + initialize()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OptionController {
+          + sound : Slider
+          + music : Slider
+          ~ volume : Text
+          ~ musicVolume : Text
+          + handleOkBtn()
+          + handleBackBtn()
+          + initialize()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class OutOfBoundException {
+          + OutOfBoundException()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class PauseController {
+          - stageSize : Rectangle
+          - hudPane : Pane
+          - node : Pane
+          + setNode()
+          + setStageSize()
+          + setHudPane()
+          + setStage()
+          + handleResumeBtn()
+          + handleSettingBtn()
+          + handleQuitBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class SoundController {
+          - hudPane : Pane
+          - node : Pane
+          + setHudPane()
+          + setNode()
+          + setGamestate()
+          + handleOkBtn()
+          + handleBackBtn()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class ToggleGroupSetUp {
+          {static} + setToggleGroup()
+          {static} + setToggleGroup()
+          {static} + setToggleGroup()
+          {static} + removeRadioCircle()
+          {static} + removeGroupRadioCircle()
+          {static} + removeGroupRadioCircle()
+          {static} + removeGroupRadioCircle()
+          {static} + setUserData()
+      }
+    }
+  }
+  
+
+  package  {
+    package graphics.userInterface.controllers {
+      class UIController {
+          # stage : Stage
+          + setStage()
+          + getStage()
+          + setAudioManager()
+          + getAudioManager()
+          + initialize()
+          + playHoverSound()
+      }
+    }
+  }
+  
+
+  HUDController -up-|> Initializable
+  HUDController -up-|> UIController
+  HUDController o-- ClientGameState : gameState
+  HUDController o-- ScoreBoard : scoreBoard
+  HelpController -up-|> UIController
+  HostController -up-|> UIController
+  HostController o-- ClientGameState : gameState
+  JoinController -up-|> UIController
+  JoinController o-- ClientGameState : gameState
+  LeaderboardController -up-|> UIController
+  LeaderboardController o-- ScoreBoard : scoreBoard
+  LobbyController -up-|> UIController
+  LocalSetUpController -up-|> UIController
+  LocalSetUpController o-- ClientGameState : gameState
+  MenuController -up-|> Initializable
+  MenuController -up-|> UIController
+  ModeController -up-|> UIController
+  OnlineModeController -up-|> UIController
+  OnlineSetUpController -up-|> UIController
+  OptionController -up-|> UIController
+  PauseController -up-|> UIController
+  PauseController o-- ClientGameState : gameState
+  SoundController -up-|> UIController
+  SoundController o-- ClientGameState : gamestate
+  UIController -up-|> Initializable
+  UIController o-- AudioManager : audioManager
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

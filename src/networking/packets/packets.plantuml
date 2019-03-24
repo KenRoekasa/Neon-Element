@@ -1,0 +1,453 @@
+@startuml
+
+title __PACKETS's Class Diagram__\n
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastCastSpellPacket {
+            # BroadCastCastSpellPacket()
+            + BroadCastCastSpellPacket()
+            + getSpell()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastConnectedUserPacket {
+            - playerId : int
+            # BroadCastConnectedUserPacket()
+            + BroadCastConnectedUserPacket()
+            + getId()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastDisconnectedUserPacket {
+            # BroadCastDisconnectedUserPacket()
+            + BroadCastDisconnectedUserPacket()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastElementStatePacket {
+            # BroadCastElementStatePacket()
+            + BroadCastElementStatePacket()
+            + getPlayerElementState()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastGameOverPacket {
+            - gameOver : boolean
+            # BroadCastGameOverPacket()
+            + BroadCastGameOverPacket()
+            + getGameOverVar()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastGameStartPacket {
+            - gameStarted : boolean
+            - players : int
+            # BroadCastGameStartPacket()
+            + BroadCastGameStartPacket()
+            + getGameStartVar()
+            + getPlayersCount()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastLocationStatePacket {
+            - id : int
+            - x : double
+            - y : double
+            # BroadCastLocationStatePacket()
+            + BroadCastLocationStatePacket()
+            + getId()
+            + getX()
+            + getY()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastPowerUpPacket {
+            - powerUpId : int
+            - x : double
+            - y : double
+            # BroadCastPowerUpPacket()
+            + BroadCastPowerUpPacket()
+            + getPowerUpId()
+            + getX()
+            + getY()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastPowerUpPickUpPacket {
+            - powerupPickupId : int
+            # BroadCastPowerUpPickUpPacket()
+            + BroadCastPowerUpPickUpPacket()
+            + getPowerupPickupId()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class BroadCastReadyStatePacket {
+            - ready : boolean
+            # BroadCastReadyStatePacket()
+            + BroadCastReadyStatePacket()
+            + getReady()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class CastSpellPacket {
+            # CastSpellPacket()
+            + CastSpellPacket()
+            + getSpell()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ConnectAckPacket {
+            - playerId : int
+            # ConnectAckPacket()
+            + ConnectAckPacket()
+            + getId()
+            + getAllowed()
+            + getStatus()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        enum Status {
+          SUC_CONNECTED
+          ERR_GAME_STARTED
+          ERR_MAX_PLAYERS
+          id
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ConnectPacket {
+            # ConnectPacket()
+            + ConnectPacket()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class DisconnectAckPacket {
+            - allowed : boolean
+            # DisconnectAckPacket()
+            + DisconnectAckPacket()
+            + getAllowed()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class DisconnectPacket {
+            # DisconnectPacket()
+            + DisconnectPacket()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ElementStatePacket {
+            # ElementStatePacket()
+            + ElementStatePacket()
+            + getPlayerElementState()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class HelloAckPacket {
+            - players : int
+            - maxPlayers : int
+            # HelloAckPacket()
+            + HelloAckPacket()
+            + getPlayers()
+            + getMaxPlayers()
+            + getGameType()
+            {static} - bufferToGameType()
+            {static} - gameTypeToBuffer()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class HelloPacket {
+            # HelloPacket()
+            + HelloPacket()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class LocationStatePacket {
+            - x : double
+            - y : double
+            # LocationStatePacket()
+            + LocationStatePacket()
+            + getX()
+            + getY()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        abstract class Packet {
+            {static} + PACKET_BYTES_LENGTH : int
+            - ipAddress : InetAddress
+            - port : int
+            # Packet()
+            # Packet()
+            {abstract} + getRawBytes()
+            + getDirection()
+            + getType()
+            + getIpAddress()
+            + getPort()
+            # getByteBuffer()
+            {static} # getBytesFromBuffer()
+            {static} + createFromBytes()
+            {static} + getByteValue()
+            {static} + getBooleanValue()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        enum PacketDirection {
+          INCOMING
+          OUTGOING
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        enum PacketType {
+          HELLO
+          HELLO_ACK
+          CONNECT
+          CONNECT_ACK
+          DISCONNECT
+          DISCONNECT_ACK
+          READY_STATE
+          HEALTH_STATE
+          LOCATION_STATE
+          LOCATION_STATE_ACK
+          ELEMENT_STATE
+          CAST_SPELL
+          POWERUP
+          CONNECT_BCAST
+          DISCONNECT_BCAST
+          READY_STATE_BCAST
+          LOCATION_STATE_BCAST
+          ELEMENT_STATE_BCAST
+          CAST_SPELL_BCAST
+          POWERUP_PICKUP_BCAST
+          POWERUP_STATE_BCAST
+          GAME_START_BCAST
+          GAME_OVER_BCAST
+          id
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class PowerUpPacket {
+            - powerupPickupId : int
+            # PowerUpPacket()
+            + PowerUpPacket()
+            + getPowerupPickupId()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  package  {
+    package networking {
+      package networking.packets {
+        class ReadyStatePacket {
+            - ready : boolean
+            # ReadyStatePacket()
+            + ReadyStatePacket()
+            + getReady()
+            + getRawBytes()
+        }
+      }
+    }
+  }
+  
+
+  BroadCastCastSpellPacket -up-|> Packet
+  BroadCastCastSpellPacket o-- Spell : spell
+  BroadCastConnectedUserPacket -up-|> Packet
+  BroadCastDisconnectedUserPacket -up-|> Packet
+  BroadCastElementStatePacket -up-|> Packet
+  BroadCastElementStatePacket o-- Elements : playerElementState
+  BroadCastGameOverPacket -up-|> Packet
+  BroadCastGameStartPacket -up-|> Packet
+  BroadCastLocationStatePacket -up-|> Packet
+  BroadCastPowerUpPacket -up-|> Packet
+  BroadCastPowerUpPickUpPacket -up-|> Packet
+  BroadCastReadyStatePacket -up-|> Packet
+  CastSpellPacket -up-|> Packet
+  CastSpellPacket o-- Spell : spell
+  ConnectAckPacket -up-|> Packet
+  ConnectAckPacket o-- Status : status
+  ConnectAckPacket +-down- Status
+  ConnectPacket -up-|> Packet
+  DisconnectAckPacket -up-|> Packet
+  DisconnectPacket -up-|> Packet
+  ElementStatePacket -up-|> Packet
+  ElementStatePacket o-- Elements : playerElementState
+  HelloAckPacket -up-|> Packet
+  HelloAckPacket o-- GameType : gameType
+  HelloPacket -up-|> Packet
+  LocationStatePacket -up-|> Packet
+  Packet o-- PacketDirection : direction
+  Packet o-- PacketType : type
+  Packet +-down- PacketDirection
+  Packet +-down- PacketType
+  PowerUpPacket -up-|> Packet
+  ReadyStatePacket -up-|> Packet
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
