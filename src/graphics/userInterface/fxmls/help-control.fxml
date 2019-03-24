@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -34,6 +35,9 @@
                      </stops>
                   </LinearGradient>
                </stroke>
+               <effect>
+                  <Glow level="0.0" />
+               </effect>
             </Rectangle>
             <Rectangle arcHeight="5.0" arcWidth="5.0" blendMode="ADD" fill="#8613752b" height="47.0" layoutX="75.0" layoutY="112.0" strokeType="INSIDE" width="52.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="112.0">
                <stroke>
@@ -221,23 +225,20 @@
                </stroke>
             </Rectangle>
             <Text layoutX="20.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="SKILLS" AnchorPane.leftAnchor="20.0" />
-            <Text layoutX="78.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="SPACE" />
-            <Text layoutX="76.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="SHIELD" />
-            <ImageView fitHeight="46.0" fitWidth="44.0" layoutX="286.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+            <Text layoutX="61.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="SPACE" />
+            <Text layoutX="72.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="SHIELD" />
+            <ImageView fitHeight="62.0" fitWidth="61.0" layoutX="288.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../rendering/textures/cursor.png" />
+                  <Image url="@../resources/icons/mouse-left.png" />
                </image>
             </ImageView>
-            <Text layoutX="227.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="SINGLE CLICK" />
-            <Text layoutX="442.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="DOUBLE CLICKS" />
-            <Text layoutX="246.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="LIGHT ATTACK" />
-            <Text layoutX="445.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="HEAVY ATTACK" />
-            <ImageView fitHeight="46.0" fitWidth="44.0" layoutX="476.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+            <Text layoutX="250.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="LIGHT ATTACK" />
+            <Text layoutX="445.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="HEAVY ATTACK" />
+            <ImageView fitHeight="62.0" fitWidth="61.0" layoutX="491.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../rendering/textures/cursor.png" />
+                  <Image url="@../resources/icons/mouse-right.png" />
                </image>
             </ImageView>
-            <Text layoutX="522.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="X 2" />
          </children>
       </AnchorPane>
    </children>
