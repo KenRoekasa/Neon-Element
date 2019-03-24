@@ -29,7 +29,7 @@ public class OnlineSetUpController extends UIController {
      * Radio buttons of modes
      */
     @FXML
-    public RadioButton time_mode, life_mode;
+    public RadioButton FirstToXKills,Timed,Hill,Regicide;
     /**
      * Grid pane for ai bot2 and ai bot3 difficulty selection line
      */
@@ -129,6 +129,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleOneEnemy(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(false);
         enemy3.setVisible(false);
     }
@@ -137,6 +138,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleTwoEnemies(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(true);
         enemy3.setVisible(false);
     }
@@ -145,6 +147,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleThreeEnemies(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(true);
         enemy3.setVisible(true);
     }
@@ -165,6 +168,8 @@ public class OnlineSetUpController extends UIController {
         while (true) {
             if ((enemy_num + player_num) > 4) {
                 alert.setVisible(true);
+                // todo this really needs to be changed - can't have the client throw an uncaught exception
+                // should just be handled in the ui
                 throw new OutOfBoundException("The number of maximum player is 4 ");
             } else {
                 selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
@@ -189,7 +194,7 @@ public class OnlineSetUpController extends UIController {
                         enemyTypes.add(enemy_2);
                         enemyTypes.add(enemy_3);
                 }
-
+                //todo delete ip_host and take the code from start method in host to here
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";
@@ -221,12 +226,15 @@ public class OnlineSetUpController extends UIController {
         alert.setVisible(false);
 
         ToggleGroupSetUp.setToggleGroup(num_player,player_2, player_3, player_4);
+        player_2.setSelected(true);
         ToggleGroupSetUp.setToggleGroup(num_group,num_0, num_1, num_2, num_3);
+        num_1.setSelected(true);
+        enemy2.setVisible(false);
+        enemy3.setVisible(false);
         ToggleGroupSetUp.setToggleGroup(diff_1, easy_1, normal_1, hard_1);
         ToggleGroupSetUp.setToggleGroup(diff_2, easy_2, normal_2, hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3, easy_3, normal_3, hard_3);
-        ToggleGroupSetUp.setToggleGroup(mode, life_mode, time_mode);
-
+        ToggleGroupSetUp.setToggleGroup(mode,FirstToXKills,Hill,Timed,Regicide);
 
         player_2.setUserData(2);
         player_3.setUserData(3);
@@ -240,7 +248,10 @@ public class OnlineSetUpController extends UIController {
         num_2.setUserData(2);
         num_3.setUserData(3);
 
-        life_mode.setUserData("life_based");
-        time_mode.setUserData("time_based");
+        FirstToXKills.setUserData("FirstToXKills");
+        Hill.setUserData("Hill");
+        Timed.setUserData("Timed");
+        Regicide.setUserData("Regicide");
+
     }
 }

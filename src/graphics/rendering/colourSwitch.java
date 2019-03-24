@@ -1,4 +1,4 @@
-package graphics.enumSwitches;
+package graphics.rendering;
 
 import engine.model.enums.Elements;
 import engine.model.enums.PowerUpType;

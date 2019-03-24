@@ -38,7 +38,7 @@ public class LocalSetUpController extends UIController {
      * Radio buttons of time mode game and life mode game
      */
     @FXML
-    public RadioButton time_mode, life_mode;
+    public RadioButton FirstToXKills,Timed,Hill,Regicide;
 
     /**
      * Grid Panes of the second ai bot setting and the third ai bot setting
@@ -185,7 +185,7 @@ public class LocalSetUpController extends UIController {
 
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num,enemyTypes);
+        gameState = GameStateGenerator.createDemoGamestateSample(enemy_num,enemyTypes,selected_mode);
         //g.getPlayer().getHealth();
         try {
             boolean networked = false;
@@ -218,7 +218,7 @@ public class LocalSetUpController extends UIController {
         ToggleGroupSetUp.setToggleGroup(diff_1,easy_1,normal_1,hard_1);
         ToggleGroupSetUp.setToggleGroup(diff_2,easy_2,normal_2,hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3,easy_3,normal_3,hard_3);
-        ToggleGroupSetUp.setToggleGroup(mode,life_mode,time_mode);
+        ToggleGroupSetUp.setToggleGroup(mode,FirstToXKills,Hill,Timed,Regicide);
 
 
         ToggleGroupSetUp.setUserData("Easy",easy_1,easy_2,easy_3);
@@ -229,8 +229,10 @@ public class LocalSetUpController extends UIController {
         num_2.setUserData(2);
         num_3.setUserData(3);
 
-        life_mode.setUserData("life_based");
-        time_mode.setUserData("time_based");
+        FirstToXKills.setUserData("FirstToXKills");
+        Hill.setUserData("Hill");
+        Timed.setUserData("Timed");
+        Regicide.setUserData("Regicide");
 
     }
 }

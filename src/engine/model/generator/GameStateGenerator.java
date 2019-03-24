@@ -64,6 +64,8 @@ public class GameStateGenerator {
 
     //receive the number of enemy from controller to initialise engine.ai enm
 
+
+
     /**
      * Generates a game state for testing
      *
@@ -71,7 +73,7 @@ public class GameStateGenerator {
      * @param aiTypes A list of ais diffculty
      * @return a gamestate for testing
      */
-    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
+    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes,String mode) {
 
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);

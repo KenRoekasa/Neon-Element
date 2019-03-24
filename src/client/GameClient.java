@@ -229,15 +229,14 @@ public class GameClient {
             primaryStage.getScene().setRoot(root);
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
-
-
-        /*    LeaderboardController controller = loader.getController();
+            gameState.stop();
+            LeaderboardController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
             controller.setScoreBoard(gameState.getScoreBoard());
             controller.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
             controller.setNum_players(gameState.getScoreBoard().getLeaderBoard().size());
-            controller.showLeaderBoard();*/
+            controller.showLeaderBoard();
             primaryStage.getScene().setCursor(Cursor.DEFAULT);
             primaryStage.setTitle("Game Over");
             audioManager.setMenuMusic();

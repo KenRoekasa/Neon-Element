@@ -1,6 +1,7 @@
 package graphics.userInterface.controllers;
 
 
+import engine.model.ScoreBoard;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -9,8 +10,7 @@ import java.util.ArrayList;
 
 
 public class LeaderboardController extends UIController {
-    //@FXML
-/*
+    @FXML
     Text player1_id,player2_id,player3_id,player4_id;
     @FXML
     Text player1_kills,player2_kills,player3_kills,player4_kills;
@@ -86,6 +86,5 @@ public class LeaderboardController extends UIController {
         String fileException ="Mode";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
-*/
 
 }
