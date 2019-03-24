@@ -36,9 +36,9 @@ public class MenuController extends UIController implements Initializable{
      */
     @FXML
     public void handleOptionBtn(){
-        String fxmlPath ="../fxmls/option.fxml";
-        String stageTitle ="Option Setup" ;
-        String fileException ="Option";
+        String fxmlPath ="../fxmls/options.fxml";
+        String stageTitle ="Options Setup" ;
+        String fileException ="Options";
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
