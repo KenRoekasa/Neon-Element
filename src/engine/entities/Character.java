@@ -29,6 +29,11 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
     /**
+     * The time when you last died in milli
+     */
+    protected long deathTime = 0;
+
+    /**
      * Is the character damaged boosted or not
      */
     protected boolean damagePowerup = false;
@@ -297,7 +302,7 @@ public abstract class Character extends PhysicsObject {
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
-        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.nanoTime()/1000000};
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
@@ -541,12 +546,8 @@ public abstract class Character extends PhysicsObject {
      * @returnTrue if the action is off cooldown; false otherwise
      */
     private boolean checkCD(int id, float cooldown) {
-        // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000000000) + GameClient.pauseDuration);
-        //check if the time calculated has passed
-        if (System.nanoTime() > nextAvailableTime) {
-            timerArray[id] = System.nanoTime();
-            GameClient.pauseDuration = 0;
+        if (GameClient.timeElapsed - timerArray[id] >= (long) (cooldown * 1000)) {
+            timerArray[id] = GameClient.timeElapsed;
             return true;
         }
         return false;
@@ -574,5 +575,9 @@ public abstract class Character extends PhysicsObject {
 
     public float getHorizontalMove() {
         return horizontalMove;
+    }
+
+    public long getDeathTime() {
+        return deathTime;
     }
 }
