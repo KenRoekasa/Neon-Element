@@ -8,17 +8,36 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static javafx.scene.paint.Color.*;
+
 /**
  * Controller of hud.fxml which mainly controls the properties of the game state
  */
 //To get players' health and speed in top-left hud
 public class HUDController extends UIController implements Initializable {
+    /**
+     * Mode of current game
+     */
+    private String mode;
+
+    /**
+     * Kills needed to win
+     */
+    private int kill_left;
+    /**
+     * Time left to end the game
+     */
+    private int time;
+
 
     /**
      * The client game state
@@ -70,15 +89,13 @@ public class HUDController extends UIController implements Initializable {
         this.gameState = gameState;
     }
 
+
     /**
-     * The text of health shown on the user interface
+     * The progress bar to show the health left
      */
     @FXML
-    private Text health;
-    /**
-     * The string property of the health value
-     */
-    private StringProperty healthValue;
+    private ProgressBar health_bar;
+
 
     /**
      * The text of number of kills shown on the player's information section
@@ -125,7 +142,6 @@ public class HUDController extends UIController implements Initializable {
      * Constructor for initialising the string property's fields;
      */
     public HUDController() {
-        healthValue = new SimpleStringProperty();
         totalKills = new SimpleStringProperty();
         deathTimes = new SimpleStringProperty();
         player1Property = new SimpleStringProperty();
@@ -143,7 +159,6 @@ public class HUDController extends UIController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        health.textProperty().bind(healthValue);
         kills.textProperty().bind(totalKills);
         death.textProperty().bind(deathTimes);
 
@@ -177,9 +192,13 @@ public class HUDController extends UIController implements Initializable {
     public void update() {
 
         if (gameState.getPlayer().getHealth() < 0) {
-            healthValue.set("0");
+            health_bar.setProgress(0);
+            health_bar.progressProperty().setValue(0);
+
         } else {
-            healthValue.set(String.valueOf((int) (gameState.getPlayer().getHealth())));
+            // progress range is 0-1
+            health_bar.setProgress(gameState.getPlayer().getHealth()/100);
+
         }
 
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));

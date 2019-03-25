@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
    <children>
-      <Text fx:id="kills" fill="#f8f5f5" layoutX="55.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="30.0" />
+      <Text fx:id="kills" fill="#f8f5f5" layoutX="68.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" wrappingWidth="12.59765625" AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="52.6640625" />
       <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Text fill="#f8f5f5" layoutX="10.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="BLOOD  " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0" />
-      <Text fill="#f8f5f5" layoutX="9.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="KILLS     " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0" />
-      <Text fx:id="health" fill="#f8f5f5" layoutX="55.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="10.0" />
-      <Text fill="#f8f5f5" layoutX="20.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="DEATH   " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0" />
-      <Text fx:id="death" fill="#f8f5f5" layoutX="65.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="50.0" />
-      <AnchorPane layoutX="651.0" prefHeight="245.0" prefWidth="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Text fx:id="death" fill="#f8f5f5" layoutX="70.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="90.6640625" />
+      <AnchorPane fx:id="leaderboard" layoutX="659.0" layoutY="10.0" prefHeight="229.0" prefWidth="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="140.0" />
             <Label layoutX="31.0" layoutY="16.0" styleClass="standard-text-hud-title" stylesheets="@../resources/css/outrun.css" text="LeaderBoard" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="16.0" />
@@ -22,5 +24,30 @@
             <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="180.0" />
          </children>
       </AnchorPane>
+      <ProgressBar fx:id="health_bar" layoutX="68.0" layoutY="20.0" prefWidth="200.0" progress="0.0" AnchorPane.topAnchor="20.0">
+         <effect>
+            <ColorAdjust hue="0.80" />
+         </effect>
+      </ProgressBar>
+      <ImageView fitHeight="44.0" fitWidth="31.0" layoutX="17.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/icons/skull_game.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="37.0" fitWidth="31.0" layoutX="16.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/icons/sword-icon-2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="15.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/icons/health-icon-4.png" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER" layoutX="48.0" layoutY="26.0" prefHeight="112.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ProgressIndicator fx:id="timer" prefHeight="89.0" prefWidth="95.0" progress="0.0" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

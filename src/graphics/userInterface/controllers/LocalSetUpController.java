@@ -2,6 +2,7 @@ package graphics.userInterface.controllers;
 
 import client.GameClient;
 import client.ClientGameState;
+import engine.model.GameType;
 import engine.model.generator.GameStateGenerator;
 
 import client.audiomanager.Music;
@@ -82,10 +83,19 @@ public class LocalSetUpController extends UIController {
      * The difficulty selected for the third ai bot
      */
     private String enemy_3;
+
+    public GameType.Type getSelected_mode() {
+        return selected_mode;
+    }
+
+    public void setSelected_mode(GameType.Type selected_mode) {
+        this.selected_mode = selected_mode;
+    }
+
     /**
      * The mode selected for the game
      */
-    private String selected_mode;
+    private GameType.Type selected_mode;
 
     /**
      * A list for storing the selected difficulties of the ai bots
@@ -123,9 +133,6 @@ public class LocalSetUpController extends UIController {
     /** Get the selected game mode
      * @return selected game mode
      */
-    public String getSelected_mode() {
-        return selected_mode;
-    }
 
     /** Handle the action when select the number of one ai bot
      */
@@ -160,7 +167,7 @@ public class LocalSetUpController extends UIController {
         //get selected properties
         enemy_num = (int) num_group.getSelectedToggle().getUserData();
 
-        selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
+        selected_mode = (GameType.Type)mode.getSelectedToggle().getUserData();
 
         switch (enemy_num) {
             case 1:
@@ -229,10 +236,10 @@ public class LocalSetUpController extends UIController {
         num_2.setUserData(2);
         num_3.setUserData(3);
 
-        FirstToXKills.setUserData("FirstToXKills");
-        Hill.setUserData("Hill");
-        Timed.setUserData("Timed");
-        Regicide.setUserData("Regicide");
+        FirstToXKills.setUserData(GameType.Type.FirstToXKills);
+        Hill.setUserData(GameType.Type.Hill);
+        Timed.setUserData(GameType.Type.Timed);
+        Regicide.setUserData(GameType.Type.Regicide);
 
     }
 }

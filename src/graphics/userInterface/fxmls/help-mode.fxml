@@ -73,7 +73,7 @@
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="Regicide" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Players gain points for killing each other. There's an assigned king every 30 seconds he gains points for being the king. If a player kill the king (regicide) he becomes the king and received extra points for killing the king. Players who reaches the score limit at the end wins." wrappingWidth="637.71826171875" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="The game is centered around killing on the players to become the king and reign as long as possible. The other players need to kill the king to earn bonus scores and become the king." wrappingWidth="637.71826171875" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>
