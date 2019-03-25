@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public class HUDController extends UIController implements Initializable {
 
     /**
-     * The game state
+     * The client game state
      */
     private ClientGameState gameState;
     /**

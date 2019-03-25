@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 
 
 /**
- *
+ * Controller for the game start Menu
  */
 public class MenuController extends UIController implements Initializable{
     /**

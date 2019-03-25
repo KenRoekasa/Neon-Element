@@ -13,12 +13,12 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="145.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="228.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="129.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="119.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <GridPane stylesheets="@../resources/css/outrun.css" GridPane.rowIndex="1">
@@ -26,13 +26,13 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="FirstToXKills" wrappingWidth="296.03466796875" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Reach the kill limit the game ends." wrappingWidth="625.85546875" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Players gain a point for a kill. If a player reaches the kill limit the game ends and the player wins" wrappingWidth="630.85546875" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="2">
@@ -40,13 +40,13 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="King of the Hill" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Be the only one on the hill." wrappingWidth="631.552734375" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Players gain points for being the only one on the hill; a circular area on the map." wrappingWidth="631.552734375" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="3">
@@ -54,13 +54,13 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="Timed" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Kill each other until the time limit runs out. " wrappingWidth="606.36376953125" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Player will attempt to kill each other until the time limit runs out. The player with the most kills at the ends wins. " wrappingWidth="606.36376953125" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="4">
@@ -68,12 +68,12 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="Regicide" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Kill the king (regicide), then become the king and receive extra points for killing the king. " wrappingWidth="849.71826171875" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="Players gain points for killing each other. There's an assigned king every 30 seconds he gains points for being the king. If a player kill the king (regicide) he becomes the king and received extra points for killing the king. Players who reaches the score limit at the end wins." wrappingWidth="637.71826171875" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

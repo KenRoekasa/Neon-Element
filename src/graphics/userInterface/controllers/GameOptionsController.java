@@ -24,7 +24,7 @@ public class GameOptionsController extends UIController{
     @FXML
     public Slider sound, music;
     /**
-     * Text which shows the volume between 0-1.o
+     * Text which shows the volume between 0..0-100.0
      */
     @FXML
     Text volume, musicVolume;
@@ -37,7 +37,7 @@ public class GameOptionsController extends UIController{
      */
     private Pane node;
     /**
-     * The current game state
+     * The current client game state
      */
     private ClientGameState gamestate;
 
@@ -72,7 +72,6 @@ public class GameOptionsController extends UIController{
         gamestate.resume();
 
     }
-
 
     /** Handle the action of pressing ok button which will set the volume.
      */
@@ -110,6 +109,10 @@ public class GameOptionsController extends UIController{
                 String.valueOf(df2.format(music.getValue()))));
 
     }
+
+    /**
+     * Update the volume to the slider and label everytime enter options setting page
+     */
 
     void updateVolume(){
         sound.setValue(audioManager.getEffectVolume());

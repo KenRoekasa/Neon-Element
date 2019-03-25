@@ -23,6 +23,9 @@ public class HostController extends UIController{
      */
     @FXML
     public TextField ip;
+    /**
+     * The ip address
+     */
     private String iP;
     //TODO: call this function in the networking part
 

@@ -2,12 +2,15 @@ package graphics.userInterface.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static javafx.scene.paint.Color.rgb;
 
 /**
  * Controller for help.fxml
@@ -20,6 +23,8 @@ public class HelpController extends UIController {
 
     @FXML
     StackPane stack_pane;
+    @FXML
+    Button mode_btn;
 
 
     @FXML
@@ -75,9 +80,10 @@ public class HelpController extends UIController {
         stack_pane.getChildren().add(control_pane);
         stack_pane.getChildren().add(rule_pane);
 
+
         control_pane.setVisible(false);
         rule_pane.setVisible(false);
-
+        mode_btn.setTextFill(rgb(230, 0, 120));
 
     }
 }

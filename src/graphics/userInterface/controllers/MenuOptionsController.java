@@ -78,6 +78,9 @@ public class MenuOptionsController extends UIController{
 
     }
 
+    /**
+     * Update the changed volume everytime click the options button on menu page
+     */
 
     public void updateSlider(){
         sound.setValue(audioManager.getEffectVolume());
