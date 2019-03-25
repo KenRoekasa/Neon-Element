@@ -219,25 +219,20 @@ public class AudioManager {
                     shield.setVolume(effectVolume);
                     shield.play();
 
-
-                    Thread t = new Thread(new Runnable() {
-                        public void run() {
-                           while(gameState.getPlayer().getCurrentAction() == Action.BLOCK) {
-                               try {
-                                   Thread.sleep(1);
-                               } catch (InterruptedException e) {
-                                   e.printStackTrace();
-                               }
+                    // this method checks if the shield is still up and then stops when down
+                    Thread t = new Thread(() -> {
+                       while(gameState.getPlayer().getCurrentAction() == Action.BLOCK) {
+                           try {
+                               Thread.sleep(1);
+                           } catch (InterruptedException e) {
+                               e.printStackTrace();
                            }
-                            System.out.println("exit");
-                           shield.stop();
-                        }
+                       }
+                        System.out.println("exit");
+                       shield.stop();
                     });
 
                     t.start();
-
-
-
 
                 }
 
@@ -257,12 +252,34 @@ public class AudioManager {
                         playSound(Sound.switchSound(enemy.getCurrentAction()), func);
                         enemy.setActionHasSounded(true);
                     } else {
-                        //enemy.setActionHasSounded(true);
+                        enemy.setActionHasSounded(true);
 
-                        //System.out.println(func);
+                        // this method checks if the shield is still up and then stops when down
+
+                        Media fxMedia = new Media(new File(Sound.SHIELD.getPath()).toURI().toString());
+                        MediaPlayer shield = new MediaPlayer(fxMedia);
+                        shield.setOnEndOfMedia(() -> shield.seek(Duration.ZERO));
+                        shield.setVolume(effectVolume * func);
+                        shield.play();
 
 
-                        //playShield(gameState.getPlayer(), func * effectVolume );
+
+                        Thread t = new Thread(() -> {
+                            while(enemy.getCurrentAction() == Action.BLOCK) {
+
+
+                                shield.setVolume((1/gameState.getPlayer().getLocation().distance(enemy.getLocation())) * effectVolume);
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            System.out.println("exit");
+                            shield.stop();
+                        });
+
+                        t.start();
 
 
                     }
