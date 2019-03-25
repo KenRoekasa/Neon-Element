@@ -1,7 +1,9 @@
 package engine.controller;
 
-import engine.model.GameState;
+
+import client.GameClient;
 import engine.entities.Player;
+import engine.model.GameState;
 import engine.model.GameType;
 import javafx.geometry.Point2D;
 
@@ -12,12 +14,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Controls how the players in the game respawns
  */
-public class RespawnController implements Runnable {
+public class RespawnController {
     private GameState gameState;
     /**
      * A queue of the dead players in the current game
      */
     private LinkedBlockingQueue<Player> deadPlayers;
+    private long lastTime;
 
     /**
      * Constructor
@@ -29,41 +32,44 @@ public class RespawnController implements Runnable {
         this.deadPlayers = gameState.getDeadPlayers();
     }
 
-    @Override
-    public void run() {
-        while (gameState.getRunning()) {
-            if(gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
-                normalRespawn(5000);
-            }else if(gameState.getGameType().getType() == GameType.Type.Timed){
-                normalRespawn(2500);
-            }else if(gameState.getGameType().getType() == GameType.Type.Hill){
-                normalRespawn(2500);
-            }else if(gameState.getGameType().getType() == GameType.Type.Regicide){
-                normalRespawn(1000);
-            }
+
+    public void update() {
+        if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
+            normalRespawn(5000);
+        } else if (gameState.getGameType().getType() == GameType.Type.Timed) {
+            normalRespawn(2500);
+        } else if (gameState.getGameType().getType() == GameType.Type.Hill) {
+            normalRespawn(2500);
+        } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
+            normalRespawn(1000);
         }
+
 
     }
 
     /**
      * Causes dead players to respawn after a certain amount of time
      *
-     * @param respawnTime the duration a character is dead for before respawning
+     * @param respawnTime the duration a character is dead for before respawning in milli
      */
     private void normalRespawn(long respawnTime) {
         //Remove the dead player from the list
         try {
             if (!deadPlayers.isEmpty()) {
                 Player player = deadPlayers.peek();
-                Thread.sleep(respawnTime);
-                //Adding health to player to resurrect them
-                Random rand = new Random();
-                ArrayList<Point2D> respawnPoints = gameState.getMap().getRespawnPoints();
-                int index = rand.nextInt(3);
-                player.setLocation(respawnPoints.get(index));
-                player.respawn();
-                // SO you don't respawn twice
-                deadPlayers.take();
+                long currentTime = GameClient.timeElapse;
+                long playerDeathTime = player.getDeathTime();
+
+                if (currentTime - playerDeathTime >= respawnTime) {
+                    Random rand = new Random();
+                    ArrayList<Point2D> respawnPoints = gameState.getMap().getRespawnPoints();
+                    int index = rand.nextInt(3);
+                    player.setLocation(respawnPoints.get(index));
+                    player.respawn();
+                    // SO you don't respawn twice
+                    deadPlayers.take();
+                    System.out.println("spawn");
+                }
             }
 
 

@@ -1,43 +1,43 @@
 package server.controllers;
 
-import engine.model.GameState;
+import client.GameClient;
 import engine.entities.PhysicsObject;
 import engine.entities.PowerUp;
+import engine.model.GameState;
 import networking.server.ServerNetworkDispatcher;
 
 import java.util.ArrayList;
 
-public class PowerUpController implements Runnable {
+public class PowerUpController {
 
     private GameState gamestate;
     private ArrayList<PhysicsObject> objects;
     private ServerNetworkDispatcher dispatcher;
+    private long lastTime;
 
     public PowerUpController(GameState gameState) {
-        this.objects = gameState.getObjects();
         this.gamestate = gameState;
+        this.objects = gamestate.getObjects();
+        lastTime = GameClient.timeElapse;
     }
 
     public PowerUpController(GameState gameState, ServerNetworkDispatcher dispatcher) {
-        this.objects = gameState.getObjects();
         this.gamestate = gameState;
+        this.objects = gamestate.getObjects();
         this.dispatcher = dispatcher;
+
     }
 
-    @Override
-    public void run() {
-        // creates a power up every 15 sec
-        while (gamestate.getRunning()) {
-            synchronized (objects) {
-                PowerUp powerUp = new PowerUp();
-                objects.add(powerUp);
-                //                this.dispatcher.broadcastNewPowerUp(powerUp);
-            }
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+    public void update() {
+        long currentTime = GameClient.timeElapse;
+        if(currentTime-lastTime >= 1000){
+            System.out.println("Power up spawned");
+            PowerUp powerUp = new PowerUp();
+            objects.add(powerUp);
+            lastTime = GameClient.timeElapse;
         }
     }
+
+
 }

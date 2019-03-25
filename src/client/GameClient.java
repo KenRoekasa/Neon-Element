@@ -1,6 +1,7 @@
 package client;
 
 import client.audiomanager.AudioManager;
+import engine.entities.PowerUp;
 import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -30,8 +31,12 @@ import java.util.ArrayList;
 
 public class GameClient {
 
+
+
+    public static long timeElapse;
+
+
     public static long pauseStart;
-    public static long pauseDuration =0;
     /**
      * Time since the last frame
      */
@@ -144,9 +149,7 @@ public class GameClient {
             beginClientLoop(renderer, hudController);
         }
 
-        if(gameState.getPaused()){
-            pauseDuration = System.nanoTime() - pauseStart;
-        }
+
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
@@ -169,25 +172,31 @@ public class GameClient {
      * @param hudController the hud
      */
     private void beginClientLoop(Renderer renderer, HUDController hudController) {
-
+        //TODO: TO STOP WORKING WHEN SERVER IS ON
+        PowerUpController powerUpController = new PowerUpController(gameState);
+        RespawnController respawnController = new RespawnController(gameState);
         new AnimationTimer() {
             long lastTime = System.nanoTime();
-
+            long pauseDuration = 0;
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap().getGround(), primaryStage);
                 renderer.render(primaryStage, gameState);
                 hudController.update();
 
                 // TODO: remove this when networking is added
-                if(!gameState.getPaused()) {
-                    physicsEngine.clientLoop();
-                }
-                audioManager.clientLoop(gameState);
-                if (gameState.getPaused()) {
-                    //calculate pause duration
-                    long now = System.nanoTime();
+                if(gameState.getPaused()){
+                    long now = System.nanoTime()/1000000;
                     pauseDuration = (now - pauseStart);
                 }
+                if(!gameState.getPaused()){
+                    timeElapse += deltaTime;
+                    physicsEngine.clientLoop();
+                    powerUpController.update();
+                    respawnController.update();
+                    pauseDuration = 0;
+
+                }
+                audioManager.clientLoop(gameState);
 
 
                 //calculate deltaTime
@@ -206,12 +215,7 @@ public class GameClient {
 
         }.start();
 
-        // todo move to server
-        Thread puController = new Thread(new PowerUpController(gameState));
-        puController.start();
-        // Respawn Controller
-        Thread respawnController = new Thread(new RespawnController(gameState));
-        respawnController.start();
+
 
     }
 
@@ -299,7 +303,7 @@ public class GameClient {
                         controller.setStage(primaryStage, gameState);
                         controller.setAudioManager(audioManager);
                         gameState.pause();
-                        pauseStart = System.nanoTime();
+                        pauseStart = System.nanoTime()/1000000;
                         input.clear();
                         primaryStage.setTitle("Pause");
 
