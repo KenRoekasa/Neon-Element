@@ -9,6 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -71,6 +72,14 @@ public abstract class Character extends PhysicsObject {
      * The time in milliseconds at when the current action started
      */
     private long currentActionStart;
+
+
+    /**
+     * A hash map of the last time the player used/activated the spell
+     */
+    protected HashMap<CooldownItems,Long> timeMap = new HashMap<>();
+
+
 
     /**
      * Move the Character up isometrically based off its movement speed
@@ -219,7 +228,7 @@ public abstract class Character extends PhysicsObject {
      * Attack the character in front of this character
      */
     public void lightAttack() {
-        if (checkCD(lightAttackID, lightAttackCD)) {
+        if (checkCD(CooldownItems.LIGHT, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.LIGHT;
@@ -273,7 +282,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void chargeHeavyAttack() {
         // TODO handle charging
-        if (checkCD(heavyAttackID, heavyAttackCD)) {
+        if (checkCD(CooldownItems.HEAVY, heavyAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.CHARGE;
@@ -339,7 +348,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToFire() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.STATE, changeStateCD)) {
                 currentElement = Elements.FIRE;
             }
         }
@@ -350,7 +359,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.STATE, changeStateCD)) {
                 currentElement = Elements.WATER;
             }
         }
@@ -361,7 +370,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.STATE, changeStateCD)) {
                 currentElement = Elements.EARTH;
             }
         }
@@ -372,7 +381,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.STATE, changeStateCD)) {
                 currentElement = Elements.AIR;
             }
         }
@@ -446,7 +455,8 @@ public abstract class Character extends PhysicsObject {
         System.out.println("SPEED");
         movementSpeed = DEFAULT_MOVEMENT_SPEED * 2;
         //Last time speed boost was activated
-        timerArray[speedBoostID] = GameClient.timeElapsed;
+        timeMap.replace(CooldownItems.SPEED, GameClient.timeElapsed);
+
 
     }
 
@@ -458,9 +468,7 @@ public abstract class Character extends PhysicsObject {
         damagePowerup = true;
         // if timer is not already running, run it
         //Last time damage boost was activated
-        timerArray[damageBoostID] = GameClient.timeElapsed;
-
-
+        timeMap.replace(CooldownItems.DAMAGE, GameClient.timeElapsed);
     }
 
     public boolean activeDamagePowerup() {
@@ -512,13 +520,13 @@ public abstract class Character extends PhysicsObject {
     /**
      * Check if the action is off cooldown.
      *
-     * @param id       the id of the cooldown based of the cooldown values static class
+     * @param cooldownItem the item you want to check the cooldown for
      * @param cooldown the duration of the cooldown
-     * @returnTrue if the action is off cooldown; false otherwise
+     * @return True if the action is off cooldown; false otherwise
      */
-    private boolean checkCD(int id, float cooldown) {
-        if (GameClient.timeElapsed - timerArray[id] >= (long) (cooldown * 1000)) {
-            timerArray[id] = GameClient.timeElapsed;
+    private boolean checkCD(CooldownItems cooldownItem, float cooldown) {
+        if (GameClient.timeElapsed - timeMap.get(cooldownItem) >= (long) (cooldown * 1000)) {
+            timeMap.replace(cooldownItem, GameClient.timeElapsed);
             return true;
         }
         return false;
