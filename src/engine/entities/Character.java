@@ -443,52 +443,23 @@ public abstract class Character extends PhysicsObject {
      * Increase movement speed
      */
     public void speedBoost() {
-        Timer timer = new Timer();
-
+        System.out.println("SPEED");
         movementSpeed = DEFAULT_MOVEMENT_SPEED * 2;
-        // if timer is not already running, run it
-        if (timerArray[speedBoostID] > 0) {
-            timerArray[speedBoostID] = 0;
-            //counts for 4 seconds then back to default movement speed
-            (new Timer()).scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = DEFAULT_MOVEMENT_SPEED;
-                        timer.cancel();
-                    }
-                    timerArray[speedBoostID]++;
-                }
-            }, 0, 1000);
-        } else {
-            timerArray[speedBoostID] = 0;
-        }
+        //Last time speed boost was activated
+        timerArray[speedBoostID] = GameClient.timeElapsed;
+
     }
 
     /**
      * Doubles the players damage
      */
     public void damageBoost() {
-        Timer timer = new Timer();
         damageMultiplier = 2;
         damagePowerup = true;
         // if timer is not already running, run it
-        if (timerArray[damageBoostID] > 0) {
-            timerArray[damageBoostID] = 0;
-            //counts for 4 seconds then back to default movement speed
-            (new Timer()).scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    if (timerArray[damageBoostID] == damageBoostDur) {
-                        damageMultiplier = 1;
-                        damagePowerup = false;
-                        timer.cancel();
-                    }
-                    timerArray[damageBoostID]++;
-                }
-            }, 0, 1000);
-        } else {
-            damagePowerup = false;
-            timerArray[damageBoostID] = 0;
-        }
+        //Last time damage boost was activated
+        timerArray[damageBoostID] = GameClient.timeElapsed;
+
 
     }
 
