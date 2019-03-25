@@ -3,6 +3,8 @@ package graphics.userInterface.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -20,11 +22,12 @@ public class HelpController extends UIController {
 
     Pane mode_pane,control_pane,rule_pane;
 
+    ToggleGroup menu = new ToggleGroup();
 
     @FXML
     StackPane stack_pane;
     @FXML
-    Button mode_btn;
+    RadioButton mode_btn,control_btn,rule_btn,back;
 
 
     @FXML
@@ -83,7 +86,11 @@ public class HelpController extends UIController {
 
         control_pane.setVisible(false);
         rule_pane.setVisible(false);
-        mode_btn.setTextFill(rgb(230, 0, 120));
+
+       ToggleGroupSetUp.setToggleGroup(menu,mode_btn,control_btn,rule_btn,back);
+
+        mode_btn.setSelected(true);
+
 
     }
 }

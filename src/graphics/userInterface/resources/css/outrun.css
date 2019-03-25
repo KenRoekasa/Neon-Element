@@ -191,6 +191,27 @@
 }
 
 
+.radio-text-menu {
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 40;
+
+}
+
+.radio-text-menu:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+.radio-text-menu:selected{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+
 
 
 

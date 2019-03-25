@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import javafx.scene.control.RadioButton?>
 <GridPane styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HelpController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="355.0" minWidth="10.0" prefWidth="349.0" />
@@ -28,15 +29,15 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="mode_btn" maxWidth="437.0" onMouseEntered="#playHoverSound" mnemonicParsing="false" onAction="#showMode" prefHeight="86.0" prefWidth="437.0" styleClass="button-text" text="MODES" />
-            <Button fx:id="control_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showControl" prefHeight="86.0" prefWidth="410.0" styleClass="button-text" text="CONTROLS" GridPane.rowIndex="1" />
-            <Button fx:id="rule_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showRule" prefHeight="86.0" prefWidth="410.0" styleClass="button-text" text="RULES
+            <RadioButton fx:id="mode_btn" maxWidth="437.0" onMouseEntered="#playHoverSound" mnemonicParsing="false" onAction="#showMode" prefHeight="86.0" prefWidth="437.0" styleClass="radio-text-menu" text="MODES" />
+            <RadioButton fx:id="control_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showControl" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="CONTROLS" GridPane.rowIndex="1" />
+            <RadioButton fx:id="rule_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showRule" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="RULES
 " GridPane.rowIndex="2" />
-            <Button fx:id="back" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="86.0" prefWidth="387.0" styleClass="button-text" text="Back" GridPane.rowIndex="3">
+            <RadioButton fx:id="back" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="86.0" prefWidth="387.0" styleClass="radio-text-menu" text="Back" GridPane.rowIndex="3">
                <graphic>
                   <Label />
                </graphic>
-            </Button>
+            </RadioButton>
          </children>
       </GridPane>
       <StackPane fx:id="stack_pane" prefHeight="768.0" prefWidth="695.0" GridPane.columnIndex="2" />
