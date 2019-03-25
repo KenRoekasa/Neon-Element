@@ -10,6 +10,9 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.model.enums.Action;
 import engine.model.enums.ObjectType;
+import graphics.rendering.draw.DrawClientPlayer;
+import graphics.rendering.draw.DrawEnemies;
+import graphics.rendering.draw.DrawObjects;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,6 +26,9 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import graphics.rendering.textures.TextureLoader;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -36,10 +42,10 @@ public class Renderer {
     private Rectangle stageSize;
     private static Point2D rotationCenter;
     private ArrayList<Point2D> stars;
-    static HashMap<Sprites, Image> textures;
+    public static HashMap<Sprites, Image> textures;
     public static float xOffset;
     public static float yOffset;
-
+    private Font deathFont;
 
 
     public Renderer(GraphicsContext gc, Rectangle stageSize, Debugger debugger) {
@@ -52,6 +58,12 @@ public class Renderer {
         xOffset = 0;
         yOffset = 0;
 
+        try {
+            deathFont = Font.loadFont(new FileInputStream(new File("src/graphics/userInterface/resources/fonts/Audiowide.ttf")), 50);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Renderer(GraphicsContext gc, Rectangle stageSize) {
@@ -62,6 +74,12 @@ public class Renderer {
         xOffset = 0;
         yOffset = 0;
 
+        try {
+            deathFont = Font.loadFont(new FileInputStream(new File("src/graphics/userInterface/resources/fonts/Audiowide.ttf")), 50);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void render(Stage primaryStage, ClientGameState gameState) {
@@ -71,7 +89,7 @@ public class Renderer {
 
         gc.save();
 
-        if ( gameState.getPlayer().isAlive()) {
+        if (gameState.getPlayer().isAlive()) {
 
             calculateOffset(gameState);
 
@@ -118,9 +136,9 @@ public class Renderer {
             xOffset = 0;
             yOffset = 0;
 
-            gc.setFont(new Font("graphics/userInterface/resources/fonts/Super Mario Bros.ttf", 50));
+            gc.setFont(deathFont);
             gc.setStroke(Color.WHITE);
-            gc.strokeText("you are dead!", stageSize.getWidth()/2, stageSize.getHeight()/2);
+            gc.strokeText("you are dead!", stageSize.getWidth()/2 - 170, stageSize.getHeight()/2);
             gc.restore();
         }
 
@@ -157,7 +175,7 @@ public class Renderer {
         } else if (Objects.equals(o.getClass(), PowerUp.class)) {
             DrawObjects.drawPowerUp(gc, stageSize, (PowerUp) o, gameState.getPlayer());
         } else if (o.getTag() == ObjectType.OBSTACLE) {
-            DrawObjects.drawObstacles(gc, stageSize, (PhysicsObject) o, gameState.getPlayer());
+            DrawObjects.drawWalls(gc, stageSize, (PhysicsObject) o, gameState.getPlayer());
         }
     }
 
@@ -230,7 +248,7 @@ public class Renderer {
     // this function takes a value and the range that value could be in, and maps it to its relevant position between two other values
 
     // see this https://www.arduino.cc/reference/en/language/functions/math/map/
-    static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
+    public static long mapInRange(long x, long fromLow, long fromHigh, long toLow, long toHigh) {
         return (x - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
 

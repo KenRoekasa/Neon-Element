@@ -229,8 +229,7 @@ public class GameClient {
             primaryStage.getScene().setRoot(root);
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
-
-
+            gameState.stop();
             LeaderboardController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);

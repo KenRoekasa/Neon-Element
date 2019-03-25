@@ -47,7 +47,7 @@ public enum Sound {
     /**
      *  Shield sound
      */
-    SHIELD("audio/shield.mp3"),
+    SHIELD("audio/shield.wav"),
 
     /**
      *  First button sound

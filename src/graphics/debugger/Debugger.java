@@ -15,21 +15,35 @@ import java.util.ArrayList;
 
 import static graphics.rendering.ISOConverter.getPlayerLocOnScreen;
 
-/*
-* When created, this object allows for debug information to easily be added to the screen
-* */
 
+/**
+ * When created, this object allows for debug information to easily be added to the screen
+ */
 public class Debugger {
+
+    /**
+     *  The GraphicsContext which will be drawn to
+     */
     private GraphicsContext gc;
+
+    /**
+     * An ArrayList of the Strings to be printed, along with the number of lines they take up
+     */
     private ArrayList<Pair<String, Integer>> output;
 
 
-    public Debugger(GraphicsContext gc){
-        this.gc = gc;
+    /**
+     * The constructor for the debugger
+     * @param graphicsContext The GraphicsContext which the debugger will draw to
+     */
+    public Debugger(GraphicsContext graphicsContext){
+        this.gc = graphicsContext;
         output = new ArrayList<>();
     }
 
-    // prints all items added to graphics.debugger to screen
+    /**
+     *  Prints all items added to the ArrayList to the screen
+     */
     public void print(){
         int items = output.size();
 
@@ -51,16 +65,27 @@ public class Debugger {
         }
     }
 
+    /**
+     * Prints the toString of each player to the corner of the screen
+     * @param gameState The current GameState
+     * @param debugger  The debugger object to print to
+     * @deprecated
+     */
     public void simpleGSDebugger(ClientGameState gameState, Debugger debugger) {
         debugger.add(gameState.getPlayer().toString(), 4);
 
         for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
             debugger.add(enemy.toString(), 4);
         }
-
     }
 
 
+    /**
+     *  Prints the health of each player above their sprite
+     *  Calls the printPlayerHealth method for each player
+     * @param gameState The current GameState
+     * @param stage The size of the stage in which the game is taking place
+     */
     public void gameStateDebugger(ClientGameState gameState, Rectangle stage){
         Point2D playerLocationOnScreen = getPlayerLocOnScreen(gameState.getPlayer(), stage);
         printPlayerHealth(gameState.getPlayer(), playerLocationOnScreen);
@@ -77,8 +102,14 @@ public class Debugger {
         }
     }
 
-    private void printPlayerInfo(Character player, Point2D relativeLocation){
 
+    /**
+     * Prints the toString of a given player to a position near their sprite
+     * @param player The player whose information is to be printed
+     * @param relativeLocation  The location of the players sprite on the screen
+     * @deprecated
+     */
+    private void printPlayerInfo(Character player, Point2D relativeLocation){
         gc.save();
 
         gc.setStroke(Color.WHITE);
@@ -86,13 +117,22 @@ public class Debugger {
         gc.restore();
     }
 
+    /**
+     * Prints the health of a given player to a position near their sprite
+     * @param player The player whose health is to be printed
+     * @param relativeLocation The location of the players sprite on the screen
+     */
     private void printPlayerHealth(Character player, Point2D relativeLocation){
 
         gc.strokeText(String.valueOf((int)player.getHealth()), relativeLocation.getX(), relativeLocation.getY());
     }
 
 
-    // adds message to be printed - requires the message and the number of lines (number of newline characters)
+    /**
+     * Adds a message to be printed
+     * @param toPrint The message to be printed
+     * @param numLines The number of lines the message prints to
+     */
     public void add(String toPrint, int numLines) {
         output.add(new Pair<>(toPrint, numLines));
     }
