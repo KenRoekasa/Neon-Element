@@ -42,7 +42,7 @@ public class Player extends Character {
 
 
         for (int i = 0; i < timerArray.length; i++) {
-            timerArray[i] = System.currentTimeMillis() - 10 * 1000;
+            timerArray[i] = -10000000;
         }
     }
 
@@ -63,7 +63,7 @@ public class Player extends Character {
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
-                deathTime = GameClient.timeElapse;
+                deathTime = GameClient.timeElapsed;
             }
         } else {
             isAlive = true;

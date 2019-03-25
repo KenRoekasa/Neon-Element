@@ -57,7 +57,7 @@ public class RespawnController {
         try {
             if (!deadPlayers.isEmpty()) {
                 Player player = deadPlayers.peek();
-                long currentTime = GameClient.timeElapse;
+                long currentTime = GameClient.timeElapsed;
                 long playerDeathTime = player.getDeathTime();
 
                 if (currentTime - playerDeathTime >= respawnTime) {

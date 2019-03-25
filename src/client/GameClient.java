@@ -1,7 +1,6 @@
 package client;
 
 import client.audiomanager.AudioManager;
-import engine.entities.PowerUp;
 import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -33,7 +32,7 @@ public class GameClient {
 
 
 
-    public static long timeElapse;
+    public static long timeElapsed;
 
 
     public static long pauseStart;
@@ -189,7 +188,7 @@ public class GameClient {
                     pauseDuration = (now - pauseStart);
                 }
                 if(!gameState.getPaused()){
-                    timeElapse += deltaTime;
+                    timeElapsed += deltaTime;
                     physicsEngine.clientLoop();
                     powerUpController.update();
                     respawnController.update();

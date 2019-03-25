@@ -18,7 +18,7 @@ public class PowerUpController {
     public PowerUpController(GameState gameState) {
         this.gamestate = gameState;
         this.objects = gamestate.getObjects();
-        lastTime = GameClient.timeElapse;
+        lastTime = GameClient.timeElapsed;
     }
 
     public PowerUpController(GameState gameState, ServerNetworkDispatcher dispatcher) {
@@ -30,12 +30,12 @@ public class PowerUpController {
 
 
     public void update() {
-        long currentTime = GameClient.timeElapse;
+        long currentTime = GameClient.timeElapsed;
         if(currentTime-lastTime >= 1000){
             System.out.println("Power up spawned");
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);
-            lastTime = GameClient.timeElapse;
+            lastTime = GameClient.timeElapsed;
         }
     }
 

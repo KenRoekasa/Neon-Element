@@ -302,7 +302,7 @@ public abstract class Character extends PhysicsObject {
         currentAction = Action.HEAVY;
         currentActionStart = System.currentTimeMillis();
         long attackDuration = AttackTimes.getActionTime(currentAction);
-        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.nanoTime()/1000000};
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
@@ -546,11 +546,8 @@ public abstract class Character extends PhysicsObject {
      * @returnTrue if the action is off cooldown; false otherwise
      */
     private boolean checkCD(int id, float cooldown) {
-        // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000000000) + GameClient.pauseDuration);
-        //check if the time calculated has passed
-        if (System.nanoTime() > nextAvailableTime) {
-            timerArray[id] = System.nanoTime();
+        if (GameClient.timeElapsed - timerArray[id] >= (long) (cooldown * 1000)) {
+            timerArray[id] = GameClient.timeElapsed;
             return true;
         }
         return false;
