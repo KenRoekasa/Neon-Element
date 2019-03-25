@@ -13,6 +13,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.TimerTask;
 
 /**
  * Class that handles the playing of all audio
@@ -112,6 +113,7 @@ public class AudioManager {
      * @param volumeDistance    The 'distance' at which the sound happens, between 0 and 1
      */
     private void playSound(Sound sound, double volumeDistance) {
+
         gameEffects.get(sound).play(volumeDistance * effectVolume);
     }
 
@@ -203,8 +205,42 @@ public class AudioManager {
 
             // check whether player is performing an action and whether it has already sounded
             if(gameState.getPlayer().getCurrentAction() != Action.IDLE && !gameState.getPlayer().hasActionSounded()) {
-                playSound(Sound.switchSound(gameState.getPlayer().getCurrentAction()));
-                gameState.getPlayer().setActionHasSounded(true);
+                if(gameState.getPlayer().getCurrentAction() != Action.BLOCK){
+
+                    playSound(Sound.switchSound(gameState.getPlayer().getCurrentAction()));
+                    gameState.getPlayer().setActionHasSounded(true);
+                } else {
+
+                    gameState.getPlayer().setActionHasSounded(true);
+
+                    Media fxMedia = new Media(new File(Sound.SHIELD.getPath()).toURI().toString());
+                    MediaPlayer shield = new MediaPlayer(fxMedia);
+                    shield.setOnEndOfMedia(() -> shield.seek(Duration.ZERO));
+                    shield.setVolume(effectVolume);
+                    shield.play();
+
+
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                           while(gameState.getPlayer().getCurrentAction() == Action.BLOCK) {
+                               try {
+                                   Thread.sleep(1);
+                               } catch (InterruptedException e) {
+                                   e.printStackTrace();
+                               }
+                           }
+                            System.out.println("exit");
+                           shield.stop();
+                        }
+                    });
+
+                    t.start();
+
+
+
+
+                }
+
             }
 
             // do the same for each enemy
@@ -216,8 +252,22 @@ public class AudioManager {
                     double distance = gameState.getPlayer().getLocation().distance(enemy.getLocation());
                     double func = 1 / (distance);
 
-                    playSound(Sound.switchSound(enemy.getCurrentAction()), func);
-                    enemy.setActionHasSounded(true);
+                    if(enemy.getCurrentAction() != Action.BLOCK){
+
+                        playSound(Sound.switchSound(enemy.getCurrentAction()), func);
+                        enemy.setActionHasSounded(true);
+                    } else {
+                        //enemy.setActionHasSounded(true);
+
+                        //System.out.println(func);
+
+
+                        //playShield(gameState.getPlayer(), func * effectVolume );
+
+
+                    }
+
+
                 }
 
             }
@@ -225,4 +275,5 @@ public class AudioManager {
 
 
     }
+
 }
