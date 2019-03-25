@@ -1,4 +1,4 @@
-package engine.ai.calculations.statecalculations;
+package engine.ai.calculations.stateCalculations;
 
 import java.util.ArrayList;
 

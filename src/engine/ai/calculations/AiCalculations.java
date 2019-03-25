@@ -2,10 +2,10 @@ package engine.ai.calculations;
 
 
 import engine.ScoreBoard;
-import engine.ai.calculations.statecalculations.HillCalculations;
-import engine.ai.calculations.statecalculations.KillsCalculations;
-import engine.ai.calculations.statecalculations.RegicideCalculations;
-import engine.ai.calculations.statecalculations.TimedCalculations;
+import engine.ai.calculations.stateCalculations.HillCalculations;
+import engine.ai.calculations.stateCalculations.KillsCalculations;
+import engine.ai.calculations.stateCalculations.RegicideCalculations;
+import engine.ai.calculations.stateCalculations.TimedCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
 import engine.gameTypes.GameType;

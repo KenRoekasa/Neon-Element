@@ -1,4 +1,4 @@
-package engine.ai.calculations.statecalculations;
+package engine.ai.calculations.stateCalculations;
 
 import engine.ScoreBoard;
 import engine.ai.calculations.AiCalculations;

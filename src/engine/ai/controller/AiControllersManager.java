@@ -90,7 +90,6 @@ public class AiControllersManager {
 						try {
 				            TimeUnit.MILLISECONDS.sleep(1-delta);
 				        } catch (InterruptedException e) {
-				            // TODO Auto-generated catch block
 				            e.printStackTrace();
 				        }
 					}

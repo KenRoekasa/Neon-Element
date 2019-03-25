@@ -2,7 +2,7 @@
 
 import java.util.ArrayList;
 import engine.ScoreBoard;
-import engine.ai.actions.stateactions.AiStateActions;
+import engine.ai.actions.stateActions.AiStateActions;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.enums.AiStates;
 import engine.ai.enums.AiType;

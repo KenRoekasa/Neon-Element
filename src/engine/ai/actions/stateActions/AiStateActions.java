@@ -1,4 +1,4 @@
-package engine.ai.actions.stateactions;
+package engine.ai.actions.stateActions;
 
 import java.util.ArrayList;
 import java.util.Random;

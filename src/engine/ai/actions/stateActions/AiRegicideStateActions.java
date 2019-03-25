@@ -1,8 +1,8 @@
-package engine.ai.actions.stateactions;
+package engine.ai.actions.stateActions;
 
 import engine.ai.actions.AiActions;
 import engine.ai.calculations.AiCalculations;
-import engine.ai.calculations.statecalculations.RegicideCalculations;
+import engine.ai.calculations.stateCalculations.RegicideCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
 
