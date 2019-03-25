@@ -29,6 +29,11 @@ public abstract class Character extends PhysicsObject {
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
     /**
+     * The time when you last died in milli
+     */
+    protected long deathTime = 0;
+
+    /**
      * Is the character damaged boosted or not
      */
     protected boolean damagePowerup = false;
@@ -214,7 +219,6 @@ public abstract class Character extends PhysicsObject {
      * Attack the character in front of this character
      */
     public void lightAttack() {
-        System.out.println("hello");
         if (checkCD(lightAttackID, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
@@ -547,7 +551,6 @@ public abstract class Character extends PhysicsObject {
         //check if the time calculated has passed
         if (System.nanoTime() > nextAvailableTime) {
             timerArray[id] = System.nanoTime();
-            GameClient.pauseDuration = 0;
             return true;
         }
         return false;
@@ -575,5 +578,9 @@ public abstract class Character extends PhysicsObject {
 
     public float getHorizontalMove() {
         return horizontalMove;
+    }
+
+    public long getDeathTime() {
+        return deathTime;
     }
 }
