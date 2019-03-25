@@ -31,8 +31,8 @@ public class PowerUpController {
 
     public void update() {
         long currentTime = GameClient.timeElapsed;
-        if(currentTime-lastTime >= 1000){
-            System.out.println("Power up spawned");
+        if(currentTime-lastTime >= 15000){
+
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);
             lastTime = GameClient.timeElapsed;
