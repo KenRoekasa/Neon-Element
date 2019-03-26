@@ -1,9 +1,9 @@
 package engine.ai.calculations.stateCalculations;
 
-import engine.ScoreBoard;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
 import javafx.scene.shape.Rectangle;
 
 public class TimedCalculations extends AiCalculations {

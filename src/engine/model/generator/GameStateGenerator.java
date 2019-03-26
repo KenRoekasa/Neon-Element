@@ -117,7 +117,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map, scoreboard, gameType);
 
         // Add the enemies to the objects list
 

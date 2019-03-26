@@ -6,8 +6,8 @@ import engine.ai.controller.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.enums.ObjectType;
-import engine.enums.PowerUpType;
+import engine.model.enums.ObjectType;
+import engine.model.enums.PowerUpType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 

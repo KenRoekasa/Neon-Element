@@ -5,7 +5,7 @@ import engine.ai.calculations.stateCalculations.RegicideCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
 import engine.entities.Player;
-import engine.enums.PowerUpType;
+import engine.model.enums.PowerUpType;
 
 public class RegicideFSM extends FSM{
 

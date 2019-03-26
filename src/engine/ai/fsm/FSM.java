@@ -5,7 +5,7 @@ import engine.ai.calculations.PlayersCalculations;
 import engine.ai.calculations.PowerupCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
 
 public abstract class FSM {
 

@@ -2,13 +2,13 @@ package engine.ai.calculations;
 
 import java.util.ArrayList;
 
-import engine.ScoreBoard;
 import engine.ai.controller.AiController;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.enums.Action;
-import engine.enums.ObjectType;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
+import engine.model.enums.Action;
+import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -63,7 +63,7 @@ public class PlayersCalculations {
 	
 	/**
 	 * Calculates the score of given player
-	 * @param Player Player that its score is enquired about
+	 * @param player that its score is enquired about
 	 * @return Score of player
 	 */
 	public double getScore(Player player) {

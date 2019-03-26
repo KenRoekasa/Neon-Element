@@ -35,7 +35,7 @@ public class GameTypeHandlerTest {
 
         ScoreBoard scoreboard = new ScoreBoard();
         Map map = MapGenerator.createEmptyMap();
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype), GameType.Type.FirstToXKills);
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), scoreboard, gametype), GameType.Type.FirstToXKills);
         scoreboard.initialise(gameState.getAllPlayers());
 
         assertTrue(GameTypeHandler.checkRunning(gameState));
@@ -66,7 +66,7 @@ public class GameTypeHandlerTest {
 
         ScoreBoard scoreboard = new ScoreBoard();
         Map map = MapGenerator.createEmptyMap();
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype), GameType.Type.Hill);
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(),  scoreboard, gametype), GameType.Type.Hill);
         scoreboard.initialise(gameState.getAllPlayers());
 
         assertTrue(GameTypeHandler.checkRunning(gameState));
@@ -88,7 +88,7 @@ public class GameTypeHandlerTest {
 
         ScoreBoard scoreboard = new ScoreBoard();
         Map map = MapGenerator.createEmptyMap();
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype), GameType.Type.Regicide);
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(),  scoreboard, gametype), GameType.Type.Regicide);
         scoreboard.initialise(gameState.getAllPlayers());
 
         assertTrue(GameTypeHandler.checkRunning(gameState));

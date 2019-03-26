@@ -1,7 +1,6 @@
  package engine.ai.controller;
 
 import java.util.ArrayList;
-import engine.ScoreBoard;
 import engine.ai.actions.stateActions.AiStateActions;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.enums.AiStates;
@@ -9,7 +8,8 @@ import engine.ai.enums.AiType;
 import engine.ai.fsm.FSM;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
 import javafx.scene.shape.Rectangle;
 
 public class AiController {

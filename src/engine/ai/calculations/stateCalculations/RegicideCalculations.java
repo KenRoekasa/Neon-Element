@@ -1,11 +1,11 @@
 package engine.ai.calculations.stateCalculations;
 
-import engine.ScoreBoard;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
-import engine.gameTypes.Regicide;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
+import engine.model.gametypes.Regicide;
 import javafx.scene.shape.Rectangle;
 
 public class RegicideCalculations extends AiCalculations{

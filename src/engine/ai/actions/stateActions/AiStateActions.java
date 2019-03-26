@@ -12,8 +12,8 @@ import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
 import engine.ai.enums.AiType;
 import engine.entities.Player;
-import engine.enums.PowerUpType;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
+import engine.model.enums.PowerUpType;
 import javafx.scene.shape.Rectangle;
 //high level actions, based on ai states 
 public abstract class AiStateActions {

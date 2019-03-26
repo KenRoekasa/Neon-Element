@@ -1,14 +1,14 @@
 package engine.ai.calculations;
 
 
-import engine.ScoreBoard;
 import engine.ai.calculations.stateCalculations.HillCalculations;
 import engine.ai.calculations.stateCalculations.KillsCalculations;
 import engine.ai.calculations.stateCalculations.RegicideCalculations;
 import engine.ai.calculations.stateCalculations.TimedCalculations;
 import engine.ai.controller.AiController;
 import engine.entities.Player;
-import engine.gameTypes.GameType;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
 import javafx.scene.shape.Rectangle;
 
 public abstract class AiCalculations {
