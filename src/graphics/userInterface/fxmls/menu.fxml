@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.MenuController">
+<GridPane stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.MenuController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -57,11 +57,6 @@
             </GridPane>
          </center>
       </BorderPane>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-         <center>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-menu-title" text="ALIEN8" wrappingWidth="1062.939005970955" BorderPane.alignment="CENTER">
-      </Text>
-         </center>
-      </BorderPane>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-menu-title" text="NEON ELEMENT" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
    </children>
 </GridPane>

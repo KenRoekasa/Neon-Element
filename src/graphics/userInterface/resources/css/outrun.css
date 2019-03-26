@@ -31,7 +31,7 @@
     -fx-font-family: Lazer84;
     -fx-fill: linear-gradient(to bottom, #f9ceff 0%, #ff8deb 25%, #876193 50%, #162b79 75%, #000000 100%) fixed;
     -fx-fill: linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);
-    -fx-font-size: 300px;
+    -fx-font-size: 220px;
 }
 
 .button{

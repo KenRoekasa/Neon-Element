@@ -15,8 +15,99 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" styleClass="cooldown-indicator" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" styleClass="cooldown-indicator" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
    <children>
+      <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="350.0" style="-fx-spacing: 50;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <StackPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
+               <children>
+                  <ProgressIndicator fx:id="lightCD" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0" progress="0.72" styleClass="cooldown-indicator" StackPane.alignment="TOP_CENTER">
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </ProgressIndicator>
+                  <StackPane fx:id="lightIcon" alignment="TOP_CENTER">
+                     <children>
+                        <Circle radius="37.0" stroke="BLACK" strokeType="INSIDE">
+                           <fill>
+                              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                 <stops>
+                                    <Stop color="BLACK" />
+                                    <Stop color="#a86767" offset="0.41869099814353977" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </RadialGradient>
+                           </fill>
+                        </Circle>
+                        <ImageView fitHeight="73.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/icons/light-sabers.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+            <StackPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
+               <children>
+                  <ProgressIndicator fx:id="heavyCD" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0" progress="1.0" styleClass="cooldown-indicator">
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </ProgressIndicator>
+                  <StackPane fx:id="heavyIcon" alignment="TOP_CENTER">
+                     <children>
+                        <Circle radius="37.0" stroke="BLACK" strokeType="INSIDE">
+                           <fill>
+                              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                 <stops>
+                                    <Stop color="BLACK" />
+                                    <Stop color="#a86767" offset="0.41869099814353977" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </RadialGradient>
+                           </fill>
+                        </Circle>
+                        <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/icons/sword_swing.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+            <StackPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
+               <children>
+                  <ProgressIndicator fx:id="changeCD" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0" progress="1.0" styleClass="cooldown-indicator">
+                     <effect>
+                        <Glow />
+                     </effect>
+                  </ProgressIndicator>
+                  <StackPane fx:id="changeIcon" alignment="TOP_CENTER">
+                     <children>
+                        <Circle radius="37.0" stroke="BLACK" strokeType="INSIDE">
+                           <fill>
+                              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                 <stops>
+                                    <Stop color="BLACK" />
+                                    <Stop color="#a86767" offset="0.41869099814353977" />
+                                    <Stop color="WHITE" offset="1.0" />
+                                 </stops>
+                              </RadialGradient>
+                           </fill>
+                        </Circle>
+                        <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/icons/cycle.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </StackPane>
+         </children>
+      </HBox>
       <Text fx:id="kills" fill="#f8f5f5" layoutX="68.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" wrappingWidth="12.59765625" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="52.6640625" />
       <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Text fx:id="death" fill="#f8f5f5" layoutX="70.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="90.6640625" />
@@ -33,6 +124,11 @@
             <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="180.0" />
          </children>
       </AnchorPane>
+      <HBox fx:id="time_board" alignment="CENTER" layoutY="9.0" maxHeight="100.0" prefHeight="100.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="9.0">
+         <children>
+            <ProgressIndicator fx:id="timer" prefHeight="89.0" prefWidth="95.0" progress="0.0" />
+         </children></HBox>
+
       <ProgressBar fx:id="health_bar" layoutX="68.0" layoutY="20.0" maxHeight="10.0" maxWidth="200.0" prefHeight="10.0" prefWidth="200.0" progress="1.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="20.0">
           <effect>
              <ColorAdjust hue="0.80" />
@@ -53,101 +149,6 @@
             <Image url="@../resources/icons/health-icon-4.png" />
          </image>
       </ImageView>
-      <HBox fx:id="time_board" alignment="CENTER" layoutY="9.0" maxHeight="100.0" prefHeight="100.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="9.0">
-         <children>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="350.0" style="-fx-spacing: 50;" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <StackPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
-                     <children>
-                        <ProgressIndicator fx:id="lightCD" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0" progress="0.72" styleClass="cooldown-indicator" StackPane.alignment="TOP_CENTER">
-                           <effect>
-                              <Glow />
-                           </effect>
-                        </ProgressIndicator>
-                        <StackPane fx:id="lightIcon" alignment="TOP_CENTER">
-                           <children>
-                              <Circle radius="37.0" stroke="BLACK" strokeType="INSIDE">
-                                 <fill>
-                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                                       <stops>
-                                          <Stop color="BLACK" />
-                                          <Stop color="#a86767" offset="0.41869099814353977" />
-                                          <Stop color="WHITE" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                              <ImageView fitHeight="73.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/icons/light-sabers.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                     </children>
-                  </StackPane>
-                  <StackPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
-                     <children>
-                        <ProgressIndicator fx:id="heavyCD" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0" progress="1.0" styleClass="cooldown-indicator">
-                           <effect>
-                              <Glow />
-                           </effect>
-                        </ProgressIndicator>
-                        <StackPane fx:id="heavyIcon" alignment="TOP_CENTER">
-                           <children>
-                              <Circle radius="37.0" stroke="BLACK" strokeType="INSIDE">
-                                 <fill>
-                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                                       <stops>
-                                          <Stop color="BLACK" />
-                                          <Stop color="#a86767" offset="0.41869099814353977" />
-                                          <Stop color="WHITE" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                              <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/icons/sword_swing.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                     </children>
-                  </StackPane>
-                  <StackPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0">
-                     <children>
-                        <ProgressIndicator fx:id="changeCD" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="72.0" progress="1.0" styleClass="cooldown-indicator">
-                           <effect>
-                              <Glow />
-                           </effect>
-                        </ProgressIndicator>
-                        <StackPane fx:id="changeIcon" alignment="TOP_CENTER">
-                           <children>
-                              <Circle radius="37.0" stroke="BLACK" strokeType="INSIDE">
-                                 <fill>
-                                    <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                                       <stops>
-                                          <Stop color="BLACK" />
-                                          <Stop color="#a86767" offset="0.41869099814353977" />
-                                          <Stop color="WHITE" offset="1.0" />
-                                       </stops>
-                                    </RadialGradient>
-                                 </fill>
-                              </Circle>
-                              <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/icons/cycle.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                     </children>
-                  </StackPane>
-               </children>
-            </HBox>
-         </children>
-      </HBox>
       <AnchorPane fx:id="score_board" layoutX="83.0" layoutY="640.0" maxWidth="30.0" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <ImageView fitHeight="50.0" fitWidth="46.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0">
@@ -155,7 +156,7 @@
                   <Image url="@../resources/icons/star-icon.png" />
                </image>
             </ImageView>
-            <ProgressBar fx:id="score_bar" cache="true" layoutX="59.0" layoutY="13.0" maxHeight="10.0" maxWidth="200.0" prefHeight="10.0" prefWidth="200.0" progress="1">
+            <ProgressBar fx:id="score_bar" cache="true" layoutX="59.0" layoutY="13.0" maxHeight="10.0" maxWidth="200.0" prefHeight="10.0" prefWidth="200.0" progress="1" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="59.0">
             </ProgressBar>
          </children>
       </AnchorPane>
