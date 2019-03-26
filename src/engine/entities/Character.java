@@ -65,7 +65,7 @@ public abstract class Character extends PhysicsObject {
      * The last Character to inflict damage on this Character
      */
     protected Player lastAttacker = null;
-    protected double lightAttackRange = 300;
+    protected double lightAttackRange = 330;
     /**
      * The time in milliseconds at when the current action started
      */
@@ -513,13 +513,13 @@ public abstract class Character extends PhysicsObject {
 
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - lightAttackRange, width, lightAttackRange);
-        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2f), location.getY() + (width / 2f));
         hitbox.getTransforms().add(rotate);
         return hitbox;
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange);
+        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange / 2f);
     }
 
 
