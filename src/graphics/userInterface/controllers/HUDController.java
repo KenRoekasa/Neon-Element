@@ -3,31 +3,22 @@ package graphics.userInterface.controllers;
 
 import client.ClientGameState;
 import client.GameClient;
-import com.sun.javafx.scene.control.skin.ProgressIndicatorSkin;
+import engine.entities.CooldownItems;
+import engine.entities.CooldownValues;
 import engine.model.ScoreBoard;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import static javafx.scene.paint.Color.*;
 
 /**
  * Controller of hud.fxml which mainly controls the properties of the game state
@@ -140,9 +131,14 @@ public class HUDController extends UIController implements Initializable {
      * The cooldown progress
      */
     @FXML
-    private ProgressIndicator lightCD,heavyCd,changeCD;
+    private ProgressIndicator lightCD,heavyCD,changeCD;
 
 
+    /**
+     * The icons of the skills
+     */
+    @FXML
+    private StackPane lightIcon, heavyIcon,changeIcon;
 
     /**
      * Number of the total players in the game
@@ -220,31 +216,39 @@ public class HUDController extends UIController implements Initializable {
         }
 
         // Cooldown check
+        long l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.LIGHT);
+        float v = l / (CooldownValues.lightAttackCD * 1000);
 
-        ProgressIndicator indicator = lightCD;
+        if(v < 1){ // is not 100 percent
+            lightIcon.setVisible(false);
+        }else if(v>=1){
+            lightIcon.setVisible(true);
+        }
+        lightCD.setProgress(v);
+        l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.HEAVY);
+        v = l / (CooldownValues.heavyAttackCD * 1000);
 
-        indicator.progressProperty().addListener((ov, t, newValue) -> {
-            // If progress is 100% then show Text
-            if (newValue.doubleValue() >= 1) {
-                // Apply CSS so you can lookup the text
-                indicator.applyCss();
-                Text text = (Text) indicator.lookup(".text.percentage");
-                StackPane pane = (StackPane) indicator.lookup(".stackpane.tick");
-                System.out.println(pane);
-                // This text replaces "Done"
-                text.setText("READY");
-                text.setFill(Paint.valueOf("Red"));
-            }else{
-                // Apply CSS so you can lookup the text
-                indicator.applyCss();
-                Text text = (Text) indicator.lookup(".text.percentage");
-                // This text replaces "Done"
-                text.setText("Light Attack");
-                text.setFill(Paint.valueOf("Red"));
-            }
-        });
-        lightCD.setProgress(1);
-//        System.out.println(lightCD.getTypeSelector());
+
+        if(v < 1){ // is not 100 percent
+            heavyIcon.setVisible(false);
+        }else if(v>=1){
+            heavyIcon.setVisible(true);
+        }
+
+        heavyCD.setProgress(v);
+
+        l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.CHANGESTATE);
+        v = l / (CooldownValues.changeStateCD * 1000);
+
+        if(v < 1){ // is not 100 percent
+            changeIcon.setVisible(false);
+        }else if(v>=1){
+            changeIcon.setVisible(true);
+        }
+
+        l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.CHANGESTATE);
+        v = l / (CooldownValues.changeStateCD * 1000);
+        changeCD.setProgress(v);
 
 
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));

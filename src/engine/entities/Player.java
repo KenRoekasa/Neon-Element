@@ -41,9 +41,13 @@ public class Player extends Character {
         lightAttackRange = width * 4;
 
 
-        for (int i = 0; i < timerArray.length; i++) {
-            timerArray[i] = System.currentTimeMillis() - 10 * 1000;
-        }
+        //Setup hashmap
+        timeMap.put(CooldownItems.LIGHT, -10000L);
+        timeMap.put(CooldownItems.HEAVY, -1000000L);
+        timeMap.put(CooldownItems.CHANGESTATE, -10000L);
+        timeMap.put(CooldownItems.DAMAGE, 0L);
+        timeMap.put(CooldownItems.SPEED, 0L);
+
     }
 
     /**
@@ -60,9 +64,11 @@ public class Player extends Character {
      */
     @Override
     public void update() {
+
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
+                deathTime = GameClient.timeElapsed;
             }
         } else {
             isAlive = true;
@@ -74,6 +80,19 @@ public class Player extends Character {
 
         //decrease iframes every frame
         iframes--;
+
+
+        //Changes movement speed back when duration has run out
+        if (GameClient.timeElapsed - timeMap.get(CooldownItems.SPEED) >= CooldownValues.speedBoostDuration * 1000) {
+            movementSpeed = DEFAULT_MOVEMENT_SPEED;
+        }
+
+        //Change damage multiplier when duration has run out
+        if (GameClient.timeElapsed - timeMap.get(CooldownItems.DAMAGE) >= CooldownValues.damageBoostDur * 1000) {
+            damageMultiplier = 1;
+            damagePowerup = false;
+        }
+
 
     }
 

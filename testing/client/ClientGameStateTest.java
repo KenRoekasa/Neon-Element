@@ -60,7 +60,7 @@ public class ClientGameStateTest {
     @Test
     public void startSetStartTime() {
         gamestate.start();
-        long accStartTime = System.currentTimeMillis();
+        long accStartTime = System.nanoTime()/1000000;
         assertEquals(accStartTime, gamestate.getStartTime());
     }
 
