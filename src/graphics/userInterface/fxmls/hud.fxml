@@ -4,13 +4,14 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" styleClass="cooldown-indicator" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
    <children>
       <Text fx:id="kills" fill="#f8f5f5" layoutX="68.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" wrappingWidth="12.59765625" AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="52.6640625" />
       <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -44,10 +45,23 @@
             <Image url="@../resources/icons/health-icon-4.png" />
          </image>
       </ImageView>
-      <HBox alignment="CENTER" layoutX="48.0" layoutY="26.0" prefHeight="112.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutY="8.0" prefHeight="112.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+      <AnchorPane layoutX="332.0" layoutY="590.0" AnchorPane.bottomAnchor="20.0">
          <children>
-            <ProgressIndicator fx:id="timer" prefHeight="89.0" prefWidth="95.0" progress="0.0" />
-         </children>
-      </HBox>
+            <ProgressIndicator fx:id="lightCD" layoutX="1.0" layoutY="4.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="58.0" progress="0.5" styleClass="cooldown-indicator">
+               <effect>
+                  <Glow />
+               </effect></ProgressIndicator>
+            <ProgressIndicator fx:id="heavyCD" layoutX="110.0" layoutY="4.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="48.0" progress="1.0" styleClass="cooldown-indicator">
+               <effect>
+                  <Glow />
+               </effect>
+            </ProgressIndicator>
+            <ProgressIndicator fx:id="ChangeCD" layoutX="211.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="48.0" progress="1.0" styleClass="cooldown-indicator">
+               <effect>
+                  <Glow />
+               </effect>
+            </ProgressIndicator>
+         </children></AnchorPane>
    </children>
 </AnchorPane>

@@ -211,6 +211,15 @@
     -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
 }
 
+.cooldown-indicator > .text.percentage {
+    -fx-fill:null;
+}
+.cooldown-indicator{
+    -fx-progress-color: grey;
+    -fx-padding: 0 0 -16 0;
+}
+
+
 
 
 

@@ -2,16 +2,26 @@ package graphics.userInterface.controllers;
 
 
 import client.ClientGameState;
+import client.GameClient;
+import com.sun.javafx.scene.control.skin.ProgressIndicatorSkin;
 import engine.model.ScoreBoard;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -127,6 +137,14 @@ public class HUDController extends UIController implements Initializable {
     private StringProperty player1Property, player2Property, player3Property, player4Property;
 
     /**
+     * The cooldown progress
+     */
+    @FXML
+    private ProgressIndicator lightCD,heavyCd,changeCD;
+
+
+
+    /**
      * Number of the total players in the game
      */
     private int num_player;
@@ -200,6 +218,34 @@ public class HUDController extends UIController implements Initializable {
             health_bar.setProgress(gameState.getPlayer().getHealth()/100);
 
         }
+
+        // Cooldown check
+
+        ProgressIndicator indicator = lightCD;
+
+        indicator.progressProperty().addListener((ov, t, newValue) -> {
+            // If progress is 100% then show Text
+            if (newValue.doubleValue() >= 1) {
+                // Apply CSS so you can lookup the text
+                indicator.applyCss();
+                Text text = (Text) indicator.lookup(".text.percentage");
+                StackPane pane = (StackPane) indicator.lookup(".stackpane.tick");
+                System.out.println(pane);
+                // This text replaces "Done"
+                text.setText("READY");
+                text.setFill(Paint.valueOf("Red"));
+            }else{
+                // Apply CSS so you can lookup the text
+                indicator.applyCss();
+                Text text = (Text) indicator.lookup(".text.percentage");
+                // This text replaces "Done"
+                text.setText("Light Attack");
+                text.setFill(Paint.valueOf("Red"));
+            }
+        });
+        lightCD.setProgress(1);
+//        System.out.println(lightCD.getTypeSelector());
+
 
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
 
