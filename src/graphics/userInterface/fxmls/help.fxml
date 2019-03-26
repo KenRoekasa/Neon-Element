@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.RadioButton?>
 <GridPane styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HelpController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="355.0" minWidth="10.0" prefWidth="349.0" />
@@ -24,51 +22,23 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="192" maxHeight="192" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="192" maxHeight="192" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="192" maxHeight="192" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="192" maxHeight="192" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <AnchorPane prefHeight="192.0" prefWidth="347.0">
-               <children>
-                  <RadioButton fx:id="mode_btn" maxWidth="437.0" mnemonicParsing="false" onAction="#showMode" onMouseEntered="#playHoverSound" prefHeight="86.0" prefWidth="437.0" styleClass="radio-text-menu" text="MODES" AnchorPane.topAnchor="40.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane GridPane.rowIndex="1">
-               <children>
-                  <RadioButton fx:id="control_btn" mnemonicParsing="false" onAction="#showControl" onMouseEntered="#playHoverSound" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="CONTROLS" AnchorPane.topAnchor="40.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane GridPane.rowIndex="2">
-               <children>
-                  <RadioButton fx:id="rule_btn" mnemonicParsing="false" onAction="#showRule" onMouseEntered="#playHoverSound" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="RULES " AnchorPane.topAnchor="40.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane GridPane.rowIndex="3">
-               <children>
-                  <RadioButton fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" onMouseEntered="#playHoverSound" prefHeight="86.0" prefWidth="387.0" styleClass="radio-text-menu" text="Back" AnchorPane.topAnchor="40.0">
-                     <graphic>
-                        <Label />
-                     </graphic>
-                  </RadioButton>
-               </children>
-            </AnchorPane>
+            <RadioButton fx:id="mode_btn" maxWidth="437.0" onMouseEntered="#playHoverSound" mnemonicParsing="false" onAction="#showMode" prefHeight="86.0" prefWidth="437.0" styleClass="radio-text-menu" text="MODES" />
+            <RadioButton fx:id="control_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showControl" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="CONTROLS" GridPane.rowIndex="1" />
+            <RadioButton fx:id="rule_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showRule" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="RULES
+" GridPane.rowIndex="2" />
+            <RadioButton fx:id="back" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="86.0" prefWidth="387.0" styleClass="radio-text-menu" text="Back" GridPane.rowIndex="3">
+               <graphic>
+                  <Label />
+               </graphic>
+            </RadioButton>
          </children>
       </GridPane>
-      <StackPane fx:id="stack_pane" prefHeight="768.0" prefWidth="695.0" GridPane.columnIndex="2">
-         <children>
-            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="sub-pane" stylesheets="@../resources/css/outrun.css">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="702.0" minWidth="10.0" prefWidth="585.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-         </children></StackPane>
+      <StackPane fx:id="stack_pane" prefHeight="768.0" prefWidth="695.0" GridPane.columnIndex="2" />
    </children>
 </GridPane>
