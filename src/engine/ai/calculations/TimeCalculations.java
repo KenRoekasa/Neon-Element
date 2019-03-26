@@ -102,7 +102,6 @@ public class TimeCalculations {
 	private void resetTickCounter() {
 		tickCtr = 0;
 	}
-
 	
 	/**
 	 * @return current time in seconds

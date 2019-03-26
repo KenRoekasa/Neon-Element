@@ -69,10 +69,10 @@ public class HillCalculations extends AiCalculations {
 	 * @return Player object of the player who is within 0.1 of map's width of hill's centre, nearest player otherwise
 	 */
 	public Player getOnHillPlayer() {
-		ArrayList<Player> players = getPlayerCalc().getAllPlayers();
+		ArrayList<Player> players = getPlayerCalc().getOtherPlayers();
 		Player onHillPlayer = null;
 		for (Player player : players) {
-			if(player.getLocation().distance(circleCentre) < (map.getWidth()*0.01)) {
+			if(onHill(player.getLocation())) {
 				onHillPlayer = player;
 				break;
 			}

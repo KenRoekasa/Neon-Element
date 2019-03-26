@@ -63,7 +63,6 @@ public class AiController {
 		 */
 		public void update() {
 			calc.getTimeCalc().tick();
-			System.out.println(calc.getTimeCalc().getTickCtr());
 			fsm.fetchAction();
 			stateActions.executeAction();
 		}

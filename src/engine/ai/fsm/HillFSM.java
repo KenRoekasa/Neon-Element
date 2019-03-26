@@ -70,7 +70,7 @@ public class HillFSM extends FSM{
 		else if(playerCalc.playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3)) {
 			if(debug)
 				System.out.println("case 3");
-			if(calc.onHill(aiPlayer.getLocation()) && (calc.getOnHillPlayer()) != null)
+			if(calc.onHill(aiPlayer.getLocation()))
 				aiCon.setState(AiStates.IDLE);
 			else 
 				aiCon.setState(AiStates.GO_TO_HILL);
@@ -136,7 +136,7 @@ public class HillFSM extends FSM{
 				!(nearestPlayerHP < (maxHP/3) && aiPlayerHP > maxHP/3)) {
 			if(debug)
 				System.out.println("case 1");
-			if(calc.onHill(aiPlayer.getLocation()) && (calc.getOnHillPlayer()) != null)
+			if(calc.onHill(aiPlayer.getLocation()))
 				aiCon.setState(AiStates.IDLE);
 			else 
 				aiCon.setState(AiStates.GO_TO_HILL);
@@ -241,7 +241,7 @@ public class HillFSM extends FSM{
 				playerCalc.someoneCloseIsCharging() && !(playerCalc.scoreDifferenceIsMoreThan(3000) && playerCalc.isNearestPlayer(winningPlayer)) ) {
 			if(debug)
 				System.out.println("case 1");
-			if(calc.onHill(aiPlayer.getLocation())  && (calc.getOnHillPlayer()) != null)
+			if(calc.onHill(aiPlayer.getLocation()))
 				aiCon.setState(AiStates.IDLE);
 			else 
 				aiCon.setState(AiStates.GO_TO_HILL);
