@@ -195,6 +195,8 @@ public class GameClient {
                 if(gameState.getPaused()){
                     long now = System.nanoTime()/1000000;
                     pauseDuration = (now - pauseStart);
+                    gameState.getAiConMan().pauseAllAi();
+                   
                 }
                 if(!gameState.getPaused()){
                     timeElapsed += deltaTime;
@@ -202,6 +204,7 @@ public class GameClient {
                     powerUpController.update();
                     respawnController.update();
                     pauseDuration = 0;
+                    
 
                 }
                 audioManager.clientLoop(gameState);

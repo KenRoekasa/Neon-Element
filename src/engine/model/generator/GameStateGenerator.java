@@ -102,7 +102,7 @@ public class GameStateGenerator {
 
                 break;
             case Hill:
-                gameType = new HillGame(new Circle(2000, 0, 500),100000);
+                gameType = new HillGame(new Circle(1000, 1000, 500),100000);
                 break;
             case Regicide:
                 gameType = new Regicide(player, 5000);

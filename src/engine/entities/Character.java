@@ -66,7 +66,11 @@ public abstract class Character extends PhysicsObject {
      */
     protected Player lastAttacker = null;
     protected double lightAttackRange = 300;
-    /**
+    public double getLightAttackRange() {
+		return lightAttackRange;
+	}
+
+	/**
      * The time in milliseconds at when the current action started
      */
     private long currentActionStart;

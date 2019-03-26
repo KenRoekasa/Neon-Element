@@ -116,8 +116,8 @@ public class TimeCalculations {
 	 */
 	private void resetStartingTimes() {
 		setPaused(false);
-		wanderingTime -= pausingTime;
-		startTime -=pausingTime;
+		wanderingTime += pausingTime;
+		startTime +=pausingTime;
 	}
 
 }
