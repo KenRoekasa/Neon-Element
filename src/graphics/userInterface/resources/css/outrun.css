@@ -217,5 +217,8 @@
     -fx-progress-color: grey;
 }
 
+.progress-indicator .percentage {
+    -fx-fill:null;
+}
 
 
