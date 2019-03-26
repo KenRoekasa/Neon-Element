@@ -67,7 +67,7 @@ public class HelpController extends UIController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader modeLoader = new FXMLLoader(getClass().getResource("../fxmls/help-mode.fxml"));
+        FXMLLoader modeLoader = new FXMLLoader(getClass().getResource("../fxmls/help_mode_new.fxml"));
         FXMLLoader controlLoader = new FXMLLoader(getClass().getResource("../fxmls/help-control.fxml"));
         FXMLLoader ruleLoader = new FXMLLoader(getClass().getResource("../fxmls/help-rule.fxml"));
 

@@ -83,6 +83,14 @@ public class MenuOptionsController extends UIController{
      */
 
     public void updateSlider(){
+        if(audioManager.getEffectVolume()==0){
+            volume.setText("0.0");
+        }
+
+        if(audioManager.getMusicVolume()==0){
+          musicVolume.setText("0.0");
+        }
+
         sound.setValue(audioManager.getEffectVolume());
         music.setValue(audioManager.getMusicVolume());
     }

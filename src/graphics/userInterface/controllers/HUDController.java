@@ -126,8 +126,7 @@ public class HUDController extends UIController implements Initializable {
                 time_board.setVisible(false);
                 break;
             case Timed:
-                time_duration =(int) TimedGame.getDuration()/1000;
-                System.out.println("time_duartion"+time_duration);
+                time_duration =(int) TimedGame.getDuration();
                 score_board.setVisible(false);
                 time_board.setVisible(true);
                 break;
@@ -384,9 +383,7 @@ public class HUDController extends UIController implements Initializable {
      * Update the time left
      */
     public void updateTime(long time){
-        long endTime = System.nanoTime()/1000000000;
-        long elapsedTime = endTime - startTime;
-
+        long elapsedTime = GameClient.timeElapsed;
         timeProperty.setValue((double)elapsedTime/time);
     }
 
