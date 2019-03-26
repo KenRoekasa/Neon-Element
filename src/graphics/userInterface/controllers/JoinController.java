@@ -48,6 +48,7 @@ public class JoinController extends UIController {
             LobbyJoinController controller = (LobbyJoinController) loader.getController();
 
 
+
             System.out.println("------------Server address:"+addr+" serCons: ");
 
             //todo figure out the server listining port
@@ -56,11 +57,23 @@ public class JoinController extends UIController {
             controller.setGameClient(gameBoard);
             //Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();
+            (new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(!gameState.getRunning()){
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    controller.startGame();
+                }
+            })).start();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
