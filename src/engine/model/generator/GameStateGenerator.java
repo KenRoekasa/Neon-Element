@@ -75,6 +75,8 @@ public class GameStateGenerator {
      */
     public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes,GameType.Type mode) {
 
+
+
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
 
@@ -140,8 +142,10 @@ public class GameStateGenerator {
         objects.add(player);
         objects.addAll(map1.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager);
+        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager,mode);
+
         scoreboard.initialise(gameState.getAllPlayers());
+
 //        aiManager.startAllAi();
 
         return gameState;

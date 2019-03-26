@@ -118,7 +118,6 @@ public abstract class GameState {
         return allPlayers;
     }
 
-
     /**
      * @param player the player you want to excluded from the array list of players
      * @return an array list of other players other than chosen player

@@ -44,7 +44,7 @@
             <Polyline fill="TRANSPARENT" layoutX="202.0" layoutY="222.0" points="-36.0, 2.0, -44.255126953125, -26.793182373046875, -10.0, -18.70709228515625, -10.0, -18.70709228515625" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
             <Polyline fill="TRANSPARENT" layoutX="404.0" layoutY="326.0" points="-21.0, -36.0, -32.0, 0.0, 11.0, -11.0, 11.0, -11.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
             <Polyline fill="TRANSPARENT" layoutX="504.0" layoutY="161.0" points="-17.0, -27.0, 2.0, 7.0, -39.0, -6.0, -39.0, -6.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
-            <Text layoutX="196.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="ELEMENTS DAMGE CIRCLE" />
+            <Text layoutX="196.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="ELEMENTS DAMAGE CIRCLE" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="187.0" prefWidth="630.0">

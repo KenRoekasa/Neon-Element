@@ -226,8 +226,7 @@ public class LocalSetUpController extends UIController {
         ToggleGroupSetUp.setToggleGroup(diff_2,easy_2,normal_2,hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3,easy_3,normal_3,hard_3);
         ToggleGroupSetUp.setToggleGroup(mode,FirstToXKills,Hill,Timed,Regicide);
-
-
+        
         ToggleGroupSetUp.setUserData("Easy",easy_1,easy_2,easy_3);
         ToggleGroupSetUp.setUserData("Normal",normal_1,normal_2,normal_3);
         ToggleGroupSetUp.setUserData("Hard",hard_1,hard_2,hard_3);

@@ -2,32 +2,41 @@ package graphics.userInterface.controllers;
 
 
 import client.ClientGameState;
+import engine.model.GameType;
 import engine.model.ScoreBoard;
+import engine.model.gametypes.FirstToXKillsGame;
+import engine.model.gametypes.HillGame;
+import engine.model.gametypes.Regicide;
+import engine.model.gametypes.TimedGame;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static javafx.scene.paint.Color.*;
 
 /**
  * Controller of hud.fxml which mainly controls the properties of the game state
  */
 //To get players' health and speed in top-left hud
 public class HUDController extends UIController implements Initializable {
+
+
     /**
      * Mode of current game
      */
-    private String mode;
+    private GameType.Type mode;
 
     /**
      * Kills needed to win
@@ -38,7 +47,11 @@ public class HUDController extends UIController implements Initializable {
      */
     private int time;
 
-
+    /**
+     * Progress bar of score left to end the game
+     */
+    @FXML
+    private ProgressBar score_bar;
     /**
      * The client game state
      */
@@ -57,36 +70,71 @@ public class HUDController extends UIController implements Initializable {
     private ArrayList<Integer> leaderBoard;
 
     /**
+     * For time mode game
+     */
+    private int time_duration;
+    /**
      * Output string template of leader board
      */
     private final static String TEMP = "Player %s with %s ";
 
-    /** Set the client player id
+    /**
+     * Set the client player id
+     *
      * @param playerId client player id
      */
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
 
-    /** Set the score board
+    /**
+     * Set the score board
+     *
      * @param scoreBoard current score board
      */
     public void setScoreBoard(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
     }
 
-    /** Set the leader board
+    /**
+     * Set the leader board
+     *
      * @param leaderBoard current leader board information
      */
     public void setLeaderBoard(ArrayList<Integer> leaderBoard) {
         this.leaderBoard = leaderBoard;
     }
 
-    /** Set the current game state
+    /**
+     * Set the current game state
+     *
      * @param gameState current game state
      */
     public void setGameState(ClientGameState gameState) {
         this.gameState = gameState;
+    }
+
+    public void setMode(GameType.Type mode) {
+        this.mode = mode;
+        switch (mode) {
+            case FirstToXKills:
+                score_board.setVisible(true);
+                time_board.setVisible(false);
+                break;
+            case Timed:
+                time_duration =(int) TimedGame.getDuration()/1000;
+                System.out.println("time_duartion"+time_duration);
+                score_board.setVisible(false);
+                time_board.setVisible(true);
+                break;
+            case Regicide:
+                score_board.setVisible(true);
+                time_board.setVisible(false);
+                break;
+            case Hill:
+                score_board.setVisible(true);
+                time_board.setVisible(false);
+        }
     }
 
 
@@ -96,6 +144,8 @@ public class HUDController extends UIController implements Initializable {
     @FXML
     private ProgressBar health_bar;
 
+    @FXML
+    private ProgressIndicator timer;
 
     /**
      * The text of number of kills shown on the player's information section
@@ -110,7 +160,8 @@ public class HUDController extends UIController implements Initializable {
     /**
      * The text of death times shown on the player's information section
      */
-    @FXML Text death;
+    @FXML
+    Text death;
     /**
      * The string property of the death times
      */
@@ -131,7 +182,21 @@ public class HUDController extends UIController implements Initializable {
      */
     private int num_player;
 
-    /** Set the total players number of the game
+    @FXML
+    private AnchorPane score_board;
+
+    @FXML
+    private HBox time_board;
+
+    private SimpleDoubleProperty healthProperty;
+    private SimpleDoubleProperty scoreProperty;
+    private SimpleDoubleProperty timeProperty;
+
+    private long startTime;
+
+    /**
+     * Set the total players number of the game
+     *
      * @param num_player
      */
     public void setNum_player(int num_player) {
@@ -148,16 +213,25 @@ public class HUDController extends UIController implements Initializable {
         player2Property = new SimpleStringProperty();
         player3Property = new SimpleStringProperty();
         player4Property = new SimpleStringProperty();
+        healthProperty = new SimpleDoubleProperty();
+        scoreProperty = new SimpleDoubleProperty();
+        timeProperty = new SimpleDoubleProperty();
     }
 
 
-    /** Initialise the controller setting, implement the user interface value binding
+    /**
+     * Initialise the controller setting, implement the user interface value binding
+     *
      * @param location  url location
      * @param resources resource bundled
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
+        health_bar.progressProperty().bind(healthProperty);
+        score_bar.progressProperty().bind(scoreProperty);
+        timer.progressProperty().bind(timeProperty);
 
         kills.textProperty().bind(totalKills);
         death.textProperty().bind(deathTimes);
@@ -190,26 +264,48 @@ public class HUDController extends UIController implements Initializable {
      * Update the all string properties in this controller when every call this function
      */
     public void update() {
+        updateUserinfo();
+        updateLeaderboard();
+        switch (mode){
+                case FirstToXKills:
+                    updateScore(FirstToXKillsGame.getKillsNeeded());
+                    System.out.println("FirstTOXKills:"+FirstToXKillsGame.getKillsNeeded());
+                    break;
+                case Timed:
+                    updateTime(time_duration);
+                    break;
+                case Regicide:
+                    updateScore(Regicide.getScoreNeeded());
+                    break;
+                case Hill:
+                    updateScore((int)HillGame.getScoreNeeded());
+        }
+    }
 
+    /**
+     * Update the user's information on the top-right corner
+     */
+
+    public void updateUserinfo() {
         if (gameState.getPlayer().getHealth() < 0) {
-            health_bar.setProgress(0);
-            health_bar.progressProperty().setValue(0);
+            healthProperty.setValue(0);
 
         } else {
             // progress range is 0-1
-            health_bar.setProgress(gameState.getPlayer().getHealth()/100);
-
+            healthProperty.setValue(gameState.getPlayer().getHealth() / 100);
         }
-
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
+        deathTimes.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerDeaths(playerId))));
+    }
 
-        deathTimes.set(String.valueOf((int)(gameState.getScoreBoard().getPlayerDeaths(playerId))));
-
+    /**
+     * Update the leaderboard
+     */
+    public void updateLeaderboard() {
         String s1 = String.format(TEMP, leaderBoard.get(0).toString(), scoreBoard.getPlayerScore(leaderBoard.get(0)));
         String s2 = String.format(TEMP, leaderBoard.get(1).toString(), scoreBoard.getPlayerScore(leaderBoard.get(1)));
         player1Property.set(s1);
         player2Property.set(s2);
-
         if (num_player == 3) {
             String s3 = String.format(TEMP, leaderBoard.get(2).toString(), scoreBoard.getPlayerScore(leaderBoard.get(2)));
             player3Property.set(s3);
@@ -219,6 +315,30 @@ public class HUDController extends UIController implements Initializable {
             player3Property.set(s3);
             player4Property.set(s4);
         }
+
     }
+
+    /**
+     * Update the score progress bar
+     */
+    public void updateScore(int score) {
+        double score_player = scoreBoard.getPlayerScore(playerId);
+        scoreProperty.setValue(score_player/score);
+    }
+
+    /**
+     * Update the time left
+     */
+    public void updateTime(long time){
+        long endTime = System.nanoTime()/1000000000;
+        long elapsedTime = endTime - startTime;
+
+        timeProperty.setValue((double)elapsedTime/time);
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
 }
 

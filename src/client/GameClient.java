@@ -1,6 +1,7 @@
 package client;
 
 import client.audiomanager.AudioManager;
+import engine.model.GameType;
 import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -28,6 +29,8 @@ import server.controllers.PowerUpController;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+
+import static engine.model.GameType.Type.Timed;
 
 public class GameClient {
 
@@ -104,6 +107,7 @@ public class GameClient {
 
         HUDController hudController = loader.getController();
         hudController.setGameState(gameState);
+        hudController.setMode(gameState.getMode());
         hudController.setScoreBoard(gameState.getScoreBoard());
         hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
         hudController.setPlayerId(gameState.getPlayer().getId());
@@ -144,6 +148,8 @@ public class GameClient {
 
         if (!online) {
             this.gameState.start();
+            long startTime =System.nanoTime()/1000000000;
+            hudController.setStartTime(startTime);
             beginClientLoop(renderer, hudController);
         }
 
