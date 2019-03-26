@@ -228,7 +228,7 @@ public abstract class AiStateActions {
 			actions.changeToBefittingElement();
 	}
 
-	/**
+	/**	
 	 * Decides when to give the AI a new direction to move towards.
 	 * Taking into account when AI started wandering and the time AI have been wandering for. 
 	 */

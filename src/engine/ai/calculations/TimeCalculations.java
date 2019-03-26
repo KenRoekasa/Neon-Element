@@ -10,13 +10,16 @@ public class TimeCalculations {
 	protected float pausingTime;
 	//paused boolean, used to know if game was paused
 	protected boolean paused;
-	
+	//counts number of time game ticked to time shielding and un-shielding
+	protected int tickCtr;
+
 	/**
 	 * Constructor, sets start time to current time, and wandering time to 0
 	 */
 	public TimeCalculations() {
 		startTime = currentTime();
 		wanderingTime = 0;
+        tickCtr = 0;
 	}
 
 	/**
@@ -70,6 +73,38 @@ public class TimeCalculations {
 	}
 	
 	/**
+	 * Ticks one time, i.e. adds one tick to ticking counter
+	 */
+	public void tick() {
+		tickCtr++;
+	}
+	
+	/**
+	 * Compares the number of times game ticked since last time this method returned true or since beginning of the game with given argument.
+	 * @param times Number of ticks to compare
+	 * @return True if ticking counter is more than or equals to given argument, false otherwise
+	 */
+	public boolean gameTicked(int times) {
+		if(tickCtr >= times) {
+			resetTickCounter();
+			return true;
+		}
+		return false;
+	}
+
+	public int getTickCtr()
+	{
+		return tickCtr;
+	}
+	/**
+	 * Sets tick counter to 0
+	 */
+	private void resetTickCounter() {
+		tickCtr = 0;
+	}
+
+	
+	/**
 	 * @return current time in seconds
 	 */
 	private float currentTime() {
@@ -84,6 +119,5 @@ public class TimeCalculations {
 		wanderingTime -= pausingTime;
 		startTime -=pausingTime;
 	}
-
 
 }

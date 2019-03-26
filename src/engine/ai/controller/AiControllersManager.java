@@ -77,10 +77,10 @@ public class AiControllersManager {
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				long startTime=System.nanoTime(),endTime,delta;
+				long startTime=System.nanoTime()/1000000,endTime,delta;
 				while(true) {
-					endTime=System.nanoTime();
-					delta = (endTime-startTime)/1000000;
+					endTime=System.nanoTime()/1000000;
+					delta = (endTime-startTime)*60;
 					if( delta > 1 ) {
 						startTime = endTime;
 						for(AiController con : controllers) 
@@ -88,7 +88,7 @@ public class AiControllersManager {
 					}
 					else {
 						try {
-				            TimeUnit.MILLISECONDS.sleep(1-delta);
+				            TimeUnit.MILLISECONDS.sleep(delta);
 				        } catch (InterruptedException e) {
 				            e.printStackTrace();
 				        }

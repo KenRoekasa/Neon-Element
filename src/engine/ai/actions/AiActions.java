@@ -17,6 +17,8 @@ import javafx.scene.transform.Rotate;
 //Used in state action classes to build state action methods
 public class AiActions {
 	
+	//Number of ticks before putting shield back on
+	private static final int NUMBER_OF_TICKS = 20;
 	//The AI controller object
 	protected AiController aiCon;
 	//Object of the Player being controlled
@@ -412,7 +414,8 @@ public class AiActions {
 				aiPlayer.chargeHeavyAttack();
 			else 
 				aiPlayer.lightAttack();
-			aiPlayer.shield();
+			if(timeCalc.gameTicked(NUMBER_OF_TICKS))
+				aiPlayer.shield();
 		}
 	}
 	
@@ -420,8 +423,10 @@ public class AiActions {
 	 * Puts shield on if and only if another player is nearby, otherwise, remove shield
 	 */
 	public void shieldWhenAlone() {
-		if(playerCalc.playerIsTooClose())
-			aiPlayer.shield();
+		if(playerCalc.playerIsTooClose() ) { 
+			if(timeCalc.gameTicked(NUMBER_OF_TICKS))
+				aiPlayer.shield();
+		}
 		else 
 			aiPlayer.unShield();
 	}

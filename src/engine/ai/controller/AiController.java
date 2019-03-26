@@ -28,6 +28,7 @@ public class AiController {
 		protected FSM fsm;
 		//state actions, executes state actions 
 		protected AiStateActions stateActions; 
+		
 		/**
 		 * @param aiPlayer Player object that is controlled by AI
 		 * @param objects  list of objects in game
@@ -61,6 +62,8 @@ public class AiController {
 		 * updates AI, i.e. AI makes one decision and one action
 		 */
 		public void update() {
+			calc.getTimeCalc().tick();
+			System.out.println(calc.getTimeCalc().getTickCtr());
 			fsm.fetchAction();
 			stateActions.executeAction();
 		}
