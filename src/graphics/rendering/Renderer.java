@@ -1,5 +1,6 @@
 package graphics.rendering;
 
+import client.GameClient;
 import engine.model.AttackTimes;
 import client.ClientGameState;
 import engine.model.gametypes.HillGame;
@@ -253,7 +254,7 @@ public class Renderer {
         switch(action){
             case LIGHT:
                 animationDuration = AttackTimes.getActionTime(Action.LIGHT);
-                remainingAnimDuration = player.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+                remainingAnimDuration = player.getCurrentActionStart() + animationDuration - GameClient.timeElapsed;
 
                 if(player.getTag() == ObjectType.PLAYER) {
                     DrawClientPlayer.drawLightAttack(gc, (Player)player, remainingAnimDuration, animationDuration, stageSize);
@@ -263,7 +264,7 @@ public class Renderer {
                 break;
             case CHARGE:
                 animationDuration = AttackTimes.getActionTime(Action.CHARGE);
-                remainingAnimDuration = player.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+                remainingAnimDuration = player.getCurrentActionStart() + animationDuration - GameClient.timeElapsed;
 
                 if(player.getTag() == ObjectType.PLAYER) {
 
@@ -274,7 +275,7 @@ public class Renderer {
                 break;
             case HEAVY:
                 animationDuration = AttackTimes.getActionTime(Action.HEAVY);
-                remainingAnimDuration = player.getCurrentActionStart() + animationDuration - System.currentTimeMillis();
+                remainingAnimDuration = player.getCurrentActionStart() + animationDuration - GameClient.timeElapsed;
 
                 if(player.getTag() == ObjectType.PLAYER) {
                     DrawClientPlayer.drawHeavyAttack(gc, gameState.getPlayer(), remainingAnimDuration, animationDuration, stageSize);

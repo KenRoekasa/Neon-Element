@@ -232,9 +232,10 @@ public abstract class Character extends PhysicsObject {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.LIGHT;
-                currentActionStart = System.currentTimeMillis();
+                currentActionStart = GameClient.timeElapsed;
                 long attackDuration = AttackTimes.getActionTime(currentAction);
-                final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+                // this is an array because of the thread
+                final long[] remainingAttackDuration = {attackDuration};
                 resetActionTimer(attackDuration, remainingAttackDuration);
             }
         }
@@ -245,7 +246,13 @@ public abstract class Character extends PhysicsObject {
     private void resetActionTimer(long attackDuration, long[] remainingAttackDuration) {
         (new Thread(() -> {
             while (remainingAttackDuration[0] > 0) {
-                remainingAttackDuration[0] = currentActionStart + attackDuration - System.currentTimeMillis();
+                remainingAttackDuration[0] = currentActionStart + attackDuration - GameClient.timeElapsed;
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
             currentAction = Action.IDLE;
         })).start();
@@ -286,17 +293,26 @@ public abstract class Character extends PhysicsObject {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.CHARGE;
-                currentActionStart = System.currentTimeMillis();
+                currentActionStart = GameClient.timeElapsed;
+
+                final float[] remainingChargeDuration = {AttackTimes.getActionTime(currentAction)};
+
 
                 (new Thread(() -> {
+                    while (remainingChargeDuration[0] > 0) {
+                        remainingChargeDuration[0] = currentActionStart + AttackTimes.getActionTime(currentAction) - GameClient.timeElapsed;
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        Thread.sleep(AttackTimes.getActionTime(currentAction));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
                     heavyAttack();
                 })).start();
+
+
+
             }
         }
     }
@@ -309,9 +325,9 @@ public abstract class Character extends PhysicsObject {
 
         actionHasSounded = false;
         currentAction = Action.HEAVY;
-        currentActionStart = System.currentTimeMillis();
+        currentActionStart = GameClient.timeElapsed;
         long attackDuration = AttackTimes.getActionTime(currentAction);
-        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.nanoTime()/1000000};
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - GameClient.timeElapsed};
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
