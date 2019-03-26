@@ -11,5 +11,8 @@ public enum AiStates {
 	GO_TO_HILL, WANDER_ON_HILL, 
 	
 	//used in regicide
-	ATTACK_KING
+	ATTACK_KING, 
+	
+	//used in kills
+	ATTACK_LOSING
 }

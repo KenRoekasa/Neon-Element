@@ -187,7 +187,10 @@ public abstract class AiStateActions {
 	protected void escape() {
 		actions.shieldWhenAlone();
 		Player player = playerCalc.getNearestPlayer();
-		actions.moveAwayFromPlayer(player);
+		if(playerCalc.isTooClose(player.getLocation()))
+			actions.moveAwayFromPlayer(player);
+		else
+			wander();
 	}	
 
 	/**

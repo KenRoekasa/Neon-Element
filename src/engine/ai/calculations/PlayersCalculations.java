@@ -191,6 +191,22 @@ public class PlayersCalculations {
 	}
 	
 	/**
+	 * @return Player object with lowest health
+	 */
+	public Player getPlayerWithLowestHealth() {
+		ArrayList<Player> players = getOtherPlayers();
+		Player lowestHealthPlayer = players.get(0);
+		float minH = aiPlayer.getMAX_HEALTH();
+		for (Player player : players) {
+			if(player.getHealth()<minH) {
+				minH = player.getHealth();
+				lowestHealthPlayer = player;
+			}
+		}
+		return lowestHealthPlayer;
+	}
+	
+	/**
 	 * Calculates which player has the highest score
 	 * @return Object of player with highest score
 	 */

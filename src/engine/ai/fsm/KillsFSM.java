@@ -170,6 +170,12 @@ public class KillsFSM extends FSM {
 			aiCon.setState(AiStates.ESCAPE);
 		}
 		
+		
+		else if(playerCalc.getPlayerWithLowestHealth().getHealth()<20 && playerCalc.getPlayerWithLowestHealth().getHealth()>0 ) {
+			System.out.println("AI: "+aiPlayer.getId()+" is attacking losing player");
+			aiCon.setState(AiStates.ATTACK_LOSING);
+		}
+		
 		//case 5, the nearest enemy's hp is less than 33%
 		else if ( playerHP < (maxHP/2) || aiPlayer.activeDamagePowerup()) {
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
