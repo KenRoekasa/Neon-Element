@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.RadioButton?>
 <GridPane styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HelpController">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="411.0" minWidth="10.0" prefWidth="336.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="783.0789947509766" minWidth="10.0" prefWidth="629.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="355.0" minWidth="10.0" prefWidth="349.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="8.0" prefWidth="150.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="702.0" minWidth="10.0" prefWidth="585.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -28,105 +28,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="mode_btn" maxWidth="437.0" mnemonicParsing="false" onAction="#showMode" prefHeight="86.0" prefWidth="437.0" styleClass="button-text" text="MODE" />
-            <Button fx:id="control_btn" mnemonicParsing="false" onAction="#showControl" prefHeight="86.0" prefWidth="410.0" styleClass="button-text" text="CONTROL" GridPane.rowIndex="1" />
-            <Button fx:id="rule_btn" mnemonicParsing="false" onAction="#showRule" prefHeight="86.0" prefWidth="407.0" styleClass="button-text" text="RULE" GridPane.rowIndex="2" />
-            <Button fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="86.0" prefWidth="387.0" styleClass="button-text" text="Back" GridPane.rowIndex="3">
+            <RadioButton fx:id="mode_btn" maxWidth="437.0" onMouseEntered="#playHoverSound" mnemonicParsing="false" onAction="#showMode" prefHeight="86.0" prefWidth="437.0" styleClass="radio-text-menu" text="MODES" />
+            <RadioButton fx:id="control_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showControl" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="CONTROLS" GridPane.rowIndex="1" />
+            <RadioButton fx:id="rule_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showRule" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="RULES
+" GridPane.rowIndex="2" />
+            <RadioButton fx:id="back" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="86.0" prefWidth="387.0" styleClass="radio-text-menu" text="Back" GridPane.rowIndex="3">
                <graphic>
                   <Label />
                </graphic>
-            </Button>
+            </RadioButton>
          </children>
       </GridPane>
-      <StackPane GridPane.columnIndex="1">
-         <children>
-            <GridPane fx:id="mode_pane">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <GridPane>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="86.9355239868164" minHeight="10.0" prefHeight="68.80657958984375" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="123.19342041015625" minHeight="10.0" prefHeight="123.19342041015625" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="FirstToXKills" wrappingWidth="294.98980712890625" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-help" text="Players gain a point for a kill. If a player reaches the kill limit the game ends and the player wins." wrappingWidth="732.879638671875" GridPane.rowIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.rowIndex="1">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="88.7484130859375" minHeight="10.0" prefHeight="79.25155639648438" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="130.87738037109375" minHeight="10.0" prefHeight="112.74844360351562" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="King of the Hill" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-help" text="Players gain points for being the only one on the hill; a circular area on the map." wrappingWidth="713.48193359375" GridPane.rowIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.rowIndex="2">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="88.7484130859375" minHeight="10.0" prefHeight="78.81289672851562" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="129.503173828125" minHeight="10.0" prefHeight="113.18710327148438" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="Timed" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-help" text="Player will attempt to kill each other until the time limit runs out. The player with the most kills at the ends wins." wrappingWidth="721.9307861328125" GridPane.rowIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="192.0" prefWidth="726.0" GridPane.rowIndex="3">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="86.93548583984375" minHeight="10.0" prefHeight="61.30975341796875" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="130.69024658203125" minHeight="10.0" prefHeight="130.69024658203125" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="Regicide" GridPane.rowIndex="0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-help " text="Players gain points for killing each other. There's an assigned king every 30 seconds he gains points for being the king. If a player kill the king (regicide) he becomes the king and received extra points for killing the king. Players who reaches the score limit at the end wins." wrappingWidth="724.4182739257812" GridPane.rowIndex="1" />
-
-                     </children>
-                  </GridPane>
-               </children>
-            </GridPane>
-            <GridPane fx:id="control_pane">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="rule_pane">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-         </children>
-      </StackPane>
+      <StackPane fx:id="stack_pane" prefHeight="768.0" prefWidth="695.0" GridPane.columnIndex="2" />
    </children>
 </GridPane>

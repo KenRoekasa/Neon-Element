@@ -4,6 +4,7 @@ import client.ClientGameState;
 import engine.ai.controller.AiControllersManager;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
+import engine.model.GameType;
 import engine.model.Map;
 import engine.model.ScoreBoard;
 import engine.model.enums.ObjectType;
@@ -34,7 +35,7 @@ public class GameTypeHandlerTest {
 
         ScoreBoard scoreboard = new ScoreBoard();
         Map map = MapGenerator.createEmptyMap();
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype));
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype), GameType.Type.FirstToXKills);
         scoreboard.initialise(gameState.getAllPlayers());
 
         assertTrue(GameTypeHandler.checkRunning(gameState));
@@ -65,7 +66,7 @@ public class GameTypeHandlerTest {
 
         ScoreBoard scoreboard = new ScoreBoard();
         Map map = MapGenerator.createEmptyMap();
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype));
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype), GameType.Type.Hill);
         scoreboard.initialise(gameState.getAllPlayers());
 
         assertTrue(GameTypeHandler.checkRunning(gameState));
@@ -87,7 +88,7 @@ public class GameTypeHandlerTest {
 
         ScoreBoard scoreboard = new ScoreBoard();
         Map map = MapGenerator.createEmptyMap();
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype));
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gametype, new AiControllersManager(objects, map.getGround(), player, scoreboard, gametype), GameType.Type.Regicide);
         scoreboard.initialise(gameState.getAllPlayers());
 
         assertTrue(GameTypeHandler.checkRunning(gameState));

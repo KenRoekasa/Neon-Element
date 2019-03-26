@@ -3,6 +3,7 @@ package graphics.rendering.draw;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import graphics.rendering.Renderer;
 import graphics.rendering.colourSwitch;
 import graphics.rendering.textures.Sprites;
 import javafx.geometry.Point2D;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static graphics.rendering.Renderer.getRelativeLocation;
+import static graphics.rendering.Renderer.getPlayerRelativeLocation;
 
 /**
  * Contains methods that draw everything that isn't a player or an attack to the screen
@@ -44,7 +45,7 @@ public class DrawObjects {
      */
     public static void drawMap(GraphicsContext gc, Rectangle stageSize, Rectangle map, Player player, HashMap<Sprites, Image> textures) {
 
-        Point2D relativeLocation = getRelativeLocation(stageSize,player.getLocation());
+        Point2D relativeLocation = getPlayerRelativeLocation(stageSize,player.getLocation());
 
         // draw map
         gc.save();
@@ -67,7 +68,7 @@ public class DrawObjects {
      */
     public static void drawPowerUp(GraphicsContext gc, Rectangle stageSize, PowerUp powerUp, Player player) {
 
-        Point2D relativeLocation = getRelativeLocation(stageSize, powerUp.getLocation(), player.getLocation());
+        Point2D relativeLocation = Renderer.getLocationRelativeToPlayer(stageSize, powerUp.getLocation(), player.getLocation());
 
         Color c = colourSwitch.getPowerUpColour(powerUp.getType());
         gc.save();
@@ -126,7 +127,7 @@ public class DrawObjects {
      */
     public static void drawWalls(GraphicsContext gc, Rectangle stageSize, PhysicsObject obstacle, Player player) {
 
-        Point2D relativeLocation = getRelativeLocation(stageSize, obstacle.getLocation() , player.getLocation());
+        Point2D relativeLocation = Renderer.getLocationRelativeToPlayer(stageSize, obstacle.getLocation() , player.getLocation());
         relativeLocation = relativeLocation.add(-obstacle.getWidth() / 2f, -obstacle.getHeight() / 2f);
 
 
@@ -147,7 +148,7 @@ public class DrawObjects {
      */
     public static void drawHill(GraphicsContext gc, Rectangle stageSize, Player player, Circle hill) {
         Point2D hillLocation = new Point2D(hill.getCenterX(), hill.getCenterY());
-        Point2D relativeLocation = getRelativeLocation(stageSize, hillLocation, player.getLocation());
+        Point2D relativeLocation = Renderer.getLocationRelativeToPlayer(stageSize, hillLocation, player.getLocation());
 
         // change based upon circle center location
         relativeLocation = relativeLocation.add(- hill.getRadius(), - hill.getRadius());
@@ -159,6 +160,14 @@ public class DrawObjects {
         gc.fillOval(relativeLocation.getX(), relativeLocation.getY(), hill.getRadius()*2, hill.getRadius()*2);
 
         gc.restore();
+
+    }
+
+    public static void drawCrown(GraphicsContext gc, Point2D kingLocation, HashMap<Sprites, Image> textures) {
+        kingLocation = kingLocation.add(0,0);
+
+        gc.drawImage(textures.get(Sprites.CROWN), kingLocation.getX() - textures.get(Sprites.CROWN).getWidth()/2, kingLocation.getY() - textures.get(Sprites.CROWN).getHeight()/2 - 60);
+
 
     }
 }

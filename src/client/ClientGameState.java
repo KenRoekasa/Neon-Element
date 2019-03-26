@@ -26,6 +26,14 @@ public class ClientGameState extends GameState {
      */
     private Boolean paused;
 
+
+
+    /**
+     * The selected mode
+     * */
+
+    private GameType.Type mode;
+
     /**
      * Constructor
      *
@@ -36,9 +44,10 @@ public class ClientGameState extends GameState {
      * @param gameType   the game mode of the current game
      * @param aiConMan   the ai controller manager for the ais in this current game
      */
-    public ClientGameState(Player player, Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan) {
+    public ClientGameState(Player player, Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreboard, GameType gameType, AiControllersManager aiConMan,GameType.Type mode) {
         super(map, objects, scoreboard, gameType, aiConMan);
         this.player = player;
+        this.mode = mode;
     }
 
     public Player getPlayer() {
@@ -48,6 +57,18 @@ public class ClientGameState extends GameState {
     public void setPlayer(Player player) {
         this.player = player;
     }
+    /**
+     * Set the mode of the game
+     * @param mode mode of the game
+     */
+    public void setMode(GameType.Type mode) {
+        this.mode = mode;
+    }
+
+    public GameType.Type getMode() {
+        return mode;
+    }
+
 
 
     public int getNum_player() {

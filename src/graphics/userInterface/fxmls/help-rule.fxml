@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polyline?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="sub-pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="312.0" minHeight="10.0" prefHeight="220.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="312.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="157.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="631.0" minHeight="10.0" prefHeight="401.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <AnchorPane maxHeight="388.0" maxWidth="469.0" prefHeight="388.0" prefWidth="469.0" GridPane.rowIndex="3">
+         <children>
+            <Line endX="47.0" endY="-63.0" layoutX="245.0" layoutY="120.0" startX="-71.0" startY="38.99609375" strokeWidth="3.0">
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+            </Line>
+            <Text fill="#ff1c1cb3" layoutX="301.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="damages-text" text="FIRE" AnchorPane.leftAnchor="301.0" AnchorPane.topAnchor="18.99609375" />
+            <Text fill="#1f00e59d" layoutX="112.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="damages-text" text="WATER" AnchorPane.leftAnchor="112.0" />
+            <Text fill="#ffffffba" layoutX="474.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="damages-text" text="AIR" />
+            <Text fill="#60ff17a3" layoutX="270.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="damages-text" text="EARTH" />
+            <Line endX="102.0" endY="31.99609375" layoutX="397.0" layoutY="130.0" startX="-33.333984375" startY="-71.671875" stroke="WHITE" strokeWidth="3.0" />
+            <Line endX="31.0" endY="41.0" layoutX="241.0" layoutY="273.0" startX="-81.1337890625" startY="-75.671875" stroke="WHITE" strokeWidth="3.0" />
+            <Line endX="94.0" endY="-63.671875" layoutX="397.0" layoutY="261.0" startX="-19.0" startY="58.0" stroke="WHITE" strokeWidth="3.0" />
+            <Polyline fill="TRANSPARENT" layoutX="323.0" layoutY="78.0" points="-56.0, -14.0, -22.0, -29.0, -41.0, 1.0, -41.0, 1.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+            <Polyline fill="TRANSPARENT" layoutX="202.0" layoutY="222.0" points="-36.0, 2.0, -44.255126953125, -26.793182373046875, -10.0, -18.70709228515625, -10.0, -18.70709228515625" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+            <Polyline fill="TRANSPARENT" layoutX="404.0" layoutY="326.0" points="-21.0, -36.0, -32.0, 0.0, 11.0, -11.0, 11.0, -11.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+            <Polyline fill="TRANSPARENT" layoutX="504.0" layoutY="161.0" points="-17.0, -27.0, 2.0, 7.0, -39.0, -6.0, -39.0, -6.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+            <Text layoutX="196.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="ELEMENTS DAMAGE CIRCLE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="187.0" prefWidth="630.0">
+         <children>
+            <Text layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="POWER UP" AnchorPane.leftAnchor="0.0" />
+            <GridPane layoutX="158.0" layoutY="55.0" prefHeight="126.0" prefWidth="331.0" AnchorPane.leftAnchor="160.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="116.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="131.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="84.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="COLOUR" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="MEANING" wrappingWidth="113.841796875" GridPane.columnIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="EFFECT" GridPane.columnIndex="2" />
+                  <Text fill="ORANGE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="power-up-text" text="ORANGE" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="SPEED" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="SPEED x 2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Text fill="PURPLE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="power-up-text" text="PURPLE" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="HEAL" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Text fill="MAGENTA" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="power-up-text" text="FUCHSIA" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="HEALTH + 10" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="DAMAGE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="ATTACK DAMAGE x 2" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="DAMAGE MECHANISM" GridPane.rowIndex="1" />
+      <AnchorPane GridPane.rowIndex="2">
+         <children>
+            <GridPane maxWidth="300.0" AnchorPane.leftAnchor="160.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="EFFECT" GridPane.columnIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="LIGHT ATTACK" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="0.2s ATTACK" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="HEAVY ATTACK" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="0.1s ATTACK" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="SHIELD" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text" text="0.5 * Speed with LESS ATTACK" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-plain-text" text="SKILL" />
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>

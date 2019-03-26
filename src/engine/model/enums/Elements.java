@@ -29,24 +29,5 @@ public enum Elements {
         return null;
     }
 
-    public static Sprites getSprite(Elements element) {
-        switch (element) {
-            case FIRE:
-                return Sprites.FIRE;
-
-            case AIR:
-                return Sprites.AIR;
-
-            case EARTH:
-                return Sprites.EARTH;
-
-            case WATER:
-                return Sprites.WATER;
-
-            default:
-                return Sprites.WATER;
-
-        }
-    }
 
 }

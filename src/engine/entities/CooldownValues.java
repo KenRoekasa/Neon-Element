@@ -6,13 +6,13 @@ package engine.entities;
 public class CooldownValues {
 
 
-    static int speedBoostDuration = 4;
+   public static int speedBoostDuration = 4;
 
-    static float lightAttackCD = 0.30f; //attack speed
+    public static float lightAttackCD = 0.30f; //attack speed
 
-    static float heavyAttackCD = 7.5f;
+    public  static float heavyAttackCD = 7.5f;
 
-    static float changeStateCD = 1.5f;
+    public   static float changeStateCD = 1.5f;
 
-    static float damageBoostDur = 5;
+    public  static float damageBoostDur = 5;
 }

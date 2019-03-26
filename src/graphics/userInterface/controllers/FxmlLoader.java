@@ -14,11 +14,18 @@ import java.util.Random;
  * */
 public class FxmlLoader {
 
+    /**
+     * The controller for the loaded fxml
+     */
+    private UIController controller;
+
+    /**
+     * Get the controller for the loaded fxml
+     * @return controller the loaded fxml's controller
+     */
     public UIController getController() {
         return controller;
     }
-
-    private UIController controller;
 
     /** Constructor for FxmlLoader to initialise and configure the scene
      * @param fxmlPath the relative path of fxml which is going to be loading

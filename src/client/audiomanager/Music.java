@@ -10,14 +10,14 @@ package client.audiomanager;
 public enum Music {
 
     /**
-     *  Menu screen music
-     */
-	MENU("audio/menu_theme.mp3"),
-
-    /**
      *  Game screen music
      */
     GAME("audio/game_theme.mp3"),
+
+    /**
+     *  Menu screen music
+     */
+    MENU("audio/menu_theme.mp3"),
 
     /**
      *  Menu screen neon hum effect

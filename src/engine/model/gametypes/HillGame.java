@@ -16,7 +16,7 @@ public class HillGame extends GameType {
     /**
      * The score you need to win
      */
-    private float scoreNeeded;
+    private static float scoreNeeded;
 
     /**
      * Constructor
@@ -30,7 +30,7 @@ public class HillGame extends GameType {
         this.scoreNeeded = scoreNeeded;
     }
 
-    public float getScoreNeeded() {
+    public static float getScoreNeeded() {
         return scoreNeeded;
     }
 

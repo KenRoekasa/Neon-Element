@@ -10,7 +10,7 @@ import engine.model.GameType;
  * Killing a normal player gives 1 point.
  */
 public class Regicide extends GameType {
-    private int scoreNeeded;
+    private static int scoreNeeded;
     private Player king;
 
     /**
@@ -26,7 +26,7 @@ public class Regicide extends GameType {
     }
 
 
-    public int getScoreNeeded() {
+    public static int getScoreNeeded() {
         return scoreNeeded;
     }
 

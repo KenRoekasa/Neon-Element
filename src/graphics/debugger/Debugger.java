@@ -88,14 +88,16 @@ public class Debugger {
      */
     public void gameStateDebugger(ClientGameState gameState, Rectangle stage){
         Point2D playerLocationOnScreen = getPlayerLocOnScreen(gameState.getPlayer(), stage);
+        playerLocationOnScreen = playerLocationOnScreen.add(-50, -40);
+
         printPlayerHealth(gameState.getPlayer(), playerLocationOnScreen);
 
         for (Player enemy: gameState.getOtherPlayers(gameState.getPlayer())){
 
-            Point2D relativeLocation = Renderer.getRelativeLocation(stage, enemy.getLocation(), gameState.getPlayer().getLocation());
+            Point2D relativeLocation = Renderer.getLocationRelativeToPlayer(stage, enemy.getLocation(), gameState.getPlayer().getLocation());
 
             Point2D newLoc = ISOConverter.getLocationOnScreen(relativeLocation, enemy, stage);
-            newLoc = newLoc.add(-15, 0);
+            newLoc = newLoc.add(-50, -40);
 
             printPlayerHealth(enemy, newLoc);
 
@@ -124,7 +126,13 @@ public class Debugger {
      */
     private void printPlayerHealth(Character player, Point2D relativeLocation){
 
-        gc.strokeText(String.valueOf((int)player.getHealth()), relativeLocation.getX(), relativeLocation.getY());
+        //gc.strokeText(String.valueOf((int)player.getHealth()), relativeLocation.getX(), relativeLocation.getY());
+
+        gc.save();
+        gc.setFill(Color.WHITE);
+        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), player.getHealth(), 10);
+        gc.restore();
+
     }
 
 

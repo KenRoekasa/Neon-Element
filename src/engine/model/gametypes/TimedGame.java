@@ -9,7 +9,7 @@ public class TimedGame extends GameType {
     /**
      * How long the game last
      */
-    private long duration;
+    private static long duration;
 
 
     /** Constructor
@@ -21,7 +21,7 @@ public class TimedGame extends GameType {
     }
 
 
-    public long getDuration() {
+    public static long getDuration() {
         return duration;
     }
 

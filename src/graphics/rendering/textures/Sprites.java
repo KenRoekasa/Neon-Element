@@ -1,20 +1,50 @@
 package graphics.rendering.textures;
 
+/**
+ *  The available sprites
+ *  <li>{@link #MAP}</li>
+ *  <li>{@link #POINTER}</li>
+ *  <li>{@link #BLADE}</li>
+ */
 public enum Sprites {
-    MAP("graphics/rendering/textures/map.png"),
-    POINTER("graphics/rendering/textures/bluepointer.png"),
-    BLADE("graphics/rendering/textures/orangeblade.png"),
-    AIR("graphics/rendering/textures/air.png"),
-    EARTH("graphics/rendering/textures/earth.png"),
-    FIRE("graphics/rendering/textures/fire.png"),
-    WATER("graphics/rendering/textures/water.png");
 
+    /**
+     *  The blade sprite
+     */
+    BLADE("graphics/rendering/textures/orangeblade.png"),
+
+    /**
+     * The map sprite
+     */
+    MAP("graphics/rendering/textures/map.png"),
+
+    /**
+     *  The pointer sprite
+     */
+    POINTER("graphics/rendering/textures/bluepointer.png"),
+
+    /**
+     * The crown sprite
+     */
+    CROWN("graphics/userInterface/resources/icons/star-icon.png");
+
+    /**
+     * The location of the sprite
+     */
     private String location;
 
+    /**
+     * Sprite enum constructor
+     * @param location The location of the sprite
+     */
     Sprites(String location) {
         this.location = location;
     }
 
+    /**
+     * Gets the location of a sprite
+     * @return The location of a sprite
+     */
     public String getLocation() {
         return location;
     }

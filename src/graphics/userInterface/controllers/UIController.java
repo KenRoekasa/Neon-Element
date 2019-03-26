@@ -72,6 +72,10 @@ public class UIController implements Initializable {
 
     }
 
+    /**
+     * Play hover sound for buttons' hover effect
+     */
+
     public void playHoverSound() {
         int sound = new Random().nextInt(2);
 
