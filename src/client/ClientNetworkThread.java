@@ -9,6 +9,9 @@ import javafx.scene.transform.Rotate;
 import networking.client.ClientNetwork;
 import networking.client.ClientNetworkDispatcher;
 
+/**
+ * Starts a ClientNetwork. Sends the hello packet and waits for the game state and sends the connect packet
+ */
 public class ClientNetworkThread extends Thread {
 
     private ClientGameState gameState;
@@ -18,7 +21,7 @@ public class ClientNetworkThread extends Thread {
 
     public ClientNetworkThread(ClientGameState gameState, InetAddress serverAddr) {
         this.gameState = gameState;
-        this.network = new ClientNetwork(this.gameState, serverAddr);
+        this.network = new ClientNetwork(gameState, serverAddr);
     }
 
     public void run() {

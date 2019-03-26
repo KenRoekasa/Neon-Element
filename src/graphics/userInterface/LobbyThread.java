@@ -19,9 +19,12 @@ public class LobbyThread extends Thread {
     }
 
     public void run() {
+        // Keeps looping till game states get running is true
+        // The whole loop gets all the player's id and inserts into the lobby screen
         while (!gameState.getRunning()) {
             if (controller instanceof LobbyHostController) {
                 // If host, update lobby screen
+
                 ArrayList<Player> players = gameState.getAllPlayers();
                 ArrayList<Integer> playerIds = new ArrayList<>();
 

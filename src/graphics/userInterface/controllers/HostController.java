@@ -23,7 +23,6 @@ public class HostController extends UIController{
 	TextField ip_host;
 
     private ClientGameState gameState;
-    private ServerGameState serverState;
 
     // directly go to local mode map
     @FXML
@@ -31,7 +30,6 @@ public class HostController extends UIController{
         // create game rules
         // todo make this configurable
         gameState = GameStateGenerator.createEmptyState();
-        serverState = ServerGameStateGenerator.createEmptyState();
 
         try {
             // Create server
@@ -54,7 +52,9 @@ public class HostController extends UIController{
                     e.printStackTrace();
                 }
 
-                AbstractLobbyController controller = (AbstractLobbyController) loader.getController();
+
+                //Gets lobby host controller
+                AbstractLobbyController controller = (LobbyHostController) loader.getController();
                 controller.setGameClient(gameBoard);
 
                 try {

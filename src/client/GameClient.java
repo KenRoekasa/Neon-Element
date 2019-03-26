@@ -336,7 +336,7 @@ public class GameClient {
         physicsEngine = new PhysicsController(gameState);
 
         // initialise input controls
-        beginClientLoop(renderer, new HUDController());
+        beginClientLoop(renderer, hudController);
 
     }
 

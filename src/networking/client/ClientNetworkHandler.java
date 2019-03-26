@@ -26,6 +26,7 @@ public class ClientNetworkHandler {
     public void receiveGameStart(GameStartBroadcast packet) {
         // todo include gamestate in this packet
         this.gameState.start();
+
     }
 
     public void receiveConnectAck(ConnectAckPacket packet) {

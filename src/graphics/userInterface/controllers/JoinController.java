@@ -49,11 +49,14 @@ public class JoinController extends UIController {
 
 
             System.out.println("------------Server address:"+addr+" serCons: ");
-            //to-do figure out the server listining port
+
+            //todo figure out the server listining port
+            //THIS IS HAPPENING BEFORE IT CAN RECEIVE GAMESTATE FROM SERVER
             GameClient gameBoard = new GameClient(stage, gameState, addr, audioManager);
             controller.setGameClient(gameBoard);
             //Scene scene = gameBoard.getScene();
             gameBoard.startNetwork();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
