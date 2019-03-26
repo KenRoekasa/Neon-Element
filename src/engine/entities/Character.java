@@ -10,8 +10,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static engine.entities.CooldownValues.*;
 
@@ -364,7 +362,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToFire() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.FIRE;
             }
         }
@@ -375,7 +373,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.WATER;
             }
         }
@@ -386,7 +384,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.EARTH;
             }
         }
@@ -397,7 +395,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.AIR;
             }
         }
@@ -574,5 +572,9 @@ public abstract class Character extends PhysicsObject {
 
     public long getDeathTime() {
         return deathTime;
+    }
+
+    public long getLastUsed(CooldownItems i) {
+        return timeMap.get(i);
     }
 }

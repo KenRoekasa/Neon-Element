@@ -2,7 +2,7 @@ package engine.entities;
 
 
     public enum CooldownItems{
-        SPEED,DAMAGE, LIGHT,HEAVY,STATE
+        SPEED,DAMAGE, LIGHT,HEAVY, CHANGESTATE
     }
 
 

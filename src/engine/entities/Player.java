@@ -44,7 +44,7 @@ public class Player extends Character {
         //Setup hashmap
         timeMap.put(CooldownItems.LIGHT, -10000L);
         timeMap.put(CooldownItems.HEAVY, -1000000L);
-        timeMap.put(CooldownItems.STATE, -10000L);
+        timeMap.put(CooldownItems.CHANGESTATE, -10000L);
         timeMap.put(CooldownItems.DAMAGE, 0L);
         timeMap.put(CooldownItems.SPEED, 0L);
 

@@ -2,6 +2,9 @@ package graphics.userInterface.controllers;
 
 
 import client.ClientGameState;
+import client.GameClient;
+import engine.entities.CooldownItems;
+import engine.entities.CooldownValues;
 import engine.model.GameType;
 import engine.model.ScoreBoard;
 import engine.model.gametypes.FirstToXKillsGame;
@@ -19,12 +22,13 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 
 /**
  * Controller of hud.fxml which mainly controls the properties of the game state
@@ -178,6 +182,19 @@ public class HUDController extends UIController implements Initializable {
     private StringProperty player1Property, player2Property, player3Property, player4Property;
 
     /**
+     * The cooldown progress
+     */
+    @FXML
+    private ProgressIndicator lightCD,heavyCD,changeCD;
+
+
+    /**
+     * The icons of the skills
+     */
+    @FXML
+    private StackPane lightIcon, heavyIcon,changeIcon;
+
+    /**
      * Number of the total players in the game
      */
     private int num_player;
@@ -294,6 +311,43 @@ public class HUDController extends UIController implements Initializable {
             // progress range is 0-1
             healthProperty.setValue(gameState.getPlayer().getHealth() / 100);
         }
+
+        // Cooldown check
+        long l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.LIGHT);
+        float v = l / (CooldownValues.lightAttackCD * 1000);
+
+        if(v < 1){ // is not 100 percent
+            lightIcon.setVisible(false);
+        }else if(v>=1){
+            lightIcon.setVisible(true);
+        }
+        lightCD.setProgress(v);
+        l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.HEAVY);
+        v = l / (CooldownValues.heavyAttackCD * 1000);
+
+
+        if(v < 1){ // is not 100 percent
+            heavyIcon.setVisible(false);
+        }else if(v>=1){
+            heavyIcon.setVisible(true);
+        }
+
+        heavyCD.setProgress(v);
+
+        l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.CHANGESTATE);
+        v = l / (CooldownValues.changeStateCD * 1000);
+
+        if(v < 1){ // is not 100 percent
+            changeIcon.setVisible(false);
+        }else if(v>=1){
+            changeIcon.setVisible(true);
+        }
+
+        l = GameClient.timeElapsed - gameState.getPlayer().getLastUsed(CooldownItems.CHANGESTATE);
+        v = l / (CooldownValues.changeStateCD * 1000);
+        changeCD.setProgress(v);
+
+
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
         deathTimes.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerDeaths(playerId))));
     }

@@ -212,5 +212,10 @@
 }
 
 
+.cooldown-indicator{
+    -fx-font-size: 1;
+    -fx-progress-color: grey;
+}
+
 
 
