@@ -38,6 +38,10 @@ public class ClientNetworkDispatcher extends AbstractNetworkDispatcher {
         }
     }
 
+    public void sendInitialGameStateAck() {
+        Packet packet = new InitialGameStateAckPacket();
+        this.send(packet);
+    }
 
     public void sendLocationState(double x, double y, double playerAngle, float playerHealth) {
         try {

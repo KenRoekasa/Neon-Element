@@ -8,6 +8,7 @@ public class PlayerConnection {
     private Player player;
     private InetAddress ipAddress;
     private int port;
+    private boolean hasInitialState;
 
     /**
      * Create a record of the client connection.
@@ -21,6 +22,7 @@ public class PlayerConnection {
         this.player = player;
         this.ipAddress = ipAddress;
         this.port = port;
+        this.hasInitialState = false;
     }
 
     /**
@@ -68,6 +70,22 @@ public class PlayerConnection {
      */
     public int getPort() {
         return port;
+    }
+
+    /**
+     * Check if the client has confirmed to have the initial game state.
+     *
+     * @return True if the client has the initial game state.
+     */
+    public boolean hasInitialState() {
+        return this.hasInitialState;
+    }
+
+    /**
+     * Set that the client has received the initial game state.
+     */
+    public void setHasInitialState() {
+        this.hasInitialState = true;
     }
 
 }

@@ -82,9 +82,10 @@ public class GameServer extends Thread {
 			this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
 			this.network.getDispatcher().broadcastGameState();
 
-			this.gameState.setStarted(true);
-			this.network.getDispatcher().broadcastGameStarted();
-
+			if (connectedPlayers.allHaveInitialGameState()) {
+				this.gameState.setStarted(true);
+				this.network.getDispatcher().broadcastGameStarted();
+			}
 		}
 	}
 

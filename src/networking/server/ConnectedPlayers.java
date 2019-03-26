@@ -72,6 +72,16 @@ public class ConnectedPlayers {
     }
 
     /**
+     * Check if all clients have confirmed they have the initial game state.
+     *
+     * @return True if all clients have received the initial game state.
+     */
+    public boolean allHaveInitialGameState() {
+        return this.connections.stream()
+                .allMatch(x -> x.hasInitialState());
+    }
+
+    /**
      * Get an ArrayList of the connected players' IDs.
      *
      * @return ArrayList of the connected players' IDs.

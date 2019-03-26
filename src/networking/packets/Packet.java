@@ -35,6 +35,7 @@ public abstract class Packet {
 
         POWERUP        ((byte) 0x0E, PowerUpPacket::new),
         ACTION_STATE   ((byte) 0x10, ActionStatePacket::new),   // ACTION_STATE_ACK     ((byte) 0x11),
+                                                                INITIAL_STATE_ACK    ((byte) 0x13, InitialGameStateAckPacket::new),
 
         // Broadcast from Server -> All Clients
         CONNECT_BCAST        ((byte) 0xF0, ConnectBroadcast::new),

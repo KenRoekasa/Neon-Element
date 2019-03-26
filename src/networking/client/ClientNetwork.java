@@ -27,7 +27,7 @@ public class ClientNetwork extends AbstractNetwork {
         super();
 
         this.dispatcher = new ClientNetworkDispatcher(gameState, this.getSocket(), serverAddr);
-        this.handler = new ClientNetworkHandler(gameState);
+        this.handler = new ClientNetworkHandler(gameState, this.dispatcher);
 
         this.start();
     }

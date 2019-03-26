@@ -65,6 +65,16 @@ public class ServerNetworkHandler {
 		}
 	}
 
+	public void receiveInitialGameStateAck(InitialGameStateAckPacket packet) {
+		PlayerConnection playerConn = getPlayerConnection(packet);
+
+		if (playerConn != null) {
+			playerConn.setHasInitialState();
+		} else {
+			// Player connection not found
+		}
+	}
+
 	public void receiveLocationState(LocationStatePacket packet) {
 		PlayerConnection playerConn = getPlayerConnection(packet);
 

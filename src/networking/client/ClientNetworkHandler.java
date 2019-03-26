@@ -14,9 +14,11 @@ import networking.packets.*;
 public class ClientNetworkHandler {
 
     private ClientGameState gameState;
+    private ClientNetworkDispatcher dispatcher;
 
-    ClientNetworkHandler(ClientGameState gameState) {
+    ClientNetworkHandler(ClientGameState gameState, ClientNetworkDispatcher dispatcher) {
         this.gameState = gameState;
+        this.dispatcher = dispatcher;
     }
 
     public void receiveHelloAck(HelloAckPacket packet) {
@@ -77,6 +79,7 @@ public class ClientNetworkHandler {
         this.gameState.setMap(packet.getMap());
         this.gameState.setObjects(objects);
         this.gameState.getScoreBoard().initialise(tempScoreboardPlayers);
+        this.dispatcher.sendInitialGameStateAck();
     }
 
     public void receiveLocationStateBroadcast(LocationStateBroadcast packet) {
