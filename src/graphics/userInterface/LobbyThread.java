@@ -22,6 +22,12 @@ public class LobbyThread extends Thread {
         // Keeps looping till game states get running is true
         // The whole loop gets all the player's id and inserts into the lobby screen
         while (!gameState.getRunning()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             if (controller instanceof LobbyHostController) {
                 // If host, update lobby screen
 
@@ -32,6 +38,9 @@ public class LobbyThread extends Thread {
                     for (Player p : players) {
                         synchronized (p) {
                             playerIds.add(p.getId());
+
+                            System.out.println(p);
+                            System.out.println("saouifhno auhfmi wehf iuyfe U");
                         }
                     }
                 }

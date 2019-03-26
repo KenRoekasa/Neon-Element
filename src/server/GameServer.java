@@ -38,6 +38,12 @@ public class GameServer extends Thread {
 			// Server logic
 
 			if (!this.gameState.isStarted()) {
+
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				this.waitForPlayersToConnect();
 			} else {
 
