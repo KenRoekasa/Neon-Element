@@ -1,98 +1,107 @@
-package engine.ai.controller;
+ package engine.ai.controller;
 
 import java.util.ArrayList;
-
-import engine.model.ScoreBoard;
-import engine.ai.actions.AiActions;
-import engine.ai.actions.AiHillStateActions;
-import engine.ai.actions.AiKillsStateActions;
-import engine.ai.actions.AiRegicideStateActions;
-import engine.ai.actions.AiStateActions;
-import engine.ai.actions.AiTimedStateActions;
+import engine.ai.actions.stateActions.AiStateActions;
 import engine.ai.calculations.AiCalculations;
 import engine.ai.enums.AiStates;
 import engine.ai.enums.AiType;
-import engine.ai.fsm.FSMManager;
+import engine.ai.fsm.FSM;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.model.GameType;
+import engine.model.ScoreBoard;
 import javafx.scene.shape.Rectangle;
 
 public class AiController {
 
-		AiStates activeState;
-		ArrayList<PhysicsObject> objects;
-		Player aiPlayer ;
-		Player player;
-		AiType aiType;
-		AiStateActions stateActions;
-		FSMManager fsmManager;
-		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, Player player, AiType aiType, ScoreBoard scoreboard, GameType gameType) {
+		//AI's current active state, set in FSM classes and executed in state action classes
+		protected AiStates activeState;
+		//objects available in game, like players and power ups
+		protected ArrayList<PhysicsObject> objects;
+		//player object being controlled
+		protected Player aiPlayer;
+		//AI type, level of difficulty
+		protected AiType aiType;
+		//AI calculations object, used to calculate everything needed to make a decision or an action
+		protected AiCalculations calc;
+		//FSM , sets AI state to a one relevant to game situation
+		protected FSM fsm;
+		//state actions, executes state actions 
+		protected AiStateActions stateActions; 
+		
+		/**
+		 * @param aiPlayer Player object that is controlled by AI
+		 * @param objects  list of objects in game
+		 * @param map map of game
+		 * @param aiType easy, normal or hard AI
+		 * @param scoreboard score board object
+		 * @param gameType game type object
+		 */
+		public AiController(Player aiPlayer, ArrayList<PhysicsObject> objects, Rectangle map, AiType aiType, ScoreBoard scoreboard, GameType gameType) {
 	    	
-			activeState = AiStates.IDLE;
+			this.activeState = AiStates.IDLE;
 	        this.objects = objects;
-	        this.player = player;
 	        this.aiPlayer = aiPlayer;
 	        this.aiType = aiType;
 	        
-	        AiCalculations calc = new AiCalculations(this, map, scoreboard, gameType);
-	        AiActions actions = new AiActions(this, calc, map);
+	        calc = AiCalculations.initializeAiCalculations(map, scoreboard, gameType, this);
+	        stateActions = AiStateActions.initializeStateActions(calc, map, gameType, this);
+	        fsm = FSM.initializeFSM(aiPlayer, calc, gameType, this);
 	        
-	        initializeProperStateActions(calc, actions, gameType);
-	        fsmManager = new FSMManager (aiPlayer, this, calc, gameType);
-	        
-	        //default random
-	        actions.assignRandomElement();
 	        System.out.println("started ai\n difficulty: "+String.valueOf(aiType)+"\n\n");
 	    }
 		
+		/**
+		 * notifies AI that the game got paused
+		 */
+		public void pause() {
+			calc.getTimeCalc().setPaused(true);
+		}
+		
+		/**
+		 * updates AI, i.e. AI makes one decision and one action
+		 */
 		public void update() {
-			fsmManager.fetchAction();
+			calc.getTimeCalc().tick();
+			System.out.println(calc.getTimeCalc().getTickCtr());
+			fsm.fetchAction();
 			stateActions.executeAction();
 		}
 		
+		/**
+		 * sets state of AI
+		 * @param s AI state
+		 */
 		public void setState(AiStates s) {
 			activeState = s;
 		}
 		
+		/**
+		 * @return list of objects in game
+		 */
 		public ArrayList<PhysicsObject> getObjects() {
 			return objects;
 		}
 		
+		/**
+		 * @return AI's current active state
+		 */
 		public AiStates getActiveState() {
 			return activeState;
 		}
 		
+		/**
+		 * @return Player object controlled by AI
+		 */
 		public Player getAiPlayer() {
 			return aiPlayer;
 		}
-		
-		public Player getPlayer() {
-			return player;
-		}
-		
+
+		/**
+		 * @return AI type, level of difficulty, easy, normal, or hard
+		 */
 		public AiType getAiType() {
 			return aiType;
-		}
-		
-		private void initializeProperStateActions(AiCalculations calc, AiActions actions, GameType gt) {
-			switch(gt.getType()) {
-			case FirstToXKills:
-				stateActions = new AiKillsStateActions(this, calc, actions);
-				break;
-			case Hill:
-				stateActions = new AiHillStateActions(this, calc, actions);
-				break;
-			case Regicide:
-				stateActions = new AiRegicideStateActions(this, calc, actions);
-				break;
-			case Timed:
-				stateActions = new AiTimedStateActions(this, calc, actions);
-				break;
-			default:
-				break;
-			
-			}
 		}
 	
 }

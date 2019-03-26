@@ -1,33 +1,57 @@
 package engine.ai.fsm;
 
 import engine.ai.calculations.AiCalculations;
+import engine.ai.calculations.stateCalculations.HillCalculations;
 import engine.ai.controller.AiController;
 import engine.ai.enums.AiStates;
-import engine.entities.Character;
 import engine.entities.Player;
 import engine.model.enums.PowerUpType;
 
 public class HillFSM extends FSM{
 	
+	//HillCalculations object
+	HillCalculations calc;
+	
+	/**
+	 * @param aiPlayer Player object being controlled
+	 * @param aiCon AI controller object
+	 * @param calc AI calculations object
+	 */
 	public HillFSM(Player aiPlayer, AiController aiCon,AiCalculations calc) {
 		super(aiPlayer, aiCon, calc);
+		this.calc = (HillCalculations)calc;
 	}
 	
-	@Override
-	public void easyAiFetchAction() {
 
+	/**
+	 * Sets AI state given everything going on in the game. 
+	 * easy AI features:
+	 * prioritise taking power ups
+	 * attacks players that get close to the hill
+	 * when HP is low, it wanders around the map, looking for health power up
+	 * if the closest player's HP is less than a third, it attacks aggressively
+	 */
+	@Override
+	protected void easyAiFetchAction() {
+		
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.getNearestPlayer();
+		Player nearestPlayer = playerCalc.getNearestPlayer();
 		float playerHP = nearestPlayer.getHealth();
+		boolean debug = false;
 		
 		//if there is a power up take it
-		if (calc.powerupIsTooClose()) {//System.out.println("case 5");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+		if (puCalc.powerupIsTooClose()) {
+			if(debug)
+				System.out.println("case 1");
+			switch(puCalc.getPowerups().get(puCalc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
 			case HEAL:
-				aiCon.setState(AiStates.FIND_HEALTH);
+				if(aiPlayerHP<maxHP)
+					aiCon.setState(AiStates.FIND_HEALTH);
+				else
+					aiCon.setState(AiStates.GO_TO_HILL);
 				break;
 			case SPEED:
 				aiCon.setState(AiStates.FIND_SPEED);
@@ -35,148 +59,240 @@ public class HillFSM extends FSM{
 			}
 		}
 		
-		//case 2, stay on hill
+		//case 2, normal attacking
+		else if ( playerCalc.playerIsTooClose() && aiPlayerHP > playerHP && calc.closeToHill()) {
+			if(debug)
+				System.out.println("case 2");
+			aiCon.setState(AiStates.ATTACK);
+		}
 		
-		else if( !calc.onHill(aiPlayer.getLocation()) ) {//System.out.println("case 1");
+		//case 3, go to hill
+		else if(playerCalc.playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3)) {
+			if(debug)
+				System.out.println("case 3");
+			if(calc.onHill(aiPlayer.getLocation()))
+				aiCon.setState(AiStates.IDLE);
+			else 
+				aiCon.setState(AiStates.GO_TO_HILL);
+		}
+		
+		//case 4, stay on hill
+		else if( !calc.onHill(aiPlayer.getLocation()) && aiPlayerHP > maxHP/3 && !(playerHP < (maxHP/3)) ) {
+			if(debug)
+				System.out.println("case 4");
 			aiCon.setState(AiStates.GO_TO_HILL);
 		}
 	
-		//case 3, look for health power up 
-		else if(aiPlayerHP < (maxHP/2)) {//System.out.println("case 2");
-			if(calc.getNearestPowerUp(PowerUpType.HEAL) != -1)
+		//case 5, look for health power up 
+		else if(aiPlayerHP < (maxHP/3) &&  aiPlayerHP < playerHP ) {
+			if(debug)
+				System.out.println("case 5");
+			if(puCalc.powerUpExist(PowerUpType.HEAL)) {
+				if(debug)
+					System.out.println("\tfind health");
 				aiCon.setState(AiStates.FIND_HEALTH);
-			else
+			}
+			else if(playerCalc.playerIsTooClose()) {
+				if(debug)
+					System.out.println("\tplayer is too close");
 				aiCon.setState(AiStates.ESCAPE);
+			}
+			else {
+				if(debug)
+					System.out.println("\tescape on hill");
+				aiCon.setState(AiStates.WANDER);
+			}
 		}
-		
-		//case 4, FINISH HIM
-		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
+
+		//case 6, FINISH HIM
+		else if (playerHP < (maxHP/3)) {
+			if(debug)
+				System.out.println("case 6");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
 		}		
+
+	}
+	
+	
+	/** Sets AI state given everything going on in the game. 
+	*  features added/changed in normal AI compared to easy:
+	* runs away from heavy attacks, 
+	* runs away if HP gap with nearest player is more than 50
+	* prioritises going to hill on going to pick power ups
+	* changes to appropriate elements when attacking and defending
+	* wanders close to hill area when HP is low, looking for health power up
+	*/
+	@Override
+	protected void normalAiFetchAction() {
+		
+		float aiPlayerHP = aiPlayer.getHealth();
+		Player nearestPlayer = playerCalc.getNearestPlayer();
+		float nearestPlayerHP = nearestPlayer.getHealth();
+		boolean debug = false;
+	
+		//case 1, go to hill
+		if(playerCalc.playerIsTooClose() && calc.onHillEdge() && aiPlayerHP > (maxHP/3) &&
+				!( nearestPlayerHP - aiPlayerHP > 50 ) && !playerCalc.someoneCloseIsCharging() &&
+				!(nearestPlayerHP < (maxHP/3) && aiPlayerHP > maxHP/3)) {
+			if(debug)
+				System.out.println("case 1");
+			if(calc.onHill(aiPlayer.getLocation()))
+				aiCon.setState(AiStates.IDLE);
+			else 
+				aiCon.setState(AiStates.GO_TO_HILL);
+		}
+		
+		//case 2, run from heavy attack
+		else if (playerCalc.isCharging(nearestPlayer)) {
+			if(debug)
+				System.out.println("case 2");
+			aiCon.setState(AiStates.ESCAPE);
+		}
+		
+		//case 3, escape when dying
+		else if( (aiPlayerHP < (maxHP/3) &&  aiPlayerHP < nearestPlayerHP) || nearestPlayerHP - aiPlayerHP > 50) {
+			if(debug)
+				System.out.println("case 3");
+			if(puCalc.powerUpExist(PowerUpType.HEAL)) {
+				if(debug)
+					System.out.println("\tfind health");
+				aiCon.setState(AiStates.FIND_HEALTH);
+			}
+			else if(playerCalc.playerIsTooClose() && (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer)) ) {
+				if(debug)
+					System.out.println("\twander");
+				aiCon.setState(AiStates.WANDER);
+			}
+			else if(playerCalc.playerIsTooClose()) {
+				if(debug)
+					System.out.println("\tplayer is too close");
+				aiCon.setState(AiStates.ESCAPE);
+			}
+			else {
+				if(debug)
+					System.out.println("\tescape on hill");
+				aiCon.setState(AiStates.WANDER_ON_HILL);
+			}
+		}
+		
+		//case 4, take a power up
+		else if (puCalc.powerupIsTooClose()) {
+			if(debug)
+				System.out.println("case 4");
+			switch(puCalc.getPowerups().get(puCalc.getNearestPowerUp()).getType()) {
+			case DAMAGE:
+				aiCon.setState(AiStates.FIND_DAMAGE);
+				break;
+			case HEAL:
+				if(aiPlayerHP<maxHP)
+					aiCon.setState(AiStates.FIND_HEALTH);
+				else
+					aiCon.setState(AiStates.GO_TO_HILL);
+				break;
+			case SPEED:
+				aiCon.setState(AiStates.FIND_SPEED);
+				break;
+			}
+		}
 		
 		//case 5, normal attacking
-		else if ( calc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
-			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
+		else if ( playerCalc.playerIsTooClose() && aiPlayerHP > nearestPlayerHP && calc.closeToHill()) {
+			if(debug)
+				System.out.println("case 5");
 			aiCon.setState(AiStates.ATTACK);
 		}
-	
-		//case 6, take the power up on your way
-		else if (calc.powerupIsTooClose()) {//System.out.println("case 5");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
-			case DAMAGE:
-				aiCon.setState(AiStates.FIND_DAMAGE);
-				break;
-			case HEAL:
-				aiCon.setState(AiStates.FIND_HEALTH);
-				break;
-			case SPEED:
-				aiCon.setState(AiStates.FIND_SPEED);
-				break;
-			}
-		}
 		
-		//case 7, wander for 5 seconds
-		else {//System.out.println("case 6");
-			aiCon.setState(AiStates.WANDER_ON_HILL);
-		}
-		//element gets changed randomly every 15 seconds
-
-	}
-	
-	@Override
-	public void normalAiFetchAction() {
-		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.getNearestPlayer();
-		float playerHP = nearestPlayer.getHealth();
-		
-		//case 1, stay on hill
-		
-		if( !calc.onHill(aiPlayer.getLocation()) ) {//System.out.println("case 1");
+		//case 6, stay on hill
+		else if( !calc.onHill(aiPlayer.getLocation()) && aiPlayerHP > maxHP/3 && !(nearestPlayerHP < (maxHP/3)) ) {
+			if(debug)
+				System.out.println("case 6");
 			aiCon.setState(AiStates.GO_TO_HILL);
 		}
-	
-		//case 2, look for health power up 
-		else if(aiPlayerHP < (maxHP/4)) {//System.out.println("case 2");
-			if(calc.getNearestPowerUp(PowerUpType.HEAL) != -1)
-				aiCon.setState(AiStates.FIND_HEALTH);
-			else
-				aiCon.setState(AiStates.ESCAPE_ON_HILL);
-		}
 		
-		//case 3, FINISH HIM
-		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
+		//case 7, FINISH HIM
+		else if (nearestPlayerHP < (maxHP/3) && aiPlayerHP > maxHP/3) {
+			if(debug)
+				System.out.println("case 7");
 			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
-		}		
-		
-		//case 4, normal attacking
-		else if ( calc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
-			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
-			aiCon.setState(AiStates.ATTACK);
 		}
-	
-		//case5, take the power up on your way
-		else if (calc.powerupIsTooClose()) {//System.out.println("case 5");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
-			case DAMAGE:
-				aiCon.setState(AiStates.FIND_DAMAGE);
-				break;
-			case HEAL:
-				aiCon.setState(AiStates.FIND_HEALTH);
-				break;
-			case SPEED:
-				aiCon.setState(AiStates.FIND_SPEED);
-				break;
-			}
-		}
-		
-		//case 6, 'random action', either fix on one player and attack, or wander for 5 seconds
-		else {//System.out.println("case 6");
-			aiCon.setState(AiStates.WANDER_ON_HILL);
-		}
-		
-		//switches elements to maximize damage given and minimize damage received
-
 	}
 	
+	/** Sets AI state given everything going on in the game. 
+	 *  features added/changed in hard AI compared to normal:
+	 * does not leave the hill to kill players with less than 1/3 HP
+	 * runs away if HP gap with nearest player is more than 30
+	 * does not leave the hill to scare players off
+	 * wanders very close to hill area when HP is low; looks for health power up
+	 * attacks the one with higher score if score difference is more than 3000
+	 * does not run away when its health is low only but rather when HP is low and HP difference compared to nearest player is high
+	 * keeps distance, 150, from opponents when charge a heavy attack, so they receive damage but cannot reach it to attack while charging
+	 */
 	@Override
-	public void hardAiFetchAction() {
+	protected void hardAiFetchAction() {
+		
 		float aiPlayerHP = aiPlayer.getHealth();
-		Character nearestPlayer = calc.getNearestPlayer();
-		float playerHP = nearestPlayer.getHealth();
+		Player nearestPlayer = playerCalc.getNearestPlayer();
+		Player winningPlayer = playerCalc.getWinningPlayer();
+		float nearestPlayerHP = nearestPlayer.getHealth();
+		boolean debug = false;
 		
-		//case 1, stay on hill
-		
-		if( !calc.onHill(aiPlayer.getLocation()) ) {//System.out.println("case 1");
-			aiCon.setState(AiStates.GO_TO_HILL);
+		//case 1, go to hill
+		if(playerCalc.playerIsTooClose() && calc.onHillEdge() && !( aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) &&
+				playerCalc.someoneCloseIsCharging() && !(playerCalc.scoreDifferenceIsMoreThan(3000) && playerCalc.isNearestPlayer(winningPlayer)) ) {
+			if(debug)
+				System.out.println("case 1");
+			if(calc.onHill(aiPlayer.getLocation()))
+				aiCon.setState(AiStates.IDLE);
+			else 
+				aiCon.setState(AiStates.GO_TO_HILL);
 		}
-	
-		//case 2, look for health power up 
-		else if(aiPlayerHP < (maxHP/4)) {//System.out.println("case 2");
-			if(calc.getNearestPowerUp(PowerUpType.HEAL) != -1)
+		
+		//case 2, run from heavy attack
+		else if (playerCalc.someoneCloseIsCharging()) {
+			if(debug)
+				System.out.println("case 2");
+			aiCon.setState(AiStates.ESCAPE);
+		}
+		
+		//case 3, escape when dying
+		else if( aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) {
+			if(debug)
+				System.out.println("case 3");
+			if(puCalc.powerUpExist(PowerUpType.HEAL)) {
+				if(debug)
+					System.out.println("\tfind health");
 				aiCon.setState(AiStates.FIND_HEALTH);
-			else
-				aiCon.setState(AiStates.ESCAPE_ON_HILL);
+			}
+			else if(playerCalc.playerIsTooClose() && (calc.onHill(nearestPlayer.getLocation()) || calc.closeToHill(nearestPlayer)) ) {
+				if(debug)
+					System.out.println("\twander");
+				aiCon.setState(AiStates.WANDER);
+			}
+			else if(playerCalc.playerIsTooClose()) {
+				if(debug)
+					System.out.println("\tplayer is too close");
+				aiCon.setState(AiStates.ESCAPE);
+			}
+			else {
+				if(debug)
+					System.out.println("\tescape on hill");
+				aiCon.setState(AiStates.WANDER_ON_HILL);
+			}
 		}
 		
-		//case 3, FINISH HIM
-		else if (playerHP < (maxHP/3)) {//System.out.println("case 3");
-			aiCon.setState(AiStates.AGGRESSIVE_ATTACK);
-		}		
-		
-		//case 4, normal attacking
-		else if ( calc.playerIsTooClose() || aiPlayerHP > playerHP  ) {
-			//System.out.println("case 4\nplayer is too close: "+aiCon.playerIsTooClose()+"\naiHP > playerHP "+(aiPlayerHP>playerHP));
-			aiCon.setState(AiStates.ATTACK);
-		}
-	
-		//case5, take the power up on your way
-		else if (calc.powerupIsTooClose()) {//System.out.println("case 5");
-			switch(calc.getPowerups().get(calc.getNearestPowerUp()).getType()) {
+		//case 4, take a power up
+		else if (puCalc.powerupIsTooClose()) {
+			if(debug)
+				System.out.println("case 4");
+			switch(puCalc.getPowerups().get(puCalc.getNearestPowerUp()).getType()) {
 			case DAMAGE:
 				aiCon.setState(AiStates.FIND_DAMAGE);
 				break;
 			case HEAL:
-				aiCon.setState(AiStates.FIND_HEALTH);
+				if(aiPlayerHP<maxHP)
+					aiCon.setState(AiStates.FIND_HEALTH);
+				else
+					aiCon.setState(AiStates.GO_TO_HILL);
 				break;
 			case SPEED:
 				aiCon.setState(AiStates.FIND_SPEED);
@@ -184,11 +300,26 @@ public class HillFSM extends FSM{
 			}
 		}
 		
-		//case 6, 'random action', either fix on one player and attack, or wander for 5 seconds
-		else {//System.out.println("case 6");
-			aiCon.setState(AiStates.WANDER_ON_HILL);
+		//case 5, stay on hill
+		else if( !calc.onHill(aiPlayer.getLocation()) && !(aiPlayerHP < (maxHP/3) && nearestPlayerHP - aiPlayerHP > 50) && !(playerCalc.scoreDifferenceIsMoreThan(3000) && playerCalc.isNearestPlayer(winningPlayer)) ) {
+			if(debug)
+				System.out.println("case 5");
+			aiCon.setState(AiStates.GO_TO_HILL);
 		}
-		//System.out.println("ai health: "+aiPlayer.getHealth());
+
+		//case 6, attack winning player
+		else if (playerCalc.scoreDifferenceIsMoreThan(3000)) {
+			if(debug)
+				System.out.println("case 6");
+			aiCon.setState(AiStates.ATTACK_WINNER);
+		}
+		
+		//case 7, normal attacking
+		else if ( playerCalc.playerIsTooClose() && aiPlayerHP > nearestPlayerHP && calc.closeToHill()) {
+			if(debug)
+				System.out.println("case 7");
+			aiCon.setState(AiStates.ATTACK);
+		}
 
 	}
 
