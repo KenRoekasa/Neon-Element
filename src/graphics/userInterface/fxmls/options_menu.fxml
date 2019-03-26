@@ -36,7 +36,7 @@
                      <children>
                         <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" onMouseEntered="#playHoverSound" styleClass="button-page" textAlignment="CENTER" GridPane.rowIndex="1">
                            <graphic>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="OK" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="Apply" />
                            </graphic>
                         </Button>
                         <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" onMouseEntered="#playHoverSound" prefHeight="83.0" prefWidth="177.0" styleClass="button-page" GridPane.columnIndex="1" GridPane.rowIndex="1">
