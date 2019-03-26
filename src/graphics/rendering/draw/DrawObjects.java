@@ -162,4 +162,12 @@ public class DrawObjects {
         gc.restore();
 
     }
+
+    public static void drawCrown(GraphicsContext gc, Point2D kingLocation, HashMap<Sprites, Image> textures) {
+        kingLocation = kingLocation.add(0,0);
+
+        gc.drawImage(textures.get(Sprites.CROWN), kingLocation.getX() - textures.get(Sprites.CROWN).getWidth()/2, kingLocation.getY() - textures.get(Sprites.CROWN).getHeight()/2 - 60);
+
+
+    }
 }

@@ -3,7 +3,9 @@ package graphics.rendering;
 import client.GameClient;
 import engine.model.AttackTimes;
 import client.ClientGameState;
+import engine.model.GameType;
 import engine.model.gametypes.HillGame;
+import engine.model.gametypes.Regicide;
 import graphics.debugger.Debugger;
 import engine.entities.Character;
 import engine.entities.PhysicsObject;
@@ -176,6 +178,21 @@ public class Renderer {
             ActionSwitch(gameState.getPlayer().getCurrentAction(), gameState.getPlayer(), gameState);
 
             gc.restore();
+
+
+            if (gameState.getGameType().getType() == GameType.Type.Regicide) {
+
+                Point2D kingLocation = ((Regicide)gameState.getGameType()).getKing().getLocation();
+                Point2D kingRelativeLocation = getLocationRelativeToPlayer(stageSize, kingLocation, gameState.getPlayer().getLocation());
+
+                kingRelativeLocation = ISOConverter.getLocationOnScreen(kingRelativeLocation, gameState.getPlayer(), stageSize);
+
+                DrawObjects.drawCrown(gc, kingRelativeLocation, textures);
+
+
+            }
+
+
             debugger.gameStateDebugger(gameState, stageSize);
             //debugger.simpleGSDebugger(gameState, debugger);
         } else {

@@ -21,7 +21,12 @@ public enum Sprites {
     /**
      *  The pointer sprite
      */
-    POINTER("graphics/rendering/textures/bluepointer.png");
+    POINTER("graphics/rendering/textures/bluepointer.png"),
+
+    /**
+     * The crown sprite
+     */
+    CROWN("graphics/userInterface/resources/icons/star-icon.png");
 
     /**
      * The location of the sprite

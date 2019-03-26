@@ -142,11 +142,17 @@ public class GameStateGenerator {
         objects.add(player);
         objects.addAll(map1.getWalls());
 
+        if(gameType.getType() == GameType.Type.Regicide) {
+            ((Regicide)gameType).setKing(enemies.get(0));
+        }
+
         ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager,mode);
 
         scoreboard.initialise(gameState.getAllPlayers());
 
 //        aiManager.startAllAi();
+
+
 
         return gameState;
 
