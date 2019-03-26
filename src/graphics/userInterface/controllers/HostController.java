@@ -5,16 +5,13 @@ import client.GameClient;
 import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
 import graphics.userInterface.LobbyThread;
-import server.GameServer;
-import server.ServerGameState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import server.ServerGameStateGenerator;
 
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.net.*;
+import java.util.ResourceBundle;
 
 //For local_setup scene
 public class HostController extends UIController{
@@ -108,6 +105,19 @@ public class HostController extends UIController{
         FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
 
+
+
+        try(final DatagramSocket socket = new DatagramSocket()){
+            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+            ip_host.setText(socket.getLocalAddress().getHostAddress());
+        } catch (SocketException | UnknownHostException e) {
+            ip_host.setText("Failed to auto detect IP");
+        }
+
+    }
 }
 
