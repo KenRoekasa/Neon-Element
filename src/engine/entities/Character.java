@@ -10,8 +10,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static engine.entities.CooldownValues.*;
 
@@ -67,7 +65,7 @@ public abstract class Character extends PhysicsObject {
      * The last Character to inflict damage on this Character
      */
     protected Player lastAttacker = null;
-    protected double lightAttackRange = 300;
+    protected double lightAttackRange = 330;
     /**
      * The time in milliseconds at when the current action started
      */
@@ -232,9 +230,10 @@ public abstract class Character extends PhysicsObject {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.LIGHT;
-                currentActionStart = System.currentTimeMillis();
+                currentActionStart = GameClient.timeElapsed;
                 long attackDuration = AttackTimes.getActionTime(currentAction);
-                final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+                // this is an array because of the thread
+                final long[] remainingAttackDuration = {attackDuration};
                 resetActionTimer(attackDuration, remainingAttackDuration);
             }
         }
@@ -245,7 +244,13 @@ public abstract class Character extends PhysicsObject {
     private void resetActionTimer(long attackDuration, long[] remainingAttackDuration) {
         (new Thread(() -> {
             while (remainingAttackDuration[0] > 0) {
-                remainingAttackDuration[0] = currentActionStart + attackDuration - System.currentTimeMillis();
+                remainingAttackDuration[0] = currentActionStart + attackDuration - GameClient.timeElapsed;
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
             currentAction = Action.IDLE;
         })).start();
@@ -286,17 +291,26 @@ public abstract class Character extends PhysicsObject {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.CHARGE;
-                currentActionStart = System.currentTimeMillis();
+                currentActionStart = GameClient.timeElapsed;
+
+                final float[] remainingChargeDuration = {AttackTimes.getActionTime(currentAction)};
+
 
                 (new Thread(() -> {
+                    while (remainingChargeDuration[0] > 0) {
+                        remainingChargeDuration[0] = currentActionStart + AttackTimes.getActionTime(currentAction) - GameClient.timeElapsed;
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        Thread.sleep(AttackTimes.getActionTime(currentAction));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
                     heavyAttack();
                 })).start();
+
+
+
             }
         }
     }
@@ -309,9 +323,9 @@ public abstract class Character extends PhysicsObject {
 
         actionHasSounded = false;
         currentAction = Action.HEAVY;
-        currentActionStart = System.currentTimeMillis();
+        currentActionStart = GameClient.timeElapsed;
         long attackDuration = AttackTimes.getActionTime(currentAction);
-        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.nanoTime()/1000000};
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - GameClient.timeElapsed};
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
@@ -348,7 +362,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToFire() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.FIRE;
             }
         }
@@ -359,7 +373,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.WATER;
             }
         }
@@ -370,7 +384,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.EARTH;
             }
         }
@@ -381,7 +395,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(CooldownItems.STATE, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.AIR;
             }
         }
@@ -499,13 +513,13 @@ public abstract class Character extends PhysicsObject {
 
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - lightAttackRange, width, lightAttackRange);
-        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2f), location.getY() + (width / 2f));
         hitbox.getTransforms().add(rotate);
         return hitbox;
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange);
+        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange / 2f);
     }
 
 
@@ -558,5 +572,9 @@ public abstract class Character extends PhysicsObject {
 
     public long getDeathTime() {
         return deathTime;
+    }
+
+    public long getLastUsed(CooldownItems i) {
+        return timeMap.get(i);
     }
 }

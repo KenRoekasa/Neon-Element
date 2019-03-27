@@ -64,6 +64,8 @@ public class GameStateGenerator {
 
     //receive the number of enemy from controller to initialise engine.ai enm
 
+
+
     /**
      * Generates a game state for testing
      *
@@ -71,7 +73,9 @@ public class GameStateGenerator {
      * @param aiTypes A list of ais diffculty
      * @return a gamestate for testing
      */
-    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
+    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes,GameType.Type mode) {
+
+
 
         //initialise map location
         Rectangle map = new Rectangle(2000, 2000);
@@ -85,18 +89,35 @@ public class GameStateGenerator {
 
         ArrayList<PhysicsObject> objects = new ArrayList<>();
         ScoreBoard scoreboard = new ScoreBoard();
+        GameType gameType = null;
 
         // First to 10 kills
+        switch (mode){
 
-        GameType gameType = new FirstToXKillsGame(3);
-        GameType gameType1 = new TimedGame(60000);
-        GameType gameType2 = new HillGame(new Circle(2000, 0, 500),100000);
-        GameType gameType3 = new Regicide(player, 5000);
+            case FirstToXKills:
+                gameType = new FirstToXKillsGame(10);
+                break;
+            case Timed:
+                gameType =  new TimedGame(90000);
+
+                break;
+            case Hill:
+                gameType = new HillGame(new Circle(2000, 0, 500),100000);
+                break;
+            case Regicide:
+                gameType = new Regicide(player, 5000);
+                break;
+                default:
+                gameType = new FirstToXKillsGame(10);
+
+
+        }
+
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map, player, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map, scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -121,12 +142,21 @@ public class GameStateGenerator {
         objects.add(player);
         objects.addAll(map1.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager);
+        if(gameType.getType() == GameType.Type.Regicide) {
+            ((Regicide)gameType).setKing(enemies.get(0));
+        }
+
+        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager,mode);
+
         scoreboard.initialise(gameState.getAllPlayers());
+
 //        aiManager.startAllAi();
 
+
+
         return gameState;
-    }
+
+        }
     
     private static AiType getType(String type) {
     	switch(type.toLowerCase().trim()) {

@@ -1,21 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
-<BorderPane id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HelpController">
-   <bottom>
-      <BorderPane prefHeight="97.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <center>
-            <Button fx:id="back" mnemonicParsing="false" onAction="#handleBackBtn" styleClass="button-text" text="Back" BorderPane.alignment="CENTER">
+<?import javafx.scene.control.RadioButton?>
+<GridPane styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HelpController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="355.0" minWidth="10.0" prefWidth="349.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="8.0" prefWidth="150.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="702.0" minWidth="10.0" prefWidth="585.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <GridPane prefHeight="764.0" prefWidth="389.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <RadioButton fx:id="mode_btn" maxWidth="437.0" onMouseEntered="#playHoverSound" mnemonicParsing="false" onAction="#showMode" prefHeight="86.0" prefWidth="437.0" styleClass="radio-text-menu" text="MODES" />
+            <RadioButton fx:id="control_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showControl" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="CONTROLS" GridPane.rowIndex="1" />
+            <RadioButton fx:id="rule_btn" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#showRule" prefHeight="86.0" prefWidth="410.0" styleClass="radio-text-menu" text="RULES
+" GridPane.rowIndex="2" />
+            <RadioButton fx:id="back" mnemonicParsing="false" onMouseEntered="#playHoverSound" onAction="#handleBackBtn" prefHeight="86.0" prefWidth="387.0" styleClass="radio-text-menu" text="Back" GridPane.rowIndex="3">
                <graphic>
                   <Label />
-               </graphic></Button>
-         </center>
-      </BorderPane>
-   </bottom>
-   <top>
-      <Label styleClass="standard-text-big" text="GUIDE" BorderPane.alignment="CENTER" />
-   </top>
-</BorderPane>
+               </graphic>
+            </RadioButton>
+         </children>
+      </GridPane>
+      <StackPane fx:id="stack_pane" prefHeight="768.0" prefWidth="695.0" GridPane.columnIndex="2" />
+   </children>
+</GridPane>

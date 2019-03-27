@@ -6,7 +6,7 @@ import engine.model.GameType;
  * A game mode; win condition: get X number of kills
  */
 public class FirstToXKillsGame extends GameType {
-    private int killsNeeded;
+    private static int killsNeeded;
 
     /**
      * Constructor
@@ -18,7 +18,7 @@ public class FirstToXKillsGame extends GameType {
         this.killsNeeded = killsNeeded;
     }
 
-    public int getKillsNeeded() {
+    public static int getKillsNeeded() {
         return killsNeeded;
     }
 }
