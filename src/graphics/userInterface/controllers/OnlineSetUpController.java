@@ -1,5 +1,11 @@
 package graphics.userInterface.controllers;
 
+import client.ClientGameState;
+import engine.entities.Player;
+import engine.model.GameType;
+import engine.model.Map;
+import engine.model.enums.ObjectType;
+import engine.model.generator.GameStateGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -111,6 +117,7 @@ public class OnlineSetUpController extends UIController {
     }
 
 
+    private ClientGameState gameState;
 
 
 
@@ -206,14 +213,24 @@ public class OnlineSetUpController extends UIController {
                 }
 
 
+
+
+
+
                 // Constants.NUM_PLAYER = enemy_num+player_num;
                 System.out.println("Constants num of player:"+ Constants.NUM_PLAYER);
 
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";
+
+
                 FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
+
+                ((HostController)loader.getController()).setGameAttributes(player_num, enemy_num, enemyTypes, selected_mode);
                 break;
+
+
 
             }
         }

@@ -2,6 +2,7 @@ package graphics.userInterface.controllers;
 
 import client.ClientGameState;
 import client.GameClient;
+import engine.model.GameType;
 import engine.model.generator.GameStateGenerator;
 import graphics.userInterface.LobbyThread;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,6 +14,7 @@ import javafx.scene.text.Text;
 
 import java.lang.reflect.Method;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -24,6 +26,12 @@ public class HostController extends UIController{
 	TextField ip_host;
 
     private ClientGameState gameState;
+    private int playerNum;
+    private int AiNum;
+    private ArrayList<String> AiType;
+    private String gameType;
+
+
     /**
      * The host IP address of the game
      */
@@ -31,7 +39,7 @@ public class HostController extends UIController{
     public void handleStartBtn(ActionEvent event) {
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createEmptyState();
+         gameState = GameStateGenerator.createEmptyState();
 
         try {
             // Create server
@@ -70,7 +78,8 @@ public class HostController extends UIController{
                                 // load the class
                                 Class<?> classToLoad = cl.loadClass("networking.test.ManualTestServer");
 
-                                String[] args = new String[0];
+                                String[] args = new String[]{String.valueOf(playerNum), String.valueOf(AiNum), String.join(",", AiType), gameType};
+
 
                                 // get the main method
                                 Method main = classToLoad.getMethod("main", args.getClass());
@@ -145,6 +154,13 @@ public class HostController extends UIController{
             ip_host.setText("Failed to auto detect IP");
         }
 
+    }
+
+    public void setGameAttributes(int playerNum, int AiNum, ArrayList<String> AiType, String type) {
+        this.playerNum = playerNum;
+        this.AiNum = AiNum;
+        this.AiType = AiType;
+        this.gameType = type;
     }
 }
 
