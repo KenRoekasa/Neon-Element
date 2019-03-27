@@ -102,6 +102,9 @@ public class Player extends Character {
             case BLOCK:
                 this.shield();
                 break;
+            case IDLE:
+                this.setCurrentAction(Action.IDLE);
+                break;
             default:
                 break;
         }

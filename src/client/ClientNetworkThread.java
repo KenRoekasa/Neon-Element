@@ -56,14 +56,24 @@ public class ClientNetworkThread extends Thread {
         // Now we have been sent game started
         Elements playerElement = gameState.getPlayer().getCurrentElement();
         long lastActionSendTime = 0;
+        Action lastAction = Action.IDLE;
         while (this.running) {
             this.doLocationState();
 
             if((gameState.getPlayer().getCurrentAction() != Action.IDLE && gameState.getPlayer().getCurrentAction() != Action.HEAVY) && gameState.getPlayer().getCurrentActionStart() > lastActionSendTime) {
                 lastActionSendTime = gameState.getPlayer().getCurrentActionStart();
+                lastAction = gameState.getPlayer().getCurrentAction();
                 //todo sent action
 
                 this.doActionState();
+            }
+
+            if((gameState.getPlayer().getCurrentAction() == Action.IDLE) && (lastAction == Action.BLOCK)) {
+                this.doActionState();
+
+
+
+                lastAction = Action.IDLE;
             }
 
             if(gameState.getPlayer().getCurrentElement() != playerElement) {
