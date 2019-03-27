@@ -79,8 +79,8 @@
 
 .standard-text{
     -fx-font-family: Audiowide;
-    -fx-text-fill: rgba(120, 0, 50, .5);
-    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-text-fill: #ff8deb 25%;
+    -fx-fill: #ff8deb 25%;
 }
 
 .standard-text-medium{
@@ -215,12 +215,21 @@
 
 .cooldown-indicator{
     -fx-font-size: 1;
+    -fx-background-insets: 0, 0, 0 ;
     -fx-progress-color: grey;
 }
 
 .progress-indicator .percentage {
-    -fx-fill:null;
+     -fx-fill:null;
+
+ }
+
+.timer{
+    -fx-progress-color:rgb(230, 0, 120);
+    -fx-background-insets: 0, 0, 0 ;
+
 }
+
 
 .progress-bar .bar {
     -fx-background-insets: 0, 1, 2;
@@ -274,5 +283,10 @@
     -fx-text-fill: rgb(230, 0, 120);
     -fx-fill: rgb(230, 0, 120);
 }
+
+
+
+
+
 
 

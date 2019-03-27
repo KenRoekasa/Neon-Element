@@ -9,7 +9,7 @@
    <top>
       <BorderPane prefHeight="241.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <center>
-            <Label styleClass="standard-text-medium" text="GAME LOBBY" BorderPane.alignment="CENTER">
+            <Label styleClass="text-alert-big" text="GAME LOBBY" BorderPane.alignment="CENTER">
                <font>
                   <Font size="1.0" />
                </font>
@@ -24,6 +24,6 @@
       </BorderPane>
    </bottom>
    <center>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="WAITING FOR GAME TO START..." BorderPane.alignment="CENTER" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-medium" text="WAITING FOR GAME TO START..." wrappingWidth="808.08154296875" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

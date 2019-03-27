@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.MenuOptionsController">
+<BorderPane id="background" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.MenuOptionsController">
    <center>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane">
         <columnConstraints>
@@ -52,9 +52,9 @@
                <center>
                   <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="210.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="429.46490478515625" minWidth="10.0" prefWidth="353.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.65606689453125" minWidth="10.0" prefWidth="68.2230224609375" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="229.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="429.46490478515625" minWidth="10.0" prefWidth="319.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.65606689453125" minWidth="10.0" prefWidth="102.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -63,11 +63,11 @@
                     </rowConstraints>
                      <children>
                         <Slider fx:id="sound" prefHeight="54.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                         <Text styleClass="standard-text-medium" text="Effects" GridPane.rowIndex="0" />
-                        <Text fx:id="volume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="50" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                        <Text styleClass="standard-text-medium" text="Music" GridPane.rowIndex="2" />
+                         <Text styleClass="standard-text-medium" text="Effects" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+                        <Text fx:id="volume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="50" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+                        <Text styleClass="standard-text-medium" text="Music" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                         <Slider fx:id="music" prefHeight="54.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="musicVolume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="50" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Text fx:id="musicVolume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="50" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                </center>

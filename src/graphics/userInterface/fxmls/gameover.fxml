@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.GameOverController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="pane" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.GameOverController">
    <top>
       <BorderPane maxHeight="200.0" prefHeight="200.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <center>
@@ -76,28 +76,28 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label styleClass="standard-text-normal" stylesheets="@../resources/css/outrun.css" text="RANK" />
-                        <Label styleClass="standard-text-normal" text="ID" GridPane.columnIndex="1">
+                        <Label styleClass="options-normal" stylesheets="@../resources/css/outrun.css" text="RANK" />
+                        <Label styleClass="options-normal" text="ID" GridPane.columnIndex="1">
                            <padding>
                               <Insets left="40.0" />
                            </padding>
                         </Label>
-                        <Label styleClass="standard-text-normal" text="KILLS" GridPane.columnIndex="2">
+                        <Label styleClass="options-normal" text="KILLS" GridPane.columnIndex="2">
                            <padding>
                               <Insets left="30.0" />
                            </padding>
                         </Label>
-                        <Label prefHeight="30.0" prefWidth="178.0" styleClass="standard-text-normal" text="DEATHS" GridPane.columnIndex="3">
+                        <Label prefHeight="30.0" prefWidth="178.0" styleClass="options-normal" text="DEATHS" GridPane.columnIndex="3">
                            <padding>
                               <Insets left="40.0" />
                            </padding>
                         </Label>
-                        <Label styleClass="standard-text-normal" text="SCORE" GridPane.columnIndex="4">
+                        <Label styleClass="options-normal" text="SCORE" GridPane.columnIndex="4">
                            <padding>
                               <Insets left="30.0" />
                            </padding>
                         </Label>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="options-normal" />
                      </children>
                   </GridPane>
                   <GridPane GridPane.rowIndex="1">
@@ -122,7 +122,7 @@
                         <Text fx:id="player1_deaths" styleClass="standard-text-normal" text="deaths" textAlignment="CENTER" wrappingWidth="180" GridPane.columnIndex="3" />
                         <Text fx:id="player1_score" styleClass="standard-text-normal" text="score" textAlignment="CENTER" wrappingWidth="150" GridPane.columnIndex="4" />
                         <Text fx:id="player1_id" styleClass="standard-text-normal" text="id" textAlignment="CENTER" wrappingWidth="100" GridPane.columnIndex="1" />
-                        <ImageView fitHeight="42.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="52.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/icons/win-icon.png" />
                            </image>
@@ -202,13 +202,6 @@
                </children>
             </GridPane>
          </center>
-         <top>
-            <Label styleClass="standard-text-medium" text="LEADERBOARD" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="1.0" />
-               </font>
-            </Label>
-         </top>
       </BorderPane>
    </center>
 </BorderPane>

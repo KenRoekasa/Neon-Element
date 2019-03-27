@@ -65,7 +65,7 @@
                <children>
                   <RadioButton fx:id="FirstToXKills" mnemonicParsing="false" prefHeight="18.0" prefWidth="117.0" styleClass="radio-text" GridPane.columnIndex="1">
                      <graphic>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="FirstToXKills" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="Death Based" />
                      </graphic></RadioButton>
                   <RadioButton fx:id="Timed" mnemonicParsing="false" prefHeight="24.0" prefWidth="155.0" styleClass="radio-text" GridPane.columnIndex="2">
                      <graphic>
