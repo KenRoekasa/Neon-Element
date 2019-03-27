@@ -21,7 +21,7 @@ public class ServerNetworkHandler {
 	public void receiveHello(HelloPacket packet) {
 		// TODO - integrate and get these values from somewhere
 		int players = this.gameState.getAllPlayers().size();
-		int maxPlayers = this.gameState.getMaxPlayers();
+		int maxPlayers = this.gameState.getNumPlayers();
 
 		Packet response = new HelloAckPacket(players, maxPlayers, this.gameState.getGameType());
 		this.dispatcher.send(response, packet.getIpAddress(), packet.getPort());
@@ -29,7 +29,7 @@ public class ServerNetworkHandler {
 
 	public void receiveConnect(ConnectPacket packet) {
 		boolean isStarted = this.gameState.isStarted();
-		boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
+		boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getNumPlayers();
 		System.out.println("Does the game have space: " + hasSpace);
 		System.out.println("has the game Started: " + isStarted);
 

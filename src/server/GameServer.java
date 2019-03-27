@@ -76,7 +76,7 @@ public class GameServer extends Thread {
 		//todo can't get the connected player : how and where player added
 
         // once players are all connected, start the game
-        if(connectedPlayers != null && connectedPlayers.count() == Constants.NUM_PLAYER) {
+        if(connectedPlayers != null && connectedPlayers.count() == gameState.getNumPlayers()) {
 			// Start the game
 			connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
 			this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());

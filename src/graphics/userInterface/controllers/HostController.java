@@ -65,7 +65,9 @@ public class HostController extends UIController{
                                 // load the class
                                 Class<?> classToLoad = cl.loadClass("networking.test.ManualTestServer");
 
-                                String[] args = new String[0];
+                                // TODO: pass options through to server
+                                // numPlayers
+                                String[] args = new String[]{"2"};
 
                                 // get the main method
                                 Method main = classToLoad.getMethod("main", args.getClass());

@@ -191,10 +191,6 @@ public class OnlineSetUpController extends UIController {
                         enemyTypes.add(enemy_3);
                 }
 
-
-                // Constants.NUM_PLAYER = enemy_num+player_num;
-                System.out.println("Constants num of player:"+ Constants.NUM_PLAYER);
-
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";

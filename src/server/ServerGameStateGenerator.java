@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ServerGameStateGenerator {
 
-    public static ServerGameState createEmptyState() {
+    public static ServerGameState createEmptyState(int numPlayers) {
         ArrayList<PhysicsObject> objects = new ArrayList<>();
         ScoreBoard scoreboard = new ScoreBoard();
 
@@ -20,7 +20,7 @@ public class ServerGameStateGenerator {
 
         AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, scoreboard, gameType);
 
-        ServerGameState gameState = new ServerGameState(map, objects, scoreboard, gameType, aiManager);
+        ServerGameState gameState = new ServerGameState(map, objects, scoreboard, gameType, aiManager, numPlayers);
 
         return gameState;
     }

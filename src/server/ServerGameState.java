@@ -12,19 +12,18 @@ import java.util.ArrayList;
 
 public class ServerGameState extends GameState {
 
-    private final int MAX_PLAYERS = Constants.NUM_PLAYER;
+    private int numPlayers;
 
     private boolean isStarted;
 
-    public ServerGameState(Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard, GameType gameType, AiControllersManager aiConMan){
+    public ServerGameState(Map map, ArrayList<PhysicsObject> objects, ScoreBoard scoreBoard, GameType gameType, AiControllersManager aiConMan, int numPlayers){
         super(map,objects, scoreBoard, gameType,aiConMan);
         this.startTime = System.currentTimeMillis();
+        this.numPlayers = numPlayers;
     }
 
-    public int getMaxPlayers() {
-        // TODO - use a variable from game setup to choose number
-        System.out.println("MAX_PLAYER in Server game state "+ MAX_PLAYERS);
-        return MAX_PLAYERS;
+    public int getNumPlayers() {
+        return this.numPlayers;
     }
 
     public void setPlayers(ArrayList<Player> players) {
