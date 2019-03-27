@@ -4,6 +4,7 @@ import engine.entities.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class ScoreBoard {
     //Hash map , key = ID, value = pair type of  (number of kills, list of victims)
@@ -89,8 +90,16 @@ public class ScoreBoard {
         return totalScore;
     }
 
+    @Override
     public String toString() {
-        return board.toString();
+        String string = "";
+        Iterator it = board.entrySet().iterator();
+        while (it.hasNext()) {
+            java.util.Map.Entry pair = ( java.util.Map.Entry)it.next();
+            string += pair.getKey() + " = " + pair.getValue();
+//            it.remove(); // avoids a ConcurrentModificationException
+        }
+        return string;
     }
 }
 
@@ -124,5 +133,10 @@ class Score {
 
     public void setKills(int kills) {
         this.kills = kills;
+    }
+
+    @Override
+    public String toString() {
+        return score + " " + kills + " " + deaths;
     }
 }

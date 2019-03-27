@@ -28,7 +28,7 @@ public class ScoreBroadcast extends Packet.PacketToClient {
 
     @Override
     public PacketType getPacketType() {
-        return PacketType.HEALTH_STATE_BCAST;
+        return PacketType.SCORE_BCAST;
     }
 
     public int getId() {

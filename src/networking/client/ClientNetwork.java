@@ -74,6 +74,6 @@ public class ClientNetwork extends AbstractNetwork {
         }
 
         ((Packet.PacketToClient) packet).handle(this.handler);
-    }
+        }
 
 }

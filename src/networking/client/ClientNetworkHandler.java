@@ -167,8 +167,9 @@ public class ClientNetworkHandler {
     }
 
     public void recieveScoreBroadcast(ScoreBroadcast packet) {
-
+        System.out.println("packet " + packet.getId());
         gameState.getScoreBoard().addScore(packet.getId(), packet.getPlayerScore());
+        System.out.println(gameState.getScoreBoard());
     }
 
     /**
