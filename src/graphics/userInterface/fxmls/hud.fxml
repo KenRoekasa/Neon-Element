@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" styleClass="cooldown-indicator" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="679.0" prefWidth="923.0" styleClass="cooldown-indicator" stylesheets="@../resources/css/outrun.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.HUDController">
    <children>
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="350.0" style="-fx-spacing: 50;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0">
          <children>
@@ -113,15 +113,10 @@
       <Text fx:id="death" fill="#f8f5f5" layoutX="70.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="90.6640625" />
       <AnchorPane fx:id="leaderboard" layoutX="659.0" layoutY="10.0" prefHeight="230.0" prefWidth="201.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="10.0">
-               <image>
-                  <Image url="@../resources/icons/leaderboard-icon.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0" />
-            <Label fx:id="player1" layoutX="39.0" layoutY="60.0" styleClass="standard-text-hud" text="1" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
-            <Label fx:id="player2" layoutX="54.0" layoutY="90.0" styleClass="standard-text-hud" text="2" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
-            <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="180.0" />
+            <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+            <Label fx:id="player1" layoutX="39.0" layoutY="60.0" styleClass="standard-text-hud" text="1" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
+            <Label fx:id="player2" layoutX="54.0" layoutY="90.0" styleClass="standard-text-hud" text="2" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
+            <Label fx:id="player4" styleClass="standard-text-hud" text="4" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0" />
          </children>
       </AnchorPane>
       <HBox fx:id="time_board" alignment="CENTER" layoutY="9.0" maxHeight="100.0" prefHeight="100.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="9.0">

@@ -1,15 +1,12 @@
 package client;
 
 import client.audiomanager.AudioManager;
-import engine.model.GameType;
 import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
 import graphics.userInterface.controllers.*;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -23,17 +20,13 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import server.controllers.PowerUpController;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import static engine.model.GameType.Type.Timed;
-
 public class GameClient {
-
 
 
     public static long timeElapsed;
@@ -77,7 +70,9 @@ public class GameClient {
     private Pane hudPane;
 
     private AudioManager audioManager;
-
+    private Boolean tab;
+    private Pane leaderboard;
+    private LeaderboardController leaderboardController;
 
     /**
      * Constructor
@@ -95,10 +90,12 @@ public class GameClient {
 
         // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
+        FXMLLoader loader_lb = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
         //Pane hudPane = new Pane();
 
         try {
             hudPane = loader.load();
+            leaderboard = loader_lb.load();
             //get player attribute
 
         } catch (Exception e) {
@@ -109,6 +106,7 @@ public class GameClient {
             System.exit(0);
         }
 
+        leaderboardController = loader_lb.getController();
         HUDController hudController = loader.getController();
         hudController.setGameState(gameState);
         hudController.setMode(gameState.getMode());
@@ -152,11 +150,10 @@ public class GameClient {
 
         if (!online) {
             this.gameState.start();
-            long startTime =System.nanoTime()/1000000000;
+            long startTime = System.nanoTime() / 1000000000;
             hudController.setStartTime(startTime);
             beginClientLoop(renderer, hudController);
         }
-
 
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
@@ -186,17 +183,18 @@ public class GameClient {
         new AnimationTimer() {
             long lastTime = System.nanoTime();
             long pauseDuration = 0;
+
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap().getGround(), primaryStage);
                 renderer.render(primaryStage, gameState);
                 hudController.update();
 
                 // TODO: remove this when networking is added
-                if(gameState.getPaused()){
-                    long now = System.nanoTime()/1000000;
+                if (gameState.getPaused()) {
+                    long now = System.nanoTime() / 1000000;
                     pauseDuration = (now - pauseStart);
                 }
-                if(!gameState.getPaused()){
+                if (!gameState.getPaused()) {
                     timeElapsed += deltaTime;
                     physicsEngine.clientLoop();
                     powerUpController.update();
@@ -224,7 +222,6 @@ public class GameClient {
         }.start();
 
 
-
     }
 
 
@@ -232,14 +229,14 @@ public class GameClient {
      * Called when the game ends to swjitch to the game over screen
      */
     private void showGameOver() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
         try {
             Pane root = loader.load();
             primaryStage.getScene().setRoot(root);
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
             gameState.stop();
-            LeaderboardController controller = loader.getController();
+            GameOverController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
             controller.setScoreBoard(gameState.getScoreBoard());
@@ -273,12 +270,14 @@ public class GameClient {
 
         gameState.resume();
 
+        tab = false;
+
         theScene.setOnKeyReleased(e -> {
             if (!gameState.getPaused()) {
                 String code = e.getCode().toString();
                 input.remove(code);
-
             }
+
         });
 
         theScene.setOnMouseClicked(e -> {
@@ -315,23 +314,52 @@ public class GameClient {
                         controller.setStageSize(stageSize);
                         controller.setStage(primaryStage, gameState);
                         controller.setAudioManager(audioManager);
+
                         gameState.pause();
-                        pauseStart = System.nanoTime()/1000000;
+                        pauseStart = System.nanoTime() / 1000000;
                         input.clear();
                         primaryStage.setTitle("Pause");
-
                     } catch (IOException ex) {
                         System.out.println("crush in loading pause board ");
                         ex.printStackTrace();
                     }
-                }
+                } else if (e.getCode() == KeyCode.TAB) {
+                    if (!tab) {
+                        System.out.println("Tab show info");
+                        leaderboard.setPrefHeight(stageSize.getHeight() / 2);
+                        leaderboard.setPrefWidth(stageSize.getWidth() / 2);
 
+                        hudPane.getChildren().add(leaderboard);
+                        leaderboard.setLayoutX(stageSize.getHeight() * 0.4);
+                        leaderboard.setLayoutY(stageSize.getHeight() / 4);
+                        leaderboard.setBackground(Background.EMPTY);
+                        leaderboardController.setHudPane(hudPane);
+                        leaderboardController.setNode(leaderboard);
+                        leaderboardController.setStageSize(stageSize);
+                        leaderboardController.setStage(primaryStage, gameState);
+                        leaderboardController.setScoreBoard(gameState.getScoreBoard());
+                        leaderboardController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+                        leaderboardController.setAudioManager(audioManager);
+                        leaderboardController.update();
+
+                        primaryStage.setTitle("Leaderboard");
+                        tab = true;
+                        input.clear();
+                    } else {
+                        System.out.println("Tab hide info");
+                        hudPane.getChildren().remove(leaderboard);
+                        tab = false;
+
+                    }
+                }
                 String code = e.getCode().toString();
                 // only add each input command once
                 if (!input.contains(code))
                     input.add(code);
             }
         });
+
+
     }
 
 }

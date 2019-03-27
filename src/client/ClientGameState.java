@@ -34,6 +34,12 @@ public class ClientGameState extends GameState {
 
     private GameType.Type mode;
 
+
+    /**
+     * The state of show leaderboard using tab
+     */
+    private boolean tab;
+
     /**
      * Constructor
      *
@@ -97,4 +103,22 @@ public class ClientGameState extends GameState {
     public Boolean getPaused() {
         return paused;
     }
+
+    /**
+     * get the state of leaderboard
+     * @return
+     */
+    public boolean isTab() {
+        return tab;
+    }
+
+    /**
+     *
+     */
+    public void setTab(boolean tab) {
+        this.tab = tab;
+    }
+
+
+
 }

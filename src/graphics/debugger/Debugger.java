@@ -130,7 +130,11 @@ public class Debugger {
 
         gc.save();
         gc.setFill(Color.WHITE);
-        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), player.getHealth(), 10);
+        gc.fillRect(relativeLocation.getX(), relativeLocation.getY(), 100, 10);
+
+        gc.setFill(Color.RED);
+        gc.fillRect(relativeLocation.getX() + 1, relativeLocation.getY() +1 , player.getHealth() - 2, 8);
+
         gc.restore();
 
     }
