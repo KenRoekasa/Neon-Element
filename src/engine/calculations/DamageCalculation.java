@@ -48,31 +48,31 @@ public class DamageCalculation {
             case EARTH:
                 switch (victim.getCurrentElement()) {
                     case FIRE:
-                        return baseDmg * 1.5f;
+                        return baseDmg * 1f;
                     case EARTH:
                         return baseDmg * 1f;
                     case WATER:
-                        return baseDmg * 0.5f;
+                        return baseDmg * 1.5f;
                     case AIR:
-                        return baseDmg * 1f;
+                        return baseDmg * 0.5f;
                 }
             case WATER:
                 switch (victim.getCurrentElement()) {
                     case FIRE:
                         return baseDmg * 1.5f;
                     case EARTH:
-                        return baseDmg * 1f;
+                        return baseDmg * 0.5f;
                     case WATER:
                         return baseDmg * 1f;
                     case AIR:
-                        return baseDmg * 0.5f;
+                        return baseDmg * 1f;
                 }
             case AIR:
                 switch (victim.getCurrentElement()) {
                     case FIRE:
-                        return baseDmg * 1.5f;
-                    case EARTH:
                         return baseDmg * 0.5f;
+                    case EARTH:
+                        return baseDmg * 1.5f;
                     case WATER:
                         return baseDmg * 1f;
                     case AIR:
