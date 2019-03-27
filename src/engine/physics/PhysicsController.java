@@ -16,9 +16,11 @@ import engine.model.gametypes.HillGame;
 import engine.model.gametypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
+import server.ServerGameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -41,7 +43,10 @@ public class PhysicsController {
      */
     public void clientLoop() {
         doCollisionDetection();
-        new Thread(() -> doHitDetection()).start();
+        if(gameState instanceof ServerGameState){
+            System.out.println(7);
+            new Thread(() -> doHitDetection()).start();
+        }
         doUpdates();
         deathHandler();
 
@@ -226,10 +231,12 @@ public class PhysicsController {
                         if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
+                            System.out.println(e.getHealth());
                         }
                     } else {
                         float damage = DamageCalculation.calculateDealtDamage(player, e);
                         e.takeDamage(damage, player);
+                        System.out.println(e.getHealth()+"--------");
                     }
                 }
             }

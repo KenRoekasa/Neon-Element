@@ -25,30 +25,36 @@ public abstract class Packet {
     }
 
     public static enum PacketType implements LookupableById {
-        // Client -> Server                                     // Server -> Client
-        HELLO          ((byte) 0x00, HelloPacket::new),         HELLO_ACK            ((byte) 0x01, HelloAckPacket::new),
-        CONNECT        ((byte) 0x02, ConnectPacket::new),       CONNECT_ACK          ((byte) 0x03, ConnectAckPacket::new),
-        DISCONNECT     ((byte) 0x04, DisconnectPacket::new),    DISCONNECT_ACK       ((byte) 0x05, DisconnectAckPacket::new),
-        READY_STATE    ((byte) 0x06, ReadyStatePacket::new),    // HEALTH_STATE         ((byte) 0x07),
-        LOCATION_STATE ((byte) 0x08, LocationStatePacket::new), // LOCATION_STATE_ACK   ((byte) 0x09),
-        ELEMENT_STATE  ((byte) 0x0A, ElementStatePacket::new),
+        ACTION_BCAST((byte) 0xF9, ActionStateBroadcast::new), ACTION_STATE((byte) 0x10, ActionStatePacket::new), // ACTION_STATE_ACK     ((byte) 0x11),
+        CONNECT((byte) 0x02, ConnectPacket::new), CONNECT_ACK((byte) 0x03, ConnectAckPacket::new),
+        CONNECT_BCAST((byte) 0xF0, ConnectBroadcast::new)// Broadcast from Server -> All Clients
+        ,
+        DISCONNECT((byte) 0x04, DisconnectPacket::new),
 
-        POWERUP        ((byte) 0x0E, PowerUpPacket::new),
-        ACTION_STATE   ((byte) 0x10, ActionStatePacket::new),   // ACTION_STATE_ACK     ((byte) 0x11),
+        DISCONNECT_ACK((byte) 0x05, DisconnectAckPacket::new),
+        DISCONNECT_BCAST((byte) 0xF1, DisconnectBroadcast::new),
+        ELEMENT_STATE((byte) 0x0A, ElementStatePacket::new),
 
-        // Broadcast from Server -> All Clients
-        CONNECT_BCAST        ((byte) 0xF0, ConnectBroadcast::new),
-        DISCONNECT_BCAST     ((byte) 0xF1, DisconnectBroadcast::new),
-        READY_STATE_BCAST    ((byte) 0xF2, ReadyStateBroadcast::new),
-        LOCATION_STATE_BCAST ((byte) 0xF3, LocationStateBroadcast::new),
-        ELEMENT_STATE_BCAST  ((byte) 0xF4, ElementStateBroadcast::new),
+        ELEMENT_STATE_BCAST((byte) 0xF4, ElementStateBroadcast::new),
+        HEALTH_STATE_BCAST((byte) 0xF5, HealthStateBroadcast::new),
 
-        POWERUP_PICKUP_BCAST ((byte) 0xF6, PowerUpPickUpBroadcast::new),
-        POWERUP_STATE_BCAST  ((byte) 0xF7, PowerUpBroadcast::new),
-        INITIAL_STATE_BCAST  ((byte) 0xF8, InitialGameStateBroadcast::new),
-        ACTION_BCAST         ((byte) 0xF9, ActionStateBroadcast::new),
-        GAME_START_BCAST     ((byte) 0xFE, GameStartBroadcast::new),
-        GAME_OVER_BCAST      ((byte) 0xFF, GameOverBroadcast::new);
+        HELLO((byte) 0x00, HelloPacket::new)// Client -> Server                                     // Server -> Client
+        ,
+
+        HELLO_ACK((byte) 0x01, HelloAckPacket::new),
+        INITIAL_STATE_BCAST((byte) 0xF8, InitialGameStateBroadcast::new),
+        LOCATION_STATE((byte) 0x08, LocationStatePacket::new), // LOCATION_STATE_ACK   ((byte) 0x09),
+        LOCATION_STATE_BCAST((byte) 0xF3, LocationStateBroadcast::new),
+
+        POWERUP((byte) 0x0E, PowerUpPacket::new),
+        POWERUP_PICKUP_BCAST((byte) 0xF6, PowerUpPickUpBroadcast::new),
+        POWERUP_STATE_BCAST((byte) 0xF7, PowerUpBroadcast::new),
+        GAME_START_BCAST((byte) 0xFE, GameStartBroadcast::new),
+        GAME_OVER_BCAST((byte) 0xFF, GameOverBroadcast::new),
+
+
+        READY_STATE((byte) 0x06, ReadyStatePacket::new), // HEALTH_STATE         ((byte) 0x07),
+        READY_STATE_BCAST((byte) 0xF2, ReadyStateBroadcast::new);
 
         private byte id;
         private PacketConstructor constructor;

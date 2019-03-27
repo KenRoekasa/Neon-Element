@@ -103,9 +103,36 @@ public class ClientNetworkHandler {
             }
             player.setLocation(packet.getX(), packet.getY());
             player.setPlayerAngle(new Rotate(packet.getPlayerAngle()));
+//            System.out.println("before my client health added ");
+//            System.out.println(player.getHealth());
+          //  player.setHealth(packet.getPlayerHealth());
+//            System.out.println("after my client health added ");
+//            System.out.println(player.getHealth());
         }
     }
 
+    public void  recieveHealthStateBroadcast(HealthStateBroadcast packet){
+        if (packet.getId() != this.gameState.getPlayer().getId()) {
+            int id = packet.getId();
+
+            Player foundPlayer = this.gameState.getAllPlayers().stream()
+                    .filter(p -> p.getTag().equals(ObjectType.ENEMY))
+                    .map(p -> (Player) p)
+                    .filter(p -> p.getId() == id)
+                    .findFirst()
+                    .orElse(null);
+
+            if (foundPlayer != null) {
+                foundPlayer.setHealth(packet.getPlayerHealth());
+            } else {
+                System.out.println("Player does not exists");
+            }
+        }else{
+            this.gameState.getPlayer().setHealth(packet.getPlayerHealth());
+        }
+
+
+}
 	public void receivePlayerActionBroadCast(ActionStateBroadcast packet) {
 		// TODO Auto-generated method stub
 		 if (packet.getId() != this.gameState.getPlayer().getId()) {

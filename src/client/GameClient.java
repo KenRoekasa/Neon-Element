@@ -141,6 +141,9 @@ public class GameClient {
                     long now = System.nanoTime()/1000000;
                     pauseDuration = (now - pauseStart);
                 }
+
+
+
                 if(!gameState.getPaused()){
                     timeElapsed += DeltaTime.deltaTime;
                     physicsEngine.clientLoop();

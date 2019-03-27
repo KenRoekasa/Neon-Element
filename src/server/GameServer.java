@@ -49,6 +49,14 @@ public class GameServer extends Thread {
 			} else {
 
 				physicsController.clientLoop();
+
+
+				for(Player p : gameState.getAllPlayers()){
+					System.out.println(p.getId() + "  " +p.getHealth());
+				}
+
+
+
 				puController.update();
 				resController.update();
 
@@ -56,6 +64,7 @@ public class GameServer extends Thread {
 
 				Thread.yield();
                 this.sendLocations();
+                this.sendHealthUpdates();
 
                 //calculate deltaTime
                 long time = System.nanoTime();
@@ -98,8 +107,19 @@ public class GameServer extends Thread {
 				Rotate playerAngle = p.getPlayerAngle();
 				double x = location.getX();
 				double y = location.getY();
+				//float playerHealth = p.getHealth();
 
 				this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
+			}
+		}
+	}
+
+	private void sendHealthUpdates() {
+		synchronized (gameState.getAllPlayers()) {
+			for (Player p : gameState.getAllPlayers()) {
+				float playerHealth = p.getHealth();
+
+				this.network.getDispatcher().broadcastHealthState(p.getId(),playerHealth);
 			}
 		}
 	}

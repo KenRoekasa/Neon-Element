@@ -27,6 +27,7 @@ public class LocationStateBroadcast extends Packet.PacketToClient {
 
     public LocationStateBroadcast(int id, double x, double y, double playerAngle) {
         super();
+
         this.id = id;
         this.x = x;
         this.y = y;
@@ -53,6 +54,7 @@ public class LocationStateBroadcast extends Packet.PacketToClient {
     public double getPlayerAngle() {
     		return playerAngle;
     }
+
 
 
     @Override
