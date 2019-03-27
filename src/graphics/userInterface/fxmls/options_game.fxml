@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane id="background" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.GameOptionsController">
+<BorderPane id="background" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphics.userInterface.controllers.GameOptionsController">
     <center>
         <GridPane>
             <columnConstraints>
@@ -24,8 +24,8 @@
                 <GridPane alignment="CENTER" maxHeight="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../resources/css/outrun.css" GridPane.rowIndex="1">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="350.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="292.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="92.0" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -35,10 +35,10 @@
                     <children>
                         <Slider fx:id="sound" prefHeight="54.0" prefWidth="301.0" GridPane.columnIndex="1" />
                         <Text styleClass="options-medium" text="Effects" />
-                        <Text fx:id="volume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="50" GridPane.columnIndex="2" />
+                        <Text fx:id="volume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="50" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                         <Text styleClass="options-medium" text="Music" GridPane.rowIndex="2" />
                         <Slider fx:id="music" prefHeight="54.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="musicVolume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="50" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Text fx:id="musicVolume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="50" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
                 <BorderPane GridPane.rowIndex="2">

@@ -122,7 +122,7 @@
       </AnchorPane>
       <HBox fx:id="time_board" alignment="CENTER" layoutY="9.0" maxHeight="100.0" prefHeight="100.0" prefWidth="923.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="9.0">
          <children>
-            <ProgressIndicator fx:id="timer" prefHeight="89.0" prefWidth="95.0" progress="0.0" />
+            <ProgressIndicator fx:id="timer" prefHeight="89.0" prefWidth="95.0" progress="0.0" styleClass="timer" stylesheets="@../resources/css/outrun.css" />
          </children></HBox>
 
       <ProgressBar fx:id="health_bar" layoutX="68.0" layoutY="20.0" maxHeight="10.0" maxWidth="200.0" prefHeight="10.0" prefWidth="200.0" progress="1.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="20.0">
