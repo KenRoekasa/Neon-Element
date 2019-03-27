@@ -78,6 +78,11 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 		this.broadcast(packet);
 	}
 
+	public void broadcastScore(int playerId, int score) {
+		Packet packet = new ScoreBroadcast(playerId, score);
+		this.broadcast(packet);
+	}
+
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
 		Packet response = new DisconnectAckPacket(true);
@@ -104,9 +109,4 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 			this.send(packet, conn.getIpAddress(), conn.getPort());
 		}
     }
-
-	public void broadcastScore(int playerId, int score) {
-		Packet packet = new ScoreBroadcast(playerId,score);
-		this.broadcast(packet);
-	}
 }

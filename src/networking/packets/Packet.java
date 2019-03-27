@@ -32,7 +32,6 @@ public abstract class Packet {
         READY_STATE    ((byte) 0x06, ReadyStatePacket::new),    // HEALTH_STATE         ((byte) 0x07),
         LOCATION_STATE ((byte) 0x08, LocationStatePacket::new), // LOCATION_STATE_ACK   ((byte) 0x09),
         ELEMENT_STATE  ((byte) 0x0A, ElementStatePacket::new),
-        SCORE_BCAST    ((byte) 0x0B, ScoreBroadcast::new),
         POWERUP        ((byte) 0x0E, PowerUpPacket::new),
         ACTION_STATE   ((byte) 0x10, ActionStatePacket::new),   // ACTION_STATE_ACK     ((byte) 0x11),
                                                                 INITIAL_STATE_ACK    ((byte) 0x13, InitialGameStateAckPacket::new),
@@ -49,6 +48,7 @@ public abstract class Packet {
         INITIAL_STATE_BCAST  ((byte) 0xF8, InitialGameStateBroadcast::new),
         ACTION_BCAST         ((byte) 0xF9, ActionStateBroadcast::new),
         RESPAWN_BCAST        ((byte) 0xFA, RespawnBroadcast::new),
+        SCORE_BCAST          ((byte) 0xFB, ScoreBroadcast::new),
         GAME_START_BCAST     ((byte) 0xFE, GameStartBroadcast::new),
         GAME_OVER_BCAST      ((byte) 0xFF, GameOverBroadcast::new);
 
