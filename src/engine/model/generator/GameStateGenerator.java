@@ -131,7 +131,7 @@ public class GameStateGenerator {
 
 
         for (int i = 0; i < num_enm; i++) {
-            enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
+            enemies.add( aiManager.addAi(AiType.getType(aiTypes.get(i))) );
         }
 
 
@@ -162,19 +162,6 @@ public class GameStateGenerator {
 
 
         return gameState;
-    }
-
-    private static AiType getType(String type) {
-    	switch(type.toLowerCase().trim()) {
-    		default:
-    		case "easy":
-    			return AiType.EASY;
-    		case "normal":
-    			return AiType.NORMAL;
-    		case "hard":
-    			return AiType.HARD;
-
-    	}
     }
 
 }
