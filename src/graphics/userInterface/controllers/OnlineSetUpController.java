@@ -1,9 +1,16 @@
 package graphics.userInterface.controllers;
 
+import client.ClientGameState;
+import engine.entities.Player;
+import engine.model.GameType;
+import engine.model.Map;
+import engine.model.enums.ObjectType;
+import engine.model.generator.GameStateGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.scene.text.Text;
 import networking.Constants;
 
@@ -30,7 +37,7 @@ public class OnlineSetUpController extends UIController {
      * Radio buttons of modes
      */
     @FXML
-    public RadioButton time_mode, life_mode;
+    public RadioButton FirstToXKills,Timed,Hill,Regicide;
     /**
      * Grid pane for ai bot2 and ai bot3 difficulty selection line
      */
@@ -41,6 +48,8 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public Text alert;
+
+
     /**
      * Back button
      */
@@ -107,6 +116,15 @@ public class OnlineSetUpController extends UIController {
         return player_num;
     }
 
+
+    private ClientGameState gameState;
+
+
+
+
+
+    /** Handle the action when select the number of one ai bot
+     */
     /**Get the list of ai bots' type
      * @return enemyTypes the list contains the type of ai bots
      */
@@ -130,6 +148,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleOneEnemy(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(false);
         enemy3.setVisible(false);
     }
@@ -138,6 +157,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleTwoEnemies(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(true);
         enemy3.setVisible(false);
     }
@@ -146,6 +166,7 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public void handleThreeEnemies(ActionEvent event) {
+        enemy1.setVisible(true);
         enemy2.setVisible(true);
         enemy3.setVisible(true);
     }
@@ -194,8 +215,14 @@ public class OnlineSetUpController extends UIController {
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";
+
+
                 FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
+
+                ((HostController)loader.getController()).setGameAttributes(player_num, enemy_num, enemyTypes, selected_mode);
                 break;
+
+
 
             }
         }
@@ -222,12 +249,15 @@ public class OnlineSetUpController extends UIController {
         alert.setVisible(false);
 
         ToggleGroupSetUp.setToggleGroup(num_player,player_2, player_3, player_4);
+        player_2.setSelected(true);
         ToggleGroupSetUp.setToggleGroup(num_group,num_0, num_1, num_2, num_3);
+        num_1.setSelected(true);
+        enemy2.setVisible(false);
+        enemy3.setVisible(false);
         ToggleGroupSetUp.setToggleGroup(diff_1, easy_1, normal_1, hard_1);
         ToggleGroupSetUp.setToggleGroup(diff_2, easy_2, normal_2, hard_2);
         ToggleGroupSetUp.setToggleGroup(diff_3, easy_3, normal_3, hard_3);
-        ToggleGroupSetUp.setToggleGroup(mode, life_mode, time_mode);
-
+        ToggleGroupSetUp.setToggleGroup(mode,FirstToXKills,Hill,Timed,Regicide);
 
         player_2.setUserData(2);
         player_3.setUserData(3);
@@ -241,7 +271,10 @@ public class OnlineSetUpController extends UIController {
         num_2.setUserData(2);
         num_3.setUserData(3);
 
-        life_mode.setUserData("life_based");
-        time_mode.setUserData("time_based");
+        FirstToXKills.setUserData("FirstToXKills");
+        Hill.setUserData("Hill");
+        Timed.setUserData("Timed");
+        Regicide.setUserData("Regicide");
+
     }
 }

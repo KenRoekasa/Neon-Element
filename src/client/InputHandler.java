@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 import static graphics.rendering.ISOConverter.getPlayerLocOnScreen;
 
-public class InputHandler {
+public class
+InputHandler {
 
 
     // this needs to be made much more efficient !!!!

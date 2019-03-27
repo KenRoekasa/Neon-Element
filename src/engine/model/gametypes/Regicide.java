@@ -10,31 +10,57 @@ import engine.model.GameType;
  * Killing a normal player gives 1 point.
  */
 public class Regicide extends GameType {
+    private int kingID;
     private int scoreNeeded;
-    private int kingId;
+    private Player king;
 
     /**
      * Constructor
      *
-     * @param kingId        the first king
+     * @param king        the first king
      * @param scoreNeeded the score needed for a player to win
      */
-    public Regicide(int kingId, int scoreNeeded) {
+    public Regicide(Player king, int scoreNeeded) {
         super(Type.Regicide);
-        this.kingId = kingId;
+        this.king = king;
         this.scoreNeeded = scoreNeeded;
     }
+
+    /**
+     * Constructor
+     *
+     * @param kingID        the first king
+     * @param scoreNeeded the score needed for a player to win
+     */
+    public Regicide(int kingID, int scoreNeeded) {
+        super(Type.Regicide);
+        this.kingID = kingID;
+        this.scoreNeeded = scoreNeeded;
+    }
+
+
+
+
+
 
 
     public int getScoreNeeded() {
         return scoreNeeded;
     }
 
-    public int getKingId() {
-        return kingId;
+    public Player getKing() {
+        return king;
+    }
+
+    public void setKing(Player king) {
+        this.king = king;
     }
 
     public void setKingId(int kingId) {
-        this.kingId = kingId;
+        this.kingID = kingId;
+    }
+
+    public int getKingId() {
+        return kingID;
     }
 }

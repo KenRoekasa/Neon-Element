@@ -2,74 +2,289 @@ package client.audiomanager;
 
 import client.ClientGameState;
 import engine.entities.Player;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import engine.model.enums.Action;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.TimerTask;
 
+/**
+ * Class that handles the playing of all audio
+ */
 public class AudioManager {
-    //todo Range of volume? In opitonController is set from 0 to 1.0;default value is 0.4
-    private static double volume;
-    private HashMap<Sound, AudioClip> effects;
 
+    /**
+     *  The volume of all sound effects
+     */
+    private static double effectVolume;
+
+    /**
+     * The volume of all music tracks
+     */
+    private static double musicVolume;
+
+    /**
+     * A HashMap containing each spot effect enum and its relative AudioClip
+     */
+    private HashMap<Sound, AudioClip> gameEffects;
+
+    /**
+     *  MediaPlayer object for the menu music
+     */
+    private MediaPlayer menuMusicMediaPlayer;
+
+    /**
+     *  MediaPlayer object for the game music
+     */
+    private MediaPlayer gameMusicMediaPlayer;
+
+    /**
+     *  MediaPlayer object for the neon hum track
+     */
+    private MediaPlayer fxMediaPlayer;
+
+
+    /**
+     *  Creates an AudioManager object
+     *  This loads all the sound files into the object and sets both volumes to 100 by default
+     */
     public AudioManager(){
-        volume = 100;
-        effects = new HashMap<>();
+        effectVolume = 100;
+        musicVolume = 100;
+        gameEffects = new HashMap<>();
 
+        // loop through the sound enum, adding an AudioClip for each to the HashMap
+        // AudioClips are used as they allow for easy playback than MediaPlayers
         for(Sound sound: Sound.values()){
             String location = sound.getPath();
-
-            System.out.println(location);
             AudioClip audioClip = new AudioClip(new File(location).toURI().toString());
-
-            effects.put(sound, audioClip);
+            gameEffects.put(sound, audioClip);
         }
 
+        initialiseGameMusic();
     }
 
-    public void playSound(Sound s){
-        effects.get(s).play(volume);
-        System.out.println(volume);
+    /**
+     *  Method that initialises each of the music tracks, loading them into the AudioManager
+     *  After loading, starts both the menu music and the neon effect
+     *  Sets each music track to loop indefinitely
+     */
+    private void initialiseGameMusic() {
+        String menuMusicLocation = Music.MENU.getPath();
+        Media menuMedia = new Media(new File(menuMusicLocation).toURI().toString());
+        menuMusicMediaPlayer = new MediaPlayer(menuMedia);
+        // set to loop at end of track
+        menuMusicMediaPlayer.setOnEndOfMedia(() -> menuMusicMediaPlayer.seek(Duration.ZERO));
+
+        String gameMusicLocation = Music.GAME.getPath();
+        Media gameMedia = new Media(new File(gameMusicLocation).toURI().toString());
+        gameMusicMediaPlayer = new MediaPlayer(gameMedia);
+        gameMusicMediaPlayer.setOnEndOfMedia(() -> gameMusicMediaPlayer.seek(Duration.ZERO));
+
+        String fxMediaLocation = Music.NEON.getPath();
+        Media fxMedia = new Media(new File(fxMediaLocation).toURI().toString());
+        fxMediaPlayer = new MediaPlayer(fxMedia);
+        fxMediaPlayer.setOnEndOfMedia(() -> fxMediaPlayer.seek(Duration.ZERO));
+
+        menuMusicMediaPlayer.play();
+        fxMediaPlayer.play();
+
     }
 
-    public void playSound(Sound s, double volumeDistance) {
-        effects.get(s).play(volumeDistance * volume);
+    /**
+     * Plays a sound
+     * @param sound The sound to play
+     */
+    public void playSound(Sound sound){
+        gameEffects.get(sound).play(effectVolume);
     }
 
-    public double getVolume() {
-        return volume;
+    /**
+     * Plays a sound at a known distance from the player
+     * The volume is the distance value multiplied by the current volume
+     * @param sound The sound to be played
+     * @param volumeDistance    The 'distance' at which the sound happens, between 0 and 1
+     */
+    private void playSound(Sound sound, double volumeDistance) {
+
+        gameEffects.get(sound).play(volumeDistance * effectVolume);
     }
-    public void setVolume(double volume) {
-        AudioManager.volume = volume;
+
+    /**
+     * Sets the volume of the effects
+     * @param volume The desired volume
+     */
+    public void setEffectVolume(double volume) {
+        AudioManager.effectVolume = volume;
+        fxMediaPlayer.setVolume(volume);
+    }
+
+    /**
+     * Sets the volume of the neon hum
+     * @param volume The desired volume
+     */
+    public void setNeonVolume(double volume) {
+        fxMediaPlayer.setVolume(volume);
     }
 
 
+    /**
+     *  Returns the volume of the sound effects
+     * @return The volume of the sound effects
+     */
+    public double getEffectVolume() {
+        return effectVolume;
+    }
+
+
+
+    /**
+     *  Returns the volume of the music
+     * @return The volume of the music
+     */
+    public static double getMusicVolume() {
+        return musicVolume;
+    }
+
+
+    /**
+     * Sets the volume of the music tracks
+     * @param volume The desired volume
+     */
+    public void setMusicVolume(double volume) {
+        musicVolume = volume;
+        menuMusicMediaPlayer.setVolume(volume);
+        gameMusicMediaPlayer.setVolume(volume);
+    }
+
+    /**
+     *  Sets the current music to the game theme
+     *  Fades out the menu theme
+     */
+    public void setGameMusic(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(2), new KeyValue(menuMusicMediaPlayer.volumeProperty(), 0)),
+                new KeyFrame(Duration.seconds(3), e -> menuMusicMediaPlayer.stop()));
+        timeline.play();
+
+        gameMusicMediaPlayer.setVolume(musicVolume);
+        gameMusicMediaPlayer.play();
+    }
+
+    /**
+     *  Sets the current music to the menu theme
+     *  Fades out the game theme
+     */
+    public void setMenuMusic(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(2), new KeyValue(gameMusicMediaPlayer.volumeProperty(), 0)),
+                new KeyFrame(Duration.seconds(3), e -> gameMusicMediaPlayer.stop()));
+        timeline.play();
+
+        menuMusicMediaPlayer.setVolume(musicVolume);
+        menuMusicMediaPlayer.play();
+    }
+
+    /**
+     * The function which, when called every client tick, handles the playing of spot effects
+     * Uses the GameState to calculate the distance at which effects are sounded
+     * @param gameState The current GameState object
+     */
     // todo improve this
     public void clientLoop(ClientGameState gameState) {
 
+        // only play sounds if the player is alive
         if(gameState.getPlayer().isAlive()) {
+
+            // check whether player is performing an action and whether it has already sounded
             if(gameState.getPlayer().getCurrentAction() != Action.IDLE && !gameState.getPlayer().hasActionSounded()) {
+                if(gameState.getPlayer().getCurrentAction() != Action.BLOCK){
 
+                    playSound(Sound.switchSound(gameState.getPlayer().getCurrentAction()));
+                    gameState.getPlayer().setActionHasSounded(true);
+                } else {
 
-                playSound(Sound.switchSound(gameState.getPlayer().getCurrentAction()));
-                gameState.getPlayer().setActionHasSounded(true);
+                    gameState.getPlayer().setActionHasSounded(true);
+
+                    Media fxMedia = new Media(new File(Sound.SHIELD.getPath()).toURI().toString());
+                    MediaPlayer shield = new MediaPlayer(fxMedia);
+                    shield.setOnEndOfMedia(() -> shield.seek(Duration.ZERO));
+                    shield.setVolume(effectVolume);
+                    shield.play();
+
+                    // this method checks if the shield is still up and then stops when down
+                    Thread t = new Thread(() -> {
+                       while(gameState.getPlayer().getCurrentAction() == Action.BLOCK) {
+                           try {
+                               Thread.sleep(1);
+                           } catch (InterruptedException e) {
+                               e.printStackTrace();
+                           }
+                       }
+                        System.out.println("exit");
+                       shield.stop();
+                    });
+
+                    t.start();
+
+                }
+
             }
 
-
+            // do the same for each enemy
             for(Player enemy: gameState.getOtherPlayers(gameState.getPlayer())) {
 
                 if(enemy.getCurrentAction() != Action.IDLE && !enemy.hasActionSounded()) {
 
-
+                    // calculate the 'distance' of the sound from the player
                     double distance = gameState.getPlayer().getLocation().distance(enemy.getLocation());
                     double func = 1 / (distance);
-                    func = func * 100;
 
-                    // calculate distance
+                    if(enemy.getCurrentAction() != Action.BLOCK){
 
-                    playSound(Sound.switchSound(enemy.getCurrentAction()), func);
-                    enemy.setActionHasSounded(true);
+                        playSound(Sound.switchSound(enemy.getCurrentAction()), func);
+                        enemy.setActionHasSounded(true);
+                    } else {
+                        enemy.setActionHasSounded(true);
+
+                        // this method checks if the shield is still up and then stops when down
+
+                        Media fxMedia = new Media(new File(Sound.SHIELD.getPath()).toURI().toString());
+                        MediaPlayer shield = new MediaPlayer(fxMedia);
+                        shield.setOnEndOfMedia(() -> shield.seek(Duration.ZERO));
+                        shield.setVolume(effectVolume * func);
+                        shield.play();
+
+
+
+                        Thread t = new Thread(() -> {
+                            while(enemy.getCurrentAction() == Action.BLOCK) {
+
+
+                                shield.setVolume((1/gameState.getPlayer().getLocation().distance(enemy.getLocation())) * effectVolume);
+                                try {
+                                    Thread.sleep(1);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            System.out.println("exit");
+                            shield.stop();
+                        });
+
+                        t.start();
+
+
+                    }
+
+
                 }
 
             }
@@ -77,4 +292,5 @@ public class AudioManager {
 
 
     }
+
 }

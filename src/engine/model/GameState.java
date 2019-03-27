@@ -25,9 +25,10 @@ public abstract class GameState {
      */
     protected GameType gameType;
     /**
-     * The time when the game starts
+     * The time when the game starts in milli seconds
      */
     protected long startTime;
+
     /**
      * A list of all players in the game
      */
@@ -125,7 +126,6 @@ public abstract class GameState {
         return allPlayers;
     }
 
-
     /**
      * @param player the player you want to excluded from the array list of players
      * @return an array list of other players other than chosen player
@@ -151,7 +151,7 @@ public abstract class GameState {
      * Start the game
      */
     public void start() {
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime()/1000000;
         isRunning = true;
     }
 

@@ -1,7 +1,9 @@
 package engine.entities;
 
 import client.GameClient;
-import engine.model.enums.*;
+import engine.model.enums.Action;
+import engine.model.enums.Elements;
+import engine.model.enums.ObjectType;
 import engine.physics.DeltaTime;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
@@ -27,10 +29,9 @@ public class Player extends Character {
     public Player(ObjectType type, int id) {
         super();
         this.id = id;
-        location = Point2D.ZERO;
+        location = new Point2D(0, 0);
         playerAngle = new Rotate(0);
         health = getMAX_HEALTH();
-        characterDirection = Directions.UP;
         movementSpeed = DEFAULT_MOVEMENT_SPEED;
         isShielded = false;
         //Default Fire
@@ -42,9 +43,13 @@ public class Player extends Character {
         lightAttackRange = width * 4;
 
 
-        for (int i = 0; i < timerArray.length; i++) {
-            timerArray[i] = System.currentTimeMillis() - 10 * 1000;
-        }
+        //Setup hashmap
+        timeMap.put(CooldownItems.LIGHT, -10000L);
+        timeMap.put(CooldownItems.HEAVY, -1000000L);
+        timeMap.put(CooldownItems.CHANGESTATE, -10000L);
+        timeMap.put(CooldownItems.DAMAGE, 0L);
+        timeMap.put(CooldownItems.SPEED, 0L);
+
     }
 
     /**
@@ -61,22 +66,15 @@ public class Player extends Character {
      */
     @Override
     public void update() {
+
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
+                deathTime = GameClient.timeElapsed;
             }
         } else {
             isAlive = true;
         }
-
-
-        if(currentAction == Action.BLOCK) {
-        		isShielded = true;
-
-        }else {
-        		isShielded = false;
-        }
-//        System.out.println(currentAction);
 
         location = location.add(horizontalMove * DeltaTime.deltaTime, verticalMove * DeltaTime.deltaTime);
         horizontalMove = 0;
@@ -85,10 +83,40 @@ public class Player extends Character {
         //decrease iframes every frame
         iframes--;
 
+
+        //Changes movement speed back when duration has run out
+        if (GameClient.timeElapsed - timeMap.get(CooldownItems.SPEED) >= CooldownValues.speedBoostDuration * 1000) {
+            movementSpeed = DEFAULT_MOVEMENT_SPEED;
+        }
+
+        //Change damage multiplier when duration has run out
+        if (GameClient.timeElapsed - timeMap.get(CooldownItems.DAMAGE) >= CooldownValues.damageBoostDur * 1000) {
+            damageMultiplier = 1;
+            damagePowerup = false;
+        }
+
+
     }
 
     public void setLocation(double x, double y) {
-        this.location = new Point2D(x, y);
+        this.location = new Point2D(x , y);
+    }
+
+    /**
+     * @return the player's id health and location
+     */
+    public String toString() {
+        return "Player: " + this.id +
+                "\nHealth: " + health +
+                "\nx: " + location.getX() + " y: " + location.getY();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int i) {
+        this.id = i;
     }
 
     public void doAction(Action action) {
@@ -109,26 +137,10 @@ public class Player extends Character {
                 break;
         }
     }
+    public void setHealth(float playerCurrentHealth) {
 
-    /**
-     * @return the player's id health and location
-     */
-    public String toString() {
-        return "Player: " + this.id +
-                "\nHealth: " + health +
-                "\nx: " + location.getX() + " y: " + location.getY();
+        this.health  = playerCurrentHealth;
     }
 
-    public int getId() {
-        return id;
-    }
 
-	public void setHealth(float playerCurrentHealth) {
-		// TODO Auto-generated method stub
-		this.health  = playerCurrentHealth;
-    }
-
-    public void setId(int i) {
-        this.id = i;
-    }
 }

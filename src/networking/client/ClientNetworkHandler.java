@@ -83,10 +83,10 @@ public class ClientNetworkHandler {
     }
 
     public void receiveLocationStateBroadcast(LocationStateBroadcast packet) {
+
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
-
             Player foundPlayer = this.gameState.getAllPlayers().stream()
             .filter(p -> p.getTag().equals(ObjectType.ENEMY))
             .map(p -> (Player) p)
@@ -96,6 +96,7 @@ public class ClientNetworkHandler {
 
             Player player;
             if (foundPlayer != null) {
+
                 player = foundPlayer;
             } else {
                 // Player id not found
@@ -150,4 +151,7 @@ public class ClientNetworkHandler {
         }
     }
 
+    public void receiveGameEnd() {
+        this.gameState.stop();
+    }
 }

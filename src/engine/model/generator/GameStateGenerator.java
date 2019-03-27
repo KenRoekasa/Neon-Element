@@ -23,9 +23,9 @@ public class GameStateGenerator {
         Map map = MapGenerator.createEmptyMap();
         GameType gameType = new FirstToXKillsGame(3);
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, gameType);
 
-        ClientGameState gameState = new ClientGameState(null, map, objects, scoreboard, gameType, aiManager);
+        ClientGameState gameState = new ClientGameState(null, map, objects, scoreboard, gameType, aiManager, GameType.Type.FirstToXKills);
         scoreboard.initialise(gameState.getAllPlayers());
 
         return gameState;
@@ -85,8 +85,7 @@ public class GameStateGenerator {
      * @param aiTypes A list of ais diffculty
      * @return a gamestate for testing
      */
-    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes) {
-
+    public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes,GameType.Type mode) {
         Map map = MapGenerator.createEmptyMap();
 
         // create player
@@ -98,18 +97,35 @@ public class GameStateGenerator {
 
         ArrayList<PhysicsObject> objects = new ArrayList<>();
         ScoreBoard scoreboard = new ScoreBoard();
+        GameType gameType = null;
 
         // First to 10 kills
+        switch (mode){
 
-        GameType gameType = new FirstToXKillsGame(3);
-        GameType gameType1 = new TimedGame(60000);
-        GameType gameType2 = new HillGame(new Circle(2000, 0, 500),100000);
-        GameType gameType3 = new Regicide(player.getId(), 5000);
+            case FirstToXKills:
+                gameType = new FirstToXKillsGame(10);
+                break;
+            case Timed:
+                gameType =  new TimedGame(90000);
+
+                break;
+            case Hill:
+                gameType = new HillGame(new Circle(2000, 0, 500),100000);
+                break;
+            case Regicide:
+                gameType = new Regicide(player.getId(), 5000);
+                break;
+                default:
+                gameType = new FirstToXKillsGame(10);
+
+
+        }
+
 
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), player, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -133,9 +149,17 @@ public class GameStateGenerator {
         objects.add(player);
         objects.addAll(map.getWalls());
 
-        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gameType,aiManager);
+        if(gameType.getType() == GameType.Type.Regicide) {
+            ((Regicide)gameType).setKingId(enemies.get(0).getId());
+        }
+
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gameType,aiManager,mode);
+
         scoreboard.initialise(gameState.getAllPlayers());
+
 //        aiManager.startAllAi();
+
+
 
         return gameState;
     }
@@ -152,4 +176,5 @@ public class GameStateGenerator {
 
     	}
     }
+
 }

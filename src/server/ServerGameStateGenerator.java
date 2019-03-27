@@ -18,7 +18,7 @@ public class ServerGameStateGenerator {
 
         Map map = MapGenerator.createEmptyMap();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, gameType);
 
         ServerGameState gameState = new ServerGameState(map, objects, scoreboard, gameType, aiManager, numPlayers);
 

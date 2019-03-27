@@ -1,6 +1,7 @@
 package server;
 
 import engine.controller.GameTypeHandler;
+import engine.controller.RespawnController;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import graphics.userInterface.controllers.LobbyHostController;
@@ -29,8 +30,8 @@ public class GameServer extends Thread {
 	public void run() {
 		this.network.start();
 
-        Thread powerUpController = new Thread(new PowerUpController(gameState, this.network.getDispatcher()));
-		powerUpController.start();
+		PowerUpController puController = new PowerUpController(gameState, this.network.getDispatcher());
+		RespawnController resController = new RespawnController(gameState);
 
         this.running = true;
         long lastTime = System.nanoTime();
@@ -48,6 +49,8 @@ public class GameServer extends Thread {
 			} else {
 
 				physicsController.clientLoop();
+				puController.serverUpdate();
+				resController.update();
 
 				this.running = GameTypeHandler.checkRunning(gameState);
 
@@ -67,6 +70,8 @@ public class GameServer extends Thread {
 				}
 			}
 		}
+
+		this.network.getDispatcher().broadcastGameEnded();
 
 		this.network.close();
 	}

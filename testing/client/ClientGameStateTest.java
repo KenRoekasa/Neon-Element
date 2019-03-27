@@ -2,6 +2,7 @@ package client;
 
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
+import engine.model.GameType;
 import engine.model.generator.GameStateGenerator;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class ClientGameStateTest {
 
     @Before
     public void setUp() throws Exception {
-        gamestate = GameStateGenerator.createDemoGamestateSample(0, new ArrayList<String>());
+        gamestate = GameStateGenerator.createDemoGamestateSample(0, new ArrayList<String>(), GameType.Type.Timed);
     }
 
     @Test
@@ -59,7 +60,7 @@ public class ClientGameStateTest {
     @Test
     public void startSetStartTime() {
         gamestate.start();
-        long accStartTime = System.currentTimeMillis();
+        long accStartTime = System.nanoTime()/1000000;
         assertEquals(accStartTime, gamestate.getStartTime());
     }
 

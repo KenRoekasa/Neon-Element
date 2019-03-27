@@ -57,6 +57,8 @@ public class ClientNetworkThread extends Thread {
         Elements playerElement = gameState.getPlayer().getCurrentElement();
         long lastActionSendTime = 0;
         Action lastAction = Action.IDLE;
+
+
         while (this.running) {
             this.doLocationState();
 

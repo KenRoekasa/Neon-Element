@@ -1,21 +1,21 @@
 package engine.physics;
 
-import engine.controller.GameTypeHandler;
-import engine.model.GameState;
-import engine.model.ScoreBoard;
+import client.ClientGameState;
+import client.GameClient;
 import engine.calculations.DamageCalculation;
+import engine.controller.GameTypeHandler;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.model.GameState;
+import engine.model.GameType;
+import engine.model.ScoreBoard;
 import engine.model.enums.Action;
 import engine.model.enums.ObjectType;
-import engine.model.GameType;
 import engine.model.gametypes.HillGame;
 import engine.model.gametypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
-import server.GameServer;
-import server.ServerGameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,7 +27,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class PhysicsController {
     private GameState gameState;
 
-    /** Constructor
+    /**
+     * Constructor
+     *
      * @param gameState the game state of the current game
      */
     public PhysicsController(GameState gameState) {
@@ -39,7 +41,7 @@ public class PhysicsController {
      */
     public void clientLoop() {
         doCollisionDetection();
-        doHitDetection();
+        new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
 
@@ -53,12 +55,15 @@ public class PhysicsController {
         }
     }
 
+
     /**
      * Run the update method for all objects
      */
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
             // Call update function for all physics objects
+
+//            gameState.getPlayer().update();
 
             for (PhysicsObject o : gameState.getObjects()) {
                 o.update();
@@ -72,8 +77,8 @@ public class PhysicsController {
     private void kingOfHillHandler() {
         HillGame hillGame = (HillGame) gameState.getGameType();
         Circle hill = hillGame.getHill();
-//        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
-//        System.out.println("hill : " + hill);
+        //        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
+        //        System.out.println("hill : " + hill);
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         ArrayList<Player> playersInside = new ArrayList<>();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
@@ -137,7 +142,6 @@ public class PhysicsController {
      * The detection of collision between a player and other objects
      */
     private void doCollisionDetection() {
-
         ArrayList<PhysicsObject> objects = gameState.getObjects();
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
 
@@ -161,83 +165,11 @@ public class PhysicsController {
                             objects.remove(e);
                         }
                     } else {
-
-                        float movementSpeed = player.getMovementSpeed() * DeltaTime.deltaTime;
-
-                        Point2D checkUp = player.getLocation().add(-movementSpeed, -movementSpeed);
-
-                        Point2D checkDown = player.getLocation().add(movementSpeed, movementSpeed);
-
-                        Point2D checkLeft = player.getLocation().add(-movementSpeed, +movementSpeed);
-
-                        Point2D checkRight = player.getLocation().add(movementSpeed, -movementSpeed);
-
-                        Point2D checkUpCart = player.getLocation().add(0, -movementSpeed);
-
-                        Point2D checkDownCart = player.getLocation().add(0, movementSpeed);
-
-                        Point2D checkLeftCart = player.getLocation().add(-movementSpeed, 0);
-
-                        Point2D checkRightCart = player.getLocation().add(movementSpeed, 0);
-
-                        switch (player.getCharacterDirection()) {
-                            case UP:
-                                projectedPlayer.setLocation(checkUp);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case DOWN:
-                                projectedPlayer.setLocation(checkDown);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case LEFT:
-                                projectedPlayer.setLocation(checkLeft);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-
-                            case RIGHT:
-                                projectedPlayer.setLocation(checkRight);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case UPCART:
-                                projectedPlayer.setLocation(checkUpCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case DOWNCART:
-                                projectedPlayer.setLocation(checkDownCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case LEFTCART:
-                                projectedPlayer.setLocation(checkLeftCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
-                            case RIGHTCART:
-                                projectedPlayer.setLocation(checkRightCart);
-                                if (CollisionDetector.checkCollision(projectedPlayer, e)) {
-                                    player.setVerticalMove(0);
-                                    player.setHorizontalMove(0);
-                                }
-                                break;
+                        Point2D checkNext = player.getLocation().add(player.getHorizontalMove() * DeltaTime.deltaTime, player.getVerticalMove() * DeltaTime.deltaTime);
+                        projectedPlayer.setLocation(checkNext);
+                        if (CollisionDetector.checkCollision(projectedPlayer, e)) {
+                            player.setVerticalMove(0);
+                            player.setHorizontalMove(0);
                         }
                     }
                 }
@@ -245,60 +177,59 @@ public class PhysicsController {
         }
     }
 
+
     /**
      * To detect hits when a player attacks another player
      */
     private void doHitDetection() {
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         for (Iterator<Player> itr = allPlayers.iterator(); itr.hasNext(); ) {
-            synchronized (itr) {
-                Player player = itr.next();
-                ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
-                ArrayList<Player> lightHittablePlayers = new ArrayList<>();
-                ArrayList<Player> heavyHittablePlayer = new ArrayList<>();
-                // Loop through all enemies to detect hit detection
-                for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
-                    Player e = itr1.next();
-                    // Check light attack
-                    if (CollisionDetector.checkCollision(player.getAttackHitbox(), e.getBounds())) {
-                        lightHittablePlayers.add(e);
-                    }
-                    //Check heavy attack
-                    if (CollisionDetector.checkCollision(player.getHeavyAttackHitbox(),
-                            e.getBounds())) {
-                        heavyHittablePlayer.add(e);
-                    }
+            Player player = itr.next();
+            ArrayList<Player> otherPlayers = gameState.getOtherPlayers(player);
+            ArrayList<Player> lightHittablePlayers = new ArrayList<>();
+            ArrayList<Player> heavyHittablePlayer = new ArrayList<>();
+            // Loop through all enemies to detect hit detection
+            for (Iterator<Player> itr1 = otherPlayers.iterator(); itr1.hasNext(); ) {
+                Player e = itr1.next();
+                // Check light attack
+                if (CollisionDetector.checkCollision(player.getAttackHitbox(), e.getBounds())) {
+                    lightHittablePlayers.add(e);
                 }
-                // Attack Collision
-                // if player is light attacking
-                if (player.getCurrentAction() == Action.LIGHT) {
-                    for (Player e : lightHittablePlayers) {
-                        if (e.getLastAttacker() != null) {
-                            // If the player isn't invulnerable and attack by the same person
-                            if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
-                                float damage = DamageCalculation.calculateDealtDamage(player, e);
-                                e.takeDamage(damage, player);
-                            }
-                        } else {
+                //Check heavy attack
+                if (CollisionDetector.checkCollision(player.getHeavyAttackHitbox(),
+                        e.getBounds())) {
+                    heavyHittablePlayer.add(e);
+                }
+            }
+            // Attack Collision
+            // if player is light attacking
+            if (player.getCurrentAction() == Action.LIGHT) {
+                for (Player e : lightHittablePlayers) {
+                    if (e.getLastAttacker() != null) {
+                        // If the player isn't invulnerable and attack by the same person
+                        if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
                         }
+                    } else {
+                        float damage = DamageCalculation.calculateDealtDamage(player, e);
+                        e.takeDamage(damage, player);
                     }
                 }
+            }
 
-                // if player is heavy attacking
-                if (player.getCurrentAction() == Action.HEAVY) {
-                    for (Player e : heavyHittablePlayer) {
-                        if (e.getLastAttacker() != null) {
-                            // If the player isn't invulnerable and attack by the same person
-                            if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
-                                float damage = DamageCalculation.calculateDealtDamage(player, e);
-                                e.takeDamage(damage, player);
-                            }
-                        } else {
+            // if player is heavy attacking
+            if (player.getCurrentAction() == Action.HEAVY) {
+                for (Player e : heavyHittablePlayer) {
+                    if (e.getLastAttacker() != null) {
+                        // If the player isn't invulnerable and attack by the same person
+                        if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
                         }
+                    } else {
+                        float damage = DamageCalculation.calculateDealtDamage(player, e);
+                        e.takeDamage(damage, player);
                     }
                 }
             }

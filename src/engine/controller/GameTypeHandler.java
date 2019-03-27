@@ -1,5 +1,6 @@
 package engine.controller;
 
+import client.GameClient;
 import engine.model.GameState;
 import engine.model.GameType;
 import engine.model.gametypes.FirstToXKillsGame;
@@ -30,7 +31,7 @@ public class GameTypeHandler {
             // check whether game time is less
             TimedGame t = (TimedGame) gameType;
             long duration = t.getDuration();
-            return currentGame.getStartTime() + duration > System.currentTimeMillis();
+            return   !(GameClient.timeElapsed >= duration );
         } else if (gameType.getType().equals(GameType.Type.FirstToXKills)) {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;
             ArrayList<Integer> score = currentGame.getScoreBoard().getLeaderBoard();

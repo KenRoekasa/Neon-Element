@@ -12,6 +12,8 @@ public class PlayerTest {
     Player player;
     Player enemy;
 
+
+    // needs some id testing
     @Before
     public void setUp() throws Exception {
         player = new Player(ObjectType.PLAYER);

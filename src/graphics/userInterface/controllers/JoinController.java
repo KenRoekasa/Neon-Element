@@ -10,15 +10,26 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import networking.Constants;
 
-//For local_setup scene
+
+/**
+ * Controller for join.fxml
+ */
 public class JoinController extends UIController {
+    /**
+     * Current game state
+     */
+    private ClientGameState gameState;
+    /**
+     * The text field for entering ip address
+     */
     @FXML
     Label ok,back;
 
     @FXML
     public TextField ip;
 
-    private ClientGameState gameState;
+    /**Handle the action of pressing start button which will go to game board
+     */
     private Stage stage;
 
     public void setStage(Stage stage) {
@@ -31,7 +42,7 @@ public class JoinController extends UIController {
     }
 
     @FXML
-    public void handleOkBtn(){
+    public void handleStartBtn(){
         // create game rules
         // todo make this configurable
             gameState = GameStateGenerator.createEmptyState();
@@ -76,6 +87,9 @@ public class JoinController extends UIController {
         }
     }
 
+    /**
+     *Handle the action of pressing back button which will be back to online_mode.fxml
+     */
     @FXML
     public void handleBackBtn(){
         String fxmlPath ="../fxmls/online_mode.fxml";

@@ -21,11 +21,17 @@
     -fx-pref-height: 768px;
 }
 
+
+.sub-pane{
+    -fx-pref-width:630px;
+    -fx-pref-height: 768px;
+}
+
 .main-menu-title {
     -fx-font-family: Lazer84;
     -fx-fill: linear-gradient(to bottom, #f9ceff 0%, #ff8deb 25%, #876193 50%, #162b79 75%, #000000 100%) fixed;
     -fx-fill: linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);
-    -fx-font-size: 300px;
+    -fx-font-size: 170px;
 }
 
 .button{
@@ -60,9 +66,15 @@
 
 .standard-text-hud{
     -fx-font-family: Audiowide;
-    -fx-text-fill: rgba(120, 0, 50, .5);
-    -fx-fill: rgba(120, 0, 50, .5);
-    -fx-font-size: 15px;
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-font-size: 20px;
+}
+.standard-text-hud-title{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-font-size: 25px;
 }
 
 .standard-text{
@@ -78,6 +90,13 @@
     -fx-font-size: 50px;
 }
 
+.standard-text-nm{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 30px;
+}
+
 .standard-text-normal{
     -fx-font-family: Audiowide;
     -fx-text-fill: rgba(120, 0, 50, .5);
@@ -90,6 +109,18 @@
     -fx-text-fill: rgba(120, 0, 50, .5);
     -fx-fill: rgba(120, 0, 50, .5);
     -fx-font-size: 100px;
+}
+.standard-text-alert{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: Red;
+    -fx-font-size: 15px;
+}
+
+.standard-text-help{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 20px;
 }
 
 .button-text{
@@ -105,4 +136,139 @@
     -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
 
 }
+/*todo need to look at that
+*/
+
+.text-alert-big{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-font-size: 100px;
+}
+
+
+.text-field {
+    -fx-opacity: 0.2;
+    -fx-border-color: linear-gradient(to right, #C06C84, #6C5B7B, #355C7D);
+    -fx-background-radius: 5 ;
+    -fx-text-fill:rgb(230, 0, 120);
+    -fx-font-family: Audiowide;
+    -fx-font-size: 20px;
+}
+
+
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}
+
+.text-help-title{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-font-size: 25px;
+
+}
+
+.text-help-plain-text{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 20px
+}
+
+.keyboard-text{
+    -fx-font-family: Audiowide;
+    -fx-font-size: 20px;
+}
+
+.damages-text{
+    -fx-font-family: Audiowide;
+    -fx-font-size: 30px;
+}
+
+.power-up-text{
+    -fx-font-family: Audiowide;
+    -fx-font-size: 15px;
+}
+
+
+.radio-text-menu {
+    -fx-font-family: Audiowide;
+    -fx-text-fill: rgba(120, 0, 50, .5);
+    -fx-fill: rgba(120, 0, 50, .5);
+    -fx-font-size: 40;
+
+}
+
+.radio-text-menu:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+.radio-text-menu:selected{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+
+.cooldown-indicator{
+    -fx-font-size: 1;
+    -fx-progress-color: grey;
+}
+
+.progress-indicator .percentage {
+    -fx-fill:null;
+}
+
+.progress-bar .bar {
+    -fx-background-insets: 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.progress-bar >.track {
+    -fx-text-box-border: white;
+    -fx-control-inner-background: white;
+}
+
+.pause-menu-text{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+}
+
+.pause-menu-text:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+
+}
+
+.options-normal{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+    -fx-font-size: 25px;
+}
+.options-medium {
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+    -fx-font-size: 50px;
+}
+.option-button{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+    -fx-font-size: 50px;
+}
+
+.option-button:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
+
 

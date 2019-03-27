@@ -1,48 +1,61 @@
 package graphics.userInterface.controllers;
 
-import client.GameClient;
-
-import engine.model.generator.GameStateGenerator;
 import client.ClientGameState;
+import client.GameClient;
+import engine.model.GameType;
+import engine.model.generator.GameStateGenerator;
 import graphics.userInterface.LobbyThread;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 import java.lang.reflect.Method;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-//For local_setup scene
+/**
+ * Controller for ip_host.fxml
+ */
 public class HostController extends UIController{
 
 	@FXML
 	TextField ip_host;
 
     private ClientGameState gameState;
+    private int playerNum;
+    private int AiNum;
+    private ArrayList<String> AiType;
+    private String gameType;
 
-    // directly go to local mode map
+
+    /**
+     * The host IP address of the game
+     */
     @FXML
-    public void handleStartBtn(ActionEvent event){
+    public void handleStartBtn(ActionEvent event) {
         // create game rules
         // todo make this configurable
-        gameState = GameStateGenerator.createEmptyState();
+         gameState = GameStateGenerator.createEmptyState();
 
         try {
             // Create server
             String addr = ip_host.getText();
 
-            if(addr.equals("") && !addr.isEmpty()) {
+            if (addr.equals("") && !addr.isEmpty()) {
                 System.out.println("Invalid ip address!");
-            		//todo user needs to be asked to enter a valid ip adddress
-            }else {
-	            //loading lobby
-	            String fxmlPath ="../fxmls/lobby_host.fxml";
-	            String stageTitle ="Game Lobby";
-	            String fileException ="Game Lobby";
-	            FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+                //todo user needs to be asked to enter a valid ip adddress
+            } else {
+                //loading lobby
+                String fxmlPath = "../fxmls/lobby_host.fxml";
+                String stageTitle = "Game Lobby";
+                String fileException = "Game Lobby";
+                FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
 
-	            GameClient gameBoard = null;
+                GameClient gameBoard = null;
                 try {
                     gameBoard = new GameClient(stage, gameState, addr, audioManager);
                 } catch (Exception e) {
@@ -65,9 +78,8 @@ public class HostController extends UIController{
                                 // load the class
                                 Class<?> classToLoad = cl.loadClass("networking.test.ManualTestServer");
 
-                                // TODO: pass options through to server
-                                // numPlayers
-                                String[] args = new String[]{"2"};
+                                String[] args = new String[]{String.valueOf(playerNum), String.valueOf(AiNum), String.join(",", AiType), gameType};
+
 
                                 // get the main method
                                 Method main = classToLoad.getMethod("main", args.getClass());
@@ -87,9 +99,13 @@ public class HostController extends UIController{
                 LobbyThread lobbyThread = new LobbyThread(gameState, controller);
                 lobbyThread.start();
 
+
+
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
                 //gameBoard.startNetwork();
+
+                gameBoard.startNetwork();
 
 
             }
@@ -99,8 +115,29 @@ public class HostController extends UIController{
 
     }
 
+    /**
+     * The text which shows the current ip address on the user interface
+     */
     @FXML
-    public void handleBackBtn(ActionEvent event){
+    Text ip_address;
+    /**
+     * The string property of the ip_address
+     */
+    StringProperty ip_value = new SimpleStringProperty();
+
+    /** Handle the action of pressing start button which will direct to lobby.fxml
+     */
+    public void handleStartBtn(){
+        String fxmlPath ="../fxmls/lobby.fxml";
+        String stageTitle ="Game Lobby";
+        String fileException ="lobby";
+        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+    }
+
+    /**Handle the action of pressing back button which will direct to online_setup.fxml
+     */
+    @FXML
+    public void handleBackBtn(){
         String fxmlPath ="../fxmls/online_setup.fxml";
         String stageTitle ="Online configuration";
         String fileException ="Online Setup";
@@ -110,9 +147,6 @@ public class HostController extends UIController{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-
-
-
         try(final DatagramSocket socket = new DatagramSocket()){
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ip_host.setText(socket.getLocalAddress().getHostAddress());
@@ -120,6 +154,13 @@ public class HostController extends UIController{
             ip_host.setText("Failed to auto detect IP");
         }
 
+    }
+
+    public void setGameAttributes(int playerNum, int AiNum, ArrayList<String> AiType, String type) {
+        this.playerNum = playerNum;
+        this.AiNum = AiNum;
+        this.AiType = AiType;
+        this.gameType = type;
     }
 }
 

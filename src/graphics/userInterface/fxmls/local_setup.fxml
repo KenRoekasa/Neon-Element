@@ -53,22 +53,33 @@
             </GridPane>
             <GridPane prefHeight="32.0" prefWidth="173.0" GridPane.rowIndex="4">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="240.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="130.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="130.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="149.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="208.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="136.0" />
+                  <ColumnConstraints maxWidth="109.0" minWidth="82.0" prefWidth="102.0" />
+                  <ColumnConstraints maxWidth="170.0" minWidth="148.0" prefWidth="154.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <RadioButton fx:id="time_mode" mnemonicParsing="false" prefHeight="18.0" prefWidth="117.0" styleClass="radio-text" GridPane.columnIndex="1">
+                  <RadioButton fx:id="FirstToXKills" mnemonicParsing="false" prefHeight="18.0" prefWidth="117.0" styleClass="radio-text" GridPane.columnIndex="1">
                      <graphic>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="Time-based" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="FirstToXKills" />
                      </graphic></RadioButton>
-                  <RadioButton fx:id="life_mode" mnemonicParsing="false" prefHeight="24.0" prefWidth="155.0" styleClass="radio-text" GridPane.columnIndex="2">
+                  <RadioButton fx:id="Timed" mnemonicParsing="false" prefHeight="24.0" prefWidth="155.0" styleClass="radio-text" GridPane.columnIndex="2">
                      <graphic>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="Life-based" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="Timed" />
                      </graphic></RadioButton>
+                   <RadioButton fx:id="Hill" mnemonicParsing="false" prefHeight="34.0" prefWidth="109.0" styleClass="radio-text" GridPane.columnIndex="3">
+                       <graphic>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="Hill" />
+                       </graphic></RadioButton>
+
+                   <RadioButton fx:id="Regicide" mnemonicParsing="false" prefHeight="24.0" prefWidth="155.0" styleClass="radio-text" GridPane.columnIndex="4">
+                       <graphic>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="Regicide" />
+                       </graphic></RadioButton>
                   <Label prefHeight="30.0" prefWidth="110.0" styleClass="standard-text-normal" text="Mode" />
                </children>
             </GridPane>
@@ -83,11 +94,11 @@
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="start_btn" mnemonicParsing="false" onAction="#handleStartBtn" prefHeight="45.0" prefWidth="120.0" styleClass="button-page" textAlignment="CENTER" GridPane.columnIndex="2">
+                  <Button fx:id="start_btn" mnemonicParsing="false" onAction="#handleStartBtn" onMouseEntered="#playHoverSound" prefHeight="45.0" prefWidth="120.0" styleClass="button-page" textAlignment="CENTER" GridPane.columnIndex="2">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="Start" />
                      </graphic></Button>
-                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="45.0" prefWidth="120.0" styleClass="button-page" GridPane.columnIndex="1">
+                  <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" onMouseEntered="#playHoverSound" prefHeight="45.0" prefWidth="120.0" styleClass="button-page" GridPane.columnIndex="1">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="button-text" text="Back" />
                      </graphic></Button>

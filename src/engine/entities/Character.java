@@ -1,16 +1,15 @@
 package engine.entities;
 
+import client.GameClient;
 import engine.model.AttackTimes;
 import engine.model.enums.Action;
-import engine.model.enums.Directions;
 import engine.model.enums.Elements;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.HashMap;
 
 import static engine.entities.CooldownValues.*;
 
@@ -24,11 +23,15 @@ public abstract class Character extends PhysicsObject {
     protected float health;
     protected Elements currentElement;
     protected Rotate playerAngle;
-    protected Directions characterDirection;
     protected boolean isShielded;
     protected float movementSpeed;
     protected boolean isAlive = true;
     protected Action currentAction = Action.IDLE;
+    /**
+     * The time when you last died in milli
+     */
+    protected long deathTime = 0;
+
     /**
      * Is the character damaged boosted or not
      */
@@ -62,20 +65,24 @@ public abstract class Character extends PhysicsObject {
      * The last Character to inflict damage on this Character
      */
     protected Player lastAttacker = null;
-
+    protected double lightAttackRange = 330;
     /**
      * The time in milliseconds at when the current action started
      */
     private long currentActionStart;
 
-    protected double lightAttackRange = 300;
+
+    /**
+     * A hash map of the last time the player used/activated the spell
+     */
+    protected HashMap<CooldownItems,Long> timeMap = new HashMap<>();
+
 
 
     /**
      * Move the Character up isometrically based off its movement speed
      */
     public void moveUp() {
-        characterDirection = Directions.UP;
 
         double yCheck = location.getY() - movementSpeed - width / 2f;
         double xCheck = location.getX() - movementSpeed - width / 2f;
@@ -95,7 +102,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardHeight the height of the map/board
      */
     public void moveDown(double boardWidth, double boardHeight) {
-        characterDirection = Directions.DOWN;
 
 
         double yCheck = location.getY() + movementSpeed + width / 2f;
@@ -114,7 +120,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardWidth the width of the map/board
      */
     public void moveLeft(double boardWidth) {
-        characterDirection = Directions.LEFT;
 
         double xCheck = location.getX() - movementSpeed - width / 2f;
         double yCheck = location.getY() + movementSpeed + width / 2f;
@@ -133,7 +138,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardHeight the height of the map/board
      */
     public void moveRight(double boardWidth, double boardHeight) {
-        characterDirection = Directions.RIGHT;
 
         //check within bounds
 
@@ -153,7 +157,6 @@ public abstract class Character extends PhysicsObject {
      * Move the Character right using cartesian coordinate system based off its movement speed
      */
     public void moveUpCartesian() {
-        characterDirection = Directions.UPCART;
 
 
         if ((location.getY() - movementSpeed - width / 2f) >= 0) {
@@ -173,7 +176,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardHeight the height of the map/board
      */
     public void moveDownCartestian(double boardHeight) {
-        characterDirection = Directions.DOWNCART;
 
 
         if ((location.getY() + movementSpeed + width / 2f) <= boardHeight) {
@@ -190,7 +192,6 @@ public abstract class Character extends PhysicsObject {
      * Move the Character left using cartesian coordinate system based off its movement speed
      */
     public void moveLeftCartesian() {
-        characterDirection = Directions.LEFTCART;
 
         //check within bounds
         if ((location.getX() - movementSpeed - width / 2f) >= 0) {
@@ -209,7 +210,6 @@ public abstract class Character extends PhysicsObject {
      * @param boardWidth width of the map/board
      */
     public void moveRightCartesian(double boardWidth) {
-        characterDirection = Directions.RIGHTCART;
 
 
         //check within bounds
@@ -226,13 +226,14 @@ public abstract class Character extends PhysicsObject {
      * Attack the character in front of this character
      */
     public void lightAttack() {
-        if (checkCD(lightAttackID, lightAttackCD)) {
+        if (checkCD(CooldownItems.LIGHT, lightAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.LIGHT;
-                currentActionStart = System.currentTimeMillis();
+                currentActionStart = GameClient.timeElapsed;
                 long attackDuration = AttackTimes.getActionTime(currentAction);
-                final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+                // this is an array because of the thread
+                final long[] remainingAttackDuration = {attackDuration};
                 resetActionTimer(attackDuration, remainingAttackDuration);
             }
         }
@@ -243,7 +244,13 @@ public abstract class Character extends PhysicsObject {
     private void resetActionTimer(long attackDuration, long[] remainingAttackDuration) {
         (new Thread(() -> {
             while (remainingAttackDuration[0] > 0) {
-                remainingAttackDuration[0] = currentActionStart + attackDuration - System.currentTimeMillis();
+                remainingAttackDuration[0] = currentActionStart + attackDuration - GameClient.timeElapsed;
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
             currentAction = Action.IDLE;
         })).start();
@@ -280,21 +287,30 @@ public abstract class Character extends PhysicsObject {
      */
     public void chargeHeavyAttack() {
         // TODO handle charging
-        if (checkCD(heavyAttackID, heavyAttackCD)) {
+        if (checkCD(CooldownItems.HEAVY, heavyAttackCD)) {
             if (currentAction == Action.IDLE) {
                 actionHasSounded = false;
                 currentAction = Action.CHARGE;
-                currentActionStart = System.currentTimeMillis();
+                currentActionStart = GameClient.timeElapsed;
+
+                final float[] remainingChargeDuration = {AttackTimes.getActionTime(currentAction)};
+
 
                 (new Thread(() -> {
+                    while (remainingChargeDuration[0] > 0) {
+                        remainingChargeDuration[0] = currentActionStart + AttackTimes.getActionTime(currentAction) - GameClient.timeElapsed;
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        Thread.sleep(AttackTimes.getActionTime(currentAction));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
                     heavyAttack();
                 })).start();
+
+
+
             }
         }
     }
@@ -307,9 +323,9 @@ public abstract class Character extends PhysicsObject {
 
         actionHasSounded = false;
         currentAction = Action.HEAVY;
-        currentActionStart = System.currentTimeMillis();
+        currentActionStart = GameClient.timeElapsed;
         long attackDuration = AttackTimes.getActionTime(currentAction);
-        final long[] remainingAttackDuration = {currentActionStart + attackDuration - System.currentTimeMillis()};
+        final long[] remainingAttackDuration = {currentActionStart + attackDuration - GameClient.timeElapsed};
 
         resetActionTimer(attackDuration, remainingAttackDuration);
 
@@ -347,7 +363,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToFire() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.FIRE;
             }
         }
@@ -358,7 +374,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToWater() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.WATER;
             }
         }
@@ -369,7 +385,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToEarth() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.EARTH;
             }
         }
@@ -380,7 +396,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void changeToAir() {
         if (currentAction == Action.IDLE) {
-            if (checkCD(changeStateID, changeStateCD)) {
+            if (checkCD(CooldownItems.CHANGESTATE, changeStateCD)) {
                 currentElement = Elements.AIR;
             }
         }
@@ -451,53 +467,23 @@ public abstract class Character extends PhysicsObject {
      * Increase movement speed
      */
     public void speedBoost() {
-        Timer timer = new Timer();
-
+        System.out.println("SPEED");
         movementSpeed = DEFAULT_MOVEMENT_SPEED * 2;
-        // if timer is not already running, run it
-        if (timerArray[speedBoostID] > 0) {
-            timerArray[speedBoostID] = 0;
-            //counts for 4 seconds then back to default movement speed
-            (new Timer()).scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    if (timerArray[speedBoostID] == speedBoostDuration) {
-                        movementSpeed = DEFAULT_MOVEMENT_SPEED;
-                        timer.cancel();
-                    }
-                    timerArray[speedBoostID]++;
-                }
-            }, 0, 1000);
-        } else {
-            timerArray[speedBoostID] = 0;
-        }
+        //Last time speed boost was activated
+        timeMap.replace(CooldownItems.SPEED, GameClient.timeElapsed);
+
+
     }
 
     /**
      * Doubles the players damage
      */
     public void damageBoost() {
-        Timer timer = new Timer();
         damageMultiplier = 2;
         damagePowerup = true;
         // if timer is not already running, run it
-        if (timerArray[damageBoostID] > 0) {
-            timerArray[damageBoostID] = 0;
-            //counts for 4 seconds then back to default movement speed
-            (new Timer()).scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    if (timerArray[damageBoostID] == damageBoostDur) {
-                        damageMultiplier = 1;
-                        damagePowerup = false;
-                        timer.cancel();
-                    }
-                    timerArray[damageBoostID]++;
-                }
-            }, 0, 1000);
-        } else {
-            damagePowerup = false;
-            timerArray[damageBoostID] = 0;
-        }
-
+        //Last time damage boost was activated
+        timeMap.replace(CooldownItems.DAMAGE, GameClient.timeElapsed);
     }
 
     public boolean activeDamagePowerup() {
@@ -528,17 +514,13 @@ public abstract class Character extends PhysicsObject {
 
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - lightAttackRange, width, lightAttackRange);
-        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2f), location.getY() + (width / 2f));
         hitbox.getTransforms().add(rotate);
         return hitbox;
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange);
-    }
-
-    public Directions getCharacterDirection() {
-        return characterDirection;
+        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange / 2f);
     }
 
 
@@ -553,16 +535,13 @@ public abstract class Character extends PhysicsObject {
     /**
      * Check if the action is off cooldown.
      *
-     * @param id       the id of the cooldown based of the cooldown values static class
+     * @param cooldownItem the item you want to check the cooldown for
      * @param cooldown the duration of the cooldown
-     * @returnTrue if the action is off cooldown; false otherwise
+     * @return True if the action is off cooldown; false otherwise
      */
-    private boolean checkCD(int id, float cooldown) {
-        // get the time it was last used and add the cooldown
-        long nextAvailableTime = (timerArray[id] + (long) (cooldown * 1000));
-        //check if the time calculated has passed
-        if (System.currentTimeMillis() > nextAvailableTime) {
-            timerArray[id] = System.currentTimeMillis();
+    private boolean checkCD(CooldownItems cooldownItem, float cooldown) {
+        if (GameClient.timeElapsed - timeMap.get(cooldownItem) >= (long) (cooldown * 1000)) {
+            timeMap.replace(cooldownItem, GameClient.timeElapsed);
             return true;
         }
         return false;
@@ -586,5 +565,21 @@ public abstract class Character extends PhysicsObject {
 
     public Player getLastAttacker() {
         return lastAttacker;
+    }
+
+    public float getVerticalMove() {
+        return verticalMove;
+    }
+
+    public float getHorizontalMove() {
+        return horizontalMove;
+    }
+
+    public long getDeathTime() {
+        return deathTime;
+    }
+
+    public long getLastUsed(CooldownItems i) {
+        return timeMap.get(i);
     }
 }

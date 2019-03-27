@@ -42,3 +42,5 @@ public class HillGame extends GameType {
         return hill;
     }
 }
+
+
