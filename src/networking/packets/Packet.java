@@ -45,6 +45,7 @@ public abstract class Packet {
         INITIAL_STATE_BCAST((byte) 0xF8, InitialGameStateBroadcast::new),
         LOCATION_STATE((byte) 0x08, LocationStatePacket::new), // LOCATION_STATE_ACK   ((byte) 0x09),
         LOCATION_STATE_BCAST((byte) 0xF3, LocationStateBroadcast::new),
+        SCORE_BCAST((byte) 0x0B, ScoreBroadcast::new),
 
         POWERUP((byte) 0x0E, PowerUpPacket::new),
         POWERUP_PICKUP_BCAST((byte) 0xF6, PowerUpPickUpBroadcast::new),

@@ -34,6 +34,7 @@ public class RespawnController {
 
 
     public void update() {
+
         if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
             normalRespawn(5000);
         } else if (gameState.getGameType().getType() == GameType.Type.Timed) {

@@ -178,4 +178,9 @@ public class ClientNetworkHandler {
     public void receiveGameEnd() {
         this.gameState.stop();
     }
+
+    public void recieveScoreBroadcast(ScoreBroadcast packet) {
+
+        gameState.getScoreBoard().addScore(packet.getId(), packet.getPlayerScore());
+    }
 }
