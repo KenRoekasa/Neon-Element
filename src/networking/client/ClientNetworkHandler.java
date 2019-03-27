@@ -27,7 +27,6 @@ public class ClientNetworkHandler {
     }
 
     public void receiveGameStart(GameStartBroadcast packet) {
-        // todo include gamestate in this packet
         this.gameState.start();
 
     }
@@ -83,23 +82,16 @@ public class ClientNetworkHandler {
     }
 
     public void receiveLocationStateBroadcast(LocationStateBroadcast packet) {
-
         // Only update locations of other players
         if (packet.getId() != this.gameState.getPlayer().getId()) {
             int id = packet.getId();
-            Player foundPlayer = this.gameState.getAllPlayers().stream()
-            .filter(p -> p.getTag().equals(ObjectType.ENEMY))
-            .map(p -> (Player) p)
-            .filter(p -> p.getId() == id)
-            .findFirst()
-            .orElse(null);
-
+            Player foundPlayer = findPlayer(id);
             Player player;
             if (foundPlayer != null) {
 
                 player = foundPlayer;
             } else {
-                // Player id not found
+                // Player id not found so make a player
                 player = new Player(ObjectType.ENEMY, id);
                 this.gameState.getAllPlayers().add(player);
                 this.gameState.getObjects().add(player);
@@ -109,25 +101,18 @@ public class ClientNetworkHandler {
         }
     }
 
-	public void receivePlayerActionBroadCast(ActionStateBroadcast packet) {
-		// TODO Auto-generated method stub
-		 if (packet.getId() != this.gameState.getPlayer().getId()) {
-	            int id = packet.getId();
+    public void receivePlayerActionBroadCast(ActionStateBroadcast packet) {
+        // TODO Auto-generated method stub
+        if (packet.getId() != this.gameState.getPlayer().getId()) {
+            int id = packet.getId();
 
-	            Player foundPlayer = this.gameState.getAllPlayers().stream()
-	            .filter(p -> p.getTag().equals(ObjectType.ENEMY))
-	            .map(p -> (Player) p)
-	            .filter(p -> p.getId() == id)
-	            .findFirst()
-	            .orElse(null);
-
-	            Player player;
-	            if (foundPlayer != null) {
-	                foundPlayer.doAction(packet.getPlayerActionState());
-	            } else {
-	            		System.out.println("Player does not exists");
-	            }
-	        }
+            Player foundPlayer = findPlayer(id);
+            if (foundPlayer != null) {
+                foundPlayer.doAction(packet.getPlayerActionState());
+            } else {
+                System.out.println("Player does not exists");
+            }
+        }
 	}
 
 	public void receiveElementBroadcast(ElementStateBroadcast packet) {
@@ -135,14 +120,7 @@ public class ClientNetworkHandler {
 		if (packet.getId()!= this.gameState.getPlayer().getId()) {
             int id = packet.getId();
 
-            Player foundPlayer = this.gameState.getAllPlayers().stream()
-            .filter(p -> p.getTag().equals(ObjectType.ENEMY))
-            .map(p -> (Player) p)
-            .filter(p -> p.getId() == id)
-            .findFirst()
-            .orElse(null);
-
-            Player player;
+            Player foundPlayer = findPlayer(id);
             if (foundPlayer != null) {
                 foundPlayer.setCurrentElement(packet.getPlayerElementState());
             }else {
@@ -153,5 +131,19 @@ public class ClientNetworkHandler {
 
     public void receiveGameEnd() {
         this.gameState.stop();
+    }
+
+    /**
+     * Lookup a player by ID in the all players list.
+     *
+     * @param id The ID to lookup.
+     * @return The player if found or null.
+     */
+    private Player findPlayer(int id) {
+        return this.gameState.getAllPlayers().stream()
+                .filter(p -> p.getTag().equals(ObjectType.ENEMY))
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }
