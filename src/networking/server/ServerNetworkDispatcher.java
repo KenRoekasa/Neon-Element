@@ -31,6 +31,11 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 		this.broadcast(packet);
 	}
 
+	public void broadcastGameEnded() {
+		Packet packet = new GameOverBroadcast(true);
+		this.broadcast(packet);
+	}
+
 	protected void broadCastNewConnectedUser() {
 		// Packet response = new BroadCastConnectedUserPacket(new Buffer());
 		// this.send(response);

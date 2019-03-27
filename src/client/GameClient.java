@@ -40,7 +40,7 @@ public class GameClient {
     public static long pauseStart;
 
 
-    public boolean isNetworked = false;
+    public boolean isNetworked;
     /**
      * The physics engine that runs in this current game/match
      */
@@ -88,6 +88,7 @@ public class GameClient {
         this.primaryStage = primaryStage;
         this.gameState = gameState;
         this.audioManager = audioManager;
+        this.isNetworked = online;
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
@@ -147,8 +148,13 @@ public class GameClient {
                 if(!gameState.getPaused()){
                     timeElapsed += DeltaTime.deltaTime;
                     physicsEngine.clientLoop();
-                    powerUpController.update();
-                    respawnController.update();
+
+                    if(!isNetworked) {
+                        powerUpController.update();
+                        respawnController.update();
+
+                    }
+
                     pauseDuration = 0;
 
                 }
@@ -289,6 +295,9 @@ public class GameClient {
     public void initialiseGame(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
         //Pane hudPane = new Pane();
+
+
+
 
         try {
             hudPane = loader.load();

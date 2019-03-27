@@ -49,15 +49,7 @@ public class GameServer extends Thread {
 			} else {
 
 				physicsController.clientLoop();
-
-
-				for(Player p : gameState.getAllPlayers()){
-					System.out.println(p.getId() + "  " +p.getHealth());
-				}
-
-
-
-				puController.update();
+				puController.serverUpdate();
 				resController.update();
 
 				this.running = GameTypeHandler.checkRunning(gameState);
@@ -79,6 +71,8 @@ public class GameServer extends Thread {
 				}
 			}
 		}
+
+		this.network.getDispatcher().broadcastGameEnded();
 
 		this.network.close();
 	}
@@ -107,7 +101,6 @@ public class GameServer extends Thread {
 				Rotate playerAngle = p.getPlayerAngle();
 				double x = location.getX();
 				double y = location.getY();
-				//float playerHealth = p.getHealth();
 
 				this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
 			}

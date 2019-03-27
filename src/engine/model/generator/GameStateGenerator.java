@@ -86,9 +86,6 @@ public class GameStateGenerator {
      * @return a gamestate for testing
      */
     public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes,GameType.Type mode) {
-
-
-
         Map map = MapGenerator.createEmptyMap();
 
         // create player
@@ -179,4 +176,5 @@ public class GameStateGenerator {
 
     	}
     }
+
 }

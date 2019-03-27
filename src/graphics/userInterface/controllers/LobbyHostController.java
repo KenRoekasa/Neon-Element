@@ -94,10 +94,7 @@ public class LobbyHostController extends AbstractLobbyController {
 
     public void showConnections(ArrayList<Integer> playerIds){
         GameClient gameClient = getGameClient();
-        if(!gameClient.isNetworked){
-            gameClient.startNetwork();
-            gameClient.isNetworked = true ;
-        }
+
         int size = playerIds.size();
         switch (size){
             case 1:
