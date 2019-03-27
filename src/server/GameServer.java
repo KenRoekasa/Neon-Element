@@ -24,7 +24,7 @@ public class GameServer extends Thread {
 	public GameServer(ServerGameState gameState) {
 		this.gameState = gameState;
 		this.network = new ServerNetwork(this.gameState);
-//		this.physicsController = new PhysicsController(gameState);
+		this.physicsController = new PhysicsController(gameState);
 	}
 
 	public void run() {
@@ -48,7 +48,7 @@ public class GameServer extends Thread {
 				this.waitForPlayersToConnect();
 			} else {
 
-//				physicsController.clientLoop();
+				physicsController.clientLoop();
 				puController.update();
 				resController.update();
 
