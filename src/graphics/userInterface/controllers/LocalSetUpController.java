@@ -196,6 +196,8 @@ public class LocalSetUpController extends UIController {
         //g.getPlayer().getHealth();
         try {
             GameClient gameBoard = new GameClient(stage, gameState, audioManager);
+            gameBoard.initialiseGame();
+            gameState.start();
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 
