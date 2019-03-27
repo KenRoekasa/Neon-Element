@@ -13,7 +13,7 @@ public class GameOverBroadcast extends Packet.PacketToClient {
 
     private boolean gameOver;
 
-    protected GameOverBroadcast(ByteBuffer buffer, Sender sender) {
+    public GameOverBroadcast(ByteBuffer buffer, Sender sender) {
         super(sender);
         this.gameOver = getBooleanValue(buffer.get());
     }
@@ -34,7 +34,7 @@ public class GameOverBroadcast extends Packet.PacketToClient {
 
     @Override
     public void handle(ClientNetworkHandler handler) {
-        // TODO handle packet
+        handler.receiveGameEnd();
     }
 
     @Override

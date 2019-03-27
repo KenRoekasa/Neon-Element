@@ -148,4 +148,7 @@ public class ClientNetworkHandler {
         }
     }
 
+    public void receiveGameEnd() {
+        this.gameState.stop();
+    }
 }

@@ -71,6 +71,8 @@ public class GameServer extends Thread {
 			}
 		}
 
+		this.network.getDispatcher().broadcastGameEnded();
+
 		this.network.close();
 	}
 
