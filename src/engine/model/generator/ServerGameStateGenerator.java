@@ -1,4 +1,4 @@
-package server;
+package engine.model.generator;
 
 import engine.ai.enums.AiType;
 import engine.entities.Player;
@@ -8,6 +8,7 @@ import engine.entities.PhysicsObject;
 import engine.model.gametypes.*;
 import engine.model.generator.MapGenerator;
 import javafx.scene.shape.Circle;
+import server.ServerGameState;
 
 import java.util.ArrayList;
 
@@ -44,11 +45,7 @@ public class ServerGameStateGenerator {
 
         for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(AiType.getType(aiTypes[i])) );
-        }
-
-        for (int i = 0; i < num_enm; i++) {
             enemies.get(i).setLocation(map.getRespawnPoints().get(i+1));
-            enemies.get(i).setId(i);
         }
 
         //Create the first map

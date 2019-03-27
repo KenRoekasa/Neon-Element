@@ -3,9 +3,7 @@ package server;
 import java.io.IOException;
 
 import engine.model.GameType;
-import server.GameServer;
-import server.ServerGameState;
-import server.ServerGameStateGenerator;
+import engine.model.generator.ServerGameStateGenerator;
 
 public class ServerLauncher {
     public static void main(String[] args) throws IOException {
