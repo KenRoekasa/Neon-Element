@@ -16,9 +16,11 @@ import engine.model.gametypes.HillGame;
 import engine.model.gametypes.Regicide;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
+import server.ServerGameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -44,6 +46,22 @@ public class PhysicsController {
         new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
+
+        gameState.getAiConMan().updateAllAi();
+
+        if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
+            kingOfHillHandler();
+        }
+        if (!GameTypeHandler.checkRunning(gameState)) {
+            gameState.stop();
+        }
+    }
+    /**
+     * Call this method every game tick as it controls the game
+     */
+    public void dumbClientLoop() {
+        doCollisionDetection();
+        doUpdates();
 
         gameState.getAiConMan().updateAllAi();
 
@@ -130,7 +148,6 @@ public class PhysicsController {
                 }
                 //if dead teleport player off screen
                 player.setLocation(new Point2D(5000, 5000));
-
             }
 
         }
@@ -226,10 +243,12 @@ public class PhysicsController {
                         if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
+                            System.out.println(e.getHealth());
                         }
                     } else {
                         float damage = DamageCalculation.calculateDealtDamage(player, e);
                         e.takeDamage(damage, player);
+                        System.out.println(e.getHealth()+"--------");
                     }
                 }
             }

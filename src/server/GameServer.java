@@ -4,7 +4,6 @@ import engine.controller.GameTypeHandler;
 import engine.controller.RespawnController;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
-import graphics.userInterface.controllers.LobbyHostController;
 import engine.entities.Player;
 import javafx.geometry.Point2D;
 import networking.Constants;
@@ -49,6 +48,7 @@ public class GameServer extends Thread {
 			} else {
 
 				physicsController.clientLoop();
+
 				puController.serverUpdate();
 				resController.update();
 
@@ -56,6 +56,7 @@ public class GameServer extends Thread {
 
 				Thread.yield();
                 this.sendLocations();
+                this.sendHealthUpdates();
 
                 //calculate deltaTime
                 long time = System.nanoTime();
@@ -63,7 +64,7 @@ public class GameServer extends Thread {
                 lastTime = time;
 
 				try {
-					Thread.sleep(25); // Every second
+					Thread.sleep(15); // Every second
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -102,6 +103,16 @@ public class GameServer extends Thread {
 				double y = location.getY();
 
 				this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
+			}
+		}
+	}
+
+	private void sendHealthUpdates() {
+		synchronized (gameState.getAllPlayers()) {
+			for (Player p : gameState.getAllPlayers()) {
+				float playerHealth = p.getHealth();
+
+				this.network.getDispatcher().broadcastHealthState(p.getId(),playerHealth);
 			}
 		}
 	}

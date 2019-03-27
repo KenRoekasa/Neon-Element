@@ -144,12 +144,16 @@ public class GameClient {
 
                 if(!gameState.getPaused()){
                     timeElapsed += DeltaTime.deltaTime;
-                    physicsEngine.clientLoop();
 
                     if(!isNetworked) {
+                        //client loop with hit detection
+                        physicsEngine.clientLoop();
                         powerUpController.update();
                         respawnController.update();
 
+                    }else{
+                        //client loop without hit detection
+                        physicsEngine.dumbClientLoop();
                     }
 
                     pauseDuration = 0;

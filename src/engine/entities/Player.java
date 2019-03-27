@@ -66,6 +66,7 @@ public class Player extends Character {
      */
     @Override
     public void update() {
+//        System.out.println(this);
 
         if (health <= 0) {
             if (isAlive) {

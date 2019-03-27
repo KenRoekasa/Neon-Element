@@ -39,9 +39,9 @@ public class ClientNetworkDispatcher extends AbstractNetworkDispatcher {
     }
 
 
-    public void sendLocationState(double x, double y, double playerAngle, float playerHealth) {
+    public void sendLocationState(double x, double y, double playerAngle) {
         try {
-            Packet packet = new LocationStatePacket(x, y, playerAngle, playerHealth);
+            Packet packet = new LocationStatePacket(x, y, playerAngle);
             this.send(packet);
         } catch(Exception e) {
             e.printStackTrace();
