@@ -7,6 +7,7 @@ import engine.controller.GameTypeHandler;
 import engine.entities.PhysicsObject;
 import engine.entities.Player;
 import engine.entities.PowerUp;
+import engine.model.GameState;
 import engine.model.GameType;
 import engine.model.ScoreBoard;
 import engine.model.enums.Action;
@@ -24,14 +25,14 @@ import java.util.concurrent.LinkedBlockingQueue;
  * The physics engine and more
  */
 public class PhysicsController {
-    private ClientGameState gameState;
+    private GameState gameState;
 
     /**
      * Constructor
      *
      * @param gameState the game state of the current game
      */
-    public PhysicsController(ClientGameState gameState) {
+    public PhysicsController(GameState gameState) {
         this.gameState = gameState;
     }
 
@@ -61,7 +62,9 @@ public class PhysicsController {
     private void doUpdates() {
         synchronized (gameState.getObjects()) {
             // Call update function for all physics objects
-            gameState.getPlayer().update();
+
+//            gameState.getPlayer().update();
+
             for (PhysicsObject o : gameState.getObjects()) {
                 o.update();
             }
@@ -89,7 +92,7 @@ public class PhysicsController {
         if (playersInside.size() == 1) {
             Player onlyPlayer = playersInside.get(0);
             int onlyPlayerId = onlyPlayer.getId();
-            scoreBoard.addScore(onlyPlayerId, (int) (1 * GameClient.deltaTime));
+            scoreBoard.addScore(onlyPlayerId, (int) (1 * DeltaTime.deltaTime));
         }
     }
 
@@ -117,10 +120,10 @@ public class PhysicsController {
                     Regicide regicide = (Regicide) gameState.getGameType();
                     int baseScore = 5;
                     // if the player dead is the king the killer gets more points
-                    if (regicide.getKing().equals(player)) {
+                    if (regicide.getKingId() == player.getId()) {
                         scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
                         // Make the attacker the king now
-                        regicide.setKing(player.getLastAttacker());
+                        regicide.setKingId(player.getLastAttacker().getId());
                     } else {
                         scoreBoard.addScore(player.getLastAttacker().getId(), baseScore);
                     }
@@ -162,7 +165,7 @@ public class PhysicsController {
                             objects.remove(e);
                         }
                     } else {
-                        Point2D checkNext = player.getLocation().add(player.getHorizontalMove() * GameClient.deltaTime, player.getVerticalMove() * GameClient.deltaTime);
+                        Point2D checkNext = player.getLocation().add(player.getHorizontalMove() * DeltaTime.deltaTime, player.getVerticalMove() * DeltaTime.deltaTime);
                         projectedPlayer.setLocation(checkNext);
                         if (CollisionDetector.checkCollision(projectedPlayer, e)) {
                             player.setVerticalMove(0);

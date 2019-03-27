@@ -109,14 +109,6 @@ public class HUDController extends UIController implements Initializable {
         this.leaderBoard = leaderBoard;
     }
 
-    /**
-     * Set the current game state
-     *
-     * @param gameState current game state
-     */
-    public void setGameState(ClientGameState gameState) {
-        this.gameState = gameState;
-    }
 
     public void setMode(GameType.Type mode) {
         this.mode = mode;
@@ -126,8 +118,7 @@ public class HUDController extends UIController implements Initializable {
                 time_board.setVisible(false);
                 break;
             case Timed:
-                time_duration =(int) TimedGame.getDuration()/1000;
-                System.out.println("time_duartion"+time_duration);
+                time_duration =(int) TimedGame.getDuration();
                 score_board.setVisible(false);
                 time_board.setVisible(true);
                 break;
@@ -235,6 +226,11 @@ public class HUDController extends UIController implements Initializable {
         timeProperty = new SimpleDoubleProperty();
     }
 
+    public void setGameState(ClientGameState gameState) {
+        this.gameState = gameState;
+        this.num_player = gameState.getScoreBoard().getLeaderBoard().size();
+    }
+
 
     /**
      * Initialise the controller setting, implement the user interface value binding
@@ -277,25 +273,23 @@ public class HUDController extends UIController implements Initializable {
         }
     }
 
-    /**
-     * Update the all string properties in this controller when every call this function
-     */
+
     public void update() {
         updateUserinfo();
         updateLeaderboard();
         switch (mode){
                 case FirstToXKills:
                     updateScore(FirstToXKillsGame.getKillsNeeded());
-                    System.out.println("FirstTOXKills:"+FirstToXKillsGame.getKillsNeeded());
+//                    System.out.println("FirstTOXKills:"+FirstToXKillsGame.getKillsNeeded());
                     break;
                 case Timed:
                     updateTime(time_duration);
                     break;
                 case Regicide:
-                    updateScore(Regicide.getScoreNeeded());
+                    updateScore(((Regicide)(gameState.getGameType())).getScoreNeeded());
                     break;
                 case Hill:
-                    updateScore((int)HillGame.getScoreNeeded());
+                    updateScore(((HillGame) gameState.getGameType()).getScoreNeeded());
         }
     }
 
@@ -350,8 +344,8 @@ public class HUDController extends UIController implements Initializable {
 
         totalKills.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerKills(playerId))));
         deathTimes.set(String.valueOf((int) (gameState.getScoreBoard().getPlayerDeaths(playerId))));
-    }
 
+    }
     /**
      * Update the leaderboard
      */
@@ -369,7 +363,6 @@ public class HUDController extends UIController implements Initializable {
             player3Property.set(s3);
             player4Property.set(s4);
         }
-
     }
 
     /**
@@ -384,15 +377,15 @@ public class HUDController extends UIController implements Initializable {
      * Update the time left
      */
     public void updateTime(long time){
-        long endTime = System.nanoTime()/1000000000;
-        long elapsedTime = endTime - startTime;
-
+        long elapsedTime = GameClient.timeElapsed;
         timeProperty.setValue((double)elapsedTime/time);
     }
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
+
+
 
 }
 

@@ -1,68 +1,112 @@
 package server;
 
 import engine.controller.GameTypeHandler;
-import engine.physics.CollisionDetector;
-import engine.entities.PhysicsObject;
+import engine.controller.RespawnController;
+import engine.physics.DeltaTime;
+import engine.physics.PhysicsController;
+import graphics.userInterface.controllers.LobbyHostController;
 import engine.entities.Player;
-import engine.entities.PowerUp;
-import engine.model.enums.Action;
-import engine.model.enums.ObjectType;
 import javafx.geometry.Point2D;
+import networking.Constants;
+import networking.server.ConnectedPlayers;
+import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
 import server.controllers.PowerUpController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public class GameServer extends Thread {
 
-    private ServerGameState gameState;
-    private ServerNetwork network;
+	private ServerGameState gameState;
+	private ServerNetwork network;
+	private PhysicsController physicsController;
 
-    private boolean running;
+	private boolean running;
 
-    public GameServer(ServerGameState gameState) {
-        this.gameState = gameState;
-        this.network = new ServerNetwork(this.gameState);
-    }
+	public GameServer(ServerGameState gameState) {
+		this.gameState = gameState;
+		this.network = new ServerNetwork(this.gameState);
+		this.physicsController = new PhysicsController(gameState);
+	}
 
-    public void run() {
+	public void run() {
+		this.network.start();
+
+		PowerUpController puController = new PowerUpController(gameState, this.network.getDispatcher());
+		RespawnController resController = new RespawnController(gameState);
+
         this.running = true;
-        this.network.start();
+        long lastTime = System.nanoTime();
+		while (this.running) {
+			// Server logic
 
+			if (!this.gameState.isStarted()) {
 
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				this.waitForPlayersToConnect();
+			} else {
 
-        while(this.running) {
-            // Server logic
+				physicsController.clientLoop();
+				puController.update();
+				resController.update();
 
+				this.running = GameTypeHandler.checkRunning(gameState);
 
-            this.running = GameTypeHandler.checkRunning(gameState);
+				Thread.yield();
+                this.sendLocations();
 
-            Thread.yield();
-            this.sendLocations();
+                //calculate deltaTime
+                long time = System.nanoTime();
+                DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
+                lastTime = time;
 
-            try {
-                Thread.sleep(1000L); // Every second
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+				try {
+					Thread.sleep(25); // Every second
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 
-        this.network.close();
-    }
+		this.network.getDispatcher().broadcastGameEnded();
 
-    
-    private void sendLocations() {
-        synchronized (gameState.getAllPlayers()) {
-            for (Player p : gameState.getAllPlayers()) {
-                Point2D location = p.getLocation();
-                double x = location.getX();
-                double y = location.getY();
+		this.network.close();
+	}
 
-                this.network.getDispatcher().broadcastLocationState(p.getId(), x, y);
-            }
-        }
-    }
+	private void waitForPlayersToConnect() {
+		ConnectedPlayers connectedPlayers = this.network.getConnectedPlayers();
+		//todo can't get the connected player : how and where player added
 
+        // once players are all connected, start the game
+        if(connectedPlayers != null && connectedPlayers.count() == Constants.NUM_PLAYER) {
+			// Start the game
+			connectedPlayers.assignStartingLocations(gameState.getMap().getWidth(), gameState.getMap().getHeight());
+			this.gameState.getScoreBoard().initialise(this.gameState.getAllPlayers());
+			this.network.getDispatcher().broadcastGameState();
+
+			this.gameState.setStarted(true);
+			this.network.getDispatcher().broadcastGameStarted();
+
+		}
+	}
+
+	private void sendLocations() {
+		synchronized (gameState.getAllPlayers()) {
+			for (Player p : gameState.getAllPlayers()) {
+				Point2D location = p.getLocation();
+				Rotate playerAngle = p.getPlayerAngle();
+				double x = location.getX();
+				double y = location.getY();
+
+				this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
+			}
+		}
+	}
+
+	public ServerNetwork getNetwork() {
+		return network;
+	}
 }

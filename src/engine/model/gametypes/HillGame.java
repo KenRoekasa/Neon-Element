@@ -16,7 +16,7 @@ public class HillGame extends GameType {
     /**
      * The score you need to win
      */
-    private static float scoreNeeded;
+    private int scoreNeeded;
 
     /**
      * Constructor
@@ -24,13 +24,17 @@ public class HillGame extends GameType {
      * @param hill        The circular are where points are earned
      * @param scoreNeeded the scored needed to win/end the game
      */
-    public HillGame(Circle hill, float scoreNeeded) {
+    public HillGame(Circle hill, int scoreNeeded) {
         super(Type.Hill);
         this.hill = hill;
         this.scoreNeeded = scoreNeeded;
     }
 
-    public static float getScoreNeeded() {
+    public HillGame(double centerX, double centerY, double radius, int scoreNeeded) {
+        this(new Circle(centerX, centerY, radius), scoreNeeded);
+    }
+
+    public int getScoreNeeded() {
         return scoreNeeded;
     }
 
@@ -38,3 +42,5 @@ public class HillGame extends GameType {
         return hill;
     }
 }
+
+

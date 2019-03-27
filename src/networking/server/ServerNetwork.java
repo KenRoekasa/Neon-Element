@@ -3,91 +3,79 @@ package networking.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
 
 import networking.packets.*;
 import server.ServerGameState;
 import networking.Constants;
 
-public class ServerNetwork extends Thread {
-	//changed it to protected
-	//private UUID severUID = UUID.randomUUID();
-
-    protected boolean running;
-
-    protected DatagramSocket socket;
-
-    // protected MulticastSocket multicastSocket;
+public class ServerNetwork extends networking.AbstractNetwork {
 
     protected ServerNetworkDispatcher dispatcher;
+    private ServerNetworkHandler handler;
 
+    private ConnectedPlayers connectedPlayers;
+
+    /**
+     * Create a ServerNetwork.
+     *
+     * @param gameState The server's game state.
+     */
     public ServerNetwork(ServerGameState gameState) {
-        InetAddress groupAddress = null;
-        try {
-            socket = new DatagramSocket(Constants.SERVER_LISTENING_PORT);
+        super(Constants.SERVER_LISTENING_PORT);
 
-            // Multicast socket
-            /*
-            groupAddress = InetAddress.getByName(Constants.GROUP_SERVER_ADDRESS);
-            multicastSocket = new MulticastSocket(Constants.BROADCASTING_PORT); // TODO does this need to be a different port?
-            */
-            } /* catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/ catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        this.dispatcher = new ServerNetworkDispatcher(this.socket, /*this.multicastSocket, groupAddress,*/ gameState);
+        this.connectedPlayers = new ConnectedPlayers();
+        this.dispatcher = new ServerNetworkDispatcher(gameState, connectedPlayers, this.getSocket());
+        this.handler = new ServerNetworkHandler(gameState, connectedPlayers, this.dispatcher);
     }
 
+    /**
+     * Get the ServerNetworkDispatcher.
+     *
+     * @return The ServerNetworkDispatcher.
+     */
     public ServerNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
+    /**
+     * Get the connected players.
+     *
+     * @return The ConnectedPlayers.
+     */
+    public ConnectedPlayers getConnectedPlayers() {
+        return this.connectedPlayers;
+    }
+
+    /**
+     * Ends the ServerNetwork and closes the listening port.
+     */
+    @Override
     public void close() {
-        this.running = false;
+        super.close();
         this.dispatcher.close();
     }
 
-    public void run() {
-        this.running = true;
-        while (this.running) {
-            byte[] data = new byte[Packet.PACKET_BYTES_LENGTH];
-
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-
-            try {
-                this.socket.receive(packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            this.parse(packet);
-        }
-    }
-
+    /**
+     * {@inheritDoc}
+     *
+     * After parsing the {@link Packet.PacketToServer#handle(ServerNetworkHandler) method is called.
+     */
+    @Override
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
-        System.out.println("Type of packet rec: "+ packet.getType());
 
         if (packet == null) {
-            System.out.println("Invalid packet recieved");
+            System.out.println("Invalid packet received");
+            return;
+        } else if (!(packet instanceof Packet.PacketToServer)) {
+            System.out.println(packet.getPacketType() + " received by server which should not be sent to it.");
             return;
         }
 
-        switch(packet.getType()) {
-            case HELLO:
-            		System.out.println("recieved ");
-                this.dispatcher.receiveHello((HelloPacket) packet);
-                break;
-            case CONNECT:
-                this.dispatcher.receiveConnect((ConnectPacket) packet);
-                break;
-            default:
-                // TODO: log invalid packet
+        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE)) {
+            System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
         }
+
+        ((Packet.PacketToServer) packet).handle(this.handler);
     }
 }

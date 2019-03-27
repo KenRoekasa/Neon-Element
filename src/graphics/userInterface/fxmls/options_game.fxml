@@ -34,11 +34,11 @@
                     </rowConstraints>
                     <children>
                         <Slider fx:id="sound" prefHeight="54.0" prefWidth="301.0" GridPane.columnIndex="1" />
-                        <Text styleClass="standard-text-medium" text="Effects" />
-                        <Text fx:id="volume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="50" GridPane.columnIndex="2" />
-                        <Text styleClass="standard-text-medium" text="Music" GridPane.rowIndex="2" />
+                        <Text styleClass="options-medium" text="Effects" />
+                        <Text fx:id="volume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="50" GridPane.columnIndex="2" />
+                        <Text styleClass="options-medium" text="Music" GridPane.rowIndex="2" />
                         <Slider fx:id="music" prefHeight="54.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Text fx:id="musicVolume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-normal" text="50" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Text fx:id="musicVolume" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="50" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
                 <BorderPane GridPane.rowIndex="2">
@@ -52,14 +52,14 @@
                                 <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" onMouseEntered="#playHoverSound" styleClass="button-page" stylesheets="@../resources/css/outrun.css" textAlignment="CENTER">
+                                <Button fx:id="ok_btn" mnemonicParsing="false" onAction="#handleOkBtn" onMouseEntered="#playHoverSound" styleClass="option-button" stylesheets="@../resources/css/outrun.css" textAlignment="CENTER">
                                     <graphic>
-                                        <Label styleClass="button-text" stylesheets="@../resources/css/outrun.css" text="  OK   " />
+                                        <Label styleClass="option-button" stylesheets="@../resources/css/outrun.css" text="  OK   " />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" onMouseEntered="#playHoverSound" styleClass="button-page" stylesheets="@../resources/css/outrun.css" GridPane.columnIndex="1">
+                                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#handleBackBtn" onMouseEntered="#playHoverSound" styleClass="option-button" stylesheets="@../resources/css/outrun.css" GridPane.columnIndex="1">
                                     <graphic>
-                                        <Label styleClass="button-text" stylesheets="@../resources/css/outrun.css" text=" Back " />
+                                        <Label styleClass="option-button" stylesheets="@../resources/css/outrun.css" text=" Back " />
                                     </graphic>
                                 </Button>
                             </children>

@@ -2,10 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
+import networking.client.ClientNetworkHandler;
 
-public class BroadCastGameStartPacket extends Packet {
+public class GameStartBroadcast extends Packet.PacketToClient {
 
 
 	// Bytes required for packet data.
@@ -16,26 +15,38 @@ public class BroadCastGameStartPacket extends Packet {
     private boolean gameStarted;
     private int players;
 
-    protected BroadCastGameStartPacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.GAME_START_BCAST);
+    protected GameStartBroadcast(ByteBuffer buffer, Sender sender) {
+        super(sender);
         this.gameStarted = getBooleanValue(buffer.get());
         this.players = buffer.getInt();
     }
 
-    public BroadCastGameStartPacket(boolean gameStarted, int players) {
-        super(PacketDirection.OUTGOING, PacketType.GAME_START_BCAST);
+    public GameStartBroadcast(boolean gameStarted, int players) {
+        super();
         this.gameStarted = gameStarted;
         this.players = players;
+    }
+
+    @Override
+    public PacketType getPacketType() {
+       return PacketType.GAME_START_BCAST;
     }
 
     public boolean getGameStartVar() {
         return this.gameStarted;
     }
-    
+
     public int getPlayersCount() {
         return this.players;
     }
 
+
+    @Override
+    public void handle(ClientNetworkHandler handler) {
+        handler.receiveGameStart(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         	//this identifier has been placed twice

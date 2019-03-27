@@ -31,7 +31,7 @@
     -fx-font-family: Lazer84;
     -fx-fill: linear-gradient(to bottom, #f9ceff 0%, #ff8deb 25%, #876193 50%, #162b79 75%, #000000 100%) fixed;
     -fx-fill: linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);
-    -fx-font-size: 220px;
+    -fx-font-size: 170px;
 }
 
 .button{
@@ -115,6 +115,7 @@
     -fx-text-fill: Red;
     -fx-font-size: 15px;
 }
+
 .standard-text-help{
     -fx-font-family: Audiowide;
     -fx-text-fill: rgba(120, 0, 50, .5);
@@ -220,5 +221,54 @@
 .progress-indicator .percentage {
     -fx-fill:null;
 }
+
+.progress-bar .bar {
+    -fx-background-insets: 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.progress-bar >.track {
+    -fx-text-box-border: white;
+    -fx-control-inner-background: white;
+}
+
+.pause-menu-text{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+}
+
+.pause-menu-text:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+
+}
+
+.options-normal{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+    -fx-font-size: 25px;
+}
+.options-medium {
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+    -fx-font-size: 50px;
+}
+.option-button{
+    -fx-font-family: Audiowide;
+    -fx-text-fill: #f9ceff;
+    -fx-fill: #f9ceff;
+    -fx-font-size: 50px;
+}
+
+.option-button:hover{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+    -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
+}
+
 
 

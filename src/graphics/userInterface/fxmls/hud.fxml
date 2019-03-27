@@ -109,13 +109,14 @@
          </children>
       </HBox>
       <Text fx:id="kills" fill="#f8f5f5" layoutX="68.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" wrappingWidth="30" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="52.6640625" />
+
       <AnchorPane layoutX="724.0" layoutY="6.0" prefHeight="44.0" prefWidth="158.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Text fx:id="death" fill="#f8f5f5" layoutX="70.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-hud" text="0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="90.6640625" />
       <AnchorPane fx:id="leaderboard" layoutX="659.0" layoutY="10.0" prefHeight="230.0" prefWidth="201.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="150.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="10.0">
                <image>
-                  <Image url="@../resources/icons/leaderboard-icon-2.png" />
+                  <Image url="@../resources/icons/leaderboard-icon.png" />
                </image>
             </ImageView>
             <Label fx:id="player3" styleClass="standard-text-hud" text="3" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0" />
@@ -146,7 +147,7 @@
       </ImageView>
       <ImageView fitHeight="30.0" fitWidth="31.0" layoutX="15.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0">
          <image>
-            <Image url="@../resources/icons/health-icon-4.png" />
+            <Image url="@../resources/icons/health-icon.png" />
          </image>
       </ImageView>
       <AnchorPane fx:id="score_board" layoutX="83.0" layoutY="640.0" maxWidth="30.0" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

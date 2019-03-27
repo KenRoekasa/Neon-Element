@@ -2,10 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
+import networking.client.ClientNetworkHandler;
 
-public class BroadCastReadyStatePacket extends Packet {
+public class ReadyStateBroadcast extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -14,20 +13,31 @@ public class BroadCastReadyStatePacket extends Packet {
 
     private boolean ready;
 
-    protected BroadCastReadyStatePacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.READY_STATE_BCAST);
+    protected ReadyStateBroadcast(ByteBuffer buffer, Sender sender) {
+        super(sender);
         this.ready = getBooleanValue(buffer.get());
     }
 
-    public BroadCastReadyStatePacket (boolean ready) {
-        super(PacketDirection.OUTGOING, PacketType.READY_STATE_BCAST);
+    public ReadyStateBroadcast(boolean ready) {
+        super();
         this.ready = ready;
+    }
+
+    @Override
+    public PacketType getPacketType() {
+        return PacketType.READY_STATE_BCAST;
     }
 
     public boolean getReady() {
         return this.ready;
     }
 
+    @Override
+    public void handle(ClientNetworkHandler handler) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.put(getByteValue(this.ready));

@@ -71,6 +71,7 @@ public abstract class Character extends PhysicsObject {
 	}
 
 	/**
+
      * The time in milliseconds at when the current action started
      */
     private long currentActionStart;
@@ -341,6 +342,7 @@ public abstract class Character extends PhysicsObject {
      */
     public void shield() {
         if (currentAction == Action.IDLE) {
+            currentActionStart = System.currentTimeMillis();
             actionHasSounded = false;
             currentAction = Action.BLOCK;
             isShielded = true;
@@ -517,13 +519,13 @@ public abstract class Character extends PhysicsObject {
 
     public Rectangle getAttackHitbox() {
         Rectangle hitbox = new Rectangle(location.getX(), location.getY() - lightAttackRange, width, lightAttackRange);
-        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2), location.getY() + (width / 2));
+        Rotate rotate = new Rotate(playerAngle.getAngle(), location.getX() + (width / 2f), location.getY() + (width / 2f));
         hitbox.getTransforms().add(rotate);
         return hitbox;
     }
 
     public Circle getHeavyAttackHitbox() {
-        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange);
+        return new Circle(location.getX() + width, location.getY() + width, heavyAttackRange / 2f);
     }
 
 
@@ -560,6 +562,10 @@ public abstract class Character extends PhysicsObject {
 
     public void setVerticalMove(float verticalMove) {
         this.verticalMove = verticalMove;
+    }
+
+    public void setCurrentElement(Elements element) {
+        currentElement = element;
     }
 
     public Player getLastAttacker() {

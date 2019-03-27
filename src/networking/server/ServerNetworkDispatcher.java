@@ -3,153 +3,96 @@ package networking.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.ArrayList;
 
-import engine.entities.Player;
 import engine.entities.PowerUp;
-import engine.model.enums.ObjectType;
+import engine.model.enums.*;
 import networking.packets.*;
 import server.ServerGameState;
-import networking.NetworkDispatcher;
+import networking.AbstractNetworkDispatcher;
 
-public class ServerNetworkDispatcher extends NetworkDispatcher {
-    
-    private ServerGameState gameState;
+public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 
-    private ArrayList<PlayerConnection> connections;
+	private ServerGameState gameState;
+	private ConnectedPlayers connectedPlayers;
 
-	protected ServerNetworkDispatcher(DatagramSocket socket, /*MulticastSocket multicastSocket, InetAddress groupAddress,*/ ServerGameState gameState) {
-		super(socket/*, multicastSocket, groupAddress*/);
+	protected ServerNetworkDispatcher(ServerGameState gameState, ConnectedPlayers connectedPlayers, DatagramSocket socket) {
+		super(socket);
 		this.gameState = gameState;
-        this.connections = new ArrayList<>();
+		this.connectedPlayers = connectedPlayers;
 	}
 
-	protected void receiveHello(HelloPacket packet) {
-		// TODO - integrate and get these values from somewhere
-//		int players = this.gameState.getAllPlayers().size();
-//		int maxPlayers = this.gameState.getMaxPlayers();
-//
-//		Packet response = new HelloAckPacket(players, maxPlayers, packet.getIpAddress(), packet.getPort());
-//		System.out.println("respond");
-//		this.send(response);
+	public void broadcastGameState() {
+		Packet packet = new InitialGameStateBroadcast(this.gameState.getMap(), connectedPlayers.getIds(), connectedPlayers.getLocations());
+        this.broadcast(packet);
 	}
 
-	protected void receiveConnect(ConnectPacket packet) {
-	    boolean isStarted = this.gameState.isStarted();
-	    boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getMaxPlayers();
-	    System.out.println("Does the game have space: "+hasSpace);
-	    System.out.println("has the game Started: "+isStarted);
-
-	    // Allow connection if the game has not started yet and we have space for more players
-	    ConnectAckPacket.Status status;
-	    int playerId = 0;
-	    if (isStarted) {
-	        status = ConnectAckPacket.Status.ERR_GAME_STARTED;
-	    } else if(!hasSpace) {
-            status = ConnectAckPacket.Status.ERR_MAX_PLAYERS;
-	    } else {
-	        status = ConnectAckPacket.Status.SUC_CONNECTED;
-
-	        Player player = new Player(ObjectType.PLAYER);
-	        playerId = player.getId();
-            PlayerConnection playerConn = new PlayerConnection(player, packet.getIpAddress(), packet.getPort());
-
-            this.connections.add(playerConn);
-            this.gameState.getAllPlayers().add(player);
-            this.gameState.getObjects().add(player);
-
-            System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress());
-
-	    }
-
-        Packet response = new ConnectAckPacket(playerId, status, packet.getIpAddress(), packet.getPort());
-        this.send(response);
-        
-        if (status == ConnectAckPacket.Status.SUC_CONNECTED) {
-            Packet connect = new BroadCastConnectedUserPacket(playerId);
-            this.broadcast(connect);
-
-            if(this.connections.size() == 2) {
-                this.gameState.setStarted(true);
-                this.broadcastGameStarted();
-            }
-        }
-	}
-	
-	protected void broadcastGameStarted() {
-	    Packet packet = new BroadCastGameStartPacket(true, this.gameState.getAllPlayers().size());
-	    this.broadcast(packet);
+	public void broadcastGameStarted() {
+		Packet packet = new GameStartBroadcast(true, this.gameState.getAllPlayers().size());
+		this.broadcast(packet);
 	}
 
-	protected void receiveLocationState(LocationStatePacket packet) {
-	    PlayerConnection playerConn = getPlayerConnection(packet);
-
-	    if (playerConn != null) {
-	        Player player = playerConn.getPlayer();
-
-            // Just update the location for now
-            // TODO - validate if the location
-            player.setLocation(packet.getX(), packet.getY());
-	    } else {
-	        // Player connection not found
-	    }
+	public void broadcastGameEnded() {
+		Packet packet = new GameOverBroadcast(true);
+		this.broadcast(packet);
 	}
 
 	protected void broadCastNewConnectedUser() {
-		//Packet response = new BroadCastConnectedUserPacket(new Buffer());
-	//	this.send(response);
+		// Packet response = new BroadCastConnectedUserPacket(new Buffer());
+		// this.send(response);
 	}
-    
+
     public void broadcastNewPowerUp(PowerUp powerUp) {
         double x = powerUp.getLocation().getX();
         double y = powerUp.getLocation().getY();
-        Packet packet = new BroadCastPowerUpPacket(powerUp.getId(), x, y);
-        this.broadcast(packet);
-    }
-    
-    public void broadcastLocationState(int playerId, double x, double y) {
-        Packet packet = new BroadCastLocationStatePacket(playerId, x, y);
+        Packet packet = new PowerUpBroadcast(powerUp.getId(), x, y, powerUp.getType());
         this.broadcast(packet);
     }
 
-	protected void receiveSpellCast(CastSpellPacket packet) {
-		// Packet response = new SpellCas
+    public void broadcastLocationState(int playerId, double x, double y, double playerAngle) {
+        Packet packet = new LocationStateBroadcast(playerId, x, y, playerAngle);
+        this.broadcast(packet);
+    }
+
+    public void broadcastElementState(int playerId, Elements element) {
+    	Packet packet = new ElementStateBroadcast(playerId, element);
+    	this.broadcast(packet);
+	}
+
+	public void broadcastActionState(int playerId, Action action) {
+		Packet packet = new ActionStateBroadcast(playerId, action);
+		this.broadcast(packet);
+	}
+
+	public void broadcastConnectedUser(int playerId) {
+		Packet packet = new ConnectBroadcast(playerId);
+		this.broadcast(packet);
 	}
 
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
-		Packet response = new DisconnectAckPacket(packet.getIpAddress(), packet.getPort(), true);
-		this.send(response);
+		Packet response = new DisconnectAckPacket(true);
+		this.send(response, packet.getIpAddress(), packet.getPort());
 	}
-	
-	private PlayerConnection getPlayerConnection(Packet packet) {
-        return this.connections.stream()
-            .filter(c -> c.is(packet.getIpAddress(), packet.getPort()))
-            .findFirst()
-            .orElse(null);
-	}
-	
-    private void broadcast(Packet packet) {
-        if (packet.getDirection() == Packet.PacketDirection.OUTGOING) {
-            byte[] data = packet.getRawBytes();
-           
-            for (PlayerConnection conn : this.connections) {
-                DatagramPacket datagram = new DatagramPacket(data, data.length, conn.getIpAddress(), conn.getPort());
-                
-                if (!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
-                		
-                    System.out.println("sent " +packet.getType() +" Packet ==> "+" Player with id: "+conn.getId());
-            
-                }
 
-                try {
-                    this.socket.send(datagram);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            System.out.println("Attempted to send a recived packet.");
-        }
+	/**
+	 * Get the {@link PlayerConnection} for the sender of the Packet.
+	 *
+	 * @param packet The received packet.
+	 * @return The {@link PlayerConnection} the packet was received from.
+	 */
+	private PlayerConnection getPlayerConnection(Packet packet) {
+		return this.connectedPlayers.getPlayerConnection(packet.getIpAddress(), packet.getPort());
+	}
+
+	/**
+	 * Broadcast the Packet to all connected clients.
+	 *
+	 * @param packet
+	 */
+    private void broadcast(Packet packet) {
+		for (PlayerConnection conn : this.connectedPlayers.getConnections()) {
+			this.send(packet, conn.getIpAddress(), conn.getPort());
+		}
     }
+
 }

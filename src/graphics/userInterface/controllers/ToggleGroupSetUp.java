@@ -9,17 +9,8 @@ import javafx.scene.control.ToggleGroup;
  */
 public class ToggleGroupSetUp {
 
-    /** Set up the toggle group with two radio buttons.
-     * @param group the toggle group which is going to be bound to
-     * @param rB1 the first radio button
-     * @param rB2 the second radio button
-     */
-    public static void setToggleGroup(ToggleGroup group,RadioButton rB1,RadioButton rB2){
-        rB1.setToggleGroup(group);
-        rB2.setToggleGroup(group);
-        rB2.setSelected(true);
-        removeGroupRadioCircle(rB1,rB2);
-    }
+
+
 
     /** Set up the toggle group with three radio buttons.
      * @param group the toggle group which is going to be bound to
@@ -35,22 +26,6 @@ public class ToggleGroupSetUp {
         removeGroupRadioCircle(rB1,rB2,rB3);
     }
 
-
-    /** Set up the toggle group with four radio buttons and move their radio circle.
-     * @param group the toggle group which is going to be bound to
-     * @param rB1 the first radio button
-     * @param rB2 the second radio button
-     * @param rB3 the third radio button
-     * @param rB4 the fourth radio button
-     */
-    public static void setToggleGroup(ToggleGroup group, RadioButton rB1, RadioButton rB2, RadioButton rB3,RadioButton rB4){
-        rB1.setToggleGroup(group);
-        rB2.setToggleGroup(group);
-        rB3.setToggleGroup(group);
-        rB4.setToggleGroup(group);
-        rB4.setSelected(true);
-        removeGroupRadioCircle(rB1,rB2,rB3,rB4);
-    }
 
 
     /** Remove a radio circle of a radio button.
@@ -106,4 +81,14 @@ public class ToggleGroupSetUp {
         rB2.setUserData(s);
         rB3.setUserData(s);
     }
+
+    public static void setToggleGroup(ToggleGroup group, RadioButton rB1, RadioButton rB2, RadioButton rB3, RadioButton rB4){
+        rB1.setToggleGroup(group);
+        rB2.setToggleGroup(group);
+        rB3.setToggleGroup(group);
+        rB4.setToggleGroup(group);
+        rB1.setSelected(true);
+        removeGroupRadioCircle(rB1,rB2,rB3,rB4);
+    }
+
 }

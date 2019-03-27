@@ -1,11 +1,13 @@
 package engine.model.enums;
 
+import utils.InvalidEnumId;
+import utils.LookupableById;
 import graphics.rendering.textures.Sprites;
 
 /**
  * The Elements that the player can change into
  */
-public enum Elements {
+public enum Elements implements LookupableById {
     //subject to change
     FIRE(0), WATER(1), EARTH(2), AIR(3);
 
@@ -20,13 +22,8 @@ public enum Elements {
         return this.id;
     }
 
-    public static Elements getById(byte id) {
-        for (Elements t : Elements.values()) {
-            if (t.id == id) {
-                return t;
-            }
-        }
-        return null;
+    public static Elements getById(byte id) throws InvalidEnumId {
+        return LookupableById.lookup(Elements.class, id);
     }
 
 
