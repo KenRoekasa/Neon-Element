@@ -102,7 +102,6 @@ public class TimeCalculations {
 	private void resetTickCounter() {
 		tickCtr = 0;
 	}
-
 	
 	/**
 	 * @return current time in seconds
@@ -116,8 +115,8 @@ public class TimeCalculations {
 	 */
 	private void resetStartingTimes() {
 		setPaused(false);
-		wanderingTime -= pausingTime;
-		startTime -=pausingTime;
+		wanderingTime += pausingTime;
+		startTime +=pausingTime;
 	}
 
 }

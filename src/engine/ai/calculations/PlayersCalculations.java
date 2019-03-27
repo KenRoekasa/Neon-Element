@@ -89,7 +89,7 @@ public class PlayersCalculations {
 	 * @return True if player is in attack distance, false otherwise
 	 */
 	public boolean inAttackDistance(Player player) {
-		if ((int) moveCalc.calcDistance(aiPlayer.getLocation(), player.getLocation()) - aiPlayer.getWidth() < aiPlayer.getWidth())
+		if ( moveCalc.calcDistance(aiPlayer.getLocation(), player.getLocation()) < aiPlayer.getLightAttackRange())
 			return true;
 		return false;
 	}

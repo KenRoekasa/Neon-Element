@@ -18,7 +18,7 @@ import javafx.scene.transform.Rotate;
 public class AiActions {
 	
 	//Number of ticks before putting shield back on
-	private static final int NUMBER_OF_TICKS = 20;
+	private static final int NUMBER_OF_TICKS = 60;
 	//The AI controller object
 	protected AiController aiCon;
 	//Object of the Player being controlled
@@ -391,7 +391,7 @@ public class AiActions {
 	 */
 	public void attackIfInDistance(Player player) {
 		
-		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(aiPlayer)) {
+		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(player)) {
 			int i = r.nextInt(10);
 			if(i>7)
 				aiPlayer.chargeHeavyAttack();
@@ -407,7 +407,7 @@ public class AiActions {
 	 */
 	public void attackIfInDistanceWithShield(Player player) {
 		
-		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(aiPlayer)) {
+		if (playerCalc.inAttackDistance(player) && player.getHealth()>0 && !playerCalc.isCharging(player)) {
 			int i = r.nextInt(10);
 			aiPlayer.unShield();
 			if(i>7)

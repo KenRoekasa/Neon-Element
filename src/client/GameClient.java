@@ -141,6 +141,8 @@ public class GameClient {
                 if(gameState.getPaused()){
                     long now = System.nanoTime()/1000000;
                     pauseDuration = (now - pauseStart);
+                    gameState.getAiConMan().pauseAllAi();
+                   
                 }
 
 
@@ -156,6 +158,7 @@ public class GameClient {
                     }
 
                     pauseDuration = 0;
+                    
 
                 }
                 audioManager.clientLoop(gameState);

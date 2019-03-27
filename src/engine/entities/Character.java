@@ -65,8 +65,13 @@ public abstract class Character extends PhysicsObject {
      * The last Character to inflict damage on this Character
      */
     protected Player lastAttacker = null;
-    protected double lightAttackRange = 330;
-    /**
+    protected double lightAttackRange = 300;
+    public double getLightAttackRange() {
+		return lightAttackRange;
+	}
+
+	/**
+
      * The time in milliseconds at when the current action started
      */
     private long currentActionStart;
