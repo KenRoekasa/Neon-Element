@@ -43,12 +43,25 @@ public class PhysicsController {
      */
     public void clientLoop() {
         doCollisionDetection();
-        if(gameState instanceof ServerGameState){
-            System.out.println(7);
-            new Thread(() -> doHitDetection()).start();
-        }
+        new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
+
+        gameState.getAiConMan().updateAllAi();
+
+        if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
+            kingOfHillHandler();
+        }
+        if (!GameTypeHandler.checkRunning(gameState)) {
+            gameState.stop();
+        }
+    }
+    /**
+     * Call this method every game tick as it controls the game
+     */
+    public void dumbClientLoop() {
+        doCollisionDetection();
+        doUpdates();
 
         gameState.getAiConMan().updateAllAi();
 
@@ -135,7 +148,6 @@ public class PhysicsController {
                 }
                 //if dead teleport player off screen
                 player.setLocation(new Point2D(5000, 5000));
-
             }
 
         }

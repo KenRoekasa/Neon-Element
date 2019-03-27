@@ -45,8 +45,6 @@ public class PowerUpController {
         long currentTime = GameClient.timeElapsed;
 
         if(currentTime-lastTime >= 5000){
-
-
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);
             lastTime = GameClient.timeElapsed;
