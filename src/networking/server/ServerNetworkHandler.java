@@ -86,8 +86,8 @@ public class ServerNetworkHandler {
 			player.setLocation(packet.getX(), packet.getY());
 			Rotate playerAngle = player.getPlayerAngle();
 			playerAngle.setAngle(packet.getPlayerAngle());
-			float playerCurrentHealth = packet.getPlayerHealth();
-			player.setHealth(playerCurrentHealth); 
+			/*float playerCurrentHealth = packet.getPlayerHealth();
+			player.setHealth(playerCurrentHealth); */
 		} else {
 			// Player connection not found
 		}

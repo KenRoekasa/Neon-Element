@@ -209,11 +209,12 @@ public abstract class AiStateActions {
 	protected void attackWinner() {
 		aiPlayer.unShield();
 		Player player = playerCalc.getWinningPlayer();
-		aiPlayer.chargeHeavyAttack();
-		actions.moveTo(player);
-		
-		actions.attackIfInDistance(player);
-				
+		if(!player.equals(aiPlayer)) {
+			aiPlayer.chargeHeavyAttack();
+			actions.moveTo(player);
+			
+			actions.attackIfInDistance(player);
+		}
 	}
 
 	/**

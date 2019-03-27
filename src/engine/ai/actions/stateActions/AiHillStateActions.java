@@ -106,7 +106,36 @@ public class AiHillStateActions extends AiStateActions {
 			aiPlayer.lightAttack();
 		}
 	}
+	
+	@Override
+	/**
+	 * Implements actions for idle HILL AI state 
+	 */
+	protected void idle() {
+		if( calc.onHill(calc.getOnHillPlayer().getLocation()) ) {
+			attack();
+		}
+		Player player = playerCalc.getNearestPlayer();
+		actions.attackIfInDistanceWithShield(player);
+	}
 
+	@Override
+	/**
+	 * Implements actions for attack winner AI state 
+	 */
+	protected void attackWinner() {
+		aiPlayer.unShield();
+		Player player = playerCalc.getWinningPlayer();
+		aiPlayer.chargeHeavyAttack();
+		if(calc.onHill(aiPlayer.getLocation()) && calc.onHillEdge() && !calc.onHill(playerCalc.getWinningPlayer().getLocation()))
+			idle();
+		else
+			actions.moveTo(player);
+		
+		actions.attackIfInDistance(player);
+				
+	}
+	
 	/**
 	 * Implements actions for wander on hill AI state 
 	 */

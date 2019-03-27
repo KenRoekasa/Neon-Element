@@ -58,6 +58,11 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
     	this.broadcast(packet);
 	}
 
+	public void broadcastHealthState(int playerId, float playerHealth) {
+		Packet packet = new HealthStateBroadcast(playerId, playerHealth);
+		this.broadcast(packet);
+	}
+
 	public void broadcastActionState(int playerId, Action action) {
 		Packet packet = new ActionStateBroadcast(playerId, action);
 		this.broadcast(packet);
@@ -95,4 +100,8 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 		}
     }
 
+	public void broadcastScore(int playerId, int score) {
+		Packet packet = new ScoreBroadcast(playerId,score);
+		this.broadcast(packet);
+	}
 }

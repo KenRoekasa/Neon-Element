@@ -4,7 +4,6 @@ import engine.controller.GameTypeHandler;
 import engine.controller.RespawnController;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
-import graphics.userInterface.controllers.LobbyHostController;
 import engine.entities.Player;
 import javafx.geometry.Point2D;
 import networking.Constants;
@@ -17,14 +16,12 @@ public class GameServer extends Thread {
 
 	private ServerGameState gameState;
 	private ServerNetwork network;
-	private PhysicsController physicsController;
 
 	private boolean running;
 
 	public GameServer(ServerGameState gameState) {
 		this.gameState = gameState;
 		this.network = new ServerNetwork(this.gameState);
-		this.physicsController = new PhysicsController(gameState);
 	}
 
 	public void run() {
@@ -32,6 +29,7 @@ public class GameServer extends Thread {
 
 		PowerUpController puController = new PowerUpController(gameState, this.network.getDispatcher());
 		RespawnController resController = new RespawnController(gameState);
+		PhysicsController physicsController = new PhysicsController(gameState,this.network.getDispatcher());
 
         this.running = true;
         long lastTime = System.nanoTime();
@@ -48,14 +46,16 @@ public class GameServer extends Thread {
 				this.waitForPlayersToConnect();
 			} else {
 
-				physicsController.clientLoop();
+				physicsController.serverLoop();
+
 				puController.serverUpdate();
 				resController.update();
 
 				this.running = GameTypeHandler.checkRunning(gameState);
 
 				Thread.yield();
-                this.sendLocations();
+				this.sendLocations();
+				this.sendHealthUpdates();
 
                 //calculate deltaTime
                 long time = System.nanoTime();
@@ -63,7 +63,7 @@ public class GameServer extends Thread {
                 lastTime = time;
 
 				try {
-					Thread.sleep(25); // Every second
+					Thread.sleep(15); // Every second
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -103,6 +103,16 @@ public class GameServer extends Thread {
 				double y = location.getY();
 
 				this.network.getDispatcher().broadcastLocationState(p.getId(), x, y, playerAngle.getAngle());
+			}
+		}
+	}
+
+	private void sendHealthUpdates() {
+		synchronized (gameState.getAllPlayers()) {
+			for (Player p : gameState.getAllPlayers()) {
+				float playerHealth = p.getHealth();
+
+				this.network.getDispatcher().broadcastHealthState(p.getId(),playerHealth);
 			}
 		}
 	}
