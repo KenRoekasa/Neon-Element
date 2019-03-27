@@ -8,6 +8,7 @@ import engine.entities.Player;
 import engine.entities.PowerUp;
 import engine.model.enums.ObjectType;
 import engine.model.GameType;
+import javafx.scene.transform.Rotate;
 import networking.packets.*;
 
 public class ClientNetworkHandler {
@@ -100,6 +101,7 @@ public class ClientNetworkHandler {
                 this.gameState.getObjects().add(player);
             }
             player.setLocation(packet.getX(), packet.getY());
+            player.setPlayerAngle(new Rotate(packet.getPlayerAngle()));
         }
     }
 

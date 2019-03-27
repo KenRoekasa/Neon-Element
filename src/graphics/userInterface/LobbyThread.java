@@ -39,8 +39,6 @@ public class LobbyThread extends Thread {
                         synchronized (p) {
                             playerIds.add(p.getId());
 
-                            System.out.println(p);
-                            System.out.println("saouifhno auhfmi wehf iuyfe U");
                         }
                     }
                 }
