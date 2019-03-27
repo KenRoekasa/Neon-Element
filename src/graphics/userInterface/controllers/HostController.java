@@ -90,9 +90,13 @@ public class HostController extends UIController{
                 LobbyThread lobbyThread = new LobbyThread(gameState, controller);
                 lobbyThread.start();
 
+
+
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
                 //gameBoard.startNetwork();
+
+                gameBoard.startNetwork();
 
 
             }
