@@ -100,4 +100,8 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 		}
     }
 
+	public void broadcastScore(int playerId, int score) {
+		Packet packet = new ScoreBroadcast(playerId,score);
+		this.broadcast(packet);
+	}
 }

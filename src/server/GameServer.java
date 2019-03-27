@@ -16,14 +16,12 @@ public class GameServer extends Thread {
 
 	private ServerGameState gameState;
 	private ServerNetwork network;
-	private PhysicsController physicsController;
 
 	private boolean running;
 
 	public GameServer(ServerGameState gameState) {
 		this.gameState = gameState;
 		this.network = new ServerNetwork(this.gameState);
-		this.physicsController = new PhysicsController(gameState);
 	}
 
 	public void run() {
@@ -31,6 +29,7 @@ public class GameServer extends Thread {
 
 		PowerUpController puController = new PowerUpController(gameState, this.network.getDispatcher());
 		RespawnController resController = new RespawnController(gameState);
+		PhysicsController physicsController = new PhysicsController(gameState,this.network.getDispatcher());
 
         this.running = true;
         long lastTime = System.nanoTime();
@@ -47,7 +46,7 @@ public class GameServer extends Thread {
 				this.waitForPlayersToConnect();
 			} else {
 
-				physicsController.clientLoop();
+				physicsController.serverLoop();
 
 				puController.serverUpdate();
 				resController.update();
