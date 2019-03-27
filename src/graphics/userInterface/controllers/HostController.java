@@ -2,7 +2,6 @@ package graphics.userInterface.controllers;
 
 import client.ClientGameState;
 import client.GameClient;
-import engine.model.GameType;
 import engine.model.generator.GameStateGenerator;
 import graphics.userInterface.LobbyThread;
 import javafx.beans.property.SimpleStringProperty;
@@ -76,7 +75,7 @@ public class HostController extends UIController{
                                 ClassLoader cl = new URLClassLoader(new URL[0]);
 
                                 // load the class
-                                Class<?> classToLoad = cl.loadClass("networking.test.ManualTestServer");
+                                Class<?> classToLoad = cl.loadClass("server.ServerLauncher");
 
                                 String[] args = new String[]{String.valueOf(playerNum), String.valueOf(AiNum), String.join(",", AiType), gameType};
 

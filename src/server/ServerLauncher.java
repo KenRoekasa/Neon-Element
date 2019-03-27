@@ -1,4 +1,4 @@
-package networking.test;
+package server;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import server.GameServer;
 import server.ServerGameState;
 import server.ServerGameStateGenerator;
 
-public class ManualTestServer {
+public class ServerLauncher {
     public static void main(String[] args) throws IOException {
         int numPlayers = Integer.parseInt(args[0]);
         int numAis = Integer.parseInt(args[1]);
