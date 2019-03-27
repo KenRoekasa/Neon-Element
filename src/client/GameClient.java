@@ -1,6 +1,7 @@
 package client;
 
 import client.audiomanager.AudioManager;
+import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
@@ -33,10 +34,8 @@ public class GameClient {
 
 
     public static long pauseStart;
-    /**
-     * Time since the last frame
-     */
-    public static float deltaTime;
+
+    public boolean isNetworked;
 
     /**
      * The physics engine that runs in this current game/match
@@ -67,7 +66,7 @@ public class GameClient {
      */
     private ClientNetworkThread clientNetworkThread;
 
-    private Pane hudPane;
+    private Pane hudPane,lobbyPane;
 
     private AudioManager audioManager;
     private Boolean tab;
@@ -87,79 +86,22 @@ public class GameClient {
         this.primaryStage = primaryStage;
         this.gameState = gameState;
         this.audioManager = audioManager;
-
-        // load hud
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
-        FXMLLoader loader_lb = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
-        //Pane hudPane = new Pane();
-
-        try {
-            hudPane = loader.load();
-            leaderboard = loader_lb.load();
-            //get player attribute
-
-        } catch (Exception e) {
-            // todo make this better
-            System.out.println("Crush in loading hud in map");
-            e.printStackTrace();
-            Platform.exit();
-            System.exit(0);
-        }
-
-        leaderboardController = loader_lb.getController();
-        HUDController hudController = loader.getController();
-        hudController.setGameState(gameState);
-        hudController.setMode(gameState.getMode());
-        hudController.setScoreBoard(gameState.getScoreBoard());
-        hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
-        hudController.setPlayerId(gameState.getPlayer().getId());
-        hudController.setNum_player(gameState.getScoreBoard().getLeaderBoard().size());
-        hudController.setAudioManager(audioManager);
-
-        primaryStage.getScene().setRoot(hudPane);
-
-        scene = primaryStage.getScene();
-
-        // change cursor
-        Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
-        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
-        scene.setCursor(iC);
-
-        stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
-
-        Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
-        hudPane.getChildren().add(canvas);
-
-        // forces the game to be rendered behind the gui
-        int index = hudPane.getChildren().indexOf(canvas);
-        hudPane.getChildren().get(index).toBack();
-
-        gc = canvas.getGraphicsContext2D();
-        debugger = new Debugger(gc);
-
-        renderer = new Renderer(gc, stageSize, debugger);
-
-        audioManager.setGameMusic();
-        audioManager.setNeonVolume(0);
-
-        //Creates the physics engine
-        physicsEngine = new PhysicsController(gameState);
-
-        // initialise input controls
-        initialiseInput(scene, renderer);
-
-        if (!online) {
-            this.gameState.start();
-            long startTime = System.nanoTime() / 1000000000;
-            hudController.setStartTime(startTime);
-            beginClientLoop(renderer, hudController);
-        }
-
+        this.isNetworked = online;
 
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
     }
+    /**
+     * Local Game.
+     */
+    public GameClient(Stage primaryStage, ClientGameState gameState, AudioManager audioManager) throws Exception {
+        this(primaryStage, gameState, false, audioManager);
+    }
 
+
+    /**
+     * Networked Game.
+     */
     public GameClient(Stage primaryStage, ClientGameState gameState, String addr, AudioManager audioManager) throws Exception {
         this(primaryStage, gameState, true, audioManager);
 
@@ -180,25 +122,36 @@ public class GameClient {
         //TODO: TO STOP WORKING WHEN SERVER IS ON
         PowerUpController powerUpController = new PowerUpController(gameState);
         RespawnController respawnController = new RespawnController(gameState);
+
+        // initialise input controls
+        initialiseInput(scene, renderer);
+
         new AnimationTimer() {
             long lastTime = System.nanoTime();
             long pauseDuration = 0;
-
             public void handle(long currentNanoTime) {
                 InputHandler.handleKeyboardInput(gameState.getPlayer(), input, gameState.getMap().getGround(), primaryStage);
                 renderer.render(primaryStage, gameState);
                 hudController.update();
 
                 // TODO: remove this when networking is added
-                if (gameState.getPaused()) {
-                    long now = System.nanoTime() / 1000000;
+                if(gameState.getPaused()){
+                    long now = System.nanoTime()/1000000;
                     pauseDuration = (now - pauseStart);
                 }
-                if (!gameState.getPaused()) {
-                    timeElapsed += deltaTime;
+
+
+
+                if(!gameState.getPaused()){
+                    timeElapsed += DeltaTime.deltaTime;
                     physicsEngine.clientLoop();
-                    powerUpController.update();
-                    respawnController.update();
+
+                    if(!isNetworked) {
+                        powerUpController.update();
+                        respawnController.update();
+
+                    }
+
                     pauseDuration = 0;
 
                 }
@@ -207,7 +160,7 @@ public class GameClient {
 
                 //calculate deltaTime
                 long time = System.nanoTime();
-                deltaTime = (int) ((time - lastTime) / 1000000);
+                DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
                 lastTime = time;
 
                 if (!gameState.getRunning()) {
@@ -221,9 +174,7 @@ public class GameClient {
 
         }.start();
 
-
     }
-
 
     /**
      * Called when the game ends to swjitch to the game over screen
@@ -260,8 +211,11 @@ public class GameClient {
      */
     public void startNetwork() {
         this.clientNetworkThread.start();
-        this.gameState.start();
-        beginClientLoop(renderer, new HUDController());
+        // TODO lobby screen
+
+        // Wait for game to start
+
+
     }
 
     private void initialiseInput(Scene theScene, Renderer renderer) {
@@ -358,8 +312,77 @@ public class GameClient {
                     input.add(code);
             }
         });
-
-
     }
+
+    public void initialiseGame(){
+
+        // load hud
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
+        FXMLLoader loader_lb = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
+        //Pane hudPane = new Pane();
+
+        try {
+            hudPane = loader.load();
+            leaderboard = loader_lb.load();
+            //get player attribute
+
+        } catch (Exception e) {
+            // todo make this better
+            System.out.println("Crush in loading hud in map");
+            e.printStackTrace();
+            Platform.exit();
+            System.exit(0);
+        }
+
+        leaderboardController = loader_lb.getController();
+        HUDController hudController = loader.getController();
+        hudController.setGameState(gameState);
+        hudController.setMode(gameState.getMode());
+        hudController.setScoreBoard(gameState.getScoreBoard());
+        hudController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+        hudController.setPlayerId(gameState.getPlayer().getId());
+        hudController.setNum_player(gameState.getScoreBoard().getLeaderBoard().size());
+        hudController.setAudioManager(audioManager);
+
+        primaryStage.getScene().setRoot(hudPane);
+
+        scene = primaryStage.getScene();
+
+        // change cursor
+        Image cursorImage = new Image("graphics/rendering/textures/cursor.png");
+        ImageCursor iC = new ImageCursor(cursorImage, cursorImage.getWidth() / 2, cursorImage.getHeight() / 2);
+        scene.setCursor(iC);
+
+        stageSize = new Rectangle(primaryStage.getWidth(), primaryStage.getHeight());
+
+        Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                hudPane.getChildren().add(canvas);
+                int index = hudPane.getChildren().indexOf(canvas);
+                hudPane.getChildren().get(index).toBack();
+
+
+            }
+        });
+
+        // forces the game to be rendered behind the gui
+
+        gc = canvas.getGraphicsContext2D();
+        debugger = new Debugger(gc);
+
+        renderer = new Renderer(gc, stageSize, debugger);
+
+
+        //Creates the physics engine
+        physicsEngine = new PhysicsController(gameState);
+        audioManager.setGameMusic();
+        audioManager.setNeonVolume(0);
+        // initialise input controls
+        beginClientLoop(renderer, hudController);
+    }
+
 
 }

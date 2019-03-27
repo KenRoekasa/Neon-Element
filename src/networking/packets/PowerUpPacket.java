@@ -1,9 +1,10 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-public class PowerUpPacket extends Packet {
+import networking.server.ServerNetworkHandler;
+
+public class PowerUpPacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -12,20 +13,31 @@ public class PowerUpPacket extends Packet {
 
     private int powerupPickupId;
 
-    protected PowerUpPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.POWERUP, ipAddress, port);
+    protected PowerUpPacket(ByteBuffer buffer, Sender sender) {
+        super(sender);
         this.powerupPickupId = buffer.getInt();
     }
 
-    public PowerUpPacket(InetAddress ipAddress, int port, int powerupPickupId) {
-        super(PacketDirection.OUTGOING, PacketType.POWERUP, ipAddress, port);
+    public PowerUpPacket(int powerupPickupId) {
+        super();
         this.powerupPickupId = powerupPickupId;
+    }
+
+    @Override
+    public PacketType getPacketType() {
+       return PacketType.POWERUP;
     }
 
     public int getPowerupPickupId() {
         return this.powerupPickupId;
     }
 
+    @Override
+    public void handle(ServerNetworkHandler handler) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         buffer.putInt(this.powerupPickupId);

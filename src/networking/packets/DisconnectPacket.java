@@ -1,23 +1,35 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-public class DisconnectPacket extends Packet {
+import networking.server.ServerNetworkHandler;
+
+public class DisconnectPacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
     //
     // = 0 bytes
 
-    protected DisconnectPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.DISCONNECT, ipAddress, port);
+    protected DisconnectPacket(ByteBuffer buffer, Sender sender) {
+        super(sender);
     }
 
-    public DisconnectPacket(InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.DISCONNECT, ipAddress, port);
+    public DisconnectPacket() {
+        super();
     }
 
+    @Override
+    public PacketType getPacketType() {
+       return PacketType.DISCONNECT;
+    }
+
+    @Override
+    public void handle(ServerNetworkHandler handler) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         return Packet.getBytesFromBuffer(buffer);

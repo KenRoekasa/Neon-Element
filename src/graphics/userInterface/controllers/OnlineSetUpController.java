@@ -1,10 +1,18 @@
 package graphics.userInterface.controllers;
 
+import client.ClientGameState;
+import engine.entities.Player;
+import engine.model.GameType;
+import engine.model.Map;
+import engine.model.enums.ObjectType;
+import engine.model.generator.GameStateGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.Text;
+import networking.Constants;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,6 +48,8 @@ public class OnlineSetUpController extends UIController {
      */
     @FXML
     public Text alert;
+
+
     /**
      * Back button
      */
@@ -106,6 +116,15 @@ public class OnlineSetUpController extends UIController {
         return player_num;
     }
 
+
+    private ClientGameState gameState;
+
+
+
+
+
+    /** Handle the action when select the number of one ai bot
+     */
     /**Get the list of ai bots' type
      * @return enemyTypes the list contains the type of ai bots
      */
@@ -152,7 +171,7 @@ public class OnlineSetUpController extends UIController {
         enemy3.setVisible(true);
     }
 
-    /**Handle the action of pressing create button which will go to lobby.fxml
+    /**Handle the action of pressing create button which will go to lobby_host.fxml
      * @throws OutOfBoundException the exception which alerts the invalid selection of total number of players and ai bots
      */
     @FXML
@@ -168,8 +187,6 @@ public class OnlineSetUpController extends UIController {
         while (true) {
             if ((enemy_num + player_num) > 4) {
                 alert.setVisible(true);
-                // todo this really needs to be changed - can't have the client throw an uncaught exception
-                // should just be handled in the ui
                 throw new OutOfBoundException("The number of maximum player is 4 ");
             } else {
                 selected_mode = String.valueOf(mode.getSelectedToggle().getUserData());
@@ -194,12 +211,26 @@ public class OnlineSetUpController extends UIController {
                         enemyTypes.add(enemy_2);
                         enemyTypes.add(enemy_3);
                 }
-                //todo delete ip_host and take the code from start method in host to here
+
+
+
+
+
+
+                // Constants.NUM_PLAYER = enemy_num+player_num;
+                System.out.println("Constants num of player:"+ Constants.NUM_PLAYER);
+
                 String fxmlPath = "../fxmls/ip_host.fxml";
                 String stageTitle = "Host a Game";
                 String fileException = "IP Host";
+
+
                 FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
+
+                ((HostController)loader.getController()).setGameAttributes(player_num, enemy_num, enemyTypes, selected_mode);
                 break;
+
+
 
             }
         }

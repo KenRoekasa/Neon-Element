@@ -1,98 +1,79 @@
 package networking.client;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 import client.ClientGameState;
+import networking.AbstractNetwork;
 import networking.packets.*;
 
-public class ClientNetwork {
-    protected String name;
-    
-    protected DatagramSocket socket;
-    // protected MulticastSocket multicastSocket;
-    
-    private ClientNetworkConnection conn;
-    // private ClientNetworkMulticastConnection multiConn;
+public class ClientNetwork extends AbstractNetwork {
+    /** True if the ClientNetwork is running and receiving Packets. */
+    private boolean running;
+
     private ClientNetworkDispatcher dispatcher;
+    private ClientNetworkHandler handler;
 
+    /**
+     * Create a ClientNetwork.
+     *
+     * @param gameState The client's game state.
+     * @param serverAddr The server's remote IP address.
+     */
     public ClientNetwork(ClientGameState gameState, InetAddress serverAddr) {
-        this.conn = new ClientNetworkConnection(this);
-        this.socket = conn.getSocket();
+        super();
 
-        /*
-        this.multiConn = new ClientNetworkMulticastConnection(this);
-        this.multicastSocket = multiConn.getSocket();
-        InetAddress groupAddress = multiConn.getGroupAddress();
-        */
+        this.dispatcher = new ClientNetworkDispatcher(gameState, this.getSocket(), serverAddr);
+        this.handler = new ClientNetworkHandler(gameState);
 
-        this.dispatcher = new ClientNetworkDispatcher(this.socket, serverAddr, /*this.multicastSocket, groupAddress,*/ gameState);
-
-        this.conn.start();
-        // this.multiConn.start();
+        this.start();
     }
-    
+
+    /**
+     * Get the ClientNetworkDispatcher.
+     *
+     * @return The ClientNetworkDispatcher.
+     */
     public ClientNetworkDispatcher getDispatcher() {
         return this.dispatcher;
     }
 
+    /**
+     * Ends the ClientNetwork and closes the listening port.
+     */
+    @Override
     public void close() {
-        this.conn.close();
-        // this.multiConn.close();
+        super.close();
         this.dispatcher.close();
     }
 
+    /**
+     * After parsing the {@link Packet.PacketToClient#handle(ClientNetworkHandler) method is called.
+     */
+    @Override
     protected void parse(DatagramPacket datagram) {
         Packet packet = Packet.createFromBytes(datagram.getData(), datagram.getAddress(), datagram.getPort());
 
         if (packet == null) {
-            System.out.println("Invalid packet recieved");
+            System.out.println("Invalid packet received");
+            return;
+        } else if (!(packet instanceof Packet.PacketToClient)) {
+            System.out.println(packet.getPacketType() + " received by client which should not be sent to it.");
             return;
         }
 
-        if ((!packet.getType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) && (packet.getIpAddress() != null)) {
-            System.out.println("recieved a packet pf type: "+packet.getType()+" <== " + packet.getIpAddress() + " and port: " + packet.getPort()  );
-            
-        }else {
-            System.out.println("recieved a broacdcast packet of type: "+packet.getType());
-
-
+        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+            if (packet.getIpAddress() != null) {
+                System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
+            } else {
+                System.out.println("Got " + packet.getPacketType());
+            }
         }
-        switch(packet.getType()) {
-            case HELLO_ACK:
-                this.dispatcher.receiveHelloAck((HelloAckPacket) packet);
-                break;
-            case CONNECT_ACK:
-                this.dispatcher.receiveConnectAck((ConnectAckPacket) packet);
-                break;
-            case GAME_START_BCAST:
-                this.dispatcher.receiveGameStart((BroadCastGameStartPacket) packet);
-                break;
-            case LOCATION_STATE_BCAST:
-                this.dispatcher.receiveLocationStateBroadcast((BroadCastLocationStatePacket) packet);
-            		break;
-            case DISCONNECT_BCAST:
-            		break;
-            case ELEMENT_STATE_BCAST:
-            		break;
-            case GAME_OVER_BCAST:
-            		break;
-            case POWERUP_PICKUP_BCAST:
-            		break;
-            case POWERUP_STATE_BCAST:
-                this.dispatcher.receivePowerUpBroadcast((BroadCastPowerUpPacket) packet);
-                break;
-            case READY_STATE_BCAST:
-            		break;
-            case CONNECT_BCAST:
-            		break;
-            case CAST_SPELL_BCAST:
-            		break;
-            default:
-                System.out.println("Unhandled packet " + packet.getType());
-                break;
-        }
+
+        ((Packet.PacketToClient) packet).handle(this.handler);
     }
 
 }

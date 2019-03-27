@@ -29,9 +29,23 @@ public class PowerUpController {
     }
 
 
+    public void serverUpdate(){
+        long currentTime = GameClient.timeElapsed;
+        if(currentTime-lastTime >= 5000){
+
+            PowerUp powerUp = new PowerUp();
+            objects.add(powerUp);
+            lastTime = GameClient.timeElapsed;
+            this.dispatcher.broadcastNewPowerUp(powerUp);
+        }
+    }
+
+
     public void update() {
         long currentTime = GameClient.timeElapsed;
-        if(currentTime-lastTime >= 15000){
+
+        if(currentTime-lastTime >= 5000){
+
 
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);

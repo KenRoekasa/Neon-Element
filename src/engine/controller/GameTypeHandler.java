@@ -31,8 +31,6 @@ public class GameTypeHandler {
             // check whether game time is less
             TimedGame t = (TimedGame) gameType;
             long duration = t.getDuration();
-            System.out.println(GameClient.timeElapsed);
-            System.out.println(duration);
             return   !(GameClient.timeElapsed >= duration );
         } else if (gameType.getType().equals(GameType.Type.FirstToXKills)) {
             FirstToXKillsGame typeObj = (FirstToXKillsGame) gameType;

@@ -1,8 +1,10 @@
 package engine.entities;
 
 import client.GameClient;
+import engine.model.enums.Action;
 import engine.model.enums.Elements;
 import engine.model.enums.ObjectType;
+import engine.physics.DeltaTime;
 import javafx.geometry.Point2D;
 import javafx.scene.transform.Rotate;
 
@@ -74,7 +76,7 @@ public class Player extends Character {
             isAlive = true;
         }
 
-        location = location.add(horizontalMove * GameClient.deltaTime, verticalMove * GameClient.deltaTime);
+        location = location.add(horizontalMove * DeltaTime.deltaTime, verticalMove * DeltaTime.deltaTime);
         horizontalMove = 0;
         verticalMove = 0;
 
@@ -97,10 +99,7 @@ public class Player extends Character {
     }
 
     public void setLocation(double x, double y) {
-        double X = this.location.getX();
-        double Y = this.location.getY();
-
-        this.location.add(x - X, y - Y);
+        this.location = new Point2D(x , y);
     }
 
     /**
@@ -119,4 +118,29 @@ public class Player extends Character {
     public void setId(int i) {
         this.id = i;
     }
+
+    public void doAction(Action action) {
+        switch(action) {
+            case LIGHT:
+                this.lightAttack();
+                break;
+            case CHARGE:
+                this.chargeHeavyAttack();
+                break;
+            case BLOCK:
+                this.shield();
+                break;
+            case IDLE:
+                this.setCurrentAction(Action.IDLE);
+                break;
+            default:
+                break;
+        }
+    }
+    public void setHealth(float playerCurrentHealth) {
+
+        this.health  = playerCurrentHealth;
+    }
+
+
 }

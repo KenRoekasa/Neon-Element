@@ -28,6 +28,14 @@ public class Map {
         this.respawnPoints = respawnPoints;
     }
 
+    public double getWidth() {
+        return this.ground.getWidth();
+    }
+
+    public double getHeight() {
+        return this.ground.getHeight();
+    }
+
     public Rectangle getGround() {
         return ground;
     }

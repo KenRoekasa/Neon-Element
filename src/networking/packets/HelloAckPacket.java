@@ -1,34 +1,47 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
 import engine.model.GameType;
 import engine.model.gametypes.*;
+import networking.client.ClientNetworkHandler;
 
-public class HelloAckPacket extends Packet {
+public class HelloAckPacket extends Packet.PacketToClient {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // int + int + byte + long/int
-    // 4   + 4   + 1    + 8        = 17 bytes
+    // Common to all game types:
+    // int + int + byte
+    // 4   + 4   + 1    = 9 bytes
+    // Additional bytes for each type:
+    // FirstToXKills: int
+    // Timed:         long                           = 8             = 8
+    // Hill:          double + double + double + int = 8 + 8 + 8 + 4 = 28
+    // Regicide:      int + int                      = 4 + 4         = 8
+    //
+    // Maximum size = 9 + 28 = 37 bytes
 
     private int players;
     private int maxPlayers;
     private GameType gameType;
 
-    protected HelloAckPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.HELLO_ACK, ipAddress, port);
+    protected HelloAckPacket(ByteBuffer buffer, Sender sender) throws Exception {
+        super(sender);
         this.players = buffer.getInt();
         this.maxPlayers = buffer.getInt();
         this.gameType = bufferToGameType(buffer);
     }
 
-    public HelloAckPacket(int players, int maxPlayers, GameType gameType, InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.HELLO_ACK, ipAddress, port);
+    public HelloAckPacket(int players, int maxPlayers, GameType gameType) {
+        super();
         this.players = players;
         this.maxPlayers = maxPlayers;
         this.gameType = gameType;
+    }
+
+    @Override
+    public PacketType getPacketType() {
+       return PacketType.HELLO_ACK;
     }
 
     public int getPlayers() {
@@ -43,7 +56,7 @@ public class HelloAckPacket extends Packet {
         return this.gameType;
     }
 
-    private static GameType bufferToGameType(ByteBuffer buffer) {
+    private static GameType bufferToGameType(ByteBuffer buffer) throws Exception {
         byte id = buffer.get();
         GameType.Type type = GameType.Type.getById(id);
 
@@ -52,6 +65,10 @@ public class HelloAckPacket extends Packet {
                 return new FirstToXKillsGame(buffer.getInt());
             case Timed:
                 return new TimedGame(buffer.getLong());
+            case Hill:
+                return new HillGame(buffer.getDouble(), buffer.getDouble(), buffer.getDouble(), buffer.getInt());
+            case Regicide:
+                return new Regicide(buffer.getInt(), buffer.getInt());
             default:
                 return null;
         }
@@ -66,9 +83,26 @@ public class HelloAckPacket extends Packet {
         switch (type) {
             case FirstToXKills:
                 buffer.putInt(((FirstToXKillsGame) gameType).getKillsNeeded());
+                break;
             case Timed:
                 buffer.putLong(((TimedGame) gameType).getDuration());
+                break;
+            case Hill:
+                buffer.putDouble(((HillGame) gameType).getHill().getCenterX());
+                buffer.putDouble(((HillGame) gameType).getHill().getCenterY());
+                buffer.putDouble(((HillGame) gameType).getHill().getRadius());
+                buffer.putInt(((HillGame) gameType).getScoreNeeded());
+                break;
+            case Regicide:
+                buffer.putInt(((Regicide) gameType).getKingId());
+                buffer.putInt(((Regicide) gameType).getScoreNeeded());
+                break;
         }
+    }
+
+    @Override
+    public void handle(ClientNetworkHandler handler) {
+        handler.receiveHelloAck(this);
     }
 
     @Override

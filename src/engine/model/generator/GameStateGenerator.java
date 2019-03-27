@@ -11,11 +11,25 @@ import engine.model.Map;
 import engine.model.ScoreBoard;
 import engine.model.enums.ObjectType;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
 public class GameStateGenerator {
+
+    public static ClientGameState createEmptyState() {
+        ArrayList<PhysicsObject> objects = new ArrayList<>();
+        ScoreBoard scoreboard = new ScoreBoard();
+
+        Map map = MapGenerator.createEmptyMap();
+        GameType gameType = new FirstToXKillsGame(3);
+
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, gameType);
+
+        ClientGameState gameState = new ClientGameState(null, map, objects, scoreboard, gameType, aiManager, GameType.Type.FirstToXKills);
+        scoreboard.initialise(gameState.getAllPlayers());
+
+        return gameState;
+    }
 
     public static ClientGameState createDemoGamestate() {
 //    	System.out.println("generating game state");
@@ -64,8 +78,6 @@ public class GameStateGenerator {
 
     //receive the number of enemy from controller to initialise engine.ai enm
 
-
-
     /**
      * Generates a game state for testing
      *
@@ -74,11 +86,7 @@ public class GameStateGenerator {
      * @return a gamestate for testing
      */
     public static ClientGameState createDemoGamestateSample(int num_enm, ArrayList<String> aiTypes,GameType.Type mode) {
-
-
-
-        //initialise map location
-        Rectangle map = new Rectangle(2000, 2000);
+        Map map = MapGenerator.createEmptyMap();
 
         // create player
         Player player = new Player(ObjectType.PLAYER);
@@ -105,7 +113,7 @@ public class GameStateGenerator {
                 gameType = new HillGame(new Circle(2000, 0, 500),100000);
                 break;
             case Regicide:
-                gameType = new Regicide(player, 5000);
+                gameType = new Regicide(player.getId(), 5000);
                 break;
                 default:
                 gameType = new FirstToXKillsGame(10);
@@ -117,7 +125,7 @@ public class GameStateGenerator {
         // initialise enemies
         ArrayList<Player> enemies = new ArrayList<>();
 
-        AiControllersManager aiManager = new AiControllersManager(objects, map, scoreboard, gameType);
+        AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), scoreboard, gameType);
 
         // Add the enemies to the objects list
 
@@ -125,13 +133,12 @@ public class GameStateGenerator {
         for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(getType(aiTypes.get(i))) );
         }
-        Map map1 = MapGenerator.createEmptyMap();
 
 
-        player.setLocation(map1.getRespawnPoints().get(0));
+        player.setLocation(map.getRespawnPoints().get(0));
 
         for (int i = 0; i < num_enm; i++) {
-            enemies.get(i).setLocation(map1.getRespawnPoints().get(i+1));
+            enemies.get(i).setLocation(map.getRespawnPoints().get(i+1));
             enemies.get(i).setId(i);
         }
 
@@ -140,13 +147,13 @@ public class GameStateGenerator {
         //Add the enemies to the objects list
         objects.addAll(enemies);
         objects.add(player);
-        objects.addAll(map1.getWalls());
+        objects.addAll(map.getWalls());
 
         if(gameType.getType() == GameType.Type.Regicide) {
-            ((Regicide)gameType).setKing(enemies.get(0));
+            ((Regicide)gameType).setKingId(enemies.get(0).getId());
         }
 
-        ClientGameState gameState = new ClientGameState(player, map1, objects, scoreboard, gameType,aiManager,mode);
+        ClientGameState gameState = new ClientGameState(player, map, objects, scoreboard, gameType,aiManager,mode);
 
         scoreboard.initialise(gameState.getAllPlayers());
 
@@ -155,9 +162,8 @@ public class GameStateGenerator {
 
 
         return gameState;
+    }
 
-        }
-    
     private static AiType getType(String type) {
     	switch(type.toLowerCase().trim()) {
     		default:
@@ -167,7 +173,8 @@ public class GameStateGenerator {
     			return AiType.NORMAL;
     		case "hard":
     			return AiType.HARD;
-    	
+
     	}
     }
+
 }

@@ -6,12 +6,13 @@ import engine.model.ScoreBoard;
 import engine.ai.controller.AiControllersManager;
 import engine.entities.*;
 import engine.model.GameType;
+import networking.Constants;
 
 import java.util.ArrayList;
 
 public class ServerGameState extends GameState {
 
-    private final int MAX_PLAYERS = 10;
+    private final int MAX_PLAYERS = Constants.NUM_PLAYER;
 
     private boolean isStarted;
 
@@ -22,6 +23,7 @@ public class ServerGameState extends GameState {
 
     public int getMaxPlayers() {
         // TODO - use a variable from game setup to choose number
+        System.out.println("MAX_PLAYER in Server game state "+ MAX_PLAYERS);
         return MAX_PLAYERS;
     }
 
