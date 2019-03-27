@@ -2,10 +2,9 @@ package networking.packets;
 
 import java.nio.ByteBuffer;
 
-import networking.packets.Packet.PacketDirection;
-import networking.packets.Packet.PacketType;
+import networking.client.ClientNetworkHandler;
 
-public class BroadCastGameOverPacket extends Packet {
+public class GameOverBroadcast extends Packet.PacketToClient {
 
 	// Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
@@ -14,20 +13,31 @@ public class BroadCastGameOverPacket extends Packet {
 
     private boolean gameOver;
 
-    protected BroadCastGameOverPacket(ByteBuffer buffer) {
-        super(PacketDirection.INCOMING, PacketType.GAME_OVER_BCAST);
+    protected GameOverBroadcast(ByteBuffer buffer, Sender sender) {
+        super(sender);
         this.gameOver = getBooleanValue(buffer.get());
     }
 
-    public BroadCastGameOverPacket(boolean gameOver) {
-        super(PacketDirection.OUTGOING, PacketType.GAME_OVER_BCAST);
+    public GameOverBroadcast(boolean gameOver) {
+        super();
         this.gameOver = gameOver;
+    }
+
+    @Override
+    public PacketType getPacketType() {
+       return PacketType.GAME_OVER_BCAST;
     }
 
     public boolean getGameOverVar() {
         return this.gameOver;
     }
 
+    @Override
+    public void handle(ClientNetworkHandler handler) {
+        // TODO handle packet
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         	//this identifier has been placed twice

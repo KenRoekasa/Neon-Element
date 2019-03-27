@@ -195,8 +195,7 @@ public class LocalSetUpController extends UIController {
         gameState = GameStateGenerator.createDemoGamestateSample(enemy_num,enemyTypes,selected_mode);
         //g.getPlayer().getHealth();
         try {
-            boolean networked = false;
-            GameClient gameBoard = new GameClient(stage, gameState, networked, audioManager);
+            GameClient gameBoard = new GameClient(stage, gameState, audioManager);
             Scene scene = gameBoard.getScene();
         } catch (Exception e) {
 

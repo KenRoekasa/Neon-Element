@@ -18,15 +18,15 @@ public class DamageCalculation {
         // Deal damage base on what kind of attack it is
         if (player.getCurrentAction() == Action.LIGHT) {
             if (victim.getTag() == ObjectType.ENEMY) {
-                return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier() * 5;
+                return calculateDamage(3, player, victim) * calculateMitigation(player, victim) * player.getDamageMultiplier() * 5;
             }
-            return calculateDamage(3, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
+            return calculateDamage(3, player, victim) * calculateMitigation(player, victim) * player.getDamageMultiplier();
         }
         if (player.getCurrentAction() == Action.HEAVY) {
             if (victim.getTag() == ObjectType.ENEMY) {
-                return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier() * 4;
+                return calculateDamage(20, player, victim) * calculateMitigation(player, victim) * player.getDamageMultiplier() * 4;
             }
-            return calculateDamage(20, player, victim) * calculateMitgation(player, victim) * player.getDamageMultiplier();
+            return calculateDamage(20, player, victim) * calculateMitigation(player, victim) * player.getDamageMultiplier();
         }
         return 0;
     }
@@ -92,7 +92,7 @@ public class DamageCalculation {
      * @return the reduction of incoming damage in percentage
      */
 
-    private static float calculateMitgation(Player attackingPlayer, engine.entities.Character victim) {
+    private static float calculateMitigation(Player attackingPlayer, engine.entities.Character victim) {
         if (victim.isShielded()) {
             switch (attackingPlayer.getCurrentElement()) {
                 case FIRE:

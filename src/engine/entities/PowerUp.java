@@ -65,10 +65,14 @@ public class PowerUp extends PhysicsObject {
      * @param id the id of the power up
      * @param x  x coordinate of the power up
      * @param y  y coordinate of the power up
+     * @param type The type of the powerup
      */
-    public PowerUp(int id, double x, double y) {
+    public PowerUp(int id, double x, double y, PowerUpType type) {
         this.id = id;
         this.location = new Point2D(x, y);
+        this.tag = ObjectType.POWERUP;
+        this.width = tag.getSize();
+        this.type = type;
     }
 
     public int getId() {

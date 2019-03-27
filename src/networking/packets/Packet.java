@@ -3,98 +3,271 @@ package networking.packets;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
+import networking.client.ClientNetworkHandler;
+import networking.server.ServerNetworkHandler;
+import utils.InvalidEnumId;
+import utils.LookupableById;
+
 public abstract class Packet {
 
     /** The number of bytes contained in a packet including the packet ID. */
-    public static final int PACKET_BYTES_LENGTH = 64;
+    public static final int PACKET_BYTES_LENGTH = 128;
 
+    /**
+     * Incoming if the packet has been received from the network.
+     * Outgoing if the packet has been created to be sent.
+     */
     public static enum PacketDirection { INCOMING, OUTGOING }
 
-    public static enum PacketType {
-        // Client -> Server                 // Server -> Client
-        HELLO                ((byte) 0x00), HELLO_ACK            ((byte) 0x01),
-        CONNECT              ((byte) 0x02), CONNECT_ACK          ((byte) 0x03),
-        DISCONNECT           ((byte) 0x04), DISCONNECT_ACK       ((byte) 0x05),
-        READY_STATE          ((byte) 0x06), HEALTH_STATE         ((byte) 0x07),
-        LOCATION_STATE       ((byte) 0x08), LOCATION_STATE_ACK   ((byte) 0x09),
-        ELEMENT_STATE        ((byte) 0x0A),
-        CAST_SPELL           ((byte) 0x0C),
-        POWERUP              ((byte) 0x0E),
+    @FunctionalInterface
+    private static interface PacketConstructor {
+        Packet apply(ByteBuffer buffer, Sender sender) throws Exception;
+    }
+
+    public static enum PacketType implements LookupableById {
+        // Client -> Server                                     // Server -> Client
+        HELLO          ((byte) 0x00, HelloPacket::new),         HELLO_ACK            ((byte) 0x01, HelloAckPacket::new),
+        CONNECT        ((byte) 0x02, ConnectPacket::new),       CONNECT_ACK          ((byte) 0x03, ConnectAckPacket::new),
+        DISCONNECT     ((byte) 0x04, DisconnectPacket::new),    DISCONNECT_ACK       ((byte) 0x05, DisconnectAckPacket::new),
+        READY_STATE    ((byte) 0x06, ReadyStatePacket::new),    // HEALTH_STATE         ((byte) 0x07),
+        LOCATION_STATE ((byte) 0x08, LocationStatePacket::new), // LOCATION_STATE_ACK   ((byte) 0x09),
+        ELEMENT_STATE  ((byte) 0x0A, ElementStatePacket::new),
+
+        POWERUP        ((byte) 0x0E, PowerUpPacket::new),
+        ACTION_STATE   ((byte) 0x10, ActionStatePacket::new),   // ACTION_STATE_ACK     ((byte) 0x11),
 
         // Broadcast from Server -> All Clients
-        CONNECT_BCAST        ((byte) 0xF0), DISCONNECT_BCAST     ((byte) 0xF1),
-        READY_STATE_BCAST    ((byte) 0xF2), LOCATION_STATE_BCAST ((byte) 0xF3),
-        ELEMENT_STATE_BCAST  ((byte) 0xF4), CAST_SPELL_BCAST     ((byte) 0xF5),
-        POWERUP_PICKUP_BCAST ((byte) 0xF6), POWERUP_STATE_BCAST  ((byte) 0xF7),
-        GAME_START_BCAST     ((byte) 0xFE), GAME_OVER_BCAST      ((byte) 0xFF);
+        CONNECT_BCAST        ((byte) 0xF0, ConnectBroadcast::new),
+        DISCONNECT_BCAST     ((byte) 0xF1, DisconnectBroadcast::new),
+        READY_STATE_BCAST    ((byte) 0xF2, ReadyStateBroadcast::new),
+        LOCATION_STATE_BCAST ((byte) 0xF3, LocationStateBroadcast::new),
+        ELEMENT_STATE_BCAST  ((byte) 0xF4, ElementStateBroadcast::new),
+
+        POWERUP_PICKUP_BCAST ((byte) 0xF6, PowerUpPickUpBroadcast::new),
+        POWERUP_STATE_BCAST  ((byte) 0xF7, PowerUpBroadcast::new),
+        INITIAL_STATE_BCAST  ((byte) 0xF8, InitialGameStateBroadcast::new),
+        ACTION_BCAST         ((byte) 0xF9, ActionStateBroadcast::new),
+        GAME_START_BCAST     ((byte) 0xFE, GameStartBroadcast::new),
+        GAME_OVER_BCAST      ((byte) 0xFF, GameOverBroadcast::new);
 
         private byte id;
+        private PacketConstructor constructor;
 
-        private PacketType(byte id) {
+        private PacketType(byte id, PacketConstructor constructor) {
             this.id = id;
+            this.constructor = constructor;
         }
 
-        protected byte getId() {
+        /**
+         * Get the unique identifier of the type.
+         */
+        public byte getId() {
             return this.id;
         }
 
-        public static PacketType getTypeFromId(byte id) {
-            for (PacketType t : PacketType.values()) {
-                if (t.id == id) {
-                    return t;
-                }
-            }
-            return null;
+        /**
+         * Create the packet the enum represents.
+         */
+        protected Packet create(ByteBuffer buffer, Sender sender) throws Exception {
+            return this.constructor.apply(buffer, sender);
+        }
+
+        /**
+         * Lookup a {@link PacketType} by the ID.
+         */
+        public static PacketType getById(byte id) throws InvalidEnumId {
+            return LookupableById.lookup(PacketType.class, id);
         }
 
     }
 
+    /**
+     * Container class for IP address and port of sender.
+     */
+    public static class Sender {
+        /** Originating IP address. */
+        private InetAddress ipAddress;
+        /** Originating port */
+        private int port;
+
+        protected Sender(InetAddress ipAddress, int port) {
+            this.ipAddress = ipAddress;
+            this.port = port;
+        }
+
+        protected InetAddress getIpAddress() {
+            return this.ipAddress;
+        }
+
+        protected int getPort() {
+            return this.port;
+        }
+    }
+
+    /**
+     * A Packet sent from Server to Client.
+     */
+    public static abstract class PacketToClient extends Packet {
+        /**
+         * Incoming packet from {@link Sender}.
+         *
+         * @param sender
+         */
+        protected PacketToClient(Sender sender) {
+            super(sender);
+        }
+
+        /**
+         * Outgoing packet.
+         */
+        protected PacketToClient() {
+            super();
+        }
+
+        /**
+         * Handle the incoming packet to the client.
+         *
+         * @param handler The handler class for the packet.
+         */
+        public abstract void handle(ClientNetworkHandler handler);
+    }
+
+    /**
+     * A Packet sent from Client to Server.
+     */
+    public static abstract class PacketToServer extends Packet {
+        /**
+         * Incoming packet from {@link Sender}.
+         *
+         * @param sender
+         */
+        protected PacketToServer(Sender sender) {
+            super(sender);
+        }
+
+        /**
+         * Outgoing packet.
+         */
+        protected PacketToServer() {
+            super();
+        }
+
+        /**
+         * Handle the incoming packet to the server.
+         *
+         * @param handler The handler class for the packet.
+         */
+        public abstract void handle(ServerNetworkHandler handler);
+    }
+
     private PacketDirection direction;
-    private PacketType type;
-    private InetAddress ipAddress;
-    private int port;
 
-    protected Packet(PacketDirection direction, PacketType type, InetAddress ipAddress, int port) {
-        this.direction = direction;
-        this.type = type;
-        this.ipAddress = ipAddress;
-        this.port = port;
-    }
-    
-    protected Packet(PacketDirection direction, PacketType type) {
-    	this.direction = direction;
-        this.type = type;
-       
+    /**
+     * The sender of the packet. Only set on Packets with {@link PacketDirection} incoming.
+     */
+    private Sender sender;
+
+    /**
+     * Incoming packet from {@link Sender}.
+     *
+     * @param sender
+     */
+    private Packet(Sender sender) {
+        this.direction = PacketDirection.INCOMING;
+        this.sender = sender;
     }
 
+    /**
+     * Outgoing packet.
+     */
+    private Packet() {
+        this.direction = PacketDirection.OUTGOING;
+    }
+
+    /**
+     * Get the raw bytes of the packet to be sent over the network.
+     * This includes the identifier of the {@link PacketType}.
+     *
+     * Implementors must use the following template for their implementation:
+     * <pre>
+     *     @Override
+     *     public byte[] getRawBytes() {
+     *         ByteBuffer buffer = this.getByteBuffer();
+     *         // Put data into the buffer here...
+     *         return Packet.getBytesFromBuffer(buffer);
+     *     }
+     * </pre>
+     *
+     * @return Array of bytes for the datagram packet.
+     */
     public abstract byte[] getRawBytes();
 
+    /**
+     * Get the direction of the packet.
+     *
+     * @return Direction of packet.
+     */
     public PacketDirection getDirection() {
         return this.direction;
     }
 
-    public PacketType getType() {
-        return this.type;
-    }
+    /**
+     * Get the type of the packet.
+     *
+     * Implementors must return a unique {@link PacketType} enum value.
+     * This enum must also point to the constructor of the implementor.
+     *
+     * @return The packet type.
+     */
+    public abstract PacketType getPacketType();
 
+    /**
+     * Get the IP address of the sender. Only set for {@link PacketDirection#INCOMING} packets.
+     *
+     * @return The originating IP address of the packet.
+     */
     public InetAddress getIpAddress() {
-        return this.ipAddress;
+        return this.sender.getIpAddress();
     }
 
+    /**
+     * Get the port of the sender. Only set for {@link PacketDirection#INCOMING} packets.
+     *
+     * @return The originating port of the packet.
+     */
     public int getPort() {
-        return this.port;
+        return this.sender.getPort();
     }
 
+    /**
+     * Create a byte buffer for the {@link #getRawBytes()} method.
+     *
+     * @return A buffer of size {@link #PACKET_BYTES_LENGTH} with the first byte set to the packet type ID.
+     */
     protected ByteBuffer getByteBuffer() {
         ByteBuffer buffer = ByteBuffer.allocate(Packet.PACKET_BYTES_LENGTH);
-        buffer.put(this.type.getId());
+        buffer.put(this.getPacketType().getId());
         return buffer;
     }
 
+    /**
+     * Get the bytes stored in the buffer.
+     *
+     * @param buffer The buffer to extract the byte array from.
+     * @return Byte array of bytes stored in the buffer
+     */
     protected static byte[] getBytesFromBuffer(ByteBuffer buffer) {
         return buffer.array();
     }
 
+    /**
+     * Create a Packet from bytes received from the network.
+     *
+     * @param rawData Bytes from the network.
+     * @param ipAddress Originating IP address.
+     * @param port Originating port.
+     * @return The reconstructed {@link PacketDirection#INCOMING} Packet.
+     */
     public static Packet createFromBytes(byte[] rawData, InetAddress ipAddress, int port) {
         byte id = rawData[0];
         int dataLen = rawData.length - 1;
@@ -105,67 +278,36 @@ public abstract class Packet {
         buffer.put(data);
         buffer.flip();
 
-        Packet packet;
-        PacketType type = PacketType.getTypeFromId(id);
+        Sender sender = new Sender(ipAddress, port);
 
-        switch (type) {
-            default:
-                packet = null;
-                break;
-            case HELLO:
-                packet = new HelloPacket(buffer, ipAddress, port);
-                break;
-            case HELLO_ACK:
-                packet = new HelloAckPacket(buffer, ipAddress, port);
-                break;
-            case CONNECT:
-                packet = new ConnectPacket(buffer, ipAddress, port);
-                break;
-            case CONNECT_ACK:
-                packet = new ConnectAckPacket(buffer, ipAddress, port);
-                break;
-            case LOCATION_STATE:
-                packet = new LocationStatePacket(buffer, ipAddress, port);
-                break;
-            case CONNECT_BCAST:
-            		packet = new BroadCastConnectedUserPacket(buffer);
-            		break;
-            case DISCONNECT_BCAST:
-            		packet = new BroadCastDisconnectedUserPacket(buffer);
-            		break;
-            case READY_STATE_BCAST:
-            		packet = new BroadCastReadyStatePacket(buffer);
-            		break;
-            case LOCATION_STATE_BCAST:
-            		packet = new BroadCastLocationStatePacket(buffer);
-            		break;
-            case ELEMENT_STATE_BCAST:
-            		packet = new BroadCastElementStatePacket(buffer);
-            		break;
-            case CAST_SPELL_BCAST:
-            		packet = new BroadCastCastSpellPacket(buffer);
-            		break;
-            case POWERUP_PICKUP_BCAST:
-            		packet = new BroadCastPowerUpPickUpPacket(buffer);
-            		break;
-            case POWERUP_STATE_BCAST:
-            		packet = new BroadCastPowerUpPacket(buffer);
-            		break;
-            case GAME_START_BCAST:
-            		packet = new BroadCastGameStartPacket(buffer);
-            		break;
-            case GAME_OVER_BCAST:
-            		packet = new BroadCastGameOverPacket(buffer);
-            		break;
+        try {
+            PacketType type = LookupableById.lookup(PacketType.class, id);
+
+            Packet packet = type.create(buffer, sender);
+
+            return packet;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-
-        return packet;
     }
 
+    /**
+     * Get the byte value of the boolean
+     *
+     * @param b The boolean.
+     * @return 0x01 if true, 0x00 if false.
+     */
     public static final byte getByteValue(boolean b) {
         return (byte) (b ? 0x01 : 0x00);
     }
 
+    /**
+     * Get the boolean value of "boolean" byte.
+     *
+     * @param b The byte.
+     * @return true if 0x01, else false.
+     */
     public static final boolean getBooleanValue(byte b) {
         return (b == (byte) 0x01);
     }

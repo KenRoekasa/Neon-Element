@@ -1,5 +1,8 @@
 package engine.model;
 
+import utils.InvalidEnumId;
+import utils.LookupableById;
+
 /**
  * A general game type
  */
@@ -16,8 +19,8 @@ public abstract class GameType {
         this.type = type;
     }
 
-    public enum Type {
-        FirstToXKills(1), Timed(2), Hill(3),Regicide(4);
+    public static enum Type implements LookupableById {
+        FirstToXKills(1), Timed(2), Hill(3), Regicide(4);
 
         private byte id;
 
@@ -29,13 +32,8 @@ public abstract class GameType {
             return this.id;
         }
 
-        public static Type getById(byte id) {
-            for (Type t : Type.values()) {
-                if (t.id == id) {
-                    return t;
-                }
-            }
-            return null;
+        public static Type getById(byte id) throws InvalidEnumId {
+            return LookupableById.lookup(Type.class, id);
         }
     }
 

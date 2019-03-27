@@ -1,23 +1,35 @@
 package networking.packets;
 
-import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
-public class HelloPacket extends Packet {
+import networking.server.ServerNetworkHandler;
+
+public class HelloPacket extends Packet.PacketToServer {
 
     // Bytes required for packet data.
     // Ensure this at least one less than @link{Packet.PACKET_BYTES_LENGTH}
-    // 
+    //
     // = 0 bytes
 
-    protected HelloPacket(ByteBuffer buffer, InetAddress ipAddress, int port) {
-        super(PacketDirection.INCOMING, PacketType.HELLO, ipAddress, port);
+    protected HelloPacket(ByteBuffer buffer, Sender sender) {
+        super(sender);
     }
 
-    public HelloPacket(InetAddress ipAddress, int port) {
-        super(PacketDirection.OUTGOING, PacketType.HELLO, ipAddress, port);
+    public HelloPacket() {
+        super();
     }
-    
+
+    @Override
+    public PacketType getPacketType() {
+       return PacketType.HELLO;
+    }
+
+    @Override
+    public void handle(ServerNetworkHandler handler) {
+        handler.receiveHello(this);
+    }
+
+    @Override
     public byte[] getRawBytes() {
         ByteBuffer buffer = this.getByteBuffer();
         return Packet.getBytesFromBuffer(buffer);

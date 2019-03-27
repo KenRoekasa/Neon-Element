@@ -23,7 +23,7 @@
           <RowConstraints maxHeight="150.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="ip" prefHeight="45.0" prefWidth="283.0" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="ip_host" prefHeight="45.0" prefWidth="283.0" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="standard-text-nm" text="Enter IP address:" wrappingWidth="301.3330078125" GridPane.rowIndex="1" />
             <GridPane GridPane.columnIndex="2" GridPane.rowIndex="3">
               <columnConstraints>

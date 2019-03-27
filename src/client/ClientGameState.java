@@ -16,11 +16,11 @@ import java.util.ArrayList;
 public class ClientGameState extends GameState {
 
 
+    /** The unique player identifier of this client */
+    private int clientId;
+
     private Player player;
-    /**
-     * The number of players
-     */
-    private int num_player;
+
     /**
      * The state of paused or not in the current game
      */
@@ -70,14 +70,15 @@ public class ClientGameState extends GameState {
     }
 
 
-
-    public int getNum_player() {
-        return num_player;
+    public int getClientId() {
+        return this.clientId;
     }
 
-    public void setNum_player(int num_player) {
-        this.num_player = num_player;
+    public void setClientId(int id) {
+        this.clientId = id;
     }
+
+
 
 
     /**
