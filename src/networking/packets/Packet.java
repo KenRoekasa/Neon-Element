@@ -48,6 +48,7 @@ public abstract class Packet {
         POWERUP_STATE_BCAST  ((byte) 0xF7, PowerUpBroadcast::new),
         INITIAL_STATE_BCAST  ((byte) 0xF8, InitialGameStateBroadcast::new),
         ACTION_BCAST         ((byte) 0xF9, ActionStateBroadcast::new),
+        RESPAWN_BCAST        ((byte) 0xFA, RespawnBroadcast::new),
         GAME_START_BCAST     ((byte) 0xFE, GameStartBroadcast::new),
         GAME_OVER_BCAST      ((byte) 0xFF, GameOverBroadcast::new);
 

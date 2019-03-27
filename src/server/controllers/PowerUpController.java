@@ -11,8 +11,9 @@ import java.util.ArrayList;
 public class PowerUpController {
 
     private GameState gamestate;
-    private ArrayList<PhysicsObject> objects;
     private ServerNetworkDispatcher dispatcher;
+
+    private ArrayList<PhysicsObject> objects;
     private long lastTime;
 
     public PowerUpController(GameState gameState) {
@@ -25,21 +26,17 @@ public class PowerUpController {
         this.gamestate = gameState;
         this.objects = gamestate.getObjects();
         this.dispatcher = dispatcher;
-
     }
-
 
     public void serverUpdate(){
         long currentTime = GameClient.timeElapsed;
         if(currentTime-lastTime >= 5000){
-
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);
             lastTime = GameClient.timeElapsed;
             this.dispatcher.broadcastNewPowerUp(powerUp);
         }
     }
-
 
     public void update() {
         long currentTime = GameClient.timeElapsed;
@@ -50,6 +47,5 @@ public class PowerUpController {
             lastTime = GameClient.timeElapsed;
         }
     }
-
 
 }

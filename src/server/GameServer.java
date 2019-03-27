@@ -28,7 +28,7 @@ public class GameServer extends Thread {
 		this.network.start();
 
 		PowerUpController puController = new PowerUpController(gameState, this.network.getDispatcher());
-		RespawnController resController = new RespawnController(gameState);
+		RespawnController resController = new RespawnController(gameState, this.network.getDispatcher());
 		PhysicsController physicsController = new PhysicsController(gameState,this.network.getDispatcher());
 
         this.running = true;

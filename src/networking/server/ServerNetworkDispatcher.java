@@ -73,6 +73,11 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 		this.broadcast(packet);
 	}
 
+	public void broadcastRespawn(int playerId, double x, double y) {
+		Packet packet = new RespawnBroadcast(playerId, x, y);
+		this.broadcast(packet);
+	}
+
 	public void broadCastDisconnectedUser(DisconnectAckPacket packet) {
 		// TODO Auto-generated method stub
 		Packet response = new DisconnectAckPacket(true);

@@ -6,6 +6,7 @@ import engine.entities.Player;
 import engine.model.GameState;
 import engine.model.GameType;
 import javafx.geometry.Point2D;
+import networking.server.ServerNetworkDispatcher;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,6 +17,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class RespawnController {
     private GameState gameState;
+    private ServerNetworkDispatcher dispatcher;
+
     /**
      * A queue of the dead players in the current game
      */
@@ -32,9 +35,12 @@ public class RespawnController {
         this.deadPlayers = gameState.getDeadPlayers();
     }
 
+    public RespawnController(GameState gameState, ServerNetworkDispatcher dispatcher) {
+        this(gameState);
+        this.dispatcher = dispatcher;
+    }
 
     public void update() {
-
         if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
             normalRespawn(5000);
         } else if (gameState.getGameType().getType() == GameType.Type.Timed) {
@@ -44,8 +50,6 @@ public class RespawnController {
         } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
             normalRespawn(1000);
         }
-
-
     }
 
     /**
@@ -65,15 +69,18 @@ public class RespawnController {
                     Random rand = new Random();
                     ArrayList<Point2D> respawnPoints = gameState.getMap().getRespawnPoints();
                     int index = rand.nextInt(3);
-                    player.setLocation(respawnPoints.get(index));
+                    Point2D respawnPoint = respawnPoints.get(index);
+                    player.setLocation(respawnPoint);
                     player.respawn();
                     // SO you don't respawn twice
                     deadPlayers.take();
                     System.out.println("spawn");
+
+                    if (this.dispatcher != null) {
+                        this.dispatcher.broadcastRespawn(player.getId(), respawnPoint.getX(), respawnPoint.getY());
+                    }
                 }
             }
-
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

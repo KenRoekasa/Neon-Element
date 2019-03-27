@@ -81,29 +81,41 @@ public class ClientNetworkHandler {
         this.dispatcher.sendInitialGameStateAck();
     }
 
+    private Player updatePlayerLocation(int id, double x, double y) {
+        Player foundPlayer = findPlayer(id);
+        Player player;
+        if (foundPlayer != null) {
+            player = foundPlayer;
+        } else {
+            // Player id not found so make a player
+            player = new Player(ObjectType.ENEMY, id);
+            this.gameState.getAllPlayers().add(player);
+            this.gameState.getObjects().add(player);
+        }
+        player.setLocation(x, y);
+
+        return player;
+    }
+
     public void receiveLocationStateBroadcast(LocationStateBroadcast packet) {
         // Only update locations of other players
-        if (packet.getId() != this.gameState.getPlayer().getId()) {
-            int id = packet.getId();
-            Player foundPlayer = findPlayer(id);
-            Player player;
-            if (foundPlayer != null) {
-
-                player = foundPlayer;
-            } else {
-                // Player id not found so make a player
-                player = new Player(ObjectType.ENEMY, id);
-                this.gameState.getAllPlayers().add(player);
-                this.gameState.getObjects().add(player);
-            }
-            player.setLocation(packet.getX(), packet.getY());
-            player.setPlayerAngle(new Rotate(packet.getPlayerAngle()));
-//            System.out.println("before my client health added ");
-//            System.out.println(player.getHealth());
-          //  player.setHealth(packet.getPlayerHealth());
-//            System.out.println("after my client health added ");
-//            System.out.println(player.getHealth());
+        if (packet.getId() == this.gameState.getPlayer().getId()) {
+            return;
         }
+
+        int id = packet.getId();
+        double x = packet.getX();
+        double y = packet.getY();
+        Player player = this.updatePlayerLocation(id, x, y);
+        player.setPlayerAngle(new Rotate(packet.getPlayerAngle()));
+    }
+
+    public void receiveRespawnBroadcast(RespawnBroadcast packet) {
+        // Update my location as well as other players'
+        int id = packet.getId();
+        double x = packet.getX();
+        double y = packet.getY();
+        this.updatePlayerLocation(id, x, y);
     }
 
     public void  recieveHealthStateBroadcast(HealthStateBroadcast packet){
