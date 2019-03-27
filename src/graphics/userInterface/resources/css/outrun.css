@@ -270,5 +270,9 @@
     -fx-effect: dropshadow(gaussian, rgb(230, 0, 120), 15, 0, 0, 0);
 }
 
+.leaderboard-title{
+    -fx-text-fill: rgb(230, 0, 120);
+    -fx-fill: rgb(230, 0, 120);
+}
 
 

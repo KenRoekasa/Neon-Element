@@ -1,15 +1,12 @@
 package client;
 
-
 import client.audiomanager.AudioManager;
-import engine.controller.RespawnController;
 import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
+import engine.controller.RespawnController;
 import graphics.debugger.Debugger;
 import graphics.rendering.Renderer;
-import graphics.userInterface.controllers.HUDController;
-import graphics.userInterface.controllers.LeaderboardController;
-import graphics.userInterface.controllers.PauseController;
+import graphics.userInterface.controllers.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -33,14 +30,13 @@ import java.util.ArrayList;
 public class GameClient {
 
 
-
     public static long timeElapsed;
 
 
     public static long pauseStart;
 
-
     public boolean isNetworked;
+
     /**
      * The physics engine that runs in this current game/match
      */
@@ -70,10 +66,12 @@ public class GameClient {
      */
     private ClientNetworkThread clientNetworkThread;
 
-    private Pane hudPane, lobbyPane;
+    private Pane hudPane,lobbyPane;
 
     private AudioManager audioManager;
-
+    private Boolean tab;
+    private Pane leaderboard;
+    private LeaderboardController leaderboardController;
 
     /**
      * Constructor
@@ -93,7 +91,6 @@ public class GameClient {
         // this.ClientNetworkThread = new ClientNetworkThread(gameState);
         // ClientNetworkThread.run();
     }
-
     /**
      * Local Game.
      */
@@ -177,23 +174,20 @@ public class GameClient {
 
         }.start();
 
-
-
     }
-
 
     /**
      * Called when the game ends to swjitch to the game over screen
      */
     private void showGameOver() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/gameover.fxml"));
         try {
             Pane root = loader.load();
             primaryStage.getScene().setRoot(root);
             root.setPrefHeight(stageSize.getHeight());
             root.setPrefWidth(stageSize.getWidth());
             gameState.stop();
-            LeaderboardController controller = loader.getController();
+            GameOverController controller = loader.getController();
             controller.setStage(primaryStage);
             controller.setAudioManager(audioManager);
             controller.setScoreBoard(gameState.getScoreBoard());
@@ -206,11 +200,11 @@ public class GameClient {
             audioManager.setNeonVolume(audioManager.getEffectVolume());
             gameState.stop();
 
-                    } catch (IOException e) {
-                        System.out.println("crush in loading menu board ");
-                        e.printStackTrace();
-                    }
-                }
+        } catch (IOException e) {
+            System.out.println("crush in loading menu board ");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Start a connection to the server
@@ -230,11 +224,14 @@ public class GameClient {
 
         gameState.resume();
 
+        tab = false;
+
         theScene.setOnKeyReleased(e -> {
             if (!gameState.getPaused()) {
                 String code = e.getCode().toString();
                 input.remove(code);
             }
+
         });
 
         theScene.setOnMouseClicked(e -> {
@@ -271,17 +268,44 @@ public class GameClient {
                         controller.setStageSize(stageSize);
                         controller.setStage(primaryStage, gameState);
                         controller.setAudioManager(audioManager);
+
                         gameState.pause();
-                        pauseStart = System.nanoTime()/1000000;
+                        pauseStart = System.nanoTime() / 1000000;
                         input.clear();
                         primaryStage.setTitle("Pause");
-
                     } catch (IOException ex) {
                         System.out.println("crush in loading pause board ");
                         ex.printStackTrace();
                     }
-                }
+                } else if (e.getCode() == KeyCode.TAB) {
+                    if (!tab) {
+                        System.out.println("Tab show info");
+                        leaderboard.setPrefHeight(stageSize.getHeight() / 2);
+                        leaderboard.setPrefWidth(stageSize.getWidth() / 2);
 
+                        hudPane.getChildren().add(leaderboard);
+                        leaderboard.setLayoutX(stageSize.getHeight() * 0.4);
+                        leaderboard.setLayoutY(stageSize.getHeight() / 4);
+                        leaderboard.setBackground(Background.EMPTY);
+                        leaderboardController.setHudPane(hudPane);
+                        leaderboardController.setNode(leaderboard);
+                        leaderboardController.setStageSize(stageSize);
+                        leaderboardController.setStage(primaryStage, gameState);
+                        leaderboardController.setScoreBoard(gameState.getScoreBoard());
+                        leaderboardController.setLeaderBoard(gameState.getScoreBoard().getLeaderBoard());
+                        leaderboardController.setAudioManager(audioManager);
+                        leaderboardController.update();
+
+                        primaryStage.setTitle("Leaderboard");
+                        tab = true;
+                        input.clear();
+                    } else {
+                        System.out.println("Tab hide info");
+                        hudPane.getChildren().remove(leaderboard);
+                        tab = false;
+
+                    }
+                }
                 String code = e.getCode().toString();
                 // only add each input command once
                 if (!input.contains(code))
@@ -290,17 +314,16 @@ public class GameClient {
         });
     }
 
-
-
     public void initialiseGame(){
+
+        // load hud
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/hud.fxml"));
+        FXMLLoader loader_lb = new FXMLLoader(getClass().getResource("../graphics/userInterface/fxmls/leaderboard.fxml"));
         //Pane hudPane = new Pane();
-
-
-
 
         try {
             hudPane = loader.load();
+            leaderboard = loader_lb.load();
             //get player attribute
 
         } catch (Exception e) {
@@ -311,6 +334,7 @@ public class GameClient {
             System.exit(0);
         }
 
+        leaderboardController = loader_lb.getController();
         HUDController hudController = loader.getController();
         hudController.setGameState(gameState);
         hudController.setMode(gameState.getMode());
@@ -319,7 +343,6 @@ public class GameClient {
         hudController.setPlayerId(gameState.getPlayer().getId());
         hudController.setNum_player(gameState.getScoreBoard().getLeaderBoard().size());
         hudController.setAudioManager(audioManager);
-
 
         primaryStage.getScene().setRoot(hudPane);
 
@@ -335,15 +358,15 @@ public class GameClient {
         Canvas canvas = new Canvas(stageSize.getWidth(), stageSize.getHeight());
         Platform.runLater(new Runnable() {
 
-			@Override
-			public void run() {
-		        hudPane.getChildren().add(canvas);
-		        int index = hudPane.getChildren().indexOf(canvas);
-		        hudPane.getChildren().get(index).toBack();
+            @Override
+            public void run() {
+                hudPane.getChildren().add(canvas);
+                int index = hudPane.getChildren().indexOf(canvas);
+                hudPane.getChildren().get(index).toBack();
 
 
-			}
-		});
+            }
+        });
 
         // forces the game to be rendered behind the gui
 
@@ -359,7 +382,7 @@ public class GameClient {
         audioManager.setNeonVolume(0);
         // initialise input controls
         beginClientLoop(renderer, hudController);
-
     }
+
 
 }
