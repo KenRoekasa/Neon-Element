@@ -24,6 +24,7 @@ public class Regicide extends GameType {
         super(Type.Regicide);
         this.king = king;
         this.scoreNeeded = scoreNeeded;
+        this.kingID = king.getId();
     }
 
     /**

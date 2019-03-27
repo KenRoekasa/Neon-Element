@@ -30,6 +30,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class PhysicsController {
     private ServerNetworkDispatcher dispatcher;
     private GameState gameState;
+    private long lastTimeRegi;
 
     /**
      * Constructor
@@ -49,6 +50,7 @@ public class PhysicsController {
     public PhysicsController(GameState gameState, ServerNetworkDispatcher dispatcher) {
         this.gameState = gameState;
         this.dispatcher = dispatcher;
+        this.lastTimeRegi = GameClient.timeElapsed;
     }
     public void serverLoop(){
         doCollisionDetection();
@@ -59,6 +61,9 @@ public class PhysicsController {
 
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
             kingOfHillHandler();
+        }
+        if(gameState.getGameType().getType() == GameType.Type.Regicide){
+            regicideHandler();
         }
         if (!GameTypeHandler.checkRunning(gameState)) {
             gameState.stop();
@@ -75,10 +80,15 @@ public class PhysicsController {
         doUpdates();
         deathHandler();
 
+
         gameState.getAiConMan().updateAllAi();
 
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
             kingOfHillHandler();
+        }
+        if(gameState.getGameType().getType() == GameType.Type.Regicide){
+
+            regicideHandler();
         }
         if (!GameTypeHandler.checkRunning(gameState)) {
             gameState.stop();
@@ -90,9 +100,6 @@ public class PhysicsController {
     public void dumbClientLoop() {
         doCollisionDetection();
         doUpdates();
-
-
-
 
     }
 
@@ -137,6 +144,18 @@ public class PhysicsController {
         }
     }
 
+    /**
+     * Handles the points system in the game mode king of the hill
+     */
+    private void regicideHandler() {
+        Regicide regicideGame = (Regicide) gameState.getGameType();
+        Player king = regicideGame.getKing();
+        if(GameClient.timeElapsed - lastTimeRegi >= 10000){
+            gameState.getScoreBoard().addScore(king.getId(),20);
+            lastTimeRegi = GameClient.timeElapsed;
+        }
+    }
+
 
     /**
      * Handles the deaths of a player
@@ -164,11 +183,11 @@ public class PhysicsController {
                     Regicide regicide = (Regicide) gameState.getGameType();
                     int baseScore = 5;
                     // if the player dead is the king the killer gets more points
-                    if (regicide.getKingId() == player.getId()) {
+                    if (regicide.getKing().getId() == player.getId()) {
                         scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
 
                         // Make the attacker the king now
-                        regicide.setKingId(player.getLastAttacker().getId());
+                        regicide.setKing(player.getLastAttacker());
 
                         //TODO BROADCAST THE KING
                     } else {
@@ -199,7 +218,7 @@ public class PhysicsController {
                     // TODO broadcast kills
 
                     if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
-                        System.out.println("updating scoar");
+
                         scoreBoard.addScore(player.getLastAttacker().getId(), 1);
                         this.dispatcher.broadcastScore(player.getLastAttacker().getId(),1);
                     } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
@@ -210,7 +229,7 @@ public class PhysicsController {
                             scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
                             this.dispatcher.broadcastScore(player.getLastAttacker().getId(),baseScore * 2);
                             // Make the attacker the king now
-                            regicide.setKingId(player.getLastAttacker().getId());
+                            regicide.setKing(player.getLastAttacker());
 
                             //TODO BROADCAST THE KING
                         } else {

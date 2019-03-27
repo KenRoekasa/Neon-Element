@@ -113,7 +113,7 @@ public class GameStateGenerator {
                 gameType = new HillGame(new Circle(1000, 1000, 500),100000);
                 break;
             case Regicide:
-                gameType = new Regicide(player.getId(), 5000);
+                gameType = new Regicide(player, 5000);
                 break;
                 default:
                 gameType = new FirstToXKillsGame(10);
