@@ -120,7 +120,7 @@ public class GameClient {
      * @param hudController the hud
      */
     private void beginClientLoop(Renderer renderer, HUDController hudController) {
-        //TODO: TO STOP WORKING WHEN SERVER IS ON
+        // Update methods for these are not called if isNetworked is true
         PowerUpController powerUpController = new PowerUpController(gameState);
         RespawnController respawnController = new RespawnController(gameState);
 
