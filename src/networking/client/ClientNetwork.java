@@ -63,7 +63,7 @@ public class ClientNetwork extends AbstractNetwork {
             return;
         }
 
-        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST) && !packet.getPacketType().equals(Packet.PacketType.HEALTH_STATE_BCAST)) {
             if (packet.getIpAddress() != null) {
                 System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
             } else {
