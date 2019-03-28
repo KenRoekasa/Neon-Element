@@ -79,8 +79,6 @@ public class PhysicsController {
         new Thread(() -> doHitDetection()).start();
         doUpdates();
         deathHandler();
-
-
         gameState.getAiConMan().updateAllAi();
 
         if (gameState.getGameType().getType().equals(GameType.Type.Hill)) {
@@ -100,7 +98,6 @@ public class PhysicsController {
     public void dumbClientLoop() {
         doCollisionDetection();
         doUpdates();
-
     }
 
 

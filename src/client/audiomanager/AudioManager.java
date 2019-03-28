@@ -56,8 +56,8 @@ public class AudioManager {
      *  This loads all the sound files into the object and sets both volumes to 100 by default
      */
     public AudioManager(){
-        effectVolume = 100;
-        musicVolume = 100;
+        effectVolume = 1;
+        musicVolume = 1;
         gameEffects = new HashMap<>();
 
         // loop through the sound enum, adding an AudioClip for each to the HashMap

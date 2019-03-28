@@ -35,7 +35,7 @@ public abstract class AbstractNetworkDispatcher {
 
             DatagramPacket datagram = new DatagramPacket(data, data.length, ipAddress, port);
 
-            if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE) && !packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+            if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE) && !packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST) && !packet.getPacketType().equals(Packet.PacketType.HEALTH_STATE_BCAST)) {
                 System.out.println("Sent " + packet.getPacketType() + " to " + ipAddress + ":" + port);
             }
 

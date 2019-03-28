@@ -164,9 +164,14 @@ public class Renderer {
 
             // draw cursors to ensure on top
             for (Character e : gameState.getOtherPlayers(gameState.getPlayer())) {
-                DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
-                if(!(e.getCurrentAction() == Action.IDLE)) {
-                    ActionSwitch(e.getCurrentAction(), e, gameState);
+
+                if(e.isAlive()) {
+
+                    DrawEnemies.drawerEnemyCursor(gc, stageSize, e, gameState.getPlayer());
+                    if(!(e.getCurrentAction() == Action.IDLE)) {
+                        ActionSwitch(e.getCurrentAction(), e, gameState);
+                    }
+
                 }
             }
 
