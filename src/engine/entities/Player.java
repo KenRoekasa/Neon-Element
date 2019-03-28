@@ -71,6 +71,7 @@ public class Player extends Character {
         if (health <= 0) {
             if (isAlive) {
                 isAlive = false;
+
                 deathTime = GameClient.timeElapsed;
             }
         } else {

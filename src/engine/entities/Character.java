@@ -284,7 +284,7 @@ public abstract class Character extends PhysicsObject {
         // iframes of the attacker increase
         // TODO: find perfect iframe value
         //Currently 65
-        this.iframes = 15;
+        this.iframes = 10;
     }
 
     /**

@@ -147,7 +147,7 @@ public class GameClient {
 
                 if(!gameState.getPaused()){
                     timeElapsed += DeltaTime.deltaTime;
-
+                    System.out.println( timeElapsed);
                     if(!isNetworked) {
                         //client loop with hit detection
                         physicsEngine.clientLoop();
@@ -388,7 +388,9 @@ public class GameClient {
         physicsEngine = new PhysicsController(gameState);
         audioManager.setGameMusic();
         audioManager.setNeonVolume(0);
+
         // initialise input controls
+        timeElapsed = 0;
         beginClientLoop(renderer, hudController);
     }
 

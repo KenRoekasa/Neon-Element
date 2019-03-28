@@ -1,5 +1,6 @@
 package server;
 
+import client.GameClient;
 import engine.controller.GameTypeHandler;
 import engine.controller.RespawnController;
 import engine.physics.DeltaTime;
@@ -43,6 +44,7 @@ public class GameServer extends Thread {
 					e.printStackTrace();
 				}
 				this.waitForPlayersToConnect();
+
 			} else {
 
 				physicsController.serverLoop();
@@ -57,6 +59,8 @@ public class GameServer extends Thread {
 				this.sendLocations();
 				this.sendHealthUpdates();
 
+				GameClient.timeElapsed += DeltaTime.deltaTime;
+				System.out.println("server: " + GameClient.timeElapsed);
                 //calculate deltaTime
                 long time = System.nanoTime();
                 DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);
@@ -90,6 +94,8 @@ public class GameServer extends Thread {
 			if (connectedPlayers.allHaveInitialGameState()) {
 				this.gameState.setStarted(true);
 				this.network.getDispatcher().broadcastGameStarted();
+				GameClient.timeElapsed = 0;
+
 			}
 		}
 	}
