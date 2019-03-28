@@ -78,8 +78,8 @@ public class ServerNetworkDispatcher extends AbstractNetworkDispatcher {
 		this.broadcast(packet);
 	}
 
-	public void broadcastScore(int playerId, int score) {
-		Packet packet = new ScoreBroadcast(playerId, score);
+	public void broadcastScore(int playerId, int score,int kill, int victimId) {
+		Packet packet = new ScoreBroadcast(playerId, score,kill,victimId);
 		this.broadcast(packet);
 	}
 

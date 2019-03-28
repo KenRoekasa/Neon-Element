@@ -106,6 +106,11 @@ public class ClientNetworkThread extends Thread {
     }
 
     private void doLocationState() {
+        if (!this.gameState.getPlayer().isAlive()) {
+            // Don't send location if dead
+            return;
+        }
+
         Point2D location = this.gameState.getPlayer().getLocation();
         double x = location.getX();
         double y = location.getY();

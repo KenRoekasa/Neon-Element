@@ -71,14 +71,14 @@ public class RespawnController {
                     int index = rand.nextInt(3);
                     Point2D respawnPoint = respawnPoints.get(index);
                     player.setLocation(respawnPoint);
+                    if (this.dispatcher != null) {
+                        this.dispatcher.broadcastRespawn(player.getId(), respawnPoint.getX(), respawnPoint.getY());
+                    }
                     player.respawn();
                     // SO you don't respawn twice
                     deadPlayers.take();
                     System.out.println("spawn");
 
-                    if (this.dispatcher != null) {
-                        this.dispatcher.broadcastRespawn(player.getId(), respawnPoint.getX(), respawnPoint.getY());
-                    }
                 }
             }
         } catch (InterruptedException e) {
