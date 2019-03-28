@@ -30,7 +30,7 @@ public class Regicide extends GameType {
     /**
      * Constructor
      *
-     * @param kingID        the first king
+     * @param kingID      the first king
      * @param scoreNeeded the score needed for a player to win
      */
     public Regicide(int kingID, int scoreNeeded) {
@@ -38,11 +38,6 @@ public class Regicide extends GameType {
         this.kingID = kingID;
         this.scoreNeeded = scoreNeeded;
     }
-
-
-
-
-
 
 
     public int getScoreNeeded() {
@@ -55,13 +50,14 @@ public class Regicide extends GameType {
 
     public void setKing(Player king) {
         this.king = king;
-    }
-
-    public void setKingId(int kingId) {
-        this.kingID = kingId;
+        this.kingID = king.getId();
     }
 
     public int getKingId() {
         return kingID;
+    }
+
+    public void setKingId(int kingId) {
+        this.kingID = kingId;
     }
 }

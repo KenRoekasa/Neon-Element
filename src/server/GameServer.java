@@ -49,6 +49,7 @@ public class GameServer extends Thread {
 				physicsController.serverLoop();
 
 				puController.serverUpdate();
+
 				resController.update();
 
 				this.running = GameTypeHandler.checkRunning(gameState);
