@@ -28,7 +28,7 @@ public class ServerGameStateGenerator {
                 gameType =  new TimedGame(90000);
                 break;
             case Hill:
-                gameType = new HillGame(new Circle(2000, 0, 500),100000);
+                gameType = new HillGame(new Circle(1000, 1000, 500),100000);
                 break;
             case Regicide:
                 gameType = new Regicide(1, 5000);
