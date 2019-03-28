@@ -472,7 +472,6 @@ public abstract class Character extends PhysicsObject {
      * Increase movement speed
      */
     public void speedBoost() {
-        System.out.println("SPEED");
         movementSpeed = DEFAULT_MOVEMENT_SPEED * 2;
         //Last time speed boost was activated
         timeMap.replace(CooldownItems.SPEED, GameClient.timeElapsed);

@@ -60,7 +60,6 @@ public class GameServer extends Thread {
 				this.sendHealthUpdates();
 
 				GameClient.timeElapsed += DeltaTime.deltaTime;
-				System.out.println("server: " + GameClient.timeElapsed);
                 //calculate deltaTime
                 long time = System.nanoTime();
                 DeltaTime.deltaTime = (int) ((time - lastTime) / 1000000);

@@ -122,8 +122,6 @@ public class PhysicsController {
     private void kingOfHillHandler() {
         HillGame hillGame = (HillGame) gameState.getGameType();
         Circle hill = hillGame.getHill();
-        //        System.out.println("player " + gameState.getPlayer().getBounds().getBoundsInParent().getMaxX());
-        //        System.out.println("hill : " + hill);
         ArrayList<Player> allPlayers = gameState.getAllPlayers();
         ArrayList<Player> playersInside = new ArrayList<>();
         ScoreBoard scoreBoard = gameState.getScoreBoard();
@@ -331,12 +329,10 @@ public class PhysicsController {
                         if (e.getIframes() <= 0 || e.getLastAttacker().getId() != player.getId()) {
                             float damage = DamageCalculation.calculateDealtDamage(player, e);
                             e.takeDamage(damage, player);
-                            System.out.println(e.getHealth());
                         }
                     } else {
                         float damage = DamageCalculation.calculateDealtDamage(player, e);
                         e.takeDamage(damage, player);
-                        System.out.println(e.getHealth()+"--------");
                     }
                 }
             }

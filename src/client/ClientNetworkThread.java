@@ -90,7 +90,6 @@ public class ClientNetworkThread extends Thread {
                 e.printStackTrace();
             }
         }
-        System.out.println("GAME ENDED");
 
         this.network.close();
     }

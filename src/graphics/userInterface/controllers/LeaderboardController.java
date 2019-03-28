@@ -199,9 +199,7 @@ public class LeaderboardController extends UIController {
     public void update() {
 
         updateRank(0, player1IdProperty, player1DeathProperty, player1KillProperty, player1ScoreProperty);
-        System.out.println("Rank1");
         updateRank(1, player2IdProperty, player2DeathProperty, player2KillProperty, player2ScoreProperty);
-        System.out.println("Rank2");
         updateRank(2, player3IdProperty, player3DeathProperty, player3KillProperty, player3ScoreProperty);
         updateRank(2, player3IdProperty, player3DeathProperty, player3KillProperty, player3ScoreProperty);
         updateRank(3, player4IdProperty, player4DeathProperty, player4KillProperty, player4ScoreProperty);

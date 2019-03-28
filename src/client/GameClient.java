@@ -147,7 +147,6 @@ public class GameClient {
 
                 if(!gameState.getPaused()){
                     timeElapsed += DeltaTime.deltaTime;
-                    System.out.println( timeElapsed);
                     if(!isNetworked) {
                         //client loop with hit detection
                         physicsEngine.clientLoop();
@@ -287,7 +286,6 @@ public class GameClient {
                     }
                 } else if (e.getCode() == KeyCode.TAB) {
                     if (!tab) {
-                        System.out.println("Tab show info");
                         leaderboard.setPrefHeight(stageSize.getHeight() / 2);
                         leaderboard.setPrefWidth(stageSize.getWidth() / 2);
 
@@ -308,7 +306,6 @@ public class GameClient {
                         tab = true;
                         input.clear();
                     } else {
-                        System.out.println("Tab hide info");
                         hudPane.getChildren().remove(leaderboard);
                         tab = false;
 

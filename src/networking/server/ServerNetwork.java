@@ -72,9 +72,7 @@ public class ServerNetwork extends networking.AbstractNetwork {
             return;
         }
 
-        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE)) {
-            System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
-        }
+
 
         ((Packet.PacketToServer) packet).handle(this.handler);
     }

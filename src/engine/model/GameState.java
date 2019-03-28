@@ -69,7 +69,6 @@ public abstract class GameState {
 
             }
         }
-        //        System.out.println(allPlayers);
         this.map = map;
 
         this.scoreBoard = scoreboard;

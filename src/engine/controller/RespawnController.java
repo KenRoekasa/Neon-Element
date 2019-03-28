@@ -77,7 +77,6 @@ public class RespawnController {
                     player.respawn();
                     // SO you don't respawn twice
                     deadPlayers.take();
-                    System.out.println("spawn");
 
                 }
             }

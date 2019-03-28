@@ -30,8 +30,6 @@ public class ServerNetworkHandler {
 	public void receiveConnect(ConnectPacket packet) {
 		boolean isStarted = this.gameState.isStarted();
 		boolean hasSpace = this.connectedPlayers.count() < this.gameState.getNumPlayers();
-		System.out.println("Does the game have space: " + hasSpace);
-		System.out.println("has the game Started: " + isStarted);
 
 		// Allow connection if the game has not started yet and we have space for more
 		// players
@@ -50,10 +48,6 @@ public class ServerNetworkHandler {
 			this.connectedPlayers.addConnection(player, packet.getIpAddress(), packet.getPort());
 			this.gameState.getAllPlayers().add(player);
 			this.gameState.getObjects().add(player);
-
-			System.out.println("Number of players connected: " + gameState.getAllPlayers().size());
-
-			System.out.println("New player connection. P: " + playerId + " from: " + packet.getIpAddress());
 
 		}
 

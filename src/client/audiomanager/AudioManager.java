@@ -228,7 +228,6 @@ public class AudioManager {
                                e.printStackTrace();
                            }
                        }
-                        System.out.println("exit");
                        shield.stop();
                     });
 
@@ -275,7 +274,6 @@ public class AudioManager {
                                     e.printStackTrace();
                                 }
                             }
-                            System.out.println("exit");
                             shield.stop();
                         });
 

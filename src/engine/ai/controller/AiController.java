@@ -47,8 +47,7 @@ public class AiController {
 	        calc = AiCalculations.initializeAiCalculations(map, scoreboard, gameType, this);
 	        stateActions = AiStateActions.initializeStateActions(calc, map, gameType, this);
 	        fsm = FSM.initializeFSM(aiPlayer, calc, gameType, this);
-	        
-	        System.out.println("started ai\n difficulty: "+String.valueOf(aiType)+"\n\n");
+
 	    }
 		
 		/**

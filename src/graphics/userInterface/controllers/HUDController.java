@@ -280,7 +280,6 @@ public class HUDController extends UIController implements Initializable {
         switch (mode){
                 case FirstToXKills:
                     updateScore(FirstToXKillsGame.getKillsNeeded());
-//                    System.out.println("FirstTOXKills:"+FirstToXKillsGame.getKillsNeeded());
                     break;
                 case Timed:
                     updateTime(time_duration);
