@@ -24,6 +24,6 @@
       </BorderPane>
    </bottom>
    <center>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-medium" text="WAITING FOR GAME TO START..." wrappingWidth="808.08154296875" BorderPane.alignment="CENTER" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-nm" text="WAITING FOR GAME TO START..." wrappingWidth="808.08154296875" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

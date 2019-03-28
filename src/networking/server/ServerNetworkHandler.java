@@ -29,7 +29,7 @@ public class ServerNetworkHandler {
 
 	public void receiveConnect(ConnectPacket packet) {
 		boolean isStarted = this.gameState.isStarted();
-		boolean hasSpace = this.gameState.getAllPlayers().size() < this.gameState.getNumPlayers();
+		boolean hasSpace = this.connectedPlayers.count() < this.gameState.getNumPlayers();
 		System.out.println("Does the game have space: " + hasSpace);
 		System.out.println("has the game Started: " + isStarted);
 
