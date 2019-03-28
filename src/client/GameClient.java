@@ -21,7 +21,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import server.controllers.PowerUpController;
+import engine.controller.PowerUpController;
 
 import java.io.IOException;
 import java.net.InetAddress;

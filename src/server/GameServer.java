@@ -6,11 +6,10 @@ import engine.physics.DeltaTime;
 import engine.physics.PhysicsController;
 import engine.entities.Player;
 import javafx.geometry.Point2D;
-import networking.Constants;
 import networking.server.ConnectedPlayers;
 import javafx.scene.transform.Rotate;
 import networking.server.ServerNetwork;
-import server.controllers.PowerUpController;
+import engine.controller.PowerUpController;
 
 public class GameServer extends Thread {
 

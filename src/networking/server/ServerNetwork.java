@@ -10,7 +10,7 @@ import networking.Constants;
 
 public class ServerNetwork extends networking.AbstractNetwork {
 
-    protected ServerNetworkDispatcher dispatcher;
+    private ServerNetworkDispatcher dispatcher;
     private ServerNetworkHandler handler;
 
     private ConnectedPlayers connectedPlayers;

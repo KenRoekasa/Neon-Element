@@ -11,8 +11,6 @@ import networking.AbstractNetwork;
 import networking.packets.*;
 
 public class ClientNetwork extends AbstractNetwork {
-    /** True if the ClientNetwork is running and receiving Packets. */
-    private boolean running;
 
     private ClientNetworkDispatcher dispatcher;
     private ClientNetworkHandler handler;
@@ -65,7 +63,7 @@ public class ClientNetwork extends AbstractNetwork {
             return;
         }
 
-        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST)) {
+        if (!packet.getPacketType().equals(Packet.PacketType.LOCATION_STATE_BCAST) && !packet.getPacketType().equals(Packet.PacketType.HEALTH_STATE_BCAST)) {
             if (packet.getIpAddress() != null) {
                 System.out.println("Got " + packet.getPacketType() + " from " + packet.getIpAddress() + ":" + packet.getPort());
             } else {
@@ -74,6 +72,6 @@ public class ClientNetwork extends AbstractNetwork {
         }
 
         ((Packet.PacketToClient) packet).handle(this.handler);
-        }
+    }
 
 }

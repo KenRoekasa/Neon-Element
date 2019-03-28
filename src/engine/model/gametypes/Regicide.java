@@ -14,7 +14,7 @@ public class Regicide extends GameType {
     private int scoreNeeded;
     private Player king;
 
-    /**
+       /**
      * Constructor
      *
      * @param king        the first king

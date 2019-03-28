@@ -1,4 +1,4 @@
-package server.controllers;
+package engine.controller;
 
 import client.GameClient;
 import engine.entities.PhysicsObject;
@@ -9,6 +9,8 @@ import networking.server.ServerNetworkDispatcher;
 import java.util.ArrayList;
 
 public class PowerUpController {
+
+    private static final long SPAWN_RATE = 15000;
 
     private GameState gamestate;
     private ServerNetworkDispatcher dispatcher;
@@ -30,7 +32,7 @@ public class PowerUpController {
 
     public void serverUpdate(){
         long currentTime = GameClient.timeElapsed;
-        if(currentTime-lastTime >= 5000){
+        if(currentTime-lastTime >= SPAWN_RATE){
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);
             lastTime = GameClient.timeElapsed;
@@ -41,7 +43,7 @@ public class PowerUpController {
     public void update() {
         long currentTime = GameClient.timeElapsed;
 
-        if(currentTime-lastTime >= 5000){
+        if(currentTime-lastTime >= SPAWN_RATE){
             PowerUp powerUp = new PowerUp();
             objects.add(powerUp);
             lastTime = GameClient.timeElapsed;
