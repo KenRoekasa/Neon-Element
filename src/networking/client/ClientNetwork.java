@@ -11,8 +11,6 @@ import networking.AbstractNetwork;
 import networking.packets.*;
 
 public class ClientNetwork extends AbstractNetwork {
-    /** True if the ClientNetwork is running and receiving Packets. */
-    private boolean running;
 
     private ClientNetworkDispatcher dispatcher;
     private ClientNetworkHandler handler;
@@ -74,6 +72,6 @@ public class ClientNetwork extends AbstractNetwork {
         }
 
         ((Packet.PacketToClient) packet).handle(this.handler);
-        }
+    }
 
 }
