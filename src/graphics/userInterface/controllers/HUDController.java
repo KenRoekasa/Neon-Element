@@ -65,7 +65,7 @@ public class HUDController extends UIController implements Initializable {
      */
     private ScoreBoard scoreBoard;
     /**
-     * Client player id
+     * Client ƒplayer id
      */
     private int playerId;
     /**
@@ -379,10 +379,6 @@ public class HUDController extends UIController implements Initializable {
     public void updateTime(long time){
         long elapsedTime = GameClient.timeElapsed;
         timeProperty.setValue((double)elapsedTime/time);
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
     }
 
 
