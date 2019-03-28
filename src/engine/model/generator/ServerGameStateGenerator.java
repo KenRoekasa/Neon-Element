@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ServerGameStateGenerator {
 
-    public static ServerGameState createEmptyState(int numPlayers, int num_enm, String[] aiTypes, GameType.Type mode) {
+    public static ServerGameState createEmptyState(int numPlayers, /*int num_enm, String[] aiTypes,*/ GameType.Type mode) {
         ArrayList<PhysicsObject> objects = new ArrayList<>();
         ScoreBoard scoreboard = new ScoreBoard();
 
@@ -39,23 +39,23 @@ public class ServerGameStateGenerator {
 
         Map map = MapGenerator.createEmptyMap();
 
-        ArrayList<Player> enemies = new ArrayList<>();
+        // ArrayList<Player> enemies = new ArrayList<>();
 
         AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), scoreboard, gameType);
 
-        for (int i = 0; i < num_enm; i++) {
+        /*for (int i = 0; i < num_enm; i++) {
             enemies.add( aiManager.addAi(AiType.getType(aiTypes[i])) );
             enemies.get(i).setLocation(map.getRespawnPoints().get(i+1));
-        }
+        }*/
 
         //Create the first map
 
         //Add the enemies to the objects list
-        objects.addAll(enemies);
+        // objects.addAll(enemies);
 
-        if(gameType.getType() == GameType.Type.Regicide) {
+        /*if(gameType.getType() == GameType.Type.Regicide) {
             ((Regicide)gameType).setKingId(enemies.get(0).getId());
-        }
+        }*/
 
         ServerGameState gameState = new ServerGameState(map, objects, scoreboard, gameType, aiManager, numPlayers);
 
