@@ -22,10 +22,14 @@ public class DrawEnemies {
      * @param player    The clients current player
      */
     public static void drawEnemy(GraphicsContext gc, Rectangle stageSize, Character enemy, Player player) {
-        Point2D relativeLocation = Renderer.getLocationRelativeToPlayer(stageSize, enemy.getLocation(), player.getLocation());
-        // subtract the width of the player to allow it to be centered
-        relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
-        DrawPlayers.drawPlayer(gc, relativeLocation, enemy);
+
+        if(enemy.isAlive()) {
+            Point2D relativeLocation = Renderer.getLocationRelativeToPlayer(stageSize, enemy.getLocation(), player.getLocation());
+            // subtract the width of the player to allow it to be centered
+            relativeLocation = relativeLocation.add(-player.getWidth()/2f, -player.getWidth()/2f);
+            DrawPlayers.drawPlayer(gc, relativeLocation, enemy);
+        }
+
     }
 
     /**
