@@ -170,7 +170,6 @@ public class PhysicsController {
                 deadPlayers.offer(player);
                 // For any game mode add kills to scoreboard
                 scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
-
                 // TODO broadcast kills
 
                 if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
@@ -211,27 +210,28 @@ public class PhysicsController {
                     deadPlayers.offer(player);
                     // For any game mode add kills to scoreboard
                     scoreBoard.addKill(player.getLastAttacker().getId(), player.getId());
+                    this.dispatcher.broadcastScore(player.getLastAttacker().getId(),0,1,player.getId());
 
                     // TODO broadcast kills
 
                     if (gameState.getGameType().getType() == GameType.Type.FirstToXKills) {
 
                         scoreBoard.addScore(player.getLastAttacker().getId(), 1);
-                        this.dispatcher.broadcastScore(player.getLastAttacker().getId(),1);
+                        this.dispatcher.broadcastScore(player.getLastAttacker().getId(),1,0,-1);
                     } else if (gameState.getGameType().getType() == GameType.Type.Regicide) {
                         Regicide regicide = (Regicide) gameState.getGameType();
                         int baseScore = 5;
                         // if the player dead is the king the killer gets more points
                         if (regicide.getKingId() == player.getId()) {
                             scoreBoard.addScore(player.getLastAttacker().getId(), baseScore * 2);
-                            this.dispatcher.broadcastScore(player.getLastAttacker().getId(),baseScore * 2);
+                            this.dispatcher.broadcastScore(player.getLastAttacker().getId(),baseScore * 2,0,-1);
                             // Make the attacker the king now
                             regicide.setKing(player.getLastAttacker());
 
                             //TODO BROADCAST THE KING
                         } else {
                             scoreBoard.addScore(player.getLastAttacker().getId(), baseScore);
-                            this.dispatcher.broadcastScore(player.getLastAttacker().getId(),baseScore);
+                            this.dispatcher.broadcastScore(player.getLastAttacker().getId(),baseScore,0,-1);
                         }
                     }
                     //if dead teleport player off screen

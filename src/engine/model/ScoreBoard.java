@@ -29,11 +29,10 @@ public class ScoreBoard {
      * @param playerList the list of all player
      */
     public void initialise(ArrayList<Player> playerList) {
-        board = new HashMap<>();
-        leaderBoard = new ArrayList<>();
         for (Player p : playerList) {
             board.put(p.getId(), new Score());
             leaderBoard.add(p.getId());
+
         }
     }
 
@@ -45,6 +44,10 @@ public class ScoreBoard {
         int oldKills = board.get(killerID).getKills();
         //Add kill to the killer
         board.get(killerID).setKills(oldKills + 1);
+        addDeath(victimID);
+    }
+
+    public void addDeath(int victimID) {
         //Add death to the victim
         int oldDeaths = board.get(victimID).getDeaths();
         board.get(victimID).setDeaths(oldDeaths+1);
