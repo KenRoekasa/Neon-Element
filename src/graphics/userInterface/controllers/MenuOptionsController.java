@@ -35,8 +35,8 @@ public class MenuOptionsController extends UIController{
      */
     @FXML
     public void handleOkBtn(){
-        audioManager.setEffectVolume(sound.getValue());
-        audioManager.setMusicVolume(music.getValue());
+        audioManager.setEffectVolume(sound.getValue()/ 100);
+        audioManager.setMusicVolume(music.getValue()/ 100);
         audioManager.playSound(Sound.BUTTON4);
 
 
@@ -91,7 +91,7 @@ public class MenuOptionsController extends UIController{
           musicVolume.setText("0.0");
         }
 
-        sound.setValue(audioManager.getEffectVolume());
-        music.setValue(audioManager.getMusicVolume());
+        sound.setValue(audioManager.getEffectVolume() * 100);
+        music.setValue(audioManager.getMusicVolume() * 100);
     }
 }
