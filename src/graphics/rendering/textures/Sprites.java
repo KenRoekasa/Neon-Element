@@ -2,9 +2,11 @@ package graphics.rendering.textures;
 
 /**
  *  The available sprites
- *  <li>{@link #MAP}</li>
- *  <li>{@link #POINTER}</li>
- *  <li>{@link #BLADE}</li>
+ *  <ul>
+ *      <li>{@link #MAP}</li>
+ *      <li>{@link #POINTER}</li>
+ *      <li>{@link #BLADE}</li>
+ *  </ul>
  */
 public enum Sprites {
 

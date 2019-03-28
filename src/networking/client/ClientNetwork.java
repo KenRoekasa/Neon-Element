@@ -49,7 +49,7 @@ public class ClientNetwork extends AbstractNetwork {
     }
 
     /**
-     * After parsing the {@link Packet.PacketToClient#handle(ClientNetworkHandler) method is called.
+     * After parsing the {@link Packet.PacketToClient#handle(ClientNetworkHandler)} method is called.
      */
     @Override
     protected void parse(DatagramPacket datagram) {

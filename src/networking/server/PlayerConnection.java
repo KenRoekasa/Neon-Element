@@ -48,7 +48,7 @@ public class PlayerConnection {
      *
      * @param ipAddress The IP address to compare.
      * @param port The port to compare.
-     * @return True if IP address & port are equal to this connection.
+     * @return True if IP address and port are equal to this connection.
      */
     public boolean is(InetAddress ipAddress, int port) {
         return this.ipAddress.equals(ipAddress) && this.port == port;

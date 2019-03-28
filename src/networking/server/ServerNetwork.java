@@ -58,7 +58,7 @@ public class ServerNetwork extends networking.AbstractNetwork {
     /**
      * {@inheritDoc}
      *
-     * After parsing the {@link Packet.PacketToServer#handle(ServerNetworkHandler) method is called.
+     * After parsing the {@link Packet.PacketToServer#handle(ServerNetworkHandler)} method is called.
      */
     @Override
     protected void parse(DatagramPacket datagram) {

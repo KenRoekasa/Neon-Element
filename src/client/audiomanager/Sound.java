@@ -4,18 +4,20 @@ import engine.model.enums.Action;
 
 /**
  *  The available spot effects
- *  <li>{@link #LIGHT_ATTACK}</li>
- *  <li>{@link #HEAVY_ATTACK}</li>
- *  <li>{@link #CHARGE}</li>
- *  <li>{@link #LIGHT_HIT}</li>
- *  <li>{@link #HEAVY_HIT}</li>
- *  <li>{@link #SHIELD}</li>
- *  <li>{@link #BUTTON1}</li>
- *  <li>{@link #BUTTON2}</li>
- *  <li>{@link #BUTTON3}</li>
- *  <li>{@link #BUTTON4}</li>
- *  <li>{@link #HOVER1}</li>
- *  <li>{@link #HOVER2}</li>
+ *  <ul>
+ *      <li>{@link #LIGHT_ATTACK}</li>
+ *      <li>{@link #HEAVY_ATTACK}</li>
+ *      <li>{@link #CHARGE}</li>
+ *      <li>{@link #LIGHT_HIT}</li>
+ *      <li>{@link #HEAVY_HIT}</li>
+ *      <li>{@link #SHIELD}</li>
+ *      <li>{@link #BUTTON1}</li>
+ *      <li>{@link #BUTTON2}</li>
+ *      <li>{@link #BUTTON3}</li>
+ *      <li>{@link #BUTTON4}</li>
+ *      <li>{@link #HOVER1}</li>
+ *      <li>{@link #HOVER2}</li>
+ *  </ul>
  */
 public enum Sound {
 

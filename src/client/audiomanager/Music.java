@@ -2,9 +2,11 @@ package client.audiomanager;
 
 /**
  *  The available music / audio tracks
- *  <li>{@link #MENU}</li>
- *  <li>{@link #GAME}</li>
- *  <li>{@link #NEON}</li>
+ *  <ul>
+ *      <li>{@link #MENU}</li>
+ *      <li>{@link #GAME}</li>
+ *      <li>{@link #NEON}</li>
+ *  </ul>
  */
 
 public enum Music {

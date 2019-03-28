@@ -192,7 +192,7 @@ public abstract class Packet {
      *
      * Implementors must use the following template for their implementation:
      * <pre>
-     *     @Override
+     *     &#64;Override
      *     public byte[] getRawBytes() {
      *         ByteBuffer buffer = this.getByteBuffer();
      *         // Put data into the buffer here...
