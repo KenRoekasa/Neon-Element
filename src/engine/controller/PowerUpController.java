@@ -1,4 +1,4 @@
-package server.controllers;
+package engine.controller;
 
 import client.GameClient;
 import engine.entities.PhysicsObject;
