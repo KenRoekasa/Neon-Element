@@ -19,8 +19,8 @@
    <children>
       <AnchorPane prefHeight="192.0" prefWidth="538.0">
          <children>
-            <Text layoutY="61.169921875" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="FirstToXKills" wrappingWidth="296.03466796875" AnchorPane.topAnchor="37.0" />
-            <Text layoutY="119.169921875" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="Players gain a point for a kill. If a player reaches the kill limit the game ends and the player wins." wrappingWidth="670" AnchorPane.topAnchor="95.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-help-title" text="Deathmatch" wrappingWidth="296.03466796875" AnchorPane.topAnchor="40.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="options-normal" text="Players gain a point for a kill. If a player reaches the kill limit the game ends and the player wins" wrappingWidth="630.85546875" AnchorPane.topAnchor="110.0" />
          </children>
       </AnchorPane>
       <AnchorPane GridPane.rowIndex="1">
