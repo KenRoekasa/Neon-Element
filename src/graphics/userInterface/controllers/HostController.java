@@ -26,8 +26,8 @@ public class HostController extends UIController{
 
     private ClientGameState gameState;
     private int playerNum;
-    private int AiNum;
-    private ArrayList<String> AiType;
+//    private int AiNum;
+//    private ArrayList<String> AiType;
     private String gameType;
 
 
@@ -77,7 +77,7 @@ public class HostController extends UIController{
                                 // load the class
                                 Class<?> classToLoad = cl.loadClass("server.ServerLauncher");
 
-                                String[] args = new String[]{String.valueOf(playerNum), String.valueOf(AiNum), String.join(",", AiType), gameType};
+                                String[] args = new String[]{String.valueOf(playerNum), gameType};
 
 
                                 // get the main method
@@ -155,10 +155,10 @@ public class HostController extends UIController{
 
     }
 
-    public void setGameAttributes(int playerNum, int AiNum, ArrayList<String> AiType, String type) {
+    public void setGameAttributes(int playerNum,String type) {
         this.playerNum = playerNum;
-        this.AiNum = AiNum;
-        this.AiType = AiType;
+/*        this.AiNum = AiNum;
+        this.AiType = AiType;*/
         this.gameType = type;
     }
 }

@@ -78,7 +78,7 @@
                 </GridPane>
                 <GridPane GridPane.columnIndex="1">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="240.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
@@ -87,7 +87,7 @@
                         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label styleClass="standard-text-normal" text="Number of players" />
+                        <Label prefHeight="30.0" prefWidth="303.0" styleClass="standard-text-normal" text="Number of players" />
                   <RadioButton fx:id="player_2" mnemonicParsing="false" prefHeight="19.0" prefWidth="19.0" styleClass="radio-text" GridPane.columnIndex="1">
                      <graphic>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="radio-text" text="2" />
