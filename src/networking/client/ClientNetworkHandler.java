@@ -115,7 +115,8 @@ public class ClientNetworkHandler {
         int id = packet.getId();
         double x = packet.getX();
         double y = packet.getY();
-        this.updatePlayerLocation(id, x, y);
+        Player player = this.updatePlayerLocation(id, x, y);
+        player.respawn();
     }
 
     public void  recieveHealthStateBroadcast(HealthStateBroadcast packet){
