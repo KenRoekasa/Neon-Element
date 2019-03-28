@@ -29,10 +29,11 @@ public class ScoreBoard {
      * @param playerList the list of all player
      */
     public void initialise(ArrayList<Player> playerList) {
+        board = new HashMap<>();
+        leaderBoard = new ArrayList<>();
         for (Player p : playerList) {
             board.put(p.getId(), new Score());
             leaderBoard.add(p.getId());
-
         }
     }
 

@@ -96,6 +96,7 @@ public class GameClient {
      */
     public GameClient(Stage primaryStage, ClientGameState gameState, AudioManager audioManager) throws Exception {
         this(primaryStage, gameState, false, audioManager);
+        this.gameState.getScoreBoard().initialise(gameState.getAllPlayers());
     }
 
 

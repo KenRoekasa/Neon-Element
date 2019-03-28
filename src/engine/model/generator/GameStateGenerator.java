@@ -26,7 +26,6 @@ public class GameStateGenerator {
         AiControllersManager aiManager = new AiControllersManager(objects, map.getGround(), null, gameType);
 
         ClientGameState gameState = new ClientGameState(null, map, objects, scoreboard, gameType, aiManager, GameType.Type.FirstToXKills);
-        scoreboard.initialise(gameState.getAllPlayers());
 
         return gameState;
     }
