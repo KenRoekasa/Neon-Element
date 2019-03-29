@@ -54,8 +54,8 @@ public class PlayerTest {
 
     @Test
     public void takeDamageIncreasesIframes() {
-        player.takeDamage(10, enemy);
-        assertEquals(15, player.iframes);
+        player.takeDamage(18, enemy);
+        assertEquals(10, player.iframes);
 
     }
 
