@@ -19,26 +19,32 @@ import java.util.ResourceBundle;
 /**
  * Controller for ip_host.fxml
  */
-public class HostController extends UIController{
-
-	@FXML
-	TextField ip_host;
-
+public class HostController extends UIController {
+    /**
+     * The text field to input host ip
+     */
+    @FXML
+    TextField ip_host;
+    /**
+     * Client side game state
+     */
     private ClientGameState gameState;
+    /**
+     * Player num
+     */
     private int playerNum;
-//    private int AiNum;
-//    private ArrayList<String> AiType;
+
     private String gameType;
 
 
     /**
-     * The host IP address of the game
+     * Handle the action when press start button which directs to game lobby
      */
     @FXML
     public void handleStartBtn(ActionEvent event) {
         // create game rules
         // todo make this configurable
-         gameState = GameStateGenerator.createEmptyState();
+        gameState = GameStateGenerator.createEmptyState();
 
         try {
             // Create server
@@ -99,7 +105,6 @@ public class HostController extends UIController{
                 lobbyThread.start();
 
 
-
                 //Scene scene = gameBoard.getScene();
                 //todo add gameclient properly
                 //gameBoard.startNetwork();
@@ -124,38 +129,49 @@ public class HostController extends UIController{
      */
     StringProperty ip_value = new SimpleStringProperty();
 
-    /** Handle the action of pressing start button which will direct to lobby.fxml
+    /**
+     * Handle the action of pressing start button which will direct to lobby.fxml
      */
-    public void handleStartBtn(){
-        String fxmlPath ="../fxmls/lobby.fxml";
-        String stageTitle ="Game Lobby";
-        String fileException ="lobby";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+    public void handleStartBtn() {
+        String fxmlPath = "../fxmls/lobby.fxml";
+        String stageTitle = "Game Lobby";
+        String fileException = "lobby";
+        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
-    /**Handle the action of pressing back button which will direct to online_setup.fxml
+    /**
+     * Handle the action of pressing back button which will direct to online_setup.fxml
      */
     @FXML
-    public void handleBackBtn(){
-        String fxmlPath ="../fxmls/online_setup.fxml";
-        String stageTitle ="Online configuration";
-        String fileException ="Online Setup";
-        FxmlLoader loader = new FxmlLoader(fxmlPath,stage,stageTitle,fileException, audioManager);
+    public void handleBackBtn() {
+        String fxmlPath = "../fxmls/online_setup.fxml";
+        String stageTitle = "Online configuration";
+        String fileException = "Online Setup";
+        FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
+    /**
+     * Initialise the network setting
+     *
+     * @param location  url location
+     * @param resources resource bundled
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        try(final DatagramSocket socket = new DatagramSocket()){
+        try (final DatagramSocket socket = new DatagramSocket()) {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ip_host.setText(socket.getLocalAddress().getHostAddress());
         } catch (SocketException | UnknownHostException e) {
             ip_host.setText("Failed to auto detect IP");
         }
-
     }
 
-    public void setGameAttributes(int playerNum,String type) {
+    /**
+     * Set the game attributes
+     */
+
+    public void setGameAttributes(int playerNum, String type) {
         this.playerNum = playerNum;
 /*        this.AiNum = AiNum;
         this.AiType = AiType;*/

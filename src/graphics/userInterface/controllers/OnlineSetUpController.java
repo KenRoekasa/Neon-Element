@@ -63,37 +63,11 @@ public class OnlineSetUpController extends UIController {
     final ToggleGroup mode = new ToggleGroup();
 
     /**
-     * Get the number of players
-     *
-     * @return
-     */
-    public int getPlayer_num() {
-        return player_num;
-    }
-
-
-    /** Handle the action when select the number of one ai bot
-     */
-    /**
-     * Get the list of ai bots' type
-     *
-     * @return enemyTypes the list contains the type of ai bots
-     */
-    // todo when initialise the game, get the ai list type
-    public ArrayList<String> getEnemyTypes() {
-        return enemyTypes;
-    }
-
-
-    /**
      * Handle the action of pressing create button which will go to lobby_host.fxml
-     *
-     * @throws OutOfBoundException the exception which alerts the invalid selection of total number of players and ai bots
      */
     @FXML
-    public void handleCreateBtn() throws OutOfBoundException {
+    public void handleCreateBtn(){
         //get selected properties
-
         //player number
         player_num = (int) num_player.getSelectedToggle().getUserData();
         //maximum total players is 4
@@ -103,18 +77,13 @@ public class OnlineSetUpController extends UIController {
         String stageTitle = "Host a Game";
         String fileException = "IP Host";
 
-
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
-
         ((HostController) loader.getController()).setGameAttributes(player_num, selected_mode);
-
-
     }
 
 
-    /***Handle the action of pressing back button which will go back to online_mode.fxml
+    /**Handle the action of pressing back button which will go back to online_mode.fxml
      */
-
     @FXML
     public void handleBackBtn() {
         //select mode

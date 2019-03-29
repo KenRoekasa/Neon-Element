@@ -15,18 +15,6 @@ import java.util.ResourceBundle;
  * Controller for lobby_host.fxml for setting game lobby
  */
 public class LobbyHostController extends AbstractLobbyController {
-
-	private boolean startGame = false;
-
-
-    public boolean isStartGame() {
-		return startGame;
-	}
-
-	public void setStartGame(boolean startGame) {
-		this.startGame = startGame;
-	}
-
 	/**
      * Texts of the connections
      */
@@ -92,9 +80,11 @@ public class LobbyHostController extends AbstractLobbyController {
         conn_4.textProperty().bind(conn4Property);
     }
 
+    /**
+     * Show the connection information when player connects
+     * @param playerIds
+     */
     public void showConnections(ArrayList<Integer> playerIds){
-        GameClient gameClient = getGameClient();
-
         int size = playerIds.size();
         switch (size){
             case 1:

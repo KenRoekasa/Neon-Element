@@ -19,17 +19,29 @@ import static javafx.scene.paint.Color.rgb;
  */
 public class HelpController extends UIController {
 
-
+    /**
+     * Panes for storing different introductions
+     */
     Pane mode_pane,control_pane,rule_pane;
-
+    /**
+     * Toggle group of selectable buttons
+     */
     ToggleGroup menu = new ToggleGroup();
 
+    /**
+     * Stack pane to put the panes
+     */
     @FXML
     StackPane stack_pane;
+    /**
+     * Radio button for choosing help options
+     */
     @FXML
     RadioButton mode_btn,control_btn,rule_btn,back;
 
-
+    /**
+     * Show modes introduction
+     */
     @FXML
     public void showMode(){
         mode_pane.setVisible(true);
@@ -38,6 +50,9 @@ public class HelpController extends UIController {
 
     }
 
+    /**
+     * Show controls introduction
+     */
     @FXML
     public void showControl(){
         mode_pane.setVisible(false);
@@ -46,6 +61,9 @@ public class HelpController extends UIController {
 
     }
 
+    /**
+     * Show rules introduction
+     */
     @FXML
     public void showRule(){
         mode_pane.setVisible(false);
@@ -64,7 +82,11 @@ public class HelpController extends UIController {
         FxmlLoader loader = new FxmlLoader(fxmlPath, stage, stageTitle, fileException, audioManager);
     }
 
-
+    /**
+     * Initialise the stack pane and toggle group binding
+     * @param location  url location
+     * @param resources resource bundled
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FXMLLoader modeLoader = new FXMLLoader(getClass().getResource("../fxmls/help-mode.fxml"));

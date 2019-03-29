@@ -190,17 +190,31 @@ public class HUDController extends UIController implements Initializable {
      */
     private int num_player;
 
+    /**
+     * Score board pane
+     */
     @FXML
     private AnchorPane score_board;
 
+    /**
+     * Bottom Hbox which includes timeboard and cool down progress indicators
+     * */
     @FXML
     private HBox time_board;
 
+    /**
+     * Health value property
+     */
     private SimpleDoubleProperty healthProperty;
+    /**
+     * Score value property
+     */
     private SimpleDoubleProperty scoreProperty;
+    /**
+     * Time progress property
+     */
     private SimpleDoubleProperty timeProperty;
 
-    private long startTime;
 
     /**
      * Set the total players number of the game
@@ -226,6 +240,10 @@ public class HUDController extends UIController implements Initializable {
         timeProperty = new SimpleDoubleProperty();
     }
 
+    /**
+     * Set the game state
+     * @param gameState current game state
+     */
     public void setGameState(ClientGameState gameState) {
         this.gameState = gameState;
         this.num_player = gameState.getScoreBoard().getLeaderBoard().size();
@@ -273,7 +291,9 @@ public class HUDController extends UIController implements Initializable {
         }
     }
 
-
+    /**
+     * Update all the information in HUD
+     */
     public void update() {
         updateUserinfo();
         updateLeaderboard();
@@ -293,7 +313,7 @@ public class HUDController extends UIController implements Initializable {
     }
 
     /**
-     * Update the user's information on the top-right corner
+     * Update the user's information on the top-right corner and cool down progress on the bottom-left corner
      */
 
     public void updateUserinfo() {

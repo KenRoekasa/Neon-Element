@@ -62,12 +62,9 @@ public class MenuOptionsController extends UIController{
         sound.setMin(0);
         sound.setMax(100);
 
-
-
         DecimalFormat df = new DecimalFormat("0.0");
         sound.valueProperty().addListener((ChangeListener) (arg0, arg1, arg2) -> volume.textProperty().setValue(
                 String.valueOf(df.format(sound.getValue()))));
-
 
         music.setMin(0);
         music.setMax(100);
@@ -79,7 +76,7 @@ public class MenuOptionsController extends UIController{
     }
 
     /**
-     * Update the changed volume everytime click the options button on menu page
+     * Update the changed volume every time click the options button on menu page
      */
 
     public void updateSlider(){

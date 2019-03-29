@@ -23,7 +23,7 @@ public class JoinController extends UIController {
      * The text field for entering ip address
      */
     @FXML
-    Label ok,back;
+    Label back;
 
     @FXML
     public TextField ip;
@@ -41,6 +41,9 @@ public class JoinController extends UIController {
         ip.setText("127.0.0.1");
     }
 
+    /**
+     * Handle the action when press the start button which go to game lobby
+     */
     @FXML
     public void handleStartBtn(){
         // create game rules

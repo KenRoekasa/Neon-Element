@@ -106,23 +106,6 @@ public class LeaderboardController extends UIController {
     @FXML
     GridPane rank_3, rank_4;
     /**
-     * The highest score's player's id
-     */
-    private int player1;
-    /**
-     * The second highest score's player's id
-     */
-    private int player2;
-    /**
-     * The third highest score's player's id
-     */
-    private int player3;
-    /**
-     * The lowest score's player's id
-     */
-    private int player4;
-
-    /**
      * The scoreboard of the game
      */
     private ScoreBoard scoreBoard;
@@ -144,15 +127,6 @@ public class LeaderboardController extends UIController {
      */
     public void setScoreBoard(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
-    }
-
-    /**
-     * Set the number of total players of the game
-     *
-     * @param num_players total players of the game
-     */
-    public void setNum_players(int num_players) {
-        this.num_players = num_players;
     }
 
     /**

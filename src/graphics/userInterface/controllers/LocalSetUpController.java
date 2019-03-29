@@ -84,14 +84,6 @@ public class LocalSetUpController extends UIController {
      */
     private String enemy_3;
 
-    public GameType.Type getSelected_mode() {
-        return selected_mode;
-    }
-
-    public void setSelected_mode(GameType.Type selected_mode) {
-        this.selected_mode = selected_mode;
-    }
-
     /**
      * The mode selected for the game
      */
@@ -102,33 +94,6 @@ public class LocalSetUpController extends UIController {
      */
     ArrayList<String> enemyTypes = new ArrayList<>();
 
-    /** Get the number of ai bots
-     * @return number of ai bots
-     */
-    public int getEnemy_num() {
-        return enemy_num;
-    }
-
-    /** Get the difficulty of the first ai bot
-     * @return the difficulty of the first ai bot
-     */
-    public String getEnemy_1() {
-        return enemy_1;
-    }
-
-    /** Get the difficulty of the second ai bot
-     * @return the difficulty of the second ai bot
-     */
-    public String getEnemy_2() {
-        return enemy_2;
-    }
-
-    /** Get the difficulty of the third ai bot
-     * @return the difficulty of the third ai bot
-     */
-    public String getEnemy_3() {
-        return enemy_3;
-    }
 
     /** Get the selected game mode
      * @return selected game mode

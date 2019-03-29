@@ -51,7 +51,10 @@ public class FxmlLoader {
         }
     }
 
-
+    /**
+     * Play button sound when press the button
+     * @param audioManager
+     */
 
     public void playButtonSound(AudioManager audioManager) {
         // pick a random button pitch

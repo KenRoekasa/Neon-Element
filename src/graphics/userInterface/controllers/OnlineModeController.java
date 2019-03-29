@@ -9,7 +9,6 @@ public class OnlineModeController extends UIController{
 
     /** Handle the action of pressing host button which will direct to online_setup.fxml
      */
-
     @FXML
     public void handleHostGame(){
         String fxmlPath = "../fxmls/online_setup.fxml";

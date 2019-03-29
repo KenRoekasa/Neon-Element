@@ -82,6 +82,13 @@ public class ToggleGroupSetUp {
         rB3.setUserData(s);
     }
 
+    /** Set up the toggle group with four radio buttons.
+     * @param group the toggle group which is going to be bound to
+     * @param rB1 the first radio button
+     * @param rB2 the second radio button
+     * @param rB3 the third radio button
+     * @param rB4 the fourth radio button
+     */
     public static void setToggleGroup(ToggleGroup group, RadioButton rB1, RadioButton rB2, RadioButton rB3, RadioButton rB4){
         rB1.setToggleGroup(group);
         rB2.setToggleGroup(group);
